@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>	
+    <package name="plugin.onlineoffice.workingbody"  extends="struts-default" namespace="/plugin/onlineoffice/workingbody">
+        <action name="tree" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="tree"/>
+        <action name="index" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="index">
+            <result name="index">/WEB-INF/page/plugin/onlineoffice/workingbody/index.jsp</result>
+        </action>
+        <action name="addWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="addWorkingBody"/>
+        <action name="renameWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="renameWorkingBody"/>
+        <action name="delWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="delWorkingBody"/>
+        <action name="upWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="upWorkingBody"/>
+        <action name="downWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="downWorkingBody"/>
+        <action name="findAllMatter" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="findAllMatter"/>
+        <action name="findAllCitizen" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="findAllCitizen"/>
+        <action name="queryChannelStatus" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="queryChannelStatus">
+            <result name="matter">/WEB-INF/page/plugin/onlineoffice/workingbody/matter_view.jsp</result>
+            <result name="article">/WEB-INF/page/plugin/onlineoffice/article/index.jsp</result>
+        </action>
+        <action name="pubLeadingWindow" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="pubLeadingWindow"/>
+        <action name="addMatterToWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="addMatterToWorkingBody"/>
+        <action name="addOrganToMatter" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="addOrganToMatter"/>
+        <action name="addOrganToWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="addOrganToWorkingBody"/>
+        <action name="addCitizenToMatter" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="addCitizenToMatter"/>
+        <action name="removeMatterFromWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="removeMatterFromWorkingBody"/>
+        <action name="removeOrganFromWorkingBody" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="removeOrganFromWorkingBody"/>
+        <action name="removeOrganFromMatter" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="removeOrganFromMatter"/>
+        <action name="removeCitizenFromMatter" class="com.ewcms.web.action.plugin.onlineoffice.workingbody.WorkingBodyAction" method="removeCitizenFromMatter"/>
+    </package>
+    <package name="plugin.onlineoffice.matter"  extends="struts-default" namespace="/plugin/onlineoffice/matter">
+        <action name="index" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="index">
+            <result name="index">/WEB-INF/page/plugin/onlineoffice/matter/index.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="delete"/>
+        <action name="query" class="com.ewcms.web.action.plugin.onlineoffice.matter.QueryAction" method="query"/>
+        <action name="input" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="input">
+            <result name="input">/WEB-INF/page/plugin/onlineoffice/matter/edit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="save">
+            <result>/WEB-INF/page/plugin/onlineoffice/matter/edit.jsp</result>
+            <result name="input">/WEB-INF/page/plugin/onlineoffice/matter/edit.jsp</result>
+        </action>
+        <action name="upMatter" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="upMatter"/>
+        <action name="downMatter" class="com.ewcms.web.action.plugin.onlineoffice.matter.MatterAction" method="downMatter"/>
+    </package>
+    <package name="plugin.onlineoffice.article" extends="struts-default" namespace="/plugin/article">
+        <action name="index" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction">
+            <result>/WEB-INF/page/plugin/onlineoffice/article/index.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="delete"/>
+        <action name="query" class="com.ewcms.web.action.plugin.onlineoffice.article.QueryAction" method="query"/>
+        <action name="input" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="input">
+            <result name="input">/WEB-INF/page/plugin/onlineoffice/article/edit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="save">
+            <result>/WEB-INF/page/plugin/onlineoffice/article/edit.jsp</result>
+            <result name="input">/WEB-INF/page/plugin/onlineoffice/article/edit.jsp</result>
+        </action>
+        <action name="keyword" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="keyword"/>
+        <action name="summary" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="summary"/>
+        <action name="history" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="history"/>
+        <action name="prerelease" class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="prerelease"/>
+        <action name="move"  class="com.ewcms.web.action.plugin.onlineoffice.article.ArticleAction" method="move"/>
+    </package>
+    <package name="plugin.onlineoffice.advisor" extends="struts-default" namespace="/plugin/advisor">
+        <action name="index">
+            <result>/WEB-INF/page/plugin/onlineoffice/advisor/index.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.web.action.plugin.onlineoffice.advisor.AdvisorQueryAction" method="query"/>
+         <action name="edit" class="com.ewcms.web.action.plugin.onlineoffice.advisor.AdvisorEditAction">
+            <result>/WEB-INF/page/plugin/onlineoffice/advisor/edit.jsp</result>
+        </action>
+    </package>
+</struts>	

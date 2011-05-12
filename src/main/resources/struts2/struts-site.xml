@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="site.organ"  extends="struts-default" namespace="/site/organ"> 	
+	    <action name="index">
+			<result>/WEB-INF/page/site/organ/index.jsp</result>
+		</action>	
+		<action name="tree" class="com.ewcms.web.action.site.organ.OrganAction" method="organTree"/>
+		<action name="treebyid" class="com.ewcms.web.action.site.organ.OrganAction" method="organByIDTree"/>
+		<action name="add" class="com.ewcms.web.action.site.organ.OrganAction" method="addOrgan"/>
+		<action name="setsite" class="com.ewcms.web.action.site.organ.OrganAction" method="setSite"/>
+		<action name="rename" class="com.ewcms.web.action.site.organ.OrganAction" method="renameOrgan"/>
+		<action name="del" class="com.ewcms.web.action.site.organ.OrganAction" method="delOrgan"/>
+		<action name="moveto" class="com.ewcms.web.action.site.organ.OrganAction" method="movetoOrgan"/>
+		<action name="edit" class="com.ewcms.web.action.site.organ.OrganAction">
+			<result>/WEB-INF/page/site/organ/edit.jsp</result>
+		</action>
+		<action name="editInfo" class="com.ewcms.web.action.site.organ.OrganAction" method="editOrgan">
+			<result name="input">/WEB-INF/page/site/organ/info.jsp</result>
+		</action>
+		<action name="editSite" class="com.ewcms.web.action.site.organ.OrganAction" method="editOrgan">
+			<result name="input">/WEB-INF/page/site/organ/site.jsp</result>
+		</action>		
+		<action name="editIntroduce" class="com.ewcms.web.action.site.organ.OrganAction" method="editOrgan">
+			<result name="input">/WEB-INF/page/site/organ/introduce.jsp</result>
+		</action>	
+		<action name="saveInfo" class="com.ewcms.web.action.site.organ.OrganAction" method="saveInfo">
+			<result name="input">/WEB-INF/page/site/organ/info.jsp</result>
+		</action>
+		<action name="saveIntroduce" class="com.ewcms.web.action.site.organ.OrganAction" method="saveIntroduce">
+			<result name="input">/WEB-INF/page/site/organ/introduce.jsp</result>
+		</action>
+		<action name="configSite" class="com.ewcms.web.action.site.setup.SetupAction" method="editSite">
+			<result name="input">/WEB-INF/page/site/organ/config.jsp</result>
+		</action>
+		<action name="saveConfig" class="com.ewcms.web.action.site.setup.SetupAction" method="saveInfo">
+			<result name="input">/WEB-INF/page/site/organ/config.jsp</result>
+		</action>					
+	</package>	
+	
+	<package name="site.setup"  extends="struts-default" namespace="/site/setup"> 	
+		<action name="tree" class="com.ewcms.web.action.site.setup.SetupAction" method="siteTree"/>
+		<action name="add" class="com.ewcms.web.action.site.setup.SetupAction" method="addSite"/>
+		<action name="rename" class="com.ewcms.web.action.site.setup.SetupAction" method="renameSite"/>
+		<action name="del" class="com.ewcms.web.action.site.setup.SetupAction" method="delSite"/>
+		<action name="moveto" class="com.ewcms.web.action.site.setup.SetupAction" method="movetoSite"/>
+	</package>
+	
+	<package name="site.template"  extends="struts-default" namespace="/site/template"> 	
+	    <action name="index">
+			<result>/WEB-INF/page/site/template/index.jsp</result>
+		</action>
+        <action name="import" class="com.ewcms.web.action.site.template.TemplateAction" method="importTemplate">
+			 <interceptor-ref name="fileUpload">
+				<param name="allowedTypes">text/htm,text/html,application/zip,application/x-zip-compressed</param>
+			</interceptor-ref> 
+			<interceptor-ref name="defaultStack"/>
+			
+            <result name="input">/WEB-INF/page/site/template/import.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.web.action.site.template.TemplateAction" method="delete"/>
+        <action name="query" class="com.ewcms.web.action.site.template.TemplateQueryAction" method="query"/>
+        <action name="input" class="com.ewcms.web.action.site.template.TemplateAction" method="input">
+            <result name="input">/WEB-INF/page/site/channel/templateedit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.web.action.site.template.TemplateAction" method="save">
+            <result>/WEB-INF/page/site/channel/templateedit.jsp</result>
+            <result name="input">/WEB-INF/page/site/channel/templateedit.jsp</result>
+        </action>             
+        <action name="tree" class="com.ewcms.web.action.site.template.TemplateAction" method="templateTree"/>
+        <action name="treeChannel" class="com.ewcms.web.action.site.template.TemplateAction" method="templateChannelTree"/>
+        <action name="add" class="com.ewcms.web.action.site.template.TemplateAction" method="addTemplate"/>	
+        <action name="rename" class="com.ewcms.web.action.site.template.TemplateAction" method="renameTemplate"/>	
+        <action name="del" class="com.ewcms.web.action.site.template.TemplateAction" method="delTemplate"/>	
+        <action name="addFolder" class="com.ewcms.web.action.site.template.TemplateAction" method="addFolder"/> 
+        <action name="moveto" class="com.ewcms.web.action.site.template.TemplateAction" method="movetoTemplate"/>
+        <action name="urltoid" class="com.ewcms.web.action.site.template.TemplateAction" method="urltoID"/>
+		<action name="edit" class="com.ewcms.web.action.site.template.TemplateAction">
+			<result>/WEB-INF/page/site/template/edit.jsp</result>
+		</action>
+		<action name="editInfo" class="com.ewcms.web.action.site.template.TemplateAction" method="editTemplate">
+			<result name="input">/WEB-INF/page/site/template/info.jsp</result>
+		</action>
+		<action name="editContent" class="com.ewcms.web.action.site.template.TemplateAction" method="editTemplate">
+			<result name="input">/WEB-INF/page/site/template/content.jsp</result>
+		</action>
+		<action name="saveInfo" class="com.ewcms.web.action.site.template.TemplateAction" method="saveInfo">
+			<result name="input">/WEB-INF/page/site/template/info.jsp</result>
+		</action>	
+		<action name="saveContent" class="com.ewcms.web.action.site.template.TemplateAction" method="saveContent">
+			<result name="input">/WEB-INF/page/site/template/content.jsp</result>
+		</action>		               	
+	</package>
+	
+    <package name="site.template.source"  extends="struts-default" namespace="/site/template/source">
+        <action name="index">
+            <result>/WEB-INF/page/site/template/source/index.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.web.action.site.template.SourceAction" method="delete"/>
+        <action name="query" class="com.ewcms.web.action.site.template.SourceQueryAction" method="query"/>
+        <action name="input" class="com.ewcms.web.action.site.template.SourceAction" method="input">
+            <result name="input">/WEB-INF/page/site/channel/sourceedit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.web.action.site.template.SourceAction" method="save">
+            <result>/WEB-INF/page/site/channel/sourceedit.jsp</result>
+            <result name="input">/WEB-INF/page/site/channel/sourceedit.jsp</result>
+        </action>    
+                
+        <action name="import" class="com.ewcms.web.action.site.template.SourceAction" method="importSource">
+            <result name="input">/WEB-INF/page/site/template/source/import.jsp</result>
+        </action>
+        <action name="pubsource" class="com.ewcms.web.action.site.template.SourceAction" method="pubSource"/>
+        <action name="tree" class="com.ewcms.web.action.site.template.SourceAction" method="sourceTree"/>
+        <action name="add" class="com.ewcms.web.action.site.template.SourceAction" method="addSource"/>
+        <action name="rename" class="com.ewcms.web.action.site.template.SourceAction" method="renameSource"/>
+        <action name="del" class="com.ewcms.web.action.site.template.SourceAction" method="delSource"/>
+        <action name="addFolder" class="com.ewcms.web.action.site.template.SourceAction" method="addFolder"/>
+        <action name="moveto" class="com.ewcms.web.action.site.template.SourceAction" method="movetoSource"/>
+        <action name="edit" class="com.ewcms.web.action.site.template.SourceAction">
+            <result >/WEB-INF/page/site/template/source/edit.jsp</result>
+        </action>        
+		<action name="editInfo" class="com.ewcms.web.action.site.template.SourceAction" method="editSource">
+			<result name="input">/WEB-INF/page/site/template/source/info.jsp</result>
+		</action>  
+		<action name="saveInfo" class="com.ewcms.web.action.site.template.SourceAction" method="saveInfo">
+			<result name="input">/WEB-INF/page/site/template/source/info.jsp</result>
+		</action>
+        <action name="editContent" class="com.ewcms.web.action.site.template.SourceAction" method="editSource">
+            <result name="input">/WEB-INF/page/site/template/source/content.jsp</result>
+        </action>        
+        <action name="saveContent" class="com.ewcms.web.action.site.template.SourceAction" method="saveContent">
+            <result name="input">/WEB-INF/page/site/template/source/content.jsp</result>
+        </action>
+    </package>
+    	
+	<package name="site.channel"  extends="struts-default" namespace="/site/channel"> 	
+	    <action name="index">
+			<result>/WEB-INF/page/site/channel/index.jsp</result>
+		</action>	
+		<action name="tree" class="com.ewcms.web.action.site.channel.ChannelAction" method="channelTree"/>
+		<action name="treePub" class="com.ewcms.web.action.site.channel.ChannelAction" method="channelTreePub"/>
+		<action name="add" class="com.ewcms.web.action.site.channel.ChannelAction" method="addChannel"/>
+		<action name="rename" class="com.ewcms.web.action.site.channel.ChannelAction" method="renameChannel"/>
+		<action name="del" class="com.ewcms.web.action.site.channel.ChannelAction" method="delChannel"/>
+		<action name="moveto" class="com.ewcms.web.action.site.channel.ChannelAction" method="movetoChannel"/>
+		<action name="edit" class="com.ewcms.web.action.site.channel.ChannelAction">
+			<result>/WEB-INF/page/site/channel/edit.jsp</result>
+		</action>
+		<action name="editInfo" class="com.ewcms.web.action.site.channel.ChannelAction" method="editChannel">
+			<result name="input">/WEB-INF/page/site/channel/info.jsp</result>
+		</action>		
+		<action name="saveInfo" class="com.ewcms.web.action.site.channel.ChannelAction" method="saveInfo">
+			<result name="input">/WEB-INF/page/site/channel/info.jsp</result>
+		</action>
+		<action name="channelTemplate" class="com.ewcms.web.action.site.channel.ChannelAction">
+			<result>/WEB-INF/page/site/channel/template.jsp</result>
+		</action>	
+		<action name="channelSource" class="com.ewcms.web.action.site.channel.ChannelAction">
+			<result>/WEB-INF/page/site/channel/source.jsp</result>
+		</action>
+                <action name="channelAcl" class="com.ewcms.web.action.site.channel.ChannelAclAction" method="input">
+                        <result name="input">/WEB-INF/page/site/channel/acl.jsp</result>
+                </action>
+                 <action name="channelAclUpdate" class="com.ewcms.web.action.site.channel.ChannelAclAction">
+                        <result name="input">/WEB-INF/page/site/channel/acl.jsp</result>
+                        <result name="success">/WEB-INF/page/site/channel/acl.jsp</result>
+                </action>               		
+	</package>
+</struts>	

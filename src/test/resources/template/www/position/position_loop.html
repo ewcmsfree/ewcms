@@ -1,0 +1,9 @@
+<@position;grand>
+<#list grand  as channel>
+<#if channel_has_next>
+<a href='<@channel_url value=channel/>'><@channel_title value=channel/></a>&gt;
+<#else>
+<@channel_title value=channel/>
+</#if>
+</#list>
+</@position>

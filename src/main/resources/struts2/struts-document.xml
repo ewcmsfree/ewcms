@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>	
+	<package name="document.article" extends="struts-default" namespace="/document/article">
+		<action name="index">
+			<result>/WEB-INF/page/document/article/index.jsp</result>
+		</action>
+		<action name="renda">
+			<result>/WEB-INF/page/document/article/renda.jsp</result>
+		</action>
+		<action name="zhengxie">
+			<result>/WEB-INF/page/document/article/zhengxie.jsp</result>
+		</action>				
+		<action name="delete" class="com.ewcms.web.action.document.article.ArticleAction" method="delete"/>
+		<action name="query" class="com.ewcms.web.action.document.article.QueryAction" method="query"/>
+		<action name="input" class="com.ewcms.web.action.document.article.ArticleAction" method="input">
+			<result name="input">/WEB-INF/page/document/article/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.document.article.ArticleAction" method="save">
+			<result>/WEB-INF/page/document/article/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/article/edit.jsp</result>
+		</action>
+		<action name="keyword" class="com.ewcms.web.action.document.article.ArticleAction" method="keyword"/>
+		<action name="summary" class="com.ewcms.web.action.document.article.ArticleAction" method="summary"/>
+		<action name="history" class="com.ewcms.web.action.document.article.ArticleAction" method="history"/>
+		<action name="prerelease" class="com.ewcms.web.action.document.article.ArticleAction" method="prerelease"/>
+		<action name="copy" class="com.ewcms.web.action.document.article.ArticleAction" method="copy"/>
+		<action name="move" class="com.ewcms.web.action.document.article.ArticleAction" method="move"/>
+		<action name="selCitizen" class="com.ewcms.web.action.document.article.ArticleAction" method="selCitizen"/>
+		<action name="addCitizen" class="com.ewcms.web.action.document.article.ArticleAction" method="addCitizen"/>
+		<action name="leadingWindowTree" class="com.ewcms.web.action.document.article.ArticleAction" method="leadingWindowTree"/>
+		<action name="addArticleRmcToLeadingChannel" class="com.ewcms.web.action.document.article.ArticleAction" method="addArticleRmcToLeadingChannel"/>
+		<action name="prereleases" class="com.ewcms.web.action.document.article.ArticleAction" method="prereleases"/>
+		<action name="pubArticle" class="com.ewcms.web.action.document.article.ArticleAction" method="pubArticle"/>
+	</package>
+	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
+		<action name="index">
+			<result>/WEB-INF/page/document/recyclebin/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.web.action.document.recyclebin.RecycleBinAction" method="delete"/>
+		<action name="restore" class="com.ewcms.web.action.document.recyclebin.RecycleBinAction" method="restore"/>
+		<action name="query" class="com.ewcms.web.action.document.recyclebin.QueryAction" method="query"/>
+	</package>
+	<package name="document.history" extends="struts-default" namespace="/document/history">
+		<action name="selectId" class="com.ewcms.web.action.document.history.SelectIdAction">
+			<result>/WEB-INF/page/document/history/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.web.action.document.history.QueryAction" method="query"/>
+	</package>
+	<package name="document.related" extends="struts-default" namespace="/document/related">
+		<action name="related" class="com.ewcms.web.action.document.related.RelatedAction">
+			<result>/WEB-INF/page/document/related/index.jsp</result>
+		</action>
+		<action name="article" class="com.ewcms.web.action.document.related.RelatedAction">
+			<result>/WEB-INF/page/document/related/article.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.document.related.RelatedAction" method="save">
+			<result>/WEB-INF/page/document/related/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.web.action.document.related.QueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.web.action.document.related.RelatedAction" method="delete"/>
+		<action name="up" class="com.ewcms.web.action.document.related.RelatedAction" method="up"/>
+		<action name="down" class="com.ewcms.web.action.document.related.RelatedAction" method="down"/>
+	</package>
+	<package name="document.recommend" extends="struts-default" namespace="/document/recommend">
+		<action name="recommend" class="com.ewcms.web.action.document.recommend.RecommendAction">
+			<result>/WEB-INF/page/document/recommend/index.jsp</result>
+		</action>
+		<action name="article" class="com.ewcms.web.action.document.recommend.RecommendAction">
+			<result>/WEB-INF/page/document/recommend/article.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.document.recommend.RecommendAction" method="save">
+			<result>/WEB-INF/page/document/recommend/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.web.action.document.recommend.QueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.web.action.document.recommend.RecommendAction" method="delete"/>
+		<action name="up" class="com.ewcms.web.action.document.recommend.RecommendAction" method="up"/>
+		<action name="down" class="com.ewcms.web.action.document.recommend.RecommendAction" method="down"/>
+	</package>
+	<package name="document.citizen" extends="struts-default" namespace="/document/citizen">
+		<action name="index">
+			<result>/WEB-INF/page/document/citizen/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.web.action.document.citizen.CitizenAction" method="delete"/>
+		<action name="query" class="com.ewcms.web.action.document.citizen.QueryAction" method="query"/>
+		<action name="input" class="com.ewcms.web.action.document.citizen.CitizenAction" method="input">
+			<result name="input">/WEB-INF/page/document/citizen/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.document.citizen.CitizenAction" method="save">
+			<result>/WEB-INF/page/document/citizen/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/citizen/edit.jsp</result>
+		</action>
+		<action name="getCitizen" class="com.ewcms.web.action.document.citizen.CitizenAction" method="getCitizen"/>
+	</package>
+	<package name="document.share" extends="struts-default" namespace="/document/share">
+		<action name="index">
+			<result>/WEB-INF/page/document/share/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.web.action.document.share.ShareAction" method="delete"/>
+		<action name="query" class="com.ewcms.web.action.document.share.QueryAction" method="query"/>
+		<action name="input" class="com.ewcms.web.action.document.share.ShareAction" method="input">
+			<result name="input">/WEB-INF/page/document/share/edit.jsp</result>
+		</action>
+		<action name="sharetop" class="com.ewcms.web.action.document.share.ShareAction" method="shareTop"/>
+		<action name="shareself" class="com.ewcms.web.action.document.share.ShareAction" method="shareSelf"/>
+		<action name="share" class="com.ewcms.web.action.document.share.ShareAction" method="share"/>
+		<action name="tochannel" class="com.ewcms.web.action.document.share.ShareAction" method="toChannel"/>
+	</package>	
+</struts>	

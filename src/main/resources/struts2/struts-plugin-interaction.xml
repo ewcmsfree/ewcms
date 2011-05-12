@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="plugin.interaction"  extends="struts-default" namespace="/plguin/interaction">
+        <action name="index">
+            <result>/WEB-INF/page/plugin/interaction/interaction.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.web.action.plugin.interaction.InteractionQueryAction" method="query"/>
+        <action name="edit" class="com.ewcms.web.action.plugin.interaction.InteractionAction">
+            <result name="input">/WEB-INF/page/plugin/interaction/interactionEdit.jsp</result>
+            <result name="success">/WEB-INF/page/plugin/interaction/interactionEdit.jsp</result>
+        </action>
+        <action name="speak">
+            <result>/WEB-INF/page/plugin/interaction/speak.jsp</result>
+        </action>
+        <action name="querySpeak" class="com.ewcms.web.action.plugin.interaction.SpeakQueryAction" method="query"/>
+        <action name="speakChecked" class="com.ewcms.web.action.plugin.interaction.SpeakAction" method="checked"/>
+    </package>
+</struts>	

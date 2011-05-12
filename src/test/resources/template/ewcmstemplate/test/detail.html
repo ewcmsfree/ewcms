@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>ewcms文章测试</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <@position>
+        <span>
+            <#if has_next>
+            <a href='<@channel_url/>'><@channel_title/></a>&gt;
+            <#else>
+            <@channel_title/>
+            </#if>
+        </span>
+        </@position>
+        <div align="center">
+            <ul>
+                <li>【文章标题】：<@article_title/></li>
+　　             <li>【简短标题】：<@article_shortTitle/></li>
+　　             <li>【文章作者】：<@article_author/></li>
+　　             <li>【发布日期】：<@article_date/></li>
+　　             <li>【文章来源】：<@article_origin/></li>
+　　             <li>【文章摘要】：<@article_summary/></li>
+                <li>【文章图片】：<@article_image/></li>
+                <li>【文章Url】：<@article_url/></li>
+            </ul>
+            <div>
+                【文章内容】：<@article_content/>
+            </div>
+            <div>
+                【内容分页】：
+                <@pageNumber number = 7 last= false >
+                <#if page.enabled>
+                <span><a href="<@page_url/>" target="_blank"><@page_label/></a></span>
+                <#else>
+                <span><@page_label/></span>
+                </#if>
+                </@pageNumber>
+            </div>
+            <div>
+                【关联文章】：<@article_related/>
+            </div>
+        </div>
+    </body>
+</html>

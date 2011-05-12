@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:sec="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans.xsd
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+             default-autowire="byName" default-lazy-init="false">
+              
+    <sec:http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+
+        <sec:custom-filter position="FORM_LOGIN_FILTER" ref="usernamePasswordCheckcodeAuthenticationFilter"/>
+                       
+        <sec:intercept-url pattern="/checkcode.jpg" access="permitAll"/>
+        <sec:intercept-url pattern="/source/*" access="permitAll"/>
+        <sec:intercept-url pattern="/login.do" access="permitAll"/>
+        <sec:intercept-url pattern="/accessDenied.do" access="permitAll"/>
+                
+        <sec:intercept-url pattern="/index.do" access="authenticated"/>
+        <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
+        <sec:intercept-url pattern="/account/*.do" access="authenticated and fullyAuthenticated"/>
+        
+        <sec:intercept-url pattern="/resource/image/manage.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/resource/annex/manage.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/resource/image/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/annex/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/**/*.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
+        
+        <sec:intercept-url pattern="/scheduling/jobchannel/*.do" access="authenticated"/>
+        
+        <sec:intercept-url pattern="/document/**/*.do" access="authenticated"/>
+        
+        <sec:intercept-url pattern="/site/template/delete.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/query.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/input.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/save.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/source/save.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/source/query.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/source/input.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/template/source/save.do" access="authenticated"/>
+        
+        <sec:intercept-url pattern="/site/channel/tree.do" access="authenticated"/>
+        <sec:intercept-url pattern="/site/channel/*.do" access="hasAnyRole('ROLE_EDITOR','ROLE_WRITER','ROLE_USER','ROLE_ADMIN')"/>
+        
+        <sec:intercept-url pattern="/plguin/interaction/*.do" access="hasAnyRole('ROLE_INTERACTION','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/plugin/leadingwindow/**/*.do" access="hasAnyRole('ROLE_LEADING','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/plugin/member/*.do" access="hasAnyRole('ROLE_ZHENGXIE','ROLE_RENDA','ROLE_ADMIN')"/>
+        
+        <sec:intercept-url pattern="/plugin/onlineoffice/**/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/plugin/article/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/plugin/advisor/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
+        
+        <sec:intercept-url pattern="/**/*.do" access="hasAnyRole('ROLE_ADMIN')"/>
+        
+        <sec:remember-me key="com_ewcms_web_key" services-ref="jpaTokenBasedRememberMeService"/>
+
+        <sec:logout invalidate-session="true" logout-success-url="/index.do" logout-url="/logout.do"/>
+
+        <sec:session-management session-authentication-strategy-ref="concurrentSessionControlStrategy" invalid-session-url="/login.do" session-authentication-error-url="/login.do?error=1"/>
+
+        <sec:access-denied-handler error-page="/accessDenied.do" />
+    </sec:http>
+
+    <bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/login.do"/>
+    </bean>
+
+    <bean id="usernamePasswordCheckcodeAuthenticationFilter" class="com.ewcms.security.web.authentication.UsernamePasswordCheckcodeAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationFailureHandler" ref="failureHandler"/>
+        <property name="authenticationSuccessHandler" ref="successHandler"/>
+        <property name="rememberMeServices" ref="jpaTokenBasedRememberMeService"/>
+        <property name="sessionAuthenticationStrategy" ref="concurrentSessionControlStrategy"/>
+    </bean>
+
+    <bean id="successHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="/index.do"/>
+        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+    </bean>
+
+    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/login.do?error=1"/>
+    </bean>
+
+    <bean id="concurrentSessionControlStrategy" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <constructor-arg  ref="sessionRegistry"/>
+        <property name="maximumSessions" value="10"/>
+        <property name="exceptionIfMaximumExceeded" value="true"/>
+    </bean>
+
+    <bean id="sessionRegistry" class="com.ewcms.security.core.session.EwcmsSessionRegistryImpl"/>
+
+    <bean id="jpaTokenBasedRememberMeService" class="com.ewcms.security.web.authentication.rememberme.JPATokenBasedRememberMeService" >
+        <property name="key" value="com_ewcms_web_key"/>
+        <property name="tokenValiditySeconds" value="3600"/>
+        <property name="bindingIP" value="true"/>
+        <property name="userDetailsService" ref="userService"/>
+    </bean>
+    
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider user-service-ref='userService'>
+            <sec:password-encoder ref="passwordEncoder">
+                <sec:salt-source ref="saltSource"/>
+            </sec:password-encoder>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+    <bean id="userService" class="com.ewcms.security.manage.service.UserService">
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+
+    <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="username"/>
+    </bean>
+    
+    <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+        <sec:expression-handler ref="expressionHandler"/>
+    </sec:global-method-security>
+    
+    <bean id="expressionHandler"  class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="aclPermissionEvaluator"/>
+    </bean>
+    
+    <bean id="aclPermissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+        <constructor-arg ref="aclService" />
+        <property name="permissionFactory" ref="permissionFactory"/>
+    </bean>
+    
+    <bean id="aclService" class="com.ewcms.security.acls.service.EwcmsAclService">
+        <constructor-arg ref="dataSource" />
+        <constructor-arg ref="lookupStrategy" />
+        <constructor-arg ref="aclCache"/>
+        <property name="classIdentityQuery" value="select currval(pg_get_serial_sequence('acl_class', 'id'))"/>
+        <property name="sidIdentityQuery" value="select currval(pg_get_serial_sequence('acl_sid', 'id'))"/>
+    </bean>
+
+    <bean id="permissionFactory" class="com.ewcms.security.acls.domain.EwcmsPermissionFactory"/>
+
+    <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="aclCache"/>
+        <constructor-arg ref="aclAuthzStrategy"/>
+        <constructor-arg ref="aclAuditLogger"/>
+        <property name="permissionFactory" ref="permissionFactory"/>
+    </bean>
+    
+    <bean id="aclCache" class="com.ewcms.security.acls.NullAclCache"/>
+    
+    <bean id="aclAuditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+    
+    <bean id="aclAuthzStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+            <array>
+                <ref local="aclAdminAuthority"/>
+                <ref local="aclAdminAuthority"/>
+                <ref local="aclAdminAuthority"/>
+            </array>
+        </constructor-arg>
+    </bean>
+    <bean id="aclAdminAuthority" class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+        <constructor-arg value="ROLE_ADMIN"/>
+    </bean>
+</beans>

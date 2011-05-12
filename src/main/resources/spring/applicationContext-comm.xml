@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+ <aop:aspectj-autoproxy />
+
+ <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  <property name="driverClass" value="org.postgresql.Driver" />
+  <property name="jdbcUrl" value="jdbc:postgresql://127.0.0.1/ewcms" />
+  <property name="user" value="postgres" />
+  <property name="password" value="" />
+  <property name="initialPoolSize" value="5" />
+  <property name="minPoolSize" value="5" />
+  <property name="maxPoolSize" value="20" />
+  <property name="maxStatements" value="50" />
+  <property name="acquireIncrement" value="5" />
+  <property name="maxIdleTime" value="200" />
+ </bean>
+
+ <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  <property name="dataSource" ref="dataSource" />
+  <property name="persistenceUnitName" value="persistenceUnit" />
+ </bean>
+
+ <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+  <property name="entityManagerFactory" ref="entityManagerFactory" />
+ </bean>
+ 
+ <bean id="aclTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  <property name="dataSource" ref="dataSource"/>
+ </bean>
+ 
+ <tx:advice id="txAdvice" transaction-manager="txManager">
+  <tx:attributes>
+   <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="*" propagation="REQUIRED" />
+  </tx:attributes>
+ </tx:advice>
+ 
+ <tx:advice id="aclTxAdvice" transaction-manager="aclTxManager">
+  <tx:attributes>
+   <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
+   <tx:method name="*" propagation="REQUIRED" />
+  </tx:attributes>
+ </tx:advice>
+ 
+ <aop:config>
+  <aop:pointcut id="serviceOperation" expression="execution(* com.ewcms..*Service.*(..)) and !execution(* com.ewcms.security.acl..*Service.*(..))"/>
+  <aop:pointcut id="aclServiceOperation" expression="execution(* com.ewcms.security.acl..*Service.*(..))"/>
+  <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
+  <aop:advisor advice-ref="aclTxAdvice" pointcut-ref="aclServiceOperation" />
+ </aop:config>
+ 
+ <tx:annotation-driven transaction-manager="txManager"/>
+ 
+ <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+  <property name="basename">
+   <array>
+    <value>classpath:com/ewcms/security/messages</value>
+   </array>
+  </property>
+ </bean>
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="byName" default-lazy-init="false">
+          
+    <context:component-scan base-package="com.ewcms.web.action">
+        <context:include-filter type="regex" expression=".*Action$"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.ewcms.context">
+        <context:include-filter type="regex" expression=".*Filter$"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.ewcms.comm.jpa"/>
+    <context:component-scan base-package="com.ewcms.core"/>
+    <context:component-scan base-package="com.ewcms.generator"/>
+    <context:component-scan base-package="com.ewcms.security"/>
+    <context:component-scan base-package="com.ewcms.plugin"/>
+    <context:component-scan base-package="com.ewcms.scheduling"/>
+    <context:component-scan base-package="com.ewcms.aspect"/>
+</beans>

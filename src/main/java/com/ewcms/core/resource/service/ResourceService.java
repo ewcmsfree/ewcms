@@ -1,0 +1,136 @@
+/*
+ * Copyright (c)2010 Jiangxi Institute of Computing Technology(JICT), All rights reserved.
+ * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.jict.org
+ */
+package com.ewcms.core.resource.service;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ewcms.core.resource.dao.ResourceDAO;
+import com.ewcms.core.resource.model.Resource;
+import com.ewcms.core.resource.model.ResourceType;
+import com.ewcms.core.resource.operator.ResourceNameable;
+import com.ewcms.core.resource.operator.ResourceOperator;
+import com.ewcms.core.resource.operator.ResourceOperatorable;
+import com.ewcms.core.site.model.Site;
+import com.ewcms.util.EwcmsContextUtil;
+import com.ewcms.util.ImageZipUtil;
+
+/**
+ *
+ * @author 吴智俊
+ */
+@Service
+public class ResourceService implements ResourceServiceable {
+
+    private static final ResourceOperatorable operator = new ResourceOperator();
+    private static final Log log = LogFactory.getLog(ResourceService.class);
+    @Autowired
+    private ResourceDAO resourceDao;
+
+    public void setResourceDao(ResourceDAO dao) {
+        this.resourceDao = dao;
+    }
+
+    @Override
+    public Resource addResource(final File file, final String fileName, final ResourceType type) throws IOException {
+        String root = getCurrentRootDir();
+        ResourceNameable rule = operator.writer(file, root, fileName);
+        Resource resource = new Resource();
+        resource.setNewName(rule.getNewName());
+        resource.setPath(rule.getFileNewName());
+        resource.setSize(file.length());
+        Integer siteId = getCurrentSiteId();
+        resource.setSiteId(siteId);
+        resource.setName(getSingleName(fileName));
+        String title = removeFileNameSuffix(fileName);
+        resource.setTitle(title);
+        resource.setDescription(title);
+        resource.setType(type);
+        resource.setReleasePath(rule.getReleaseaPath());
+
+        if (type == ResourceType.IMAGE) {
+            Boolean isZip = ImageZipUtil.compression(rule.getFileNewName(), rule.getFileNewNameZip(), 128, 128);
+            if (isZip) {
+                resource.setPathZip(rule.getFileNewNameZip());
+                resource.setReleasePathZip(rule.getReleasePathZip());
+            } else {
+                resource.setPathZip(rule.getFileNewName());
+                resource.setReleasePathZip(rule.getReleaseaPath());
+            }
+        }
+
+        resourceDao.persist(resource);
+
+        return resource;
+    }
+
+    private String removeFileNameSuffix(final String fileName) {
+        int index = fileName.lastIndexOf(".");
+        if (index == -1) {
+            return fileName;
+        }
+        return fileName.substring(0, index);
+    }
+
+    @Override
+    public void delResource(Integer id) {
+        Resource resource = getResource(id);
+        if (resource == null) {
+            return;
+        }
+        try {
+            String dir = getCurrentReleaseDir();
+            if(dir.endsWith("/")){
+                dir = dir.substring(0, dir.length()-1);
+            }
+            operator.delete(dir + resource.getReleasePath());
+        } catch (IOException e) {
+            log.error(e.toString());
+        }
+        resourceDao.remove(resource);
+    }
+
+    @Override
+    public Resource getResource(Integer id) {
+        return resourceDao.get(id);
+    }
+
+    @Override
+    public Resource updResourceInfo(Integer id, String title, String description) {
+        Resource resource = getResource(id);
+        resource.setTitle(title);
+        resource.setDescription(description);
+
+        resourceDao.persist(resource);
+
+        return resource;
+    }
+
+    private String getSingleName(final String name) {
+        String[] names = name.split("/");
+        return names[names.length - 1];
+    }
+
+    private String getCurrentRootDir() {
+        Site site = EwcmsContextUtil.getCurrentSite();
+        return site.getResourceDir();
+    }
+
+    private Integer getCurrentSiteId() {
+        Site site = EwcmsContextUtil.getCurrentSite();
+        return site.getId();
+    }
+
+    private String getCurrentReleaseDir(){
+         Site site = EwcmsContextUtil.getCurrentSite();
+        return site.getServerDir();
+    }
+}

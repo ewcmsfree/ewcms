@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="userInfo.name">
+        <field-validator type="requiredstring">
+            <message>不能为空!</message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>姓名超过50字符</message>
+        </field-validator>
+    </field>
+     <field name="userInfo.identification">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>证件号码超过50字符</message>
+        </field-validator>
+    </field>
+    <field name="userInfo.email">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>邮件地址超过50字符</message>
+        </field-validator>
+        <field-validator type="email">
+            <message>邮件地址错误</message>
+        </field-validator>  
+    </field>
+    <field name="userInfo.phone">
+         <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>电话号码错误（“区号-电话号码”或“电话号码”)</message>
+        </field-validator>  
+    </field>
+    <field name="userInfo.mphone">
+         <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>手机号码错误</message>
+        </field-validator>  
+    </field>
+</validators>
+
+

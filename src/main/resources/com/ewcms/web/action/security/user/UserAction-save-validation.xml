@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+  <field name="user.username">
+        <field-validator type="requiredstring">
+            <message>不能为空!</message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="maxLength">20</param>
+            <param name="trim">true</param>
+            <message>用名超过20字符</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^[0-9A-Za-z_]+$)]]></param>
+            <message>请用英文、数字、下划线</message>
+        </field-validator>        
+    </field>
+    <field name="user.password">
+        <field-validator type="stringlength">
+            <param name="minLength">6</param>
+            <param name="maxLength">16</param>
+            <param name="trim">true</param>
+            <message>密码应为6-16位字符</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^[0-9A-Za-z_\.\?\-]+$)]]></param>
+            <message>请用半角字母、数字、“.”、“-”、“?”和下划线</message>
+        </field-validator>  
+    </field>
+     <field name="user.userInfo.name">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>姓名超过50字符</message>
+        </field-validator>
+    </field>
+    <field name="user.userInfo.identification">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>证件号码超过50字符</message>
+        </field-validator>
+    </field>
+    <field name="user.userInfo.email">
+        <field-validator type="stringlength">
+            <param name="maxLength">50</param>
+            <param name="trim">true</param>
+            <message>邮件地址超过50字符</message>
+        </field-validator>
+        <field-validator type="email">
+            <message>邮件地址错误</message>
+        </field-validator>  
+    </field>
+    <field name="user.userInfo.phone">
+         <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>电话号码错误（“区号-电话号码”或“电话号码”)</message>
+        </field-validator>  
+    </field>
+    <field name="user.userInfo.mphone">
+         <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>手机号码错误</message>
+        </field-validator>  
+    </field>
+</validators>
+
+

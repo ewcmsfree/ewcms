@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	
+	<!-- Quartz Scheduler Manager -->
+	<bean id="alqcJobsQuartzScheduler" class="com.ewcms.scheduling.quartz.AlqcJobsQuartzScheduler">
+		<property name="scheduler" ref="quartzScheduler"/>
+	</bean>
+	
+    <bean id="alqcSchedulerFactoryProxyTemplate" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+        <property name="transactionManager" ref="txManager"/>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="schedule*">PROPAGATION_REQUIRED</prop>
+                <prop key="reschedule*">PROPAGATION_REQUIRED</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="alqcJobsQuartzSchedulerFactory" parent="alqcSchedulerFactoryProxyTemplate">
+        <property name="target" ref="alqcJobsQuartzScheduler"></property>
+    </bean>
+    
+    <bean id="alqcSchedulingFac" class="com.ewcms.scheduling.manage.fac.AlqcSchedulingFac">
+        <property name="alqcJobService" ref="alqcJobService"/>
+        <property name="scheduler" ref="alqcJobsQuartzSchedulerFactory"/>
+        <property name="validator" ref="alqcJobValidator"/>
+        <property name="alqcJobClassService" ref="alqcJobClassService"/>
+    </bean>
+   	
+	<bean id="alqcSchedulingFactory" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="interceptorNames">
+			<list>
+				<idref local="alqcSchedulingFac"/>
+			</list>
+		</property>
+	</bean>
+	
+     <!-- Quartz Scheduler Engine -->
+ 	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" destroy-method="destroy">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="transactionManager" ref="txManager"/>
+		<property name="configLocation" value="classpath:quartz.base.properties"/>
+		<property name="waitForJobsToCompleteOnShutdown" value="false"/>
+		<property name="autoStartup" value="false"/>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+	</bean>
+	
+    <bean id="quartzSchedulerControl" class="com.ewcms.scheduling.quartz.QuartzSchedulerControl" depends-on="alqcSchedulingFactory" init-method="start">
+        <property name="scheduler" ref="quartzScheduler"/>
+    </bean>
+</beans>

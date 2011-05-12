@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="plugin.member"  extends="struts-default" namespace="/plugin/member">
+        <action name="cppccManage">
+            <result>/WEB-INF/page/plugin/member/cppccMember.jsp</result>
+        </action>
+        <action name="nccpcManage">
+            <result>/WEB-INF/page/plugin/member/nccpcMember.jsp</result>
+        </action>
+        <action name="cppccQuery" class="com.ewcms.web.action.plugin.member.MemberQueryAction" method="query">
+            <param name="cppcc">true</param>
+        </action>
+        <action name="nccpcQuery" class="com.ewcms.web.action.plugin.member.MemberQueryAction" method="query">
+            <param name="cppcc">false</param>
+        </action>
+        <action name="input" class="com.ewcms.web.action.plugin.member.MemberAction" method="input">
+            <result name="input">/WEB-INF/page/plugin/member/memberEdit.jsp</result>
+            <result name="success">/WEB-INF/page/plugin/member/memberEdit.jsp</result>
+        </action>
+        <action name="edit" class="com.ewcms.web.action.plugin.member.MemberAction" method="save">
+            <result name="input">/WEB-INF/page/plugin/member/memberEdit.jsp</result>
+            <result name="success">/WEB-INF/page/plugin/member/memberEdit.jsp</result>
+        </action>
+    </package>
+</struts>	

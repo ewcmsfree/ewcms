@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+           
+    <bean id="ewcmsConfigurationFactory" class="com.ewcms.freemarker.EwcmsConfigurationFactory" scope="singleton" >
+        <property name="defaultEncoding" value = "UTF-8"/>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="article_author" value-ref="direcitve.article.author"/>
+                <entry key="article_content" value-ref="direcitve.article.content"/>
+                <entry key="article_image" value-ref="direcitve.article.image"/>
+                <entry key="article_origin" value-ref="direcitve.article.origin"/>
+                <entry key="article_date" value-ref="direcitve.article.pubDate"/>
+                <entry key="article_related" value-ref="direcitve.article.related"/>
+                <entry key="article_shortTitle" value-ref="direcitve.article.shortTitle"/>
+                <entry key="article_subTitle" value-ref="direcitve.article.subTitle"/>
+                <entry key="article_summary" value-ref="direcitve.article.summary"/>
+                <entry key="article_title" value-ref="direcitve.article.title"/>
+                <entry key="article_url" value-ref="direcitve.article.url"/>
+                <entry key="channel_title" value-ref="direcitve.channel.title"/>
+                <entry key="channel_url" value-ref="direcitve.channel.url"/>
+                <entry key="page" value-ref="direcitve.page"/>
+                <entry key="page_count" value-ref="direcitve.pageCount"/>
+                <entry key="page_number" value-ref="direcitve.pageNumber"/>
+                <entry key="page_skip" value-ref="direcitve.skip"/>
+                <entry key="page_label" value-ref="direcitve.page.label"/>
+                <entry key="page_url" value-ref="direcitve.page.url"/>
+                <entry key="include" value-ref="direcitve.include"/>
+                <entry key="position" value-ref="direcitve.position"/>
+                <entry key="articleList" value-ref="direcitve.articleList"/>
+                <entry key="channel" value-ref="direcitve.channel"/>
+                <entry key="count" value-ref="direcitve.component.count"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="ewcmsConfigurationFactoryBean" class="com.ewcms.freemarker.EwcmsConfigurationFactoryBean">
+        <property name="factory" ref="ewcmsConfigurationFactory"/>
+    </bean>
+    
+</beans>

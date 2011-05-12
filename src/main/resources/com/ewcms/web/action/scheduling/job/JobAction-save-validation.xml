@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="pageDisplayVo.jobClassId">
+        <field-validator type="required">
+            <message>调度作业选择不能为空</message>
+        </field-validator>
+    </field>
+    <field name="pageDisplayVo.label">
+    	<field-validator type="requiredstring">
+    		<message>名称不能为空</message>
+    	</field-validator>
+    </field>
+    <field name="pageDisplayVo.startDate">
+    	<field-validator type="requiredstring">
+    		<message>开始时间不能为空</message>
+    	</field-validator>
+    </field>
+</validators>
+
+

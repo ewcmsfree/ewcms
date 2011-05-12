@@ -1,0 +1,11 @@
+<@article_list value="/db/test/" row=20;articles>
+<ul>
+<#list articles as article>
+<li>
+    <a href="<@article_url value=article/>" target="_blank"><@article_title value=article/></a>
+    <span><@article_date value=article format="yyyy年MM月dd日"/></span>
+    <span>频道编号：${article.channel.id}</span>
+</li>
+</#list>
+</ul>
+</@article_list>

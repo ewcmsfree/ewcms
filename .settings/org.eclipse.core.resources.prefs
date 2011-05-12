@@ -1,0 +1,7 @@
+#Mon Jul 26 10:04:26 CST 2010
+eclipse.preferences.version=1
+encoding//src/main/java/com/ewcms/util/EncodeUtils.java=UTF-8
+encoding//src/main/java/com/ewcms/util/JSONUtils.java=UTF-8
+encoding//src/main/java/com/ewcms/util/ServletUtils.java=UTF-8
+encoding//src/main/java/com/ewcms/util/Struts2Utils.java=UTF-8
+encoding//src/main/java/com/ewcms/web/action/CrudBaseAction.java=UTF-8

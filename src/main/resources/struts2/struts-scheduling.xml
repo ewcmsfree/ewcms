@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>	
+	<package name="scheduling.jobclass" extends="struts-default" namespace="/scheduling/jobclass">
+		<action name="index">
+			<result>/WEB-INF/page/scheduling/jobclass/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="delete"/>
+		<action name="query" class="com.ewcms.web.action.scheduling.jobclass.QueryAction" method="query"/>
+		<action name="input" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="input">
+			<result name="input">/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="save">
+			<result>/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
+			<result name="input">/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
+		</action>
+	</package>
+	<package name="scheduling.job" extends="struts-default" namespace="/scheduling/job">
+		<action name="index">
+			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.web.action.scheduling.job.JobAction" method="delete"/>
+		<action name="query" class="com.ewcms.web.action.scheduling.job.QueryAction" method="query"/>
+		<action name="input" class="com.ewcms.web.action.scheduling.job.JobAction" method="input">
+			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.scheduling.job.JobAction" method="save">
+			<result>/WEB-INF/page/scheduling/job/edit.jsp</result>
+			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
+		</action>
+		<action name="pause" class="com.ewcms.web.action.scheduling.job.JobAction" method="pauseJob">
+			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
+		</action>
+		<action name="resumed" class="com.ewcms.web.action.scheduling.job.JobAction" method="resumedJob">
+			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
+		</action>
+		<!-- 
+		<action name="allJobClassList" class="com.ewcms.web.action.scheduling.job.JobAction" method="getAllJobClassList"/>
+		 -->
+	</package>
+	<package name="scheduling.jobchannel" extends="struts-default" namespace="/scheduling/jobchannel">
+		<action name="index" class="com.ewcms.web.action.scheduling.job.JobChannelAction" method="getJobChannel">
+			<result name="input">/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.web.action.scheduling.job.JobChannelAction" method="saveJobChannel">
+			<result>/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
+			<result name="input">/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
+		</action>
+	</package>
+</struts>	
