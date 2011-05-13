@@ -5,7 +5,6 @@
  */
 package com.ewcms.core.document.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +15,8 @@ import org.springframework.util.Assert;
 
 import com.ewcms.aspect.annotation.History;
 import com.ewcms.core.document.dao.ArticleRmcDAO;
-import com.ewcms.core.document.dao.CitizenDAO;
 import com.ewcms.core.document.model.Article;
 import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Citizen;
 import com.ewcms.core.document.model.Recommend;
 import com.ewcms.core.document.model.Related;
 import com.ewcms.core.site.dao.ChannelDAO;
@@ -39,9 +36,6 @@ public class ArticleRmcService implements ArticleRmcServiceable {
     @Autowired
     private ChannelDAO channelDAO;
     
-	@Autowired
-	private CitizenDAO citizenDAO;
-	
 	@Autowired
 	private ArticleRmcServiceWrapping wrapping;
 
@@ -129,8 +123,6 @@ public class ArticleRmcService implements ArticleRmcServiceable {
 		return true;
 	}
 	
-	
-	
 	@Override
 	public List<Map<String,Object>> findContnetHistoryToPage(Integer articleId) {
 		return articleRmcDAO.findContentHistoryToPage(articleId);
@@ -151,24 +143,6 @@ public class ArticleRmcService implements ArticleRmcServiceable {
 		return articleRmcDAO.findRelatedByArticleRmcId(articleRmcId);
 	}
 	
-	@Override
-	public void addArticleRmcToCitizen(Integer articleRmcId, Integer[] citizenIds) {
-		if (articleRmcId != null){
-			ArticleRmc articleRmc = articleRmcDAO.get(articleRmcId);
-			if (articleRmc == null) return;
-			List<Citizen> citizens = new ArrayList<Citizen>();
-			if (citizenIds != null && citizenIds.length > 0){
-				for (Integer citizenId : citizenIds){
-					Citizen citizen = citizenDAO.get(citizenId);
-					if (citizen == null) continue;
-					citizens.add(citizen);
-				}
-			}
-			articleRmc.setCitizens(citizens);
-			articleRmcDAO.merge(articleRmc);
-		}
-	}
-
 	@Override
 	public void pubChannel(Integer channelId) throws ReleaseException {
 		wrapping.pubChannel(channelId);

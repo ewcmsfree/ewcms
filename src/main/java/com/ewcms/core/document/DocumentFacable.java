@@ -11,7 +11,6 @@ import java.util.Map;
 
 import com.ewcms.core.document.model.Article;
 import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Citizen;
 import com.ewcms.core.document.model.Recommend;
 import com.ewcms.core.document.model.Related;
 import com.ewcms.generator.release.ReleaseException;
@@ -198,45 +197,6 @@ public interface DocumentFacable {
 	 * @param recommendArticleIds
 	 */
 	public void downRecommend(Integer articleId, Integer[] recommendArticleIds);
-	
-	/**
-	 * 新增公民信息
-	 * 
-	 * @param citizen 公民对象
-	 * @return
-	 */
-	public Integer addCitizen(Citizen citizen);
-	
-	/**
-	 * 修改公民信息
-	 * 
-	 * @param citizen 公民对象
-	 * @return
-	 */
-	public Integer updCitizen(Citizen citizen);
-	
-	/**
-	 * 查询公民对象
-	 * 
-	 * @param citizenId 公民编号
-	 * @return 公民对象
-	 */
-	public Citizen getCitizen(Integer citizenId);
-	
-	/**
-	 * 删除公民对象
-	 * 
-	 * @param citizenId 公民对象
-	 */
-	public void delCitizen(Integer citizenId);
-	
-	/**
-	 * 文章与人群关联
-	 * 
-	 * @param articleRmcId 文章编号
-	 * @param citizenIds 人群编号集合
-	 */
-	public void addArticleRmcToCitizen(Integer articleRmcId, Integer[] citizenIds);
 	
 	/**
 	 * 发布文章

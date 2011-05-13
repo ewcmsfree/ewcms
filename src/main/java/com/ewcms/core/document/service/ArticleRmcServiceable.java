@@ -138,14 +138,6 @@ public interface ArticleRmcServiceable {
 	public List<Related> findRelatedByArticleId(Integer articleRmcId);
 	
 	/**
-	 * 文章与人群关联
-	 * 
-	 * @param articleRmcId 文章编号
-	 * @param citizenIds 人群编号集合
-	 */
-	public void addArticleRmcToCitizen(Integer articleRmcId, Integer[] citizenIds);
-	
-	/**
 	 * 发布文章
 	 * @param channelId 频道编号
 	 * @throws ReleaseException

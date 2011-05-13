@@ -101,10 +101,6 @@ public class ArticleRmc implements Serializable {
 	@JoinColumn(name="article_id")
 	@OrderBy("sort")
 	private List<Recommend> recommends;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Citizen.class)
-	@JoinTable(name = "doc_articlermc_citizen", joinColumns = @JoinColumn(name = "articlermc_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "citizen_id", referencedColumnName = "id"))
-	@OrderBy(value = "id")
-	private List<Citizen> citizens;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
@@ -222,15 +218,6 @@ public class ArticleRmc implements Serializable {
 
 	public void setRecommends(List<Recommend> recommends) {
 		this.recommends = recommends;
-	}
-
-	@JsonIgnore
-	public List<Citizen> getCitizens() {
-		return citizens;
-	}
-
-	public void setCitizens(List<Citizen> citizens) {
-		this.citizens = citizens;
 	}
 
 	public Date getCreateTime() {

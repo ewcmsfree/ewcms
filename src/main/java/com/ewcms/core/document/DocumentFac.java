@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.core.document.model.Article;
 import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Citizen;
 import com.ewcms.core.document.model.Recommend;
 import com.ewcms.core.document.model.Related;
 import com.ewcms.core.document.service.ArticleRmcServiceable;
-import com.ewcms.core.document.service.CitizenServiceable;
 import com.ewcms.core.document.service.RecommendServiceable;
 import com.ewcms.core.document.service.RelatedServiceable;
 import com.ewcms.generator.release.ReleaseException;
@@ -36,8 +34,6 @@ public class DocumentFac implements DocumentFacable {
 	private RelatedServiceable relatedService;
 	@Autowired
 	private RecommendServiceable recommendService;
-	@Autowired
-	private CitizenServiceable citizenService;
 	
 	//------------------文章------------------------------//
 	@Override
@@ -152,31 +148,6 @@ public class DocumentFac implements DocumentFacable {
 		recommendService.downRecommend(articleId, recommendArticleIds);
 	}
 	
-	@Override
-	public Integer addCitizen(Citizen citizen) {
-		return citizenService.addCitizen(citizen);
-	}
-
-	@Override
-	public void delCitizen(Integer citizenId) {
-		citizenService.delCitizen(citizenId);
-	}
-
-	@Override
-	public Citizen getCitizen(Integer citizenId) {
-		return citizenService.getCitizen(citizenId);
-	}
-
-	@Override
-	public Integer updCitizen(Citizen citizen) {
-		return citizenService.updCitizen(citizen);
-	}
-
-	@Override
-	public void addArticleRmcToCitizen(Integer articleRmcId, Integer[] citizenIds) {
-		articleRmcService.addArticleRmcToCitizen(articleRmcId, citizenIds);
-	}
-
 	@Override
 	public void pubChannel(Integer channelId) throws ReleaseException {
 		articleRmcService.pubChannel(channelId);
