@@ -22,12 +22,9 @@ import com.ewcms.aspect.history.util.ByteToObject;
 import com.ewcms.core.document.DocumentFacable;
 import com.ewcms.core.document.model.Article;
 import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Citizen;
 import com.ewcms.core.document.model.Content;
 import com.ewcms.core.document.search.ExtractKeywordAndSummary;
 import com.ewcms.core.document.search.util.StringUtil;
-//import com.ewcms.plugin.leadingwindow.LeadingWindowFacable;
-import com.ewcms.plugin.leadingwindow.LeadingWindowFacable;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.util.JSONUtil;
@@ -48,8 +45,6 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 	private DocumentFacable documentFac;
 	@Autowired
 	private HistoryModelFacable historyModelFac;
-	@Autowired
-	private LeadingWindowFacable leadingWindowFac;
 	@Autowired
 	private UserServiceable userService;
 
@@ -355,62 +350,5 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 			Struts2Util.renderText(documentFac.moveArticleRmcToChannel(getSelections(), getSelectChannelIds()).toString());
 		}
 		return NONE;
-	}
-	
-	
-	public void selCitizen(){
-		if (getArticleRmcId() == null){
-			Struts2Util.renderJson(JSONUtil.toJSON(""));
-		}
-		ArticleRmc articleRmc = documentFac.getArticleRmc(getArticleRmcId());
-		List<Citizen> citizens = articleRmc.getCitizens();
-		if (citizens == null || citizens.isEmpty()) Struts2Util.renderJson(JSONUtil.toJSON(""));
-		List<Integer> citizenIds = new ArrayList<Integer>();
-		for (Citizen citizen : citizens){
-			citizenIds.add(citizen.getId());
-		}
-		Struts2Util.renderJson(JSONUtil.toJSON(citizenIds.toArray()));
-	}
-	
-	private Integer[] citizenIds;
-	
-	public Integer[] getCitizenIds() {
-		return citizenIds;
-	}
-
-	public void setCitizenIds(Integer[] citizenIds) {
-		this.citizenIds = citizenIds;
-	}
-
-	public void addCitizen(){
-		try{
-			if (getArticleRmcId() != null){
-				documentFac.addArticleRmcToCitizen(getArticleRmcId(), getCitizenIds());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
-			}
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("false"));
-		}
-	}
-	
-	private Integer[] leadingChannelId;
-
-	public Integer[] getLeadingChannelId() {
-		return leadingChannelId;
-	}
-
-	public void setLeadingChannelId(Integer[] leadingChannelId) {
-		this.leadingChannelId = leadingChannelId;
-	}
-	
-	public void addArticleRmcToLeadingChannel(){
-		try{
-			if (getArticleRmcId() != null && getLeadingChannelId() != null && getLeadingChannelId().length > 0){
-				leadingWindowFac.addArticleRmcToLeaderChannel(getArticleRmcId(), getLeadingChannelId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
-			}
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("false"));
-		}
 	}
 }
