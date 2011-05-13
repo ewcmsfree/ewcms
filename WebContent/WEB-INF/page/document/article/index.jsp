@@ -86,7 +86,6 @@
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
 								{id:'btnRelease',text:'预发布',iconCls:'icon-release',handler:releaseOperate},'-',
 								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate},'-',
-								{id:'btnCitizen',text:'关联人群',iconCls:'icon-citizen',handler:selCitizen},'-',
 								{id:'btnSelf',text:'本站共享', iconCls:'icon-shareself',handler:shareSelf},'-',
 								{id:'btnShare',text:'群站共享', iconCls:'icon-share', handler:share}								
 						     ]
@@ -387,49 +386,6 @@
 	            return ids;			
 			}
 
-			function selCitizen(){
-				$("#tt4").datagrid('clearSelections');
-				var rows = $("#tt").datagrid('getSelections');
-		        if(rows.length == 0){
-		        	$.messager.alert('提示','请选择要关联人群的文章记录');
-		            return;
-		        }
-		        if(rows.length > 1){
-		        	$.messager.alert('提示','只能选择一条文章记录与人群进行关联');
-		            return;
-		        }
-				openWindow("#citizen-window",{width:520,height:420,top:70,left:400,title:'选择人群'});
-				$.post('<s:url namespace="/document/article" action="selCitizen"/>' ,{articleRmcId:rows[0].id} ,function(data){
-					if (data !=""){
-						var citizenIds = data.toString().split(',');
-						for (var i = 0 ; i < citizenIds.length; i++){
-							$('#tt4').datagrid('selectRecord',parseInt(citizenIds[i]));
-						}
-					}
-				});
-			}
-
-			function addCitizen(){
-				var rows = $("#tt").datagrid('getSelections');
-				if(rows.length == 0){
-		        	$.messager.alert('提示','请选择要人群信息');
-		            return;
-		        }
-				var articleRmcId = rows[0].id;
-				rows = $('#tt4').datagrid('getSelections');
-		        var ids = '?articleRmcId=' + articleRmcId + '&';
-				for(var i=0;i<rows.length;++i){
-					ids =ids + 'citizenIds=' + rows[i].id +'&';
-				}
-				var url = '<s:url namespace="/document/article" action="addCitizen"/>' + ids;
-				$.post(url ,{} ,function(data){
-					if (data=='false'){
-						$.messager.alert('提示','文章关联人群失败','info');
-						return;
-					}
-					$.messager.alert('提示','文章关联人群成功','info');
-				});
-			}
 			function releaseOperate(){
 		    	var rows = $("#tt").datagrid('getSelections');
 		        if(rows.length == 0){
@@ -546,18 +502,6 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:shareSite();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick='javascript:$("#site-window").window("close");'>取消</a>
-                </div>
-            </div>
-        </div>
-        <div id="citizen-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
-            <div class="easyui-layout" fit="true" >
-                <div region="center" border="false">
-               		<table id="tt4" fit="true"></table>
-                	<!-- <iframe id="editifr_citizen"  name="editifr_citizen" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe> -->
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <span><a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:addCitizen();">确定</a></span>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#citizen-window').window('close');">取消</a>
                 </div>
             </div>
         </div>
