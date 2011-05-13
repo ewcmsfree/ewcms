@@ -210,14 +210,6 @@
                         </a>
                     </div>
                     </sec:authorize>
-                    <sec:authorize ifAnyGranted="ROLE_ADMIN">
-                    <div class="nav-item">
-                        <a href="javascript:addTab('人群分类','document/citizen/index.do')">
-                            <img src="source/image/citizen.png" style="border:0"/><br/>
-                            <span>人群分类</span>
-                        </a>
-                    </div>
-                     </sec:authorize>
                 </div>
             </div>
         </div>
