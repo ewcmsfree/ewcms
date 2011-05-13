@@ -16,7 +16,6 @@
     <context:component-scan base-package="com.ewcms.core"/>
     <context:component-scan base-package="com.ewcms.generator"/>
     <context:component-scan base-package="com.ewcms.security"/>
-    <context:component-scan base-package="com.ewcms.plugin"/>
     <context:component-scan base-package="com.ewcms.scheduling"/>
     <context:component-scan base-package="com.ewcms.aspect"/>
 </beans>
