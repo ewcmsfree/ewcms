@@ -40,7 +40,6 @@
         <sec:intercept-url pattern="/site/template/source/input.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/template/source/save.do" access="authenticated"/>
         
-        <sec:intercept-url pattern="/site/channel/tree.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/channel/*.do" access="hasAnyRole('ROLE_EDITOR','ROLE_WRITER','ROLE_USER','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/plguin/interaction/*.do" access="hasAnyRole('ROLE_INTERACTION','ROLE_ADMIN')"/>
