@@ -102,8 +102,10 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 		try {
 			if (id == null) {
 				ChannelNode rootVo = siteFac.channelNodeRoot();
-				if (isPub && !rootVo.isPublicable())
+				if (isPub && !rootVo.isPublicable()){
+					Struts2Util.renderJson("{}");
 					return;
+				}
 				TreeNode treeFile = new TreeNode();
 				treeFile.setId(rootVo.getId().toString());
 				treeFile.setText(rootVo.getName());
