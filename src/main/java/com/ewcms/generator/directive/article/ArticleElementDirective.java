@@ -5,8 +5,8 @@
 
 package com.ewcms.generator.directive.article;
 
-import com.ewcms.core.document.model.Article;
-import com.ewcms.core.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.generator.directive.DirectiveVariable;
 import com.ewcms.generator.directive.ElementDirective;
 

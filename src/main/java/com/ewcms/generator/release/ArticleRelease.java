@@ -4,14 +4,14 @@
  */
 package com.ewcms.generator.release;
 
-import com.ewcms.core.document.model.ArticleStatus;
-import com.ewcms.core.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.core.GlobaPath;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import com.ewcms.core.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;

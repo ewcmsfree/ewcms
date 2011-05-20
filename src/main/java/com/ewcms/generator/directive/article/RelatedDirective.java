@@ -4,9 +4,9 @@
  */
 package com.ewcms.generator.directive.article;
 
-import com.ewcms.core.document.model.Article;
-import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Related;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Related;
 import com.ewcms.generator.directive.DirectiveException;
 import com.ewcms.generator.directive.DirectiveUtil;
 import com.ewcms.generator.directive.DirectiveVariable;

@@ -10,7 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.core.resource.model.Resource;
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.util.FileUtil;
 

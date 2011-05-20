@@ -17,9 +17,9 @@ import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.ArticleRmcStatus;
-import com.ewcms.core.resource.model.Resource;
+import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleRmcStatus;
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;

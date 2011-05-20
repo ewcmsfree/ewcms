@@ -4,7 +4,7 @@
  */
 package com.ewcms.generator.release.html;
 
-import com.ewcms.core.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.directive.DirectiveVariable;
 import com.ewcms.generator.directive.page.PageParam;

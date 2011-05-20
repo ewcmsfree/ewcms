@@ -6,8 +6,8 @@ package com.ewcms.generator.dao;
 
 import java.util.List;
 
-import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.resource.model.Resource;
+import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.TemplateSource;
 
