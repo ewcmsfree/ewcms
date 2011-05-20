@@ -4,11 +4,11 @@
  */
 package com.ewcms.web.action.resource;
 
-import com.ewcms.core.resource.model.ResourceType;
 import com.ewcms.comm.jpa.query.EntityPageQueryable;
 import com.ewcms.comm.jpa.query.PageQueryable;
 import com.ewcms.comm.jpa.query.QueryFactory;
-import com.ewcms.core.resource.model.Resource;
+import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.ResourceType;
 import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.web.action.QueryBaseAction;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.document.DataserveFac;
-import com.ewcms.core.document.model.ShareArticle;
+import com.ewcms.content.document.DataserveFac;
+import com.ewcms.content.document.model.ShareArticle;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;

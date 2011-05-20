@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.document.DocumentFacable;
-import com.ewcms.core.document.model.ArticleRmc;
+import com.ewcms.content.document.DocumentFacable;
+import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.CrudBaseAction;

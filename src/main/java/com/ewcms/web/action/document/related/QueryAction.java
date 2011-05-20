@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.core.document.DocumentFacable;
-import com.ewcms.core.document.model.ArticleRmc;
-import com.ewcms.core.document.model.Related;
+import com.ewcms.content.document.DocumentFacable;
+import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Related;
 import com.ewcms.util.DataGrid;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;

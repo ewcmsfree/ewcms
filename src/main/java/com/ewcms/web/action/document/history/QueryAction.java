@@ -20,7 +20,7 @@ import com.ewcms.aspect.history.fac.HistoryModelFacable;
 import com.ewcms.aspect.history.model.HistoryModel;
 import com.ewcms.aspect.history.util.ByteToObject;
 import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.core.document.model.Article;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.util.DataGrid;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;

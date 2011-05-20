@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.comm.jpa.query.HqlPageQueryable;
 import com.ewcms.comm.jpa.query.PageQueryable;
 import com.ewcms.comm.jpa.query.QueryFactory;
-import com.ewcms.core.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.core.site.service.ChannelService;
 import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.web.action.QueryBaseAction;

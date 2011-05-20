@@ -7,8 +7,8 @@ package com.ewcms.web.action.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ewcms.core.resource.ResourceFacable;
-import com.ewcms.core.resource.model.Resource;
+import com.ewcms.content.resource.ResourceFacable;
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;
 import com.opensymphony.xwork2.util.CreateIfNull;

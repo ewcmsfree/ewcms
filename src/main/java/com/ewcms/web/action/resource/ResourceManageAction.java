@@ -4,7 +4,7 @@
  */
 package com.ewcms.web.action.resource;
 
-import com.ewcms.core.resource.ResourceFacable;
+import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.generator.release.ReleaseException;
 import com.ewcms.util.Struts2Util;

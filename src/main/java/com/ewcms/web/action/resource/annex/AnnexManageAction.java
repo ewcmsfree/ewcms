@@ -6,7 +6,8 @@
 package com.ewcms.web.action.resource.annex;
 
 import com.ewcms.util.Struts2Util;
-import com.ewcms.core.resource.ResourceFacable;
+import com.ewcms.content.resource.ResourceFacable;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 /**

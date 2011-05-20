@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.comm.jpa.query.EntityPageQueryable;
 import com.ewcms.comm.jpa.query.PageQueryable;
 import com.ewcms.comm.jpa.query.QueryFactory;
-import com.ewcms.core.document.model.ShareArticle;
+import com.ewcms.content.document.model.ShareArticle;
 import com.ewcms.web.action.QueryBaseAction;
 
 /**

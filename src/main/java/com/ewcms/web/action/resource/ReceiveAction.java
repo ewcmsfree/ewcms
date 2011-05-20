@@ -4,9 +4,9 @@
  */
 package com.ewcms.web.action.resource;
 
-import com.ewcms.core.resource.ResourceFacable;
-import com.ewcms.core.resource.model.Resource;
-import com.ewcms.core.resource.model.ResourceType;
+import com.ewcms.content.resource.ResourceFacable;
+import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.ResourceType;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;
 import java.io.File;

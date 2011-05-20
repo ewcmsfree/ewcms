@@ -4,8 +4,8 @@
  */
 package com.ewcms.web.action.resource.image;
 
-import com.ewcms.core.resource.model.Resource;
-import com.ewcms.core.resource.model.ResourceType;
+import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.ResourceType;
 import com.ewcms.web.action.resource.ResourceQueryAction;
 import java.util.ArrayList;
 import java.util.List;
