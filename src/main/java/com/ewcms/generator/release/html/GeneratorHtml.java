@@ -4,9 +4,10 @@
  */
 package com.ewcms.generator.release.html;
 
-import com.ewcms.core.GlobaPath;
 import com.ewcms.generator.release.ReleaseException;
 import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.util.GlobaPath;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

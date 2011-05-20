@@ -7,7 +7,6 @@ package com.ewcms.generator.release;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.core.GlobaPath;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -17,6 +16,8 @@ import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import com.ewcms.generator.release.html.ArticleGeneratorHtml;
+import com.ewcms.util.GlobaPath;
+
 import freemarker.template.Configuration;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
