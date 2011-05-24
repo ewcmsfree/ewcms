@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.comm.jpa.query.EntityPageQueryable;
-import com.ewcms.comm.jpa.query.EntityQueryable;
-import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.comm.jpa.query.QueryFactory;
+import com.ewcms.common.jpa.query.EntityPageQueryable;
+import com.ewcms.common.jpa.query.EntityQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;

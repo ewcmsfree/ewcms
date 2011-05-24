@@ -5,7 +5,7 @@
 
 package com.ewcms.core.log.dao;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.core.log.model.ReleaseLog;
 import org.springframework.stereotype.Repository;
 

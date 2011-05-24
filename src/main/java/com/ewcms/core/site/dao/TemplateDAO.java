@@ -13,7 +13,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.core.site.model.Template;
 
 /**

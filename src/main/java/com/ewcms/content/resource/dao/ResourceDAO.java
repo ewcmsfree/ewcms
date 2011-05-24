@@ -4,7 +4,7 @@
  */
 package com.ewcms.content.resource.dao;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.content.resource.model.Resource;
 
 import org.springframework.stereotype.Repository;

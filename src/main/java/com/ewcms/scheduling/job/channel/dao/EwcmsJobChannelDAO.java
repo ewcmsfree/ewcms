@@ -15,7 +15,7 @@ import javax.persistence.Query;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
 

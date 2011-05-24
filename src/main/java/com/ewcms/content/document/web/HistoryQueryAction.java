@@ -16,7 +16,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.comm.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.history.model.HistoryModel;

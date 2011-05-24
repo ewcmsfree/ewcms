@@ -4,9 +4,10 @@
 package com.ewcms.core.site.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ewcms.comm.jpa.query.EntityPageQueryable;
-import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.comm.jpa.query.QueryFactory;
+
+import com.ewcms.common.jpa.query.EntityPageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.web.action.QueryBaseAction;
 

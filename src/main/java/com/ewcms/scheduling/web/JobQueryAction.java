@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.comm.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
 import com.ewcms.scheduling.model.AlqcJob;

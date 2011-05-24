@@ -16,7 +16,7 @@ import javax.persistence.PersistenceException;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.history.model.HistoryModel;
 
 /**

@@ -4,7 +4,7 @@
  */
 package com.ewcms.security.web.authentication.rememberme.dao;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.security.web.authentication.rememberme.model.RememberMeToken;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;

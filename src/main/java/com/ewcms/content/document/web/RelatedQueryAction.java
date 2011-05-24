@@ -13,7 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.comm.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.Related;

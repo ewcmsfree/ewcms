@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
-import com.ewcms.comm.convert.Convertable;
-import com.ewcms.comm.convert.ConvertException;
-import com.ewcms.comm.convert.ConvertFactory;
-import com.ewcms.comm.jpa.query.EntityPageQueryable;
-import com.ewcms.comm.jpa.query.PageQueryable;
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.ConvertFactory;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.jpa.query.EntityPageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.util.DataGrid;
 import com.ewcms.util.JSONUtil;
 import com.ewcms.util.Struts2Util;

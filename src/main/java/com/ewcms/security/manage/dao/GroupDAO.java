@@ -5,7 +5,7 @@
  */
 package com.ewcms.security.manage.dao;
 
-import com.ewcms.comm.jpa.dao.JpaDAO;
+import com.ewcms.common.jpa.dao.JpaDAO;
 import com.ewcms.security.manage.model.Group;
 import org.springframework.stereotype.Repository;
 

@@ -4,9 +4,9 @@
  */
 package com.ewcms.content.resource.web;
 
-import com.ewcms.comm.jpa.query.EntityPageQueryable;
-import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.comm.jpa.query.QueryFactory;
+import com.ewcms.common.jpa.query.EntityPageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.ResourceType;
 import com.ewcms.util.EwcmsContextUtil;

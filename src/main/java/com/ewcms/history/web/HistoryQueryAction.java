@@ -12,9 +12,9 @@ import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.comm.jpa.query.HqlPageQueryable;
-import com.ewcms.comm.jpa.query.PageQueryable;
-import com.ewcms.comm.jpa.query.QueryFactory;
+import com.ewcms.common.jpa.query.HqlPageQueryable;
+import com.ewcms.common.jpa.query.PageQueryable;
+import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.history.model.HistoryModel;
 import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.web.action.QueryBaseAction;
