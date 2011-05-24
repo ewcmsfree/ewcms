@@ -9,7 +9,7 @@
 		<action name="index">
 			<result>/WEB-INF/page/aspect/history/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.web.action.aspect.history.HistoryAction" method="delete"/>
-		<action name="query" class="com.ewcms.web.action.aspect.history.QueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.history.web.HistoryAction" method="delete"/>
+		<action name="query" class="com.ewcms.history.web.HistoryQueryAction" method="query"/>
 	</package>
 </struts>	
