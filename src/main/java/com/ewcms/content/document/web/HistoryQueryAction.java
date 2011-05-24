@@ -21,10 +21,10 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.history.model.HistoryModel;
 import com.ewcms.history.util.ByteToObject;
-import com.ewcms.util.DataGrid;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.QueryBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.vo.DataGrid;
 
 /**
  * 

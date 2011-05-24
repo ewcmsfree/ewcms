@@ -11,8 +11,8 @@ import com.ewcms.context.EwcmsContextHolder;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.security.manage.service.UserServiceable;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 
 /**
  * @author 周冬初

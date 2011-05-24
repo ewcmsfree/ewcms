@@ -13,7 +13,7 @@ import com.ewcms.core.site.dao.SiteDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.web.util.TreeNode;
+import com.ewcms.web.vo.TreeNode;
 
 /**
  * @author 周冬初

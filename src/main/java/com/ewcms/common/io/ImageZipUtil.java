@@ -3,7 +3,7 @@
  * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.jict.org
  */
-package com.ewcms.util;
+package com.ewcms.common.io;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

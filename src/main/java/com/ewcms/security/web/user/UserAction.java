@@ -13,8 +13,8 @@ import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.service.UserServiceable;
-import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.util.Struts2Util;
 
 @Controller
 public class UserAction extends CrudBaseAction<User,String>{

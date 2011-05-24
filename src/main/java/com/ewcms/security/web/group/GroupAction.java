@@ -12,8 +12,8 @@ import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.service.GroupServiceable;
 import com.ewcms.security.manage.service.UserServiceException;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Controller

@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.common.io.ImageZipUtil;
 import com.ewcms.content.resource.dao.ResourceDAO;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.ResourceType;
@@ -20,8 +21,7 @@ import com.ewcms.content.resource.operator.ResourceNameable;
 import com.ewcms.content.resource.operator.ResourceOperator;
 import com.ewcms.content.resource.operator.ResourceOperatorable;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.util.EwcmsContextUtil;
-import com.ewcms.util.ImageZipUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  *

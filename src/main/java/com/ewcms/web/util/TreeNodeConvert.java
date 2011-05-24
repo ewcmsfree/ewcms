@@ -14,6 +14,7 @@ import org.springframework.security.acls.model.Permission;
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.web.vo.TreeNode;
 
 /**
  * @author 周冬初

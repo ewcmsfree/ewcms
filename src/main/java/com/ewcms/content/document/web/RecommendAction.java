@@ -8,8 +8,8 @@ package com.ewcms.content.document.web;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.document.DocumentFacable;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**

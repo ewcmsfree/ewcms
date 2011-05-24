@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.util.CreateIfNull;
 import com.opensymphony.xwork2.util.KeyProperty;
 import org.springframework.beans.factory.annotation.Autowired;

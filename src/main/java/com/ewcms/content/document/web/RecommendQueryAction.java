@@ -17,10 +17,10 @@ import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.Recommend;
-import com.ewcms.util.DataGrid;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.QueryBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.vo.DataGrid;
 
 /**
  *

@@ -5,7 +5,7 @@
  * 
  * $Id: Struts2Utils.java 1005 2010-03-25 15:50:00Z calvinxiu $
  */
-package com.ewcms.util;
+package com.ewcms.web.util;
 
 import java.io.IOException;
 

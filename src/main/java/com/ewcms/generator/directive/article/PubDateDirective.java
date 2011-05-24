@@ -4,9 +4,9 @@
  */
 package com.ewcms.generator.directive.article;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.generator.directive.DirectiveUtil;
-import com.ewcms.util.EmptyUtil;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;

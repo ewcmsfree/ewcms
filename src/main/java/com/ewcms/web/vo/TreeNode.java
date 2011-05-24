@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ewcms.web.util;
+package com.ewcms.web.vo;
 
 import java.io.Serializable;
 import java.util.HashMap;

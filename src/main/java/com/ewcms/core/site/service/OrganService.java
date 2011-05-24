@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.OrganDAO;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.web.util.TreeNode;
+import com.ewcms.web.vo.TreeNode;
 
 /**
  * @author 周冬初

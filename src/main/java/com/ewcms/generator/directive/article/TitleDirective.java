@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
-import static com.ewcms.util.EmptyUtil.isStringEmpty;
+import static com.ewcms.common.lang.EmptyUtil.isStringEmpty;
 
 /**
  * 显示文章标题标签<br/>

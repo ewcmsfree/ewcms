@@ -1,4 +1,4 @@
-package com.ewcms.common;
+package com.ewcms.common.message;
 
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;

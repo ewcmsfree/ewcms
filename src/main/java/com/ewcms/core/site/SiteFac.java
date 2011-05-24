@@ -17,7 +17,7 @@ import com.ewcms.core.site.service.OrganService;
 import com.ewcms.core.site.service.SiteService;
 import com.ewcms.core.site.service.TemplateService;
 import com.ewcms.core.site.service.TemplateSourceService;
-import com.ewcms.web.util.TreeNode;
+import com.ewcms.web.vo.TreeNode;
 
 /**
  * @author 周冬初

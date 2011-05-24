@@ -7,7 +7,8 @@ package com.ewcms.content.resource.web;
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.generator.release.ReleaseException;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.Struts2Util;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

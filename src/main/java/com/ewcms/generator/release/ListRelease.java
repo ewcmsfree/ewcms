@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.Writer;
+
+import com.ewcms.common.io.FileUtil;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;
@@ -18,7 +20,6 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ewcms.util.FileUtil;
 
 /**
  *

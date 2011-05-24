@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import static com.ewcms.util.FileUtil.createDirs;
+
+import static com.ewcms.common.io.FileUtil.createDirs;
 
 /**
  *

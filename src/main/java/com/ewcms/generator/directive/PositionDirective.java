@@ -4,8 +4,8 @@
  */
 package com.ewcms.generator.directive;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.util.EmptyUtil;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;

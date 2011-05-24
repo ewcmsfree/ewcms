@@ -13,7 +13,7 @@ import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.ShareArticle;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.util.EwcmsContextUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * @author 周冬初

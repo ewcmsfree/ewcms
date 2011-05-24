@@ -7,8 +7,9 @@ package com.ewcms.content.resource.web;
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.ResourceType;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+
 import java.io.File;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@
  * JTCT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *  http://www.teachernet.com
  */
-package com.ewcms.util;
+package com.ewcms.web.util;
 
 import java.io.IOException;
 import java.text.DateFormat;

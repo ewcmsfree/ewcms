@@ -4,11 +4,11 @@
  */
 package com.ewcms.generator.directive;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;
-import com.ewcms.util.EmptyUtil;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;

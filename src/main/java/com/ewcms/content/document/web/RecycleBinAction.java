@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleRmc;
-import com.ewcms.util.EwcmsContextUtil;
-import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.util.Struts2Util;
 
 /**
  *

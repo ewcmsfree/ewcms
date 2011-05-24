@@ -16,7 +16,7 @@ import com.ewcms.generator.release.html.ListGeneratorHtml;
 import freemarker.template.Configuration;
 import java.io.IOException;
 
-import static com.ewcms.util.FileUtil.createDirs;
+import static com.ewcms.common.io.FileUtil.createDirs;
 
 /**
  *

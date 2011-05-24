@@ -5,7 +5,8 @@
 
 package com.ewcms.content.resource.operator;
 
-import com.ewcms.util.FileUtil;
+import com.ewcms.common.io.FileUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

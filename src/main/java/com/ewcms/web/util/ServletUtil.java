@@ -5,7 +5,7 @@
  * 
  * $Id: ServletUtils.java 1048 2010-04-17 11:23:09Z calvinxiu $
  */
-package com.ewcms.util;
+package com.ewcms.web.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;

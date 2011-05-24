@@ -10,9 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.common.io.FileUtil;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.util.FileUtil;
 
 /**
  *

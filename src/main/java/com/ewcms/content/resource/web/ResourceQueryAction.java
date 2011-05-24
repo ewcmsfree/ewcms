@@ -9,10 +9,12 @@ import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.ResourceType;
-import com.ewcms.util.EwcmsContextUtil;
 import com.ewcms.web.action.QueryBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import static com.ewcms.util.EmptyUtil.isStringNotEmpty;
+
+import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
 /**
  *

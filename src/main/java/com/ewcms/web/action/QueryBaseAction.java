@@ -16,9 +16,9 @@ import com.ewcms.common.convert.ConvertFactory;
 import com.ewcms.common.convert.Convertable;
 import com.ewcms.common.jpa.query.EntityPageQueryable;
 import com.ewcms.common.jpa.query.PageQueryable;
-import com.ewcms.util.DataGrid;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.vo.DataGrid;
 
 /**
  *查询Action抽象

@@ -13,9 +13,9 @@ import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
 import com.ewcms.web.action.QueryBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 
 @Controller("security.group.query")
 public class QueryAction extends QueryBaseAction{

@@ -5,7 +5,7 @@
 
 package com.ewcms.content.resource.web.annex;
 
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.Struts2Util;
 import com.ewcms.content.resource.ResourceFacable;
 
 import org.springframework.stereotype.Controller;

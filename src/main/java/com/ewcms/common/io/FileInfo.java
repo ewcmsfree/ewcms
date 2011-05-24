@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ewcms.util;
+package com.ewcms.common.io;
 
 import java.io.Serializable;
 

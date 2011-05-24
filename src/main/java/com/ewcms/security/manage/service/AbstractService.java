@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.util.Assert;
 
-import com.ewcms.common.EwcmsMessageSource;
+import com.ewcms.common.message.EwcmsMessageSource;
 import com.ewcms.security.core.session.EwcmsSessionRegistry;
 import com.ewcms.security.manage.dao.AuthorityDAOable;
 import com.ewcms.security.manage.dao.GroupDAOable;

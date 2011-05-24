@@ -5,7 +5,7 @@
  * 
  * $Id: EncodeUtils.java 984 2010-03-21 13:02:44Z calvinxiu $
  */
-package com.ewcms.util;
+package com.ewcms.web.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

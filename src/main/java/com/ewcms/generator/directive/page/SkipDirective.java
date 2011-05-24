@@ -4,10 +4,10 @@
  */
 package com.ewcms.generator.directive.page;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.generator.directive.DirectiveUtil;
 import com.ewcms.generator.directive.DirectiveVariable;
 import com.ewcms.generator.directive.DirectiveException;
-import com.ewcms.util.EmptyUtil;
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateDirectiveBody;

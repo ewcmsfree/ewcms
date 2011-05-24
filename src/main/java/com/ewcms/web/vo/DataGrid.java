@@ -4,7 +4,7 @@
  *  http://www.teachernet.com
  */
 
-package com.ewcms.util;
+package com.ewcms.web.vo;
 
 import java.util.ArrayList;
 import java.util.List;

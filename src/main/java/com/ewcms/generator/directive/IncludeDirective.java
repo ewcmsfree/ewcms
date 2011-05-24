@@ -10,8 +10,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.util.EmptyUtil;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

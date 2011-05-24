@@ -8,10 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.common.io.FileUtil;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.util.FileUtil;
 
 public class ResourceTPLRelease implements ResourceReleaseable {
 

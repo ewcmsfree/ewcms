@@ -5,8 +5,9 @@
  */
 package com.ewcms.web.action;
 
-import com.ewcms.util.JSONUtil;
-import com.ewcms.util.Struts2Util;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+
 import java.util.ArrayList;
 import java.util.List;
 

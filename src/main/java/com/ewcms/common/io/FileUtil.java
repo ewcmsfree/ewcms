@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.ewcms.util;
+package com.ewcms.common.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -27,7 +27,7 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ewcms.web.util.TreeNode;
+import com.ewcms.web.vo.TreeNode;
 
 import java.util.Date;
 
