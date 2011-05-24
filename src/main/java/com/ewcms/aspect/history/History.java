@@ -4,7 +4,7 @@
  * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.jict.org
  */
-package com.ewcms.aspect.annotation;
+package com.ewcms.aspect.history;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
