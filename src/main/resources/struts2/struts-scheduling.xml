@@ -9,12 +9,12 @@
 		<action name="index">
 			<result>/WEB-INF/page/scheduling/jobclass/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="delete"/>
-		<action name="query" class="com.ewcms.web.action.scheduling.jobclass.QueryAction" method="query"/>
-		<action name="input" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="input">
+		<action name="delete" class="com.ewcms.scheduling.web.JobClassAction" method="delete"/>
+		<action name="query" class="com.ewcms.scheduling.web.JobClassQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.scheduling.web.JobClassAction" method="input">
 			<result name="input">/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.web.action.scheduling.jobclass.JobClassAction" method="save">
+		<action name="save" class="com.ewcms.scheduling.web.JobClassAction" method="save">
 			<result>/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
 			<result name="input">/WEB-INF/page/scheduling/jobclass/edit.jsp</result>
 		</action>
@@ -23,19 +23,19 @@
 		<action name="index">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.web.action.scheduling.job.JobAction" method="delete"/>
-		<action name="query" class="com.ewcms.web.action.scheduling.job.QueryAction" method="query"/>
-		<action name="input" class="com.ewcms.web.action.scheduling.job.JobAction" method="input">
+		<action name="delete" class="com.ewcms.scheduling.web.JobAction" method="delete"/>
+		<action name="query" class="com.ewcms.scheduling.web.JobQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.scheduling.web.JobAction" method="input">
 			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.web.action.scheduling.job.JobAction" method="save">
+		<action name="save" class="com.ewcms.scheduling.web.JobAction" method="save">
 			<result>/WEB-INF/page/scheduling/job/edit.jsp</result>
 			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
 		</action>
-		<action name="pause" class="com.ewcms.web.action.scheduling.job.JobAction" method="pauseJob">
+		<action name="pause" class="com.ewcms.scheduling.web.JobAction" method="pauseJob">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
-		<action name="resumed" class="com.ewcms.web.action.scheduling.job.JobAction" method="resumedJob">
+		<action name="resumed" class="com.ewcms.scheduling.web.JobAction" method="resumedJob">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
 		<!-- 
@@ -43,10 +43,10 @@
 		 -->
 	</package>
 	<package name="scheduling.jobchannel" extends="struts-default" namespace="/scheduling/jobchannel">
-		<action name="index" class="com.ewcms.web.action.scheduling.job.JobChannelAction" method="getJobChannel">
+		<action name="index" class="com.ewcms.scheduling.web.JobChannelAction" method="getJobChannel">
 			<result name="input">/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.web.action.scheduling.job.JobChannelAction" method="saveJobChannel">
+		<action name="save" class="com.ewcms.scheduling.web.JobChannelAction" method="saveJobChannel">
 			<result>/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
 			<result name="input">/WEB-INF/page/scheduling/job/edit_channel.jsp</result>
 		</action>
