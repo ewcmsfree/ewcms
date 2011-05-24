@@ -42,7 +42,7 @@
 		<action name="query" class="com.ewcms.web.action.document.recyclebin.QueryAction" method="query"/>
 	</package>
 	<package name="document.history" extends="struts-default" namespace="/document/history">
-		<action name="selectId" class="com.ewcms.web.action.document.history.SelectIdAction">
+		<action name="selectId" class="com.ewcms.web.action.document.history.HistoryAction">
 			<result>/WEB-INF/page/document/history/index.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.web.action.document.history.QueryAction" method="query"/>
