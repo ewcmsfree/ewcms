@@ -21,8 +21,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.aspect.history.dao.HistoryModelDAO;
-import com.ewcms.aspect.history.model.HistoryModel;
+import com.ewcms.history.dao.HistoryModelDAO;
+import com.ewcms.history.model.HistoryModel;
 import com.ewcms.util.EwcmsContextUtil;
 
 /**
