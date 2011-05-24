@@ -1,4 +1,4 @@
-package com.ewcms.freemarker;
+package com.ewcms.generator.freemarker;
 
 import java.io.IOException;
 

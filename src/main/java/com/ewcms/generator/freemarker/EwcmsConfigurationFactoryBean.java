@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.freemarker;
+package com.ewcms.generator.freemarker;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
