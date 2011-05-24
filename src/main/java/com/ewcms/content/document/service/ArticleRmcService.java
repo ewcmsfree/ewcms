@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.ewcms.aspect.annotation.History;
 import com.ewcms.content.document.dao.ArticleRmcDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleRmc;
@@ -22,6 +21,7 @@ import com.ewcms.content.document.model.Related;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.history.History;
 
 /**
  *
