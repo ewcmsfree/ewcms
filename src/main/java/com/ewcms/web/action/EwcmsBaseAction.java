@@ -4,7 +4,7 @@
 package com.ewcms.web.action;
 
 import com.ewcms.core.site.model.Site;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**

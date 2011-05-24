@@ -4,7 +4,7 @@
  */
 package com.ewcms.content.resource.operator;
 
-import com.ewcms.util.GlobaPath;
+import com.ewcms.web.util.GlobaPath;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -29,7 +29,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.security.acls.domain.EwcmsPermission;
 import com.ewcms.security.acls.service.EwcmsAclServiceable;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 /**
  * @author 周冬初

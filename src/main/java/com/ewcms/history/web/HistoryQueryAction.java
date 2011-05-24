@@ -17,7 +17,7 @@ import com.ewcms.common.jpa.query.PageQueryable;
 import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.history.model.HistoryModel;
 import com.ewcms.web.action.QueryBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 /**
  *

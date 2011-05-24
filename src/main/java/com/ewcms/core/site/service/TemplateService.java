@@ -11,7 +11,7 @@ import com.ewcms.core.site.dao.TemplateDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.history.History;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 /**
  * @author 周冬初

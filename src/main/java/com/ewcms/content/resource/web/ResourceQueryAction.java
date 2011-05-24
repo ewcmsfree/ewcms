@@ -10,7 +10,7 @@ import com.ewcms.common.jpa.query.QueryFactory;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.ResourceType;
 import com.ewcms.web.action.QueryBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

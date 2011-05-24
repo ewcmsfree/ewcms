@@ -2,14 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.web.util;
+package com.ewcms.web.context;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ewcms.core.site.model.Site;
-import com.ewcms.web.context.EwcmsContextHolder;
-import com.ewcms.web.context.EwcmsContextable;
 
 /**
  *

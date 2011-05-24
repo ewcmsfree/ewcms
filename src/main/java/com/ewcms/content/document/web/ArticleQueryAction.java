@@ -20,7 +20,7 @@ import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.ArticleRmcStatus;
 import com.ewcms.core.site.service.ChannelService;
 import com.ewcms.web.action.QueryBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 /**
  * 

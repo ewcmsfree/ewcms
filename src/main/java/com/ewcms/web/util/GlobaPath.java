@@ -1,4 +1,4 @@
-package com.ewcms.util;
+package com.ewcms.web.util;
 
 public enum GlobaPath {
     

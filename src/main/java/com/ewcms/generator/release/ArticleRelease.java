@@ -16,7 +16,7 @@ import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import com.ewcms.generator.release.html.ArticleGeneratorHtml;
-import com.ewcms.util.GlobaPath;
+import com.ewcms.web.util.GlobaPath;
 
 import freemarker.template.Configuration;
 import java.io.IOException;

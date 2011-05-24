@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.history.dao.HistoryModelDAO;
 import com.ewcms.history.model.HistoryModel;
-import com.ewcms.web.util.EwcmsContextUtil;
+import com.ewcms.web.context.EwcmsContextUtil;
 
 /**
  * @author 吴智俊
