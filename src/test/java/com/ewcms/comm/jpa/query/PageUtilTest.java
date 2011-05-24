@@ -9,6 +9,8 @@ package com.ewcms.comm.jpa.query;
 import org.junit.Test;
 import org.junit.Assert;
 
+import com.ewcms.common.jpa.query.PageUtil;
+
 /**
  *
  * @author wangwei

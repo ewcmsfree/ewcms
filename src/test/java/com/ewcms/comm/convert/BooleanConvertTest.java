@@ -12,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.BooleanConvert;
+import com.ewcms.common.convert.Convertable;
+
 /**
  * 测试BooleanTypeHandler
  * 

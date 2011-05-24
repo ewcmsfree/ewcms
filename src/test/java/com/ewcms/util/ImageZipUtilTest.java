@@ -8,6 +8,8 @@ package com.ewcms.util;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.common.io.ImageZipUtil;
+
 /**
  * 
  * @author 吴智俊

@@ -4,7 +4,7 @@
  */
 package com.ewcms.generator.directive.component;
 
-import com.ewcms.core.document.model.Article;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.directive.AbstractDirectiveTest;
 import freemarker.template.Configuration;

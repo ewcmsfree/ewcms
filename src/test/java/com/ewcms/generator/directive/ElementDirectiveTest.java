@@ -4,7 +4,8 @@
  */
 package com.ewcms.generator.directive;
 
-import com.ewcms.core.document.model.Article;
+import com.ewcms.content.document.model.Article;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

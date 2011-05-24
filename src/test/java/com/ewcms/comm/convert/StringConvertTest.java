@@ -10,6 +10,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.StringConvert;
+
 /**
  * 测试String转换
  * 

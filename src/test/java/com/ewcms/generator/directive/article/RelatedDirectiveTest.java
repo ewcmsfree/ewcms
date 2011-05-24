@@ -4,8 +4,8 @@
  */
 package com.ewcms.generator.directive.article;
 
-import com.ewcms.core.document.model.Article;
-import com.ewcms.core.document.model.Related;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.Related;
 import com.ewcms.generator.directive.AbstractDirectiveTest;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

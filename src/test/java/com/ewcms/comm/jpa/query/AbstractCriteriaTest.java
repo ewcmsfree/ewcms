@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ewcms.common.jpa.query.AbstractCriteria;
+import com.ewcms.common.jpa.query.Criteriaable;
+
 /**
  *
  * @author wangwei

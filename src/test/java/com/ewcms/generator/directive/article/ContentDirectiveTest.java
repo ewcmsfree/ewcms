@@ -4,8 +4,8 @@
  */
 package com.ewcms.generator.directive.article;
 
-import com.ewcms.core.document.model.Article;
-import com.ewcms.core.document.model.Content;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.directive.AbstractDirectiveTest;
 import com.ewcms.generator.directive.DirectiveVariable;
 import com.ewcms.generator.directive.page.PageParam;

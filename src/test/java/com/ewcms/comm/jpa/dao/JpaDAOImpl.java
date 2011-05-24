@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ewcms.common.jpa.dao.JpaDAO;
+
 /**
  *
  * @author wangwei

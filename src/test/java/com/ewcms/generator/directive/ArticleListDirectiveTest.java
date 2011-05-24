@@ -4,7 +4,7 @@
  */
 package com.ewcms.generator.directive;
 
-import com.ewcms.core.document.model.Article;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.dao.GeneratorDAOable;

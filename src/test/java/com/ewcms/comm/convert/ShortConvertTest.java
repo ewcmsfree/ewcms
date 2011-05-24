@@ -12,6 +12,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.Before;
 
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.ShortConvert;
+
 /**
  * 测试Short转换
  * 

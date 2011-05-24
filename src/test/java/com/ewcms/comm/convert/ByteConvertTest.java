@@ -10,6 +10,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.ByteConvert;
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+
 /**
  * 测试byte转换
  * 

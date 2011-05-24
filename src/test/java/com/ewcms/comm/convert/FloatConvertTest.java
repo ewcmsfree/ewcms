@@ -11,6 +11,10 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.FloatConvert;
+
 /**
  * 测试Float 转换
  * 

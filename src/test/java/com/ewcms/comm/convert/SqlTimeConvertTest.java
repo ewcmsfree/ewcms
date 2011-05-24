@@ -17,6 +17,11 @@ import org.junit.Test;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ewcms.common.convert.ConvertDate;
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.SqlTimeConvert;
+
 /**
  * 测试Time转换成
  * 

@@ -13,6 +13,11 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.ConvertDate;
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.DateConvert;
+
 /**
  * 测试java.util.Date转换
  * 

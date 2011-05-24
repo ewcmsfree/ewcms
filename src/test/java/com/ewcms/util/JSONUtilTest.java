@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ewcms.web.util.JSONUtil;
+
 /**
  *
  * @author wangwei

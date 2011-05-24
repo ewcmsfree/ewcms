@@ -11,6 +11,10 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.DoubleConvert;
+
 /**
  * 测试Double数据类型转换
  * 

@@ -13,6 +13,11 @@ import java.sql.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ewcms.common.convert.ConvertDate;
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.SqlDateConvert;
+
 /**
  * 测试转换java.sql.Date
  * 

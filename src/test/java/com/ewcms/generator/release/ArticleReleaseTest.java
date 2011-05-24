@@ -5,12 +5,13 @@
 
 package com.ewcms.generator.release;
 
-import com.ewcms.core.GlobaPath;
-import com.ewcms.core.document.model.Article;
-import com.ewcms.core.document.model.Content;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.util.GlobaPath;
+
 import freemarker.template.Configuration;
 import java.io.Writer;
 import java.text.SimpleDateFormat;

@@ -11,6 +11,10 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import org.junit.Before;
 
+import com.ewcms.common.convert.ConvertException;
+import com.ewcms.common.convert.Convertable;
+import com.ewcms.common.convert.IntegerConvert;
+
 /**
  * 测试Integer转换
  * 
