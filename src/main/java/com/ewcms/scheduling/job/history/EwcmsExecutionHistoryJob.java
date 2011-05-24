@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.ewcms.aspect.history.fac.HistoryModelFacable;
+import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
 
 /**
