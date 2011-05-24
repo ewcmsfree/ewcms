@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.context.EwcmsContextHolder;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.web.context.EwcmsContextHolder;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 

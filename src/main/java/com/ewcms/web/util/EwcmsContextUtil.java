@@ -7,9 +7,9 @@ package com.ewcms.web.util;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ewcms.context.EwcmsContextHolder;
-import com.ewcms.context.EwcmsContextable;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.web.context.EwcmsContextHolder;
+import com.ewcms.web.context.EwcmsContextable;
 
 /**
  *

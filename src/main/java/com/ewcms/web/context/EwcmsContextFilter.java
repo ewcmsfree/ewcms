@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ewcms.context;
+package com.ewcms.web.context;
 
 import java.io.IOException;
 

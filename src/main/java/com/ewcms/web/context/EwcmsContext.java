@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.ewcms.context;
+package com.ewcms.web.context;
 
 import com.ewcms.core.site.model.Site;
 

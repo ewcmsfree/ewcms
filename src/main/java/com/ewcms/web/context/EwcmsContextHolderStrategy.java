@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.ewcms.context;
+package com.ewcms.web.context;
 
 /**
  * A strategy for storing security context information against a thread.

@@ -5,8 +5,8 @@
 
 package com.ewcms.content.resource.web;
 
-import com.ewcms.context.EwcmsContextHolder;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.web.context.EwcmsContextHolder;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**

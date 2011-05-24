@@ -1,6 +1,6 @@
 /* 
  */
-package com.ewcms.context;
+package com.ewcms.web.context;
 
 import org.springframework.util.Assert;
 
