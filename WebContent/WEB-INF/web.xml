@@ -77,7 +77,7 @@
 
      <servlet>
         <servlet-name>jcaptcha</servlet-name>
-        <servlet-class>com.ewcms.web.checkcode.ImageCaptchaServlet</servlet-class>
+        <servlet-class>com.ewcms.web.servlet.ImageCaptchaServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>jcaptcha</servlet-name>
