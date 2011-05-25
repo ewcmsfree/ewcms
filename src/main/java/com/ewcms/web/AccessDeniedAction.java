@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.ewcms.web.action;
+package com.ewcms.web;
 
 import com.opensymphony.xwork2.ActionSupport;
 import javax.servlet.http.HttpServletRequest;
