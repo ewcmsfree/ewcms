@@ -6,9 +6,17 @@
  */
 package com.ewcms.scheduling.web;
 
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
+
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
+import com.ewcms.common.query.jpa.EntityQueryable;
+import com.ewcms.common.query.jpa.QueryFactory;
+import com.ewcms.scheduling.model.AlqcJobClass;
 import com.ewcms.web.QueryBaseAction;
 
 /**
@@ -18,49 +26,29 @@ import com.ewcms.web.QueryBaseAction;
 @Controller("scheduling.jobclass.query")
 public class JobClassQueryAction extends QueryBaseAction {
 
-    @Override
-    protected Resultable queryResult(
-            com.ewcms.common.query.jpa.QueryFactory queryFactory,
-            String cacheKey, int rows, int page, Order order) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected Resultable querySelectionsResult(
-            com.ewcms.common.query.jpa.QueryFactory queryFactory, int rows,
-            int page, String[] selections, Order order) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	private static final long serialVersionUID = -8882837349113907705L;
 	
-//	private static final long serialVersionUID = -8882837349113907705L;
-//	
-//	@Autowired
-//    private QueryFactory queryFactory;
-//	
-//	@SuppressWarnings("rawtypes")
-//	@Override
-//	protected PageQueryable constructNewQuery(Order order) {
-//		EntityPageQueryable query = queryFactory.createEntityPageQuery(AlqcJobClass.class);
-//        //query.in("id", getNewIdAll(Integer.class));
-//        query.orderDesc("id");
-//        return query;
-//	}
-//
-//	@SuppressWarnings("rawtypes")
-//	@Override
-//	protected PageQueryable constructQuery(Order order) {
-//		EntityPageQueryable query = queryFactory.createEntityPageQuery(AlqcJobClass.class);
-//		
-//        Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
-//        if (isNotEmpty(id)) query.eq("id", id);
-//        
-//        String name = getParameterValue(String.class, "className", "");
-//        if (isNotEmpty(name)) query.likeAnywhere("className", name);
-//        
-//        simpleEntityOrder(query, order);
-//        return query;
-//	}
+    @Override
+    protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
+    	EntityQueryable query =  queryFactory.createEntityQuery(AlqcJobClass.class).setPage(page).setRow(rows);
+		
+        Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
+        if (isNotNull(id)) query.eq("id", id);
+        
+        String name = getParameterValue(String.class, "className", "");
+        if (isStringNotEmpty(name)) query.likeAnywhere("className", name);
+        
+        entityOrder(query, order);
+        return query.queryCacheResult(cacheKey);
+    }
 
+    @Override
+    protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
+    	EntityQueryable query =  queryFactory.createEntityQuery(AlqcJobClass.class).setPage(page).setRow(rows);
+        
+        List<Integer> ids = getIds(Integer.class);
+        query.in("id", ids);
+        
+        return query.queryResult();    
+     }
 }
