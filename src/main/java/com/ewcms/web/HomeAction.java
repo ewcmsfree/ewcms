@@ -23,7 +23,7 @@ import com.ewcms.web.util.Struts2Util;
 public class HomeAction extends EwcmsBaseAction {
     
     private Integer siteId;
-    private String username;
+    private String realName;
     
 	@Autowired
 	private SiteFac siteFac;
@@ -41,12 +41,12 @@ public class HomeAction extends EwcmsBaseAction {
 			site = siteFac.getSite(siteId);
 		}
 		EwcmsContextHolder.getContext().setSite(site);
-		username = userService.getUserRealName();
+		realName = userService.getUserRealName();
 		return SUCCESS;
 	}
 	
-	public String getUsername(){
-	    return username;
+	public String getRealName(){
+	    return realName;
 	}
 	
 	private List<Site> getSiteList() {
