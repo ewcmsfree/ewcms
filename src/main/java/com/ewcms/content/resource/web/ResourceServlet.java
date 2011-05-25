@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import com.ewcms.web.context.EwcmsContextUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.GlobaPath;
 
 /**

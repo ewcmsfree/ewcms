@@ -23,7 +23,6 @@ public class ImageQueryAction extends ResourceQueryAction {
         this.col = col;
     }
 
-    @Override
     protected List constructRows(final List data) {
         return rows(data);
     }

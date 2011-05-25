@@ -21,7 +21,7 @@ import com.ewcms.content.resource.operator.ResourceNameable;
 import com.ewcms.content.resource.operator.ResourceOperator;
 import com.ewcms.content.resource.operator.ResourceOperatorable;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.web.context.EwcmsContextUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  *
