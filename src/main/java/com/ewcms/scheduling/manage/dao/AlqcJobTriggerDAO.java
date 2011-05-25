@@ -8,7 +8,7 @@ package com.ewcms.scheduling.manage.dao;
 
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.common.jpa.dao.JpaDAO;
+import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.scheduling.model.AlqcJobTrigger;
 
 /**
