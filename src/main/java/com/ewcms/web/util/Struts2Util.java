@@ -1,10 +1,9 @@
 /**
- * Copyright (c) 2005-2009 springside.org.cn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * 
- * $Id: Struts2Utils.java 1005 2010-03-25 15:50:00Z calvinxiu $
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
  */
+
 package com.ewcms.web.util;
 
 import java.io.IOException;

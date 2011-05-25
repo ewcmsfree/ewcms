@@ -1,10 +1,9 @@
 /**
- * Copyright (c) 2005-2009 springside.org.cn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * 
- * $Id: EncodeUtils.java 984 2010-03-21 13:02:44Z calvinxiu $
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
  */
+
 package com.ewcms.web.util;
 
 import java.io.UnsupportedEncodingException;
