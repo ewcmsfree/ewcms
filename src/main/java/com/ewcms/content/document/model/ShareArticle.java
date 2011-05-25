@@ -38,7 +38,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "doc_sharearticle")
 @SequenceGenerator(name = "seq_sev_sharearticle", sequenceName = "seq_sev_sharearticle_id", allocationSize = 1)
 public class ShareArticle implements Serializable {
-    @Id
+	
+	private static final long serialVersionUID = -4321574223373611976L;
+	
+	@Id
     @GeneratedValue(generator = "seq_sev_sharearticle", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Temporal(TemporalType.TIMESTAMP)
