@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.common.jpa.dao.JpaDAO;
+import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.core.site.model.Site;
 /**
  * @author 周冬初

@@ -12,7 +12,7 @@ import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
-import com.ewcms.web.context.EwcmsContextUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.vo.TreeNode;
 
 /**
