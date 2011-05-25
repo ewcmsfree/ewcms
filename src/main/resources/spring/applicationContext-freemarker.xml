@@ -2,7 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-       
+    
+    <bean id="ewcmsConfigurationFactoryBean" class="com.ewcms.generator.freemarker.EwcmsConfigurationFactoryBean">
+        <property name="factory" ref="ewcmsConfigurationFactory"/>
+    </bean>
+    
     <bean id="ewcmsConfigurationFactory" class="com.ewcms.generator.freemarker.EwcmsConfigurationFactory" scope="singleton" >
         <property name="defaultEncoding" value = "UTF-8"/>
         <property name="freemarkerVariables">
@@ -34,9 +38,4 @@
             </map>
         </property>
     </bean>
-
-    <bean id="ewcmsConfigurationFactoryBean" class="com.ewcms.freemarker.EwcmsConfigurationFactoryBean">
-        <property name="factory" ref="ewcmsConfigurationFactory"/>
-    </bean>
-    
 </beans>

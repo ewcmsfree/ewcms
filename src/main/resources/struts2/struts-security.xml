@@ -11,6 +11,37 @@
         </action>
         <action name="query" class="com.ewcms.web.action.security.authority.QueryAction" method="query"/>
     </package>
+   
+    <package name="security.user"  extends="struts-default" namespace="/security/user">
+        <action name="index">
+          <result type="dispatcher">/WEB-INF/page/security/user/index.jsp</result>
+        </action>
+        <action name="input" class="com.ewcms.security.manage.web.UserAction" method="input">
+          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.security.manage.web.UserAction">
+          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
+          <result name="error">/WEB-INF/page/security/user/edit.jsp</result>
+          <result>/WEB-INF/page/security/user/edit.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.security.manage.web.UserQueryAction" method="query"/>
+        <action name="delete" class="com.ewcms.security.manage.web.UserAction" method="delete"/>
+        <action name="usernameExist" class="com.ewcms.security.manage.web.UserAction" method="usernameExist"/>
+        <action name="active" class="com.ewcms.security.manage.web.UserAction" method="active"/>
+        <action name="inactive" class="com.ewcms.security.manage.web.UserAction" method="inactive"/>
+        <action name="password" class="com.ewcms.security.manage.web.PasswordAction" method="input">
+            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
+            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
+            <result>/WEB-INF/page/security/user/password.jsp</result>
+        </action>
+        <action name="savePassword" class="com.ewcms.security.manage.web.PasswordAction">
+            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
+            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
+            <result>/WEB-INF/page/security/user/password.jsp</result>
+        </action>
+    </package>
+    
+    <!-- 
     <package name="security.group"  extends="struts-default" namespace="/security/group">
       <action name="query" class="com.ewcms.web.action.security.group.QueryAction" method="query"/>
       <action name="queryTreeGrid" class="com.ewcms.web.action.security.group.QueryAction" method="queryTreeGrid"/>
@@ -34,34 +65,9 @@
       <action name="deleteAuth" class="com.ewcms.web.action.security.group.GroupAction" method="deleteAuth"/>
       <action name="deleteUser" class="com.ewcms.web.action.security.group.GroupAction" method="deleteUser"/>
     </package>
-    <package name="security.user"  extends="struts-default" namespace="/security/user">
-        <action name="index">
-          <result type="dispatcher">/WEB-INF/page/security/user/index.jsp</result>
-        </action>
-        <action name="input" class="com.ewcms.web.action.security.user.UserAction" method="input">
-          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
-        </action>
-        <action name="save" class="com.ewcms.web.action.security.user.UserAction">
-          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
-          <result name="error">/WEB-INF/page/security/user/edit.jsp</result>
-          <result>/WEB-INF/page/security/user/edit.jsp</result>
-        </action>
-        <action name="query" class="com.ewcms.web.action.security.user.QueryAction" method="query"/>
-        <action name="delete" class="com.ewcms.web.action.security.user.UserAction" method="delete"/>
-        <action name="usernameExist" class="com.ewcms.web.action.security.user.UserAction" method="usernameExist"/>
-        <action name="active" class="com.ewcms.web.action.security.user.UserAction" method="active"/>
-        <action name="inactive" class="com.ewcms.web.action.security.user.UserAction" method="inactive"/>
-        <action name="password" class="com.ewcms.web.action.security.user.PasswordAction" method="input">
-            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
-            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
-            <result>/WEB-INF/page/security/user/password.jsp</result>
-        </action>
-        <action name="savePassword" class="com.ewcms.web.action.security.user.PasswordAction">
-            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
-            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
-            <result>/WEB-INF/page/security/user/password.jsp</result>
-        </action>
-    </package>
+     -->
+     
+    <!-- 
     <package name="security.account"  extends="struts-default" namespace="/account">
         <action name="password" class="com.ewcms.web.action.security.account.PasswordAction" method="input">
             <result name="input">/WEB-INF/page/security/account/password.jsp</result>
@@ -82,4 +88,6 @@
             <result>/WEB-INF/page/security/account/userinfo.jsp</result>
         </action>
     </package>
+     -->
+     
 </struts>

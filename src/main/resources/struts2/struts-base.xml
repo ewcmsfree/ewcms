@@ -6,15 +6,15 @@
 
 <struts>
     <package name="home"  extends="struts-default"> 	
-        <action name="index" class="com.ewcms.web.action.HomeAction">
+        <action name="index" class="com.ewcms.web.HomeAction">
             <result>/WEB-INF/page/home.jsp</result>
         </action>
-        <action name="siteload" class="com.ewcms.web.action.HomeAction" method="siteLoad"/>
+        <action name="siteload" class="com.ewcms.web.HomeAction" method="siteLoad"/>
         	
         <action name="login">
             <result>/WEB-INF/page/login.jsp</result>
         </action>
-        <action name="accessDenied" class="com.ewcms.web.action.AccessDeniedAction">
+        <action name="accessDenied" class="com.ewcms.web.AccessDeniedAction">
             <result>/WEB-INF/page/accessDenied.jsp</result>
         </action>
     </package>
