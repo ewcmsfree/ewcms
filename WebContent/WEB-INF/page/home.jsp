@@ -90,7 +90,7 @@
                     <td align="right">
                         <table   border="0" cellpadding="0" cellspacing="2" >
 			    <tr>
-			        <td><font style="color:yellow;font-size: 15px;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;您好 <s:property value="userName"/>!</strong></font></td>
+			        <td><font style="color:yellow;font-size: 15px;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;您好 <s:property value="realName"/>!</strong></font></td>
 			        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <s:url id="userInfoUrl" action="userInfo" namespace="/account"/>
                                 <td  nowrap align="right">
