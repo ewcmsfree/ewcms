@@ -49,29 +49,6 @@
                         }
                     }
                 });
-                $('#tt2').tree({
-					checkbox: true,
-					cascadeCheck: false,
-					url: '<s:url namespace="/plugin/leadingwindow/position" action="tree"><s:param name="channelId" value="309"></s:param></s:url>',
-					onClick:function(node){
-						var type = node.attributes.type;
-						if (type == 'leaderchannel'){
-							$('#tt2').tree('check',node.target);
-						}else{
-							$('#tt2').tree('uncheck',node.target);
-						}
-					},
-					onCheck:function(node,checked){
-						if (checked){
-							var type = node.attributes.type;
-							if (type == 'leaderchannel'){
-								$('#tt2').tree('check',node.target);
-							}else{
-								$('#tt2').tree('uncheck',node.target);
-							}
-						}
-					}
-                });
     			ewcmsCookiesInit("<sec:authentication property='name'/>");
     			window_resize();
 			});
@@ -345,17 +322,6 @@
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnexOperator()">插入</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#annex-window').window('close');return false;">取消</a>
-                </div>
-            </div>
-        </div>
-        <div id="leading-window" class="easyui-window"  closed="true" style="display:none;overflow:hidden;" icon="icon-organisation">
-            <div class="easyui-layout" fit="true" >
-                <div region="center" border="false">
-                	<ul id="tt2"></ul>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <span id="span_ok"><a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:saveLeading('<s:url namespace='/document/article' action='addArticleRmcToLeadingChannel'/>');">确定</a></span>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="$('#leading-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>
