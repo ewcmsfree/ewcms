@@ -28,7 +28,7 @@ public class SourceQueryAction extends QueryBaseAction {
 		String name = getParameterValue(String.class, "name");
 		if (isStringNotEmpty(name))
 			query.likeAnywhere("name", name);
-		Integer channelId = getParameterValue(Integer.class, "channelId", "");
+		Integer channelId = getParameterValue(Integer.class, "channelId");
 		query.eq("channelId", channelId);
 		entityOrder(query, order);
 		return query.queryCacheResult(cacheKey);
