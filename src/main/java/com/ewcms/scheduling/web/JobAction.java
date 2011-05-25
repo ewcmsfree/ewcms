@@ -20,7 +20,7 @@ import com.ewcms.scheduling.manage.util.ConversionUtil;
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
 import com.ewcms.scheduling.model.AlqcJob;
 import com.ewcms.scheduling.model.AlqcJobClass;
-import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.CrudBaseAction;
 
 /**
  *

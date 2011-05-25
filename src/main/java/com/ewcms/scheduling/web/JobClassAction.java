@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
 import com.ewcms.scheduling.model.AlqcJobClass;
-import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.CrudBaseAction;
 
 /**
  *
