@@ -11,12 +11,12 @@ public class EhcacheResultCache implements ResultCacheable{
     
     private static final Logger logger = LoggerFactory.getLogger(EhcacheResultCache.class);
     
-    private static final String DEFAULT_CACHE_NAME = "queryCache";
+    private static final String CACHE_NAME = "queryCache";
     private static final int DEFAULT_MAX_RESULT = 10000;
     private static final int DEFAULT_NEWS_RESULT= 500;
     
     private CacheManager cacheManager;
-    private String cacheName = DEFAULT_CACHE_NAME;
+    private String cacheName = CACHE_NAME;
     private GeneratorCacheKeyable generatorCacheKey = new DefaultGeneratorCacheKey();
     private int maxResult = DEFAULT_MAX_RESULT;
     private int newsResult = DEFAULT_NEWS_RESULT;
