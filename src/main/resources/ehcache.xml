@@ -5,8 +5,10 @@
          monitoring="autodetect"
          dynamicConfig="false">
 
+    <!-- 
     <diskStore path="/home/wangwei/tmp"/>
-    
+     -->
+     
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"
