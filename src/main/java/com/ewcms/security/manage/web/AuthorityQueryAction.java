@@ -1,38 +1,34 @@
 package com.ewcms.security.manage.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
+
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.common.jpa.query.EntityPageQueryable;
-import com.ewcms.common.jpa.query.PageQueryable;
-import com.ewcms.common.jpa.query.QueryFactory;
+import com.ewcms.common.query.Resultable;
+import com.ewcms.common.query.jpa.EntityQueryable;
+import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.web.QueryBaseAction;
 
-@Controller("security.authority.query")
+@Controller
 public class AuthorityQueryAction extends QueryBaseAction{
 
-    @Autowired
-    private QueryFactory queryFactory;
-    
     @Override
-    protected PageQueryable constructQuery(Order order) {
+    protected Resultable queryResult(QueryFactory queryFactory,String cacheKey, int rows,int page, Order order) {
+        EntityQueryable query = 
+            queryFactory.createEntityQuery(Authority.class)
+            .setPage(page)
+            .setRow(rows);
         
-        EntityPageQueryable query = queryFactory.createEntityPageQuery(Authority.class);
         String name =  getParameterValue(String.class,"name");
-        if(this.isNotEmpty(name)) query.likeAnywhere("name", name);
-        simpleEntityOrder(query, order);
+        if(isStringNotEmpty(name)) query.likeAnywhere("name", name);
+        entityOrder(query, order);
         
-        return query;
+        return query.queryCacheResult(cacheKey);
     }
 
     @Override
-    protected PageQueryable constructNewQuery(Order order) {
+    protected Resultable querySelectionsResult(QueryFactory queryFactory,int rows, int page, String[] selections, Order order) {
         return null;
     }
-    
-    public void setQueryFactory(QueryFactory queryFactory){
-        this.queryFactory = queryFactory;
-    }
-
 }
