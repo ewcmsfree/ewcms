@@ -55,6 +55,8 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     
     public String query() {
         
+        page = page -1;
+        
         Resultable result = (isSelectionQuery() ? 
                 querySelectionsResult(queryFactory,rows,page,selections,order) : 
                 queryResult(queryFactory,cacheKey,rows,page,order));
