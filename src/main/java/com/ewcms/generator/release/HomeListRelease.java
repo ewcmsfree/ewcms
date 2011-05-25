@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import com.ewcms.generator.release.html.ListGeneratorHtml;
 import freemarker.template.Configuration;

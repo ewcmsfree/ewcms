@@ -5,7 +5,7 @@
 package com.ewcms.generator.release.html;
 
 import com.ewcms.generator.release.ReleaseException;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
 import com.ewcms.web.util.GlobaPath;
 
 import freemarker.template.Configuration;

@@ -4,13 +4,13 @@
  */
 package com.ewcms.generator.release;
 
-import com.ewcms.generator.directive.page.PageParam;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.dao.GeneratorDAOable;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
 import com.ewcms.generator.release.html.HomeGeneratorHtml;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import freemarker.template.Configuration;
