@@ -36,6 +36,7 @@ import com.ewcms.web.vo.DataGrid;
 public abstract class QueryBaseAction extends EwcmsBaseAction {
 
     private static final String ARRAY_SEPARATOR = ",";
+    private String cacheKey;
     private int page = 1;
     private int rows = 15;
     protected Order order = new Order();
@@ -56,7 +57,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
         
         Resultable result = (isSelectionQuery() ? 
                 querySelectionsResult(queryFactory,rows,page,selections,order) : 
-                queryResult(queryFactory,rows,page,order));
+                queryResult(queryFactory,cacheKey,rows,page,order));
         
         DataGrid grid = createDataGrid(result);
         
@@ -75,12 +76,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
      * <p>实现通过参数查询，一般使用Cache查询可以提高效率，减少数据库压力</p>
      * 
      * @param queryFactory 数据查询工厂
+     * @param cacheKey 缓存key
      * @param rows  行数
      * @param page  页数
      * @param order 排序
      * @return Resultable
      */
-    protected abstract Resultable queryResult(QueryFactory queryFactory,int rows,int page,Order order);
+    protected abstract Resultable queryResult(QueryFactory queryFactory,String cacheKey,int rows,int page,Order order);
 
     /**
      * 查询选定的记录
@@ -334,6 +336,10 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
      */
     public void setSelections(final String[] selections) {
         this.selections = selections;
+    }
+    
+    public void setCacheKey(String cacheKey){
+        this.cacheKey = cacheKey;
     }
     
     public void setPage(final int page) {
