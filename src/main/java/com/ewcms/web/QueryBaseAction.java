@@ -2,28 +2,34 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.web.action;
+package com.ewcms.web;
+
+import static com.ewcms.common.lang.EmptyUtil.isArrayNotEmpty;
+import static com.ewcms.common.lang.EmptyUtil.isStringEmpty;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.common.convert.ConvertException;
 import com.ewcms.common.convert.ConvertFactory;
 import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.jpa.query.EntityPageQueryable;
-import com.ewcms.common.jpa.query.PageQueryable;
+import com.ewcms.common.query.Resultable;
+import com.ewcms.common.query.cache.CacheResultable;
+import com.ewcms.common.query.jpa.EntityQueryable;
+import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.vo.DataGrid;
 
 /**
- *查询Action抽象
+ * 查询显示
  *
- * 针对jquery-easyui table的封装，为"CRUD"数据操作，提供辅助显示。
+ * <p>用于页面查询显示，查询结果通过JSON数据格式返回，数据格式针对Jquery easyUI DataGrid</p>
  *
  * @author wangwei
  */
@@ -38,119 +44,88 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     private List<String> errors = new ArrayList<String>();
     private DateFormat dateFormat;
 
-    public Map<String, String> getParameters() {
-        return parameters;
+    @Autowired
+    protected QueryFactory queryFactory;
+    
+    @Override
+    public String execute() {
+        return query();
     }
-
-    /**
-     * 查询参数设置
-     *
-     * 通过OGNL自动映射成。
-     * 
-     * @param parameters key查询属性名，value为字符串（集合使用","分割符）
-     *
-     * @param queryMap
-     */
-    public void setParamters(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
-
-    public void setPage(final int page) {
-        this.page = page;
-    }
-
-    public int getPage() {
-        return this.page;
-    }
-
-    public void setRows(final int rows) {
-        this.rows = rows;
-    }
-
-    public int getRows() {
-        return this.rows;
-    }
-
-    public void setSort(final String value) {
-        order.setSort(value);
-    }
-
-    public String getSort() {
-        return order.getSort();
-    }
-
-    public void setOrder(final String value) {
-        order.setOrder(value);
-    }
-
-    public String getOrder() {
-        return order.getOrder();
-    }
-
-    /**
-     * 选择显示的记录
-     *
-     * @param selections 记录PK集合
-     */
-    public void setSelections(final String[] selections) {
-        this.selections = selections;
-    }
-
-    public String[] getSelections() {
-        return this.selections;
-    }
-
-    /**
-     * 查询方法，Struts2执行方法
-     * 
-     */
+    
     public String query() {
-      return queryDataGrid();
+        
+        Resultable result = (isSelectionQuery() ? 
+                querySelectionsResult(queryFactory,rows,page,selections,order) : 
+                queryResult(queryFactory,rows,page,order));
+        
+        DataGrid grid = createDataGrid(result);
+        
+        renderJson(grid);
+        
+        return NONE;
+    }
+
+    private boolean isSelectionQuery() {
+        return isArrayNotEmpty(selections);
     }
     
     /**
-     * DataGrid数据查询
+     * 查询记录
      * 
-     * @return datagrid json
+     * <p>实现通过参数查询，一般使用Cache查询可以提高效率，减少数据库压力</p>
+     * 
+     * @param queryFactory 数据查询工厂
+     * @param rows  行数
+     * @param page  页数
+     * @param order 排序
+     * @return Resultable
      */
-    public String queryDataGrid() {
-        PageQueryable query = (isNewQuery() ? constructNewQuery(order): constructQuery(order));
-        DataGrid data;
-        if (errors.isEmpty()) {
-            setPageAndRows(query, page, rows);
-            data = new DataGrid(constructCount(query.count()),
-                    constructRows(query.getResultList()));
-        } else {
-            data = new DataGrid(errors);
+    protected abstract Resultable queryResult(QueryFactory queryFactory,int rows,int page,Order order);
+
+    /**
+     * 查询选定的记录
+     * 
+     * <p>通过用户编号(PK)查询选定的记录，一般用于添加、修改查询显示，不应使用Cache查询。</p>
+     * 
+     * @param queryFactory 数据查询工厂
+     * @param rows 行数
+     * @param page 页数
+     * @param selections 查询编号集合
+     * @param order 排序
+     * @return Resultable
+     */
+    protected abstract Resultable querySelectionsResult(QueryFactory queryFactory,int rows,int page,String[] selections,Order order);
+    
+    /**
+     * 创建DataGrid VO
+     * 
+     * <p>生成前台显示数据值对象</p>
+     * 
+     * @param result 查询结果
+     * @return DataGrid
+     */
+    protected DataGrid createDataGrid(Resultable result){
+        if(!errors.isEmpty()){
+             return new DataGrid(errors);
         }
+        if(result instanceof CacheResultable){
+            return new DataGrid(((CacheResultable)result).getCacheKey(),result.getCount(), result.getResultList());
+        }else{
+            return new DataGrid(result.getCount(), result.getResultList());
+        }
+    }
+    
+    /**
+     * 以JSON格式数据返回查询结果
+     * 
+     * @param data DataGrid数据对象
+     */
+    protected void renderJson(DataGrid data){
         if (dateFormat == null) {
             Struts2Util.renderJson(JSONUtil.toJSON(data));
         } else {
             Struts2Util.renderJson(JSONUtil.toJSON(data, dateFormat));
         }
-        return NONE;
-    }
-    
-    protected int constructCount(final int count) {
-        return count;
-    }
-
-    protected List constructRows(final List data) {
-        return data;
-    }
-
-    @Override
-    public String execute() {
-        return query();
-    }
-
-    private void setPageAndRows(final PageQueryable query, final int page, final int rows) {
-        query.setPage(page - 1);
-        query.setRows(rows);
-    }
-
-    private boolean isNewQuery() {
-        return selections != null && selections.length != 0;
     }
 
     /**
@@ -192,7 +167,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
 
         String value = parameters.get(name);
 
-        if (isEmpty(value)) {
+        if (isStringEmpty(value)) {
             return defaultValue;
         }
 
@@ -265,7 +240,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String regex, final String name, final List<I> defaultValue, final String msg) {
 
         String value = parameters.get(name);
-        if (!isEmpty(value)) {
+        if (!isStringEmpty(value)) {
             return defaultValue;
         }
 
@@ -298,57 +273,6 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 判断是否为空
-     *
-     * <p>String类型</p>
-     * 
-     * <pre>
-     * isEmpty(null)=true
-     * isEmpty("") =true
-     * isEmpty("  ")=true
-     * isEmpty("test")=false
-     * isEmpty(" test  ")=false
-     *
-     * <p>非String类型</p>
-     *
-     * <pre>
-     * isEmpty(null)=true
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isEmpty(final Object value) {
-        if (value instanceof String) {
-            return StringUtils.isBlank((String) value);
-        }
-        return value == null ? true : false;
-    }
-
-    /**
-     * 判断是否不为空
-     *
-     * <p>String类型</p>
-     *
-     * <pre>
-     * isEmpty(null)=false
-     * isEmpty("") =false
-     * isEmpty("  ")=false
-     * isEmpty("test")=true
-     * isEmpty(" test  ")=true
-     *
-     * <p>非String类型</p>
-     *
-     * <pre>
-     * isEmpty(null)=false
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isNotEmpty(final Object value) {
-        return !isEmpty(value);
-    }
-
-    /**
      * 设置json日期格式
      * 
      * @param dateFormat
@@ -358,30 +282,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 构造参数查询
-     *
-     * @param parameters 查询参数
-     * @param Order 排序
-     * @return
-     */
-    protected abstract PageQueryable constructQuery(final Order order);
-
-    /**
-     * 构造添加查询
-     *
-     * @param Order 排序
-     * @return
-     */
-    protected abstract PageQueryable constructNewQuery(final Order order);
-
-    /**
-     * 得到新增记录编号(PK)
-     *
+     * 得到查询编号（PK）集合
+     * 
      * @param <I> 编号类型
      * @param type 编号类型类（如：Integer.class,Date.class）
      * @return
      */
-    protected <I> List<I> getNewIdAll(final Class<I> type) {
+    protected <I> List<I> getIds(final Class<I> type) {
         try {
             return convertArray(type, selections);
         } catch (ConvertException e) {
@@ -390,14 +297,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 排序
-     * <p>使用EntityPageQuery的排序方法</p>
+     * 实体查询排序
      *
      * @param query 查询接口
      * @param order 排序对象
      */
-    protected void simpleEntityOrder(final EntityPageQueryable query, final Order order) {
-        if (isEmpty(order.getOrder())) {
+    protected void entityOrder(final EntityQueryable query, final Order order) {
+        if (!order.hasOrder()) {
             return;
         }
         if (order.isAsc()) {
@@ -407,7 +313,47 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
         }
     }
 
-    protected class Order {
+    public void setQueryFactory(QueryFactory  queryFactory){
+        this.queryFactory = queryFactory;
+    }
+    
+    /**
+     * 查询参数
+     * 
+     * @param parameters key查询属性名，value为字符串（集合使用","分割符）
+     *
+     * @param parameters
+     */
+    public void setParamters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
+    
+    /**
+     * 选择显示的记录
+     *
+     * @param selections 记录PK集合
+     */
+    public void setSelections(final String[] selections) {
+        this.selections = selections;
+    }
+    
+    public void setPage(final int page) {
+        this.page = page;
+    }
+
+    public void setRows(final int rows) {
+        this.rows = rows;
+    }
+
+    public void setSort(final String value) {
+        order.setSort(value);
+    }
+
+    public void setOrder(final String value) {
+        order.setOrder(value);
+    }
+    
+    public class Order {
 
         private static final String ASC = "asc";
         private String sort;
@@ -427,6 +373,10 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
 
         public void setSort(String sort) {
             this.sort = sort;
+        }
+        
+        public boolean hasOrder(){
+            return !isStringEmpty(order);
         }
 
         public boolean isAsc() {

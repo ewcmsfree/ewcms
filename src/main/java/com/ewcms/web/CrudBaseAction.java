@@ -3,7 +3,7 @@
  * JTCT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *  http://www.teachernet.com
  */
-package com.ewcms.web.action;
+package com.ewcms.web;
 
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.web.EwcmsBaseAction;
 import com.ewcms.web.context.EwcmsContextHolder;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -61,9 +62,5 @@ public class HomeAction extends EwcmsBaseAction {
 	
 	public void siteLoad(){
 		Struts2Util.renderJson(JSONUtil.toJSON(getSiteList()));		
-	}
-	
-	public String getUserName(){
-		return getUsername();
 	}
 }
