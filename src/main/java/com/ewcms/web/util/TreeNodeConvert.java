@@ -4,9 +4,6 @@
  * http://www.ewcms.com
  */
 
-/**
- * 
- */
 package com.ewcms.web.util;
 
 import java.util.ArrayList;
