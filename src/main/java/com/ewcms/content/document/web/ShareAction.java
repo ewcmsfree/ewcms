@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.content.document.DataserveFac;
 import com.ewcms.content.document.model.ShareArticle;
 import com.ewcms.core.site.model.Organ;
-import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
