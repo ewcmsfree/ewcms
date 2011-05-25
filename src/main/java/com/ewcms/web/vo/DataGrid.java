@@ -6,7 +6,7 @@
 
 package com.ewcms.web.vo;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,26 +15,38 @@ import java.util.List;
  */
 public class DataGrid {
 
+    private String cacheKey;
     private Integer total;
-    private Object rows;
+    private List<?> rows;
+    private List<?> footer;
     private List<String> errors;
 
-    public DataGrid(Integer total,Object rows){
+    public DataGrid(Integer total,List<?> rows){
+        this(null,total,rows);
+    }
+    
+    public DataGrid(String cacheKey,Integer total,List<?> rows){
+        this(cacheKey,total,rows,null);
+    }
+    
+    public DataGrid(String cacheKey,Integer total,List<?> rows,List<?> footer){
+        this.cacheKey = cacheKey;
         this.total = total;
         this.rows = rows;
+        this.footer = footer;
     }
 
     public DataGrid(List<String> errors){
         this.total =0;
-        rows =new ArrayList();
+        rows =Collections.emptyList();
         this.errors = errors;
     }
 
-    public Object getRows() {
+    public List<?> getRows() {
         return rows;
     }
 
-    public void setRows(Object rows) {
+    public void setRows(List<?> rows) {
         this.rows = rows;
     }
 
@@ -53,4 +65,20 @@ public class DataGrid {
     public void setErrors(List<String> errors) {
         this.errors = errors;
     }
+
+    public String getCacheKey() {
+        return cacheKey;
+    }
+
+    public void setCacheKey(String cacheKey) {
+        this.cacheKey = cacheKey;
+    }
+
+    public List<?> getFooter() {
+        return footer;
+    }
+
+    public void setFooter(List<?> footer) {
+        this.footer = footer;
+    }    
 }
