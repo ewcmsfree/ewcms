@@ -19,7 +19,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.ChannelEntity;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
-import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.util.TreeNodeConvert;
