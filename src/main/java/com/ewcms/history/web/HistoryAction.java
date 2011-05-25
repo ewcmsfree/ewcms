@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.history.model.HistoryModel;
-import com.ewcms.web.action.CrudBaseAction;
+import com.ewcms.web.CrudBaseAction;
 
 /**
  *
