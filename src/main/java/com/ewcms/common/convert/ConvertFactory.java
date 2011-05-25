@@ -18,8 +18,8 @@ import java.util.Map;
 public enum ConvertFactory {
 
     instance;
-    private static ConvertFactory factory;
-    private Map<Class<?>, Convertable> parseHandlerMap;
+    
+    private Map<Class<?>, Convertable<?>> parseHandlerMap;
 
     private ConvertFactory() {
         parseHandlerMap = handlerMap();
@@ -31,16 +31,16 @@ public enum ConvertFactory {
      * @param clazz 数据类型类
      * @return ParseTypeHandler
      */
-    public <T> Convertable<T> convertHandler(Class<T> clazz) {
-        Convertable<T> hander = parseHandlerMap.get(clazz);
+    public  Convertable<?> convertHandler(Class<?> clazz) {
+        Convertable<?> hander = parseHandlerMap.get(clazz);
         if(hander == null){
             throw new IllegalStateException(clazz.getName()+" type has not convert");
         }
         return hander;
     }
 
-    private Map<Class<?>, Convertable> handlerMap() {
-        Map<Class<?>, Convertable> map = new HashMap<Class<?>, Convertable>();
+    private Map<Class<?>, Convertable<?>> handlerMap() {
+        Map<Class<?>, Convertable<?>> map = new HashMap<Class<?>, Convertable<?>>();
 
         map.put(BigDecimal.class, new BigDecimalConvert());
         map.put(BigInteger.class, new BigIntegerConvert());
