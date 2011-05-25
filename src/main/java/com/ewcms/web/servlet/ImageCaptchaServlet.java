@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.web.checkcode;
+package com.ewcms.web.servlet;
 
 import com.octo.captcha.service.CaptchaServiceException;
 import com.octo.captcha.service.CaptchaService;
