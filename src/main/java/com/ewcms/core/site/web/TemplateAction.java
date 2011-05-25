@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
