@@ -166,7 +166,6 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     protected <I> I getParameterValue(final Class<I> type, final String name, final I defaultValue, final String msg) {
 
         String value = parameters.get(name);
-
         if (isStringEmpty(value)) {
             return defaultValue;
         }
@@ -240,7 +239,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String regex, final String name, final List<I> defaultValue, final String msg) {
 
         String value = parameters.get(name);
-        if (!isStringEmpty(value)) {
+        if (isStringEmpty(value)) {
             return defaultValue;
         }
 
