@@ -260,7 +260,7 @@
 			<version>${jsp.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		 
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -397,6 +397,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -437,6 +438,39 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+			    <inherited>false</inherited>
+			    <groupId>com.mycila.maven-license-plugin</groupId>
+			    <artifactId>maven-license-plugin</artifactId>
+			    <configuration>
+			        <header>${basedir}/src/etc/header.txt</header>
+			        <failIfMissing>true</failIfMissing>
+			        <aggregate>true</aggregate>
+			        <includes>
+			        	<include>**/*.java</include>
+			        </includes>
+			        <excludes>
+			            <exclude>pom.xml</exclude>
+			            <exclude>pom-scm.xml</exclude>
+			            <exclude>LICENSE.txt</exclude>
+			            <exclude>**/src/main/resources/**</exclude>
+			            <exclude>**/src/test/resources/**</exclude>
+			            <exclude>**/src/test/data/**</exclude>
+			            <exclude>**/src/site/**</exclude>
+			            <exclude>**/sql/**</exclude>
+			            <exclude>**/WebContent/**</exclude>
+			        </excludes>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <phase>generate-sources</phase>
+			            <goals>
+			                <goal>format</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>
