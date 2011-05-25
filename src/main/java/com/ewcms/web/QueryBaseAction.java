@@ -170,6 +170,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     protected <I> I getParameterValue(final Class<I> type, final String name, final I defaultValue, final String msg) {
 
         String value = parameters.get(name);
+        
         if (isStringEmpty(value)) {
             return defaultValue;
         }
@@ -323,12 +324,14 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     /**
      * 查询参数
      * 
-     * @param parameters key查询属性名，value为字符串（集合使用","分割符）
-     *
-     * @param parameters
+     * @param parameters 查询参数
      */
-    public void setParamters(Map<String, String> parameters) {
+    public void setParameters(Map<String, String> parameters) {
         this.parameters = parameters;
+    }
+    
+    public Map<String, String> getParameters() {
+        return parameters;
     }
     
     /**
