@@ -31,12 +31,13 @@ public enum ConvertFactory {
      * @param clazz 数据类型类
      * @return ParseTypeHandler
      */
-    public  Convertable<?> convertHandler(Class<?> clazz) {
+    @SuppressWarnings("unchecked")
+    public <I> Convertable<I> convertHandler(Class<? super I> clazz) {
         Convertable<?> hander = parseHandlerMap.get(clazz);
         if(hander == null){
-            throw new IllegalStateException(clazz.getName()+" type has not convert");
+            throw new IllegalStateException(clazz.getName()+" type cant not convert");
         }
-        return hander;
+        return (Convertable<I>)hander;
     }
 
     private Map<Class<?>, Convertable<?>> handlerMap() {
