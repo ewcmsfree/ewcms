@@ -10,63 +10,75 @@
  <aop:aspectj-autoproxy />
 
  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-  <property name="driverClass" value="org.postgresql.Driver" />
-  <property name="jdbcUrl" value="jdbc:postgresql://192.168.18.1/ewcms_2" />
-  <property name="user" value="postgres" />
-  <property name="password" value="" />
-  <property name="initialPoolSize" value="5" />
-  <property name="minPoolSize" value="5" />
-  <property name="maxPoolSize" value="20" />
-  <property name="maxStatements" value="50" />
-  <property name="acquireIncrement" value="5" />
-  <property name="maxIdleTime" value="200" />
+     <property name="driverClass" value="org.postgresql.Driver" />
+     <property name="jdbcUrl" value="jdbc:postgresql://192.168.18.1/ewcms_2" />
+     <property name="user" value="postgres" />
+     <property name="password" value="" />
+     <property name="initialPoolSize" value="5" />
+     <property name="minPoolSize" value="5" />
+     <property name="maxPoolSize" value="20" />
+     <property name="maxStatements" value="50" />
+     <property name="acquireIncrement" value="5" />
+     <property name="maxIdleTime" value="200" />
  </bean>
 
  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-  <property name="dataSource" ref="dataSource" />
-  <property name="persistenceUnitName" value="persistenceUnit" />
+     <property name="dataSource" ref="dataSource" />
+     <property name="persistenceUnitName" value="persistenceUnit" />
  </bean>
 
  <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-  <property name="entityManagerFactory" ref="entityManagerFactory" />
+     <property name="entityManagerFactory" ref="entityManagerFactory" />
  </bean>
  
  <bean id="aclTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-  <property name="dataSource" ref="dataSource"/>
+     <property name="dataSource" ref="dataSource"/>
  </bean>
  
  <tx:advice id="txAdvice" transaction-manager="txManager">
-  <tx:attributes>
-   <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="*" propagation="REQUIRED" />
-  </tx:attributes>
+     <tx:attributes>
+         <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="*" propagation="REQUIRED" />
+     </tx:attributes>
  </tx:advice>
  
  <tx:advice id="aclTxAdvice" transaction-manager="aclTxManager">
-  <tx:attributes>
-   <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
-   <tx:method name="*" propagation="REQUIRED" />
-  </tx:attributes>
+     <tx:attributes>
+         <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="sel*" propagation="SUPPORTS" read-only="true" />
+         <tx:method name="*" propagation="REQUIRED" />
+    </tx:attributes>
  </tx:advice>
  
  <aop:config>
-  <aop:pointcut id="serviceOperation" expression="execution(* com.ewcms..*Service.*(..)) and !execution(* com.ewcms.security.acl..*Service.*(..))"/>
-  <aop:pointcut id="aclServiceOperation" expression="execution(* com.ewcms.security.acl..*Service.*(..))"/>
-  <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
-  <aop:advisor advice-ref="aclTxAdvice" pointcut-ref="aclServiceOperation" />
+     <aop:pointcut id="serviceOperation" expression="execution(* com.ewcms..*Service.*(..)) and !execution(* com.ewcms.security.acl..*Service.*(..))"/>
+     <aop:pointcut id="aclServiceOperation" expression="execution(* com.ewcms.security.acl..*Service.*(..))"/>
+     <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
+     <aop:advisor advice-ref="aclTxAdvice" pointcut-ref="aclServiceOperation" />
  </aop:config>
  
  <tx:annotation-driven transaction-manager="txManager"/>
  
  <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-  <property name="basename">
-   <array>
-    <value>classpath:com/ewcms/security/messages</value>
-   </array>
-  </property>
+     <property name="basename">
+       <array>
+           <value>classpath:com/ewcms/security/messages</value>
+       </array>
+     </property>
  </bean>
+ 
+ <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+     <property name="configLocation" value="classpath:ehcache.xml"/>
+ </bean>
+ <bean id="queryCache" class="com.ewcms.common.query.cache.EhcacheResultCache">
+     <property name="cacheManager" ref="cacheManager"/>
+ </bean>
+ <bean id="queryFactory" class="com.ewcms.common.query.jpa.QueryFactoryBean">
+     <property name="entityManagerFactory" ref="entityManagerFactory"/>
+     <property name="cache" ref="queryCache"/>
+ </bean>
+    
 </beans>

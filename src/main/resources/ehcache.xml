@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" 
+         updateCheck="false" 
+         monitoring="autodetect"
+         dynamicConfig="false">
+
+    <diskStore path="/home/wangwei/tmp"/>
+    
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="900"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="queryCache" 
+           maxElementsInMemory="1000" 
+           maxElementsOnDisk="10000" 
+           eternal="false" 
+           overflowToDisk="true" 
+           diskSpoolBufferSizeMB="20000" 
+           timeToIdleSeconds="600" 
+           timeToLiveSeconds="1800" 
+           memoryStoreEvictionPolicy="LFU" 
+           transactionalMode="off"/>  
+</ehcache>
