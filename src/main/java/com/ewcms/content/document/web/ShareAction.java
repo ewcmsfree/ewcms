@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.document.DataserveFac;
 import com.ewcms.content.document.model.ShareArticle;
-import com.ewcms.core.site.model.Organ;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -22,6 +21,9 @@ import com.ewcms.web.util.Struts2Util;
  * @author 周冬初
  */
 public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
+
+	private static final long serialVersionUID = -4525206274953910541L;
+
 	@Autowired
 	private DataserveFac dsFac;
 
