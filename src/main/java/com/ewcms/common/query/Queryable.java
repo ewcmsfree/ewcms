@@ -37,7 +37,7 @@ public interface Queryable extends Paginationable {
      * 
      * @return
      */
-    Result getResult();
+    Result queryResult();
     
     /**
      * 缓存查询
@@ -45,5 +45,5 @@ public interface Queryable extends Paginationable {
      * @param cacheKey
      * @return
      */
-    CacheResultable getCacheResult(String cacheKey);
+    CacheResultable queryCacheResult(String cacheKey);
 }

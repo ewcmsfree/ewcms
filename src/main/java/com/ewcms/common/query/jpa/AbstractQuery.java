@@ -71,7 +71,7 @@ public abstract class AbstractQuery implements Queryable {
             int row,int page) {
         
         if(cache == null){
-            Resultable result = getResult();
+            Resultable result = queryResult();
             return new NullCacheResult(cacheKey,result);
         } 
         

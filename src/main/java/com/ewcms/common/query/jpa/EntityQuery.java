@@ -60,12 +60,12 @@ public class EntityQuery extends AbstractQuery implements EntityQueryable {
     }
     
     @Override
-    public Result getResult(){
+    public Result queryResult(){
         return getResult(countTemplate,listTemplate,extTemplate,row,page);
     }
 
     @Override
-    public CacheResultable getCacheResult(String cacheKey) {
+    public CacheResultable queryCacheResult(String cacheKey) {
         return getCacheResult(cache,cacheKey,
                 countTemplate,listTemplate,extTemplate,
                 row,page);
