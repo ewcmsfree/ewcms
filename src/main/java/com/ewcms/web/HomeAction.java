@@ -3,10 +3,6 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-
-/**
- * 
- */
 package com.ewcms.web;
 
 import java.util.List;

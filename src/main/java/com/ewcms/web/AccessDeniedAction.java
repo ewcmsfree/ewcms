@@ -4,11 +4,6 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ewcms.web;
 
 import com.opensymphony.xwork2.ActionSupport;
