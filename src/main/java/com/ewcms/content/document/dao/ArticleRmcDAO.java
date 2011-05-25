@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.common.jpa.dao.JpaDAO;
+import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.content.document.model.Recommend;
 import com.ewcms.content.document.model.Related;
