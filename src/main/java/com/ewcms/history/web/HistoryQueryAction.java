@@ -24,7 +24,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
  *
  * @author 吴智俊
  */
-@Controller("aspect.history.query")
+@Controller("history.query")
 public class HistoryQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -6958534645862618323L;
