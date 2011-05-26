@@ -10,134 +10,137 @@
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>							
 		<script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>	
+		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
         <script type="text/javascript">
-	    	$(function() {
-	        	var monthsAllChecked = true;
-	        	var weekDaysAllChecked = true;
-	    		$("input[name='pageDisplayVo.months']").each(function(){
-	            	if (!$(this).attr('checked')){
-	            		monthsAllChecked = false;
-	            	}
-	        	});
-	        	if (monthsAllChecked){
-	            	$('#monthsAll').attr('checked',true);
-	        	}else{
-	            	$('#monthsAll').attr('checked',false);
-	        	}
-	        	$("input[name='pageDisplayVo.weekDays']").each(function(){
-	            	if (!$(this).attr('checked')){
-	            		weekDaysAllChecked = false;
-	            	}
-	        	});
-	        	if (weekDaysAllChecked){
-	            	$('#weekDaysAll').attr('checked',true);
-	        	}else{
-	        		$('#weekDaysAll').attr('checked',false);
-	        	}
-	        	$('#monthsAll').click(function(){
-	            	if ($('#monthsAll').attr('checked') == true){
-	            		$("input[name='pageDisplayVo.months']").attr('checked',true);
-	            	}else{
-	            		$("input[name='pageDisplayVo.months']").attr('checked',false);
-	            	}
-	        	});
-	        	$('#weekDaysAll').click(function(){
-	        		$("input[name='pageDisplayVo.days']").get(1).checked = true;
-	            	if ($('#weekDaysAll').attr('checked') == true){
-	            		$("input[name='pageDisplayVo.weekDays']").attr('checked',true);
-	            	}else{
-	            		$("input[name='pageDisplayVo.weekDays']").attr('checked',false);
-	            	}
-	        	});
-	        	$("input[name='pageDisplayVo.weekDays']").click(function(){
-	            	$("input[name='pageDisplayVo.days']").get(1).checked = true;
-	            	var weekChecked = true;
-	            	$("input[name='pageDisplayVo.weekDays']").each(function(){
-	            		if (!$(this).attr('checked')){
-	            			weekChecked = false;
-	                	}
-	            	});
-	            	if (weekChecked){
-	                	$('#weekDaysAll').attr('checked',true);
-	            	}else{
-	            		$('#weekDaysAll').attr('checked',false);
-	            	}
-	        	});
-	        	$("input[name='pageDisplayVo.months']").click(function(){
-	            	var monthsChecked = true;
-	            	$("input[name='pageDisplayVo.months']").each(function(){
-	            		if (!$(this).attr('checked')){
-	            			monthsChecked = false;
-	                	}
-	            	});
-	            	if (monthsChecked){
-	                	$('#monthsAll').attr('checked',true);
-	            	}else{
-	            		$('#monthsAll').attr('checked',false);
-	            	}
-	        	});
-	        	$('#monthDays').click(function(){
-	        		$("input[name='pageDisplayVo.days']").get(2).checked = true;
-	        	});
-	        	$('#occurrenceCount').click(function(){
-	        		$("input[name='pageDisplayVo.occur']").get(2).checked = true;
-	        	});
-	        	$("input[name='pageDisplayVo.days']").click(function(){
-	        		if ($("input[name='pageDisplayVo.days']:checked").val() == 3){
-	            		$('#monthDays').focus();
-	        		}
-	        	});
-	        	$("input[name='pageDisplayVo.occur']").click(function(){
-	            	var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
-	        		if ( occurId == 3){
-	            		$('#occurrenceCount').focus();
-	        		}else if (occurId == 2){
-	            		$("input[name='pageDisplayVo.endDateSimple']").focus();
-	        		}
-	        	});
-	        	$("input[name='pageDisplayVo.mode']").click(function(){
-	        		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
-	        		if (typeof modeId == 'undefined'){
-	        			modeId = 1;
-						$("input[name='pageDisplayVo.mode']").get(modeId).checked = true;
-						$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-	        		}
-	        		if (modeId == 0){
-	        			$('#trSimplicity').hide();
-						$('#trComplexity').hide();
-	        		}else if (modeId == 1){
-	        			$('#trSimplicity').show();
-						$('#trComplexity').hide();
-	        		}else{
-	        			$('#trSimplicity').hide();
-						$('#trComplexity').show();
-	        		}
-	        	});
-	    		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
-	    		if (typeof modeId == 'undefined' || $('#jobId').val()==""){
-	    			modeId = 1;
+        	$(function() {
+            	var monthsAllChecked = true;
+            	var weekDaysAllChecked = true;
+        		$("input[name='pageDisplayVo.months']").each(function(){
+                	if (!$(this).attr('checked')){
+                		monthsAllChecked = false;
+                	}
+            	});
+            	if (monthsAllChecked){
+                	$('#monthsAll').attr('checked',true);
+            	}else{
+                	$('#monthsAll').attr('checked',false);
+            	}
+            	$("input[name='pageDisplayVo.weekDays']").each(function(){
+                	if (!$(this).attr('checked')){
+                		weekDaysAllChecked = false;
+                	}
+            	});
+            	if (weekDaysAllChecked){
+                	$('#weekDaysAll').attr('checked',true);
+            	}else{
+            		$('#weekDaysAll').attr('checked',false);
+            	}
+            	$('#monthsAll').click(function(){
+                	if ($('#monthsAll').attr('checked') == true){
+                		$("input[name='pageDisplayVo.months']").attr('checked',true);
+                	}else{
+                		$("input[name='pageDisplayVo.months']").attr('checked',false);
+                	}
+            	});
+            	$('#weekDaysAll').click(function(){
+            		$("input[name='pageDisplayVo.days']").get(1).checked = true;
+                	if ($('#weekDaysAll').attr('checked') == true){
+                		$("input[name='pageDisplayVo.weekDays']").attr('checked',true);
+                	}else{
+                		$("input[name='pageDisplayVo.weekDays']").attr('checked',false);
+                	}
+            	});
+            	$("input[name='pageDisplayVo.weekDays']").click(function(){
+                	$("input[name='pageDisplayVo.days']").get(1).checked = true;
+                	var weekChecked = true;
+                	$("input[name='pageDisplayVo.weekDays']").each(function(){
+                		if (!$(this).attr('checked')){
+                			weekChecked = false;
+                    	}
+                	});
+                	if (weekChecked){
+                    	$('#weekDaysAll').attr('checked',true);
+                	}else{
+                		$('#weekDaysAll').attr('checked',false);
+                	}
+            	});
+            	$("input[name='pageDisplayVo.months']").click(function(){
+                	var monthsChecked = true;
+                	$("input[name='pageDisplayVo.months']").each(function(){
+                		if (!$(this).attr('checked')){
+                			monthsChecked = false;
+                    	}
+                	});
+                	if (monthsChecked){
+                    	$('#monthsAll').attr('checked',true);
+                	}else{
+                		$('#monthsAll').attr('checked',false);
+                	}
+            	});
+            	$('#monthDays').click(function(){
+            		$("input[name='pageDisplayVo.days']").get(2).checked = true;
+            	});
+            	$('#occurrenceCount').click(function(){
+            		$("input[name='pageDisplayVo.occur']").get(2).checked = true;
+            	});
+            	$("input[name='pageDisplayVo.days']").click(function(){
+            		if ($("input[name='pageDisplayVo.days']:checked").val() == 3){
+                		$('#monthDays').focus();
+            		}
+            	});
+            	$("input[name='pageDisplayVo.occur']").click(function(){
+                	var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
+            		if ( occurId == 3){
+                		$('#occurrenceCount').focus();
+            		}else if (occurId == 2){
+                		$("input[name='pageDisplayVo.endDateSimple']").focus();
+            		}
+            	});
+            	$("input[name='pageDisplayVo.mode']").click(function(){
+            		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
+            		if (typeof modeId == 'undefined'){
+            			modeId = 1;
+    					$("input[name='pageDisplayVo.mode']").get(modeId).checked = true;
+    					$("input[name='pageDisplayVo.occur']").get(0).checked = true;
+            		}
+            		if (modeId == 0){
+            			$('#trSimplicity').hide();
+    					$('#trComplexity').hide();
+            		}else if (modeId == 1){
+            			$('#trSimplicity').show();
+    					$('#trComplexity').hide();
+            		}else{
+            			$('#trSimplicity').hide();
+    					$('#trComplexity').show();
+            		}
+            	});
+        		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
+        		if (typeof modeId == 'undefined' || $('#jobId').val()==""){
+        			modeId = 1;
 					$("input[name='pageDisplayVo.mode']").get(modeId).checked = true;
 					$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-	    		}
-	    		if (modeId == 0){
-	    			$('#trSimplicity').hide();
+        		}
+        		if (modeId == 0){
+        			$('#trSimplicity').hide();
 					$('#trComplexity').hide();
-	    		}else if (modeId == 1){
-	    			$('#trSimplicity').show();
+        		}else if (modeId == 1){
+        			$('#trSimplicity').show();
 					$('#trComplexity').hide();
-	    		}else{
-	    			$('#trSimplicity').hide();
+        		}else{
+        			$('#trSimplicity').hide();
 					$('#trComplexity').show();
-	    		}
-	    		var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
-	    		if (typeof occurId == 'undefined' || $('#jobId').val()==""){
-	    			$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-	    		}
-	    		var daysId = $("input[name='pageDisplayVo.days']:checked").val();
-	    		if (typeof daysId == 'undefined' || $('#jobId').val()==""){
-	        		$("input[name='pageDisplayVo.days']").get(0).checked = true;
-	    		}
-	    	});
+        		}
+        		var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
+        		if (typeof occurId == 'undefined' || $('#jobId').val()==""){
+        			$("input[name='pageDisplayVo.occur']").get(0).checked = true;
+        		}
+        		var daysId = $("input[name='pageDisplayVo.days']:checked").val();
+        		if (typeof daysId == 'undefined' || $('#jobId').val()==""){
+            		$("input[name='pageDisplayVo.days']").get(0).checked = true;
+        		}
+        	});
+        	<s:property value="javaScript"/>
     		function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
@@ -145,26 +148,45 @@
 			        </s:iterator>  
 		     	</s:if>  
 			}
-            <s:property value="javaScript"/>
-            
         </script>	
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="save" namespace="/scheduling/jobchannel">
+		<s:form action="save" namespace="/scheduling/job">
 			<table class="formtable" align="center">
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>任务信息</b></font></td>
 				</tr>
 				<tr>
+					<td width="10%">调度作业选择：</td>
+					<td colspan="3" class="formFieldError">
+						<s:if test="pageDisplayVo.isJobChannel==true">
+							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" disabled="true" cssClass="inputtext"></s:select>
+							<s:hidden name="pageDisplayVo.jobClassId"></s:hidden>
+						</s:if>
+						<s:if test="pageDisplayVo.isJobChannel==false">
+							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" cssClass="inputtext"></s:select>
+						</s:if>
+						<s:fielderror><s:param value="%{'pageDisplayVo.jobClassId'}" /></s:fielderror>
+						<font color="red" style="vertical-align: middle;">&nbsp;&nbsp;*</font>
+					</td>
+				</tr>
+				<tr>
 					<td width="10%">名称：</td>
-					<td>
-						<s:textfield name="pageDisplayVo.label"	maxlength="50" readonly="true"></s:textfield>
+					<td class="formFieldError">
+						<s:textfield name="pageDisplayVo.label"	maxlength="50" cssClass="inputtext"/><s:fielderror><s:param value="%{'pageDisplayVo.label'}" /></s:fielderror>
+						<font color="red" style="vertical-align: middle;">&nbsp;&nbsp;*</font>
 					</td>
 					<td width="10%">&nbsp;</td>
 					<td>
-						<s:checkbox id="subChannel" name="subChannel" cssStyle="vertical-align: middle;"></s:checkbox><label for="subChannel" style="vertical-align: middle;">发布子频道</label>&nbsp;&nbsp;
+						<s:if test="pageDisplayVo.isJobChannel==true">
+						<s:checkbox id="subChannel" name="subChannel" cssStyle="vertical-align: middle;" disabled="true"></s:checkbox><label for="subChannel" style="vertical-align: middle;">应用于子频道</label>&nbsp;&nbsp;
+						</s:if>
+						<s:else>
+						&nbsp;
+						</s:else>
 					</td>
+					
 					<!-- 
 					<td>用户名：</td>
 					<td>
@@ -183,12 +205,13 @@
 				</tr>
 				<tr>
 					<td>开始时间：</td>
-					<td colspan="3">
+					<td colspan="3" class="formFieldError">
 						<!-- 
 						<s:radio id="start_" name="pageDisplayVo.start" list='#{1:"&nbsp;立刻执行"}' cssStyle="vertical-align: middle;"></s:radio> 
 						<s:radio id="start_" name="pageDisplayVo.start" list='#{2:"&nbsp;在"}' value="2" cssStyle="vertical-align: middle;"></s:radio>
 						 -->
-						<ewcms:datepicker id="startDate" name="pageDisplayVo.startDate" option="inputsimple" format="yyyy-MM-dd HH:mm" disabled="false"/>&nbsp;&nbsp;<font color="red" style="vertical-align: middle;">*</font>
+						<ewcms:datepicker id="startDate" name="pageDisplayVo.startDate" option="inputsimple" format="yyyy-MM-dd HH:mm" disabled="false" cssClass="inputtext"/>
+						<s:fielderror><s:param value="%{'pageDisplayVo.startDate'}" /></s:fielderror><font color="red">&nbsp;&nbsp;*</font>
 					</td>
 				</tr>
 				<tr>
@@ -278,14 +301,6 @@
 								</td>
 							</tr>
 						</table>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4" style="padding:0;">
-					   <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-					  		<a class="easyui-linkbutton" icon="icon-save" href="javascript:document.forms[0].submit();">保存</a>
-					        <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:document.forms[0].reset();">重置</a>
-					    </div>								
 					</td>
 				</tr>
 			</table>
