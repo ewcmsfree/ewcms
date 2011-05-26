@@ -32,11 +32,11 @@ import com.ewcms.web.vo.DataGrid;
  * @author 吴智俊
  */
 @Controller("scheduling.job.query")
-public class JobQueryAction extends QueryBaseAction {
+public class JobInfoQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -8882837349113907705L;
 	
-	protected static final Log log = LogFactory.getLog(JobQueryAction.class);
+	protected static final Log log = LogFactory.getLog(JobInfoQueryAction.class);
 	
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
 	
