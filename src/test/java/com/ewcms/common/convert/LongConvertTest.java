@@ -6,15 +6,10 @@
 package com.ewcms.common.convert;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
 import org.junit.Before;
-
-import com.ewcms.common.convert.ConvertException;
-import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.convert.LongConvert;
+import org.junit.Test;
 
 /**
  * 测试Long转换

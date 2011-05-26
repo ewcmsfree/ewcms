@@ -7,16 +7,11 @@ package com.ewcms.common.convert;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Calendar;
 import java.sql.Date;
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ewcms.common.convert.ConvertDate;
-import com.ewcms.common.convert.ConvertException;
-import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.convert.SqlDateConvert;
 
 /**
  * 测试转换java.sql.Date
@@ -25,7 +20,7 @@ import com.ewcms.common.convert.SqlDateConvert;
  */
 public class SqlDateConvertTest {
 
-    private Convertable<Date> handler;
+    private ConvertDate<Date> handler;
 
     @Before
     public void setUp() {
@@ -44,7 +39,7 @@ public class SqlDateConvertTest {
         assertEqualsDate(date, 2006, 4, 9);
 
         test = "2005/06/01";
-        ((ConvertDate) handler).setFormat("yyyy/MM/dd");
+        handler.setFormat("yyyy/MM/dd");
         date = handler.parse(test);
         assertEqualsDate(date, 2005, 5, 1);
     }

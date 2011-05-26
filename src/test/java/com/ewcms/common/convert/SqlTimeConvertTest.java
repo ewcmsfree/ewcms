@@ -6,21 +6,12 @@
 package com.ewcms.common.convert;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
-import java.util.Calendar;
 import java.sql.Time;
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.ewcms.common.convert.ConvertDate;
-import com.ewcms.common.convert.ConvertException;
-import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.convert.SqlTimeConvert;
 
 /**
  * 测试Time转换成
@@ -29,8 +20,7 @@ import com.ewcms.common.convert.SqlTimeConvert;
  */
 public class SqlTimeConvertTest {
 
-    private final static Log log = LogFactory.getLog(SqlTimeConvertTest.class);
-    private Convertable<Time> handler;
+    private ConvertDate<Time> handler;
 
     @Before
     public void setUp() {
@@ -45,7 +35,7 @@ public class SqlTimeConvertTest {
         assertEqualsTime(time, 20, 15, 40);
 
         test = "20-15-40";
-        ((ConvertDate) handler).setFormat("HH-mm-ss");
+        handler.setFormat("HH-mm-ss");
         time = handler.parse(test);
         assertEqualsTime(time, 20, 15, 40);
     }

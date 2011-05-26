@@ -5,12 +5,9 @@
  */
 package com.ewcms.common.convert;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
-import com.ewcms.common.convert.ConvertFactory;
 
 /**
  *  测试ParseTypeHandlerFactory对象

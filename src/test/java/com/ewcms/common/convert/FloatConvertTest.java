@@ -5,15 +5,10 @@
  */
 package com.ewcms.common.convert;
 
-import org.junit.Before;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
-
-import com.ewcms.common.convert.ConvertException;
-import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.convert.FloatConvert;
 
 /**
  * 测试Float 转换

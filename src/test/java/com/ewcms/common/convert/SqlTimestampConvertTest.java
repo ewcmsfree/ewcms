@@ -8,16 +8,11 @@ package com.ewcms.common.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.Calendar;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ewcms.common.convert.ConvertDate;
-import com.ewcms.common.convert.ConvertException;
-import com.ewcms.common.convert.Convertable;
-import com.ewcms.common.convert.SqlTimestampConvert;
 
 /**
  * 测试Timestamp转换
@@ -26,7 +21,7 @@ import com.ewcms.common.convert.SqlTimestampConvert;
  */
 public class SqlTimestampConvertTest {
 
-    private Convertable<Timestamp> handler;
+    private ConvertDate<Timestamp> handler;
 
     @Before
     public void setUp() {
@@ -44,8 +39,8 @@ public class SqlTimestampConvertTest {
         timestamp = handler.parse(test);
         assertEqualsTimestamp(timestamp,2005,1,6,21,23,34);
 
-         test = "2005/06/01";
-        ((ConvertDate) handler).setFormat("yyyy/MM/dd");
+        test = "2005/06/01";
+        handler.setFormat("yyyy/MM/dd");
         timestamp = handler.parse(test);
         assertEqualsTimestamp(timestamp, 2005, 5, 1,0,0,0);
     }
