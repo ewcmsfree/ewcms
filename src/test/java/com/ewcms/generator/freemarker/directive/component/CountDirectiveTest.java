@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive.component;
+package com.ewcms.generator.freemarker.directive.component;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.generator.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.component.CountDirective;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.apache.commons.logging.Log;

@@ -6,8 +6,9 @@ package com.ewcms.generator.release.html;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.generator.directive.AbstractDirectiveTest;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.io.ByteArrayOutputStream;

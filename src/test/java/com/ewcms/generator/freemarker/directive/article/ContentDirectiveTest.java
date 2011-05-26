@@ -2,13 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive.article;
+package com.ewcms.generator.freemarker.directive.article;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
-import com.ewcms.generator.directive.AbstractDirectiveTest;
-import com.ewcms.generator.directive.DirectiveVariable;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.article.ContentDirective;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.util.ArrayList;

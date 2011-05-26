@@ -3,10 +3,16 @@
  * and open the template in the editor.
  */
 
-package com.ewcms.generator.directive.page;
+package com.ewcms.generator.freemarker.directive.page;
 
-import com.ewcms.generator.directive.AbstractDirectiveTest;
-import com.ewcms.generator.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.page.NumberDirecitve;
+import com.ewcms.generator.freemarker.directive.page.Page;
+import com.ewcms.generator.freemarker.directive.page.PageLabelDirective;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.PageUrlDirective;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.util.HashMap;

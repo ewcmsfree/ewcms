@@ -3,12 +3,15 @@
  * and open the template in the editor.
  */
 
-package com.ewcms.generator.directive;
+package com.ewcms.generator.freemarker.directive;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.generator.directive.channel.ChannelTitleDirective;
-import com.ewcms.generator.directive.channel.ChannelUrlDirective;
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.PositionDirective;
+import com.ewcms.generator.freemarker.directive.channel.ChannelTitleDirective;
+import com.ewcms.generator.freemarker.directive.channel.ChannelUrlDirective;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.util.HashMap;

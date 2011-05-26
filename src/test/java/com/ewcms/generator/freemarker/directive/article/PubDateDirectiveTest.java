@@ -2,14 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive.article;
+package com.ewcms.generator.freemarker.directive.article;
 
 import java.util.Date;
 import java.util.Calendar;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleRmc;
-import com.ewcms.generator.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+import com.ewcms.generator.freemarker.directive.article.PubDateDirective;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.apache.commons.logging.Log;

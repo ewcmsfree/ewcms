@@ -2,17 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive;
+package com.ewcms.generator.freemarker.directive;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.dao.GeneratorDAOable;
 import freemarker.template.Configuration;
-import com.ewcms.generator.directive.article.TitleDirective;
-import com.ewcms.generator.directive.article.PubDateDirective;
-import com.ewcms.generator.directive.article.UrlDirective;
-import com.ewcms.generator.directive.page.PageParam;
+
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.article.PubDateDirective;
+import com.ewcms.generator.freemarker.directive.article.TitleDirective;
+import com.ewcms.generator.freemarker.directive.article.UrlDirective;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+
 import freemarker.template.Template;
 import java.util.ArrayList;
 import java.util.Calendar;

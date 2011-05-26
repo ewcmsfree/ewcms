@@ -2,10 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive;
+package com.ewcms.generator.freemarker.directive;
 
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.dao.GeneratorDAOable;
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.util.HashMap;

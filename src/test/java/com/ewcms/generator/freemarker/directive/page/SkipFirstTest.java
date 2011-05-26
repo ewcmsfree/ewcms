@@ -3,10 +3,14 @@
  * and open the template in the editor.
  */
 
-package com.ewcms.generator.directive.page;
+package com.ewcms.generator.freemarker.directive.page;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.ewcms.generator.freemarker.directive.page.Page;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.SkipFirst;
 
 /**
  *

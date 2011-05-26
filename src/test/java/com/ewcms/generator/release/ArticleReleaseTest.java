@@ -9,7 +9,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
 import com.ewcms.web.util.GlobaPath;
 
 import freemarker.template.Configuration;

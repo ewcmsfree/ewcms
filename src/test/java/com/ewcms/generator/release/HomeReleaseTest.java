@@ -6,7 +6,7 @@ package com.ewcms.generator.release;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.generator.directive.page.PageParam;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
 import com.ewcms.generator.release.html.GeneratorHtmlable;
 import freemarker.template.Configuration;
 import java.io.File;

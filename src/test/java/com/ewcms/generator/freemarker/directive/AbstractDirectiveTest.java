@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive;
+package com.ewcms.generator.freemarker.directive;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

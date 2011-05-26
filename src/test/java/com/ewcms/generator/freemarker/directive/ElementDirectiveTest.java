@@ -2,9 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ewcms.generator.directive;
+package com.ewcms.generator.freemarker.directive;
 
 import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.directive.DirectiveVariable;
+import com.ewcms.generator.freemarker.directive.ElementDirective;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
