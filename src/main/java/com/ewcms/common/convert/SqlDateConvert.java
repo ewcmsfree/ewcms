@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
  * 
  * @author 王伟
  */
-class SqlDateConvert implements ConvertDate<Date> {
+class SqlDateConvert implements ConvertDateable<Date> {
 
     private final static DateFormat DEFAULT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final static DateFormat SHORT_DEFAULT = new SimpleDateFormat("yyyy-MM-dd");

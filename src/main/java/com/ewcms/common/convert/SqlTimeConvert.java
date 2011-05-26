@@ -18,7 +18,7 @@ import java.text.DateFormat;
  * 
  * @author 王伟
  */
-class SqlTimeConvert implements ConvertDate<Time> {
+class SqlTimeConvert implements ConvertDateable<Time> {
 
     private final static DateFormat DEFAULT = new SimpleDateFormat("HH:mm:ss");
     private SimpleDateFormat format;

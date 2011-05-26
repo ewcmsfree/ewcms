@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
  * 
  * @author 王伟
  */
-class SqlTimestampConvert implements ConvertDate<Timestamp> {
+class SqlTimestampConvert implements ConvertDateable<Timestamp> {
 
     private final static DateFormat DEFAULT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private SimpleDateFormat format;

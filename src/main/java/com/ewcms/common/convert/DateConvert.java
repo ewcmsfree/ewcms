@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author 王伟
  */
-class DateConvert implements ConvertDate<Date> {
+class DateConvert implements ConvertDateable<Date> {
 
     private final static DateFormat DEFAULT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final static DateFormat SHORT_DEFAULT = new SimpleDateFormat("yyyy-MM-dd");
