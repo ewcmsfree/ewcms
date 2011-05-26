@@ -84,7 +84,8 @@
 								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
-								{id:'btnRelease',text:'预发布',iconCls:'icon-release',handler:releaseOperate},'-',
+								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-release',handler:submitReviewOperate},'-',
+								{id:'btnReview',text:'审核',iconCls:'icon-release',handler:reviewOperate},'-',
 								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate},'-',
 								{id:'btnSelf',text:'本站共享', iconCls:'icon-shareself',handler:shareSelf},'-',
 								{id:'btnShare',text:'群站共享', iconCls:'icon-share', handler:share}								
@@ -386,10 +387,10 @@
 	            return ids;			
 			}
 
-			function releaseOperate(){
+			function submitReviewOperate(){
 		    	var rows = $("#tt").datagrid('getSelections');
 		        if(rows.length == 0){
-		        	$.messager.alert('提示','请选择发布记录','info');
+		        	$.messager.alert('提示','请选择提交审核记录','info');
 		            return;
 		        }
 		        var parameter = '';
@@ -397,14 +398,14 @@
 				for(var i=0;i<rows.length;i++){
 					parameter = parameter + 'selections=' + rows[i].id + "&";
 				}
-		        var url = '<s:url namespace="/document/article" action="prereleases"/>';
+		        var url = '<s:url namespace="/document/article" action="submitReviews"/>';
 		        $.post(url, parameter, function(data){
 			        if (data == 'system-false'){
-			        	$.messager.alert('提示','文章发布失败','info');
+			        	$.messager.alert('提示','文章提交审核失败','info');
 			        }else if (data == 'true'){
 				        $("#tt").datagrid('clearSelections');
 				        articleReload();
-				        $.messager.alert('提示','文章发布成功','info');
+				        $.messager.alert('提示','文章提交审核成功','info');
 			        }
 			        return;
 		        });
@@ -433,7 +434,8 @@
 				$('#btnBack').linkbutton('disable');
 				$('#btnCitizen').linkbutton('disable');
 				$('#btnSelf').linkbutton('disable');
-				$('#btnShare').linkbutton('disable');				
+				$('#btnShare').linkbutton('disable');
+				$('#btnReview').linkbutton('disable');				
 			}
 			function enableButtons(){
 				$('#btnAdd').linkbutton('enable');
@@ -445,7 +447,42 @@
 				$('#btnBack').linkbutton('enable');
 				$('#btnCitizen').linkbutton('enable');
 				$('#btnSelf').linkbutton('enable');
-				$('#btnShare').linkbutton('enable');				
+				$('#btnShare').linkbutton('enable');
+				$('#btnReview').linkbutton('enable');				
+			}
+			function reviewOperate(){
+				var rows = $("#tt").datagrid('getSelections');
+		        if(rows.length == 0){
+		        	$.messager.alert('提示','请选择审核的文章','info');
+		           	return ;
+		        }
+				openWindow("#review-window",{width:550,height:200,title:"审核"});
+			}
+			function reviewArticle(){
+		    	var rows = $("#tt").datagrid('getSelections');
+		        if(rows.length == 0){
+		        	$.messager.alert('提示','请选择发布记录','info');
+		            return;
+		        }
+		        
+		        var parameter = 'review=' + $("input[name='reviewRadio']:checked").val() + '&';
+		        var rows = $("#tt").datagrid('getSelections');
+				for(var i=0;i<rows.length;i++){
+					parameter = parameter + 'selections=' + rows[i].id + "&";
+				}
+		        var url = '<s:url namespace="/document/article" action="reviewArticle"/>';
+		        $.post(url, parameter, function(data){
+		        	$("#review-window").window("close");
+			        if (data == 'system-false'){
+			        	$.messager.alert('提示','文章审核失败','info');
+			        }else if (data == 'true'){
+				        $("#tt").datagrid('clearSelections');
+				        articleReload();
+				        $.messager.alert('提示','文章审核成功','info');
+			        }
+			        return;
+		        });				
+		        return false;
 			}
 		</script>
 	</head>
@@ -502,6 +539,30 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:shareSite();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick='javascript:$("#site-window").window("close");'>取消</a>
+                </div>
+            </div>
+        </div>
+        <div id="review-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+            <div class="easyui-layout" fit="true" >
+                <div region="center" border="false" style="padding: 5px;">
+                	<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#99BBE8" style="border: #99BBE8 1px solid;">
+                		<tr align="center">
+                			<td height="30" width="20%">操作</td>
+                			<td height="30" width="80%">说明</td>
+                		</tr>
+                		<tr>
+                			<td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="reviewRadio" name="reviewRadio" list='#{0:"通过"}' cssStyle="vertical-align: middle;" value="0"></s:radio></td>
+                			<td height="40">&nbsp;所选文章将进入"发布版"状态</td>
+                		</tr>
+                		<tr>
+                			<td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="reviewRadio" name="reviewRadio"  list='#{1:"不通过"}' cssStyle="vertical-align: middle;"></s:radio></td>
+                			<td height="40">&nbsp;所选文章将进入"重新编辑"状态</td>
+                		</tr>
+                	</table>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle();">确定</a></span>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#review-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>
