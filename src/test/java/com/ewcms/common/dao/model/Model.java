@@ -3,7 +3,7 @@
  * JTCT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *  http://www.teachernet.com
  */
-package com.ewcms.common.dao;
+package com.ewcms.common.dao.model;
 
 import java.io.Serializable;
 

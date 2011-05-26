@@ -1,4 +1,4 @@
-package com.ewcms.common.dao;
+package com.ewcms.common.dao.model;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

@@ -5,10 +5,13 @@
  */
 package com.ewcms.common.io;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.io.File;
+import java.io.FilenameFilter;
 
-import com.ewcms.common.io.ImageZipUtil;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * 
@@ -16,31 +19,63 @@ import com.ewcms.common.io.ImageZipUtil;
  */
 public class ImageZipUtilTest {
 
-	private final static String PATH = "../ewcms/src/test/resources/com/ewcms/util/";
-
-	/**
-	 * @param args
-	 */
-	@Test
-	public void testImageZip() {
-		try {
-			Boolean isZip = ImageZipUtil.compression(PATH + "1.bmp", PATH + "2.bmp", 64, 64);
-			Assert.assertEquals(Boolean.TRUE,isZip);
-			
-			isZip = ImageZipUtil.compression(PATH + "1.png", PATH + "2.png", 64, 64);
-			Assert.assertEquals(Boolean.TRUE,isZip);
-			
-			isZip = ImageZipUtil.compression(PATH + "1_0.jpg", PATH + "2_0.jpg", 64, 64);
-			Assert.assertEquals(Boolean.TRUE,isZip);
-			
-			isZip = ImageZipUtil.compression(PATH + "1_1.jpg", PATH + "2_1.jpg", 64, 64);
-			Assert.assertEquals(Boolean.FALSE, isZip);
-			
-			isZip = ImageZipUtil.compression(PATH + "1.gif", PATH + "2.gif", 64, 64);
-			Assert.assertEquals(Boolean.TRUE, isZip);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+    private static String outDir  ;
+    
+    @BeforeClass
+    public static void beforeClass(){
+        outDir = ImageZipUtilTest.class.getResource(".").getPath();
+    }
+    
+    @AfterClass
+    public static void afterClass(){
+        File dir = new File(outDir);
+        File[] files = dir.listFiles(new FilenameFilter(){
+            public boolean accept(File dir, String name) {
+                return name.indexOf("_zip") > 0;
+            }
+        });
+        for(File file : files){
+            file.delete();
+        }
+    }
+    
+    @Test
+    public void testBmpZip(){
+        String source = ImageZipUtilTest.class.getResource("1.bmp").getPath();
+        String target = outDir + "1_zip.bmp";
+        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Assert.assertEquals(Boolean.TRUE,isZip);
+    }
+    
+    @Test
+    public void testPngZip(){
+        String source = ImageZipUtilTest.class.getResource("1.png").getPath();
+        String target = outDir + "2_zip.png";
+        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Assert.assertTrue(isZip);
+    }
+    
+    @Test
+    public void testJpg1Zip(){
+        String source = ImageZipUtilTest.class.getResource("1_0.jpg").getPath();
+        String target = outDir + "1_0_zip.jpg";
+        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Assert.assertTrue(isZip);
+    }
+    
+    @Test
+    public void testJpg1_1Zip(){
+        String source = ImageZipUtilTest.class.getResource("1_1.jpg").getPath();
+        String target = outDir + "1_1_zip.jpg";
+        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Assert.assertFalse(isZip);
+    }
+    
+    @Test
+    public void testGifZip(){
+        String source = ImageZipUtilTest.class.getResource("1.gif").getPath();
+        String target = outDir + "1_zip.gif";
+        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Assert.assertTrue(isZip);
+    }
 }

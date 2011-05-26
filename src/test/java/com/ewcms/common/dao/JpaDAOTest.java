@@ -17,12 +17,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import com.ewcms.common.dao.model.Model;
+
 /**
  *
  * @author wangwei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:com/ewcms/comm/jpa/dao/applicationContext.xml"}, inheritLocations = true)
+@ContextConfiguration(locations = {"classpath:com/ewcms/common/dao/applicationContext.xml"}, inheritLocations = true)
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class JpaDAOTest {
