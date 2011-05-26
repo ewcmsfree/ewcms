@@ -46,7 +46,6 @@ public class EhcacheResultCache implements ResultCacheable{
     @Override
     public CacheResultable putResultInCache(CacheResultable result) {
         Cache cache = getCache();
-         
         
         if(result.getCacheKey()== null || result.getCacheKey().isEmpty()){
             String cacheKey = getCacheKey();
