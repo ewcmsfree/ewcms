@@ -77,18 +77,18 @@ public class ArticleRmcService implements ArticleRmcServiceable {
 	}
     
 	@Override
-	public Boolean preReleaseArticleRmc(Integer articleRmcId) {
+	public Boolean submitReviewArticleRmc(Integer articleRmcId) {
 		ArticleRmc articleRmc = articleRmcDAO.get(articleRmcId);
-		return wrapping.preReleaseArticleRmc(articleRmc, articleRmc.getChannel().getId(),true);
+		return wrapping.submitReviewArticleRmc(articleRmc, articleRmc.getChannel().getId(),true);
 	}
 	
 	@Override
-	public void preReleaseArticleRmcs(List<Integer> articleRmcIds){
+	public void submitReviewArticleRmcs(List<Integer> articleRmcIds){
 		Assert.notNull(articleRmcIds);
 		ArticleRmc articleRmc = null;
 		for (Integer articleRmcId : articleRmcIds){
 			articleRmc = articleRmcDAO.get(articleRmcId);
-			wrapping.preReleaseArticleRmc(articleRmc, articleRmc.getChannel().getId(), false);
+			wrapping.submitReviewArticleRmc(articleRmc, articleRmc.getChannel().getId(), true);
 		}
 	}
 	
@@ -147,5 +147,15 @@ public class ArticleRmcService implements ArticleRmcServiceable {
 	@Override
 	public void pubChannel(Integer channelId) throws ReleaseException {
 		wrapping.pubChannel(channelId);
+	}
+	
+	@Override
+	public void reviewArticle(List<Integer> articleRmcIds, Integer review, String eauthor){
+		Assert.notNull(articleRmcIds);
+		ArticleRmc articleRmc = null;
+		for (Integer articleRmcId : articleRmcIds){
+			articleRmc = articleRmcDAO.get(articleRmcId);
+			wrapping.reviewArticle(articleRmc, articleRmc.getChannel().getId(), review, eauthor);
+		}
 	}
 }

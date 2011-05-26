@@ -12,7 +12,7 @@ package com.ewcms.content.document.model;
  * @author 吴智俊
  */
 public enum ArticleRmcStatus {
-	DRAFT("初稿"),REEDIT("重新编辑"),PRERELEASE("发布版"),RELEASE("已发布");
+	DRAFT("初稿"),REEDIT("重新编辑"),REVIEW("审核中"),PRERELEASE("发布版"),RELEASE("已发布");
 	
 	private String description;
 	

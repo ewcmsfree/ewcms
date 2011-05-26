@@ -299,19 +299,19 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 		return NONE;
 	}
 	
-	public void prerelease(){
+	public void submitReview(){
 		try{
 			if (getArticleRmcId() != null){
-				Struts2Util.renderText(documentFac.preReleaseArticleRmc(getArticleRmcId()).toString());
+				Struts2Util.renderText(documentFac.submitReviewArticleRmc(getArticleRmcId()).toString());
 			}
 		}catch(Exception e){
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
 	
-	public void prereleases(){
+	public void submitReviews(){
 		try{
-			documentFac.preReleaseArticleRmcs(getSelections());
+			documentFac.submitReviewArticleRmcs(getSelections());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		}catch(Exception e){
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
@@ -351,5 +351,26 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 			Struts2Util.renderText(documentFac.moveArticleRmcToChannel(getSelections(), getSelectChannelIds()).toString());
 		}
 		return NONE;
+	}
+	
+	private Integer review;
+	
+	public Integer getReview() {
+		return review;
+	}
+
+	public void setReview(Integer review) {
+		this.review = review;
+	}
+
+	public void reviewArticle(){
+		try{
+			documentFac.reviewArticle(getSelections(), getReview(), EwcmsContextUtil.getUserName());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		}catch(AccessDeniedException e){
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
 	}
 }

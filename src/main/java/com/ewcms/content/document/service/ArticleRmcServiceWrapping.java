@@ -173,10 +173,10 @@ public class ArticleRmcServiceWrapping {
             + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') "
             + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') "
             + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-    public Boolean preReleaseArticleRmc(ArticleRmc articleRmc,Integer channelId, Boolean isStatus) {
+    public Boolean submitReviewArticleRmc(ArticleRmc articleRmc,Integer channelId, Boolean isStatus) {
     	if (isStatus){
             if (articleRmc.getStatus() == ArticleRmcStatus.DRAFT || articleRmc.getStatus() == ArticleRmcStatus.REEDIT) {
-                articleRmc.setStatus(ArticleRmcStatus.PRERELEASE);
+                articleRmc.setStatus(ArticleRmcStatus.REVIEW);
                 if (articleRmc.getPublished() == null) {
                     articleRmc.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
                 }
@@ -184,7 +184,7 @@ public class ArticleRmcServiceWrapping {
                 return true;
             }
     	}else{
-            articleRmc.setStatus(ArticleRmcStatus.PRERELEASE);
+            articleRmc.setStatus(ArticleRmcStatus.REVIEW);
             if (articleRmc.getPublished() == null) {
                 articleRmc.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
             }
@@ -290,6 +290,25 @@ public class ArticleRmcServiceWrapping {
     public void pubChannel(Integer channelId) throws ReleaseException{
     	if (channelId != null){
     		generatorService.generator(channelId);
+    	}
+    }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN') " 
+            + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " 
+            + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') "
+            + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') "
+            + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') "
+            + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+    public void reviewArticle(ArticleRmc articleRmc,Integer channelId, Integer review, String eauthor){
+    	if (channelId != null && articleRmc != null && articleRmc.getChannel().getId() == channelId){
+	    	if (review == 0 && articleRmc.getStatus() == ArticleRmcStatus.REVIEW){//通过
+	    		articleRmc.setStatus(ArticleRmcStatus.PRERELEASE);
+	    		articleRmc.getArticle().setEauthor(eauthor);
+	    	}else if (review == 1){//不通过
+	    		articleRmc.setStatus(ArticleRmcStatus.REEDIT);
+	    		articleRmc.getArticle().setEauthor(eauthor);
+	    	}
+	    	articleRmcDAO.merge(articleRmc);
     	}
     }
 }

@@ -88,13 +88,13 @@ public class DocumentFac implements DocumentFacable {
 	}
 	
 	@Override
-	public Boolean preReleaseArticleRmc(Integer articleRmcId){
-		return articleRmcService.preReleaseArticleRmc(articleRmcId);
+	public Boolean submitReviewArticleRmc(Integer articleRmcId){
+		return articleRmcService.submitReviewArticleRmc(articleRmcId);
 	}
 	
 	@Override
-	public void preReleaseArticleRmcs(List<Integer> articleRmcIds){
-		articleRmcService.preReleaseArticleRmcs(articleRmcIds);
+	public void submitReviewArticleRmcs(List<Integer> articleRmcIds){
+		articleRmcService.submitReviewArticleRmcs(articleRmcIds);
 	}
 
 	@Override
@@ -107,6 +107,10 @@ public class DocumentFac implements DocumentFacable {
 		return articleRmcService.moveArticleRmcToChannel(articleRmcIds, channelIds);
 	}
 	
+	@Override
+	public void reviewArticle(List<Integer> articleRmcIds, Integer review, String eauthor){
+		articleRmcService.reviewArticle(articleRmcIds, review, eauthor);
+	}
 	//--------------------相关文章-----------------------------//
 	@Override
 	public void saveRelated(Integer articleId, Integer[] relatedArticleIds) {
@@ -153,4 +157,5 @@ public class DocumentFac implements DocumentFacable {
 	public void pubChannel(Integer channelId) throws ReleaseException {
 		articleRmcService.pubChannel(channelId);
 	}
+
 }

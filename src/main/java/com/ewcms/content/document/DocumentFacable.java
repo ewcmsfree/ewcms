@@ -106,18 +106,18 @@ public interface DocumentFacable {
 	public List<Recommend> findRecommendByArticleRmcId(Integer articleRmcId);
 
 	/**
-	 * 预发布文章(只对初稿和重新编辑状态的文章进行发布)
+	 * 提交审核文章(只对初稿和重新编辑状态的文章进行发布)
 	 * 
 	 * @param articleId
 	 */
-	public Boolean preReleaseArticleRmc(Integer articleRmcId);
+	public Boolean submitReviewArticleRmc(Integer articleRmcId);
 	
 	/**
-	 * 预发布文章(对任务状态的文章进行发布)
+	 * 提交审核文章(对任务状态的文章进行发布)
 	 * 
 	 * @param articleRmcIds 文章编号列表
 	 */
-	public void preReleaseArticleRmcs(List<Integer> articleRmcIds);
+	public void submitReviewArticleRmcs(List<Integer> articleRmcIds);
 
 	/**
 	 * 复制文章到其他的栏目
@@ -205,4 +205,13 @@ public interface DocumentFacable {
 	 * @throws ReleaseException
 	 */
 	public void pubChannel(Integer channelId) throws ReleaseException;
+	
+	/**
+	 * 审核文章
+	 * 
+	 * @param articleRmcIds 文章列表
+	 * @param review 审核标志(0:通过,1:未通过)
+	 * @param eauthor 审核人
+	 */
+	public void reviewArticle(List<Integer> articleRmcIds, Integer review, String eauthor);
 }
