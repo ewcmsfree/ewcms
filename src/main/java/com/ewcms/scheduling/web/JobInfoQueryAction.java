@@ -31,7 +31,7 @@ import com.ewcms.web.vo.DataGrid;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.job.query")
+@Controller("scheduling.jobinfo.query")
 public class JobInfoQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -8882837349113907705L;

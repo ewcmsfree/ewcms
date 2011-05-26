@@ -26,7 +26,7 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.job.index")
+@Controller("scheduling.jobinfo.index")
 public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 
 	private static final long serialVersionUID = -7180641001521655948L;
