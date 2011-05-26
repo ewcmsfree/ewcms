@@ -23,23 +23,23 @@
 		<action name="index">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.scheduling.web.JobAction" method="delete"/>
-		<action name="query" class="com.ewcms.scheduling.web.JobQueryAction" method="query"/>
-		<action name="input" class="com.ewcms.scheduling.web.JobAction" method="input">
+		<action name="delete" class="com.ewcms.scheduling.web.JobInfoAction" method="delete"/>
+		<action name="query" class="com.ewcms.scheduling.web.JobInfoQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.scheduling.web.JobInfoAction" method="input">
 			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.scheduling.web.JobAction" method="save">
+		<action name="save" class="com.ewcms.scheduling.web.JobInfoAction" method="save">
 			<result>/WEB-INF/page/scheduling/job/edit.jsp</result>
 			<result name="input">/WEB-INF/page/scheduling/job/edit.jsp</result>
 		</action>
-		<action name="pause" class="com.ewcms.scheduling.web.JobAction" method="pauseJob">
+		<action name="pause" class="com.ewcms.scheduling.web.JobInfoAction" method="pauseJob">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
-		<action name="resumed" class="com.ewcms.scheduling.web.JobAction" method="resumedJob">
+		<action name="resumed" class="com.ewcms.scheduling.web.JobInfoAction" method="resumedJob">
 			<result>/WEB-INF/page/scheduling/job/index.jsp</result>
 		</action>
 		<!-- 
-		<action name="allJobClassList" class="com.ewcms.web.action.scheduling.job.JobAction" method="getAllJobClassList"/>
+		<action name="allJobClassList" class="com.ewcms.web.action.scheduling.job.JobInfoAction" method="getAllJobClassList"/>
 		 -->
 	</package>
 	<package name="scheduling.jobchannel" extends="struts-default" namespace="/scheduling/jobchannel">
