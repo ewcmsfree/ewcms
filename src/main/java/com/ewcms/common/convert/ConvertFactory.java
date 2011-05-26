@@ -20,10 +20,10 @@ public enum ConvertFactory {
 
     instance;
     
-    private Map<Class<?>, Convertable<?>> parseHandlerMap;
+    private Map<Class<?>, Convertable<?>> converts;
 
     private ConvertFactory() {
-        parseHandlerMap = handlerMap();
+        converts = initConverts();
     }
 
     /**
@@ -34,14 +34,17 @@ public enum ConvertFactory {
      */
     @SuppressWarnings("unchecked")
     public <I> Convertable<I> convertHandler(Class<? super I> clazz) {
-        Convertable<?> hander = parseHandlerMap.get(clazz);
-        if(hander == null){
+        
+        Convertable<?> convert = converts.get(clazz);
+        
+        if(convert == null){
             throw new IllegalStateException(clazz.getName()+" type cant not convert");
         }
-        return (Convertable<I>)hander;
+        
+        return (Convertable<I>)convert;
     }
 
-    private Map<Class<?>, Convertable<?>> handlerMap() {
+    private Map<Class<?>, Convertable<?>> initConverts() {
         Map<Class<?>, Convertable<?>> map = new HashMap<Class<?>, Convertable<?>>();
 
         map.put(BigDecimal.class, new BigDecimalConvert());
