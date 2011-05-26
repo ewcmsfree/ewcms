@@ -25,7 +25,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
- * 调度器任务
+ * 定时器任务信息
  * 
  * <ul>
  * <li>id:任务编号</li>
@@ -46,7 +46,7 @@ import javax.persistence.Version;
 @Table(name = "job_info")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "seq_job_info", sequenceName = "seq_job_info_id", allocationSize = 1)
-public class AlqcJob implements Serializable {
+public class JobInfo implements Serializable {
 
     private static final long serialVersionUID = 5651638241918468407L;
 	@Id
@@ -66,10 +66,10 @@ public class AlqcJob implements Serializable {
     private String description;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "trigger_id")
-    private AlqcJobTrigger trigger = new AlqcJobTrigger();
+    private JobTrigger trigger = new JobTrigger();
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "jobclass_id")
-    private AlqcJobClass jobClass = new AlqcJobClass();
+    private JobClass jobClass = new JobClass();
     
     @Transient
     private String state;
@@ -82,7 +82,7 @@ public class AlqcJob implements Serializable {
     @Transient
     private String nextFireTime;
 
-    public AlqcJob() {
+    public JobInfo() {
         version = -1;
     }
 
@@ -134,19 +134,19 @@ public class AlqcJob implements Serializable {
         this.description = description;
     }
 
-    public AlqcJobTrigger getTrigger() {
+    public JobTrigger getTrigger() {
         return trigger;
     }
 
-    public void setTrigger(AlqcJobTrigger trigger) {
+    public void setTrigger(JobTrigger trigger) {
         this.trigger = trigger;
     }
 
-    public AlqcJobClass getJobClass(){
+    public JobClass getJobClass(){
         return jobClass;
     }
 
-    public void setJobClass(AlqcJobClass jobClass){
+    public void setJobClass(JobClass jobClass){
         this.jobClass = jobClass;
     }
     
@@ -209,7 +209,7 @@ public class AlqcJob implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AlqcJob other = (AlqcJob) obj;
+        JobInfo other = (JobInfo) obj;
         if (id == null) {
             if (other.id != null) {
                 return false;

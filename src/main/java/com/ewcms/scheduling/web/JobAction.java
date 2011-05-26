@@ -15,11 +15,11 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.job.JobClassEntity;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
-import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
+import com.ewcms.scheduling.manage.fac.SchedulingFacable;
 import com.ewcms.scheduling.manage.util.ConversionUtil;
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobClass;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobClass;
 import com.ewcms.web.CrudBaseAction;
 
 /**
@@ -32,7 +32,7 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	private static final long serialVersionUID = -7180641001521655948L;
 	
 	@Autowired
-	private AlqcSchedulingFacable alqcSchedulingFac;
+	private SchedulingFacable schedulingFac;
 	
 	private Boolean subChannel;
 
@@ -68,7 +68,7 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	@Override
 	protected void deleteOperator(Integer pk) {
 		try {
-			alqcSchedulingFac.deletedScheduledJob(pk);
+			schedulingFac.deletedScheduledJob(pk);
 		} catch (BaseException e) {
 			this.addActionMessage(e.getPageMessage());
 		}
@@ -78,7 +78,7 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	protected PageDisplayVO getOperator(Integer pk) {
 		PageDisplayVO pageDisplayVo = new PageDisplayVO();
 		try {
-			AlqcJob alqcJob = alqcSchedulingFac.getScheduledJob(pk);
+			JobInfo alqcJob = schedulingFac.getScheduledJob(pk);
 			pageDisplayVo = ConversionUtil.constructPageVo(alqcJob);
 			
 			if (alqcJob instanceof EwcmsJobChannel){
@@ -120,27 +120,27 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	
 	@Override
 	public String save() throws Exception{
-		AlqcJob alqcJob = new AlqcJob();
+		JobInfo alqcJob = new JobInfo();
 		try{
 			if (getPageDisplayVo().getJobId() != null && getPageDisplayVo().getJobId().intValue() > 0){
-				alqcJob = alqcSchedulingFac.getScheduledJob(getPageDisplayVo().getJobId());
+				alqcJob = schedulingFac.getScheduledJob(getPageDisplayVo().getJobId());
 			}
 			if (getPageDisplayVo().getJobClassId() != null && getPageDisplayVo().getJobClassId().intValue() > 0){
-				AlqcJobClass alqcJobClass = alqcSchedulingFac.findByJobClass(getPageDisplayVo().getJobClassId());
+				JobClass alqcJobClass = schedulingFac.findJobClassById(getPageDisplayVo().getJobClassId());
 				alqcJob.setJobClass(alqcJobClass);
 			}
-			alqcJob = ConversionUtil.constructAlqcJobVo(alqcJob, getPageDisplayVo());
+			alqcJob = ConversionUtil.constructJobInfoVo(alqcJob, getPageDisplayVo());
 			
 			if (isUpdateOperator()) {
 				operatorState = OperatorState.UPDATE;
-			    alqcSchedulingFac.updateScheduledJob(alqcJob);
+			    schedulingFac.updateScheduledJob(alqcJob);
 			    operatorPK.remove(0);
 			    if (!operatorPK.isEmpty()){
 			    	setPageDisplayVo(getOperator(operatorPK.get(0)));
 			    }
 			} else {
 				operatorState = OperatorState.ADD;
-	            Integer id = alqcSchedulingFac.saveScheduleJob(alqcJob);
+	            Integer id = schedulingFac.saveScheduleJob(alqcJob);
 	            operatorPK.add(id);
 	            setPageDisplayVo(createEmptyVo());
 			}
@@ -155,12 +155,12 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 		return SUCCESS;
 	}
 	
-	public List<AlqcJobClass> getAllJobClassList() {
-		List<AlqcJobClass> alqcJobClassList = new ArrayList<AlqcJobClass>();
+	public List<JobClass> getAllJobClassList() {
+		List<JobClass> alqcJobClassList = new ArrayList<JobClass>();
 		try {
-			alqcJobClassList = alqcSchedulingFac.findByAllJobClass();
+			alqcJobClassList = schedulingFac.findJobClassAll();
 			if (getPageDisplayVo().getIsJobChannel()==false){
-				AlqcJobClass alqcJobClass = alqcSchedulingFac.findByAlqcJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
+				JobClass alqcJobClass = schedulingFac.findJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
 				alqcJobClassList.remove(alqcJobClass);
 			}
 		} catch (BaseException e) {
@@ -181,7 +181,7 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 
 	public String pauseJob(){
 		try {
-			alqcSchedulingFac.pauseJob(getJobId());
+			schedulingFac.pauseJob(getJobId());
 		} catch (BaseException e) {
 			addActionMessage(e.getPageMessage());
 		}
@@ -190,7 +190,7 @@ public class JobAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	
 	public String resumedJob(){
 		try{
-			alqcSchedulingFac.resumedJob(getJobId());
+			schedulingFac.resumedJob(getJobId());
 		}catch(BaseException e){
 			addActionMessage(e.getPageMessage());
 		}

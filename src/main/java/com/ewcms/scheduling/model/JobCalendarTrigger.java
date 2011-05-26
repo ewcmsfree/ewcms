@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "job_trigger_calendar")
 @PrimaryKeyJoinColumn(name = "trigger_id")
-public class AlqcJobCalendarTrigger extends AlqcJobTrigger {
+public class JobCalendarTrigger extends JobTrigger {
 
     private static final long serialVersionUID = 7369898846500579220L;
     public static final Integer DAYS_TYPE_ALL = 1;

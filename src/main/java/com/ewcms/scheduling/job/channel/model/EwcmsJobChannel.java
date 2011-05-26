@@ -16,7 +16,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.scheduling.model.AlqcJob;
+import com.ewcms.scheduling.model.JobInfo;
 
 /**
  * 频道定时任务
@@ -31,7 +31,7 @@ import com.ewcms.scheduling.model.AlqcJob;
 @Entity
 @Table(name = "job_info_channel")
 @PrimaryKeyJoinColumn(name = "info_id")
-public class EwcmsJobChannel extends AlqcJob {
+public class EwcmsJobChannel extends JobInfo {
 
 	private static final long serialVersionUID = -4373031603153928098L;
 	

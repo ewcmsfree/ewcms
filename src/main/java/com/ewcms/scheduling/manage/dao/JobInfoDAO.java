@@ -9,13 +9,13 @@ package com.ewcms.scheduling.manage.dao;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
-import com.ewcms.scheduling.model.AlqcJob;
+import com.ewcms.scheduling.model.JobInfo;
 
 /**
- * 定时任务DAO
+ * 定时器任务信息DAO
  * 
  * @author 吴智俊
  */
-@Repository("alqcJobDAO")
-public class AlqcJobDAO extends JpaDAO<Integer, AlqcJob>{
+@Repository("jobInfoDAO")
+public class JobInfoDAO extends JpaDAO<Integer, JobInfo>{
 }

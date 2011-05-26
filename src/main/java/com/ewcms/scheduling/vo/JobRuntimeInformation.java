@@ -22,7 +22,7 @@ import java.util.Date;
  *
  * @author 吴智俊
  */
-public class AlqcJobRuntimeInformation implements Serializable {
+public class JobRuntimeInformation implements Serializable {
 
     private static final long serialVersionUID = -3971621420142839444L;
     public static final String STATE_UNKNOWN = "已执行完";

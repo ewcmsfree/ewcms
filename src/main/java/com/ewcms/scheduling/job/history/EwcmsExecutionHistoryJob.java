@@ -12,21 +12,21 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.ewcms.history.fac.HistoryModelFacable;
-import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
+import com.ewcms.scheduling.job.BaseExecutionJob;
 
 /**
  * 定时清除历史记录
  * 
  * @author 吴智俊
  */
-public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
+public class EwcmsExecutionHistoryJob extends BaseExecutionJob {
 
 	private static final Log log = LogFactory.getLog(EwcmsExecutionHistoryJob.class);
 	
 	private static final String SCHEDULER_FACTORY = "historyModelFac";
 	
 	@Override
-	protected void alqcJobExecute(JobExecutionContext context) throws JobExecutionException {
+	protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
         try {
         	log.info("定时清除历史记录开始...");
             getHistoryModelFac().delHistoryModelBeforeDate();
@@ -40,7 +40,7 @@ public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 	}
 
 	@Override
-	protected void alqcJobClear() {
+	protected void jobClear() {
 	}
 
     protected HistoryModelFacable getHistoryModelFac() {

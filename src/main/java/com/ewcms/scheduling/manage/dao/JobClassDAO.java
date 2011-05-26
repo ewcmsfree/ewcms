@@ -11,21 +11,21 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
-import com.ewcms.scheduling.model.AlqcJobClass;
+import com.ewcms.scheduling.model.JobClass;
 
 /**
- * 定时工作类DAO
+ * 定时器定时工作的执行类DAO
  * 
  * @author 吴智俊
  */
-@Repository("alqcJobClassDAO")
-public class AlqcJobClassDAO extends JpaDAO<Integer, AlqcJobClass> {
+@Repository("jobClassDAO")
+public class JobClassDAO extends JpaDAO<Integer, JobClass> {
 	@SuppressWarnings("unchecked")
-	public AlqcJobClass findByAlqcJobClassByClassEntity(String classEntity) {
-		String hql = "From AlqcJobClass o Where o.classEntity=?";
-		List<AlqcJobClass> list = this.getJpaTemplate().find(hql, classEntity);
+	public JobClass findJobClassByClassEntity(String classEntity) {
+		String hql = "From JobClass o Where o.classEntity=?";
+		List<JobClass> list = this.getJpaTemplate().find(hql, classEntity);
 		if (list.isEmpty())
-			return new AlqcJobClass();
+			return new JobClass();
 		return list.get(0);
 	}
 }

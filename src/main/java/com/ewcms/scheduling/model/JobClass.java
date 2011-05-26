@@ -17,12 +17,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
+ * 执行类
+ * 
+ * <ul>
+ * <li>id:执行类编号</li>
+ * <li>className:类名称</li>
+ * <li>classEntity:执行类实体名</li>
+ * <li>description:描述</li>
+ * </ul>
+ * 
  * @author 吴智俊
  */
 @Entity
 @Table(name = "job_class")
 @SequenceGenerator(name = "seq_job_class", sequenceName = "seq_job_class_id", allocationSize = 1)
-public class AlqcJobClass implements Serializable {
+public class JobClass implements Serializable {
 
 	private static final long serialVersionUID = -4428638031352721701L;
 
@@ -77,7 +86,7 @@ public class AlqcJobClass implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final AlqcJobClass other = (AlqcJobClass) obj;
+		final JobClass other = (JobClass) obj;
 		if (this.id != other.id
 				&& (this.id == null || !this.id.equals(other.id))) {
 			return false;

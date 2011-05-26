@@ -18,52 +18,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.scheduling.manage.dao.AlqcJobClassDAO;
-import com.ewcms.scheduling.model.AlqcJobClass;
+import com.ewcms.scheduling.manage.dao.JobClassDAO;
+import com.ewcms.scheduling.model.JobClass;
 
 /**
  * 
- * @author wzj
+ * @author 吴智俊
  */
-@Service("alqcJobClassService")
-public class AlqcJobClassService implements AlqcJobClassServiceable {
+@Service("jobClassService")
+public class JobClassService implements JobClassServiceable {
 
 	@Autowired
-	private AlqcJobClassDAO alqcJobClassDAO;
+	private JobClassDAO jobClassDAO;
 
 	@Override
-	public Integer saveJobClass(AlqcJobClass alqcJobClass) throws BaseException {
-		if (validator(alqcJobClass)) {
-			alqcJobClassDAO.persist(alqcJobClass);
-			return alqcJobClass.getId();
+	public Integer saveJobClass(JobClass jobClass) throws BaseException {
+		if (validator(jobClass)) {
+			jobClassDAO.persist(jobClass);
+			return jobClass.getId();
 		}
 		return null;
 	}
 
 	@Override
-	public Integer updateJobClass(AlqcJobClass alqcJobClass)
+	public Integer updateJobClass(JobClass jobClass)
 			throws BaseException {
-		alqcJobClassDAO.merge(alqcJobClass);
-		return alqcJobClass.getId();
+		jobClassDAO.merge(jobClass);
+		return jobClass.getId();
 	}
 
 	@Override
-	public AlqcJobClass findByJobClass(Integer id) throws BaseException {
-		return (AlqcJobClass) alqcJobClassDAO.get(id);
+	public JobClass findJobClassById(Integer jobClassId) throws BaseException {
+		return (JobClass) jobClassDAO.get(jobClassId);
 	}
 
 	@Override
-	public List<AlqcJobClass> findByAllJobClass() throws BaseException {
-		return (List<AlqcJobClass>) alqcJobClassDAO.findAll();
+	public List<JobClass> findJobClassAll() throws BaseException {
+		return (List<JobClass>) jobClassDAO.findAll();
 	}
 
 	@Override
-	public void deletedJobClass(Integer id) throws BaseException {
-		alqcJobClassDAO.removeByPK(id);
+	public void deletedJobClass(Integer jobClassId) throws BaseException {
+		jobClassDAO.removeByPK(jobClassId);
 	}
 
-	protected Boolean validator(AlqcJobClass alqcJobClass) throws BaseException {
-		String jobClassEntity = alqcJobClass.getClassEntity().trim();
+	protected Boolean validator(JobClass jobClass) throws BaseException {
+		String jobClassEntity = jobClass.getClassEntity().trim();
 		if (jobClassEntity != null && jobClassEntity.length() > 0) {
 			try {
 				Class<?> classEntity = Class.forName(jobClassEntity);
@@ -82,8 +82,8 @@ public class AlqcJobClassService implements AlqcJobClassServiceable {
 	}
 
 	@Override
-	public AlqcJobClass findByAlqcJobClassByClassEntity(String classEntity) throws BaseException {
-		return alqcJobClassDAO.findByAlqcJobClassByClassEntity(classEntity);
+	public JobClass findJobClassByClassEntity(String classEntity) throws BaseException {
+		return jobClassDAO.findJobClassByClassEntity(classEntity);
 	}
 
 }

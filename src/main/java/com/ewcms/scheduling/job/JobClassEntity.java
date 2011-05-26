@@ -13,5 +13,4 @@ package com.ewcms.scheduling.job;
  */
 public class JobClassEntity {
 	public static final String JOB_CHANNEL = "com.ewcms.scheduling.job.channel.EwcmsExecutionChannelJob";
-	public static final String JOB_LEADINGWINDOW = "com.ewcms.scheduling.job.leadingwindow.EwcmsExecutionLeadingWindowJob";
 }

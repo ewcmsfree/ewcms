@@ -12,10 +12,10 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobCalendarTrigger;
-import com.ewcms.scheduling.model.AlqcJobSimpleTrigger;
-import com.ewcms.scheduling.model.AlqcJobTrigger;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobCalendarTrigger;
+import com.ewcms.scheduling.model.JobSimpleTrigger;
+import com.ewcms.scheduling.model.JobTrigger;
 
 /**
  * @author 吴智俊
@@ -59,48 +59,48 @@ public class ConversionUtil {
 		return value;
 	}
 	
-	public static PageDisplayVO constructPageVo(AlqcJob alqcJob) {
+	public static PageDisplayVO constructPageVo(JobInfo jobInfo) {
 		SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		PageDisplayVO pageDisplayVo = new PageDisplayVO();
-		if (alqcJob == null) return pageDisplayVo;
+		if (jobInfo == null) return pageDisplayVo;
 		// 任务(Job)信息 //
-		pageDisplayVo.setJobId(alqcJob.getId());
-		pageDisplayVo.setJobVersion(alqcJob.getVersion());
-		pageDisplayVo.setLabel(alqcJob.getLabel());
-		pageDisplayVo.setUserName(alqcJob.getUserName());
-		pageDisplayVo.setDescription(alqcJob.getDescription());
-		if (alqcJob.getJobClass() != null){
-			pageDisplayVo.setJobClassId(alqcJob.getJobClass().getId());
+		pageDisplayVo.setJobId(jobInfo.getId());
+		pageDisplayVo.setJobVersion(jobInfo.getVersion());
+		pageDisplayVo.setLabel(jobInfo.getLabel());
+		pageDisplayVo.setUserName(jobInfo.getUserName());
+		pageDisplayVo.setDescription(jobInfo.getDescription());
+		if (jobInfo.getJobClass() != null){
+			pageDisplayVo.setJobClassId(jobInfo.getJobClass().getId());
 		}
 		// 开始状态 //
-		if (alqcJob.getTrigger().getStartType().intValue() == 1) {// 立刻执行 //
+		if (jobInfo.getTrigger().getStartType().intValue() == 1) {// 立刻执行 //
 			pageDisplayVo.setStart(1);
 		} else {// 开始时间 //
 			pageDisplayVo.setStart(2);
-			Date startDate = alqcJob.getTrigger().getStartDate();
+			Date startDate = jobInfo.getTrigger().getStartDate();
 			if (startDate != null){
 				pageDisplayVo.setStartDate(bartDateFormat.format(startDate));
 			}
 		}
 		// 调度计划 //
-		AlqcJobTrigger trigger = alqcJob.getTrigger();
+		JobTrigger trigger = jobInfo.getTrigger();
 		if (trigger != null) {
 			pageDisplayVo.setTriggerId(trigger.getId());
 			pageDisplayVo.setTriggerVersion(trigger.getVersion());
-			if (trigger instanceof AlqcJobSimpleTrigger) {
-				Integer recurrenceInterval = ((AlqcJobSimpleTrigger) trigger).getRecurrenceInterval();
-				Integer recurrenceIntervalUnit = ((AlqcJobSimpleTrigger) trigger).getRecurrenceIntervalUnit();
-				Integer occurenceCount = ((AlqcJobSimpleTrigger) trigger).getOccurrenceCount();
+			if (trigger instanceof JobSimpleTrigger) {
+				Integer recurrenceInterval = ((JobSimpleTrigger) trigger).getRecurrenceInterval();
+				Integer recurrenceIntervalUnit = ((JobSimpleTrigger) trigger).getRecurrenceIntervalUnit();
+				Integer occurenceCount = ((JobSimpleTrigger) trigger).getOccurrenceCount();
 				if (recurrenceInterval == null && recurrenceIntervalUnit == null && occurenceCount == 1) {
 					pageDisplayVo.setMode(0);
 					pageDisplayVo.setOccurrenceCount(occurenceCount);
 				} else {// 简单 //
 					pageDisplayVo.setMode(1);
 
-					pageDisplayVo.setRecurrenceInterval(((AlqcJobSimpleTrigger) trigger).getRecurrenceInterval());
-					pageDisplayVo.setRecurrenceIntervalUnit(((AlqcJobSimpleTrigger) trigger).getRecurrenceIntervalUnit());
+					pageDisplayVo.setRecurrenceInterval(((JobSimpleTrigger) trigger).getRecurrenceInterval());
+					pageDisplayVo.setRecurrenceIntervalUnit(((JobSimpleTrigger) trigger).getRecurrenceIntervalUnit());
 
-					Date endDate = ((AlqcJobSimpleTrigger) trigger).getEndDate();
+					Date endDate = ((JobSimpleTrigger) trigger).getEndDate();
 
 					if (endDate == null && occurenceCount == -1) {// 无限期 //
 						pageDisplayVo.setOccur(1);
@@ -116,19 +116,19 @@ public class ConversionUtil {
 						pageDisplayVo.setOccurrenceCount(occurenceCount);
 					}
 				}
-			} else if (trigger instanceof AlqcJobCalendarTrigger) {
+			} else if (trigger instanceof JobCalendarTrigger) {
 				pageDisplayVo.setMode(2);// 复杂 //
-				pageDisplayVo.setMinutes(((AlqcJobCalendarTrigger) trigger).getMinutes());// 分钟 //
-				pageDisplayVo.setHours(((AlqcJobCalendarTrigger) trigger).getHours());// 小时 //
-				pageDisplayVo.setMonths(ConversionUtil.stringToArray(((AlqcJobCalendarTrigger) trigger).getMonths()));// 月份 //
+				pageDisplayVo.setMinutes(((JobCalendarTrigger) trigger).getMinutes());// 分钟 //
+				pageDisplayVo.setHours(((JobCalendarTrigger) trigger).getHours());// 小时 //
+				pageDisplayVo.setMonths(ConversionUtil.stringToArray(((JobCalendarTrigger) trigger).getMonths()));// 月份 //
 
-				Date endDate = ((AlqcJobCalendarTrigger) trigger).getEndDate();
+				Date endDate = ((JobCalendarTrigger) trigger).getEndDate();
 				if (endDate != null){
 					pageDisplayVo.setEndDateCalendar(bartDateFormat.format(endDate));
 				}
 				
-				String weekDays = ((AlqcJobCalendarTrigger) trigger).getWeekDays();
-				String monthDays = ((AlqcJobCalendarTrigger) trigger).getMonthDays();
+				String weekDays = ((JobCalendarTrigger) trigger).getWeekDays();
+				String monthDays = ((JobCalendarTrigger) trigger).getMonthDays();
 				if (weekDays != null && weekDays.length() > 0) {// 一周之内 //
 					pageDisplayVo.setDays(2);
 					pageDisplayVo.setWeekDays(ConversionUtil.stringToArray(weekDays));
@@ -151,16 +151,16 @@ public class ConversionUtil {
 		return pageDisplayVo;
 	}
 	
-	public static AlqcJob constructAlqcJobVo(AlqcJob alqcJob, PageDisplayVO pageDisplayVo) {
+	public static JobInfo constructJobInfoVo(JobInfo jobInfo, PageDisplayVO pageDisplayVo) {
 		SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
-			alqcJob.setVersion(pageDisplayVo.getJobVersion());
-			alqcJob.setLabel(pageDisplayVo.getLabel());
-			alqcJob.setUserName(pageDisplayVo.getUserName());
-			alqcJob.setDescription(pageDisplayVo.getDescription());
+			jobInfo.setVersion(pageDisplayVo.getJobVersion());
+			jobInfo.setLabel(pageDisplayVo.getLabel());
+			jobInfo.setUserName(pageDisplayVo.getUserName());
+			jobInfo.setDescription(pageDisplayVo.getDescription());
 
 			if (pageDisplayVo.getMode() == 0) {// 无 //
-				AlqcJobSimpleTrigger t = new AlqcJobSimpleTrigger();
+				JobSimpleTrigger t = new JobSimpleTrigger();
 				t.setId(pageDisplayVo.getTriggerId());
 				t.setVersion(pageDisplayVo.getTriggerVersion());
 
@@ -175,9 +175,9 @@ public class ConversionUtil {
 				}
 				t.setOccurrenceCount(1);
 
-				alqcJob.setTrigger(t);
+				jobInfo.setTrigger(t);
 			} else if (pageDisplayVo.getMode() == 1) {// SimpleTrigger //
-				AlqcJobSimpleTrigger st = new AlqcJobSimpleTrigger();
+				JobSimpleTrigger st = new JobSimpleTrigger();
 
 				if (pageDisplayVo.getStart() == 1) {// 立刻执行 //
 					st.setStartType(1);
@@ -205,9 +205,9 @@ public class ConversionUtil {
 					st.setOccurrenceCount(pageDisplayVo.getOccurrenceCount());
 					st.setEndDate(null);
 				}
-				alqcJob.setTrigger(st);
+				jobInfo.setTrigger(st);
 			} else if (pageDisplayVo.getMode() == 2) {// CalendarTrigger
-				AlqcJobCalendarTrigger ct = new AlqcJobCalendarTrigger();
+				JobCalendarTrigger ct = new JobCalendarTrigger();
 				if (pageDisplayVo.getStart() == 1) {// 立刻执行 //
 					ct.setStartType(1);
 					ct.setStartDate(null);
@@ -237,12 +237,12 @@ public class ConversionUtil {
 					ct.setWeekDays(null);
 					ct.setMonthDays(ConversionUtil.arrayToString(pageDisplayVo.getMonthDays()));
 				}
-				alqcJob.setTrigger(ct);
+				jobInfo.setTrigger(ct);
 			}
-			return alqcJob;
+			return jobInfo;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return new AlqcJob();
+		return new JobInfo();
 	}
 }

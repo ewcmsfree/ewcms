@@ -19,9 +19,9 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.quartz.AlqcJobsQuartzSchedulerable;
+import com.ewcms.scheduling.manage.fac.SchedulingFacable;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.quartz.JobsQuartzSchedulerable;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -41,9 +41,9 @@ public class JobQueryAction extends QueryBaseAction {
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
 	
 	@Autowired
-	private AlqcJobsQuartzSchedulerable alqcJobsQuartzScheduler;
+	private JobsQuartzSchedulerable jobsQuartzScheduler;
 	@Autowired
-	private AlqcSchedulingFacable alqcSchedulingFac;
+	private SchedulingFacable schedulingFac;
 
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
@@ -57,10 +57,10 @@ public class JobQueryAction extends QueryBaseAction {
     
 	@Override
 	public String query() {
-		List<AlqcJob> alqcJobs = new ArrayList<AlqcJob>();
+		List<JobInfo> alqcJobs = new ArrayList<JobInfo>();
 		try{
-			alqcJobs = alqcSchedulingFac.getScheduledJobs();
-			alqcJobs = alqcJobsQuartzScheduler.getJobsRuntimeInformation(alqcJobs);
+			alqcJobs = schedulingFac.getScheduledJobs();
+			alqcJobs = jobsQuartzScheduler.getJobsRuntimeInformation(alqcJobs);
 		}catch(BaseException e){
 			log.error(e.toString());
 		}

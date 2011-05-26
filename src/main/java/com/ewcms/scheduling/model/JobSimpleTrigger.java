@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "job_trigger_simple")
 @PrimaryKeyJoinColumn(name = "trigger_id")
-public class AlqcJobSimpleTrigger extends AlqcJobTrigger {
+public class JobSimpleTrigger extends JobTrigger {
 
     private static final long serialVersionUID = -8944849480433973356L;
     public static final Integer INTERVAL_MINUTE = 1;//分钟
@@ -41,7 +41,7 @@ public class AlqcJobSimpleTrigger extends AlqcJobTrigger {
     @Column(name = "recurrenceintervalunit")
     private Integer recurrenceIntervalUnit;
 
-    public AlqcJobSimpleTrigger(){
+    public JobSimpleTrigger(){
     	occurrenceCount = RECUR_INDEFINITELY;
     }
     
