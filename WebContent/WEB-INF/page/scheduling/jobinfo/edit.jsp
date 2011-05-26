@@ -152,7 +152,7 @@
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="save" namespace="/scheduling/job">
+		<s:form action="save" namespace="/scheduling/jobinfo">
 			<table class="formtable" align="center">
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>任务信息</b></font></td>

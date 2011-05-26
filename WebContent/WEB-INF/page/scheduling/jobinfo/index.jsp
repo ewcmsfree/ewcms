@@ -15,9 +15,9 @@
 		$(function(){
 			//基本变量初始
 			setGlobaVariable({
-				inputURL:'<s:url namespace="/scheduling/job" action="input"/>',
-				queryURL:'<s:url namespace="/scheduling/job" action="query"/>',
-				deleteURL:'<s:url namespace="/scheduling/job" action="delete"/>',
+				inputURL:'<s:url namespace="/scheduling/jobinfo" action="input"/>',
+				queryURL:'<s:url namespace="/scheduling/jobinfo" action="query"/>',
+				deleteURL:'<s:url namespace="/scheduling/jobinfo" action="delete"/>',
 				editwidth:1040,
 				editheight:470,
 				top:50,
@@ -43,9 +43,9 @@
 		                 		formatter:function(val,rec){
 		                 			var button_html = "";
 		                 			if (rec.state=='正常'){
-			                 			button_html = "<a href='<s:url namespace='/scheduling/job' action='pause'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
+			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='pause'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
 		                 			}else if (rec.state=='暂停'){
-			                 			button_html = "<a href='<s:url namespace='/scheduling/job' action='resumed'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
+			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='resumed'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
 		                 			}
 		                 			return button_html;
 		                 		}
