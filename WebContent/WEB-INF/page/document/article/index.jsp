@@ -73,6 +73,11 @@
 							    	}
 						        },
 					            {field:'statusDescription',title:'状态',width:80},
+					            {field:'eauthor',title:'审核人',width:80,
+						            formatter:function(val,rec){
+						            	return rec.article.eauthorReal;
+					            	}
+					            },
 					            {field:'published',title:'发布时间',width:125},
 					            {field:'modified',title:'修改时间',width:125}
 			            ]],
@@ -435,7 +440,8 @@
 				$('#btnCitizen').linkbutton('disable');
 				$('#btnSelf').linkbutton('disable');
 				$('#btnShare').linkbutton('disable');
-				$('#btnReview').linkbutton('disable');				
+				$('#btnReview').linkbutton('disable');
+				$('#btnSubmitReview').linkbutton('disable');				
 			}
 			function enableButtons(){
 				$('#btnAdd').linkbutton('enable');
@@ -448,7 +454,8 @@
 				$('#btnCitizen').linkbutton('enable');
 				$('#btnSelf').linkbutton('enable');
 				$('#btnShare').linkbutton('enable');
-				$('#btnReview').linkbutton('enable');				
+				$('#btnReview').linkbutton('enable');
+				$('#btnSubmitReview').linkbutton('enable');			
 			}
 			function reviewOperate(){
 				var rows = $("#tt").datagrid('getSelections');
