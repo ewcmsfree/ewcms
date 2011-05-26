@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
-import com.ewcms.scheduling.model.JobClass;
+import com.ewcms.scheduling.model.AlqcJobClass;
 import com.ewcms.web.QueryBaseAction;
 
 /**
@@ -30,7 +30,7 @@ public class JobClassQueryAction extends QueryBaseAction {
 	
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
-    	EntityQueryable query =  queryFactory.createEntityQuery(JobClass.class).setPage(page).setRow(rows);
+    	EntityQueryable query =  queryFactory.createEntityQuery(AlqcJobClass.class).setPage(page).setRow(rows);
 		
         Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
         if (isNotNull(id)) query.eq("id", id);
@@ -44,7 +44,7 @@ public class JobClassQueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-    	EntityQueryable query =  queryFactory.createEntityQuery(JobClass.class).setPage(page).setRow(rows);
+    	EntityQueryable query =  queryFactory.createEntityQuery(AlqcJobClass.class).setPage(page).setRow(rows);
         
         List<Integer> ids = getIds(Integer.class);
         query.in("id", ids);

@@ -18,7 +18,7 @@ import org.quartz.SchedulerException;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.generator.release.ReleaseException;
-import com.ewcms.scheduling.job.BaseExecutionJob;
+import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.job.channel.fac.EwcmsJobChannelFacable;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
 
@@ -27,7 +27,7 @@ import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
  * 
  * @author 吴智俊
  */
-public class EwcmsExecutionChannelJob extends BaseExecutionJob {
+public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
     private static final Log log = LogFactory.getLog(EwcmsExecutionChannelJob.class);
     
@@ -36,7 +36,7 @@ public class EwcmsExecutionChannelJob extends BaseExecutionJob {
 
     protected EwcmsJobChannel jobDetails;
     
-    protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
+    protected void alqcJobExecute(JobExecutionContext context) throws JobExecutionException {
         try {
             excutePublic();
         } catch (JobExecutionException e) {
@@ -103,7 +103,7 @@ public class EwcmsExecutionChannelJob extends BaseExecutionJob {
     	}
     }
 
-    protected void jobClear() {
+    protected void alqcJobClear() {
         jobDetails = null;
     }
 

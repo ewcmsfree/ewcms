@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.scheduling.manage.fac.SchedulingFacable;
-import com.ewcms.scheduling.model.JobClass;
+import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
+import com.ewcms.scheduling.model.AlqcJobClass;
 import com.ewcms.web.CrudBaseAction;
 
 /**
@@ -21,18 +21,18 @@ import com.ewcms.web.CrudBaseAction;
  * @author 吴智俊
  */
 @Controller("scheduling.jobclass.index")
-public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
+public class JobClassAction extends CrudBaseAction<AlqcJobClass, Integer> {
 
 	private static final long serialVersionUID = -7180641001521655948L;
 	
 	@Autowired
-	private SchedulingFacable schedulingFac;
+	private AlqcSchedulingFacable alqcSchedulingFac;
 
-	public JobClass getAlqcJobClassVo(){
+	public AlqcJobClass getAlqcJobClassVo(){
 		return super.getVo();
 	}
 	
-	public void setAlqcJobClassVo(JobClass alqcJobClassVo){
+	public void setAlqcJobClassVo(AlqcJobClass alqcJobClassVo){
 		super.setVo(alqcJobClassVo);
 	}
 	
@@ -45,23 +45,23 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 	}
 	
 	@Override
-	protected JobClass createEmptyVo() {
-		return new JobClass();
+	protected AlqcJobClass createEmptyVo() {
+		return new AlqcJobClass();
 	}
 
 	@Override
 	protected void deleteOperator(Integer pk) {
 		try {
-			schedulingFac.deletedJobClass(pk);
+			alqcSchedulingFac.deletedJobClass(pk);
 		} catch (BaseException e) {
 			this.addActionMessage(e.getPageMessage());
 		}
 	}
 
 	@Override
-	protected JobClass getOperator(Integer pk) {
+	protected AlqcJobClass getOperator(Integer pk) {
 		try {
-			return schedulingFac.findJobClassById(pk);
+			return alqcSchedulingFac.findByJobClass(pk);
 		} catch (BaseException e) {
 			this.addActionMessage(e.getPageMessage());
 			return null;
@@ -69,17 +69,17 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 	}
 
 	@Override
-	protected Integer getPK(JobClass vo) {
+	protected Integer getPK(AlqcJobClass vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected Integer saveOperator(JobClass vo, boolean isUpdate) {
+	protected Integer saveOperator(AlqcJobClass vo, boolean isUpdate) {
 		try{
 			if (isUpdate) {
-				return schedulingFac.updateJobClass(vo);
+				return alqcSchedulingFac.updateJobClass(vo);
 			}else{
-				return schedulingFac.saveJobClass(vo);
+				return alqcSchedulingFac.saveJobClass(vo);
 			}
 		}catch(BaseException e){
 			this.addActionMessage(e.getPageMessage());
