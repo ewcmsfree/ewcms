@@ -124,7 +124,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('任务设置','scheduling/job/index.do')"> 
+                        <a href="javascript:addTab('任务设置','scheduling/jobinfo/index.do')"> 
                             <img src="source/image/scheduling_job.png" style="border: 0" /><br/>
                             <span>任务设置</span>
                          </a>
@@ -136,7 +136,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('历史记录','aspect/history/index.do')">
+                        <a href="javascript:addTab('历史记录','history/index.do')">
                             <img src="source/image/historymodel.png" style="border: 0" /><br />
                             <span>历史记录</span>
                         </a>
