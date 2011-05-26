@@ -58,8 +58,11 @@
 .icon-move{
 	background:url('icons/move.png') no-repeat;
 }
-.icon-release{
-	background:url('icons/release.png') no-repeat;
+.icon-submitreview{
+	background:url('icons/submitreview.png') no-repeat;
+}
+.icon-review{
+	background:url('icons/review.png') no-repeat;
 }
 .icon-publish{
 	background:url('icons/publish.png') no-repeat;
