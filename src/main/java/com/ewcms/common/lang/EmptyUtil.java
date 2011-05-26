@@ -4,10 +4,6 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.common.lang;
 
 import java.lang.reflect.Array;
@@ -16,56 +12,103 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 /**
- *
- * @author wangwei
+ * 判断值为空
+ * 
+ * @author WangWei
  */
 public class EmptyUtil {
 
+    /**
+     * 判断值为null
+     * 
+     * @param value 
+     * @return true is null
+     */
     public static boolean isNull(Object value) {
         return value == null ? true : false;
     }
 
+    /**
+     * 判断值为不为null
+     * 
+     * @param value
+     * @return true is not null
+     */
     public static boolean isNotNull(Object value){
         return !isNull(value);
     }
 
-    public static boolean isArrayEmpty(Object value) {
+    /**
+     * 判断数组为空
+     * 
+     * @param value
+     * @return 
+     */
+    public static boolean isArrayEmpty(Object[] value) {
         if (isNull(value)) {
             return true;
         }
         return Array.getLength(value) == 0 ? true : false;
     }
 
-    public static boolean isArrayNotEmpty(Object value){
+    /**
+     * 判断数组不为空
+     * 
+     * @param value
+     * @return 
+     */
+    public static boolean isArrayNotEmpty(Object[] value){
         return !isArrayEmpty(value);
     }
 
-    public static boolean isCollectionEmpty(Collection value) {
+    /**
+     * 判断集合为空
+     * 
+     * @param value
+     * @return
+     */
+    public static boolean isCollectionEmpty(Collection<?> value) {
         if (isNull(value)) {
             return true;
         }
         return value.isEmpty();
     }
 
-    public static boolean isCollectionNotEmpty(Collection value){
+    /**
+     * 判断集合不为空
+     * 
+     * @param value
+     * @return
+     */
+    public static boolean isCollectionNotEmpty(Collection<?> value){
         return !isCollectionEmpty(value);
     }
 
-    public static boolean isMapEmpty(Map map){
-        if(isNull(map)){
+    /**
+     * 判断Map为空
+     * 
+     * @param value
+     * @return
+     */
+    public static boolean isMapEmpty(Map<?,?> value){
+        if(isNull(value)){
             return true;
         }
-        return map.isEmpty();
-    }
-
-    public static boolean isMapNotEmpty(Map map){
-        return !isMapEmpty(map);
+        return value.isEmpty();
     }
 
     /**
-     * 判断是否为空
-     *
-     * <p>String类型</p>
+     * 判断Map不为空
+     * 
+     * @param value
+     * @return
+     */
+    public static boolean isMapNotEmpty(Map<?,?> value){
+        return !isMapEmpty(value);
+    }
+
+    /**
+     * 判断字符串为空
      *
      * <pre>
      * isEmpty(null)=true
@@ -89,6 +132,12 @@ public class EmptyUtil {
         return StringUtils.isBlank((String) value);
     }
 
+    /**
+     *判断字符串不为空
+     * 
+     * @param value
+     * @return
+     */
     public static boolean isStringNotEmpty(final Object value){
         return !isStringEmpty(value);
     }
