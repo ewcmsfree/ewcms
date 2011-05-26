@@ -65,22 +65,12 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 				jobChannel.setJobClass(alqcJob.getJobClass());
 			}else{
 				AlqcJobClass alqcJobClass = null;
-				if (channelId != 309){
-					alqcJobClass = alqcJobClassDAO.findByAlqcJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
-					if (alqcJobClass.getId() == null) {
-						alqcJobClass.setClassEntity(JobClassEntity.JOB_CHANNEL);
-						alqcJobClass.setClassName("频道定时器类");
-						alqcJobClass.setDescription("频道定时器类");
-						alqcJobClassDAO.persist(alqcJobClass);
-					}
-				}else{//TODO 浔阳中使用,在平台中将被删除
-					alqcJobClass = alqcJobClassDAO.findByAlqcJobClassByClassEntity(JobClassEntity.JOB_LEADINGWINDOW);
-					if (alqcJobClass.getId() == null) {
-						alqcJobClass.setClassEntity(JobClassEntity.JOB_LEADINGWINDOW);
-						alqcJobClass.setClassName("领导之窗定时器类");
-						alqcJobClass.setDescription("领导之窗定时器类");
-						alqcJobClassDAO.persist(alqcJobClass);
-					}
+				alqcJobClass = alqcJobClassDAO.findByAlqcJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
+				if (alqcJobClass.getId() == null) {
+					alqcJobClass.setClassEntity(JobClassEntity.JOB_CHANNEL);
+					alqcJobClass.setClassName("频道定时器类");
+					alqcJobClass.setDescription("频道定时器类");
+					alqcJobClassDAO.persist(alqcJobClass);
 				}
 				jobChannel.setJobClass(alqcJobClass);
 			}
