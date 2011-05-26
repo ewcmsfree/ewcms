@@ -7,9 +7,9 @@
 package com.ewcms.common.convert;
 
 /**
- *   转换成Long数据类型的值
+ * 转换成Long数据类型
  *  
- * @author 王伟
+ * @author WangWei
  */
 class LongConvert implements Convertable<Long> {
 

@@ -12,10 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *  转换成日期(java.util.Date)
- * 日期格式为<code>yyyy-MM-dd OR yyyy-MM-dd HH:mm:ss</code>
+ * 转换成日期(java.util.Date)
+ * 
+ * <p>缺省日期格式为<code>yyyy-MM-dd OR yyyy-MM-dd HH:mm:ss</code></p>
  *
- * @author 王伟
+ * @author WangWei
  */
 class DateConvert implements ConvertDateable<Date> {
 

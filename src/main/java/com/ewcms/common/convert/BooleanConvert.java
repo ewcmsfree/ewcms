@@ -12,9 +12,9 @@ package com.ewcms.common.convert;
  *  if(value = "true") //忽略大小写
  *       return true;
  *  else
- *       return null;
+ *       return false;
  *       
- *  @author 王伟
+ *  @author WangWei
  */
 class BooleanConvert implements Convertable<Boolean> {
 

@@ -12,11 +12,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * 转换成Date(java.sql.Date)数据类型的值
- * <p>
- *  日期格式<code>yyyy-MM-dd</code>
+ * 转换成Date(java.sql.Date)数据类型
+ * <p>缺省日期格式<code>yyyy-MM-dd</code></p>
  * 
- * @author 王伟
+ * @author WangWei
  */
 class SqlDateConvert implements ConvertDateable<Date> {
 

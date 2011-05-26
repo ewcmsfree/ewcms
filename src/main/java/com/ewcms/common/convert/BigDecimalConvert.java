@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 /**
  *  转换成BigDecimal
  *
- *  @author 王伟
+ *  @author WangWei
  */
 class BigDecimalConvert implements Convertable<BigDecimal> {
 

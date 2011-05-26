@@ -11,8 +11,9 @@
 package com.ewcms.common.convert;
 
 /**
+ * 转换异常
  *
- * @author wangwei
+ * @author WangWei
  */
 public class ConvertException extends Exception {
 

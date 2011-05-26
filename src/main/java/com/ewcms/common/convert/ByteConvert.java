@@ -15,7 +15,7 @@ package com.ewcms.common.convert;
  * <p>
  *  MAX_VALUE=pwo(2,7)-1
  *  
- * @author 王伟
+ * @author WangWei
  */
 class ByteConvert implements Convertable<Byte> {
 

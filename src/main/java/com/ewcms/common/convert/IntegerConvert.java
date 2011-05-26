@@ -7,9 +7,9 @@
 package com.ewcms.common.convert;
 
 /**
- *   转换成Integer数据类型的值
+ * 转换成Integer数据类型
  *  
- * @author 王伟
+ * @author WangWei
  */
 class IntegerConvert implements Convertable<Integer> {
     

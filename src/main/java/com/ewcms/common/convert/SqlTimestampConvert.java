@@ -13,10 +13,9 @@ import java.text.SimpleDateFormat;
 
 /**
  * 转换成Timestamp数据类型的值
- * <p>
- * 日期格式<code>yyyy-MM-dd HH:mm:ss</code>
+ * <p>缺省日期格式<code>yyyy-MM-dd HH:mm:ss</code></p>
  * 
- * @author 王伟
+ * @author WangWei
  */
 class SqlTimestampConvert implements ConvertDateable<Timestamp> {
 

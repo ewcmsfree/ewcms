@@ -12,11 +12,10 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
 /**
- * 转换成Time数据类型的值
- * <p>
- *时间格式<code>hh:mm:ss</code>
+ * 转换成Time数据类型
+ * <p>时间格式<code>hh:mm:ss</code></p>
  * 
- * @author 王伟
+ * @author WangWei
  */
 class SqlTimeConvert implements ConvertDateable<Time> {
 

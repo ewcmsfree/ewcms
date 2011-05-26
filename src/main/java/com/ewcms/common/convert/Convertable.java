@@ -7,11 +7,11 @@
 package com.ewcms.common.convert;
 
 /**
- *  将String类型的值转换成指定数据类型的值
+ * 字符串和指定数据类型相互转换
  *    
- * @author 王伟
+ * @author WangWei
  */
-public interface Convertable<T> {
+interface Convertable<T> {
 
     /**
      * 转换参数数据类型

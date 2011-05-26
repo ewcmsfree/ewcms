@@ -6,17 +6,12 @@
 
 package com.ewcms.common.convert;
 
-/* 
- * Copyright (c)2008 Jiangxi Institute of Computing Technology(JICT), All rights reserved.
- * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.jict.org
- */
 import java.math.BigInteger;
 
 /**
  *  转换成BigInteger
  *
- *  @author 王伟
+ *  @author WangWei
  */
 class BigIntegerConvert implements Convertable<BigInteger> {
 

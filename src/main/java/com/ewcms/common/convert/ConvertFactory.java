@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * 转换数据对象的工厂封装 
  * 
- * @author 王伟
+ * @author WangWei
  */
 public enum ConvertFactory {
 

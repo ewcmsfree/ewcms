@@ -7,9 +7,9 @@
 package com.ewcms.common.convert;
 
 /**
- *   转换成Float数据类型的值
+ * 转换成Float数据类型
  *  
- * @author 王伟
+ * @author WangWei
  */
 class FloatConvert implements Convertable<Float> {
     

@@ -12,10 +12,11 @@
 package com.ewcms.common.convert;
 
 /**
- *
- * @author wangwei
+ * 字符串和日期类型相互转换
+ * 
+ * @author WangWei
  */
-public interface ConvertDateable<T> extends Convertable<T>{
+interface ConvertDateable<T> extends Convertable<T>{
 
     /**
      * 设置日期格式
