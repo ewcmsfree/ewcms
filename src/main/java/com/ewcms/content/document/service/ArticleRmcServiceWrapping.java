@@ -25,6 +25,7 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.security.manage.service.UserServiceable;
 
 @Service
 public class ArticleRmcServiceWrapping {
@@ -35,6 +36,8 @@ public class ArticleRmcServiceWrapping {
     private ChannelDAO channelDAO;
     @Autowired
     private GeneratorServiceable generatorService;
+	@Autowired
+	private UserServiceable userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN') "
             + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
@@ -304,9 +307,11 @@ public class ArticleRmcServiceWrapping {
 	    	if (review == 0 && articleRmc.getStatus() == ArticleRmcStatus.REVIEW){//通过
 	    		articleRmc.setStatus(ArticleRmcStatus.PRERELEASE);
 	    		articleRmc.getArticle().setEauthor(eauthor);
+	    		articleRmc.getArticle().setEauthorReal(userService.getUserRealName());
 	    	}else if (review == 1){//不通过
 	    		articleRmc.setStatus(ArticleRmcStatus.REEDIT);
 	    		articleRmc.getArticle().setEauthor(eauthor);
+	    		articleRmc.getArticle().setEauthorReal(userService.getUserRealName());
 	    	}
 	    	articleRmcDAO.merge(articleRmc);
     	}

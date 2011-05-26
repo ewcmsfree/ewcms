@@ -58,6 +58,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>type:文章类型</li>
  * <li>linkAddr:链接地址</li>
  * <li>eauthor:审核人</li>
+ * <li>eauthorReal:审核人实名</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -128,6 +129,8 @@ public class Article implements Serializable {
 	private String eauthor;
 	@Column(name = "owner")
 	private String owner;
+	@Column(name = "eauthor_real")
+	private String eauthorReal;
 	
 	public Article() {
 		topFlag = false;
@@ -365,6 +368,14 @@ public class Article implements Serializable {
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+
+	public String getEauthorReal() {
+		return eauthorReal;
+	}
+
+	public void setEauthorReal(String eauthorReal) {
+		this.eauthorReal = eauthorReal;
 	}
 
 	@Override
