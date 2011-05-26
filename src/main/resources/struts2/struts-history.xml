@@ -5,9 +5,9 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>	
-	<package name="aspect.history" extends="struts-default" namespace="/aspect/history">
+	<package name="history" extends="struts-default" namespace="/history">
 		<action name="index">
-			<result>/WEB-INF/page/aspect/history/index.jsp</result>
+			<result>/WEB-INF/page/history/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.history.web.HistoryAction" method="delete"/>
 		<action name="query" class="com.ewcms.history.web.HistoryQueryAction" method="query"/>
