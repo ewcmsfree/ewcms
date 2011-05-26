@@ -30,7 +30,6 @@
 		<solr.versino>1.4.1</solr.versino>
 		<jcaptcha.version>1.0</jcaptcha.version>
 		<quartz.version>1.8.4</quartz.version>
-                <ehcache.version>2.4.2</ehcache.version>
 		<servlet.version>2.5</servlet.version>
 		<jsp.version>2.1</jsp.version>
 		<junit.version>4.8.1</junit.version>
@@ -271,7 +270,7 @@
                 <dependency>
                         <groupId>net.sf.ehcache</groupId>
                         <artifactId>ehcache-core</artifactId>
-                        <version>${ehcache.version}</version>
+                        <version>2.4.2</version>
                 </dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -398,7 +397,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- 
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -471,7 +469,6 @@
 			        </execution>
 			    </executions>
 			</plugin>
-			 -->
 		</plugins>
 	</build>
 </project>
