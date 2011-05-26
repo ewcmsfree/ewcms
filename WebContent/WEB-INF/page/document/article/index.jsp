@@ -84,8 +84,8 @@
 								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
-								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-release',handler:submitReviewOperate},'-',
-								{id:'btnReview',text:'审核',iconCls:'icon-release',handler:reviewOperate},'-',
+								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-submitreview',handler:submitReviewOperate},'-',
+								{id:'btnReview',text:'审核',iconCls:'icon-review',handler:reviewOperate},'-',
 								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate},'-',
 								{id:'btnSelf',text:'本站共享', iconCls:'icon-shareself',handler:shareSelf},'-',
 								{id:'btnShare',text:'群站共享', iconCls:'icon-share', handler:share}								
