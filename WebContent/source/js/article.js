@@ -391,15 +391,15 @@ function saveArticle(){
 		}
 	});
 }
-//发布文章
-function preRelease(url){
+//提交审核文章
+function submitReview(url){
 	$.post(url, {} ,function(data) {
 		if (data == "true"){
-			$.messager.alert("提示","发布文章成功","info");
+			$.messager.alert("提示","提交审核成功","info");
 			window.opener.window.articleReload();
 			return;
 		}else if (data == "false"){
-			$.messager.alert("提示","发布文章失败，只有在【初稿】或【重新编辑】的文章才能发布","info");
+			$.messager.alert("提示","提交审核失败，只有在【初稿】或【重新编辑】的文章才能提交审核","info");
 			return;
 		}else if (data == "system-false"){
 			$.messager.alert("提示","系统错误","info");
