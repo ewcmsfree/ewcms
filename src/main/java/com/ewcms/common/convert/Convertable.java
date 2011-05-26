@@ -11,7 +11,7 @@ package com.ewcms.common.convert;
  *    
  * @author WangWei
  */
-interface Convertable<T> {
+public interface Convertable<T> {
 
     /**
      * 转换参数数据类型

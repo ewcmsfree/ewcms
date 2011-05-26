@@ -16,7 +16,7 @@ package com.ewcms.common.convert;
  * 
  * @author WangWei
  */
-interface ConvertDateable<T> extends Convertable<T>{
+public interface ConvertDateable<T> extends Convertable<T>{
 
     /**
      * 设置日期格式
