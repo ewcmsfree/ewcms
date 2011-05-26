@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TypeHandler对象的工厂封装 
+ * 转换数据对象的工厂封装 
  * 
  * @author 王伟
  */
@@ -27,7 +27,7 @@ public enum ConvertFactory {
     }
 
     /**
-     * 根据Class类型 返回  相同类型的ParseTypeHandler
+     * 根据Class类型 返回转换类型操作
      * 
      * @param clazz 数据类型类
      * @return ParseTypeHandler
