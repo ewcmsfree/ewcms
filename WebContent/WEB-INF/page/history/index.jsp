@@ -16,9 +16,9 @@
 			$(function(){
 				//基本变量初始
 				setGlobaVariable({
-					inputURL:'<s:url namespace="/aspect/history" action="input"/>',
-					queryURL:'<s:url namespace="/aspect/history" action="query"/>',
-					deleteURL:'<s:url namespace="/aspect/history" action="delete"/>',
+					inputURL:'<s:url namespace="/history" action="input"/>',
+					queryURL:'<s:url namespace="/history" action="query"/>',
+					deleteURL:'<s:url namespace="/history" action="delete"/>',
 					editwidth:1000,
 					editheight:700
 				});
@@ -31,7 +31,7 @@
 								{field:'createDate',title:'保存时间',width:125},
 								{field:'idName',title:'关键字名称',width:100},
 								{field:'idValue',title:'关键字值',width:100},
-								{field:'idType',title:'关键字类型',width:100}
+								{field:'idType',title:'关键字类型',width:120}
 							]],
 			         toolbar:[
 								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
