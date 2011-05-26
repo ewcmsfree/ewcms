@@ -20,7 +20,7 @@ import org.junit.Test;
  */
 public class SqlTimeConvertTest {
 
-    private ConvertDate<Time> handler;
+    private ConvertDateable<Time> handler;
 
     @Before
     public void setUp() {

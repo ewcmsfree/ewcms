@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class SqlTimestampConvertTest {
 
-    private ConvertDate<Timestamp> handler;
+    private ConvertDateable<Timestamp> handler;
 
     @Before
     public void setUp() {
