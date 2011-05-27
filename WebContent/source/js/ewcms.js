@@ -9,8 +9,8 @@ var ewcms = {
             title: (options.title ? options.title : ' '),
             width: (options.width ? options.width : 500),
             height: (options.height ? options.height : 300),
-            left:(options.left ? options.left :150 ),
-            top:(options.top ? options.top :50),
+            left:(options.left ? options.left : ($(window).width() - options.width)/2),
+            top:(options.top ? options.top : ($(window).height() - options.height)/2),
             modal: (options.modal ? options.modal : true),
             maximizable:(options.maximizable ? options.maximizable : false),
             minimizable:(options.minimizable ? options.minimizable : false)
