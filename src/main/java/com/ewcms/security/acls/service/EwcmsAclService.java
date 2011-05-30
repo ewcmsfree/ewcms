@@ -191,10 +191,9 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
             String name = iterator.next();
             Sid sid ;
             if(isGrant(name)){
-                sid = new PrincipalSid(name);
-                
-            }else{
                 sid= new GrantedAuthoritySid(name);
+            }else{
+                sid = new PrincipalSid(name);
             }
             int mask = sidNamePermissionMasks.get(name);
             Permission permission = EwcmsPermission.maskOf(mask);
