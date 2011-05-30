@@ -71,11 +71,12 @@ public class UserService extends AbstractService implements UserServiceable{
         user.setAuthorities(authorities);
         Set<Group> groups = getGroupsByNames(groupNames);
         user.setGroups(groups);
-        UserInfo info = (userInfo == null ? userInfo : new UserInfo());
+        UserInfo info = (userInfo != null ? userInfo : new UserInfo());
         info.setUsername(username);
         if(info.getName() == null){
             info.setName(username);
         }
+        
         user.setUserInfo(info);
         
         //初始用户密码
