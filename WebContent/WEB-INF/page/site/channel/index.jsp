@@ -18,7 +18,7 @@
 					checkbox: false,
 					url: '<s:url action="treePub"/>',
 					onDblClick:function(node){
-						if(node.attributes.maxpermission<64){
+						if(node.attributes.maxpermission<16){
 		    	    		$.messager.alert('提示','您不具有该操作权限');
 		    	    		return false;
 						}
@@ -208,7 +208,7 @@
 				//判断是否选择了操作专栏
     			var node = getSelectNode();
     			if(!node) return;	
-				if(node.attributes.maxpermission<64){
+				if(node.attributes.maxpermission<16){
     	    		$.messager.alert('提示','您不具有该操作权限');
     	    		return false;
 				}
@@ -225,7 +225,7 @@
 					});
 					return false;
 				});
-			});			
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout" onload="loadHomePage();">
