@@ -53,6 +53,16 @@ public interface EwcmsAclServiceable extends MutableAclService{
     List<AccessControlEntry> findAces(ObjectIdentity objectIdentity);
     
     /**
+     * 实体权限继承
+     * 
+     * <p>父对象标识不为空，则继承权限</p>
+     * 
+     * @param objectIdentity 被设置访问控制的对象标识
+     * @param parentIdentity 被设置访问控制的父对象标识
+     */
+    void entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity);
+    
+    /**
      * 更新对象访问控制权限
      * 
      * 父对象不为空，则继承权限

@@ -74,9 +74,7 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
             MutableAcl acl = (MutableAcl) readAclById(objectIdentity);
             getPermissions(permissions, acl, sids);
         }catch(NotFoundException e){
-            if(logger.isDebugEnabled()){
-                logger.debug("Not found acl by {}",objectIdentity.toString());
-            }
+            logger.debug("Not found acl by {}",objectIdentity.toString());
         }   
         
         return permissions;
@@ -117,11 +115,50 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
             final Acl acl = readAclById(objectIdentity);
             return acl.getEntries();
         }catch(NotFoundException e){
-            if(logger.isDebugEnabled()){
-                logger.debug("Not found acl by {}",objectIdentity.toString());
-            }
+            logger.debug("Not found acl by {}",objectIdentity.toString());
             return new ArrayList<AccessControlEntry>();
         }
+    }
+    
+    @Override
+    public void entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity) {
+        entryInheriting(objectIdentity,parentIdentity,true);
+    }
+    
+    /**
+     * 继承权限
+     * 
+     * @param objectIdentity 被设置访问控制的对象
+     * @param parentIdentity 被设置访问控制的父对象标识
+     * @param persist true 保存 false 不保存
+     * @return 
+     */
+    private Acl entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity,boolean persist){
+        MutableAcl acl = null;
+        try{
+            acl = (MutableAcl)readAclById(objectIdentity);
+        }catch(NotFoundException e){
+            logger.debug("Not found acl by {}",objectIdentity.toString());
+            acl = createAcl(objectIdentity);
+        }
+        
+        if(parentIdentity != null){
+            try{
+                final Acl parentAcl = (MutableAcl)readAclById(parentIdentity);
+                acl.setParent(parentAcl);
+                acl.setEntriesInheriting(Boolean.TRUE);
+            }catch(NotFoundException e){
+                logger.debug("Not found acl of parent by {}",objectIdentity.toString());
+            }
+        }else{
+            acl.setEntriesInheriting(Boolean.FALSE);
+        }
+        
+        if(persist){
+            updateAcl(acl);    
+        }
+        
+        return acl;
     }
     
     @Override
@@ -134,15 +171,7 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
     @Override
     public void updatePermissions(final ObjectIdentity objectIdentity,final Map<Sid,Permission> sidPermissions,ObjectIdentity parentIdentity){
         
-        MutableAcl acl = null;
-        try{
-            acl = (MutableAcl)readAclById(objectIdentity);
-        }catch(NotFoundException e){
-            if(logger.isDebugEnabled()){
-                logger.debug("Not found acl by {}",objectIdentity.toString());
-            }
-            acl = createAcl(objectIdentity);
-        }
+        MutableAcl acl = (MutableAcl)entryInheriting(objectIdentity,parentIdentity,false);
         
         //empty history entries
         if(acl.getEntries() != null && !acl.getEntries().isEmpty()){
@@ -158,22 +187,7 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
             boolean granting =(sid instanceof PrincipalSid);
             acl.insertAce(acl.getEntries().size(), permission, sid, granting);
         }
-        
-        //set inherit
-        if(parentIdentity != null){
-            try{
-                final Acl parentAcl = (MutableAcl)readAclById(parentIdentity);
-                acl.setParent(parentAcl);
-                acl.setEntriesInheriting(Boolean.TRUE);
-            }catch(NotFoundException e){
-                if(logger.isDebugEnabled()){
-                    logger.debug("Not found acl of parent by {}",objectIdentity.toString());
-                }
-            }
-        }else{
-            acl.setEntriesInheriting(Boolean.FALSE);
-        }
-        
+                
         updateAcl(acl);
     }
 
