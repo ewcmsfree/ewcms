@@ -16,7 +16,7 @@
 				//基本变量初始
 				setGlobaVariable({
 					inputURL:'<s:url namespace="/document/recommend" action="input"/>',
-					queryURL:'<s:url namespace="/document/recommend" action="query"><s:param name="articleRmcId" value="articleRmcId"></s:param></s:url>',
+					queryURL:'<s:url namespace="/document/recommend" action="query"><s:param name="articleId" value="articleId"></s:param></s:url>',
 					deleteURL:'<s:url namespace="/document/recommend" action="delete"/>',
 					editwidth:1000,
 					editheight:700
@@ -25,22 +25,22 @@
 				openDataGrid({
 					singleSelect:true,
 					columns:[[
-								{field:'id',title:'序号',width:40,sortable:true},
+								{field:'id',title:'文章序号',width:60,sortable:true},
 								{field:'topFlag',title:'属性',width:60,
 									formatter:function(val,rec){
 										var pro = [];
-										if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-										if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-										if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-										if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
+										if (rec.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+										if (rec.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+										//if (rec.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
+										if (rec.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
 										return pro.join("");
 									}
 								},
-								{field:'title',title:'标题[字体大小][分类属性]',width:400,
+								{field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:400,
 				                 	formatter:function(val,rec){
 										var fontSize = "12";
 			                 			var spanStyle = "";
-			                 			var titleStyle = rec.article.titleStyle;
+			                 			var titleStyle = rec.titleStyle;
 			                 			if (titleStyle != ""){
 				                 			try{
 				                 				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
@@ -50,28 +50,20 @@
 				                 			}
 			                 			}
 			                 			var classPro = [];
-			                 			if (rec.article.imageFlag) classPro.push("图片");
-				                 		if (rec.article.videoFlag) classPro.push("视频");
-					                 	if (rec.article.annexFlag) classPro.push("附件");
-						                if (rec.article.hotFlag) classPro.push("热点");
-							            if (rec.article.recommendFlag) classPro.push("推荐");
+			                 			if (rec.imageFlag) classPro.push("图片");
+				                 		if (rec.videoFlag) classPro.push("视频");
+					                 	if (rec.annexFlag) classPro.push("附件");
+						                if (rec.hotFlag) classPro.push("热点");
+							            if (rec.recommendFlag) classPro.push("推荐");
 								        var classValue = "";
 								        if (classPro.length > 0){
-											classValue = "<span style='color:#FF0000;'>[" + classPro.join(",") + "]</span>";
+											classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
 									    }
-			                 			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
+			                 			return "<span style='" + spanStyle + "'>" + rec.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
 				            		}
 							    },
-							    {field:'typeDescription',title:'文章类型',width:60,
-								    formatter:function(val,rec){
-								    	return rec.article.typeDescription;
-							    	}
-								},
-					            {field:'author',title:'作者',width:60,
-							    	formatter:function(val,rec){
-							    		return rec.article.author;
-							    	}
-						        },
+							    {field:'typeDescription',title:'类型',width:60},
+					            {field:'author',title:'作者',width:60},
 					            {field:'statusDescription',title:'状态',width:80},
 					            {field:'published',title:'发布时间',width:125},
 					            {field:'modified',title:'修改时间',width:125}
@@ -87,7 +79,7 @@
 				});
 			});
 			function addOperate(){
-				$("#editifr_article").attr("src","<s:url action='article'/>");
+				$("#editifr_article").attr("src","<s:url namespace='/document/recommend' action='article'/>");
 				openWindow("#edit-window",{width:600,height:400,title:'文章选择'});
 			}
 			
@@ -98,7 +90,7 @@
 	                return;
 	            }
 	            var parameter = {};
-			    var url_param = '?articleRmcId=' + $("#articleRmcId").attr("value") + '&';
+			    var url_param = '?articleId=' + $("#articleId").attr("value") + '&';
 	           	for(var i=0;i<rows.length;++i){
 	           		url_param += 'selectIds=' + rows[i].id +'&';
 	           	}
@@ -108,6 +100,7 @@
 		            $("#tt").datagrid('clearSelections');
 		            $("#tt").datagrid('reload');
 	            });	    	
+                return false;           
 			}
 
 			function upOperate(){
@@ -120,13 +113,14 @@
 					$.messager.alert("提示","只能选择一个记录进行移动","info");
 					return;
 				}
-				$.post('<s:url namespace="/document/recommend" action="up"/>', {'articleRmcId':$("#articleRmcId").val(),'selectIds':rows[0].id}, function(data){
+				$.post('<s:url namespace="/document/recommend" action="up"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
 					if (data == "false"){
 						$.messager.alert("提示","上移失败","info");
 						return;
 					}
 					$("#tt").datagrid('reload');
 				});
+                return false;           
 			}
 
 			function downOperate(){
@@ -139,27 +133,29 @@
 					$.messager.alert("提示","只能选择一个记录进行移动","info");
 					return;
 				}
-				$.post('<s:url namespace="/document/recommend" action="down"/>', {'articleRmcId':$("#articleRmcId").val(),'selectIds':rows[0].id}, function(data){
+				$.post('<s:url namespace="/document/recommend" action="down"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
 					if (data == "false"){
 						$.messager.alert("提示","下移失败","info");
 						return;
 					}
 					$("#tt").datagrid('reload');
 				});
+                return false;           
 			}
 			
 			function saveRelated(){
 				var rows = editifr_article.getRelatedRows();
 				var parameter = {};
-			    var url_param = '?articleRmcId=' + $("#articleRmcId").attr("value");
+			    var url_param = '?articleId=' + $("#articleId").attr("value");
 	           	for(var i=0;i<rows.length;++i){
-	           		url_param += '&selectIds=' + rows[i].id;
+	           		url_param += '&selectIds=' + rows[i].article.id;
 	           	}
 	           	url_param = '<s:url namespace="/document/recommend" action="save"/>' + url_param + '';
 				$.post(url_param, {} ,function(data) {
 					$("#tt").datagrid('reload');
 					$("#edit-window").window("close");
 				});
+                return false;           
 			}
 		</script>
 	</head>
@@ -205,6 +201,6 @@
                 </div>
             </div>
         </div>
-        <s:hidden id="articleRmcId" name="articleRmcId"/>      	
+        <s:hidden id="articleId" name="articleId"/>      	
 	</body>
 </html>

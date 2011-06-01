@@ -26,6 +26,15 @@
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
             $(function() {
+				$('#cc_categories').combobox({
+					url:'<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>',
+					valueField:'id',
+                    textField:'text',
+					editable:false,
+					multiple:true,
+					cascadeCheck:false,
+					panelWidth:200
+				});
             	$('#systemtab_image').tabs({
                     onSelect:function(title){
                         var multi = $('#image_multi_id').val();
@@ -76,12 +85,12 @@
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="createArticle('<s:url action='input' namespace='/document/article'><s:param name='channelId' value='channelId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/create.gif'/>" width="20" height="20" /><b>新建&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="saveArticle();return false;"><img src="<s:url value='/source/image/article/save.gif'/>" width="20" height="20"/><b>保存&nbsp;</b></a>
 											<!-- <a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="return false;"><img src="<s:url value='/source/image/article/verify.gif'/>" width="20" height="20"/><b>审核&nbsp;</b></a> -->
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'><s:param name='articleRmcId' value='articleRmcId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/submitreview.gif'/>" width="20" height="20"/><b>提交审核&nbsp;</b></a>
+											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="submitReview('<s:url action='submitReviews' namespace='/document/article'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/submitreview.gif'/>" width="20" height="20"/><b>提交审核&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('keyWord','<s:url action="keyword" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/keyword.gif'/>" width="20" height="20" /><b>提取关键字&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('summary','<s:url action="summary" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/summary.gif'/>" width="20" height="20" /><b>提取摘要&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/history.gif'/>" width="20" height="20" /><b>历史内容&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRelated('<s:url action='related' namespace='/document/related'><s:param name='articleRmcId' value='articleRmcId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/related.gif'/>" width="20" height="20" /><b>相关文章&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRecommend('<s:url action='recommend' namespace='/document/recommend'><s:param name='articleRmcId' value='articleRmcId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/recommend.gif'/>" width="20" height="20" /><b>推荐文章&nbsp;</b></a>
+											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRelated('<s:url action='related' namespace='/document/related'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/related.gif'/>" width="20" height="20" /><b>相关文章&nbsp;</b></a>
+											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRecommend('<s:url action='recommend' namespace='/document/recommend'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/recommend.gif'/>" width="20" height="20" /><b>推荐文章&nbsp;</b></a>
 											<!-- <a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="return false;"><img src="<s:url value='/source/image/article/preview.gif'/>" width="20" height="20" /><b>预览&nbsp;</b></a> -->
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="ewcmsCookies();return false;" ><img id="imgCookies" src="<s:url value='/source/image/article/cookies.gif'/>" width="20" height="20" /><b><s:label id="cookiesLabel" value="常用项"></s:label>&nbsp;</b></a>
 					           	 			<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="showHide('<sec:authentication property='name' />');return false;" ><img id="imgShowHide" src="<s:url value='/source/image/article/show.gif'/>" width="20" height="20" /><b><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
@@ -131,7 +140,7 @@
 			        <tr id="trShowHide_1" style="display:none">
 			        	<td width="6%">发布日期：</td>
 			        	<td width="44%">
-			        		<ewcms:datepicker id="published" name="published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+			        		<ewcms:datepicker id="published" name="published" option="inputsimple" format="yyyy-MM-dd HH:mm"/>
 			        	</td>
 			        	<td width="6%">审核人：</td>
 			        	<td width="44%">
@@ -143,7 +152,7 @@
 			        <tr id="trShowHide_2" style="display:none">
 			        	<td>文章类型：</td>
 			        	<td>
-			        		<s:select list="@com.ewcms.content.document.model.ArticleStatus@values()" listValue="description" name="articleVo.type" id="articleVo_type" onchange="changeType()"></s:select>
+			        		<s:select list="@com.ewcms.content.document.model.ArticleType@values()" listValue="description" name="articleVo.type" id="articleVo_type" onchange="changeType()"></s:select>
 			        	</td>
 			        	<td>来源：</td>
 			        	<td>
@@ -168,11 +177,7 @@
 			        	</td>
 			        	<td style="height:30px;vertical-align: middle;">分类属性：</td>
 			        	<td>
-			        		<s:checkbox id="imageFlag" name="articleVo.imageFlag" cssStyle="vertical-align: top;"/><label for="imageFlag">图片</label>&nbsp;
-			        		<s:checkbox id="videoFlag" name="articleVo.videoFlag" cssStyle="vertical-align: top;"/><label for="videoFlag">视频</label>&nbsp;
-			        		<s:checkbox id="annexFlag" name="articleVo.annexFlag" cssStyle="vertical-align: top;"/><label for="annexFlag">附件</label>&nbsp;
-							<s:checkbox id="hotFlag" name="articleVo.hotFlag" cssStyle="vertical-align: top;"/><label for="hotFlag">热点</label>&nbsp; 
-							<s:checkbox id="recommendFlag" name="articleVo.recommendFlag" cssStyle="vertical-align: top;"/><label for="recommendFlag">推荐</label>
+			        		<input id="cc_categories" name="categories" style="width:200px;"></input>
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_5" style="display:none">
@@ -201,7 +206,7 @@
 			    </table>
 			    
 			    <s:if test="articleVo.contents.size>0">
-				<table id="table_content" width="100%" border="0" cellpadding="0" cellspacing="0"	bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;border-collapse:collapse">
+				<table id="table_content" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;border-collapse:collapse">
 					<tr>
 						<td valign='top'>
 							<div id="_DivContainer" style="text-align: center; overflow: auto; height: 466px; width: 100%; background-color: #666666; position: relative">
@@ -212,14 +217,14 @@
 			  									<table id="tableContent" width="100%" height="100%" cellpadding="0" cellspacing="0">
 													<s:iterator value="articleVo.contents" status="contentsStatus" >
 														<s:if test="#contentsStatus.index==0">
-															<tr id="trContent_${contentsStatus.index + 1}">
+															<tr id="trContent_<s:property value='#contentsStatus.index+1'/>">
 														</s:if>
 														<s:else>
-															<tr id="trContent_${contentsStatus.index + 1}" style="display:none">
+															<tr id="trContent_<s:property value='#contentsStatus.index+1'/>" style="display:none">
 														</s:else>
 														<td>
-															<textarea id="_Content_${contentsStatus.index + 1}" class="mceEditor"><s:text name="detail"/></textarea>
-															<input type="hidden" id="textAreaContent_${contentsStatus.index + 1}" name="textAreaContent"/>
+															<textarea id="_Content_<s:property value='#contentsStatus.index+1'/>" class="mceEditor"><s:text name="detail"/></textarea>
+															<input type="hidden" id="textAreaContent_<s:property value='#contentsStatus.index+1'/>" name="textAreaContent"/>
 														</td>
 													</tr>
 													</s:iterator>			              						
@@ -255,22 +260,22 @@
 							</span>
 						</td>
 						<td width="20%" height="20" valign="middle" align="right" style="padding-right: 10px;" bgcolor="#F7F8FD" class="pagetab">最后保存时间:
-							<span id="saveTime_general"><s:if test="modified!=null"><s:date name="modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
+							<span id="saveTime_general"><s:if test="modified!=null"><s:date name="articleVo.modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
 						</td>
 					</tr>
 				</table>
 				<table width="100%" id="pageBarTable_title" style="display:none">
 					<tr>
 						<td width="100%" height="20" valign="middle" align="left" style="padding-right: 10px;" bgcolor="#F7F8FD" class="pagetab">最后保存时间:
-							<span id="saveTime_title"><s:if test="modified!=null"><s:date name="modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
+							<span id="saveTime_title"><s:if test="modified!=null"><s:date name="articleVo.modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<s:hidden id="state" name="state"/>
 			<s:hidden id="channelId" name="channelId"/>
-			<s:hidden id="articleVo_id" name="articleVo.id"/>
-			<s:hidden id="articleRmcId" name="articleRmcId"/>
+			<s:hidden id="articleId" name="articleVo.id"/>
+			<s:hidden id="articleMainId" name="articleMainId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

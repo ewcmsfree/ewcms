@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
 <html>
 	<head>
 		<title>文档回收站</title>	
@@ -20,64 +21,63 @@
 					queryURL:'<s:url namespace="/document/recyclebin" action="query"/>',
 					deleteURL:'<s:url namespace="/document/recyclebin" action="delete"/>',
 					editwidth:1000,
-					editheight:700
+					editheight:700,
+                    querywidth:600,
+                    queryheight:200
 				});
 				//数据表格定义 						
-				openDataGrid({
-					columns:[[{field:'id',title:'序号',width:40,sortable:true},
-							{field:'topFlag',title:'属性',width:60,
-								formatter:function(val,rec){
-									var pro = [];
-									if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-									if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-									if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-									if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
-									return pro.join("");
-								}
-							},
-							{field:'title',title:'标题[字体大小][分类属性]',width:400,
-			                 	formatter:function(val,rec){
-									var fontSize = "12";
-		                 			var spanStyle = "";
-		                 			var titleStyle = rec.article.titleStyle;
-		                 			if (titleStyle != ""){
-			                 			try{
-			                 				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-			                     			spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-			                 			}catch(e){
-				                 			spanStyle = titleStyle;
-			                 			}
-		                 			}
-		                 			var classPro = [];
-		                 			if (rec.article.imageFlag) classPro.push("图片");
-			                 		if (rec.article.videoFlag) classPro.push("视频");
-				                 	if (rec.article.annexFlag) classPro.push("附件");
-					                if (rec.article.hotFlag) classPro.push("热点");
-						            if (rec.article.recommendFlag) classPro.push("推荐");
-							        var classValue = "";
-							        if (classPro.length > 0){
-										classValue = "<span style='color:#FF0000;'>[" + classPro.join(",") + "]</span>";
-								    }
-		                 			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
-			            		}
-						    },
-						    {field:'typeDescription',title:'文章类型',width:60,
-							    formatter:function(val,rec){
-							    	return rec.article.typeDescription;
-						    	}
-							},
-			                {field:'author',title:'作者',width:80,
-				                formatter:function(val,rec){
-				                	return rec.article.author;
-				            	}
-			            	},
-			                {field:'statusDescription',title:'删除前状态',width:80},
-			                {field:'deleteTime',title:'删除时间',width:120},
-			                {field:'modified',title:'修改时间',width:120},
-			                {field:'published',title:'发布时间',width:120}]],
+                openDataGrid({
+                    columns:[[
+                                {field:'mainId',title:'序号',width:60,sortable:true,formatter:function(val,rec){return rec.id;}},
+                                {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
+                                {field:'isReference',title:'引用',width:60,hidden:true},
+                                {field:'flags',title:'属性',width:60,
+                                    formatter:function(val,rec){
+                                        var pro = [];
+                                        if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                        if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                        //if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
+                                        if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
+                                        if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                        return pro.join("");
+                                    }
+                                },
+                                {field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:500,
+                                    formatter:function(val,rec){
+                                        var fontSize = "12";
+                                        var spanStyle = "";
+                                        var titleStyle = rec.article.titleStyle;
+                                        if (titleStyle != ""){
+                                            try{
+                                                fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
+                                                spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
+                                            }catch(e){
+                                                spanStyle = titleStyle;
+                                            }
+                                        }
+                                        var classPro = [];
+                                        var categories = rec.article.categories;
+                                        for (var i=0;i<categories.length;i++){
+                                           classPro.push(categories[i].categoryName);
+                                        }
+                                        var classValue = "";
+                                        if (classPro.length > 0){
+                                            classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+                                        }
+                                        return "<span style='" + spanStyle + "'>" + rec.article.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
+                                    }
+                                },
+                                {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
+                                {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                                {field:'eauthor',title:'审核人',width:80,formatter:function(val,rec){return rec.article.eauthorReal;}},
+                                {field:'statusDescription',title:'删除前状态',width:80,formatter:function(val,rec){return rec.article.statusDescription;}},
+                                {field:'deleteTime',title:'删除时间',width:120,formatter:function(val,rec){return rec.article.deleteTime;}},
+                                {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
+                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
+                        ]],
 			         toolbar:[
 								{text:'恢复文档',iconCls:'icon-edit',handler:restoreOperate},'-',
-								{text:'彻底删除',iconCls:'icon-remove', handler:delOperateBack},'-',
+								{text:'彻底删除',iconCls:'icon-remove', handler:delOperate},'-',
 								{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery}
 						     ]
@@ -114,7 +114,7 @@
 	            }
 
 	            var url = '<s:url namespace="/document/recyclebin" action="restore"/>';
-	            var ids = '';
+	            var ids = 'channelId=' + channelId + '&';
 	            for(var i=0;i<rows.length;++i){
 	            	ids =ids + 'selections=' + rows[i].id +'&';
 	            }
@@ -153,7 +153,31 @@
 
                 $("#query-window").window('close');
 			}
-		</script>		
+			
+            function delOperate(){
+                var rows = $("#tt").datagrid('getSelections');
+                if(rows.length == 0){
+                    $.messager.alert('提示','请选择删除记录','info');
+                    return;
+                }
+
+                var url = '<s:url namespace="/document/recyclebin" action="delete"/>';
+                var ids = 'channelId=' + channelId + '&';
+                for(var i=0;i<rows.length;++i){
+                    ids =ids + 'selections=' + rows[i].id +'&';
+                }
+                $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
+                    if (r){
+                        $.post(url,ids,function(data){
+                            $.messager.alert('成功','删除文档成功!');
+                            $("#tt").datagrid('clearSelections');
+                            $("#tt").datagrid('reload');
+                        });
+                    }
+                });
+            }
+		</script>
+		<ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>
 	<body class="easyui-layout">
 		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
@@ -178,20 +202,44 @@
             <div class="easyui-layout" fit="true"  >
                 <div region="center" border="false" >
                 <form id="queryform">
-                	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="tdtitle">标题：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="title" name="title" class="inputtext"/>
-                                </td>
-                            </tr>
-               		</table>
+                    <table class="formtable">
+                        <tr>
+                            <td class="tdtitle">序号：</td>
+                            <td class="tdinput">
+                                <input type="text" id="id" name="id" class="inputtext"/>
+                            </td>
+                            <td class="tdtitle">标题：</td>
+                            <td class="tdinput">
+                                <input type="text" id="title" name="title" class="inputtext"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">发布时间：</td>
+                            <td class="tdinput" colspan="3">
+                                <ewcms:datepicker id="publishedStart" name="publishedStart" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                                &nbsp;至&nbsp;
+                                <ewcms:datepicker id="publishedEnd" name="publishedEnd" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">修改时间：</td>
+                            <td class="tdinput" colspan="3">
+                                <ewcms:datepicker id="modifiedStart" name="modifiedStart" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                                &nbsp;至&nbsp;
+                                <ewcms:datepicker id="modifiedEnd" name="modifiedEnd" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">状态：</td>
+                            <td class="tdinput">
+                                <s:select list="@com.ewcms.content.document.model.ArticleStatus@values()" listValue="description" name="articleStatus" id="articleStatus" headerKey="-1" headerValue="------请选择------"></s:select>
+                            </td>
+                            <td class="tdtitle">类型：</td>
+                            <td class="tdinput">
+                                <s:select list="@com.ewcms.content.document.model.ArticleType@values()" listValue="description" name="articleType" id="articleType" headerKey="-1" headerValue="------请选择------"></s:select>
+                            </td>
+                        </tr>
+                    </table>
                	</form>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">

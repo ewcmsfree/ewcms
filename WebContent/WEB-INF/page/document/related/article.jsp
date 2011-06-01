@@ -23,54 +23,55 @@
 					editheight:700
 				});
 				//数据表格定义 						
-				openDataGrid({
-					columns:[[
-								{field:'id',title:'序号',width:40,sortable:true},
-								{field:'topFlag',title:'属性',width:60,
-									formatter:function(val,rec){
-										var pro = [];
-										if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-										if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-										if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-										if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
-										return pro.join("");
-									}
-								},
-								{field:'title',title:'标题[字体大小][分类属性]',width:600,
-				                 	formatter:function(val,rec){
-										var fontSize = "12";
-			                 			var spanStyle = "";
-			                 			var titleStyle = rec.article.titleStyle;
-			                 			if (titleStyle != ""){
-				                 			try{
-				                 				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-				                     			spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-				                 			}catch(e){
-					                 			spanStyle = titleStyle;
-				                 			}
-			                 			}
-			                 			var classPro = [];
-			                 			if (rec.article.imageFlag) classPro.push("图片");
-				                 		if (rec.article.videoFlag) classPro.push("视频");
-					                 	if (rec.article.annexFlag) classPro.push("附件");
-						                if (rec.article.hotFlag) classPro.push("热点");
-							            if (rec.article.recommendFlag) classPro.push("推荐");
-								        var classValue = "";
-								        if (classPro.length > 0){
-											classValue = "<span style='color:#FF0000;'>[" + classPro.join(",") + "]</span>";
-									    }
-			                 			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
-				            		}
-							    },
-					            {field:'author',title:'作者',width:60,
-							    	formatter:function(val,rec){
-							    		return rec.article.author;
-							    	}
-						        },
-					            {field:'statusDescription',title:'状态',width:80},
-					            {field:'published',title:'发布时间',width:125},
-					            {field:'modified',title:'修改时间',width:125}
-			                 ]],
+                openDataGrid({
+                    columns:[[
+                                {field:'id',title:'序号',width:60,sortable:true},
+                                {field:'articleId',title:'文章序号',width:60,formatter:function(val,rec){return rec.article.id;}},
+                                {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
+                                {field:'isReference',title:'引用',width:60,hidden:true},
+                                {field:'flags',title:'属性',width:60,
+                                    formatter:function(val,rec){
+                                        var pro = [];
+                                        if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                        if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                        //if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
+                                        if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
+                                        if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                        return pro.join("");
+                                    }
+                                },
+                                {field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:500,
+                                    formatter:function(val,rec){
+                                        var fontSize = "12";
+                                        var spanStyle = "";
+                                        var titleStyle = rec.article.titleStyle;
+                                        if (titleStyle != ""){
+                                            try{
+                                                fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
+                                                spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
+                                            }catch(e){
+                                                spanStyle = titleStyle;
+                                            }
+                                        }
+                                        var classPro = [];
+                                        var categories = rec.article.categories;
+                                        for (var i=0;i<categories.length;i++){
+                                           classPro.push(categories[i].categoryName);
+                                        }
+                                        var classValue = "";
+                                        if (classPro.length > 0){
+                                            classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+                                        }
+                                        return "<span style='" + spanStyle + "'>" + rec.article.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
+                                    }
+                                },
+                                {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
+                                {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                                {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
+                                {field:'eauthor',title:'审核人',width:80,formatter:function(val,rec){return rec.article.eauthorReal;}},
+                                {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
+                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
+                        ]],
 			         toolbar:[
 								{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery}
@@ -171,6 +172,6 @@
                 </div>
             </div>
         </div>
-        <s:hidden name="articleRmcId" id="articleRmcId"></s:hidden>
+        <s:hidden name="articleId" id="articleId"></s:hidden>
 	</body>
 </html>

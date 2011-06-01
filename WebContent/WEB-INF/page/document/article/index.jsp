@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
 <html>
 	<head>
 		<title>文档编辑</title>	
@@ -20,73 +21,66 @@
 					queryURL:'<s:url namespace="/document/article" action="query"/>',
 					deleteURL:'<s:url namespace="/document/article" action="delete"/>',
 					editwidth:1000,
-					editheight:700
+					editheight:700,
+					querywidth:600,
+					queryheight:200
 				});
 				//数据表格定义 						
-				openDataGrid({
-					columns:[[
-								{field:'id',title:'序号',width:60,sortable:true},
-								{field:'topFlag',title:'属性',width:60,
-									formatter:function(val,rec){
-										var pro = [];
-										if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-										if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-										if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-										if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
-										return pro.join("");
-									}
-								},
-								{field:'title',title:'标题[字体大小][分类属性]',width:500,
-				                 	formatter:function(val,rec){
-										var fontSize = "12";
-			                 			var spanStyle = "";
-			                 			var titleStyle = rec.article.titleStyle;
-			                 			if (titleStyle != ""){
-				                 			try{
-				                 				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-				                     			spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-				                 			}catch(e){
-					                 			spanStyle = titleStyle;
-				                 			}
-			                 			}
-			                 			var classPro = [];
-			                 			if (rec.article.imageFlag) classPro.push("图片");
-				                 		if (rec.article.videoFlag) classPro.push("视频");
-					                 	if (rec.article.annexFlag) classPro.push("附件");
-						                if (rec.article.hotFlag) classPro.push("热点");
-							            if (rec.article.recommendFlag) classPro.push("推荐");
-								        var classValue = "";
-								        if (classPro.length > 0){
-											classValue = "<span style='color:#FF0000;'>[" + classPro.join(",") + "]</span>";
-									    }
-			                 			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
-				            		}
-							    },
-							    {field:'typeDescription',title:'文章类型',width:60,
-								    formatter:function(val,rec){
-								    	return rec.article.typeDescription;
-							    	}
-								},
-					            {field:'author',title:'作者',width:80,
-							    	formatter:function(val,rec){
-							    		return rec.article.author;
-							    	}
-						        },
-					            {field:'statusDescription',title:'状态',width:80},
-					            {field:'eauthor',title:'审核人',width:80,
-						            formatter:function(val,rec){
-						            	return rec.article.eauthorReal;
-					            	}
-					            },
-					            {field:'published',title:'发布时间',width:125},
-					            {field:'modified',title:'修改时间',width:125}
-			            ]],
+                openDataGrid({
+                    columns:[[
+                                {field:'id',title:'序号',width:60,sortable:true},
+                                {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
+                                {field:'isReference',title:'引用',width:60,hidden:true},
+                                {field:'flags',title:'属性',width:60,
+                                    formatter:function(val,rec){
+                                        var pro = [];
+                                        if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                        if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                        //if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
+                                        if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
+                                        if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                        return pro.join("");
+                                    }
+                                },
+                                {field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:500,
+                                    formatter:function(val,rec){
+                                        var fontSize = "12";
+                                        var spanStyle = "";
+                                        var titleStyle = rec.article.titleStyle;
+                                        if (titleStyle != ""){
+                                            try{
+                                                fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
+                                                spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
+                                            }catch(e){
+                                                spanStyle = titleStyle;
+                                            }
+                                        }
+                                        var classPro = [];
+                                        var categories = rec.article.categories;
+                                        for (var i=0;i<categories.length;i++){
+                                           classPro.push(categories[i].categoryName);
+                                        }
+                                        var classValue = "";
+                                        if (classPro.length > 0){
+                                            classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+                                        }
+                                        return "<span style='" + spanStyle + "'>" + rec.article.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
+                                    }
+                                },
+                                {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
+                                {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                                {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
+                                {field:'eauthor',title:'审核人',width:80,formatter:function(val,rec){return rec.article.eauthorReal;}},
+                                {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
+                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
+                        ]],
 			         toolbar:[
 								{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
 								{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
 								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
 								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
+								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},'-',
+								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
 								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-submitreview',handler:submitReviewOperate},'-',
@@ -102,7 +96,7 @@
 					url: '<s:url namespace="/site/channel" action="tree"/>',
 					onClick:function(node){
 						channelId = node.id;
-						//if(rootnode.id == node.id) return;
+						$('#channelId').attr('value',channelId);
 						if (node.attributes.maxpermission < 1){
 							disableButtons();
 							$('#btnRelease').linkbutton('disable');
@@ -119,6 +113,7 @@
 							
 							enableButtons();
 							$("#tt").datagrid('clearSelections');
+							if (channelId == $('#tt').tree('getRoot')) return;
 							var url='<s:url namespace="/document/article" action="query"/>';
 							url = url + "?channelId=" + channelId;
 							$("#tt").datagrid({
@@ -134,17 +129,6 @@
 							}				            
 						}
 					}
-				});
-				$('#tt4').datagrid({
-					pageNumber:1,
-					url:'<s:url namespace="/document/citizen" action="getCitizen"/>',
-					idField:'id',
-					columns:[[
-							{field:'ck',checkbox:true},
-							{field:'id',title:'序号',width:50,sortable:true},
-							{field:'name',title:'名称',width:200	}
-					]],
-					pagination:true
 				});
 				$('#tt3').click(function(){
 					var selected = $('#tt3').tree('getSelected');
@@ -197,16 +181,48 @@
 						$.messager.alert('提示','只能选择一个修改','info');
 						return;
 			        }
-	
-		            var url_param = '?channelId=' + channelId + '&';
-		           	url_param += 'selections=' + rows[0].id;
-					window.open('<s:url namespace="/document/article" action="input"/>' + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/2 + ',top=' + (window.screen.height - 700)/2 + ''); 
+			        if (rows[0].isReference == true){
+				        $.messager.alert('提示','引用文章不能修改','info');
+				        return;
+			        }
+			        if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑'){
+			            var url_param = '?channelId=' + channelId + '&';
+			           	url_param += 'selections=' + rows[0].id;
+						window.open('<s:url namespace="/document/article" action="input"/>' + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/2 + ',top=' + (window.screen.height - 700)/2 + ''); 
+			        }else{
+			        	$.messager.alert('提示','文章只能在初稿或重新编辑状态在才能修改','info');
+			        	return;
+			        }
 				}else{
 					$.messager.alert('提示','请选择栏目','info');
+					return;
 				}
 				return false;
 			}
 
+            function delOperate(){
+                var rows = $("#tt").datagrid('getSelections');
+                if(rows.length == 0){
+                    $.messager.alert('提示','请选择删除记录','info');
+                    return;
+                }
+
+                var url = '<s:url namespace="/document/article" action="delete"/>';
+                var ids = 'channelId=' + channelId + '&';
+                for(var i=0;i<rows.length;++i){
+                    ids =ids + 'selections=' + rows[i].id +'&';
+                }
+                $.messager.confirm("提示","确定要删除所选记录到回收站吗?",function(r){
+                    if (r){
+                        $.post(url,ids,function(data){
+                            $.messager.alert('成功','删除文档到回收站成功!');
+                            $("#tt").datagrid('clearSelections');
+                            $("#tt").datagrid('reload');
+                        });
+                    }
+                });
+            }
+			
 			function initOperateQuery(){
 				var url='<s:url namespace="/document/article" action="query"/>';
 				url = url + "?channelId=" + channelId;
@@ -268,10 +284,10 @@
 				
 				var url = "<s:url action='move' namespace='/document/article'/>";
 
-				var parameter = '';
+				var parameter = 'channelId=' + channelId + '&';
 				var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
-					parameter = parameter + 'selections=' + rows[i].id + "&";
+					parameter = parameter + 'selections=' + rows[i].id + '&';
 				}
 				
 				if (selected.id != rootnode.id){
@@ -298,7 +314,7 @@
 				//var url = "../../document/article/copy.do";
 				var url = "<s:url action='copy' namespace='/document/article'/>";
 
-				var parameter = '';
+				var parameter = 'channelId=' + channelId + '&';
 				var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
 					parameter = parameter + 'selections=' + rows[i].id + "&";
@@ -398,7 +414,7 @@
 		        	$.messager.alert('提示','请选择提交审核记录','info');
 		            return;
 		        }
-		        var parameter = '';
+		        var parameter = 'channelId=' + channelId + '&';
 		        var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
 					parameter = parameter + 'selections=' + rows[i].id + "&";
@@ -407,12 +423,13 @@
 		        $.post(url, parameter, function(data){
 			        if (data == 'system-false'){
 			        	$.messager.alert('提示','文章提交审核失败','info');
+			        	return;
 			        }else if (data == 'true'){
 				        $("#tt").datagrid('clearSelections');
 				        articleReload();
 				        $.messager.alert('提示','文章提交审核成功','info');
+				        return;
 			        }
-			        return;
 		        });
 				return false;
 			}
@@ -422,12 +439,16 @@
 				$.post(url, '', function(data){
 					if (data == 'system-false'){
 						$.messager.alert('提示','系统错误','info');
+						return;
 					}else if (data == 'accessdenied'){
 						$.messager.alert('提示','没有发布权限','info');
+						return;
 					}else{
 						$.messager.alert('提示','发布成功','info');
+						return;
 					}
 				});
+				return false;
 			}
 			function disableButtons(){
 				$('#btnAdd').linkbutton('disable');
@@ -472,7 +493,7 @@
 		            return;
 		        }
 		        
-		        var parameter = 'review=' + $("input[name='reviewRadio']:checked").val() + '&';
+		        var parameter = 'review=' + $("input[name='reviewRadio']:checked").val() + '&channelId=' + channelId + '&';
 		        var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
 					parameter = parameter + 'selections=' + rows[i].id + "&";
@@ -491,7 +512,72 @@
 		        });				
 		        return false;
 			}
+			var sort='';
+			function sortOperate(){
+                if (channelId != $('#tt2').tree('getRoot').id){
+                    var rows = $("#tt").datagrid('getSelections');
+                    if(rows.length == 0){
+                        $.messager.alert('提示','请选择排序记录','info');
+                        return;
+                    }
+                    if (rows.length > 1){
+                        $.messager.alert('提示','只能选择一个排序','info');
+                        return;
+                    }
+                    $.messager.prompt('是否要对所选中的文章进行排序', '请输入排序号', function(r){
+                        if (r){
+                        	var reg=/^\d+$/;
+	                        if (reg.test(r)){
+	                            $.post('<s:url namespace="document/article" action="isSortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId,'isTop':$("#tt").datagrid("getSelections")[0].article.topFlag,'sort':r},function(data){
+	                                if (data=="true"){
+	                                    sort = r;
+	                                	openWindow("#sort-window",{width:550,height:200,title:"排序"});
+	                                	return;
+	                                }else if (data=="false"){
+	                                	$.post('<s:url namespace="document/article" action="sortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId,'isTop':$("#tt").datagrid("getSelections")[0].article.topFlag,'sort':r},function(data){
+	                                    	if (data=="true"){
+	                                    		$.messager.alert('提示','设置排序号成功','info');
+	                                    		$("#tt").datagrid('clearSelections');
+	                                            articleReload();
+	                                    	}else if (data=="false"){
+	                                    		$.messager.alert('提示','设置排序号失败','info');
+	                                    	}else if (data=="system-false"){
+	                                    		$.messager.alert('提示','系统错误','info');
+	                                    	}
+	                                    	return;
+	                                	});
+	                                }else if (data=="system-false"){
+	                                	$.messager.alert('提示','系统错误','info');
+	                                	return;
+	                                }
+	                            });
+	                        }else{
+	                            $.messager.alert('提示','排序号为正整数','info');
+	                            return;
+	                        }
+                        }
+                    });
+               }
+               return false;
+			}
+			function sortArticle(){
+				$.post('<s:url namespace="document/article" action="sortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId,'isTop':$("#tt").datagrid("getSelections")[0].article.topFlag,'isInsert':$("input[name='sortRadio']:checked").val(),'sort':sort},function(data){
+					$("#sort-window").window("close");
+                    if (data=="true"){
+                        $.messager.alert('提示','设置排序号成功','info');
+                        $("#tt").datagrid('clearSelections');
+                        articleReload();
+                    }else if (data=="false"){
+                        $.messager.alert('提示','设置排序号失败','info');
+                    }else if (data=="system-false"){
+                        $.messager.alert('提示','系统错误','info');
+                    }
+                    return;
+                });
+                return false;
+			}
 		</script>
+		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
 	<body class="easyui-layout">
 		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
@@ -506,18 +592,42 @@
                 <div region="center" border="false" >
                 <form id="queryform">
                 	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="tdtitle">标题：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="title" name="title" class="inputtext"/>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="tdtitle">序号：</td>
+                            <td class="tdinput">
+                                <input type="text" id="id" name="id" class="inputtext"/>
+                            </td>
+                            <td class="tdtitle">标题：</td>
+                            <td class="tdinput">
+                                <input type="text" id="title" name="title" class="inputtext"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">发布时间：</td>
+                            <td class="tdinput" colspan="3">
+                                <ewcms:datepicker id="publishedStart" name="publishedStart" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                                &nbsp;至&nbsp;
+                                <ewcms:datepicker id="publishedEnd" name="publishedEnd" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">修改时间：</td>
+                            <td class="tdinput" colspan="3">
+                                <ewcms:datepicker id="modifiedStart" name="modifiedStart" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                                &nbsp;至&nbsp;
+                                <ewcms:datepicker id="modifiedEnd" name="modifiedEnd" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">状态：</td>
+                            <td class="tdinput">
+                                <s:select list="@com.ewcms.content.document.model.ArticleStatus@values()" listValue="description" name="articleStatus" id="articleStatus" headerKey="-1" headerValue="------请选择------"></s:select>
+                            </td>
+                            <td class="tdtitle">类型：</td>
+                            <td class="tdinput">
+                                <s:select list="@com.ewcms.content.document.model.ArticleType@values()" listValue="description" name="articleType" id="articleType" headerKey="-1" headerValue="------请选择------"></s:select>
+                            </td>
+                        </tr>
                		</table>
                	</form>
                 </div>
@@ -570,6 +680,30 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle();">确定</a></span>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#review-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
+        <div id="sort-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+            <div class="easyui-layout" fit="true" >
+                <div region="center" border="false" style="padding: 5px;">
+                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#99BBE8" style="border: #99BBE8 1px solid;">
+                        <tr align="center">
+                            <td height="30" width="20%">操作</td>
+                            <td height="30" width="80%">说明</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="sortRadio" name="sortRadio" list='#{0:"插入"}' cssStyle="vertical-align: middle;" value="0"></s:radio></td>
+                            <td height="40">&nbsp;所选文章将插入到当前排序号</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="sortRadio" name="sortRadio"  list='#{1:"替换"}' cssStyle="vertical-align: middle;"></s:radio></td>
+                            <td height="40">&nbsp;所选文章将替换已有的文章的排序号</td>
+                        </tr>
+                    </table>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:sortArticle();">确定</a></span>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#sort-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>
