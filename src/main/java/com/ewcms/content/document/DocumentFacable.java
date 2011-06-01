@@ -22,253 +22,266 @@ import com.ewcms.generator.release.ReleaseException;
  */
 public interface DocumentFacable {
 	/**
-	 * 新增文章内容
-	 * 
-	 * @param article
-	 * @param channelId
-	 * @param published
-	 * @return
-	 */
-	public Long addArticle(Article article, Integer channelId, Date published);
-	
-	/**
-	 * 修改文章内容,并同时对文章历史进行记录
-	 * @param article
-	 * @param articleMainId
-	 * @param channelId
-	 * @param published
-	 * 
-	 * @return
-	 */
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
-	
-	/**
-	 * 查询文章
-	 *  
-	 * @param articleMainId
-	 * @return
-	 */
-	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId);
-	
-	/**
-	 * 直接从数据库中删除
-	 * 
-	 * @param articleMainId
-	 */
-	public void delArticleMain(Long articleMainId, Integer channelId);
-	
-	/**
-	 * 可回收的删除,把Article对象中的deleteFlag属性置于True
-	 * 
-	 * @param articleMainId
-	 * @param userName
-	 */
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName);
-	
-	/**
-	 * 从回收站中恢复文章
-	 * 
-	 * @param articleMainId
-	 * @param userName
-	 */
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName);
-	
-	/**
-	 * 根据sort对文章进行重排序
-	 * @param articleMainId
-	 * @param channelId
-	 * @param sort
-	 * @param isInsert 是否是插入(true:插入,false:替换)
-	 * @param isTop 是否置顶(true:是,false:否)
-	 */
-	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop);
-	
-	/**
-	 * 
-	 * 
-	 * @param channelMainId
-	 * @param sort
-	 * @param isTop
-	 */
-	public Boolean findArticleMainByChannelAndEqualSort(Integer channelMainId, Long sort, Boolean isTop);
-	
-	/**
-	 * 根据栏目查询文章列表
-	 * 
-	 * @param channelId
-	 * @return
-	 */
-	public List<ArticleMain> findArticleMainByChannel(Integer channelId);
-	
-	/**
-	 * 判断文章与文章属性是否有关联
-	 * @param articleId
-	 * @param articleCategoryId
-	 * @return
-	 */
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
-	
-	/**
-	 * 根据文章查询相关文章列表
-	 * 
-	 * @param articleId
-	 * @return
-	 */
-	public List<Related> findRelatedByArticle(Long articleId);
-	
-	/**
-	 * 根据文章查询推荐文章列表
-	 * 
-	 * @param articleId
-	 * @return
-	 */
-	public List<Recommend> findRecommendByArticle(Long articleId);
-
-	/**
-	 * 提交审核文章(只对初稿和重新编辑状态的文章进行发布)
-	 * 
-	 * @param articleMainId
-	 */
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
-	
-	/**
-	 * 提交审核文章(对任务状态的文章进行发布)
-	 * 
-	 * @param articleMainIds 文章编号列表
-	 */
-	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
-
-	/**
-	 * 复制文章到其他的栏目
-	 * 
-	 * @param articleMainIds
-	 * @param channelId
-	 * @return Boolean
-	 */
-	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
-	
-	/**
-	 * 移动文章到其他的栏目
-	 * 
-	 * @param articleMainIds
-	 * @param channelId
-	 * @return Boolean
-	 */
-	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
-	
-	/**
-	 * 保存相关文章
-	 * @param articleId
-	 * @param relatedArticleIds
-	 */
-	public void saveRelated(Long articleId, Long[] relatedArticleIds);
-	
-	/**
-	 * 删除相关文章
-	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
-	 */
-	public void deleteRelated(Long articleId, Long[] relatedArticleIds);
-	
-	/**
-	 * 相关文章向上移动一位
-	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
-	 */
-	public void upRelated(Long articleId, Long[] relatedArticleIds);
-
-	/**
-	 * 相关文章向下移动一位
-	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
-	 */
-	public void downRelated(Long articleId, Long[] relatedArticleIds);
-	
-	/**
-	 * 保存推荐文章
-	 * @param articleId
-	 * @param recommendArticleIds
-	 */
-	public void saveRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 删除推荐文章
-	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
-	 */
-	public void deleteRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 推荐文章向上移动一位
-	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
-	 */
-	public void upRecommend(Long articleId, Long[] recommendArticleIds);
-
-	/**
-	 * 推荐文章向下移动一位
-	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
-	 */
-	public void downRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 发布文章
-	 * @param channelId 频道编号
-	 * @throws ReleaseException
-	 */
-	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException;
-	
-	/**
-	 * 审核文章
-	 * 
-	 * @param articleMainIds 文章列表
-	 * @param review 审核标志(0:通过,1:未通过)
-	 * @param eauthor 审核人
-	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor);
-	
-	/**
 	 * 新增文章分类属性
 	 * 
-	 * @param articleCategory
-	 * @return Integer
+	 * @param articleCategory 文章分类属性对象
+	 * @return Integer 文章分类属性编号
 	 */
 	public Integer addArticleCategory(ArticleCategory articleCategory);
 	
 	/**
 	 * 修改文章分类属性
 	 * 
-	 * @param articleCategory
-	 * @return Integer
+	 * @param articleCategory 文章分类属性对象
+	 * @return Integer 文章分类属性编号
 	 */
 	public Integer updArticleCategory(ArticleCategory articleCategory);
 	
 	/**
 	 * 删除文章分类属性
 	 * 
-	 * @param articleCategoryId
+	 * @param articleCategoryId 文章分类属性编号
 	 */
 	public void delArticleCategory(Integer articleCategoryId);
 	
 	/**
 	 * 查询文章分类属性
 	 * 
-	 * @param articleCategoryId
-	 * @return
+	 * @param articleCategoryId 文章分类属性编号
+	 * @return ArticleCategory 文章分类属性对象
 	 */
 	public ArticleCategory findArticleCategory(Integer articleCategoryId);
 	
 	/**
-	 * 查询所有文章分类属性
+	 * 查询所有文章分类属性集合
 	 * 
-	 * @return
+	 * @return List 文章分类属性对象集合
 	 */
 	public List<ArticleCategory> findArticleCategoryAll();
+	
+	/**
+	 * 查询文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @return ArticleMain 文章主体对象
+	 */
+	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId);
+
+	/**
+	 * 删除文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void delArticleMain(Long articleMainId, Integer channelId);
+
+	/**
+	 * 删除文章主体到回收站
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param userName 操作用户
+	 */
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName);
+
+	/**
+	 * 恢复文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param userName 操作用户
+	 */
+	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName);
+
+	/**
+	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @return Boolean true:提交成功,false:提交失败
+	 */
+	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
+	
+	/**
+	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelId 频道编号
+	 */
+	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
+
+	/**
+	 * 拷贝文章主体
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:拷贝成功,false:拷贝失败
+	 */
+	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
+
+	/**
+	 * 移动文章主体
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:移动成功,false:移动失败
+	 */
+	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
+
+	/**
+	 * 查询文章主体集合
+	 * 
+	 * @param channelId 频道编号
+	 * @return List 文章主体集合
+	 */
+	public List<ArticleMain> findArticleMainByChannel(Integer channelId);
+
+	/**
+	 * 发布文章主体
+	 * 
+	 * @param channelId 频道编号
+	 * @throws ReleaseException
+	 */
+	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException;
+	
+	/**
+	 * 审核文章主体
+	 * 
+	 * @param articleMainIds 文章主体集合
+	 * @param review 审核标志(0:通过,1:未通过)
+	 * @param eauthor 审核人
+	 */
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor);
+	
+	/**
+	 * 文章主体进行排序
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isInsert 是否插入(0:插入,1:替换)
+	 * @param isTop 是否置顶(true:是,false:否)
+	 */
+	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop);
+	
+	/**
+	 * 查询文章主体
+	 * 
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isTop 是否置顶(true:是,false:否)
+	 * @return Boolean true:存在,false:不存在
+	 */
+	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
+
+	/**
+	 * 新增文章信息
+	 * 
+	 * @param article 文章信息对象
+	 * @param channelId 频道编号
+	 * @param published 发布时间
+	 * @return Long 文章主体编号
+	 */
+	public Long addArticle(Article article, Integer channelId, Date published);
+	
+	/**
+	 * 修改文章信息
+	 * 
+	 * @param article 文章信息对象
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param published 发布时间
+	 * @return Long 文章主体编号
+	 */
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
+
+	/**
+	 * 文章与文章分类属性是否有关联
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param articleCategoryId 文章分类属性编号
+	 * @return Boolean true:是,false:否
+	 */
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
+
+	/**
+	 * 保存推荐文章
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
+	 */
+	public void saveRecommend(Long articleId, Long[] recommendArticleIds);
+	
+	/**
+	 * 删除推荐文章
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
+	 */
+	public void deleteRecommend(Long articleId, Long[] recommendArticleIds);
+	
+	/**
+	 * 推荐文章向上移动一位
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推存文章编号集合
+	 */
+	public void upRecommend(Long articleId, Long[] recommendArticleIds);
+
+	/**
+	 * 推荐文章向下移动一位
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
+	 */
+	public void downRecommend(Long articleId, Long[] recommendArticleIds);
+	
+	/**
+	 * 查询推荐文章集合
+	 * 
+	 * @param articleId 文章信息编号 
+	 * @return List 推荐文章集合
+	 */
+	public List<Recommend> findRecommendByArticle(Long articleId);
+
+	/**
+	 * 保存相关文章
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
+	 */
+	public void saveRelated(Long articleId, Long[] relatedArticleIds);
+	
+	/**
+	 * 删除相关文章
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
+	 */
+	public void deleteRelated(Long articleId, Long[] relatedArticleIds);
+	
+	/**
+	 * 相关文章向上移动一位
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
+	 */
+	public void upRelated(Long articleId, Long[] relatedArticleIds);
+
+	/**
+	 * 相关文章向下移动一位
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
+	 */
+	public void downRelated(Long articleId, Long[] relatedArticleIds);
+	
+	/**
+	 * 查询相关文章集合
+	 * 
+	 * @param articleId 文章信息编号
+	 * @return List 相关文章集合
+	 */
+	public List<Related> findRelatedByArticle(Long articleId);
 }

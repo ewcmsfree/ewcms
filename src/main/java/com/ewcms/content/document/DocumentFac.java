@@ -28,81 +28,65 @@ import com.ewcms.generator.release.ReleaseException;
  *
  * @author 吴智俊
  */
-@Service()
+@Service
 public class DocumentFac implements DocumentFacable {
 	
+	@Autowired
+	private ArticleCategoryServiceable articleCategoryService;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
 	@Autowired
 	private ArticleServiceable articleService;
 	@Autowired
-	private RelatedServiceable relatedService;
-	@Autowired
 	private RecommendServiceable recommendService;
 	@Autowired
-	private ArticleCategoryServiceable articleCategoryService;
+	private RelatedServiceable relatedService;
 	
-	//------------------文章------------------------------//
 	@Override
-	public Long addArticle(Article article, Integer channelId, Date published) {
-		return articleService.addArticle(article, channelId, published);
+	public Integer addArticleCategory(ArticleCategory articleCategory){
+		return articleCategoryService.addArticleCategory(articleCategory);
 	}
-
+	
 	@Override
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published){
-		return articleService.updArticle(article, articleMainId, channelId, published);
+	public Integer updArticleCategory(ArticleCategory articleCategory){
+		return articleCategoryService.updArticleCategory(articleCategory);
 	}
-
+	
 	@Override
-	public void delArticleMain(Long articleMainId, Integer channelId) {
-		articleMainService.delArticleMain(articleMainId, channelId);
+	public void delArticleCategory(Integer articleCategoryId){
+		articleCategoryService.delArticleCategory(articleCategoryId);
 	}
-
+	
 	@Override
-	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId) {
+	public ArticleCategory findArticleCategory(Integer articleCategoryId){
+		return articleCategoryService.findArticleCategory(articleCategoryId);
+	}
+	
+	@Override
+	public List<ArticleCategory> findArticleCategoryAll(){
+		return articleCategoryService.findArticleCategoryAll();
+	}
+	
+	@Override
+	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId){
 		return articleMainService.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 	}
 
 	@Override
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
+	public void delArticleMain(Long articleMainId, Integer channelId){
+		articleMainService.delArticleMain(articleMainId, channelId);
+	}
+
+	@Override
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName){
 		articleMainService.delArticleMainToRecycleBin(articleMainId, channelId, userName);
 	}
 
 	@Override
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName) {
+	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName){
 		articleMainService.restoreArticleMain(articleMainId, channelId, userName);
 	}
 
-	@Override
-	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop){
-		articleMainService.moveArticleMainSort(articleMainId, channelId, sort, isInsert, isTop);
-	}
-	
-	@Override
-	public Boolean findArticleMainByChannelAndEqualSort(Integer channelMainId, Long sort, Boolean isTop){
-		return articleMainService.findArticleMainByChannelAndEqualSort(channelMainId, sort, isTop);
-	}
-	
-	@Override
-	public List<ArticleMain> findArticleMainByChannel(Integer channelId){
-		return articleMainService.findArticleMainByChannel(channelId);
-	}
-	
-	@Override
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId){
-		return articleService.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
-	}
-	
-	@Override
-	public List<Related> findRelatedByArticle(Long articleId){
-		return relatedService.findRelatedByArticle(articleId);
-	}
-	
-	@Override
-	public List<Recommend> findRecommendByArticle(Long articleId){
-		return recommendService.findRecommendByArticle(articleId);
-	}
-	
 	@Override
 	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId){
 		return articleMainService.submitReviewArticleMain(articleMainId, channelId);
@@ -112,91 +96,104 @@ public class DocumentFac implements DocumentFacable {
 	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId){
 		articleMainService.submitReviewArticleMains(articleMainIds, channelId);
 	}
-
+	
 	@Override
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId){
 		return articleMainService.copyArticleMainToChannel(articleMainIds, channelIds, source_channelId);
 	}
-	
+
 	@Override
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId){
 		return articleMainService.moveArticleMainToChannel(articleMainIds, channelIds, source_channelId);
+	}
+
+	@Override
+	public List<ArticleMain> findArticleMainByChannel(Integer channelId){
+		return articleMainService.findArticleMainByChannel(channelId);
+	}
+
+	@Override
+	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException{
+		articleMainService.pubArticleMainByChannel(channelId);
 	}
 	
 	@Override
 	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor){
 		articleMainService.reviewArticleMain(articleMainIds, channelId, review, eauthor);
 	}
-	//--------------------相关文章-----------------------------//
+	
 	@Override
-	public void saveRelated(Long articleId, Long[] relatedArticleIds) {
-		relatedService.saveRelated(articleId, relatedArticleIds);
-	}
-
-	@Override
-	public void deleteRelated(Long articleId, Long[] relatedArticleIds) {
-		relatedService.deleteRelated(articleId, relatedArticleIds);
-	}
-
-	@Override
-	public void upRelated(Long articleId, Long[] relatedArticleIds) {
-		relatedService.upRelated(articleId, relatedArticleIds);
+	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop){
+		articleMainService.moveArticleMainSort(articleMainId, channelId, sort, isInsert, isTop);
 	}
 	
 	@Override
-	public void downRelated(Long articleId, Long[] relatedArticleIds) {
-		relatedService.downRelated(articleId, relatedArticleIds);
+	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop){
+		return articleMainService.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 	}
 
-	//--------------------推荐文章----------------------------//
 	@Override
-	public void saveRecommend(Long articleId, Long[] recommendArticleIds) {
+	public Long addArticle(Article article, Integer channelId, Date published){
+		return articleService.addArticle(article, channelId, published);
+	}
+	
+	@Override
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published){
+		return articleService.updArticle(article, articleMainId, channelId, published);
+	}
+
+	@Override
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId){
+		return articleService.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
+	}
+
+	@Override
+	public void saveRecommend(Long articleId, Long[] recommendArticleIds){
 		recommendService.saveRecommend(articleId, recommendArticleIds);
 	}
-
-	@Override
-	public void deleteRecommend(Long articleId, Long[] recommendArticleIds) {
+	
+	@Override	
+	public void deleteRecommend(Long articleId, Long[] recommendArticleIds){
 		recommendService.deleteRecommend(articleId, recommendArticleIds);
-	}
-
-	@Override
-	public void upRecommend(Long articleId, Long[] recommendArticleIds) {
-		recommendService.upRecommend(articleId, recommendArticleIds);
 	}
 	
 	@Override
-	public void downRecommend(Long articleId, Long[] recommendArticleIds) {
+	public void upRecommend(Long articleId, Long[] recommendArticleIds){
+		recommendService.upRecommend(articleId, recommendArticleIds);
+	}
+
+	@Override
+	public void downRecommend(Long articleId, Long[] recommendArticleIds){
 		recommendService.downRecommend(articleId, recommendArticleIds);
 	}
 	
 	@Override
-	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException {
-		articleMainService.pubArticleMainByChannel(channelId);
+	public List<Recommend> findRecommendByArticle(Long articleId){
+		return recommendService.findRecommendByArticle(articleId);
 	}
 
 	@Override
-	public Integer addArticleCategory(ArticleCategory articleCategory) {
-		return articleCategoryService.addArticleCategory(articleCategory);
+	public void saveRelated(Long articleId, Long[] relatedArticleIds){
+		relatedService.saveRelated(articleId, relatedArticleIds);
+	}
+	
+	@Override
+	public void deleteRelated(Long articleId, Long[] relatedArticleIds){
+		relatedService.deleteRelated(articleId, relatedArticleIds);
+	}
+	
+	@Override
+	public void upRelated(Long articleId, Long[] relatedArticleIds){
+		relatedService.upRelated(articleId, relatedArticleIds);
 	}
 
 	@Override
-	public Integer updArticleCategory(ArticleCategory articleCategory) {
-		return articleCategoryService.updArticleCategory(articleCategory);
+	public void downRelated(Long articleId, Long[] relatedArticleIds){
+		relatedService.downRelated(articleId, relatedArticleIds);
 	}
-
+	
 	@Override
-	public void delArticleCategory(Integer articleCategoryId) {
-		articleCategoryService.delArticleCategory(articleCategoryId);
+	public List<Related> findRelatedByArticle(Long articleId){
+		return relatedService.findRelatedByArticle(articleId);
 	}
-
-	@Override
-	public ArticleCategory findArticleCategory(Integer articleCategoryId) {
-		return articleCategoryService.findArticleCategory(articleCategoryId);
-	}
-
-	@Override
-	public List<ArticleCategory> findArticleCategoryAll() {
-		return articleCategoryService.findArticleCategoryAll();
-	}
-
 }
