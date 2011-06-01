@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.document.DocumentFacable;
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Recommend;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -33,19 +33,19 @@ public class RecommendQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -6357351349673405169L;
 	
-	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
+	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
 	private DocumentFacable documentFac;
 
-	private Integer articleRmcId;
+	private Long articleId;
 
-	public Integer getArticleRmcId() {
-		return articleRmcId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
-	public void setArticleRmcId(Integer articleRmcId) {
-		this.articleRmcId = articleRmcId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 
 
@@ -61,10 +61,10 @@ public class RecommendQueryAction extends QueryBaseAction {
     
 	@Override
 	public String query() {
-		List<Recommend> list = documentFac.findRecommendByArticleRmcId(getArticleRmcId());
-		List<ArticleRmc> query = new ArrayList<ArticleRmc>();
+		List<Recommend> list = documentFac.findRecommendByArticle(getArticleId());
+		List<Article> query = new ArrayList<Article>();
 		for (Recommend recommend : list){
-			query.add(recommend.getArticleRmc());
+			query.add(recommend.getArticle());
 		}
 		DataGrid data = new DataGrid(query.size(), query);
 		Struts2Util.renderJson(JSONUtil.toJSON(data, DATE_FORMAT));

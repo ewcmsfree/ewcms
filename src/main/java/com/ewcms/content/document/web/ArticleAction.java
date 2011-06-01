@@ -6,6 +6,7 @@
 
 package com.ewcms.content.document.web;
 
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.content.document.search.util.StringUtil;
@@ -28,7 +29,6 @@ import com.ewcms.history.model.HistoryModel;
 import com.ewcms.history.util.ByteToObject;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.CrudBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -36,61 +36,51 @@ import com.ewcms.web.util.Struts2Util;
  * 
  * @author 吴智俊
  */
-public class ArticleAction extends CrudBaseAction<Article, Integer> {
+public class ArticleAction extends CrudBaseAction<Article, Long> {
 
 	private static final long serialVersionUID = 7275967705688396524L;
+
+	private SimpleDateFormat modDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private SimpleDateFormat modDataFormat  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	@Autowired
 	private DocumentFacable documentFac;
 	@Autowired
 	private HistoryModelFacable historyModelFac;
 	@Autowired
 	private UserServiceable userService;
-
+	
+	private Long articleMainId;
 	private List<String> textAreaContent;
-	
-	private Integer channelId;
-	
-	private Integer articleRmcId;
-	
-	private Date modified;
-	
-	private String published;
-	
 	private String state;
+	private Integer channelId;
+	private Date modified;
+	private String published;
+	private Integer[] categories;
+	private List<Integer> selCategories = new ArrayList<Integer>();
 
-	public Article getArticleVo() {
-		return super.getVo();
+	public Long getArticleMainId() {
+		return articleMainId;
 	}
 
-	public void setArticleVo(Article articleVo) {
-		super.setVo(articleVo);
+	public void setArticleMainId(Long articleMainId) {
+		this.articleMainId = articleMainId;
 	}
 
-	public List<Integer> getSelections() {
-		return super.getOperatorPK();
+	public String getState() {
+		return state;
 	}
 
-	public void setSelections(List<Integer> selections) {
-		super.setOperatorPK(selections);
+	public void setState(String state) {
+		this.state = state;
 	}
-	
-	public Integer getChannelId(){
+
+	public Integer getChannelId() {
 		return channelId;
 	}
-	
-	public void setChannelId(Integer channelId){
+
+	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
-	}
-
-	public Integer getArticleRmcId() {
-		return articleRmcId;
-	}
-
-	public void setArticleRmcId(Integer articleRmcId) {
-		this.articleRmcId = articleRmcId;
 	}
 
 	public Date getModified() {
@@ -109,16 +99,36 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 		this.published = published;
 	}
 
-	public String query() throws Exception {
-		return SUCCESS;
+	public Integer[] getCategories() {
+		return categories;
 	}
 
-	public String getState() {
-		return state;
+	public void setCategories(Integer[] categories) {
+		this.categories = categories;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public List<Integer> getSelCategories() {
+		return selCategories;
+	}
+
+	public void setSelCategories(List<Integer> selCategories) {
+		this.selCategories = selCategories;
+	}
+
+	public Article getArticleVo() {
+		return super.getVo();
+	}
+
+	public void setArticleVo(Article articleVo) {
+		super.setVo(articleVo);
+	}
+
+	public List<Long> getSelections() {
+		return super.getOperatorPK();
+	}
+
+	public void setSelections(List<Long> selections) {
+		super.setOperatorPK(selections);
 	}
 
 	@Override
@@ -133,30 +143,31 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 	}
 
 	@Override
-	protected void deleteOperator(Integer articleRmcId) {
-		documentFac.delArticleRmcToRecycleBin(articleRmcId, EwcmsContextUtil.getUserName());
+	protected void deleteOperator(Long articleMainId) {
 	}
 
 	@Override
-	protected Article getOperator(Integer articleRmcId) {
-		ArticleRmc articleRmc = documentFac.getArticleRmc(articleRmcId);
+	protected Article getOperator(Long articleMainId) {
+		ArticleMain articleMain = documentFac.findArticleMainByArticleMainAndChannel(articleMainId, getChannelId());
+		Article article = articleMain.getArticle();
 		List<String> textContent = new ArrayList<String>();
-		Article article = articleRmc.getArticle();
-		List<Content> contents = article.getContents();
-		for (Content content : contents){
-			textContent.add(content.getDetail());
+		List<Content> contents = articleMain.getArticle().getContents();
+		if (contents != null){
+			for (Content content : contents) {
+				textContent.add(content.getDetail());
+			}
 		}
 		this.setTextAreaContent(textContent);
-		setArticleRmcId(articleRmc.getId());
-		setModified(articleRmc.getModified());
-		setState(articleRmc.getStatus().toString());
-		if (articleRmc.getPublished() != null)
-			setPublished(bartDateFormat.format(articleRmc.getPublished()));
+		setState(articleMain.getArticle().getStatus().toString());
+		setModified(articleMain.getArticle().getModified());
+		setArticleMainId(articleMain.getId());
+		if (articleMain.getArticle().getPublished() != null)
+			setPublished(bartDateFormat.format(articleMain.getArticle().getPublished()));
 		return article;
 	}
 
 	@Override
-	protected Integer getPK(Article vo) {
+	protected Long getPK(Article vo) {
 		return vo.getId();
 	}
 
@@ -169,13 +180,12 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 	}
 
 	@Override
-	protected Integer saveOperator(Article vo, boolean isUpdate) {
-		if (getTextAreaContent() != null && !getTextAreaContent().isEmpty()){
+	protected Long saveOperator(Article vo, boolean isUpdate) {
+		if (getTextAreaContent() != null && !getTextAreaContent().isEmpty()) {
 			List<Content> contentList = new ArrayList<Content>();
 			Content contentVo = null;
 			for (int i = 0; i < getTextAreaContent().size(); i++) {
-				if (getTextAreaContent().get(i) != null
-						&& getTextAreaContent().get(i).length() > 0) {
+				if (getTextAreaContent().get(i) != null && getTextAreaContent().get(i).length() > 0) {
 					contentVo = new Content();
 					contentVo.setDetail(getTextAreaContent().get(i));
 					contentVo.setPage(i + 1);
@@ -184,72 +194,81 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 			}
 			vo.setContents(contentList);
 		}
+		if (isNotNull(getCategories())) {
+			List<ArticleCategory> articleCategories = new ArrayList<ArticleCategory>();
+			ArticleCategory articleCategoryVo = null;
+			for (Integer articleCategoryId : categories) {
+				articleCategoryVo = documentFac.findArticleCategory(articleCategoryId);
+				if (articleCategoryVo == null)
+					continue;
+				articleCategories.add(articleCategoryVo);
+			}
+			vo.setCategories(articleCategories);
+		}
 
 		Date pub_date = null;
 		try {
 			pub_date = bartDateFormat.parse(getPublished());
-		}catch (ParseException e) {
+		} catch (ParseException e) {
 		}
 		String author = userService.getUserRealName();
 		vo.setAuthor(author);
 		if (isUpdate) {
-			return documentFac.updArticleRmc(getArticleRmcId(), vo, getChannelId(), pub_date);
+			return documentFac.updArticle(vo, getArticleMainId(), getChannelId(), pub_date);
 		} else {
-			return documentFac.addArticleRmc(vo, getChannelId(), pub_date);
-		} 
+			return documentFac.addArticle(vo, getChannelId(), pub_date);
+		}
 	}
-	
+
 	@Override
 	public String save() throws Exception {
-		try{
-			Integer saveArticleRmcId  = null;
-	        if (getPK(vo) == null) {
-	            operatorState = OperatorState.ADD;
-	            saveArticleRmcId = saveOperator(vo, false);
-	        } else {
-	            operatorState = OperatorState.UPDATE;
-	            saveArticleRmcId = saveOperator(vo, true);
-	        }
-	        if (saveArticleRmcId != null){
-		        ArticleRmc articleRmc = documentFac.getArticleRmc(saveArticleRmcId);
-		        setArticleVo(articleRmc.getArticle());
-		        setModified(articleRmc.getModified());
-		        setState(articleRmc.getStatus().toString());
-		        if (articleRmc.getPublished() != null)
-		        	setPublished(bartDateFormat.format(articleRmc.getPublished()));
-		        setArticleRmcId(articleRmc.getId());
-		        Map<String,Object> jsonMap = new HashMap<String,Object>();
-		        jsonMap.put("articleVoId", getArticleVo().getId());
-		        jsonMap.put("articleRmcId", getArticleRmcId());
-		        jsonMap.put("state", getState());
-		        jsonMap.put("modified", modDataFormat.format(articleRmc.getModified()));
-		        Struts2Util.renderJson(JSONUtil.toJSON(jsonMap));
-			}else{
-	        	Struts2Util.renderJson(JSONUtil.toJSON("false"));
-	        }
-		}catch(Exception e){
-        	Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		try {
+			Long saveArticleMainId = null;
+			if (getPK(vo) == null) {
+				operatorState = OperatorState.ADD;
+				saveArticleMainId = saveOperator(vo, false);
+			} else {
+				operatorState = OperatorState.UPDATE;
+				saveArticleMainId = saveOperator(vo, true);
+			}
+			if (saveArticleMainId != null) {
+				ArticleMain articleMain = documentFac.findArticleMainByArticleMainAndChannel(saveArticleMainId, getChannelId());
+				setArticleVo(articleMain.getArticle());
+				setState(articleMain.getArticle().getStatus().toString());
+				if (articleMain.getArticle().getPublished() != null)
+					setPublished(bartDateFormat.format(articleMain.getArticle().getPublished()));
+				Map<String, Object> jsonMap = new HashMap<String, Object>();
+				jsonMap.put("articleMainId", articleMain.getId());
+				jsonMap.put("state", getState());
+				if (articleMain.getArticle().getModified() != null) {
+					jsonMap.put("modified", modDataFormat.format(articleMain.getArticle().getModified()));
+				}
+				Struts2Util.renderJson(JSONUtil.toJSON(jsonMap));
+			} else {
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
-        return NONE;
-    }
+		return NONE;
+	}
 
-	
 	private String title;
 	private String content;
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getContent(){
+
+	public String getContent() {
 		return content;
 	}
-	
-	public void setContent(String content){
+
+	public void setContent(String content) {
 		this.content = content;
 	}
 
@@ -260,17 +279,17 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 		}
 		return NONE;
 	}
-	
-	public String summary(){
+
+	public String summary() {
 		if (getTitle() != null && getTitle().length() > 0 && getContent() != null && getContent().length() > 0) {
-			String summary = ExtractKeywordAndSummary.getTextAbstract(getTitle(),getContent());
+			String summary = ExtractKeywordAndSummary.getTextAbstract(getTitle(), getContent());
 			Struts2Util.renderText(summary);
 		}
 		return NONE;
 	}
-	
+
 	private Long historyId;
-	
+
 	public Long getHistoryId() {
 		return historyId;
 	}
@@ -279,17 +298,17 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 		this.historyId = historyId;
 	}
 
-	public String history(){
-		if (getHistoryId() != null){
+	public String history() {
+		if (getHistoryId() != null) {
 			HistoryModel historyModel = historyModelFac.findByHistoryModel(getHistoryId());
 			Object obj = ByteToObject.conversion(historyModel.getModelObject());
-			if (obj != null){
-				Article article = (Article)obj;
+			if (obj != null) {
+				Article article = (Article) obj;
 				List<Content> contents = article.getContents();
 				String[] details;
-				if (contents != null && contents.size() > 0){
+				if (contents != null && contents.size() > 0) {
 					details = new String[contents.size()];
-					for (int i=0;i<contents.size();i++){
+					for (int i = 0; i < contents.size(); i++) {
 						details[i] = contents.get(i).getDetail();
 					}
 					Struts2Util.renderJson(JSONUtil.toJSON(details));
@@ -298,78 +317,13 @@ public class ArticleAction extends CrudBaseAction<Article, Integer> {
 		}
 		return NONE;
 	}
-	
-	public void submitReview(){
-		try{
-			if (getArticleRmcId() != null){
-				Struts2Util.renderText(documentFac.submitReviewArticleRmc(getArticleRmcId()).toString());
+
+	public void submitReview() {
+		try {
+			if (getArticleVo() != null) {
+				Struts2Util.renderText(documentFac.submitReviewArticleMain(getArticleVo().getId(), getChannelId()).toString());
 			}
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
-	}
-	
-	public void submitReviews(){
-		try{
-			documentFac.submitReviewArticleRmcs(getSelections());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
-	}
-	
-	public void pubArticle(){
-		try{
-			documentFac.pubChannel(getChannelId());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
-		}catch(AccessDeniedException e){
-			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
-	}
-	
-	private List<Integer> selectChannelIds;
-
-	public List<Integer> getSelectChannelIds() {
-		return selectChannelIds;
-	}
-
-	public void setSelectChannelIds(List<Integer> selectChannelIds) {
-		this.selectChannelIds = selectChannelIds;
-	}
-	
-	public String copy(){
-		if (getSelections() != null && getSelections().size() > 0 && getSelectChannelIds() != null && getSelectChannelIds().size() > 0){
-			Struts2Util.renderText(documentFac.copyArticleRmcToChannel(getSelections(), getSelectChannelIds()).toString());
-		}
-		return NONE;
-	}
-	
-	public String move(){
-		if (getSelections() != null && getSelections().size() > 0 && getSelectChannelIds() != null && getSelectChannelIds().size() > 0){
-			Struts2Util.renderText(documentFac.moveArticleRmcToChannel(getSelections(), getSelectChannelIds()).toString());
-		}
-		return NONE;
-	}
-	
-	private Integer review;
-	
-	public Integer getReview() {
-		return review;
-	}
-
-	public void setReview(Integer review) {
-		this.review = review;
-	}
-
-	public void reviewArticle(){
-		try{
-			documentFac.reviewArticle(getSelections(), getReview(), EwcmsContextUtil.getUserName());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
-		}catch(AccessDeniedException e){
-			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
-		}catch(Exception e){
+		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}

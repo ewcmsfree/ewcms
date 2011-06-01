@@ -24,22 +24,22 @@ public class RelatedAction extends ActionSupport {
 	@Autowired
 	private DocumentFacable documentFac;
 	
-	private Integer articleRmcId;
-	private Integer selectIds[];
+	private Long articleId;
+	private Long selectIds[];
 
-	public Integer getArticleRmcId() {
-		return articleRmcId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
-	public void setArticleRmcId(Integer articleRmcId) {
-		this.articleRmcId = articleRmcId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 	
-	public Integer[] getSelectIds() {
+	public Long[] getSelectIds() {
 		return selectIds;
 	}
 
-	public void setSelectIds(Integer[] selectIds) {
+	public void setSelectIds(Long[] selectIds) {
 		this.selectIds = selectIds;
 	}
 	
@@ -49,19 +49,19 @@ public class RelatedAction extends ActionSupport {
 	}
 
 	public String save(){
-		documentFac.saveRelated(getArticleRmcId(), getSelectIds());
+		documentFac.saveRelated(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public String delete(){
-		documentFac.deleteRelated(getArticleRmcId(), getSelectIds());
+		documentFac.deleteRelated(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public void up(){
 		try{
-			if (getArticleRmcId() != null && getSelectIds() != null){
-				documentFac.upRelated(getArticleRmcId(), getSelectIds());
+			if (getArticleId() != null && getSelectIds() != null){
+				documentFac.upRelated(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -73,8 +73,8 @@ public class RelatedAction extends ActionSupport {
 	
 	public void down(){
 		try{
-			if (getArticleRmcId() != null && getSelectIds() != null){
-				documentFac.downRelated(getArticleRmcId(), getSelectIds());
+			if (getArticleId() != null && getSelectIds() != null){
+				documentFac.downRelated(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));

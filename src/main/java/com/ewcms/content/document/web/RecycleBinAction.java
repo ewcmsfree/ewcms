@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.document.DocumentFacable;
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -20,55 +20,64 @@ import com.ewcms.web.util.Struts2Util;
  *
  * @author 吴智俊
  */
-public class RecycleBinAction extends CrudBaseAction<ArticleRmc, Integer> {
+public class RecycleBinAction extends CrudBaseAction<ArticleMain, Long> {
 
 	private static final long serialVersionUID = 2667146571103157163L;
 
 	@Autowired
 	private DocumentFacable documentFac;
 	
-	public List<Integer> getSelections() {
+	private Integer channelId;
+	
+	public List<Long> getSelections() {
         return super.getOperatorPK();
     }
 	
-	public void setSelections(List<Integer> selections) {
+	public void setSelections(List<Long> selections) {
         super.setOperatorPK(selections);
     }
 
-    public String query() throws Exception {
+    public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
+	public String query() throws Exception {
         return SUCCESS;
     }
 	
 	@Override
-	protected ArticleRmc createEmptyVo() {
+	protected ArticleMain createEmptyVo() {
 		return null;
 	}
 
 	@Override
-	protected void deleteOperator(Integer pk) {
-		documentFac.delArticleRmc(pk);
+	protected void deleteOperator(Long pk) {
+		documentFac.delArticleMain(pk, getChannelId());
 	}
 
 	@Override
-	protected ArticleRmc getOperator(Integer pk) {
-		return documentFac.getArticleRmc(pk);
+	protected ArticleMain getOperator(Long pk) {
+		return documentFac.findArticleMainByArticleMainAndChannel(pk, getChannelId());
 	}
 
 	@Override
-	protected Integer getPK(ArticleRmc vo) {
+	protected Long getPK(ArticleMain vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected Integer saveOperator(ArticleRmc vo, boolean isUpdate) {
+	protected Long saveOperator(ArticleMain vo, boolean isUpdate) {
 		return null;
 	}
 	
 	public String restore(){
-        for (Integer pk : operatorPK) {
-        	documentFac.restoreArticleRmc(pk, EwcmsContextUtil.getUserName());
+        for (Long pk : operatorPK) {
+        	documentFac.restoreArticleMain(pk, getChannelId(), EwcmsContextUtil.getUserName());
         }
-        
         Struts2Util.renderText(SUCCESS);
         return NONE;
 	}

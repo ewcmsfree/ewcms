@@ -36,7 +36,7 @@ import com.ewcms.web.vo.DataGrid;
 public class HistoryQueryAction extends QueryBaseAction {
 	private static final long serialVersionUID = 6797696723188141927L;
 	
-	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
+	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
 	private HistoryModelFacable historyModelFac;

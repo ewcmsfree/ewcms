@@ -24,22 +24,22 @@ public class RecommendAction extends ActionSupport {
 	@Autowired
 	private DocumentFacable documentFac;
 	
-	private Integer articleRmcId;
-	private Integer selectIds[];
+	private Long articleId;
+	private Long selectIds[];
 
-	public Integer getArticleRmcId() {
-		return articleRmcId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
-	public void setArticleRmcId(Integer articleRmcId) {
-		this.articleRmcId = articleRmcId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 	
-	public Integer[] getSelectIds() {
+	public Long[] getSelectIds() {
 		return selectIds;
 	}
 
-	public void setSelectIds(Integer[] selectIds) {
+	public void setSelectIds(Long[] selectIds) {
 		this.selectIds = selectIds;
 	}
 	
@@ -49,19 +49,19 @@ public class RecommendAction extends ActionSupport {
 	}
 
 	public String save(){
-		documentFac.saveRecommend(getArticleRmcId(), getSelectIds());
+		documentFac.saveRecommend(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public String delete(){
-		documentFac.deleteRecommend(getArticleRmcId(), getSelectIds());
+		documentFac.deleteRecommend(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public void up(){
 		try{
-			if (getArticleRmcId() != null && getSelectIds() != null){
-				documentFac.upRecommend(getArticleRmcId(), getSelectIds());
+			if (getArticleId() != null && getSelectIds() != null){
+				documentFac.upRecommend(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -73,8 +73,8 @@ public class RecommendAction extends ActionSupport {
 	
 	public void down(){
 		try{
-			if (getArticleRmcId() != null && getSelectIds() != null){
-				documentFac.downRecommend(getArticleRmcId(), getSelectIds());
+			if (getArticleId() != null && getSelectIds() != null){
+				documentFac.downRecommend(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));

@@ -21,7 +21,7 @@ import com.ewcms.web.util.Struts2Util;
  * 
  * @author 周冬初
  */
-public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
+public class ShareAction extends CrudBaseAction<ShareArticle, Long> {
 
 	private static final long serialVersionUID = -4525206274953910541L;
 
@@ -30,6 +30,7 @@ public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
 
 	private List<Integer> siteIdList;
 	private List<Integer> channelIds;
+	private Integer channelId;
 
 	public List<Integer> getChannelIds() {
 		return channelIds;
@@ -47,6 +48,14 @@ public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
 		this.siteIdList = siteIdList;
 	}
 
+	public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
 	public ShareArticle getShareArticleVo() {
 		return super.getVo();
 	}
@@ -55,31 +64,31 @@ public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
 		super.setVo(shareArticleVo);
 	}
 
-	public void setSelections(List<Integer> selections) {
+	public void setSelections(List<Long> selections) {
 		super.setOperatorPK(selections);
 	}
 
-	public List<Integer> getSelections() {
+	public List<Long> getSelections() {
 		return super.getOperatorPK();
 	}
 
 	@Override
-	protected Integer getPK(ShareArticle vo) {
+	protected Long getPK(ShareArticle vo) {
 		return null;
 	}
 
 	@Override
-	protected ShareArticle getOperator(Integer pk) {
+	protected ShareArticle getOperator(Long pk) {
 		return null;
 	}
 
 	@Override
-	protected void deleteOperator(Integer pk) {
+	protected void deleteOperator(Long pk) {
 		dsFac.delShareArticle(pk);
 	}
 
 	@Override
-	protected Integer saveOperator(ShareArticle vo, boolean isUpdate) {
+	protected Long saveOperator(ShareArticle vo, boolean isUpdate) {
 		return null;
 	}
 
@@ -110,7 +119,7 @@ public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
 		try {
 			siteIdList = new ArrayList<Integer>();
 			siteIdList.add(getCurrentSite().getId());
-			dsFac.shareArticle(siteIdList, getSelections());
+			dsFac.shareArticle(siteIdList, getSelections(), getChannelId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -119,7 +128,7 @@ public class ShareAction extends CrudBaseAction<ShareArticle, Integer> {
 
 	public void share() {
 		try {
-			dsFac.shareArticle(siteIdList, getSelections());
+			dsFac.shareArticle(siteIdList, getSelections(), getChannelId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));

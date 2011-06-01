@@ -28,19 +28,22 @@ import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
- *
+ * 
  * @author 吴智俊
  */
-@Controller("recyclebin")
-public class RecycleBinQueryAction extends QueryBaseAction {
-	private static final long serialVersionUID = -5014571744056723878L;
+@Controller("article")
+public class ArticleMainQueryAction extends QueryBaseAction {
+	
+	private static final long serialVersionUID = 5355642552995277216L;
 	
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-    @Autowired
-    private ChannelService channelService;
-
+	
+	@Autowired
+	private ChannelService channelService;
+	    
 	private Integer channelId;
+		
+//	private Boolean isRelease = false;
 	
 	public Integer getChannelId() {
 		return channelId;
@@ -49,11 +52,11 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
 	}
-
+	
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
-		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.channelId=:channelId ";
+		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=false And o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=false And o.channelId=:channelId ";
 		
 		Long id = getParameterValue(Long.class, "id", "查询编号错误，应该是整型");
 		if (isNotNull(id)){
@@ -153,10 +156,10 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		return query.queryCacheResult(cacheKey);
     }
 
-    @Override
+	@Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And  o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And o.channelId=:channelId ";
+		String hql = "Select o From ArticleMain As o Left Join o.article AS r, Where r.deleteFlag=false And o.id In (:id) And o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r, Where r.deleteFlag=false And o.id In (:id) And o.channelId=:channelId ";
 		
 		if (!getPermissionIsChannel()){
 			hql += " And r.owner=:owner ";
