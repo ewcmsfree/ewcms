@@ -15,6 +15,7 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.Related;
 
 /**
+ * 相关文章DAO
  *
  * @author 吴智俊
  */

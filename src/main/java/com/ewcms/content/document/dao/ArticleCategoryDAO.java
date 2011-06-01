@@ -15,6 +15,8 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.ArticleCategory;
 
 /**
+ * 文章分类属性DAO
+ * 
  * @author 吴智俊
  */
 @Repository
