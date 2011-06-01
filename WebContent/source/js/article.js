@@ -390,11 +390,12 @@ function saveArticle(){
 	});
 }
 //提交审核文章
-function submitReview(url){
-	$.post(url, {} ,function(data) {
+function submitReview(url, channelId, articleMainId){
+	$.post(url, {'channelId':channelId,'articleMainId':articleMainId} ,function(data) {
 		if (data == "true"){
-			$.messager.alert("提示","提交审核成功","info");
+			//$.messager.alert("提示","提交审核成功","info");
 			window.opener.window.articleReload();
+			window.close();
 			return;
 		}else if (data == "false"){
 			$.messager.alert("提示","提交审核失败，只有在【初稿】或【重新编辑】的文章才能提交审核","info");
@@ -642,7 +643,6 @@ function ewcmsCookies(){
 function ewcmsCookiesOk(){
 	$("#ewcms-cookies").window("close");
 }
-var isok=function(){};
 function ewcmsCookiesSet(obj,trId,username){
 	var id = obj.id;
 	if ($('#' + id).attr('checked') == true){
@@ -658,7 +658,6 @@ function ewcmsCookiesSet(obj,trId,username){
 				$(this).show();
 			});
 			$('#ewcms_toolbar').attr('checked', true);
-			//_GetJsData("../../source/js/article-toolbar.js",isok);  
 		}else{
 			$('#' + trId).show();
 		}
@@ -709,7 +708,6 @@ function ewcmsCookiesInit(username){
 		$("div[id='DivToolbar']").each(function(){
 			$(this).show();
 		});
-		//_GetJsData("../../source/js/article-toolbar.js",isok);  
 	}else{
 		$('#ewcms_toolbar').attr('checked', false);
 		$("div[id='DivToolbar']").each(function(){
