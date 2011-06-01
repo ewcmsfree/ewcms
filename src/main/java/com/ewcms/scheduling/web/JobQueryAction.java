@@ -38,7 +38,7 @@ public class JobQueryAction extends QueryBaseAction {
 	
 	protected static final Log log = LogFactory.getLog(JobQueryAction.class);
 	
-	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
+	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Autowired
 	private AlqcJobsQuartzSchedulerable alqcJobsQuartzScheduler;
