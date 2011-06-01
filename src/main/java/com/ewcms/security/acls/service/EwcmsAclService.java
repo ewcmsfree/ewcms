@@ -184,7 +184,7 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
         for(Iterator<Sid> iterator = sidPermissions.keySet().iterator(); iterator.hasNext() ;){
             Sid sid = iterator.next();
             Permission permission = sidPermissions.get(sid);
-            boolean granting =(sid instanceof PrincipalSid);
+            boolean granting =Boolean.TRUE;
             acl.insertAce(acl.getEntries().size(), permission, sid, granting);
         }
                 
