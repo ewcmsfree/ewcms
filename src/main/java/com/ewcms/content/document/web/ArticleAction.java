@@ -320,8 +320,8 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 
 	public void submitReview() {
 		try {
-			if (getArticleVo() != null) {
-				Struts2Util.renderText(documentFac.submitReviewArticleMain(getArticleVo().getId(), getChannelId()).toString());
+			if (getArticleMainId()!= null && getChannelId() != null) {
+				Struts2Util.renderText(documentFac.submitReviewArticleMain(getArticleMainId(), getChannelId()).toString());
 			}
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
