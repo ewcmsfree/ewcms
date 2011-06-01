@@ -21,6 +21,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
+ * 文章主体
+ * 
+ * <ul>
+ * <li>id:编号</li>
+ * <li>channelId:频道编号</li>
+ * <li>article:文章信息</li>
+ * <li>isReference:是否引用</li>
+ * <li>sort:排序</li>
+ * </ul>
+ * 
  * @author 吴智俊
  */
 @Entity

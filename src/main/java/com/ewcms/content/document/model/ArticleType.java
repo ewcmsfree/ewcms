@@ -7,6 +7,7 @@
 package com.ewcms.content.document.model;
 
 /**
+ * 文章类型
  *
  * @author 吴智俊
  */

@@ -17,7 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * 文章分类
+ * 文章分类属性
  * 
  * <ul>
  * <li>id:分类编号</li>

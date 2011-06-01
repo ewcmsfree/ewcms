@@ -33,7 +33,7 @@ import javax.persistence.TemporalType;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * 发布文章
+ * 文章信息
  * 
  * <ul>
  * <li>id:编号</li>
@@ -54,11 +54,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>contentHistories:历史内容集合对象</li>
  * <li>topFlag:新闻置顶</li>
  * <li>commentFlag:允许评论</li>
- * <li>imageFlag:图片</li>
- * <li>videoFlag:视频</li>
- * <li>annexFlag:附件</li>
- * <li>hotFlag:热点</li>
- * <li>recommendFlag:推荐</li>
  * <li>copyoutFlag:复制源</li>
  * <li>copyFlag:复制</li>
  * <li>type:文章类型</li>

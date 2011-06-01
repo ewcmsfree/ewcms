@@ -25,6 +25,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * 推荐文章
  * 
+ * <ul>
+ * <li>id:编号</li>
+ * <li>sort:排序</li>
+ * <li>article:文章信息</li>
+ * </ul>
+ * 
  * @author 吴智俊
  */
 @Entity
