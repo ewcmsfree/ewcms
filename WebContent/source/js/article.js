@@ -381,9 +381,7 @@ function saveArticle(){
 		}else if (data == "system-false"){
 			$.messager.alert("提示","系统错误","info");
 		}else if (data != ""){
-			$("#articleRmcId").attr("value",data.articleRmcId);
 			$("#state").attr("value", data.state);
-			$("#articleVo_id").attr("value",data.articleVoId);
 			$("#saveTime_general").html("<font color='#FF0000'>" + data.modified + "</font>");
 			$("#saveTime_title").html("<font color='#FF0000'>" + data.modified + "</font>");
 			window.opener.window.articleReload();
@@ -512,37 +510,6 @@ function changeType(){
     }
     window_resize();
 }
-function openLeading(){
-	if ($('#articleRmcId').val()==""){
-		$.messager.alert('提示','文章未保存之前不能进行领导关联','info');
-		return;
-	}
-	openWindow("#leading-window",{width:600,height:500,title:"所属领导"});
-}
-function saveLeading(url){
-	if ($('#articleRmcId').val()==""){
-		$.messager.alert('提示','文章未保存之前不能进行领导关联','info');
-		return;
-	}
-	var nodes = $('#tt2').tree('getChecked');
-	var paramter = '?articleRmcId=' + $('#articleRmcId').val();
-	for(var i=0; i<nodes.length; i++){
-		var type = nodes[i].attributes.type
-		if (type == 'leaderchannel'){
-			paramter += '&leadingChannelId=' + nodes[i].id;
-		}
-	}
-	//var url = '<s:url namespace="/document/article" action="addArticleRmcToLeadingChannel"/>' + paramter;
-	url += paramter;
-	$.post(url ,{} ,function(data){
-		if (data=='false'){
-			$.messager.alert('提示','文章关联领导人失败','info');
-			return;
-		}
-		$.messager.alert('提示','文章关联领导人成功','info');
-	});
-	$('#leading-window').window('close')
-}
 function openAnnexWindow(url){
 	$('#systemtab_annex').tabs('select','本地附件');
     $('#uploadifr_annex_id').attr('src',url);
@@ -660,9 +627,7 @@ function auto_save() {
 			var params=$('#articleSave').serialize();
 			$.post("save.do" ,params ,function(data){
 				if (data != "false" && data != "system-false" && data != ""){
-					$("#articleRmcId").attr("value",data.articleRmcId);
 					$("#state").attr("value", data.state);
-					$("#articleVo_id").attr("value",data.articleVoId);
 					$("#saveTime_general").html("<font color='#0000FF'>" + data.modified + "</font>");
 					$("#saveTime_title").html("<font color='#0000FF'>" + data.modified + "</font>");
 					window.opener.window.articleReload();
@@ -694,6 +659,8 @@ function ewcmsCookiesSet(obj,trId,username){
 			});
 			$('#ewcms_toolbar').attr('checked', true);
 			//_GetJsData("../../source/js/article-toolbar.js",isok);  
+		}else{
+			$('#' + trId).show();
 		}
 	}else{
 		$.cookie(id + '_' + username, null);
@@ -708,6 +675,8 @@ function ewcmsCookiesSet(obj,trId,username){
 				$(this).hide();
 			});
 			$('#ewcms_toolbar').attr('checked', false);
+		}else{
+			$('#' + trId).hide();
 		}
 	}
 	
