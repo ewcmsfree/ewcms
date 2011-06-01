@@ -16,7 +16,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.model.Permission;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
@@ -31,7 +30,6 @@ import com.ewcms.web.util.EwcmsContextUtil;
  *
  * @author 吴智俊
  */
-@Controller("recyclebin")
 public class RecycleBinQueryAction extends QueryBaseAction {
 	private static final long serialVersionUID = -5014571744056723878L;
 	

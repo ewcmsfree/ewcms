@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -32,7 +31,6 @@ import com.ewcms.web.vo.DataGrid;
  * 
  * @author 吴智俊
  */
-@Controller("contenthistory")
 public class HistoryQueryAction extends QueryBaseAction {
 	private static final long serialVersionUID = 6797696723188141927L;
 	

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -28,7 +27,6 @@ import com.ewcms.web.vo.DataGrid;
  *
  * @author 吴智俊
  */
-@Controller("recommend")
 public class RecommendQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -6357351349673405169L;
