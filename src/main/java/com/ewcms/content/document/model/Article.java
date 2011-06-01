@@ -7,6 +7,8 @@
 package com.ewcms.content.document.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,10 +21,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -59,6 +65,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>linkAddr:链接地址</li>
  * <li>eauthor:审核人</li>
  * <li>eauthorReal:审核人实名</li>
+ * <li>published:发布时间</li>
+ * <li>modified:修改时间</li>
+ * <li>status:状态</li>
+ * <li>url:链接地址</li>
+ * <li>channel:频道对象</li>
+ * <li>deleteFlag:删除标志</li>
+ * <li>deleteAuthor:删除人</li>
+ * <li>deleteTime:删除时间</li>
+ * <li>refChannel:所引用的频道对象集合</li>
+ * <li>relatedArticles:相关文章</li>
+ * <li>recommendArticles:推荐文章</li>
+ * <li>restoreAuthor:恢复人</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -73,7 +91,7 @@ public class Article implements Serializable {
 	@Id
     @GeneratedValue(generator = "seq_doc_article",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 	@Column(name = "title", nullable = false, length = 100)
 	private String title;
 	@Column(name = "title_style")
@@ -106,23 +124,13 @@ public class Article implements Serializable {
 	private Boolean topFlag;
 	@Column(name = "comment_flag")
 	private Boolean commentFlag;
-	@Column(name = "image_flag")
-	private Boolean imageFlag;
-	@Column(name = "video_flag")
-	private Boolean videoFlag;
-	@Column(name = "annex_flag")
-	private Boolean annexFlag;
-	@Column(name = "hot_flag")
-	private Boolean hotFlag;
-	@Column(name = "recommend_flag")
-	private Boolean recommendFlag;
 	@Column(name = "copy_flag")
 	private Boolean copyFlag;
 	@Column(name = "copyout_flag")
 	private Boolean copyoutFlag;
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private ArticleStatus type;
+	private ArticleType type;
 	@Column(name = "link_addr", columnDefinition = "text")
 	private String linkAddr;
 	@Column(name = "eauthor")
@@ -131,25 +139,58 @@ public class Article implements Serializable {
 	private String owner;
 	@Column(name = "eauthor_real")
 	private String eauthorReal;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "published")
+	private Date published;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modified", nullable = false)
+	private Date modified;
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ArticleStatus status;
+	@Column(name = "url", columnDefinition = "text")
+	private String url;
+	@Column(name = "delete_flag")
+	private Boolean deleteFlag;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "delete_time")
+	private Date deleteTime;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class)
+	@JoinColumn(name = "article_id")
+	@OrderBy("sort")
+	private List<Related> relateds;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Recommend.class)
+	@JoinColumn(name="article_id")
+	@OrderBy("sort")
+	private List<Recommend> recommends;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "createtime", nullable = false)
+	private Date createTime;
+	@Column(name = "delete_author")
+	private String deleteAuthor;
+	@Column(name = "restore_author")
+	private String restoreAuthor;
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = ArticleCategory.class)
+	@JoinTable(name = "doc_article_articlecategory", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articlecategory_id", referencedColumnName = "id"))
+	@OrderBy(value = "id")
+	private List<ArticleCategory> categories;
 	
 	public Article() {
 		topFlag = false;
 		commentFlag = false;
-		imageFlag = false;
-		videoFlag = false;
-		annexFlag = false;
-		hotFlag = false;
-		recommendFlag = false;
 		copyFlag = false;
 		copyoutFlag = false;
-		type = ArticleStatus.GENERAL;
+		type = ArticleType.GENERAL;
+		status = ArticleStatus.DRAFT;
+		createTime = new Date(Calendar.getInstance().getTime().getTime());
+		deleteFlag = false;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -274,46 +315,6 @@ public class Article implements Serializable {
 		this.commentFlag = commentFlag;
 	}
 	
-	public Boolean getImageFlag() {
-		return imageFlag;
-	}
-
-	public void setImageFlag(Boolean imageFlag) {
-		this.imageFlag = imageFlag;
-	}
-
-	public Boolean getVideoFlag() {
-		return videoFlag;
-	}
-
-	public void setVideoFlag(Boolean videoFlag) {
-		this.videoFlag = videoFlag;
-	}
-
-	public Boolean getAnnexFlag() {
-		return annexFlag;
-	}
-
-	public void setAnnexFlag(Boolean annexFlag) {
-		this.annexFlag = annexFlag;
-	}
-
-	public Boolean getHotFlag() {
-		return hotFlag;
-	}
-
-	public void setHotFlag(Boolean hotFlag) {
-		this.hotFlag = hotFlag;
-	}
-
-	public Boolean getRecommendFlag() {
-		return recommendFlag;
-	}
-
-	public void setRecommendFlag(Boolean recommendFlag) {
-		this.recommendFlag = recommendFlag;
-	}
-
 	public Boolean getCopyFlag() {
 		return copyFlag;
 	}
@@ -330,7 +331,7 @@ public class Article implements Serializable {
 		this.copyoutFlag = copyoutFlag;
 	}
 
-	public ArticleStatus getType() {
+	public ArticleType getType() {
 		return type;
 	}
 	
@@ -338,11 +339,11 @@ public class Article implements Serializable {
 		if (type != null){
 			return type.getDescription();
 		}else{
-			return ArticleStatus.GENERAL.getDescription();
+			return ArticleType.GENERAL.getDescription();
 		}
 	}
 
-	public void setType(ArticleStatus type) {
+	public void setType(ArticleType type) {
 		this.type = type;
 	}
 
@@ -376,6 +377,108 @@ public class Article implements Serializable {
 
 	public void setEauthorReal(String eauthorReal) {
 		this.eauthorReal = eauthorReal;
+	}
+
+	public Date getPublished() {
+		return published;
+	}
+
+	public void setPublished(Date published) {
+		this.published = published;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	public String getStatusDescription(){
+		return status.getDescription();
+	}
+	
+	public ArticleStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ArticleStatus status) {
+		this.status = status;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public Boolean getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(Boolean deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
+	public Date getDeleteTime() {
+		return deleteTime;
+	}
+
+	public void setDeleteTime(Date deleteTime) {
+		this.deleteTime = deleteTime;
+	}
+	
+	@JsonIgnore
+	public List<Related> getRelateds() {
+		return relateds;
+	}
+
+	public void setRelateds(List<Related> relateds) {
+		this.relateds = relateds;
+	}
+
+	@JsonIgnore
+	public List<Recommend> getRecommends() {
+		return recommends;
+	}
+
+	public void setRecommends(List<Recommend> recommends) {
+		this.recommends = recommends;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getDeleteAuthor() {
+		return deleteAuthor;
+	}
+
+	public void setDeleteAuthor(String deleteAuthor) {
+		this.deleteAuthor = deleteAuthor;
+	}
+
+	public String getRestoreAuthor() {
+		return restoreAuthor;
+	}
+
+	public void setRestoreAuthor(String restoreAuthor) {
+		this.restoreAuthor = restoreAuthor;
+	}
+
+	public List<ArticleCategory> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<ArticleCategory> categories) {
+		this.categories = categories;
 	}
 
 	@Override

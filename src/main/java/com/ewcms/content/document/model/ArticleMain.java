@@ -16,56 +16,76 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
- * 推荐文章
- * 
  * @author 吴智俊
  */
 @Entity
-@Table(name = "doc_recommend")
-@SequenceGenerator(name = "seq_doc_recommend", sequenceName = "seq_doc_recommend_id", allocationSize = 1)
-public class Recommend implements Serializable {
+@Table(name = "doc_article_main")
+@SequenceGenerator(name = "seq_doc_article_main", sequenceName = "seq_doc_article_main_id", allocationSize = 1)
+public class ArticleMain implements Serializable {
 
-	private static final long serialVersionUID = 8681780886911786864L;
+	private static final long serialVersionUID = 2777654709107575772L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_recommend", strategy = GenerationType.SEQUENCE)
-	private Integer id;
-	@Column(name = "sort")
-	private Integer sort;
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER,targetEntity = Article.class)
-	@JoinColumn(name="recommend_articlermc_id")
+	@GeneratedValue(generator = "seq_doc_article_main", strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
+	private Long id;
+	@Column(name = "channel_id", nullable = false)
+	private Integer channelId;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Article.class)
+	@JoinColumn(name = "article_id")
 	private Article article;
+	@Column(name = "is_reference")
+	private Boolean isReference;
+	@Column(name = "sort")
+	private Long sort;
 	
-	public Integer getId() {
+	public ArticleMain(){
+		sort = null;
+	}
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Integer getSort() {
-		return sort;
+	public Integer getChannelId() {
+		return channelId;
 	}
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
 	}
 
-	@JsonIgnore
 	public Article getArticle() {
 		return article;
 	}
 
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+
+	public Boolean getIsReference() {
+		return isReference;
+	}
+
+	public void setIsReference(Boolean isReference) {
+		this.isReference = isReference;
+	}
+
+	public Long getSort() {
+		return sort;
+	}
+
+	public void setSort(Long sort) {
+		this.sort = sort;
 	}
 
 	@Override
@@ -84,7 +104,7 @@ public class Recommend implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Recommend other = (Recommend) obj;
+		ArticleMain other = (ArticleMain) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -92,4 +112,5 @@ public class Recommend implements Serializable {
 			return false;
 		return true;
 	}
+
 }

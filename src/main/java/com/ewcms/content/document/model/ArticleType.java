@@ -7,20 +7,20 @@
 package com.ewcms.content.document.model;
 
 /**
- * 文章状态
  *
  * @author 吴智俊
  */
-public enum ArticleStatus {
-	DRAFT("初稿"),REEDIT("重新编辑"),REVIEW("审核中"),PRERELEASE("发布版"),RELEASE("已发布");
+public enum ArticleType {
+	GENERAL("普通新闻"),TITLE("标题新闻");
 	
 	private String description;
 	
-	private ArticleStatus(String description){
+	private ArticleType(String description){
 		this.description = description;
 	}
 	
 	public String getDescription(){
 		return description;
 	}
+
 }

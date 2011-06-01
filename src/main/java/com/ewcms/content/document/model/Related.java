@@ -39,9 +39,9 @@ public class Related implements Serializable {
 	private Integer id;
 	@Column(name = "sort")
 	private Integer sort;
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = ArticleRmc.class)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = Article.class)
 	@JoinColumn(name="related_articlermc_id")
-	private ArticleRmc articleRmc;
+	private Article article;
 
 	public Integer getId() {
 		return id;
@@ -60,12 +60,12 @@ public class Related implements Serializable {
 	}
 	
 	@JsonIgnore
-	public ArticleRmc getArticleRmc() {
-		return articleRmc;
+	public Article getArticle() {
+		return article;
 	}
 
-	public void setArticleRmc(ArticleRmc article) {
-		this.articleRmc = article;
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 
 	@Override
