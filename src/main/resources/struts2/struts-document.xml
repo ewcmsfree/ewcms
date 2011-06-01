@@ -9,14 +9,8 @@
 		<action name="index">
 			<result>/WEB-INF/page/document/article/index.jsp</result>
 		</action>
-		<action name="renda">
-			<result>/WEB-INF/page/document/article/renda.jsp</result>
-		</action>
-		<action name="zhengxie">
-			<result>/WEB-INF/page/document/article/zhengxie.jsp</result>
-		</action>				
-		<action name="delete" class="com.ewcms.content.document.web.ArticleAction" method="delete"/>
-		<action name="query" class="com.ewcms.content.document.web.ArticleQueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.content.document.web.ArticleMainAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.document.web.ArticleMainQueryAction" method="query"/>
 		<action name="input" class="com.ewcms.content.document.web.ArticleAction" method="input">
 			<result name="input">/WEB-INF/page/document/article/edit.jsp</result>
 		</action>
@@ -28,11 +22,13 @@
 		<action name="summary" class="com.ewcms.content.document.web.ArticleAction" method="summary"/>
 		<action name="history" class="com.ewcms.content.document.web.ArticleAction" method="history"/>
 		<action name="submitReview" class="com.ewcms.content.document.web.ArticleAction" method="submitReview"/>
-		<action name="copy" class="com.ewcms.content.document.web.ArticleAction" method="copy"/>
-		<action name="move" class="com.ewcms.content.document.web.ArticleAction" method="move"/>
-		<action name="submitReviews" class="com.ewcms.content.document.web.ArticleAction" method="submitReviews"/>
-		<action name="pubArticle" class="com.ewcms.content.document.web.ArticleAction" method="pubArticle"/>
-		<action name="reviewArticle" class="com.ewcms.content.document.web.ArticleAction" method="reviewArticle"/>
+		<action name="copy" class="com.ewcms.content.document.web.ArticleMainAction" method="copy"/>
+		<action name="move" class="com.ewcms.content.document.web.ArticleMainAction" method="move"/>
+		<action name="submitReviews" class="com.ewcms.content.document.web.ArticleMainAction" method="submitReviews"/>
+		<action name="pubArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="pubArticle"/>
+		<action name="reviewArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewArticle"/>
+		<action name="isSortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="isSortArticle"/>
+		<action name="sortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="sortArticle"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index">
@@ -92,4 +88,19 @@
 		<action name="share" class="com.ewcms.content.document.web.ShareAction" method="share"/>
 		<action name="tochannel" class="com.ewcms.content.document.web.ShareAction" method="toChannel"/>
 	</package>	
+	<package name="document.articlecategory" extends="struts-default" namespace="/document/articlecategory">
+		<action name="index">
+			<result>/WEB-INF/page/document/articlecategory/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.document.web.ArticleCategoryAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.document.web.ArticleCategoryQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.document.web.ArticleCategoryAction" method="input">
+			<result name="input">/WEB-INF/page/document/articlecategory/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.document.web.ArticleCategoryAction" method="save">
+			<result>/WEB-INF/page/document/articlecategory/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/articlecategory/edit.jsp</result>
+		</action>
+		<action name="findArticleCategoryAll" class="com.ewcms.content.document.web.ArticleCategoryAction" method="findArticleCategoryAll"/>
+	</package>
 </struts>	
