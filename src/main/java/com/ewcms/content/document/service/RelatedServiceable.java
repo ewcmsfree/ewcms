@@ -6,6 +6,10 @@
 
 package com.ewcms.content.document.service;
 
+import java.util.List;
+
+import com.ewcms.content.document.model.Related;
+
 /**
  * 相关文章操作接口
  *
@@ -17,7 +21,7 @@ public interface RelatedServiceable {
 	 * @param articleId
 	 * @param relatedArticleIds
 	 */
-	public void saveRelated(Integer articleId, Integer[] relatedArticleIds);
+	public void saveRelated(Long articleId, Long[] relatedArticleIds);
 	
 	/**
 	 * 删除相关文章
@@ -25,7 +29,7 @@ public interface RelatedServiceable {
 	 * @param articleId
 	 * @param relatedArticleIds
 	 */
-	public void deleteRelated(Integer articleId, Integer[] relatedArticleIds);
+	public void deleteRelated(Long articleId, Long[] relatedArticleIds);
 	
 	/**
 	 * 相关文章向上移动一位
@@ -33,7 +37,7 @@ public interface RelatedServiceable {
 	 * @param articleId
 	 * @param relatedArticleIds
 	 */
-	public void upRelated(Integer articleId, Integer[] relatedArticleIds);
+	public void upRelated(Long articleId, Long[] relatedArticleIds);
 
 	/**
 	 * 相关文章向下移动一位
@@ -41,5 +45,13 @@ public interface RelatedServiceable {
 	 * @param articleId
 	 * @param relatedArticleIds
 	 */
-	public void downRelated(Integer articleId, Integer[] relatedArticleIds);
+	public void downRelated(Long articleId, Long[] relatedArticleIds);
+	
+	/**
+	 * 查询相关文章
+	 * 
+	 * @param articleId
+	 * @return
+	 */
+	public List<Related> findRelatedByArticle(Long articleId);
 }
