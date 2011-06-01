@@ -141,6 +141,12 @@
                             <span>历史记录</span>
                         </a>
                     </div>
+                     <div class="nav-item">
+                         <a href="javascript:addTab('文章分类属性','document/articlecategory/index.do')">
+                            <img src="source/image/articlecategory.png" style="border:0"/><br/>
+                            <span>分章分类属性</span>
+                        </a>
+                    </div>
                 </div>
                 <div title="权限管理" style="overflow:auto;">
                    <div class="nav-item">
@@ -210,6 +216,7 @@
                         </a>
                     </div>
                     </sec:authorize>
+                    
                 </div>
             </div>
         </div>
