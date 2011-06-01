@@ -18,40 +18,41 @@ import com.ewcms.content.document.model.Recommend;
 public interface RecommendServiceable {
 	/**
 	 * 保存推荐文章
-	 * @param articleId
-	 * @param recommendArticleIds
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
 	 */
 	public void saveRecommend(Long articleId, Long[] recommendArticleIds);
 	
 	/**
 	 * 删除推荐文章
 	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
 	 */
 	public void deleteRecommend(Long articleId, Long[] recommendArticleIds);
 	
 	/**
 	 * 推荐文章向上移动一位
 	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推存文章编号集合
 	 */
 	public void upRecommend(Long articleId, Long[] recommendArticleIds);
 
 	/**
 	 * 推荐文章向下移动一位
 	 * 
-	 * @param articleId
-	 * @param recommendArticleIds
+	 * @param articleId 文章信息编号
+	 * @param recommendArticleIds 推荐文章编号集合
 	 */
 	public void downRecommend(Long articleId, Long[] recommendArticleIds);
 	
 	/**
-	 * 查询推荐文章
+	 * 查询推荐文章集合
 	 * 
-	 * @param articleId
-	 * @return
+	 * @param articleId 文章信息编号 
+	 * @return List 推荐文章集合
 	 */
 	public List<Recommend> findRecommendByArticle(Long articleId);
 }

@@ -22,7 +22,7 @@ import com.ewcms.content.document.model.Recommend;
  *
  * @author 吴智俊
  */
-@Service()
+@Service
 public class RecommendService implements RecommendServiceable {
 	@Autowired
 	private ArticleDAO articleDAO;

@@ -18,40 +18,41 @@ import com.ewcms.content.document.model.Related;
 public interface RelatedServiceable {
 	/**
 	 * 保存相关文章
-	 * @param articleId
-	 * @param relatedArticleIds
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
 	 */
 	public void saveRelated(Long articleId, Long[] relatedArticleIds);
 	
 	/**
 	 * 删除相关文章
 	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
 	 */
 	public void deleteRelated(Long articleId, Long[] relatedArticleIds);
 	
 	/**
 	 * 相关文章向上移动一位
 	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
 	 */
 	public void upRelated(Long articleId, Long[] relatedArticleIds);
 
 	/**
 	 * 相关文章向下移动一位
 	 * 
-	 * @param articleId
-	 * @param relatedArticleIds
+	 * @param articleId 文章信息编号
+	 * @param relatedArticleIds 相关文章编号集合
 	 */
 	public void downRelated(Long articleId, Long[] relatedArticleIds);
 	
 	/**
-	 * 查询相关文章
+	 * 查询相关文章集合
 	 * 
-	 * @param articleId
-	 * @return
+	 * @param articleId 文章信息编号
+	 * @return List 相关文章集合
 	 */
 	public List<Related> findRelatedByArticle(Long articleId);
 }

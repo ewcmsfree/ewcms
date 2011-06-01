@@ -22,7 +22,7 @@ import com.ewcms.content.document.model.Related;
  *
  * @author 吴智俊
  */
-@Service("relatedService")
+@Service
 public class RelatedService implements RelatedServiceable {
 	
 	@Autowired

@@ -12,120 +12,124 @@ import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.generator.release.ReleaseException;
 
 /**
+ * 文章主体操作接口
  *
  * @author 吴智俊
  */
 public interface ArticleMainServiceable {
 	/**
-	 * 查询文章
+	 * 查询文章主体
 	 * 
-	 * @param articleMainId
-	 * @param channelId
-	 * @return
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @return ArticleMain 文章主体对象
 	 */
 	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId);
 
 	/**
-	 * 删除文章
+	 * 删除文章主体
 	 * 
-	 * @param articleMainId
-	 * @param channelId
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
 	 */
 	public void delArticleMain(Long articleMainId, Integer channelId);
 
 	/**
-	 * 删除文章到回收站
+	 * 删除文章主体到回收站
 	 * 
-	 * @param articleMainId
-	 * @param channelId
-	 * @param userName
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param userName 操作用户
 	 */
 	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName);
 
 	/**
-	 * 恢复文章
+	 * 恢复文章主体
 	 * 
-	 * @param articleMainId
-	 * @param channelId
-	 * @param userName
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param userName 操作用户
 	 */
 	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName);
 
 	/**
-	 * 提交审核文章(只对初稿和重新编辑状态的文章进行发布)
+	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
 	 * 
-	 * @param articleMainId
-	 * @param channelId
-	 * @return
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @return Boolean true:提交成功,false:提交失败
 	 */
 	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
 	
 	/**
-	 * 提交审核文章(对任务状态的文章进行发布)
+	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
 	 * 
-	 * @param articleMainIds 文章编号列表
-	 * @param channelId
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelId 频道编号
 	 */
 	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
 
 	/**
-	 * 拷贝文章
+	 * 拷贝文章主体
 	 * 
-	 * @param articleMainIds
-	 * @param channelIds
-	 * @return
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:拷贝成功,false:拷贝失败
 	 */
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
 
 	/**
-	 * 移动文章
+	 * 移动文章主体
 	 * 
-	 * @param articleMainIds
-	 * @param channelIds
-	 * @return
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:移动成功,false:移动失败
 	 */
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
 
 	/**
-	 * 通过频道编号查询文章
+	 * 查询文章主体集合
 	 * 
-	 * @param channelId
-	 * @return
+	 * @param channelId 频道编号
+	 * @return List 文章主体集合
 	 */
 	public List<ArticleMain> findArticleMainByChannel(Integer channelId);
 
 	/**
-	 * 发布文章
+	 * 发布文章主体
+	 * 
 	 * @param channelId 频道编号
 	 * @throws ReleaseException
 	 */
 	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException;
 	
 	/**
-	 * 审核文章
+	 * 审核文章主体
 	 * 
-	 * @param articleMainIds 文章列表
+	 * @param articleMainIds 文章主体集合
 	 * @param review 审核标志(0:通过,1:未通过)
 	 * @param eauthor 审核人
 	 */
 	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor);
 	
 	/**
-	 * 根据sort对文章进行重排序
-	 * @param articleMainId
-	 * @param channelId
-	 * @param sort
-	 * @param isInsert 是否是插入(0:插入,1:替换)
+	 * 文章主体进行排序
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isInsert 是否插入(0:插入,1:替换)
 	 * @param isTop 是否置顶(true:是,false:否)
 	 */
 	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop);
 	
 	/**
+	 * 查询文章主体
 	 * 
-	 * 
-	 * @param channelId
-	 * @param sort
-	 * @param isTop
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isTop 是否置顶(true:是,false:否)
+	 * @return Boolean true:存在,false:不存在
 	 */
 	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
 }

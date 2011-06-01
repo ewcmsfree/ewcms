@@ -32,7 +32,7 @@ import com.ewcms.security.manage.service.UserServiceable;
  * 
  * @author 吴智俊
  */
-@Service()
+@Service
 public class ArticleMainService implements ArticleMainServiceable {
 
 	@Autowired
