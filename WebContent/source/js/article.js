@@ -279,7 +279,7 @@ function selectHistoryOperator(url){
 }
 //新建文章
 function createArticle(url){
-	if ($("#articleVo_id").val()==""){
+	if ($("#articleId").val()==""){
 		$.messager.confirm("提示","文章尚未保存，确认新建文章?",function(r){
 			if (r){
 				window.location = url;
@@ -427,7 +427,7 @@ function selectHistory(url){
 		$.messager.alert("提示","标题新闻没有历史记录","info");
 		return;
 	}
-	var articleId = $("#articleVo_id").attr("value");
+	var articleId = $("#articleId").attr("value");
 	if (articleId == ""){
 		$.messager.alert("提示","新增记录没有历史记录","info");
 		return;
@@ -444,7 +444,7 @@ function selectRelated(url){
 		$.messager.alert("提示","标题新闻没有相关文章","info");
 		return;
 	}
-	var articleId = $("#articleVo_id").attr("value");
+	var articleId = $("#articleId").attr("value");
 	if (articleId == ""){
 		$.messager.alert("提示","在新增状态下不能查看相关文章！","info");
 		return;
@@ -460,7 +460,7 @@ function selectRecommend(url){
 		$.messager.alert("提示","标题新闻没有推荐文章","info");
 		return;
 	}
-	var articleId = $("#articleVo_id").attr("value");
+	var articleId = $("#articleId").attr("value");
 	if (articleId == ""){
 		$.messager.alert("提示","在新增状态下不能查看推荐文章！","info");
 		return;
