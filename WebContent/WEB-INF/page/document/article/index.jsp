@@ -36,8 +36,6 @@
                                         var pro = [];
                                         if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
                                         if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-                                        //if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-                                        if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
                                         if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
                                         return pro.join("");
                                     }
