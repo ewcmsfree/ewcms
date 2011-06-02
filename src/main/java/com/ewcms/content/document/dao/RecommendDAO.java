@@ -38,9 +38,9 @@ public class RecommendDAO extends JpaDAO<Long, Recommend> {
     }
     
     @SuppressWarnings("unchecked")
-	public Recommend findRecommendByArticleAndRecommend(Long articleId, Long recommendId){
-    	String hql = "Select r From Article As o Right Join o.recommends As r Where o.id=? And r.id=?";
-    	List<Recommend> list = this.getJpaTemplate().find(hql, articleId, recommendId);
+	public Recommend findRecommendByArticleAndRecommend(Long articleId, Long recommendArticleId){
+    	String hql = "Select r From Article As o Right Join o.recommends As r Where o.id=? And r.article.id=?";
+    	List<Recommend> list = this.getJpaTemplate().find(hql, articleId, recommendArticleId);
     	if (list.isEmpty()) return null;
     	return list.get(0);
     }

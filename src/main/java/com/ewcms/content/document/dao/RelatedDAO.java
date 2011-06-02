@@ -39,9 +39,9 @@ public class RelatedDAO extends JpaDAO<Long, Related> {
     }
     
     @SuppressWarnings("unchecked")
-	public Related findRelatedByArticleAndRelated(Long articleId, Long relatedId){
-    	String hql = "Select r From Article As o Right Join o.relateds As r Where o.id=? And r.id=?";
-    	List<Related> list = this.getJpaTemplate().find(hql, articleId, relatedId);
+	public Related findRelatedByArticleAndRelated(Long articleId, Long relatedArticleId){
+    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relateds AS r WHERE o.id=? AND r.article.id=?";
+    	List<Related> list = this.getJpaTemplate().find(hql, articleId, relatedArticleId);
     	if (list.isEmpty()) return null;
     	return list.get(0);
     }
