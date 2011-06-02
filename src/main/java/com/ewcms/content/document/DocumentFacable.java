@@ -12,7 +12,6 @@ import java.util.List;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.Recommend;
 import com.ewcms.content.document.model.Related;
 import com.ewcms.generator.release.ReleaseException;
 
@@ -204,46 +203,6 @@ public interface DocumentFacable {
 	 * @return Boolean true:是,false:否
 	 */
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
-
-	/**
-	 * 保存推荐文章
-	 * 
-	 * @param articleId 文章信息编号
-	 * @param recommendArticleIds 推荐文章编号集合
-	 */
-	public void saveRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 删除推荐文章
-	 * 
-	 * @param articleId 文章信息编号
-	 * @param recommendArticleIds 推荐文章编号集合
-	 */
-	public void deleteRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 推荐文章向上移动一位
-	 * 
-	 * @param articleId 文章信息编号
-	 * @param recommendArticleIds 推存文章编号集合
-	 */
-	public void upRecommend(Long articleId, Long[] recommendArticleIds);
-
-	/**
-	 * 推荐文章向下移动一位
-	 * 
-	 * @param articleId 文章信息编号
-	 * @param recommendArticleIds 推荐文章编号集合
-	 */
-	public void downRecommend(Long articleId, Long[] recommendArticleIds);
-	
-	/**
-	 * 查询推荐文章集合
-	 * 
-	 * @param articleId 文章信息编号 
-	 * @return List 推荐文章集合
-	 */
-	public List<Recommend> findRecommendByArticle(Long articleId);
 
 	/**
 	 * 保存相关文章

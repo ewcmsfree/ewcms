@@ -154,10 +154,6 @@ public class Article implements Serializable {
 	@JoinColumn(name = "article_id")
 	@OrderBy("sort")
 	private List<Related> relateds;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Recommend.class)
-	@JoinColumn(name="article_id")
-	@OrderBy("sort")
-	private List<Recommend> recommends;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
@@ -433,15 +429,6 @@ public class Article implements Serializable {
 
 	public void setRelateds(List<Related> relateds) {
 		this.relateds = relateds;
-	}
-
-	@JsonIgnore
-	public List<Recommend> getRecommends() {
-		return recommends;
-	}
-
-	public void setRecommends(List<Recommend> recommends) {
-		this.recommends = recommends;
 	}
 
 	public Date getCreateTime() {

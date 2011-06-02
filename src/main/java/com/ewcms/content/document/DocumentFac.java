@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.Recommend;
 import com.ewcms.content.document.model.Related;
 import com.ewcms.content.document.service.ArticleCategoryServiceable;
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.document.service.ArticleServiceable;
-import com.ewcms.content.document.service.RecommendServiceable;
 import com.ewcms.content.document.service.RelatedServiceable;
 import com.ewcms.generator.release.ReleaseException;
 
@@ -37,8 +35,6 @@ public class DocumentFac implements DocumentFacable {
 	private ArticleMainServiceable articleMainService;
 	@Autowired
 	private ArticleServiceable articleService;
-	@Autowired
-	private RecommendServiceable recommendService;
 	@Autowired
 	private RelatedServiceable relatedService;
 	
@@ -145,31 +141,6 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId){
 		return articleService.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
-	}
-
-	@Override
-	public void saveRecommend(Long articleId, Long[] recommendArticleIds){
-		recommendService.saveRecommend(articleId, recommendArticleIds);
-	}
-	
-	@Override	
-	public void deleteRecommend(Long articleId, Long[] recommendArticleIds){
-		recommendService.deleteRecommend(articleId, recommendArticleIds);
-	}
-	
-	@Override
-	public void upRecommend(Long articleId, Long[] recommendArticleIds){
-		recommendService.upRecommend(articleId, recommendArticleIds);
-	}
-
-	@Override
-	public void downRecommend(Long articleId, Long[] recommendArticleIds){
-		recommendService.downRecommend(articleId, recommendArticleIds);
-	}
-	
-	@Override
-	public List<Recommend> findRecommendByArticle(Long articleId){
-		return recommendService.findRecommendByArticle(articleId);
 	}
 
 	@Override
