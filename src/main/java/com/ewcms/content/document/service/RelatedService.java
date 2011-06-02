@@ -8,6 +8,8 @@ package com.ewcms.content.document.service;
 
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +35,13 @@ public class RelatedService implements RelatedServiceable {
 	@Override
 	public void deleteRelated(Long articleId, Long[] relatedArticleIds) {
 		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length > 0){
+			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relatedArticleIds));
 			Article article = articleDAO.get(articleId);
 			List<Related> relateds_old = article.getRelateds();
 			List<Related> relateds_sort = relatedDAO.findRelatedByArticle(articleId);
-			for (int i = 0; i < relatedArticleIds.length; i++){
+			for (Long relatedArticleId : hasSets){
 				for (Related related : relateds_old){
-					if (relatedArticleIds[i].intValue() == related.getArticle().getId().intValue()){
+					if (relatedArticleId.longValue() == related.getArticle().getId().longValue()){
 						relateds_sort.remove(related);
 					}
 				}
@@ -64,9 +67,9 @@ public class RelatedService implements RelatedServiceable {
 			List<Related> relateds_old = relatedDAO.findRelatedByArticle(articleId);
 			for (Related related : relateds_old){
 				Long related_article_id = related.getArticle().getId();
-				if (related_article_id.intValue() == relatedArticleIds[0].intValue()){
+				if (related_article_id.longValue() == relatedArticleIds[0].longValue()){
 					Integer sort = related.getSort();
-					if (sort.intValue() < relateds_old.size()){
+					if (sort.longValue() < relateds_old.size()){
 						sort = sort + 1;
 						Related related_prev = relatedDAO.findRelatedByArticleAndSort(articleId, sort);
 						related_prev.setSort(sort - 1);
@@ -87,6 +90,7 @@ public class RelatedService implements RelatedServiceable {
 	@Override
 	public void saveRelated(Long articleId, Long[] relatedArticleIds) {
 		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length > 0){
+			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relatedArticleIds));
 			Article article = articleDAO.get(articleId);
 			List<Related> relateds = article.getRelateds();
 			if (relateds.isEmpty()){
@@ -94,12 +98,12 @@ public class RelatedService implements RelatedServiceable {
 			}
 			Integer related_count = relateds.size();
 			Related related = null;
-			for (int i = 0; i < relatedArticleIds.length; i++){
-				related = relatedDAO.findRelatedByArticleAndRelated(articleId, relatedArticleIds[i]);
+			for (Long relatedArticleId : hasSets){
+				related = relatedDAO.findRelatedByArticleAndRelated(articleId, relatedArticleId);
 				if (isNotNull(related)) continue;
 				related_count++;
 				related = new Related();
-				Article related_article = articleDAO.get(relatedArticleIds[i]);
+				Article related_article = articleDAO.get(relatedArticleId);
 				related.setSort(related_count);
 				related.setArticle(related_article);
 				relateds.add(related);
@@ -117,9 +121,9 @@ public class RelatedService implements RelatedServiceable {
 			List<Related> relateds_old = relatedDAO.findRelatedByArticle(articleId);
 			for (Related related : relateds_old){
 				Long related_article_id = related.getArticle().getId();
-				if (related_article_id.intValue() == relatedArticleIds[0].intValue()){
+				if (related_article_id.longValue() == relatedArticleIds[0].longValue()){
 					Integer sort = related.getSort();
-					if (sort.intValue() > 1){
+					if (sort.longValue() > 1){
 						sort = sort - 1;
 						Related related_prev = relatedDAO.findRelatedByArticleAndSort(articleId, sort);
 						related_prev.setSort(sort + 1);

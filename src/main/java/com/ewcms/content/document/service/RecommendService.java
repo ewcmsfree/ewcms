@@ -37,7 +37,7 @@ public class RecommendService implements RecommendServiceable {
 			List<Recommend> recommends_sort = recommendDAO.findRecommendByArticle(articleId);
 			for (int i = 0; i < recommendArticleIds.length; i++){
 				for (Recommend recommend : recommends_old){
-					if (recommendArticleIds[i].intValue() == recommend.getArticle().getId().intValue()){
+					if (recommendArticleIds[i].longValue() == recommend.getArticle().getId().longValue()){
 						recommends_sort.remove(recommend);
 					}
 				}
@@ -63,9 +63,9 @@ public class RecommendService implements RecommendServiceable {
 			List<Recommend> recommends_old = recommendDAO.findRecommendByArticle(articleId);
 			for (Recommend recommend : recommends_old){
 				Long recommend_article_id = recommend.getArticle().getId();
-				if (recommend_article_id.intValue() == recommendArticleIds[0].intValue()){
+				if (recommend_article_id.longValue() == recommendArticleIds[0].longValue()){
 					Integer sort = recommend.getSort();
-					if (sort.intValue() < recommends_old.size()){
+					if (sort.longValue() < recommends_old.size()){
 						sort = sort + 1;
 						Recommend recommend_prev = recommendDAO.findRecommendByArticleAndSort(articleId, sort);
 						recommend_prev.setSort(sort - 1);
@@ -116,9 +116,9 @@ public class RecommendService implements RecommendServiceable {
 			List<Recommend> recommends_old = recommendDAO.findRecommendByArticle(articleId);
 			for (Recommend recommend : recommends_old){
 				Long recommend_article_id = recommend.getArticle().getId();
-				if (recommend_article_id.intValue() == recommendArticleIds[0].intValue()){
+				if (recommend_article_id.longValue() == recommendArticleIds[0].longValue()){
 					Integer sort = recommend.getSort();
-					if (sort.intValue() > 1){
+					if (sort.longValue() > 1){
 						sort = sort - 1;
 						Recommend recommend_prev = recommendDAO.findRecommendByArticleAndSort(articleId, sort);
 						recommend_prev.setSort(sort + 1);
