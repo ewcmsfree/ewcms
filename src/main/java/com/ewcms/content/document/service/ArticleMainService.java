@@ -166,7 +166,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setImage(article.getImage());
 					target_article.setTopFlag(article.getTopFlag());
 					target_article.setCommentFlag(article.getCommentFlag());
-					target_article.setCopyFlag(true);
 					target_article.setType(article.getType());
 					target_article.setLinkAddr(article.getLinkAddr());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
