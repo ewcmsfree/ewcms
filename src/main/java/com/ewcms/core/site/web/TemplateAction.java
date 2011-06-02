@@ -230,6 +230,8 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					getTemplateVo().setTemplateEntity(tplEntityVo);
 					if(getTemplateVo().getParent().getId()==null){
 						getTemplateVo().setParent(null);
+					}else{
+						getTemplateVo().setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
 					}					
 					siteFac.addTemplate(getTemplateVo());
 				}
@@ -297,7 +299,9 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			vo.setTemplateEntity(new TemplateEntity());
 			if(vo.getParent().getId()==null){
 				vo.setParent(null);
-			}			
+			}else{
+				getTemplateVo().setParent(siteFac.getTemplate(vo.getParent().getId()));
+			}				
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
@@ -315,6 +319,8 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			vo.setSite(getCurrentSite());
 			if(vo.getParent().getId()==null){
 				vo.setParent(null);
+			}else{
+				getTemplateVo().setParent(siteFac.getTemplate(vo.getParent().getId()));
 			}		
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));

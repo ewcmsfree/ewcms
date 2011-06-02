@@ -267,7 +267,10 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 					getSourceVo().setSourceEntity(tplEntityVo);
 					if (getSourceVo().getParent().getId() == null) {
 						getSourceVo().setParent(null);
-					}
+					
+				}else{
+					getSourceVo().setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
+				}					
 					siteFac.addTemplateSource(getSourceVo());
 				}
 			} catch (Exception e) {
@@ -294,6 +297,8 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			vo.setSourceEntity(new TemplatesrcEntity());
 			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
+			}else{
+				getSourceVo().setParent(siteFac.getTemplateSource(vo.getParent().getId()));
 			}
 			Integer tplId = siteFac.addTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
@@ -312,6 +317,8 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			vo.setSite(getCurrentSite());
 			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
+			}else{
+				getSourceVo().setParent(siteFac.getTemplateSource(vo.getParent().getId()));
 			}
 			Integer tplId = siteFac.addTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
