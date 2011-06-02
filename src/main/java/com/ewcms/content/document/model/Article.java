@@ -44,18 +44,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>subTitle:副标题</li>
  * <li>subTitlStyle:副标题样式</li>
  * <li>author:作者</li>
- * <li>owner:创建者</li>
  * <li>origin:来源</li>
  * <li>keyword:关键字</li>
  * <li>tag:标签</li>
  * <li>summary:摘要</li>
  * <li>contents:内容集合对象</li>
  * <li>image:文章图片</li>
- * <li>contentHistories:历史内容集合对象</li>
  * <li>topFlag:新闻置顶</li>
  * <li>commentFlag:允许评论</li>
  * <li>type:文章类型</li>
  * <li>linkAddr:链接地址</li>
+ * <li>owner:创建者</li>
  * <li>audit:审核人</li>
  * <li>auditReal:审核人实名</li>
  * <li>published:发布时间</li>
@@ -64,6 +63,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>url:链接地址</li>
  * <li>deleteFlag:删除标志</li>
  * <li>relatedArticles:相关文章</li>
+ * <li>createTime:创建时间</li>
+ * <li>categories:文章分类属性集合</li>
  * </ul>
  * 
  * @author 吴智俊
