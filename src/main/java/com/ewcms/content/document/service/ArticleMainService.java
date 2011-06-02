@@ -70,9 +70,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}else{
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
-			article.setDeleteTime(new Date(Calendar.getInstance().getTime().getTime()));
 			article.setDeleteFlag(true);
-			article.setDeleteAuthor(userName);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}
@@ -87,7 +85,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(article);
 		article.setStatus(ArticleStatus.REEDIT);
 		article.setDeleteFlag(false);
-		article.setRestoreAuthor(userName);
 		articleMain.setArticle(article);
 		articleMainDAO.merge(articleMain);
 	}
@@ -139,7 +136,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setPublished(null);
 					target_article.setUrl(null);
 					target_article.setDeleteFlag(article.getDeleteFlag());
-					target_article.setDeleteTime(article.getDeleteTime());
 
 					List<Content> contents = article.getContents();
 					List<Content> contents_target = new ArrayList<Content>();
@@ -217,7 +213,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor) {
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit) {
 		ArticleMain articleMain = null;
 		Article article = null;
 		for (Long articleMainId : articleMainIds) {
@@ -227,12 +223,12 @@ public class ArticleMainService implements ArticleMainServiceable {
 			if (isNull(article)) continue;
 			if (review == 0 && article.getStatus() == ArticleStatus.REVIEW) {// 通过
 				article.setStatus(ArticleStatus.PRERELEASE);
-				article.setEauthor(eauthor);
-				article.setEauthorReal(userService.getUserRealName());
+				article.setAudit(audit);
+				article.setAuditReal(userService.getUserRealName());
 			} else if (review == 1 && !(article.getStatus() == ArticleStatus.REEDIT || article.getStatus() == ArticleStatus.DRAFT)) {// 不通过
 				article.setStatus(ArticleStatus.REEDIT);
-				article.setEauthor(eauthor);
-				article.setEauthorReal(userService.getUserRealName());
+				article.setAudit(audit);
+				article.setAuditReal(userService.getUserRealName());
 				article.setPublished(null);
 				article.setUrl(null);
 			}

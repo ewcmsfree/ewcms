@@ -108,9 +108,9 @@ public interface ArticleMainServiceable {
 	 * 
 	 * @param articleMainIds 文章主体集合
 	 * @param review 审核标志(0:通过,1:未通过)
-	 * @param eauthor 审核人
+	 * @param audit 审核人
 	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor);
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit);
 	
 	/**
 	 * 文章主体进行排序
