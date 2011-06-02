@@ -9,7 +9,7 @@ package com.ewcms.web.vo;
 import java.io.Serializable;
 
 /**
- * @author 吴智�?
+ * @author 吴智俊
  */
 public class ComboBox implements Serializable {
 
