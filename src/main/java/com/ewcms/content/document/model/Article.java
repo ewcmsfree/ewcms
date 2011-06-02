@@ -54,8 +54,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>contentHistories:历史内容集合对象</li>
  * <li>topFlag:新闻置顶</li>
  * <li>commentFlag:允许评论</li>
- * <li>copyoutFlag:复制源</li>
- * <li>copyFlag:复制</li>
  * <li>type:文章类型</li>
  * <li>linkAddr:链接地址</li>
  * <li>eauthor:审核人</li>
@@ -70,7 +68,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>deleteTime:删除时间</li>
  * <li>refChannel:所引用的频道对象集合</li>
  * <li>relatedArticles:相关文章</li>
- * <li>recommendArticles:推荐文章</li>
  * <li>restoreAuthor:恢复人</li>
  * </ul>
  * 
@@ -119,10 +116,6 @@ public class Article implements Serializable {
 	private Boolean topFlag;
 	@Column(name = "comment_flag")
 	private Boolean commentFlag;
-	@Column(name = "copy_flag")
-	private Boolean copyFlag;
-	@Column(name = "copyout_flag")
-	private Boolean copyoutFlag;
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ArticleType type;
@@ -169,8 +162,6 @@ public class Article implements Serializable {
 	public Article() {
 		topFlag = false;
 		commentFlag = false;
-		copyFlag = false;
-		copyoutFlag = false;
 		type = ArticleType.GENERAL;
 		status = ArticleStatus.DRAFT;
 		createTime = new Date(Calendar.getInstance().getTime().getTime());
@@ -306,22 +297,6 @@ public class Article implements Serializable {
 		this.commentFlag = commentFlag;
 	}
 	
-	public Boolean getCopyFlag() {
-		return copyFlag;
-	}
-
-	public void setCopyFlag(Boolean copyFlag) {
-		this.copyFlag = copyFlag;
-	}
-
-	public Boolean getCopyoutFlag() {
-		return copyoutFlag;
-	}
-
-	public void setCopyoutFlag(Boolean copyoutFlag) {
-		this.copyoutFlag = copyoutFlag;
-	}
-
 	public ArticleType getType() {
 		return type;
 	}
