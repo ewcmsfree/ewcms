@@ -31,7 +31,8 @@
 								{field:'createDate',title:'保存时间',width:125},
 								{field:'idName',title:'关键字名称',width:100},
 								{field:'idValue',title:'关键字值',width:100},
-								{field:'idType',title:'关键字类型',width:120}
+								{field:'idType',title:'关键字类型',width:120},
+								{field:'userName',title:'操作员',width:80}
 							]],
 			         toolbar:[
 								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
