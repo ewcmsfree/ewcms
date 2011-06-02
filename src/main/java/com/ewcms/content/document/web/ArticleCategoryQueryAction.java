@@ -27,7 +27,7 @@ public class ArticleCategoryQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
 			String cacheKey, int rows, int page, Order order) {
-    	EntityQueryable query = queryFactory.createEntityQuery(ArticleCategory.class).setPage(page).setRow(rows);
+    	EntityQueryable query = queryFactory.createEntityQuery(ArticleCategory.class).setPage(page).setRow(rows).orderAsc("id");
     	
     	Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
     	if (isNotNull(id)) query.eq("id", id);
@@ -41,7 +41,7 @@ public class ArticleCategoryQueryAction extends QueryBaseAction {
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-    	EntityQueryable query = queryFactory.createEntityQuery(ArticleCategory.class).setPage(page).setRow(rows);
+    	EntityQueryable query = queryFactory.createEntityQuery(ArticleCategory.class).setPage(page).setRow(rows).orderAsc("id");
     	
         List<Integer> ids = getIds(Integer.class);
         query.in("id", ids);
