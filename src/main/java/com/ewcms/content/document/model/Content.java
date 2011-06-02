@@ -23,6 +23,7 @@ import javax.persistence.Table;
  * <li>id:编号</li>
  * <li>detail:内容</li>
  * <li>page:页数</li>
+ * <li>total:总页数<li>
  * </ul>
  * 
  * @author 吴智俊
@@ -42,6 +43,8 @@ public class Content implements Serializable {
 	private String detail;
 	@Column(name = "page", nullable = false)
 	private Integer page;
+	@Column(name = "total")
+	private Integer total;
 
 	public Integer getId() {
 		return id;
@@ -65,6 +68,14 @@ public class Content implements Serializable {
 
 	public void setPage(Integer page) {
 		this.page = page;
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 	@Override
