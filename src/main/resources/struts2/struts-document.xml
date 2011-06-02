@@ -59,21 +59,6 @@
 		<action name="up" class="com.ewcms.content.document.web.RelatedAction" method="up"/>
 		<action name="down" class="com.ewcms.content.document.web.RelatedAction" method="down"/>
 	</package>
-	<package name="document.recommend" extends="struts-default" namespace="/document/recommend">
-		<action name="recommend" class="com.ewcms.content.document.web.RecommendAction">
-			<result>/WEB-INF/page/document/recommend/index.jsp</result>
-		</action>
-		<action name="article" class="com.ewcms.content.document.web.RecommendAction">
-			<result>/WEB-INF/page/document/recommend/article.jsp</result>
-		</action>
-		<action name="save" class="com.ewcms.content.document.web.RecommendAction" method="save">
-			<result>/WEB-INF/page/document/recommend/index.jsp</result>
-		</action>
-		<action name="query" class="com.ewcms.content.document.web.RecommendQueryAction" method="query"/>
-		<action name="delete" class="com.ewcms.content.document.web.RecommendAction" method="delete"/>
-		<action name="up" class="com.ewcms.content.document.web.RecommendAction" method="up"/>
-		<action name="down" class="com.ewcms.content.document.web.RecommendAction" method="down"/>
-	</package>
 	<package name="document.share" extends="struts-default" namespace="/document/share">
 		<action name="index">
 			<result>/WEB-INF/page/document/share/index.jsp</result>
