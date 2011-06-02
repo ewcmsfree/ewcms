@@ -192,7 +192,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 					contentList.add(contentVo);
 				}
 			}
-			contentVo.setTotal(getTextAreaContent().size());
+			vo.setContentTotal(contentList.size());
 			vo.setContents(contentList);
 		}
 		if (isNotNull(getCategories())) {
