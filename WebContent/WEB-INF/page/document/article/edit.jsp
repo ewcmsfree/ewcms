@@ -143,7 +143,7 @@
 			        	<td width="6%">审核人：</td>
 			        	<td width="44%">
 			        		<input style="display: none;" name="articleVo.owner" size="30" readonly="readonly" value="<sec:authentication property='name' />"/>
-			        		<s:textfield name="articleVo.eauthor" size="30" readonly="true"></s:textfield>&nbsp;&nbsp;
+			        		<s:textfield name="articleVo.auditReal" size="30" readonly="true"></s:textfield>&nbsp;&nbsp;
 			        	</td>
 			        	
 			        </tr>
