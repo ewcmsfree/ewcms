@@ -69,9 +69,8 @@
                                 },
                                 {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
                                 {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
-                                {field:'eauthor',title:'审核人',width:80,formatter:function(val,rec){return rec.article.eauthorReal;}},
+                                {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
                                 {field:'statusDescription',title:'删除前状态',width:80,formatter:function(val,rec){return rec.article.statusDescription;}},
-                                {field:'deleteTime',title:'删除时间',width:120,formatter:function(val,rec){return rec.article.deleteTime;}},
                                 {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
                                 {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
                         ]],
