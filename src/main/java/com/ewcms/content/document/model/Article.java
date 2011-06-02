@@ -56,19 +56,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>commentFlag:允许评论</li>
  * <li>type:文章类型</li>
  * <li>linkAddr:链接地址</li>
- * <li>eauthor:审核人</li>
- * <li>eauthorReal:审核人实名</li>
+ * <li>audit:审核人</li>
+ * <li>auditReal:审核人实名</li>
  * <li>published:发布时间</li>
  * <li>modified:修改时间</li>
  * <li>status:状态</li>
  * <li>url:链接地址</li>
- * <li>channel:频道对象</li>
  * <li>deleteFlag:删除标志</li>
- * <li>deleteAuthor:删除人</li>
- * <li>deleteTime:删除时间</li>
- * <li>refChannel:所引用的频道对象集合</li>
  * <li>relatedArticles:相关文章</li>
- * <li>restoreAuthor:恢复人</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -121,12 +116,12 @@ public class Article implements Serializable {
 	private ArticleType type;
 	@Column(name = "link_addr", columnDefinition = "text")
 	private String linkAddr;
-	@Column(name = "eauthor")
-	private String eauthor;
 	@Column(name = "owner")
 	private String owner;
-	@Column(name = "eauthor_real")
-	private String eauthorReal;
+	@Column(name = "audit")
+	private String audit;
+	@Column(name = "audit_real")
+	private String auditReal;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "published")
 	private Date published;
@@ -140,20 +135,13 @@ public class Article implements Serializable {
 	private String url;
 	@Column(name = "delete_flag")
 	private Boolean deleteFlag;
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "delete_time")
-	private Date deleteTime;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class, orphanRemoval = true)
 	@JoinColumn(name = "article_id")
 	@OrderBy("sort")
 	private List<Related> relateds;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
-	@Column(name = "delete_author")
-	private String deleteAuthor;
-	@Column(name = "restore_author")
-	private String restoreAuthor;
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = ArticleCategory.class)
 	@JoinTable(name = "doc_article_articlecategory", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articlecategory_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
@@ -321,12 +309,12 @@ public class Article implements Serializable {
 		this.linkAddr = linkAddr;
 	}
 
-	public String getEauthor() {
-		return eauthor;
+	public String getAudit() {
+		return audit;
 	}
 
-	public void setEauthor(String eauthor) {
-		this.eauthor = eauthor;
+	public void setAudit(String audit) {
+		this.audit = audit;
 	}
 
 	public String getOwner() {
@@ -337,12 +325,12 @@ public class Article implements Serializable {
 		this.owner = owner;
 	}
 
-	public String getEauthorReal() {
-		return eauthorReal;
+	public String getAuditReal() {
+		return auditReal;
 	}
 
-	public void setEauthorReal(String eauthorReal) {
-		this.eauthorReal = eauthorReal;
+	public void setAuditReal(String auditReal) {
+		this.auditReal = auditReal;
 	}
 
 	public Date getPublished() {
@@ -389,14 +377,6 @@ public class Article implements Serializable {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public Date getDeleteTime() {
-		return deleteTime;
-	}
-
-	public void setDeleteTime(Date deleteTime) {
-		this.deleteTime = deleteTime;
-	}
-	
 	@JsonIgnore
 	public List<Related> getRelateds() {
 		return relateds;
@@ -412,22 +392,6 @@ public class Article implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-
-	public String getDeleteAuthor() {
-		return deleteAuthor;
-	}
-
-	public void setDeleteAuthor(String deleteAuthor) {
-		this.deleteAuthor = deleteAuthor;
-	}
-
-	public String getRestoreAuthor() {
-		return restoreAuthor;
-	}
-
-	public void setRestoreAuthor(String restoreAuthor) {
-		this.restoreAuthor = restoreAuthor;
 	}
 
 	public List<ArticleCategory> getCategories() {
