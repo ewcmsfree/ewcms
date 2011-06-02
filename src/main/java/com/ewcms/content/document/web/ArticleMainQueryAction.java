@@ -151,7 +151,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
     }
 
 	@Override
@@ -175,7 +175,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.queryResult();
+		return query.setRow(rows).setPage(page).queryResult();
     }
 
 	private Boolean getPermissionIsChannel(){
