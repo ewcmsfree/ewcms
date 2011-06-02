@@ -17,13 +17,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
-import com.ewcms.content.document.search.util.StringUtil;
 import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.history.model.HistoryModel;
 import com.ewcms.history.util.ByteToObject;
@@ -275,7 +275,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 
 	public String keyword() {
 		if (getTitle() != null && getTitle().length() > 0 && getContent() != null && getContent().length() > 0) {
-			String keyword = StringUtil.join(ExtractKeywordAndSummary.getKeyword(getTitle() + " " + getContent()), " ");
+			String keyword = HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(getTitle() + " " + getContent()), " ");
 			Struts2Util.renderText(keyword);
 		}
 		return NONE;
