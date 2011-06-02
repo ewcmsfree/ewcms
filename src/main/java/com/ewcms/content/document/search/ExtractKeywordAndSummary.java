@@ -23,9 +23,9 @@ import com.ewcms.analyzer.IKSegmentation;
 import com.ewcms.analyzer.Lexeme;
 import com.ewcms.analyzer.lucene.IKAnalyzer;
 import com.ewcms.analyzer.lucene.IKQueryParser;
-import com.ewcms.content.document.search.util.FileUtil;
-import com.ewcms.content.document.search.util.NumberUtil;
-import com.ewcms.content.document.search.util.StringUtil;
+import com.ewcms.common.io.HtmlFileUtil;
+import com.ewcms.common.io.HtmlStringUtil;
+import com.ewcms.common.io.HtmlNumberUtil;
 
 /**
  * 
@@ -34,31 +34,29 @@ import com.ewcms.content.document.search.util.StringUtil;
 public class ExtractKeywordAndSummary {
 	private static String filterWords;
 	private static String filterChars;
-	
+
 	public static String getTextFromHtml(String html) {
-		String text = StringUtil.getPureText(html);
-		if (StringUtil.isEmpty(text))
-			text = StringUtil.clearHtmlTag(html);
+		String text = HtmlStringUtil.getPureText(html);
+		if (HtmlStringUtil.isEmpty(text))
+			text = HtmlStringUtil.clearHtmlTag(html);
 		return text.replaceAll("[\\s\\u0020\u3000]{2,}", " ");
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String[] getKeyword(String content) {
 		content = getTextFromHtml(content);
 		IKSegmentation seg = new IKSegmentation(new StringReader(content));
-		LinkedHashMap<String,Integer> map = new LinkedHashMap<String,Integer>();
+		LinkedHashMap<String, Integer> map = new LinkedHashMap<String, Integer>();
 		ArrayList<Object> list = new ArrayList<Object>();
 		try {
 			for (Lexeme word = seg.next(); word != null; word = seg.next()) {
 				String k = word.getLexemeText();
 				if (k != null && k.length() != 1)
 					if (map.containsKey(k))
-						map.put(k, new Integer(((Integer) map.get(word
-								.getLexemeText())).intValue() + 1));
+						map.put(k, new Integer(((Integer) map.get(word.getLexemeText())).intValue() + 1));
 					else
 						map.put(k, new Integer(1));
 			}
-			
 
 			Object ks[] = keyArray(map);
 			Object vs[] = valueArray(map);
@@ -73,9 +71,7 @@ public class ExtractKeywordAndSummary {
 							count -= otherCount;
 						}
 
-					arr
-							.add(((Object) (new Object[] { k,
-									new Integer(count) })));
+					arr.add(((Object) (new Object[] { k, new Integer(count) })));
 				}
 			}
 
@@ -111,8 +107,7 @@ public class ExtractKeywordAndSummary {
 			}
 
 			if (list.size() > 0 && list.size() <= 3 && arr.size() > list.size()) {
-				int lastCount = ((Integer) ((Object[]) arr.get(list.size() - 1))[1])
-						.intValue();
+				int lastCount = ((Integer) ((Object[]) arr.get(list.size() - 1))[1]).intValue();
 				for (int i = list.size(); i < 5 && i < arr.size(); i++) {
 					Object wordArr[] = (Object[]) arr.get(i);
 					int count = ((Integer) wordArr[1]).intValue();
@@ -130,42 +125,40 @@ public class ExtractKeywordAndSummary {
 
 		return arr;
 	}
-	
-    @SuppressWarnings("rawtypes")
-	private static Object[] keyArray(LinkedHashMap<String,Integer> map)
-    {
-        if(map.size() == 0)
-            return new Object[0];
-        Object arr[] = new Object[map.size()];
-        int i = 0;
-        for(Iterator iter = map.keySet().iterator(); iter.hasNext();)
-            arr[i++] = iter.next();
 
-        return arr;
-    }
+	@SuppressWarnings("rawtypes")
+	private static Object[] keyArray(LinkedHashMap<String, Integer> map) {
+		if (map.size() == 0)
+			return new Object[0];
+		Object arr[] = new Object[map.size()];
+		int i = 0;
+		for (Iterator iter = map.keySet().iterator(); iter.hasNext();)
+			arr[i++] = iter.next();
 
-    @SuppressWarnings("rawtypes")
-	private static Object[] valueArray(LinkedHashMap<String,Integer> map)
-    {
-        if(map.size() == 0)
-            return new Object[0];
-        Object arr[] = new Object[map.size()];
-        int i = 0;
-        for(Iterator iter = map.values().iterator(); iter.hasNext();)
-            arr[i++] = iter.next();
+		return arr;
+	}
 
-        return arr;
-    }
-    
+	@SuppressWarnings("rawtypes")
+	private static Object[] valueArray(LinkedHashMap<String, Integer> map) {
+		if (map.size() == 0)
+			return new Object[0];
+		Object arr[] = new Object[map.size()];
+		int i = 0;
+		for (Iterator iter = map.values().iterator(); iter.hasNext();)
+			arr[i++] = iter.next();
+
+		return arr;
+	}
+
 	private static boolean filter(String word) {
 		if (filterWords == null || filterChars == null)
 			try {
-				filterWords = FileUtil.readText(ExtractKeywordAndSummary.class.getResource("wordfilter.dic").openStream(), "UTF-8");
-				filterChars = FileUtil.readText(ExtractKeywordAndSummary.class.getResource("charfilter.dic").openStream(), "UTF-8");
+				filterWords = HtmlFileUtil.readText(ExtractKeywordAndSummary.class.getResource("wordfilter.dic").openStream(), "UTF-8");
+				filterChars = HtmlFileUtil.readText(ExtractKeywordAndSummary.class.getResource("charfilter.dic").openStream(), "UTF-8");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		if (NumberUtil.isNumber(word))
+		if (HtmlNumberUtil.isNumber(word))
 			return false;
 		if (word == null || word.length() < 2)
 			return false;
@@ -179,16 +172,13 @@ public class ExtractKeywordAndSummary {
 	public static String getTextAbstract(String title, String content) {
 		try {
 			content = getTextFromHtml(content);
-			org.apache.lucene.search.Query q = IKQueryParser.parse("CONTENT",
-					title);
+			org.apache.lucene.search.Query q = IKQueryParser.parse("CONTENT", title);
 			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("", "");
-			Highlighter highlighter = new Highlighter(formatter,
-					new QueryScorer(q));
+			Highlighter highlighter = new Highlighter(formatter, new QueryScorer(q));
 			highlighter.setTextFragmenter(new SimpleFragmenter(200));
-			org.apache.lucene.analysis.TokenStream tokenStream = (new IKAnalyzer())
-					.tokenStream("CONTENT", new StringReader(content));
+			org.apache.lucene.analysis.TokenStream tokenStream = (new IKAnalyzer()).tokenStream("CONTENT", new StringReader(content));
 			String tmp = highlighter.getBestFragment(tokenStream, content);
-			if (StringUtil.isNotEmpty(tmp))
+			if (HtmlStringUtil.isNotEmpty(tmp))
 				content = tmp.trim();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -199,39 +189,25 @@ public class ExtractKeywordAndSummary {
 		for (int i = 0; i < content.length(); i++) {
 			char c = content.charAt(i);
 			if (startFlag) {
-				if (Character.isWhitespace(c) || Character.isISOControl(c)
-						|| c == ',' || c == '，' || c == '”'
-						|| c == '’' || c == '.' || c == '。'
-						|| c == '>' || c == '?' || c == '？' || c == ' '
-						|| c == '　' || c == ' ' || c == '!'
-						|| c == '！' || c == ';' || c == '；'
-						|| c == ':' || c == '：' || c == ']'
-						|| c == '］')
+				if (Character.isWhitespace(c) || Character.isISOControl(c) || c == ',' || c == '，' || c == '”' || c == '’' || c == '.' || c == '。' || c == '>' || c == '?' || c == '？' || c == ' ' || c == '　' || c == ' ' || c == '!' || c == '！' || c == ';' || c == '；' || c == ':' || c == '：' || c == ']' || c == '］')
 					continue;
 				start = i;
 				startFlag = false;
 			}
 			if (!startFlag)
-				if (c == '.' || c == '。' || c == '?' || c == '？'
-						|| c == '!' || c == '！' || c == ' '
-						|| c == '　' || c == ' ') {
+				if (c == '.' || c == '。' || c == '?' || c == '？' || c == '!' || c == '！' || c == ' ' || c == '　' || c == ' ') {
 					if (i < 8)
 						start = i + 1;
 					end = i;
-					if (i != content.length() - 1
-							&& (content.charAt(i + 1) == '”' || content
-									.charAt(i + 1) == '’'))
+					if (i != content.length() - 1 && (content.charAt(i + 1) == '”' || content.charAt(i + 1) == '’'))
 						end = i + 1;
 				} else {
-					if ((c == ',' || c == '，' || c == '>' || c == '》' || c == '、')
-							&& i < 2)
+					if ((c == ',' || c == '，' || c == '>' || c == '》' || c == '、') && i < 2)
 						start = i + 1;
 					if (c == '’' || c == '”')
 						if (i != content.length() - 1) {
 							char next = content.charAt(i + 1);
-							if (next != ',' && next == '，'
-									&& next == '、' && next == ';'
-									&& next == '；')
+							if (next != ',' && next == '，' && next == '、' && next == ';' && next == '；')
 								end = i + 1;
 						} else {
 							end = i;
@@ -244,24 +220,19 @@ public class ExtractKeywordAndSummary {
 			start = 0;
 			for (int i = 0; i < content.length(); i++) {
 				char c = content.charAt(i);
-				if ((c == '.' || c == '。' || c == '?' || c == '？'
-						|| c == '!' || c == '！' || c == ' '
-						|| c == '　' || c == ' ')
-						&& i < 8)
+				if ((c == '.' || c == '。' || c == '?' || c == '？' || c == '!' || c == '！' || c == ' ' || c == '　' || c == ' ') && i < 8)
 					start = i + 1;
 			}
 
 			if (start != 0)
 				content = content.substring(start);
 			end = 0;
-			if (StringUtil.isNotEmpty(content)) {
+			if (HtmlStringUtil.isNotEmpty(content)) {
 				char c = content.charAt(content.length() - 1);
-				if (c != '.' && c != '。' && c != '?' && c != '？'
-						&& c != '!' && c != '！') {
+				if (c != '.' && c != '。' && c != '?' && c != '？' && c != '!' && c != '！') {
 					for (int i = content.length() - 2; i > 0; i--) {
 						c = content.charAt(i);
-						if (c != ';' && c != '；' && c != ','
-								&& c != '，' && c != '>' && c != '》')
+						if (c != ';' && c != '；' && c != ',' && c != '，' && c != '>' && c != '》')
 							continue;
 						end = i;
 						break;
