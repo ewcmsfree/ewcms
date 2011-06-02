@@ -454,22 +454,6 @@ function selectRelated(url){
 	$("#editifr_pop").attr("src",url);
 	openWindow("#pop-window",{width:800,height:600,title:"相关文章选择"});
 }
-//选择推荐文章
-function selectRecommend(url){
-	if ($('#articleVo_type').val() == "TITLE"){
-		$.messager.alert("提示","标题新闻没有推荐文章","info");
-		return;
-	}
-	var articleId = $("#articleId").attr("value");
-	if (articleId == ""){
-		$.messager.alert("提示","在新增状态下不能查看推荐文章！","info");
-		return;
-	}
-	$("#selectHistory_span").attr("style","display:none");
-	$("#save_span").attr("style","");
-	$("#editifr_pop").attr("src",url);
-	openWindow("#pop-window",{width:800,height:600,title:"推荐文章选择"});
-}
 function showHide(username){
     var showHideLabel_value = $('#showHideLabel').text();
     if ($.trim(showHideLabel_value) == '展开'){
