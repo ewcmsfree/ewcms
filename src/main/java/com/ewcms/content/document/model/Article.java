@@ -65,6 +65,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>relatedArticles:相关文章</li>
  * <li>createTime:创建时间</li>
  * <li>categories:文章分类属性集合</li>
+ * <li>contentTotal:内容总页数<li>
  * </ul>
  * 
  * @author 吴智俊
@@ -147,6 +148,8 @@ public class Article implements Serializable {
 	@JoinTable(name = "doc_article_articlecategory", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articlecategory_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
 	private List<ArticleCategory> categories;
+	@Column(name = "total")
+	private Integer contentTotal;
 	
 	public Article() {
 		topFlag = false;
@@ -401,6 +404,14 @@ public class Article implements Serializable {
 
 	public void setCategories(List<ArticleCategory> categories) {
 		this.categories = categories;
+	}
+
+	public Integer getContentTotal() {
+		return contentTotal;
+	}
+
+	public void setContentTotal(Integer contentTotal) {
+		this.contentTotal = contentTotal;
 	}
 
 	@Override
