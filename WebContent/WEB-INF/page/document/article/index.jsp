@@ -83,9 +83,7 @@
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
 								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-submitreview',handler:submitReviewOperate},'-',
 								{id:'btnReview',text:'审核',iconCls:'icon-review',handler:reviewOperate},'-',
-								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate},'-',
-								{id:'btnSelf',text:'本站共享', iconCls:'icon-shareself',handler:shareSelf},'-',
-								{id:'btnShare',text:'群站共享', iconCls:'icon-share', handler:share}								
+								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate}							
 						     ]
 				});
 				//站点专栏目录树初始
