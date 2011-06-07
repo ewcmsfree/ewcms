@@ -6,6 +6,27 @@ $(function() {
 	
 	changeType();
 	
+	var ewcms_short_cookies = $.cookie("ewcms_short_<sec:authentication property='name'/>");
+	if (ewcms_short_cookies != null){
+		$('#ewcms_short').attr('checked',true);
+		$('#ShowShortTitle').attr('checked',true);
+		$('#trShortTitle').show();
+	}else{
+		$('#ewcms_short').attr('checked',false);
+		$('#ShowShortTitle').attr('checked',false);
+		$('#trShortTitle').hide();
+	}
+	var ewcms_sub_cookies = $.cookie("ewcms_sub_<sec:authentication property='name'/>");
+	if (ewcms_sub_cookies != null){
+		$('#ewcms_sub').attr('checked',true);
+		$('#ShowSubTitle').attr('checked',true);
+		$('#trSubTitle').show();
+	}else{
+		$('#ewcms_sub').attr('checked',false);
+		$('#ShowSubTitle').attr('checked',false);
+		$('#trSubTitle').hide();
+	}
+	
 	var st = new ArticleToolbar("articleTitle","tdTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
 	st.show();
 	//标题
@@ -76,26 +97,6 @@ $(function() {
 		}
 		window_resize();
 	});
-	var ewcms_short_cookies = $.cookie("ewcms_short_<sec:authentication property='name'/>");
-	if (ewcms_short_cookies != null){
-		$('#ewcms_short').attr('checked',true);
-		$('#ShowShortTitle').attr('checked',true);
-		$('#trShortTitle').show();
-	}else{
-		$('#ewcms_short').attr('checked',false);
-		$('#ShowShortTitle').attr('checked',false);
-		$('#trShortTitle').hide();
-	}
-	var ewcms_sub_cookies = $.cookie("ewcms_sub_<sec:authentication property='name'/>");
-	if (ewcms_sub_cookies != null){
-		$('#ewcms_sub').attr('checked',true);
-		$('#ShowSubTitle').attr('checked',true);
-		$('#trSubTitle').show();
-	}else{
-		$('#ewcms_sub').attr('checked',false);
-		$('#ShowSubTitle').attr('checked',false);
-		$('#trSubTitle').hide();
-	}
 	for (var i=1;i<=5;i++){
 		var ewcms_cookies = $.cookie("ewcms_" + i + "_<sec:authentication property='name'/>");
 		if (ewcms_cookies != null){
