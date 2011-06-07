@@ -6,32 +6,32 @@ $(function() {
 	
 	changeType();
 	
-	var ewcms_short_cookies = $.cookie("ewcms_short_<sec:authentication property='name'/>");
-	if (ewcms_short_cookies != null){
-		$('#ewcms_short').attr('checked',true);
-		$('#ShowShortTitle').attr('checked',true);
-		$('#trShortTitle').show();
-	}else{
-		$('#ewcms_short').attr('checked',false);
-		$('#ShowShortTitle').attr('checked',false);
-		$('#trShortTitle').hide();
-	}
-	var ewcms_sub_cookies = $.cookie("ewcms_sub_<sec:authentication property='name'/>");
-	if (ewcms_sub_cookies != null){
-		$('#ewcms_sub').attr('checked',true);
-		$('#ShowSubTitle').attr('checked',true);
-		$('#trSubTitle').show();
-	}else{
-		$('#ewcms_sub').attr('checked',false);
-		$('#ShowSubTitle').attr('checked',false);
-		$('#trSubTitle').hide();
-	}
+//	var ewcms_short_cookies = $.cookie("ewcms_short_<sec:authentication property='name'/>");
+//	if (ewcms_short_cookies != null){
+//		$('#ewcms_short').attr('checked',true);
+//		$('#ShowShortTitle').attr('checked',true);
+//		$('#trShortTitle').show();
+//	}else{
+//		$('#ewcms_short').attr('checked',false);
+//		$('#ShowShortTitle').attr('checked',false);
+//		$('#trShortTitle').hide();
+//	}
+//	var ewcms_sub_cookies = $.cookie("ewcms_sub_<sec:authentication property='name'/>");
+//	if (ewcms_sub_cookies != null){
+//		$('#ewcms_sub').attr('checked',true);
+//		$('#ShowSubTitle').attr('checked',true);
+//		$('#trSubTitle').show();
+//	}else{
+//		$('#ewcms_sub').attr('checked',false);
+//		$('#ShowSubTitle').attr('checked',false);
+//		$('#trSubTitle').hide();
+//	}
 	
 	var st = new ArticleToolbar("articleTitle","tdTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
 	st.show();
 	//标题
-	if ($("#articleTitleStyle").attr("value") != ""){
-		var styleValue = $("#articleTitleStyle").attr("value");
+	if ($.trim($("#articleTitleStyle").val()) != ""){
+		var styleValue = $("#articleTitleStyle").val();
 		var articleTitleStyle = $("#articleTitle").attr("style") + ";" + styleValue;
 		$("#articleTitle").attr("style",articleTitleStyle);
 		$("#articleTitleStyle").attr("style",styleValue);
@@ -41,8 +41,8 @@ $(function() {
 	st = new ArticleToolbar("articleShortTitle","tdShortTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
 	st.show();
 	//短标题
-	if ($("#articleShortTitleStyle").attr("value") != ""){
-		var styleValue = $("#articleShortTitleStyle").attr("value");
+	if ($.trim($("#articleShortTitleStyle").val()) != ""){
+		var styleValue = $("#articleShortTitleStyle").val();
 		var articleShortTitleStyle = $("#artilceShortTitle").attr("style") + ";" + styleValue;
 		$("#articleShortTitle").attr("style", articleShortTitleStyle);
 		$("#articleShortTitleStyle").attr("style",styleValue);
@@ -52,8 +52,8 @@ $(function() {
 	st = new ArticleToolbar("articleSubTitle","tdSubTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
 	st.show();
 	//副标题
-	if ($("#articleSubTitleStyle").attr("value") != ""){
-		var styleValue = $("#articleSubTitleStyle").attr("value");
+	if ($.trim($("#articleSubTitleStyle").val()) != ""){
+		var styleValue = $("#articleSubTitleStyle").val();
 		var articleSubTitleStyle =$("#articleSubTitle").attr("style") + ";" + styleValue;
 		$("#articleSubTitle").attr("style", articleSubTitleStyle);
 		$("#articleSubTitleStyle").attr("style",styleValue);
@@ -64,17 +64,17 @@ $(function() {
 		$("#pageList").append(getLi_Html(i+1));
 	}
 	
-	if ($("#articleShortTitle").attr("value") != ""){
+	if ($.trim($("#articleShortTitle").val()) != ""){
 		$("#ShowShortTitle").attr("checked",true);
-		var styleValue = $("#articleShortTitleStyle").attr("value");
+		var styleValue = $("#articleShortTitleStyle").val();
 		var articleTitleStyle = $("#articleShortTitle").attr("style") + ";" + styleValue;
 		$("#articleShortTitle").attr("style",articleTitleStyle);
 		$("#trShortTitle").show();
 	}
 	
-	if ($("#articleSubTitle").attr("value") != ""){
+	if ($.trim($("#articleSubTitle").val()) != ""){
 		$("#ShowSubTitle").attr("checked",true);
-		var styleValue = $("#articleSubTitleStyle").attr("value");
+		var styleValue = $("#articleSubTitleStyle").val();
 		var articleTitleStyle = $("#articleSubTitle").attr("style") + ";" + styleValue;
 		$("#articleSubTitle").attr("style",articleTitleStyle);
 		$("#trSubTitle").show();
@@ -108,7 +108,7 @@ $(function() {
 		}
 	}
 	
-	document.title="文档编辑：" + $('#articleTitle').attr('value');
+	document.title="文档编辑：" + $('#articleTitle').val();
 	window_resize();
 });
 $(window).bind("resize", function () {
@@ -296,7 +296,7 @@ function getKeywordOrSummary(type,url){
 		$.messager.alert("提示","标题新闻不用提取【关键字】或【摘要】","info");
 		return;
 	}
-	var title = $("#articleTitle").attr("value");
+	var title = $("#articleTitle").val();
 	if (title == ""){ 
 		$.messager.alert("提示","提取【关键字】或【摘要】时，标题不能为空","info");
 		$("#title").focus()
@@ -340,7 +340,7 @@ function getKeywordOrSummary(type,url){
 }
 //保存文章
 function saveArticle(){
-	if ($.trim($("#articleTitle").attr("value"))==""){
+	if ($.trim($("#articleTitle").val())==""){
 		$.messager.alert("提示","文章标题不能为空","info");
 		return;
 	}
@@ -365,11 +365,11 @@ function saveArticle(){
 		}
 	}
 	
-	if ($("#ShowShortTitle").attr("checked") == false || $.trim($("#articleShortTitle").attr("value")) == ""){
+	if ($("#ShowShortTitle").attr("checked") == false || $.trim($("#articleShortTitle").val()) == ""){
 		$("#articleShortTitle").attr("value","");
 		$("#articleShortTitleStyle").attr("value","");
 	}
-	if ($("#ShowSubTitle").attr("checked") == false || $.trim($("#articleSubTitle").attr("value")) == "") {
+	if ($("#ShowSubTitle").attr("checked") == false || $.trim($("#articleSubTitle").val()) == "") {
 		$("#articleSubTitle").attr("value","");
 		$("#articleSubTitleStyle").attr("value","");
 	}
@@ -428,7 +428,7 @@ function selectHistory(url){
 		$.messager.alert("提示","标题新闻没有历史记录","info");
 		return;
 	}
-	var articleId = $("#articleId").attr("value");
+	var articleId = $("#articleId").val();
 	if (articleId == ""){
 		$.messager.alert("提示","新增记录没有历史记录","info");
 		return;
@@ -445,7 +445,7 @@ function selectRelated(url){
 		$.messager.alert("提示","标题新闻没有相关文章","info");
 		return;
 	}
-	var articleId = $("#articleId").attr("value");
+	var articleId = $("#articleId").val();
 	if (articleId == ""){
 		$.messager.alert("提示","在新增状态下不能查看相关文章！","info");
 		return;
@@ -581,7 +581,7 @@ function insertImageOperator(){
 }
 
 function auto_save() {
-	if ($.trim($("#articleTitle").attr("value"))==""){
+	if ($.trim($("#articleTitle").val())==""){
 		return;
 	}
 	if ($('#articleVo_type').val() == "GENERAL"){
@@ -601,11 +601,11 @@ function auto_save() {
 				notDirty.isNotDirty = true;
 			}
 		}
-		if ($("#ShowShortTitle").attr("checked") == false || $.trim($("#articleShortTitle").attr("value")) == ""){
+		if ($("#ShowShortTitle").attr("checked") == false || $.trim($("#articleShortTitle").val()) == ""){
 			$("#articleShortTitle").attr("value","");
 			$("#articleShortTitleStyle").attr("value","");
 		}
-		if ($("#ShowSubTitle").attr("checked") == false || $.trim($("#articleSubTitle").attr("value")) == "") {
+		if ($("#ShowSubTitle").attr("checked") == false || $.trim($("#articleSubTitle").val()) == "") {
 			$("#articleSubTitle").attr("value","");
 			$("#articleSubTitleStyle").attr("value","");
 		}
@@ -623,7 +623,7 @@ function auto_save() {
 	}
 }
 function ewcmsCookies(){
-	openWindow("#ewcms-cookies",{width:300,height:215,top:236,left:458,title:"设置常用项"});
+	openWindow("#ewcms-cookies",{width:300,height:215,title:"设置常用项"});
 }
 function ewcmsCookiesOk(){
 	$("#ewcms-cookies").window("close");
@@ -632,13 +632,14 @@ function ewcmsCookiesSet(obj,trId,username){
 	var id = obj.id;
 	if ($('#' + id).attr('checked') == true){
 		$.cookie(id + '_' + username,'true',{expires:14});
-		if (id == 'ewcms_short'){
-			$('#' + trId).show();
-			$('#ShowShortTitle').attr('checked',true);
-		}else if (id == 'ewcms_sub'){
-			$('#' + trId).show();
-			$('#ShowSubTitle').attr('checked', true);
-		}else if (id == 'ewcms_toolbar'){
+//		if (id == 'ewcms_short'){
+//			$('#' + trId).show();
+//			$('#ShowShortTitle').attr('checked',true);
+//		}else if (id == 'ewcms_sub'){
+//			$('#' + trId).show();
+//			$('#ShowSubTitle').attr('checked', true);
+//		}else 
+		if (id == 'ewcms_toolbar'){
 			$("div[id='DivToolbar']").each(function(){
 				$(this).show();
 			});
@@ -648,13 +649,14 @@ function ewcmsCookiesSet(obj,trId,username){
 		}
 	}else{
 		$.cookie(id + '_' + username, null);
-		if (id == 'ewcms_short'){
-			$('#' + trId).hide();
-			$('#ShowShortTitle').attr('checked',false);
-		}else if (id == 'ewcms_sub'){
-			$('#' + trId).hide();
-			$('#ShowSubTitle').attr('checked',false);
-		}else if (id == 'ewcms_toolbar'){
+//		if (id == 'ewcms_short'){
+//			$('#' + trId).hide();
+//			$('#ShowShortTitle').attr('checked',false);
+//		}else if (id == 'ewcms_sub'){
+//			$('#' + trId).hide();
+//			$('#ShowSubTitle').attr('checked',false);
+//		}else 
+		if (id == 'ewcms_toolbar'){
 			$("div[id='DivToolbar']").each(function(){
 				$(this).hide();
 			});
@@ -667,26 +669,26 @@ function ewcmsCookiesSet(obj,trId,username){
 	window_resize();
 }
 function ewcmsCookiesInit(username){
-	var ewcms_short_cookies = $.cookie("ewcms_short_" + username);
-	if (ewcms_short_cookies != null){
-		$('#ewcms_short').attr('checked',true);
-		$('#ShowShortTitle').attr('checked',true);
-		$('#trShortTitle').show();
-	}else{
-		$('#ewcms_short').attr('checked',false);
-		$('#ShowShortTitle').attr('checked',false);
-		$('#trShortTitle').hide();
-	}
-	var ewcms_sub_cookies = $.cookie("ewcms_sub_" + username);
-	if (ewcms_sub_cookies != null){
-		$('#ewcms_sub').attr('checked',true);
-		$('#ShowSubTitle').attr('checked',true);
-		$('#trSubTitle').show();
-	}else{
-		$('#ewcms_sub').attr('checked',false);
-		$('#ShowSubTitle').attr('checked',false);
-		$('#trSubTitle').hide();
-	}
+//	var ewcms_short_cookies = $.cookie("ewcms_short_" + username);
+//	if (ewcms_short_cookies != null){
+//		$('#ewcms_short').attr('checked',true);
+//		$('#ShowShortTitle').attr('checked',true);
+//		$('#trShortTitle').show();
+//	}else{
+//		$('#ewcms_short').attr('checked',false);
+//		$('#ShowShortTitle').attr('checked',false);
+//		$('#trShortTitle').hide();
+//	}
+//	var ewcms_sub_cookies = $.cookie("ewcms_sub_" + username);
+//	if (ewcms_sub_cookies != null){
+//		$('#ewcms_sub').attr('checked',true);
+//		$('#ShowSubTitle').attr('checked',true);
+//		$('#trSubTitle').show();
+//	}else{
+//		$('#ewcms_sub').attr('checked',false);
+//		$('#ShowSubTitle').attr('checked',false);
+//		$('#trSubTitle').hide();
+//	}
 	var ewcms_toolbar_cookies = $.cookie("ewcms_toolbar_" + username);
 	if (ewcms_toolbar_cookies != null){
 		$('#ewcms_toolbar').attr('checked', true);
