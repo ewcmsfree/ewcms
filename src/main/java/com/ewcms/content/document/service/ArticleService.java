@@ -80,9 +80,7 @@ public class ArticleService implements ArticleServiceable {
 			// throw new
 			// BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
 		} else {
-			ArticleMain articleMain_old = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), channelId);
-			Assert.notNull(articleMain_old);
-			Article article_old = articleMain_old.getArticle();
+			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);
 			if (article_old.getType() == ArticleType.GENERAL) {
 				// TODO 不做任务处理
