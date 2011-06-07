@@ -335,12 +335,14 @@
 		        		<tr align="center">
 		        			<td>可以在这里设置常用项，选择后可保存2个星期</td>
 		        		</tr>
+		        		<!-- 
 		        		<tr>
 		        			<td><input type="checkbox" value="checkbox" id="ewcms_short" onclick="ewcmsCookiesSet(this,'trShortTitle','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_short">&nbsp;短标题</label></td>
 		        		</tr>
 		        		<tr>
 		        			<td><input type="checkbox" value="checkbox" id="ewcms_sub" onclick="ewcmsCookiesSet(this,'trSubTitle','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_sub">&nbsp;副标题</label></td>
 		        		</tr>
+		        		 -->
 		        		<tr>
 		        			<td><input type="checkbox" value="checkbox" id="ewcms_toolbar"  onclick="ewcmsCookiesSet(this,'','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_toolbar">&nbsp;显示工具条</label></td>
 		        		</tr>
