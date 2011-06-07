@@ -137,7 +137,7 @@ public class Article implements Serializable {
 	private String url;
 	@Column(name = "delete_flag")
 	private Boolean deleteFlag;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy("sort")
 	private List<Related> relateds;
