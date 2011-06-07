@@ -59,20 +59,6 @@
 		<action name="up" class="com.ewcms.content.document.web.RelatedAction" method="up"/>
 		<action name="down" class="com.ewcms.content.document.web.RelatedAction" method="down"/>
 	</package>
-	<package name="document.share" extends="struts-default" namespace="/document/share">
-		<action name="index">
-			<result>/WEB-INF/page/document/share/index.jsp</result>
-		</action>
-		<action name="delete" class="com.ewcms.content.document.web.ShareAction" method="delete"/>
-		<action name="query" class="com.ewcms.content.document.web.ShareQueryAction" method="query"/>
-		<action name="input" class="com.ewcms.content.document.web.ShareAction" method="input">
-			<result name="input">/WEB-INF/page/document/share/edit.jsp</result>
-		</action>
-		<action name="sharetop" class="com.ewcms.content.document.web.ShareAction" method="shareTop"/>
-		<action name="shareself" class="com.ewcms.content.document.web.ShareAction" method="shareSelf"/>
-		<action name="share" class="com.ewcms.content.document.web.ShareAction" method="share"/>
-		<action name="tochannel" class="com.ewcms.content.document.web.ShareAction" method="toChannel"/>
-	</package>	
 	<package name="document.articlecategory" extends="struts-default" namespace="/document/articlecategory">
 		<action name="index">
 			<result>/WEB-INF/page/document/articlecategory/index.jsp</result>
