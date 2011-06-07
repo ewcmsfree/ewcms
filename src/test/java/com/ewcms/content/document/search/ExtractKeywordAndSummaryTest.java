@@ -8,7 +8,7 @@ package com.ewcms.content.document.search;
 
 import org.junit.Test;
 
-import com.ewcms.content.document.search.util.StringUtil;
+import com.ewcms.common.io.HtmlStringUtil;
 
 /**
  * @author 吴智俊
@@ -22,7 +22,7 @@ public class ExtractKeywordAndSummaryTest {
 
 	@Test
 	public void getKeyword() {
-		System.out.println(StringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + content), " "));
+		System.out.println(HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + content), " "));
 	}
 
 	@Test
