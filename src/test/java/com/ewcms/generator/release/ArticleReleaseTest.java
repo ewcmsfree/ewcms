@@ -89,7 +89,7 @@ public class ArticleReleaseTest {
     public Article getArticle(){
         Article article = new Article();
 
-        article.setId(20000);
+        article.setId(new Long(20000));
         List<Content> contents = new ArrayList<Content>();
         article.setContents(contents);
         contents.add(new Content());

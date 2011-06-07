@@ -10,20 +10,19 @@
  */
 package com.ewcms.generator.freemarker.directive.article;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
-import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
-import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
-import com.ewcms.generator.freemarker.directive.article.PubDateDirective;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  *
@@ -50,8 +49,8 @@ public class PubDateDirectiveTest extends AbstractDirectiveTest {
         Assert.assertTrue(value.indexOf("2010年07月28日 01时00分00秒") != -1);
     }
 
-    private ArticleRmc getArticle() {
-        ArticleRmc arti = new ArticleRmc();
+    private Article getArticle() {
+        Article arti = new Article();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2010, 6, 28,1,0,0);

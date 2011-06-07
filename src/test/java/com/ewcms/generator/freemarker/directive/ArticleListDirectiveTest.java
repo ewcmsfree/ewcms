@@ -191,7 +191,7 @@ public class ArticleListDirectiveTest extends AbstractDirectiveTest {
     private Article createArticle(int id) {
         Article article = new Article();
 
-        article.setId(id);
+        article.setId(new Long(id));
         article.setAuthor("王伟");
         article.setOrigin("163.com");
         article.setTitle("ewcms文章标签使用" + String.valueOf(id));
