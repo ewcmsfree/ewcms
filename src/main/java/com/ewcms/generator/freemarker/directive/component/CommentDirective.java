@@ -10,7 +10,7 @@
  */
 package com.ewcms.generator.freemarker.directive.component;
 
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.generator.freemarker.directive.DirectiveException;
 import com.ewcms.generator.freemarker.directive.DirectiveUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveVariable;
@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author wangwei
  */
-public class CommentDirective extends ElementDirective<ArticleRmc> {
+public class CommentDirective extends ElementDirective<Article> {
 
     private static final String PARAM_CALLBACK_VALUE = "callback";
     private static final String DEFAULT_CALLBACK_NAME = "comment_count_callback";
@@ -56,7 +56,7 @@ public class CommentDirective extends ElementDirective<ArticleRmc> {
     }
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
 
         StringBuilder builder = new StringBuilder();
         builder.append("<div id=comment-warpper></div>\n");
@@ -70,7 +70,7 @@ public class CommentDirective extends ElementDirective<ArticleRmc> {
         }
         builder.append("</script>\n");
 
-        builder.append(createInitFunction(articleRmc.getArticle().getId(),url));
+        builder.append(createInitFunction(articleRmc.getId().intValue(),url));
         
         return builder.toString();
     }

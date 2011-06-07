@@ -10,7 +10,7 @@
  */
 package com.ewcms.generator.freemarker.directive.component;
 
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.generator.freemarker.directive.DirectiveException;
 import com.ewcms.generator.freemarker.directive.DirectiveUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveVariable;
@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
  * @author wangwei
  */
 @Service("direcitve.component.count")
-public class CountDirective extends ElementDirective<ArticleRmc> {
+public class CountDirective extends ElementDirective<Article> {
 
     private static final Log log = LogFactory.getLog(CountDirective.class);
 
@@ -66,7 +66,7 @@ public class CountDirective extends ElementDirective<ArticleRmc> {
     }
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -101,9 +101,9 @@ public class CountDirective extends ElementDirective<ArticleRmc> {
         return DirectiveUtil.getString(params, name);
     }
 
-    private String getSrc(ArticleRmc articleRmc, final String callback) {
+    private String getSrc(Article articleRmc, final String callback) {
         url = (url== null ? DEFAULT_URL : url);
-        int id = articleRmc.getArticle().getId();
+        int id = articleRmc.getId().intValue();
         return String.format("%s?article_id=%d&callback=%s", url,id,callback);
     }
 

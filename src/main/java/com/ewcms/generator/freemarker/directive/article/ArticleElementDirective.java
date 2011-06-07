@@ -12,7 +12,6 @@
 package com.ewcms.generator.freemarker.directive.article;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.generator.freemarker.directive.DirectiveVariable;
 import com.ewcms.generator.freemarker.directive.ElementDirective;
 
@@ -21,14 +20,14 @@ import com.ewcms.generator.freemarker.directive.ElementDirective;
  * @author wangwei
  */
 
-public abstract class ArticleElementDirective extends ElementDirective<ArticleRmc>{
+public abstract class ArticleElementDirective extends ElementDirective<Article>{
 
     @Override
     protected String defaultVariable() {
         return DirectiveVariable.Article.toString();
     }
 
-    protected Article getArticle(ArticleRmc articleRmc){
-        return articleRmc.getArticle();
+    protected Article getArticle(Article article){
+        return article;
     }
 }

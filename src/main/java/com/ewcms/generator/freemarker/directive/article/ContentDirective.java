@@ -10,8 +10,14 @@
  */
 package com.ewcms.generator.freemarker.directive.article;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.freemarker.directive.DirectiveException;
 import com.ewcms.generator.freemarker.directive.DirectiveUtil;
@@ -23,10 +29,6 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import org.springframework.stereotype.Service;
 /**
  *
  * @author wangwei
@@ -38,11 +40,11 @@ public class ContentDirective extends ArticleElementDirective {
     public void execute(final Environment env, final Map params, final TemplateModel[] loopVars, final TemplateDirectiveBody body) throws TemplateException, IOException {
 
         try {
-            ArticleRmc articleRmc = this.getVariableValue(env, params, PARAM_NAME_VALUE);
-            if (EmptyUtil.isNull(articleRmc)) {
+            Article article = this.getVariableValue(env, params, PARAM_NAME_VALUE);
+            if (EmptyUtil.isNull(article)) {
                 return;
             }
-            List<Content> contents = articleRmc.getArticle().getContents();
+            List<Content> contents = article.getContents();
             if (EmptyUtil.isCollectionEmpty(contents)) {
                 return;
             }
@@ -68,7 +70,7 @@ public class ContentDirective extends ArticleElementDirective {
     }
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
         //execute method by override
         return "";
     }

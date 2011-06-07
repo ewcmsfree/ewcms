@@ -12,7 +12,6 @@
 package com.ewcms.generator.freemarker.directive.article;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class SummaryDirective extends ArticleElementDirective{
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
         Article article = this.getArticle(articleRmc);
         return article.getSummary() == null ? "" : article.getSummary() ;
     }

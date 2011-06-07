@@ -10,8 +10,14 @@
  */
 package com.ewcms.generator.freemarker.directive.article;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.generator.freemarker.directive.DirectiveUtil;
 
 import freemarker.core.Environment;
@@ -19,10 +25,6 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import org.springframework.stereotype.Service;
 /**
  *
  * @author wangwei
@@ -53,7 +55,7 @@ public class PubDateDirective extends ArticleElementDirective {
     }
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
         return articleRmc.getPublished() == null ? "" : dateFormat.format(articleRmc.getPublished());
     }
 }

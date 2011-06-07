@@ -12,7 +12,7 @@ package com.ewcms.generator.dao;
 
 import java.util.List;
 
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.TemplateSource;
@@ -29,7 +29,7 @@ public interface GeneratorDAOable {
      * @param id 文章编号
      * @return
      */
-    ArticleRmc getArticle(int id);
+    Article getArticle(int id);
 
     /**
      * 设置文章发布信息
@@ -53,7 +53,7 @@ public interface GeneratorDAOable {
      * @param channelId
      * @return
      */
-    List<ArticleRmc> findPreReleaseArticle(int channelId);
+    List<Article> findPreReleaseArticle(int channelId);
     
     /**
      * 得到指定频道指定位置的中文章记录
@@ -63,7 +63,7 @@ public interface GeneratorDAOable {
      * @param rows 记录数
      * @return
      */
-    List<ArticleRmc> findArticlePage(int id,int page,int rows);
+    List<Article> findArticlePage(int id,int page,int rows);
 
     /**
      * 得到指定频道定制文章记录
@@ -73,7 +73,7 @@ public interface GeneratorDAOable {
      * @param top
      * @return
      */
-    List<ArticleRmc> findArticlePageTop(int channelId,int rows,boolean top);
+    List<Article> findArticlePageTop(int channelId,int rows,boolean top);
 
     /**
      * 得到显示文章记录数

@@ -10,7 +10,7 @@
  */
 package com.ewcms.generator.release.html;
 
-import com.ewcms.content.document.model.ArticleRmc;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.freemarker.directive.DirectiveVariable;
 import com.ewcms.generator.freemarker.directive.page.PageParam;
@@ -25,11 +25,12 @@ import java.util.Map;
  *
  * @author wangwei
  */
-public class ArticleGeneratorHtml extends GeneratorHtml<ArticleRmc> {
+public class ArticleGeneratorHtml extends GeneratorHtml<Article> {
 
     @Override
-    protected Template getTemplate(final Configuration cfg, final ArticleRmc articleRmc) throws IOException {
-        Channel channel = articleRmc.getChannel();
+    protected Template getTemplate(final Configuration cfg, final Article articleRmc) throws IOException {
+        //TODO channel is list
+        Channel channel = null;
         String path = (channel.getDetailTPL() == null ? null : channel.getDetailTPL().getUniquePath());
         if(path == null){
             return null;
@@ -38,10 +39,10 @@ public class ArticleGeneratorHtml extends GeneratorHtml<ArticleRmc> {
     }
 
     @Override
-    protected Map constructParams(final ArticleRmc articleRmc, final PageParam pageParam, final boolean debug) {
+    protected Map constructParams(final Article articleRmc, final PageParam pageParam, final boolean debug) {
         Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), articleRmc.getChannel());
-        params.put(DirectiveVariable.CurrentSite.toString(), articleRmc.getChannel().getSite());
+//        params.put(DirectiveVariable.CurrentChannel.toString(), articleRmc.getChannel());
+//        params.put(DirectiveVariable.CurrentSite.toString(), articleRmc.getChannel().getSite());
         params.put(DirectiveVariable.Article.toString(), articleRmc);
         params.put(DirectiveVariable.PageParam.toString(), pageParam);
         if (debug) {

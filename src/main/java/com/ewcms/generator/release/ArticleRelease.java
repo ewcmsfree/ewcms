@@ -10,29 +10,30 @@
  */
 package com.ewcms.generator.release;
 
-import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
-import com.ewcms.content.document.model.ArticleStatus;
+import static com.ewcms.common.io.FileUtil.createDirs;
+
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import com.ewcms.core.site.model.Channel;
-import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.generator.freemarker.directive.page.PageParam;
-import com.ewcms.generator.release.html.GeneratorHtmlable;
-import com.ewcms.generator.release.html.ArticleGeneratorHtml;
-import com.ewcms.web.util.GlobaPath;
-
-import freemarker.template.Configuration;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import static com.ewcms.common.io.FileUtil.createDirs;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleType;
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.generator.dao.GeneratorDAOable;
+import com.ewcms.generator.freemarker.directive.page.PageParam;
+import com.ewcms.generator.release.html.ArticleGeneratorHtml;
+import com.ewcms.generator.release.html.GeneratorHtmlable;
+import com.ewcms.web.util.GlobaPath;
+
+import freemarker.template.Configuration;
 
 /**
  *
@@ -41,13 +42,13 @@ import static com.ewcms.common.io.FileUtil.createDirs;
 public class ArticleRelease implements Releaseable {
 
     private static final Log log = LogFactory.getLog(ArticleRelease.class);
-    private static final GeneratorHtmlable<ArticleRmc> DEFAULT_GENERATORHTML = new ArticleGeneratorHtml();
+    private static final GeneratorHtmlable<Article> DEFAULT_GENERATORHTML = new ArticleGeneratorHtml();
     private static final String DEFAULT_ENCODER = "utf-8";
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private GeneratorHtmlable<ArticleRmc> generatorHtml = DEFAULT_GENERATORHTML;
+    private GeneratorHtmlable<Article> generatorHtml = DEFAULT_GENERATORHTML;
     private String charsetName = DEFAULT_ENCODER;
 
-    public void setGeneratorHtml(GeneratorHtmlable<ArticleRmc> generatorHtml) {
+    public void setGeneratorHtml(GeneratorHtmlable<Article> generatorHtml) {
         this.generatorHtml = generatorHtml;
     }
 
@@ -69,17 +70,17 @@ public class ArticleRelease implements Releaseable {
 
     private void release(final Configuration cfg, final GeneratorDAOable dao, final Channel channel, final boolean debug) throws ReleaseException {
 
-        List<ArticleRmc> articles = dao.findPreReleaseArticle(channel.getId());
+        List<Article> articles = dao.findPreReleaseArticle(channel.getId());
         String root = getPubRootPath(channel);
-        for (ArticleRmc articleRmc : articles) {
+        for (Article articleRmc : articles) {
             try {
-                if (articleRmc.getArticle().getType() == ArticleStatus.TITLE) {
+                if (articleRmc.getType() == ArticleType.TITLE) {
                     if (!debug) {
-                        dao.articlePublish(articleRmc.getId(), articleRmc.getArticle().getLinkAddr());
+                        dao.articlePublish(articleRmc.getId().intValue(), articleRmc.getLinkAddr());
                     }
                     continue;
                 }
-                if (!articleRmc.getArticle().getContents().isEmpty()) {
+                if (!articleRmc.getContents().isEmpty()) {
                     releaseArticle(cfg, dao, articleRmc, root, debug);
                 }
             } catch (Exception e) {
@@ -108,15 +109,15 @@ public class ArticleRelease implements Releaseable {
     }
 
     void releaseArticle(final Configuration cfg, final GeneratorDAOable dao,
-            final ArticleRmc articleRmc, final String root, final boolean debug) throws ReleaseException {
+            final Article articleRmc, final String root, final boolean debug) throws ReleaseException {
 
         Date published = articleRmc.getPublished();
         published = (published == null ? new Date() : published);
         String dir = mkdir(root, published);
-        String urlPattern = getUrlPattern(articleRmc.getId(), published);
-        String filePattern = getFilePattern(dir, articleRmc.getId());
+        String urlPattern = getUrlPattern(articleRmc.getId().intValue(), published);
+        String filePattern = getFilePattern(dir, articleRmc.getId().intValue());
 
-        Article article = articleRmc.getArticle();
+        Article article = articleRmc;
         int pageCount = article.getContents().size();
         PageParam pageParam = constructPageParam(pageCount, urlPattern);
         for (int page = 0; page < pageCount; ++page) {
@@ -141,7 +142,7 @@ public class ArticleRelease implements Releaseable {
             }
         }
         if (!debug) {
-            persistRelease(dao, articleRmc.getId(), urlPattern);
+            persistRelease(dao, articleRmc.getId().intValue(), urlPattern);
         }
     }
 

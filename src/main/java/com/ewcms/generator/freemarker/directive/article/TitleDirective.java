@@ -11,7 +11,6 @@
 package com.ewcms.generator.freemarker.directive.article;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleRmc;
 import com.ewcms.generator.freemarker.directive.DirectiveUtil;
 
 import freemarker.core.Environment;
@@ -48,7 +47,7 @@ public class TitleDirective extends ArticleElementDirective {
     }
 
     @Override
-    protected String constructOutValue(ArticleRmc articleRmc) {
+    protected String constructOutValue(Article articleRmc) {
         Article article = this.getArticle(articleRmc);
         return constructOutValue(article.getTitle(), article.getTitleStyle());
 

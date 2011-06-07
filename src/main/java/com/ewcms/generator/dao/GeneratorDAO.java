@@ -23,8 +23,8 @@ import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.ewcms.content.document.model.ArticleRmc;
-import com.ewcms.content.document.model.ArticleRmcStatus;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
@@ -38,14 +38,14 @@ import com.ewcms.core.site.model.TemplateSource;
 public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
 
     @Override
-    public ArticleRmc getArticle(final int id) {
-        return this.getJpaTemplate().find(ArticleRmc.class, id);
+    public Article getArticle(final int id) {
+        return this.getJpaTemplate().find(Article.class, id);
     }
 
     @Override
     public void articlePublish(final int id, final String url) {
-        ArticleRmc article = getArticle(id);
-        article.setStatus(ArticleRmcStatus.RELEASE);
+        Article article = getArticle(id);
+        article.setStatus(ArticleStatus.RELEASE);
         article.setUrl(url);
         if(article.getPublished() == null){
             article.setPublished(new Date());
@@ -59,14 +59,14 @@ public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
     }
 
     @Override
-    public List<ArticleRmc> findPreReleaseArticle(final int channelId) {
-       return getJpaTemplate().execute(new JpaCallback<List<ArticleRmc>>() {
+    public List<Article> findPreReleaseArticle(final int channelId) {
+       return getJpaTemplate().execute(new JpaCallback<List<Article>>() {
             @Override
-            public List<ArticleRmc> doInJpa(EntityManager em) throws PersistenceException {
+            public List<Article> doInJpa(EntityManager em) throws PersistenceException {
                 String hql = "From ArticleRmc o Where o.channel.id= ? And o.status=? And o.deleteFlag=? Order By o.published";
-                TypedQuery<ArticleRmc> query = em.createQuery(hql, ArticleRmc.class);
+                TypedQuery<Article> query = em.createQuery(hql, Article.class);
                 query.setParameter(1, channelId);
-                query.setParameter(2, ArticleRmcStatus.PRERELEASE);
+                query.setParameter(2, ArticleStatus.PRERELEASE);
                 query.setParameter(3,Boolean.FALSE);
                 
                 return query.getResultList();
@@ -75,16 +75,16 @@ public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
     }
 
     @Override
-    public List<ArticleRmc> findArticlePage(final int channelId, final int page, final int row) {
-        return getJpaTemplate().execute(new JpaCallback<List<ArticleRmc>>() {
+    public List<Article> findArticlePage(final int channelId, final int page, final int row) {
+        return getJpaTemplate().execute(new JpaCallback<List<Article>>() {
 
             @Override
-            public List<ArticleRmc> doInJpa(EntityManager em) throws PersistenceException {
+            public List<Article> doInJpa(EntityManager em) throws PersistenceException {
                 String hql = "Select o From ArticleRmc o Left Join o.refChannel r Where (o.channel.id= ? Or r.id= ?) And o.status=? And o.deleteFlag=? And o.published< ? Order By o.published Desc";
-                TypedQuery<ArticleRmc> query = em.createQuery(hql, ArticleRmc.class);
+                TypedQuery<Article> query = em.createQuery(hql, Article.class);
                 query.setParameter(1, channelId);
                 query.setParameter(2, channelId);
-                query.setParameter(3, ArticleRmcStatus.RELEASE);
+                query.setParameter(3, ArticleStatus.RELEASE);
                 query.setParameter(4, false);
                 query.setParameter(5, new Date(), TemporalType.TIMESTAMP);
                 int start = page * row;
@@ -96,15 +96,15 @@ public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
     }
 
     @Override
-    public List<ArticleRmc> findArticlePageTop(final int channelId,final int row,final boolean top) {
-        return getJpaTemplate().execute(new JpaCallback<List<ArticleRmc>>() {
+    public List<Article> findArticlePageTop(final int channelId,final int row,final boolean top) {
+        return getJpaTemplate().execute(new JpaCallback<List<Article>>() {
 
             @Override
-            public List<ArticleRmc> doInJpa(EntityManager em) throws PersistenceException {
+            public List<Article> doInJpa(EntityManager em) throws PersistenceException {
                 String hql = "From ArticleRmc o Where o.channel.id= ? And o.status=? And o.deleteFlag=? And o.article.topFlag=? And o.published< ? Order By o.published Desc";
-                TypedQuery<ArticleRmc> query = em.createQuery(hql, ArticleRmc.class);
+                TypedQuery<Article> query = em.createQuery(hql, Article.class);
                 query.setParameter(1, channelId);
-                query.setParameter(2, ArticleRmcStatus.RELEASE);
+                query.setParameter(2, ArticleStatus.RELEASE);
                 query.setParameter(3, false);
                 query.setParameter(4, top);
                 query.setParameter(5, new Date(), TemporalType.TIMESTAMP);
@@ -125,7 +125,7 @@ public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
                 Query query = em.createQuery(hql);
                 query.setParameter(1, channelId);
                 query.setParameter(2, channelId);
-                query.setParameter(3, ArticleRmcStatus.RELEASE);
+                query.setParameter(3, ArticleStatus.RELEASE);
                 query.setParameter(4, false);
                 query.setParameter(5, new Date(), TemporalType.TIMESTAMP);
                 Number number = (Number) query.getSingleResult();
@@ -195,7 +195,7 @@ public class GeneratorDAO extends JpaDaoSupport implements GeneratorDAOable {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 String hql = "Update ArticleRmc o Set o.status = ? , o.url = Null Where o.channel.id=?";
                 em.createQuery(hql)
-                    .setParameter(1, ArticleRmcStatus.PRERELEASE)
+                    .setParameter(1, ArticleStatus.PRERELEASE)
                     .setParameter(2, channelId)
                     .executeUpdate();
                 
