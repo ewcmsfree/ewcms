@@ -196,12 +196,6 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('文章共享库 ','document/share/index.do')">
-                            <img src="source/image/package.png" style="border:0"/><br/>
-                            <span>共享库 </span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
                         <a href="javascript:addTab('文章回收站','document/recyclebin/index.do')">
                             <img src="source/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
