@@ -166,8 +166,8 @@ public class TemplateService {
     
 	private Site getCurSite(){
 		return EwcmsContextUtil.getCurrentSite();
-	}   
+	}
 	private String getSiteTplName(){
-		return getCurSite().getSiteRoot()+"tpl";
+		return getCurSite().getId()+"tpl";
 	}
 }

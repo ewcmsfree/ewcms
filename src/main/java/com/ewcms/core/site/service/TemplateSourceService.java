@@ -9,17 +9,14 @@
  */
 package com.ewcms.core.site.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.web.util.EwcmsContextUtil;
-import com.ewcms.web.vo.TreeNode;
 
 /**
  * @author 周冬初
@@ -132,6 +129,6 @@ public class TemplateSourceService {
 		return EwcmsContextUtil.getCurrentSite();
 	}   
 	private String getSiteSrcName(){
-		return getCurSite().getSiteRoot()+"src";
+		return getCurSite().getId()+"src";
 	}    
 }
