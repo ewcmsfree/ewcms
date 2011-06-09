@@ -12,8 +12,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.ewcms.scheduling.BaseException;
@@ -34,7 +34,7 @@ import com.ewcms.scheduling.validator.AlqcJobValidatorable;
  */
 public class AlqcSchedulingFac implements AlqcSchedulingFacable, AlqcSchedulerListenerable, InitializingBean {
 
-	private static final Log log = LogFactory.getLog(AlqcSchedulingFac.class);
+	private static final Logger logger = LoggerFactory.getLogger(AlqcSchedulingFac.class);
 
 	private AlqcJobServiceable alqcJobService;
 	private AlqcJobsQuartzSchedulerable scheduler;
@@ -100,7 +100,7 @@ public class AlqcSchedulingFac implements AlqcSchedulingFacable, AlqcSchedulerLi
 		return removeDuplicateAndSort(jobs);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	protected List<AlqcJob> removeDuplicateAndSort(List<AlqcJob> list) {
 		//剔除重复记录
 		HashSet<AlqcJob> h = new HashSet<AlqcJob>(list);
@@ -153,7 +153,7 @@ public class AlqcSchedulingFac implements AlqcSchedulingFacable, AlqcSchedulerLi
 
 	@Override
 	public void alqcJobFinalized(Integer jobId) throws BaseException {
-		log.info("任务 " + jobId + " 已完成,将删除数据");
+		logger.info("任务 " + jobId + " 已完成,将删除数据");
 		deleteJob(jobId);
 	}
 
@@ -172,7 +172,7 @@ public class AlqcSchedulingFac implements AlqcSchedulingFacable, AlqcSchedulerLi
 				|| updatedTrigger.getVersion() != origTriggerVersion) {
 			scheduler.rescheduleJob(savedJob);
 		} else {
-			log.info("触发器属性没有改变 " + alqcJob.getId() + " 任务,任务将不会被改变");
+			logger.info("触发器属性没有改变 " + alqcJob.getId() + " 任务,任务将不会被改变");
 		}
 		return alqcJob.getId();
 	}
