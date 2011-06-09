@@ -21,6 +21,7 @@ import com.ewcms.content.document.model.ArticleCategory;
  */
 @Repository
 public class ArticleCategoryDAO extends JpaDAO<Integer, ArticleCategory> {
+	
 	@SuppressWarnings("unchecked")
 	public List<ArticleCategory> findArticleCategoryAll(){
 		String hql = "From ArticleCategory c Order By c.id";
