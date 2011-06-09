@@ -16,6 +16,9 @@ import java.io.Serializable;
  *
  */
 public class FileInfo implements Serializable {
+	
+	private static final long serialVersionUID = -4226860532399381132L;
+	
 	private String name;
 	private String length;
 	private String path;

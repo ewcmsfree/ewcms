@@ -30,8 +30,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.web.vo.TreeNode;
 
@@ -44,7 +44,8 @@ import java.util.Date;
  */
 public class FileUtil {
 
-    private static Log log = LogFactory.getLog(FileUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
+    
     private static final int G_SIZE =  1024 * 1024 * 1024;
     private static final int M_SIZE =  1024 * 1024;
     private static final int K_SIZE = 1024;
@@ -257,7 +258,7 @@ public class FileUtil {
             }
             out.close();
         } catch (IOException e) {
-            log.error("Error", e);
+            logger.error("Error", e);
             throw e;
         } finally {
             try {
@@ -292,10 +293,10 @@ public class FileUtil {
             out.write(content);
             out.flush();
         } catch (FileNotFoundException fe) {
-            log.error("Error", fe);
+            logger.error("Error", fe);
             throw fe;
         } catch (IOException e) {
-            log.error("Error", e);
+            logger.error("Error", e);
             throw e;
         } finally {
             try {
@@ -363,10 +364,10 @@ public class FileUtil {
             }
             return result.toString();
         } catch (FileNotFoundException fe) {
-            log.error("Error", fe);
+            logger.error("Error", fe);
             throw fe;
         } catch (IOException e) {
-            log.error("Error", e);
+            logger.error("Error", e);
             throw e;
         } finally {
             try {
@@ -443,7 +444,7 @@ public class FileUtil {
                 i++;
             }
         } catch (IOException ie) {
-            log.error("Error" + ie);
+            logger.error("Error" + ie);
             throw ie;
         } finally {
             if (in != null) {
@@ -785,7 +786,8 @@ public class FileUtil {
         }
     }
 
-    public static void unZip(File zipf, String targetDir) throws IOException {
+    @SuppressWarnings("unchecked")
+	public static void unZip(File zipf, String targetDir) throws IOException {
         ZipFile zfile = new ZipFile(zipf);
         Enumeration zList = zfile.entries();
         ZipEntry ze = null;
