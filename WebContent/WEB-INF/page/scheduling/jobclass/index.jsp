@@ -19,9 +19,7 @@
 				queryURL:'<s:url namespace="/scheduling/jobclass" action="query"/>',
 				deleteURL:'<s:url namespace="/scheduling/jobclass" action="delete"/>',
 				editwidth:700,
-				editheight:400,
-				top:60,
-				left:250
+				editheight:400
 			});
 			//数据表格定义 						
 			openDataGrid({
