@@ -42,7 +42,7 @@ public class ExtractKeywordAndSummary {
 		return text.replaceAll("[\\s\\u0020\u3000]{2,}", " ");
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	public static String[] getKeyword(String content) {
 		content = getTextFromHtml(content);
 		IKSegmentation seg = new IKSegmentation(new StringReader(content));
@@ -126,7 +126,7 @@ public class ExtractKeywordAndSummary {
 		return arr;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	private static Object[] keyArray(LinkedHashMap<String, Integer> map) {
 		if (map.size() == 0)
 			return new Object[0];
@@ -138,7 +138,7 @@ public class ExtractKeywordAndSummary {
 		return arr;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	private static Object[] valueArray(LinkedHashMap<String, Integer> map) {
 		if (map.size() == 0)
 			return new Object[0];
