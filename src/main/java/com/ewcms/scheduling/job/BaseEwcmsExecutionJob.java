@@ -6,13 +6,13 @@
 
 package com.ewcms.scheduling.job;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -21,7 +21,8 @@ import org.springframework.context.ApplicationContext;
  * @author 吴智俊
  */
 public abstract class BaseEwcmsExecutionJob implements Job {
-    private static final Log log = LogFactory.getLog(BaseEwcmsExecutionJob.class);
+	
+    private static final Logger logger = LoggerFactory.getLogger(BaseEwcmsExecutionJob.class);
     
     public static final String SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT = "applicationContext";
     public static final String JOB_DATA_KEY_DETAILS_ID = "jobDetailsID";
@@ -32,7 +33,7 @@ public abstract class BaseEwcmsExecutionJob implements Job {
     
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
-    	log.info("定时器开始...");
+    	logger.info("定时器开始...");
         try {
             this.jobContext = context;
             this.schedulerContext = jobContext.getScheduler().getContext();
@@ -45,7 +46,7 @@ public abstract class BaseEwcmsExecutionJob implements Job {
         } catch (SchedulerException e) {
             throw new JobExecutionException(e);
         } 
-        log.info("定时器结束.");
+        logger.info("定时器结束.");
     }
     
     protected void clear() {
