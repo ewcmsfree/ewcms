@@ -18,6 +18,9 @@ import com.ewcms.web.util.Struts2Util;
 
 import java.io.File;
 import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * @author wangwei
  */
 public abstract class ReceiveAction {
-    private static final Log log = LogFactory.getLog(ReceiveAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReceiveAction.class);
     @Autowired
     private ResourceFacable resourceFac;
 
@@ -55,7 +58,7 @@ public abstract class ReceiveAction {
             Struts2Util.renderJson(JSONUtil.toJSON(resource));
         } catch (IOException e) {
             //TODO 错误处理
-            log.error(e.toString());
+            logger.error(e.toString());
         }
     }
 }
