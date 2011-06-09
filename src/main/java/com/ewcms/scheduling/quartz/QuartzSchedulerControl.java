@@ -36,10 +36,10 @@ public class QuartzSchedulerControl {
             if (getScheduler().isInStandbyMode()) {
                 getScheduler().start();
             } else {
-                log.info("调度器已在运行.");
+                log.info("调度器已在运行中...");
             }
         } catch (SchedulerException e) {
-            log.error("错误开始调度", e);
+            log.error("调度器运行错误", e);
             throw new BaseRuntimeExceptionWrapper(e);
         }
     }
