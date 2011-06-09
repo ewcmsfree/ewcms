@@ -18,9 +18,7 @@ import org.apache.lucene.search.DefaultSimilarity;
  * @author 吴智俊
  */
 public class IKSimilarity extends DefaultSimilarity {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 7558565500061194774L;
 
 	/* (non-Javadoc)
