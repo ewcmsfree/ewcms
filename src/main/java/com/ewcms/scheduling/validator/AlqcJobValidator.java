@@ -61,9 +61,6 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
         ValidationErrorsable errors = new ValidationErrors();
         validateJobDetails(errors, job);
         validateJobTrigger(errors, job);
-//        if (job instanceof AlqcJobReport){
-//            validateJobOutput(errors, (AlqcJobReport)job);
-//        }
         return errors;
     }
 
@@ -187,22 +184,6 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
             errors.add(new ValidationError("error.pattern", null, "小时无效.", "trigger.monthDays"));
         }
     }
-
-//    protected void validateJobOutput(ValidationErrorsable errors, AlqcJobReport jobReport) {
-//
-//        String outputFormats = jobReport.getOutputFormat();
-//
-//        if (outputFormats == null || outputFormats.length() == 0) {
-//            if (jobReport.getTextReport() != null && jobReport.getChartReport() == null) {
-//                errors.add(new ValidationError("error.report.job.no.output.formats", null, "在任务中没有选择输出格式.", "outputFormats"));
-//            }
-//        }
-//
-//        AlqcJobMail mail = jobReport.getMail();
-//        if (mail != null) {
-//            validateMailNotification(errors, mail);
-//        }
-//    }
 
     protected boolean checkString(ValidationErrorsable errors, String field, String name, String value, boolean mandatory, int maxLength) {
         boolean valid = true;
