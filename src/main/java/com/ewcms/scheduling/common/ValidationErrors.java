@@ -18,8 +18,9 @@ import java.util.List;
  */
 public class ValidationErrors implements ValidationErrorsable, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private final List<ValidationErrorable> errors;
+	private static final long serialVersionUID = 2491691483305419308L;
+	
+	private final List<ValidationErrorable> errors;
 
     public ValidationErrors() {
         errors = new ArrayList<ValidationErrorable>();

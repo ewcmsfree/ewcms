@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 public class ValidationError implements ValidationErrorable, Serializable {
 
     private static final long serialVersionUID = 4792857608533411343L;
+    
     private final String errorCode;
     private final Object[] arguments;
     private final String defaultMessage;
