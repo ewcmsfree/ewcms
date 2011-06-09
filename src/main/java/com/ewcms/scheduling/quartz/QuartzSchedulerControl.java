@@ -6,10 +6,10 @@
 
 package com.ewcms.scheduling.quartz;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.scheduling.BaseRuntimeExceptionWrapper;
 
@@ -20,7 +20,8 @@ import com.ewcms.scheduling.BaseRuntimeExceptionWrapper;
  */
 public class QuartzSchedulerControl {
 
-    private static final Log log = LogFactory.getLog(QuartzSchedulerControl.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuartzSchedulerControl.class);
+    
     private Scheduler scheduler;
 
     public Scheduler getScheduler() {
@@ -36,10 +37,10 @@ public class QuartzSchedulerControl {
             if (getScheduler().isInStandbyMode()) {
                 getScheduler().start();
             } else {
-                log.info("调度器已在运行中...");
+                logger.info("调度器已在运行中...");
             }
         } catch (SchedulerException e) {
-            log.error("调度器运行错误", e);
+            logger.error("调度器运行错误", e);
             throw new BaseRuntimeExceptionWrapper(e);
         }
     }
