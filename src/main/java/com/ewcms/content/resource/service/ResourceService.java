@@ -9,8 +9,8 @@ package com.ewcms.content.resource.service;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,9 @@ import com.ewcms.web.util.EwcmsContextUtil;
 public class ResourceService implements ResourceServiceable {
 
     private static final ResourceOperatorable operator = new ResourceOperator();
-    private static final Log log = LogFactory.getLog(ResourceService.class);
+    
+    private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
+    
     @Autowired
     private ResourceDAO resourceDao;
 
@@ -94,7 +96,7 @@ public class ResourceService implements ResourceServiceable {
             }
             operator.delete(dir + resource.getReleasePath());
         } catch (IOException e) {
-            log.error(e.toString());
+            logger.error(e.toString());
         }
         resourceDao.remove(resource);
     }
