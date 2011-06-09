@@ -8,8 +8,8 @@ package com.ewcms.scheduling;
 
 import java.text.MessageFormat;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 基本异常处理类
@@ -22,7 +22,7 @@ public class BaseException extends Exception {
 
 	private static final long serialVersionUID = 8118140909982575423L;
 
-	private static final Log log = LogFactory.getLog(BaseException.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaseException.class);
 
 	private String pageMessage;
 
@@ -102,7 +102,7 @@ public class BaseException extends Exception {
 			Object[] parameters, Throwable cause) {
 		super(message, cause);
 		if (cause != null) {
-			log.error(cause.toString());
+			logger.error(cause.toString());
 		}
 		if (parameters == null) {
 			this.pageMessage = pageMessage;
