@@ -53,7 +53,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void delArticleMain(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
-		if (isNotNull(articleMain.getIsReference()) && articleMain.getIsReference()){
+		if (isNotNull(articleMain.getReference()) && articleMain.getReference()){
 			articleMain.setArticle(null);
 		}
 		articleMainDAO.remove(articleMain);
@@ -64,7 +64,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
-		if (isNotNull(articleMain.getIsReference()) && articleMain.getIsReference()){
+		if (isNotNull(articleMain.getReference()) && articleMain.getReference()){
 			articleMain.setArticle(null);
 			articleMainDAO.remove(articleMain);
 		}else{
@@ -126,7 +126,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			for (Long articleMainId : articleMainIds) {
 				articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, source_channelId);
 				if (isNull(articleMain)) continue;
-				if (isNotNull(articleMain.getIsReference()) && articleMain.getIsReference()) continue;
+				if (isNotNull(articleMain.getReference()) && articleMain.getReference()) continue;
 				article = articleMain.getArticle();
 				if (isNull(article)) continue;
 				if (target_channelId != source_channelId) {
