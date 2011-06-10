@@ -30,13 +30,13 @@
                     columns:[[
                                 {field:'id',title:'序号',width:60,sortable:true},
                                 {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
-                                {field:'isReference',title:'引用',width:60,hidden:true},
+                                {field:'reference',title:'引用',width:60,hidden:true},
                                 {field:'flags',title:'属性',width:60,
                                     formatter:function(val,rec){
                                         var pro = [];
                                         if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
                                         //if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-                                        if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                        if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
                                         return pro.join("");
                                     }
                                 },
@@ -177,7 +177,7 @@
 						$.messager.alert('提示','只能选择一个修改','info');
 						return;
 			        }
-			        if (rows[0].isReference == true){
+			        if (rows[0].reference == true){
 				        $.messager.alert('提示','引用文章不能修改','info');
 				        return;
 			        }
