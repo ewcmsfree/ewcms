@@ -49,8 +49,8 @@ public class ArticleMain implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Article.class)
 	@JoinColumn(name = "article_id")
 	private Article article;
-	@Column(name = "is_reference")
-	private Boolean isReference;
+	@Column(name = "reference")
+	private Boolean reference;
 	@Column(name = "sort")
 	private Long sort;
 	
@@ -82,12 +82,12 @@ public class ArticleMain implements Serializable {
 		this.article = article;
 	}
 
-	public Boolean getIsReference() {
-		return isReference;
+	public Boolean getReference() {
+		return reference;
 	}
 
-	public void setIsReference(Boolean isReference) {
-		this.isReference = isReference;
+	public void setReference(Boolean reference) {
+		this.reference = reference;
 	}
 
 	public Long getSort() {
