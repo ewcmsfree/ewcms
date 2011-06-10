@@ -20,6 +20,12 @@ import com.ewcms.generator.freemarker.FreemarkerTest;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
+/**
+ * ObjectPropertyDirective单元测试
+ * 
+ * @author wangwei
+ *
+ */
 public class ObjectPropertyDirectiveTest extends FreemarkerTest{
 
     @Override
