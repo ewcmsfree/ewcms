@@ -35,7 +35,7 @@ public class EwcmsJobChannelDAO extends JpaDAO<Integer, EwcmsJobChannel> {
 		return list.get(0);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	public List<Channel> getChannelChildren(final Integer parentId) {
 		Object res = this.getJpaTemplate().execute(new JpaCallback() {
 			@Override
