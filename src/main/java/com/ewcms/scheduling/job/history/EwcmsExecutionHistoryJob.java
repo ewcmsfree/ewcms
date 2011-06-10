@@ -6,10 +6,10 @@
 
 package com.ewcms.scheduling.job.history;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.history.fac.HistoryModelFacable;
 import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
@@ -21,18 +21,18 @@ import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
  */
 public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 
-	private static final Log log = LogFactory.getLog(EwcmsExecutionHistoryJob.class);
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionHistoryJob.class);
 	
 	private static final String SCHEDULER_FACTORY = "historyModelFac";
 	
 	@Override
 	protected void alqcJobExecute(JobExecutionContext context) throws JobExecutionException {
         try {
-        	log.info("定时清除历史记录开始...");
+        	logger.info("定时清除历史记录开始...");
             getHistoryModelFac().delHistoryModelBeforeDate();
-            log.info("定时清除历史记录结束.");
+            logger.info("定时清除历史记录结束.");
         } catch (Exception e) {
-        	log.error("发生异常");
+        	logger.error("发生异常");
         	throw new JobExecutionException(e);
         } finally {
             this.clear();
