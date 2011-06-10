@@ -10,8 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 由二进制转换成实体对象
@@ -19,7 +19,8 @@ import org.apache.commons.logging.LogFactory;
  * @author 吴智俊
  */
 public class ByteToObject {
-	protected static final Log log = LogFactory.getLog(ByteToObject.class);
+	
+	protected static final Logger logger = LoggerFactory.getLogger(ByteToObject.class);
 
 	/**
 	 * 转换操作
@@ -36,9 +37,9 @@ public class ByteToObject {
 			ois = new ObjectInputStream(bis);
 			obj = ois.readObject();
 		} catch (IOException e) {
-			log.error(e.toString());
+			logger.error(e.toString());
 		} catch (ClassNotFoundException e) {
-			log.error(e.toString());
+			logger.error(e.toString());
 		} finally {
 			if (bis != null) {
 				try {
