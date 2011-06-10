@@ -20,7 +20,7 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.jobclass.index")
+@Controller
 public class JobClassAction extends CrudBaseAction<AlqcJobClass, Integer> {
 
 	private static final long serialVersionUID = -7180641001521655948L;

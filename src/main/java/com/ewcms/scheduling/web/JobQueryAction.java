@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -31,12 +31,12 @@ import com.ewcms.web.vo.DataGrid;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.job.query")
+@Controller
 public class JobQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -8882837349113907705L;
 	
-	protected static final Log log = LogFactory.getLog(JobQueryAction.class);
+	protected static final Logger logger = LoggerFactory.getLogger(JobQueryAction.class);
 	
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -62,7 +62,7 @@ public class JobQueryAction extends QueryBaseAction {
 			alqcJobs = alqcSchedulingFac.getScheduledJobs();
 			alqcJobs = alqcJobsQuartzScheduler.getJobsRuntimeInformation(alqcJobs);
 		}catch(BaseException e){
-			log.error(e.toString());
+			logger.error(e.toString());
 		}
 		DataGrid data = new DataGrid(alqcJobs.size(), alqcJobs);
 		Struts2Util.renderJson(JSONUtil.toJSON(data, DATE_FORMAT));

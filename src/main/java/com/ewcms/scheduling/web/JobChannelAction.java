@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.jobchannel.index")
+@Controller
 public class JobChannelAction extends ActionSupport {
 
 	private static final long serialVersionUID = -7180641001521655948L;

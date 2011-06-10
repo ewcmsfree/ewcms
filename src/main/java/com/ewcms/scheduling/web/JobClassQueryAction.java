@@ -23,7 +23,7 @@ import com.ewcms.web.QueryBaseAction;
  *
  * @author 吴智俊
  */
-@Controller("scheduling.jobclass.query")
+@Controller
 public class JobClassQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = -8882837349113907705L;
