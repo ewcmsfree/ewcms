@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Controller;
 
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Controller;
 @Controller("ewcmsContext")
 public class EwcmsContextFilter implements Filter, InitializingBean {
 
-    private static final Log log = LogFactory.getLog(EwcmsContextFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(EwcmsContextFilter.class);
     static final String FILTER_APPLIED = "__ewcms_session_filter_applied";
     public static final String EWCMS_CONTEXT_KEY = "EWCMS_CONTEXT";
     //~ Instance fields ================================================================================================
@@ -122,12 +122,12 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
         if (contextBeforeChainExecution == null) {
             contextBeforeChainExecution = generateNewContext();
 
-            if (log.isDebugEnabled()) {
-                log.debug("New EwcmsContextable instance will be associated with EwmcsContextHolderable");
+            if (logger.isDebugEnabled()) {
+                logger.debug("New EwcmsContextable instance will be associated with EwmcsContextHolderable");
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Obtained a valid EwcmsContextable from Ewcms_CONTEXT to "
+            if (logger.isDebugEnabled()) {
+                logger.debug("Obtained a valid EwcmsContextable from Ewcms_CONTEXT to "
                         + "associate with EwmcsContextHolderable: '" + contextBeforeChainExecution + "'");
             }
         }
@@ -166,8 +166,8 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
                         httpSessionExistedAtStartOfRequest, contextHashBeforeChainExecution);
             }
 
-            if (log.isDebugEnabled()) {
-                log.debug("EwcmsContextHolder now cleared, as request processing completed");
+            if (logger.isDebugEnabled()) {
+                logger.debug("EwcmsContextHolder now cleared, as request processing completed");
             }
         }
     }
@@ -185,8 +185,8 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
      */
     private EwcmsContextable readSecurityContextFromSession(HttpSession httpSession) {
         if (httpSession == null) {
-            if (log.isDebugEnabled()) {
-                log.debug("No HttpSession currently exists");
+            if (logger.isDebugEnabled()) {
+                logger.debug("No HttpSession currently exists");
             }
             return null;
         }
@@ -196,8 +196,8 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
         Object contextFromSessionObject = httpSession.getAttribute(EWCMS_CONTEXT_KEY);
 
         if (contextFromSessionObject == null) {
-            if (log.isDebugEnabled()) {
-                log.debug("HttpSession returned null object for Ewcms_CONTEXT");
+            if (logger.isDebugEnabled()) {
+                logger.debug("HttpSession returned null object for Ewcms_CONTEXT");
             }
 
             return null;
@@ -233,29 +233,29 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
 
         if (httpSession == null) {
             if (httpSessionExistedAtStartOfRequest) {
-                if (log.isDebugEnabled()) {
-                    log.debug("HttpSession is now null, but was not null at start of request; "
+                if (logger.isDebugEnabled()) {
+                    logger.debug("HttpSession is now null, but was not null at start of request; "
                             + "session was invalidated, so do not create a new session");
                 }
             } else {
                 // Generate a HttpSession only if we need to
 
                 if (!allowSessionCreation) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("The HttpSession is currently null, and the "
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("The HttpSession is currently null, and the "
                                 + "HttpSessionContextIntegrationFilter is prohibited from creating an HttpSession "
                                 + "(because the allowSessionCreation property is false) - EwcmsContextable thus not "
                                 + "stored for next request");
                     }
                 } else if (!contextObject.equals(context)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("HttpSession being created as EwcmsContextHolderable contents are non-default");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("HttpSession being created as EwcmsContextHolderable contents are non-default");
                     }
                     httpSession = safeGetSession(request, true);
 
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("HttpSession is null, but EwcmsContextHolderable has not changed from default: ' "
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("HttpSession is null, but EwcmsContextHolderable has not changed from default: ' "
                                 + context
                                 + "'; not creating HttpSession or storing EwcmsContextHolderable contents");
                     }
@@ -267,8 +267,8 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
         // the SecurityContext has actually changed (see JIRA SEC-37)
         if (httpSession != null && context.hashCode() != contextHashBeforeChainExecution) {
             httpSession.setAttribute(EWCMS_CONTEXT_KEY, context);
-            if (log.isDebugEnabled()) {
-                log.debug("EwcmsContextable stored to HttpSession: '" + context + "'");
+            if (logger.isDebugEnabled()) {
+                logger.debug("EwcmsContextable stored to HttpSession: '" + context + "'");
             }
 
         }
