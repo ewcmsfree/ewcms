@@ -14,9 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +24,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class JSONUtil {
 
-    private static Log log = LogFactory.getLog(JSONUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(JSONUtil.class);
     private static DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -33,7 +33,7 @@ public class JSONUtil {
             objectMapper.getSerializationConfig().setDateFormat(dateFormat);
             return objectMapper.writeValueAsString(object);
         } catch (IOException e) {
-            log.error(e.toString());
+            logger.error(e.toString());
             throw new IllegalArgumentException(e);
         }
     }
