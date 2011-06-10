@@ -8,12 +8,12 @@ package com.ewcms.scheduling.job.channel;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.generator.GeneratorServiceable;
@@ -29,7 +29,7 @@ import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
  */
 public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
-    private static final Log log = LogFactory.getLog(EwcmsExecutionChannelJob.class);
+    private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionChannelJob.class);
     
     private static final String SCHEDULER_FACTORY = "ewcmsJobChannelFac";
     private static final String PUBLISH_CHANNEL_FACTORY = "generatorService";
@@ -40,13 +40,13 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
         try {
             excutePublic();
         } catch (JobExecutionException e) {
-        	log.error("工作任务异常");
+        	logger.error("工作任务异常");
         	throw new JobExecutionException(e);
         } catch (SchedulerException e) {
-        	log.error("定时器异常");
+        	logger.error("定时器异常");
             throw new JobExecutionException(e);
         } catch (Exception e) {
-        	log.error("发生异常");
+        	logger.error("发生异常");
         	throw new JobExecutionException(e);
         } finally {
             this.clear();
@@ -67,13 +67,13 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 				subPublic(childens);
 			}
     		if (channel.getPublicenable()){
-				log.info("定时发布 " + channelName + " 频道开始...");
+				logger.info("定时发布 " + channelName + " 频道开始...");
 				try{
 					getGeneratorServiceable().generator(channel.getId());
 				}catch(ReleaseException e){
-					log.error("定时发布 " + channelName + " 频道发布异常");
+					logger.error("定时发布 " + channelName + " 频道发布异常");
     			}
-				log.info("定时发布 " + channelName + " 频道结束.");
+				logger.info("定时发布 " + channelName + " 频道结束.");
     		}
     	}
     }
@@ -90,13 +90,13 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 			    	EwcmsJobChannel jobChannel = ewcmsSchedulingFac.findJobChannelByChannelId(channel.getId());
 			    	if (jobChannel == null){
 			    		String channelName = "【" + channel.getName() + "】";
-			    		log.info("定时发布 " + channelName + " 频道开始...");
+			    		logger.info("定时发布 " + channelName + " 频道开始...");
 						try{
 							getGeneratorServiceable().generator(channel.getId());
 						}catch(ReleaseException e){
-							log.error("定时发布 " + channelName + " 频道发布异常");
+							logger.error("定时发布 " + channelName + " 频道发布异常");
 		    			}
-			    		log.info("定时发布 " + channelName + " 频道结束.");
+			    		logger.info("定时发布 " + channelName + " 频道结束.");
 			    	}
     			}
     		}
