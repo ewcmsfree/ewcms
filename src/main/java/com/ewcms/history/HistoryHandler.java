@@ -12,12 +12,12 @@ import java.io.ObjectOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
 @Service
 @Aspect
 public class HistoryHandler {
-	protected static final Log log = LogFactory.getLog(HistoryHandler.class);
+	protected static final Logger logger = LoggerFactory.getLogger(HistoryHandler.class);
 	
 	@Autowired
 	private HistoryModelDAO historyModelDAO;
@@ -88,7 +88,7 @@ public class HistoryHandler {
 			historyModelDAO.persist(historyModel);
 			historyModelDAO.flush(historyModel);
 		} catch (Exception e) {
-			log.info(e.toString());
+			logger.info(e.toString());
 		} finally {
 			if (out != null) {
 				try {
