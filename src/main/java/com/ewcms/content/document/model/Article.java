@@ -36,11 +36,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <ul>
  * <li>id:编号</li>
  * <li>title:标题</li>
- * <li>titleStyle:标题样式</li>
  * <li>shortTitle:短标题</li>
- * <li>shortTitleStyle:短标题样式</li>
  * <li>subTitle:副标题</li>
- * <li>subTitlStyle:副标题样式</li>
  * <li>author:作者</li>
  * <li>origin:来源</li>
  * <li>keyword:关键字</li>
@@ -51,7 +48,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>topFlag:新闻置顶</li>
  * <li>commentFlag:允许评论</li>
  * <li>type:文章类型</li>
- * <li>linkAddr:链接地址</li>
  * <li>owner:创建者</li>
  * <li>audit:审核人</li>
  * <li>auditReal:审核人实名</li>
@@ -64,6 +60,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>createTime:创建时间</li>
  * <li>categories:文章分类属性集合</li>
  * <li>contentTotal:内容总页数<li>
+ * <li>inside:使用内部标题</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -81,16 +78,10 @@ public class Article implements Serializable {
 	private Long id;
 	@Column(name = "title", nullable = false, length = 100)
 	private String title;
-	@Column(name = "title_style")
-	private String titleStyle;
 	@Column(name = "short_title", length = 50)
 	private String shortTitle;
-	@Column(name = "short_title_style")
-	private String shortTitleStyle;
 	@Column(name = "sub_title", length = 100)
 	private String subTitle;
-	@Column(name = "sub_title_style")
-	private String subTitleStyle;
 	@Column(name = "author")
 	private String author;
 	@Column(name = "origin")
@@ -114,8 +105,6 @@ public class Article implements Serializable {
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ArticleType type;
-	@Column(name = "link_addr", columnDefinition = "text")
-	private String linkAddr;
 	@Column(name = "owner")
 	private String owner;
 	@Column(name = "audit")
@@ -148,6 +137,8 @@ public class Article implements Serializable {
 	private List<ArticleCategory> categories;
 	@Column(name = "total")
 	private Integer contentTotal;
+	@Column(name = "inside")
+	private Boolean inside;
 	
 	public Article() {
 		topFlag = false;
@@ -156,6 +147,7 @@ public class Article implements Serializable {
 		status = ArticleStatus.DRAFT;
 		createTime = new Date(Calendar.getInstance().getTime().getTime());
 		deleteFlag = false;
+		inside = false;
 	}
 
 	public Long getId() {
@@ -174,14 +166,6 @@ public class Article implements Serializable {
 		this.title = title;
 	}
 
-	public String getTitleStyle() {
-		return titleStyle;
-	}
-
-	public void setTitleStyle(String titleStyle) {
-		this.titleStyle = titleStyle;
-	}
-
 	public String getShortTitle() {
 		return shortTitle;
 	}
@@ -190,28 +174,12 @@ public class Article implements Serializable {
 		this.shortTitle = shortTitle;
 	}
 
-	public String getShortTitleStyle() {
-		return shortTitleStyle;
-	}
-
-	public void setShortTitleStyle(String shortTitleStyle) {
-		this.shortTitleStyle = shortTitleStyle;
-	}
-
 	public String getSubTitle() {
 		return subTitle;
 	}
 
 	public void setSubTitle(String subTitle) {
 		this.subTitle = subTitle;
-	}
-
-	public String getSubTitleStyle() {
-		return subTitleStyle;
-	}
-
-	public void setSubTitleStyle(String subTitleStyle) {
-		this.subTitleStyle = subTitleStyle;
 	}
 
 	public String getAuthor() {
@@ -301,14 +269,6 @@ public class Article implements Serializable {
 
 	public void setType(ArticleType type) {
 		this.type = type;
-	}
-
-	public String getLinkAddr() {
-		return linkAddr;
-	}
-
-	public void setLinkAddr(String linkAddr) {
-		this.linkAddr = linkAddr;
 	}
 
 	public String getAudit() {
@@ -410,6 +370,14 @@ public class Article implements Serializable {
 
 	public void setContentTotal(Integer contentTotal) {
 		this.contentTotal = contentTotal;
+	}
+
+	public Boolean getInside() {
+		return inside;
+	}
+
+	public void setInside(Boolean inside) {
+		this.inside = inside;
 	}
 
 	@Override
