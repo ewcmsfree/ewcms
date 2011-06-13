@@ -18,7 +18,7 @@ import freemarker.template.TemplateModelException;
  *
  * @param <T> 值的类型
  */
-public interface DirectiveOutable<T> {
+public interface DirectiveOutable{
 
     /**
      * 构造标签输出的内容
@@ -34,5 +34,5 @@ public interface DirectiveOutable<T> {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    String  constructOut(T value,Environment env,Map params)throws TemplateModelException;
+    String  constructOut(Object value,Environment env,Map params)throws TemplateModelException;
 }
