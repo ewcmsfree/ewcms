@@ -8,7 +8,6 @@ package com.ewcms.generator.freemarker.directive.out;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class DateDirectiveOut implements DirectiveOutable<Date>{
+public class DateDirectiveOut implements DirectiveOutable{
     private static final Logger logger = LoggerFactory.getLogger(DateDirectiveOut.class);
     
     private static final String FORMAT_PARAM_NAME = "format";
@@ -36,7 +35,7 @@ public class DateDirectiveOut implements DirectiveOutable<Date>{
     
     @SuppressWarnings("rawtypes")
     @Override
-    public String constructOut(Date value,Environment env,Map params)throws TemplateModelException {
+    public String constructOut(Object value,Environment env,Map params)throws TemplateModelException {
         DateFormat dateFormat = getDateFormat(params);
         return dateFormat.format(value);
     }

@@ -20,7 +20,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class DefaultDirectiveOut implements DirectiveOutable<Object> {
+public class DefaultDirectiveOut implements DirectiveOutable {
 
     @SuppressWarnings("rawtypes")
     @Override
