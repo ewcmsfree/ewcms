@@ -41,11 +41,11 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     
     private static final String VALUE_PARAM_NAME = "value";
     private static final String NAME_PARAM_NAME = "name";
-    private static final String DEFAULT_Variable_NAME = "o";
+    private static final String DEFAULT_LOOP_NAME = "o";
     
     private String valueParam = VALUE_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
-    private String variableName = DEFAULT_Variable_NAME;
+    private String defaultLoop = DEFAULT_LOOP_NAME;
     
     @Override
     @SuppressWarnings("rawtypes")
@@ -71,9 +71,9 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
                     body.render(env.getOut());
                 }
             }else if(EmptyUtil.isNotNull(body)){
-                FreemarkerUtil.setVariable(env, variableName, value);
+                FreemarkerUtil.setVariable(env, defaultLoop, value);
                 body.render(env.getOut());
-                FreemarkerUtil.removeVariable(env, variableName);
+                FreemarkerUtil.removeVariable(env, defaultLoop);
             }else{
                 Writer out = env.getOut();
                 String outValue = constructOut(value,propertyName,env,params);
@@ -246,11 +246,11 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     }
     
     /**
-     * 设置属性值放入Freemarker环境中变量名
+     * 属性值放入freemarker环境中的变量名
      * 
-     * @param name 变量名
+     * @param name 缺省loop名
      */
-    public void setVariable(String name){
-        variableName = name;
+    public void setDefaultLoop(String name){
+        defaultLoop = name;
     }
 }
