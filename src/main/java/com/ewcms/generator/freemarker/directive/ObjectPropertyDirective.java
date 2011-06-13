@@ -76,7 +76,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
                 FreemarkerUtil.removeVariable(env, variableName);
             }else{
                 Writer out = env.getOut();
-                String outValue = constructOut(value,env,params);
+                String outValue = constructOut(value,propertyName,env,params);
                 out.write(outValue.toString());
                 out.flush();
             }
@@ -89,14 +89,21 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     }
     
     /**
-     * 构造输出字符串
+     * 构造标签输出内容
      * 
      * @param value
      *            被构造的值
-     * @return
+     * @param propertyName
+     *            属性名
+     * @param evn
+     *            freemarker 环境
+     * @param params
+     *            标签参数集合
+     *            
+     * @return 标签输出字符串
      */
     @SuppressWarnings("rawtypes")
-    protected String constructOut(Object value,Environment env, Map params){
+    protected String constructOut(Object value,String proeprtyName,Environment env, Map params)throws TemplateModelException{
         return value.toString();
     }
     
