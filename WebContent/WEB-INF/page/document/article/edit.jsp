@@ -22,7 +22,6 @@
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/source/js/article.js'/>"></script>
-		<script type="text/javascript" src="<s:url value='/source/js/article-toolbar.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
             $(function() {
@@ -106,14 +105,14 @@
 			        	<td width="50%" id="tdTitle" class="formFieldError" colspan="2">
 			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"/>
 			        		<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
-			        		<s:hidden id="articleTitleStyle" name="articleVo.titleStyle"/>
 						</td>
 						<td width="44%" style="vertical-align: middle;">
 							<table width="100%" style="border: 0px solid;">
 			        			<tr>
 				        			<td width="100%" style="border: 0px solid;">
 				        				<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: top;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
-					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: top;"/><label for="ShowSubTitle">&nbsp;副标题</label>
+					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: top;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					           	 		<input type="checkbox" value="checkbox" id="inside" name="articleVo.inside"/><label for="inside">&nbsp;使用内部标题</label>
 					           	 	</td>
 				           	 	</tr>
 				           	 </table>
@@ -124,7 +123,6 @@
 			        	<td id="tdShortTitle" colspan="3" class="formFieldError">
 			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.shortTitle'}" /></s:fielderror>
-			        		<s:hidden id="articleShortTitleStyle" name="articleVo.shortTitleStyle"/>
 			        	</td>
 			        </tr>
 			        <tr id="trSubTitle" style="display:none;">
@@ -132,7 +130,6 @@
 			        	<td id="tdSubTitle" colspan="3" class="formFieldError">
 			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.subTitle'}" /></s:fielderror>
-							<s:hidden id="articleSubTitleStyle" name="articleVo.subTitleStyle"/>		
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_1" style="display:none">
@@ -197,9 +194,9 @@
 			        		<s:textarea id="summary" name="articleVo.summary" cols="42"></s:textarea>
 			        	</td>
 			        </tr>
-			        <tr id="tr_linkaddr" style="display:none">
+			        <tr id="tr_url" style="display:none">
 						<td>链接地址：</td>
-						<td colspan="3"><s:textfield id="linkAddr" name="articleVo.linkAddr" size="120"></s:textfield></td>
+						<td colspan="3"><s:textfield id="url" name="articleVo.url" size="120"></s:textfield></td>
 					</tr>
 			    </table>
 			    
@@ -334,17 +331,6 @@
 		        	<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border: #B7D8ED 1px solid;">
 		        		<tr align="center">
 		        			<td>可以在这里设置常用项，选择后可保存2个星期</td>
-		        		</tr>
-		        		<!-- 
-		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_short" onclick="ewcmsCookiesSet(this,'trShortTitle','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_short">&nbsp;短标题</label></td>
-		        		</tr>
-		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_sub" onclick="ewcmsCookiesSet(this,'trSubTitle','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_sub">&nbsp;副标题</label></td>
-		        		</tr>
-		        		 -->
-		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_toolbar"  onclick="ewcmsCookiesSet(this,'','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_toolbar">&nbsp;显示工具条</label></td>
 		        		</tr>
 		        		<tr>
 		        			<td><input type="checkbox" value="checkbox" id="ewcms_1" onclick="ewcmsCookiesSet(this,'trShowHide_1','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_1">&nbsp;第二行显示——<font color='red'>【发布日期、作者、审核人】</font></label></td>

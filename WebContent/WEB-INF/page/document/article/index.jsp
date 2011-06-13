@@ -40,19 +40,8 @@
                                         return pro.join("");
                                     }
                                 },
-                                {field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:500,
+                                {field:'title',title:'标题<span style=\"color:red;\">[分类]</span>',width:500,
                                     formatter:function(val,rec){
-                                        var fontSize = "12";
-                                        var spanStyle = "";
-                                        var titleStyle = rec.article.titleStyle;
-                                        if (titleStyle != ""){
-                                            try{
-                                                fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-                                                spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-                                            }catch(e){
-                                                spanStyle = titleStyle;
-                                            }
-                                        }
                                         var classPro = [];
                                         var categories = rec.article.categories;
                                         for (var i=0;i<categories.length;i++){
@@ -62,7 +51,7 @@
                                         if (classPro.length > 0){
                                             classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
                                         }
-                                        return "<span style='" + spanStyle + "'>" + rec.article.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
+                                        return rec.article.title + classValue;
                                     }
                                 },
                                 {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
