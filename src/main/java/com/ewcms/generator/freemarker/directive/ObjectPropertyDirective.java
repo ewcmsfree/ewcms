@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.generator.freemarker.FreemarkerUtil;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -70,9 +71,9 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
                     body.render(env.getOut());
                 }
             }else if(EmptyUtil.isNotNull(body)){
-                DirectiveUtil.setVariable(env, variableName, value);
+                FreemarkerUtil.setVariable(env, variableName, value);
                 body.render(env.getOut());
-                DirectiveUtil.removeVariable(env, variableName);
+                FreemarkerUtil.removeVariable(env, variableName);
             }else{
                 Writer out = env.getOut();
                 String outValue = constructOut(value);
@@ -111,16 +112,16 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     @SuppressWarnings("rawtypes")
     protected Object getObjectValue(final Environment env, final Map params)throws TemplateModelException {
 
-        Object object =  DirectiveUtil.getBean(params, valueParam);
+        Object object =  FreemarkerUtil.getBean(params, valueParam);
         if (EmptyUtil.isNotNull(object)) {
             logger.debug("Get value is {}",object);
             return object;
         }
 
-        String variable = DirectiveUtil.getString(params, valueParam);
+        String variable = FreemarkerUtil.getString(params, valueParam);
         if (EmptyUtil.isNotNull(variable)) {
             logger.debug("Get value param is {}", variable);
-            object = DirectiveUtil.getBean(env, variable);
+            object = FreemarkerUtil.getBean(env, variable);
             if (EmptyUtil.isNotNull(object)) {
                 logger.debug("Get value is {}",object);
                 return object;
@@ -141,7 +142,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      */
     @SuppressWarnings("rawtypes")
     protected String getPropertyName(final Map params)throws TemplateModelException {
-        String property = DirectiveUtil.getString(params, nameParam);
+        String property = FreemarkerUtil.getString(params, nameParam);
         logger.debug("Property name is {}",property);
         return property;
     }
