@@ -23,6 +23,7 @@ import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.generator.release.ReleaseException;
@@ -134,7 +135,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 
 					target_article.setStatus(ArticleStatus.DRAFT);
 					target_article.setPublished(null);
-					target_article.setUrl(null);
+					if (article.getType() == ArticleType.TITLE){
+						target_article.setUrl(article.getUrl());
+					}else{
+						target_article.setUrl(null);
+					}
 					target_article.setDeleteFlag(article.getDeleteFlag());
 
 					List<Content> contents = article.getContents();
@@ -149,11 +154,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setContents(contents_target);
 
 					target_article.setTitle(article.getTitle());
-					target_article.setTitleStyle(article.getTitleStyle());
 					target_article.setShortTitle(article.getShortTitle());
-					target_article.setShortTitleStyle(article.getShortTitleStyle());
 					target_article.setSubTitle(article.getSubTitle());
-					target_article.setSubTitleStyle(article.getSubTitleStyle());
 					target_article.setAuthor(article.getAuthor());
 					target_article.setOrigin(article.getOrigin());
 					target_article.setKeyword(article.getKeyword());
@@ -163,14 +165,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setTopFlag(article.getTopFlag());
 					target_article.setCommentFlag(article.getCommentFlag());
 					target_article.setType(article.getType());
-					target_article.setLinkAddr(article.getLinkAddr());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 
-					// articleDAO.persist(target_article);
-					// Long target_articleId = target_article.getId();
-
 					ArticleMain articleMain_new = new ArticleMain();
-					//articleMain_new.setSort(articleMain.getSort());
 					articleMain_new.setArticle(target_article);
 					articleMain_new.setChannelId(target_channelId);
 					articleMainDAO.persist(articleMain_new);

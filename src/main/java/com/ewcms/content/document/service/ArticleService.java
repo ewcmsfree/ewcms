@@ -11,6 +11,7 @@ import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,9 +51,16 @@ public class ArticleService implements ArticleServiceable {
 		if (isNotNull(published)) {
 			article.setPublished(published);
 		}
-		clearStyleSpace(article);
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+		if (article.getType() == ArticleType.TITLE){
+			Content content = new Content();
+			content.setDetail("");
+			content.setPage(1);
+			List<Content> contents = new ArrayList<Content>();
+			contents.add(content);
+			article.setContents(contents);
+		}
 
 		ArticleMain articleMain = new ArticleMain();
 		articleMain.setArticle(article);
@@ -74,21 +82,24 @@ public class ArticleService implements ArticleServiceable {
 			article.setPublished(published);
 		}
 
-		clearStyleSpace(article);
-
 		if (article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.REVIEW) {
 			// throw new
 			// BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
 		} else {
 			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);
-			if (article_old.getType() == ArticleType.GENERAL) {
-				// TODO 不做任务处理
-			} else if (article_old.getType() == ArticleType.TITLE) {
+			if (article.getType() == ArticleType.GENERAL) {
+				article.setUrl(null);
+			} else if (article.getType() == ArticleType.TITLE) {
 				if (article_old.getContents() != null && !article_old.getContents().isEmpty()) {
 					article.setContents(article_old.getContents());
 				} else {
-					article.setContents(new ArrayList<Content>());
+					Content content = new Content();
+					content.setDetail("");
+					content.setPage(1);
+					List<Content> contents = new ArrayList<Content>();
+					contents.add(content);
+					article.setContents(contents);
 				}
 			}
 			article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
@@ -99,17 +110,4 @@ public class ArticleService implements ArticleServiceable {
 		}
 		return articleMain.getId();
 	}
-	
-	private void clearStyleSpace(Article article) {
-		if (article.getTitleStyle() != null && article.getTitleStyle().length() > 0) {
-			article.setTitleStyle(article.getTitleStyle().trim());
-		}
-		if (article.getShortTitleStyle() != null && article.getShortTitleStyle().length() > 0) {
-			article.setShortTitleStyle(article.getShortTitleStyle().trim());
-		}
-		if (article.getSubTitleStyle() != null && article.getSubTitleStyle().length() > 0) {
-			article.setSubTitleStyle(article.getSubTitleStyle().trim());
-		}
-	}
-
 }
