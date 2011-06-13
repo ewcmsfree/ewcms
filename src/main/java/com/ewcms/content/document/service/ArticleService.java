@@ -83,8 +83,7 @@ public class ArticleService implements ArticleServiceable {
 		}
 
 		if (article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.REVIEW) {
-			// throw new
-			// BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
+			// throw new BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
 		} else {
 			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);
