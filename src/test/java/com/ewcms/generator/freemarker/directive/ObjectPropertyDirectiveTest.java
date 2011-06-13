@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.ewcms.generator.freemarker.FreemarkerTest;
@@ -33,6 +34,11 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         cfg.setSharedVariable("property", new ObjectPropertyDirective());
     }
     
+    /**
+     * 测试得到属性值
+     * 
+     * @throws Exception
+     */
     @Test
     public void testGetValue()throws Exception{
         ObjectBean objectValue = new ObjectBean();
@@ -56,46 +62,73 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         assertEquals(title,"test");
     }
     
+    /**
+     * 得到模板路径
+     * 
+     * @param name 模板名
+     * @return
+     */
     private String getTemplatePath(String name){
         return String.format("directive/objectproperty/%s", name);
     }
     
+    /**
+     * 测试缺省标签设置
+     * 
+     * <p>通过参数名获得对象</p>
+     * 
+     * @throws Exception
+     */
     @Test
-    public void testDefault()throws Exception{
-        Template template = cfg.getTemplate(getTemplatePath("default.html"));
+    public void testVauleTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
         
         ObjectBean objectValue = new ObjectBean();
         objectValue.setTitle("test");
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("object", objectValue);
         
-        String content = process(template, map);
-        content = content.trim(); 
-        assertEquals(content,"test");
-    }
-    
-    @Test
-    public void testValue()throws Exception{
-        Template template = cfg.getTemplate(getTemplatePath("value.html"));
-        
         List<ObjectBean> list = new ArrayList<ObjectBean>();
-        ObjectBean objectValue = new ObjectBean();
+        objectValue = new ObjectBean();
         objectValue.setTitle("test");
         list.add(objectValue);
         objectValue = new ObjectBean();
         objectValue.setTitle("test1");
         list.add(objectValue);
         
-        Map<String,Object> map = new HashMap<String,Object>();
         map.put("objects", list);
         
-        String content = process(template,map);
-        content = content.trim();
-        assertEquals(content,"testtest1");
+        String content = process(template, map);
+        content =StringUtils.deleteWhitespace(content); 
+        assertEquals(content,"test|testtest1");
     }
     
+    /**
+     * 测试标签异常，异常错误是否写入内容
+     * 
+     * @throws Exception
+     */
     @Test
-    public void testLoop()throws Exception{
+    public void testExceptionTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("exception.html"));
+
+        ObjectBean objectValue = new ObjectBean();
+        objectValue.setTitle("test");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("object", objectValue);
+
+        String content = process(template, map);
+        content = StringUtils.deleteWhitespace(content);
+        assertTrue(content.indexOf("title1") > 0);
+    }
+
+    /**
+     * 测试标签返回值
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testLoopTemplate()throws Exception{
         Template template = cfg.getTemplate(getTemplatePath("loop.html"));
         
         ObjectBean objectValue = new ObjectBean();
@@ -104,7 +137,7 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         map.put("object", objectValue);
         
         String content = process(template, map);
-        content = content.trim(); 
-        assertEquals(content,"test\ntest");
-    }
+        content = StringUtils.deleteWhitespace(content); 
+        assertEquals(content,"testtest");
+    }    
 }
