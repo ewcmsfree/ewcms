@@ -24,7 +24,7 @@
 			//数据表格定义 						
 			openDataGrid({
 				columns:[[
-							{field:'id',title:'序号',width:50,sortable:true},
+							{field:'id',title:'编号',width:50,sortable:true},
 		                 	{field:'label',title:'名称',width:100},
 		                 	{field:'version',title:'版本',width:40},
 		                 	{field:'jobClassName',title:'作业名称',width:200,
