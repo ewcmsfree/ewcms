@@ -51,6 +51,12 @@ public class DateDirectiveOut implements DirectiveOutable{
         }
     }
     
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        return value;
+    }    
+    
     /**
      * 设置日期格式参数
      * 

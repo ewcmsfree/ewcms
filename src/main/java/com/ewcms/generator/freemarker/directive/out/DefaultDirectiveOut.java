@@ -27,5 +27,10 @@ public class DefaultDirectiveOut implements DirectiveOutable {
     public String constructOut(Object value,Environment env,Map params)throws TemplateModelException {
         return value.toString();
     }
-    
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        return value;
+    }    
 }
