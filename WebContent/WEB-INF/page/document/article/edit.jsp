@@ -103,7 +103,7 @@
 			    	<tr >
 			        	<td width="6%">标题：</td>
 			        	<td width="50%" id="tdTitle" class="formFieldError" colspan="2">
-			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"/>
+			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
 			        		<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
 						</td>
 						<td width="44%" style="vertical-align: middle;">
@@ -121,14 +121,14 @@
 			        <tr id="trShortTitle" style="display:none;">
 			        	<td>短标题：</td>
 			        	<td id="tdShortTitle" colspan="3" class="formFieldError">
-			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"></s:textfield>
+			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="25"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.shortTitle'}" /></s:fielderror>
 			        	</td>
 			        </tr>
 			        <tr id="trSubTitle" style="display:none;">
 			        	<td>副标题：</td>
 			        	<td id="tdSubTitle" colspan="3" class="formFieldError">
-			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;"></s:textfield>
+			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="50"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.subTitle'}" /></s:fielderror>
 			        	</td>
 			        </tr>
