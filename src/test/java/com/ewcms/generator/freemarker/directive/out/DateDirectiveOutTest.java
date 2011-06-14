@@ -49,4 +49,12 @@ public class DateDirectiveOutTest {
         String format = out.constructOut(date, null, params);
         Assert.assertEquals("2010年01月01日", format);
     }
+    
+    @Test
+    public void testLoopValue()throws Exception{
+        DateDirectiveOut out = new DateDirectiveOut();
+        Object value = new Object();
+        Object loopValue = out.loopValue(value, null, null);
+        Assert.assertEquals(value, loopValue);
+    }
 }

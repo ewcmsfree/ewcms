@@ -22,4 +22,12 @@ public class DefaultDirectiveOutTest {
         String value = out.constructOut("test", null, null);
         Assert.assertEquals("test", value);
     }
+    
+    @Test
+    public void testLoopValue()throws Exception{
+        DefaultDirectiveOut out = new DefaultDirectiveOut();
+        Object value = new Object();
+        Object loopValue = out.loopValue(value, null, null);
+        Assert.assertEquals(value, loopValue);
+    }
 }
