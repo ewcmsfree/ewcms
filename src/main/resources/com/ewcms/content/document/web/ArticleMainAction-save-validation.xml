@@ -8,19 +8,19 @@
             <message>标题不能为空</message>
         </field-validator>
         <field-validator type="stringlength">
-        	<param name="maxLength">60</param>
+        	<param name="maxLength">50</param>
         	<message>标题长度必须小于${maxLength}个字符</message>
         </field-validator>
     </field>
     <field name="articleVo.shortTitle">
     	<field-validator type="stringlength">
-			<param name="maxLength">50</param>
+			<param name="maxLength">25</param>
 			<message>短标题长度必须小于${maxLength}个字符</message>    		
     	</field-validator>
     </field>
     <field name="articleVo.subTitle">
     	<field-validator type="stringlength">
-    		<param name="maxLength">100</param>
+    		<param name="maxLength">50</param>
     		<message>副标题长度必须小于${maxLength}个字符</message>
     	</field-validator>
     </field>
