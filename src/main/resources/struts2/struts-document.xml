@@ -44,20 +44,20 @@
 		</action>
 		<action name="query" class="com.ewcms.content.document.web.HistoryQueryAction" method="query"/>
 	</package>
-	<package name="document.related" extends="struts-default" namespace="/document/related">
-		<action name="related" class="com.ewcms.content.document.web.RelatedAction">
-			<result>/WEB-INF/page/document/related/index.jsp</result>
+	<package name="document.relation" extends="struts-default" namespace="/document/relation">
+		<action name="relation" class="com.ewcms.content.document.web.RelationAction">
+			<result>/WEB-INF/page/document/relation/index.jsp</result>
 		</action>
-		<action name="article" class="com.ewcms.content.document.web.RelatedAction">
-			<result>/WEB-INF/page/document/related/article.jsp</result>
+		<action name="article" class="com.ewcms.content.document.web.RelationAction">
+			<result>/WEB-INF/page/document/relation/article.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.content.document.web.RelatedAction" method="save">
-			<result>/WEB-INF/page/document/related/index.jsp</result>
+		<action name="save" class="com.ewcms.content.document.web.RelationAction" method="save">
+			<result>/WEB-INF/page/document/relation/index.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.content.document.web.RelatedQueryAction" method="query"/>
-		<action name="delete" class="com.ewcms.content.document.web.RelatedAction" method="delete"/>
-		<action name="up" class="com.ewcms.content.document.web.RelatedAction" method="up"/>
-		<action name="down" class="com.ewcms.content.document.web.RelatedAction" method="down"/>
+		<action name="query" class="com.ewcms.content.document.web.RelationQueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.content.document.web.RelationAction" method="delete"/>
+		<action name="up" class="com.ewcms.content.document.web.RelationAction" method="up"/>
+		<action name="down" class="com.ewcms.content.document.web.RelationAction" method="down"/>
 	</package>
 	<package name="document.articlecategory" extends="struts-default" namespace="/document/articlecategory">
 		<action name="index">
