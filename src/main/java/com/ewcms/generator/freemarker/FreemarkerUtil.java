@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Map;
 
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.BeanModel;
@@ -213,7 +212,7 @@ public class FreemarkerUtil {
     }
 
     public static boolean isDebug(final Environment env) throws TemplateModelException {
-        Boolean debug = getBoolean(env, DirectiveVariable.Debug.toString());
+        Boolean debug = getBoolean(env, GlobalVariable.DEBUG.toString());
         return debug == null ? false : true;
     }
 
