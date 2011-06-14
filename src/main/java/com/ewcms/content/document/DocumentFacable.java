@@ -12,7 +12,7 @@ import java.util.List;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.Related;
+import com.ewcms.content.document.model.Relation;
 import com.ewcms.generator.release.ReleaseException;
 
 /**
@@ -242,5 +242,5 @@ public interface DocumentFacable {
 	 * @param articleId 文章信息编号
 	 * @return List 相关文章集合
 	 */
-	public List<Related> findRelatedByArticle(Long articleId);
+	public List<Relation> findRelatedByArticle(Long articleId);
 }

@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.Related;
+import com.ewcms.content.document.model.Relation;
 import com.ewcms.content.document.service.ArticleCategoryServiceable;
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.document.service.ArticleServiceable;
-import com.ewcms.content.document.service.RelatedServiceable;
+import com.ewcms.content.document.service.RelationServiceable;
 import com.ewcms.generator.release.ReleaseException;
 
 /**
@@ -36,7 +36,7 @@ public class DocumentFac implements DocumentFacable {
 	@Autowired
 	private ArticleServiceable articleService;
 	@Autowired
-	private RelatedServiceable relatedService;
+	private RelationServiceable relationService;
 	
 	@Override
 	public Integer addArticleCategory(ArticleCategory articleCategory){
@@ -145,26 +145,26 @@ public class DocumentFac implements DocumentFacable {
 
 	@Override
 	public void saveRelated(Long articleId, Long[] relatedArticleIds){
-		relatedService.saveRelated(articleId, relatedArticleIds);
+		relationService.saveRelated(articleId, relatedArticleIds);
 	}
 	
 	@Override
 	public void deleteRelated(Long articleId, Long[] relatedArticleIds){
-		relatedService.deleteRelated(articleId, relatedArticleIds);
+		relationService.deleteRelated(articleId, relatedArticleIds);
 	}
 	
 	@Override
 	public void upRelated(Long articleId, Long[] relatedArticleIds){
-		relatedService.upRelated(articleId, relatedArticleIds);
+		relationService.upRelated(articleId, relatedArticleIds);
 	}
 
 	@Override
 	public void downRelated(Long articleId, Long[] relatedArticleIds){
-		relatedService.downRelated(articleId, relatedArticleIds);
+		relationService.downRelated(articleId, relatedArticleIds);
 	}
 	
 	@Override
-	public List<Related> findRelatedByArticle(Long articleId){
-		return relatedService.findRelatedByArticle(articleId);
+	public List<Relation> findRelatedByArticle(Long articleId){
+		return relationService.findRelatedByArticle(articleId);
 	}
 }
