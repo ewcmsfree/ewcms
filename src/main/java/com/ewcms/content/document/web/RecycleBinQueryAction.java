@@ -98,7 +98,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			countHql += " And r.owner=:owner ";
 		}
 		
-		hql += " Order By r.topFlag Desc, o.sort Asc Nulls Last, r.published Desc Nulls Last, r.modified Desc Nulls Last, o.id";
+		hql += " Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
@@ -160,7 +160,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
-		hql = hql + " Order By r.topFlag Desc, o.sort Asc Nulls Last, r.published Desc Nulls Last, r.modified Desc Nulls Last, o.id";
+		hql += " Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
