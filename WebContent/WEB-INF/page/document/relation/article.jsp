@@ -89,7 +89,7 @@
 				$('#tt2').tree('reload');
 			}
 
-			function getRelatedRows(){
+			function getRelationRows(){
 				var rows = $('#tt').datagrid('getSelections');
 				return rows;
 			}

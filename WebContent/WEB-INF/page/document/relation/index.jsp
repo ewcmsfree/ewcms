@@ -143,8 +143,8 @@
                 return false;           
 			}
 			
-			function saveRelated(){
-				var rows = editifr_article.getRelatedRows();
+			function saveRelation(){
+				var rows = editifr_article.getRelationRows();
 			    var url_param = '?articleId=' + $("#articleId").attr("value");
 	           	for(var i=0;i<rows.length;++i){
 	           		url_param += '&selectIds=' + rows[i].article.id;
@@ -169,7 +169,7 @@
  					<iframe id="editifr_article"  name="editifr_article" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="saveRelated()">选择</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="saveRelation()">选择</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#edit-window').window('close');">取消</a>
                 </div>
             </div>
