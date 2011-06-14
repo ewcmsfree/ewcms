@@ -15,9 +15,9 @@
 			$(function(){
 				//基本变量初始
 				setGlobaVariable({
-					inputURL:'<s:url namespace="/document/related" action="input"/>',
-					queryURL:'<s:url namespace="/document/related" action="query"><s:param name="articleId" value="articleId"></s:param></s:url>',
-					deleteURL:'<s:url namespace="/document/related" action="delete"/>',
+					inputURL:'<s:url namespace="/document/relation" action="input"/>',
+					queryURL:'<s:url namespace="/document/relation" action="query"><s:param name="articleId" value="articleId"></s:param></s:url>',
+					deleteURL:'<s:url namespace="/document/relation" action="delete"/>',
 					editwidth:1000,
 					editheight:700
 				});
@@ -79,7 +79,7 @@
 				});
 			});
 			function addOperate(){
-				$("#editifr_article").attr("src","<s:url namespace='/document/related' action='article'/>");
+				$("#editifr_article").attr("src","<s:url namespace='/document/relation' action='article'/>");
 				openWindow("#edit-window",{width:600,height:400,title:'文章选择'});
 			}
 			
@@ -94,7 +94,7 @@
 	           	for(var i=0;i<rows.length;++i){
 	           		url_param += 'selectIds=' + rows[i].id +'&';
 	           	}
-	           	url_param = '<s:url namespace="/document/related" action="delete"/>' + url_param + '';
+	           	url_param = '<s:url namespace="/document/relation" action="delete"/>' + url_param + '';
 	            $.post(url_param,parameter,function(data){
 		            $.messager.alert('成功','删除成功');
 		            $("#tt").datagrid('clearSelections');
@@ -113,7 +113,7 @@
 					$.messager.alert("提示","只能选择一个记录进行移动","info");
 					return;
 				}
-				$.post('<s:url namespace="/document/related" action="up"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
+				$.post('<s:url namespace="/document/relation" action="up"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
 					if (data == "false"){
 						$.messager.alert("提示","上移失败","info");
 						return;
@@ -133,7 +133,7 @@
 					$.messager.alert("提示","只能选择一个记录进行移动","info");
 					return;
 				}
-				$.post('<s:url namespace="/document/related" action="down"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
+				$.post('<s:url namespace="/document/relation" action="down"/>', {'articleId':$("#articleId").val(),'selectIds':rows[0].id}, function(data){
 					if (data == "false"){
 						$.messager.alert("提示","下移失败","info");
 						return;
@@ -149,7 +149,7 @@
 	           	for(var i=0;i<rows.length;++i){
 	           		url_param += '&selectIds=' + rows[i].article.id;
 	           	}
-	           	url_param = '<s:url namespace="/document/related" action="save"/>' + url_param + '';
+	           	url_param = '<s:url namespace="/document/relation" action="save"/>' + url_param + '';
 				$.post(url_param, {} ,function(data) {
 					$("#tt").datagrid("reload");
 					$("#edit-window").window("close");
