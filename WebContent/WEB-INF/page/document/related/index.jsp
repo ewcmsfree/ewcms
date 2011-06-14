@@ -25,7 +25,7 @@
                 openDataGrid({
                     singleSelect:true,
                     columns:[[
-                                {field:'id',title:'文章序号',width:60,sortable:true},
+                                {field:'id',title:'文章编号',width:60,sortable:true},
                                 {field:'flags',title:'属性',width:60,
                                     formatter:function(val,rec){
                                         var pro = [];

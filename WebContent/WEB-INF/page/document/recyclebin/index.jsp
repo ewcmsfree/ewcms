@@ -28,51 +28,40 @@
 				//数据表格定义 						
                 openDataGrid({
                     columns:[[
-                                {field:'mainId',title:'序号',width:60,sortable:true,formatter:function(val,rec){return rec.id;}},
-                                {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
-                                {field:'isReference',title:'引用',width:60,hidden:true},
-                                {field:'flags',title:'属性',width:60,
-                                    formatter:function(val,rec){
-                                        var pro = [];
-                                        if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-                                        if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-                                        //if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-                                        if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
-                                        if (rec.isReference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
-                                        return pro.join("");
-                                    }
-                                },
-                                {field:'title',title:'标题<span style=\"color:blue;\">[字体大小]</span><span style=\"color:red;\">[分类]</span>',width:500,
-                                    formatter:function(val,rec){
-                                        var fontSize = "12";
-                                        var spanStyle = "";
-                                        var titleStyle = rec.article.titleStyle;
-                                        if (titleStyle != ""){
-                                            try{
-                                                fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-                                                spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-                                            }catch(e){
-                                                spanStyle = titleStyle;
-                                            }
-                                        }
-                                        var classPro = [];
-                                        var categories = rec.article.categories;
-                                        for (var i=0;i<categories.length;i++){
-                                           classPro.push(categories[i].categoryName);
-                                        }
-                                        var classValue = "";
-                                        if (classPro.length > 0){
-                                            classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
-                                        }
-                                        return "<span style='" + spanStyle + "'>" + rec.article.title + "</span><span style='color:blue;'>[" + fontSize + "px]</span>" + classValue;
-                                    }
-                                },
-                                {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
-                                {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
-                                {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
-                                {field:'statusDescription',title:'删除前状态',width:80,formatter:function(val,rec){return rec.article.statusDescription;}},
-                                {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
-                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
+                              {field:'id',title:'编号',width:60,sortable:true},
+                              {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
+                              {field:'reference',title:'引用',width:60,hidden:true},
+                              {field:'flags',title:'属性',width:60,
+                                  formatter:function(val,rec){
+                                      var pro = [];
+                                      if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                      //if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                      if (rec.article.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
+                                      if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                      if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+                                      
+                                      return pro.join("");
+                                  }
+                              },
+                              {field:'title',title:'标题<span style=\"color:red;\">[分类]</span>',width:500,
+                                  formatter:function(val,rec){
+                                      var classPro = [];
+                                      var categories = rec.article.categories;
+                                      for (var i=0;i<categories.length;i++){
+                                         classPro.push(categories[i].categoryName);
+                                      }
+                                      var classValue = "";
+                                      if (classPro.length > 0){
+                                          classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+                                      }
+                                      return rec.article.title + classValue;
+                                  }
+                              },
+                              {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                              {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
+                              {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
+                              {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
+                              {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
                         ]],
 			         toolbar:[
 								{text:'恢复文档',iconCls:'icon-edit',handler:restoreOperate},'-',

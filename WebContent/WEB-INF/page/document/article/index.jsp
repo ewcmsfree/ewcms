@@ -28,7 +28,7 @@
 				//数据表格定义 						
                 openDataGrid({
                     columns:[[
-                                {field:'id',title:'序号',width:60,sortable:true},
+                                {field:'id',title:'编号',width:60,sortable:true},
                                 {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
                                 {field:'reference',title:'引用',width:60,hidden:true},
                                 {field:'flags',title:'属性',width:60,
