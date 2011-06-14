@@ -381,7 +381,7 @@ function selectHistory(url){
 	openWindow("#pop-window",{width:800,height:600,title:"历史内容选择"});
 }
 //选择相关文章
-function selectRelated(url){
+function selectRelation(url){
 	if ($('#articleVo_type').val() == "TITLE"){
 		$.messager.alert("提示","标题新闻没有相关文章","info");
 		return;
