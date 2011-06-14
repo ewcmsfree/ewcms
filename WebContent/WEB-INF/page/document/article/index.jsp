@@ -36,7 +36,10 @@
                                         var pro = [];
                                         if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
                                         //if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                        if (rec.article.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
                                         if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用'/>");
+                                        if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+                                        
                                         return pro.join("");
                                     }
                                 },
@@ -54,7 +57,6 @@
                                         return rec.article.title + classValue;
                                     }
                                 },
-                                {field:'typeDescription',title:'类型',width:60,formatter:function(val,rec){return rec.article.typeDescription;}},
                                 {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
                                 {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
                                 {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
