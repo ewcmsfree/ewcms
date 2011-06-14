@@ -73,7 +73,7 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
     }
     
     /**
-     * 测试缺省标签设置
+     * 测试属性值标签输出
      * 
      * <p>通过参数名获得对象</p>
      * 
@@ -101,6 +101,33 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         String content = process(template, map);
         content =StringUtils.deleteWhitespace(content); 
         assertEquals(content,"test|testtest1");
+    }
+    
+    /**
+     * 测试属性值为空标签输出
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testPropertyIsNullOfValueTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        ObjectBean objectValue = new ObjectBean();
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("object", objectValue);
+        
+        List<ObjectBean> list = new ArrayList<ObjectBean>();
+        objectValue = new ObjectBean();
+        objectValue.setTitle("test");
+        list.add(objectValue);
+        objectValue = new ObjectBean();
+        objectValue.setTitle("test1");
+        list.add(objectValue);
+        
+        map.put("objects", list);
+        
+        String content = process(template, map);
+        content =StringUtils.deleteWhitespace(content); 
+        assertEquals(content,"|testtest1");
     }
     
     /**
@@ -139,5 +166,23 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         String content = process(template, map);
         content = StringUtils.deleteWhitespace(content); 
         assertEquals(content,"testtest");
-    }    
+    }  
+    
+    /**
+     * 测试属性值为空返回值
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testPropertyIsNullOfLoopTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("loop.html"));
+        
+        ObjectBean objectValue = new ObjectBean();
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("object", objectValue);
+        
+        String content = process(template, map);
+        content = StringUtils.deleteWhitespace(content); 
+        assertEquals(content,"");
+    }
 }
