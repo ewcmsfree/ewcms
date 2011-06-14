@@ -541,7 +541,7 @@
 	                                }
 	                            });
 	                        }else{
-	                            $.messager.alert('提示','排序号为正整数','info');
+	                            sortOperate();
 	                            return;
 	                        }
                         }
