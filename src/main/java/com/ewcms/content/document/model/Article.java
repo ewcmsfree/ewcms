@@ -124,10 +124,10 @@ public class Article implements Serializable {
 	private String url;
 	@Column(name = "delete_flag")
 	private Boolean deleteFlag;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Related.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy("sort")
-	private List<Related> relateds;
+	private List<Relation> relations;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
@@ -340,12 +340,12 @@ public class Article implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<Related> getRelateds() {
-		return relateds;
+	public List<Relation> getRelations() {
+		return relations;
 	}
 
-	public void setRelateds(List<Related> relateds) {
-		this.relateds = relateds;
+	public void setRelations(List<Relation> relations) {
+		this.relations = relations;
 	}
 
 	public Date getCreateTime() {
