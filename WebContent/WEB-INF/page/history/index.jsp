@@ -25,7 +25,7 @@
 				//数据表格定义 						
 				openDataGrid({
 					columns:[[
-								{field:'id',title:'序号',width:40,sortable:true},
+								{field:'id',title:'编号',width:40,sortable:true},
 								{field:'className',title:'类名',width:400},
 								{field:'methodName',title:'方法名',width:100},
 								{field:'createDate',title:'保存时间',width:125},
