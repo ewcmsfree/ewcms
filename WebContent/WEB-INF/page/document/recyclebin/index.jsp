@@ -192,7 +192,7 @@
                 <form id="queryform">
                     <table class="formtable">
                         <tr>
-                            <td class="tdtitle">序号：</td>
+                            <td class="tdtitle">编号：</td>
                             <td class="tdinput">
                                 <input type="text" id="id" name="id" class="inputtext"/>
                             </td>
