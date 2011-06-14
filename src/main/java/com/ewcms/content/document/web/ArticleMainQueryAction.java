@@ -41,8 +41,6 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	    
 	private Integer channelId;
 		
-//	private Boolean isRelease = false;
-	
 	public Integer getChannelId() {
 		return channelId;
 	}
