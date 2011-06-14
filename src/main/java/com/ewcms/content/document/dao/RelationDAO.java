@@ -23,25 +23,25 @@ import com.ewcms.content.document.model.Relation;
 public class RelationDAO extends JpaDAO<Long, Relation> {
 	
     @SuppressWarnings("unchecked")
-	public List<Relation> findRelatedByArticle(Long articleId){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relateds AS r WHERE o.id=? ORDER BY r.sort";
+	public List<Relation> findRelationByArticle(Long articleId){
+    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? ORDER BY r.sort";
     	List<Relation> list = this.getJpaTemplate().find(hql,articleId);
     	if (list.isEmpty()) return new ArrayList<Relation>();
     	return list;
     }
     
     @SuppressWarnings("unchecked")
-	public Relation findRelatedByArticleAndSort(Long articleId, Integer sort){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relateds AS r WHERE o.id=? AND r.sort=?";
+	public Relation findRelationByArticleAndSort(Long articleId, Integer sort){
+    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? AND r.sort=?";
     	List<Relation> list = this.getJpaTemplate().find(hql,articleId,sort);
     	if (list.isEmpty()) return new Relation();
     	return list.get(0);
     }
     
     @SuppressWarnings("unchecked")
-	public Relation findRelatedByArticleAndRelated(Long articleId, Long relatedArticleId){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relateds AS r WHERE o.id=? AND r.article.id=?";
-    	List<Relation> list = this.getJpaTemplate().find(hql, articleId, relatedArticleId);
+	public Relation findRelationByArticleAndRelation(Long articleId, Long relationArticleId){
+    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? AND r.article.id=?";
+    	List<Relation> list = this.getJpaTemplate().find(hql, articleId, relationArticleId);
     	if (list.isEmpty()) return null;
     	return list.get(0);
     }

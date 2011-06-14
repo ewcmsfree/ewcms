@@ -20,33 +20,33 @@ public interface RelationServiceable {
 	 * 保存相关文章
 	 * 
 	 * @param articleId 文章信息编号
-	 * @param relatedArticleIds 相关文章编号集合
+	 * @param relationArticleIds 相关文章编号集合
 	 */
-	public void saveRelated(Long articleId, Long[] relatedArticleIds);
+	public void saveRelation(Long articleId, Long[] relationArticleIds);
 	
 	/**
 	 * 删除相关文章
 	 * 
 	 * @param articleId 文章信息编号
-	 * @param relatedArticleIds 相关文章编号集合
+	 * @param relationArticleIds 相关文章编号集合
 	 */
-	public void deleteRelated(Long articleId, Long[] relatedArticleIds);
+	public void deleteRelation(Long articleId, Long[] relationArticleIds);
 	
 	/**
 	 * 相关文章向上移动一位
 	 * 
 	 * @param articleId 文章信息编号
-	 * @param relatedArticleIds 相关文章编号集合
+	 * @param relationArticleIds 相关文章编号集合
 	 */
-	public void upRelated(Long articleId, Long[] relatedArticleIds);
+	public void upRelation(Long articleId, Long[] relationArticleIds);
 
 	/**
 	 * 相关文章向下移动一位
 	 * 
 	 * @param articleId 文章信息编号
-	 * @param relatedArticleIds 相关文章编号集合
+	 * @param relationArticleIds 相关文章编号集合
 	 */
-	public void downRelated(Long articleId, Long[] relatedArticleIds);
+	public void downRelation(Long articleId, Long[] relationArticleIds);
 	
 	/**
 	 * 查询相关文章集合
@@ -54,5 +54,5 @@ public interface RelationServiceable {
 	 * @param articleId 文章信息编号
 	 * @return List 相关文章集合
 	 */
-	public List<Relation> findRelatedByArticle(Long articleId);
+	public List<Relation> findRelationByArticle(Long articleId);
 }

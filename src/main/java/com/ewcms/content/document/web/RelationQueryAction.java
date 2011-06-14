@@ -57,7 +57,7 @@ public class RelationQueryAction extends QueryBaseAction {
 
 	@Override
 	public String query() {
-		List<Relation> list = documentFac.findRelatedByArticle(getArticleId());
+		List<Relation> list = documentFac.findRelationByArticle(getArticleId());
 		List<Article> query = new ArrayList<Article>();
 		for (Relation related : list){
 			query.add(related.getArticle());

@@ -33,27 +33,27 @@ public class RelationService implements RelationServiceable {
 	private RelationDAO relationDAO;
 
 	@Override
-	public void deleteRelated(Long articleId, Long[] relatedArticleIds) {
-		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length > 0){
-			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relatedArticleIds));
+	public void deleteRelation(Long articleId, Long[] relationArticleIds) {
+		if (articleId != null && relationArticleIds != null && relationArticleIds.length > 0){
+			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relationArticleIds));
 			Article article = articleDAO.get(articleId);
-			List<Relation> relateds_old = article.getRelations();
-			List<Relation> relateds_sort = relationDAO.findRelatedByArticle(articleId);
-			for (Long relatedArticleId : hasSets){
-				for (Relation related : relateds_old){
-					if (relatedArticleId.longValue() == related.getArticle().getId().longValue()){
-						relateds_sort.remove(related);
+			List<Relation> relations_old = article.getRelations();
+			List<Relation> relations_sort = relationDAO.findRelationByArticle(articleId);
+			for (Long relationArticleId : hasSets){
+				for (Relation relation : relations_old){
+					if (relationArticleId.longValue() == relation.getArticle().getId().longValue()){
+						relations_sort.remove(relation);
 					}
 				}
 			}
 			Integer sort = 1;
-			List<Relation> relateds_new = new ArrayList<Relation>();
-			for (Relation related : relateds_sort){
-				related.setSort(sort);
-				relateds_new.add(related);
+			List<Relation> relations_new = new ArrayList<Relation>();
+			for (Relation relation : relations_sort){
+				relation.setSort(sort);
+				relations_new.add(relation);
 				sort++;
 			}
-			article.setRelations(relateds_new);
+			article.setRelations(relations_new);
 			
 			articleDAO.merge(article);
 		}
@@ -61,81 +61,81 @@ public class RelationService implements RelationServiceable {
 	
 
 	@Override
-	public void downRelated(Long articleId, Long[] relatedArticleIds) {
-		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length == 1){
+	public void downRelation(Long articleId, Long[] relationArticleIds) {
+		if (articleId != null && relationArticleIds != null && relationArticleIds.length == 1){
 			Article article = articleDAO.get(articleId);
-			List<Relation> relateds_old = relationDAO.findRelatedByArticle(articleId);
-			for (Relation related : relateds_old){
-				Long related_article_id = related.getArticle().getId();
-				if (related_article_id.longValue() == relatedArticleIds[0].longValue()){
-					Integer sort = related.getSort();
-					if (sort.longValue() < relateds_old.size()){
+			List<Relation> relations_old = relationDAO.findRelationByArticle(articleId);
+			for (Relation relation : relations_old){
+				Long relation_article_id = relation.getArticle().getId();
+				if (relation_article_id.longValue() == relationArticleIds[0].longValue()){
+					Integer sort = relation.getSort();
+					if (sort.longValue() < relations_old.size()){
 						sort = sort + 1;
-						Relation related_prev = relationDAO.findRelatedByArticleAndSort(articleId, sort);
-						related_prev.setSort(sort - 1);
+						Relation relation_prev = relationDAO.findRelationByArticleAndSort(articleId, sort);
+						relation_prev.setSort(sort - 1);
 						
-						related.setSort(sort);
-						relateds_old.add(related);
-						relateds_old.add(related_prev);
+						relation.setSort(sort);
+						relations_old.add(relation);
+						relations_old.add(relation_prev);
 						break;
 					}
 				}
 			}
-			article.setRelations(relateds_old);
+			article.setRelations(relations_old);
 			
 			articleDAO.merge(article);
 		}
 	}
 
 	@Override
-	public void saveRelated(Long articleId, Long[] relatedArticleIds) {
-		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length > 0){
-			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relatedArticleIds));
+	public void saveRelation(Long articleId, Long[] relationArticleIds) {
+		if (articleId != null && relationArticleIds != null && relationArticleIds.length > 0){
+			HashSet<Long> hasSets = new HashSet<Long>(Arrays.asList(relationArticleIds));
 			Article article = articleDAO.get(articleId);
-			List<Relation> relateds = article.getRelations();
-			if (relateds.isEmpty()){
-				relateds = new ArrayList<Relation>();
+			List<Relation> relations = article.getRelations();
+			if (relations.isEmpty()){
+				relations = new ArrayList<Relation>();
 			}
-			Integer related_count = relateds.size();
-			Relation related = null;
-			for (Long relatedArticleId : hasSets){
-				related = relationDAO.findRelatedByArticleAndRelated(articleId, relatedArticleId);
-				if (isNotNull(related)) continue;
-				related_count++;
-				related = new Relation();
-				Article related_article = articleDAO.get(relatedArticleId);
-				related.setSort(related_count);
-				related.setArticle(related_article);
-				relateds.add(related);
+			Integer relation_count = relations.size();
+			Relation relation = null;
+			for (Long relationArticleId : hasSets){
+				relation = relationDAO.findRelationByArticleAndRelation(articleId, relationArticleId);
+				if (isNotNull(relation)) continue;
+				relation_count++;
+				relation = new Relation();
+				Article relation_article = articleDAO.get(relationArticleId);
+				relation.setSort(relation_count);
+				relation.setArticle(relation_article);
+				relations.add(relation);
 			}
-			article.setRelations(relateds);
+			article.setRelations(relations);
 			
 			articleDAO.merge(article);
 		}
 	}
 
 	@Override
-	public void upRelated(Long articleId, Long[] relatedArticleIds) {
-		if (articleId != null && relatedArticleIds != null && relatedArticleIds.length == 1){
+	public void upRelation(Long articleId, Long[] relationArticleIds) {
+		if (articleId != null && relationArticleIds != null && relationArticleIds.length == 1){
 			Article article = articleDAO.get(articleId);
-			List<Relation> relateds_old = relationDAO.findRelatedByArticle(articleId);
-			for (Relation related : relateds_old){
-				Long related_article_id = related.getArticle().getId();
-				if (related_article_id.longValue() == relatedArticleIds[0].longValue()){
-					Integer sort = related.getSort();
+			List<Relation> relations_old = relationDAO.findRelationByArticle(articleId);
+			for (Relation relation : relations_old){
+				Long relation_article_id = relation.getArticle().getId();
+				if (relation_article_id.longValue() == relationArticleIds[0].longValue()){
+					Integer sort = relation.getSort();
 					if (sort.longValue() > 1){
 						sort = sort - 1;
-						Relation related_prev = relationDAO.findRelatedByArticleAndSort(articleId, sort);
-						related_prev.setSort(sort + 1);
+						Relation relation_prev = relationDAO.findRelationByArticleAndSort(articleId, sort);
+						relation_prev.setSort(sort + 1);
 						
-						related.setSort(sort);
-						relateds_old.add(related);
-						relateds_old.add(related_prev);
+						relation.setSort(sort);
+						relations_old.add(relation);
+						relations_old.add(relation_prev);
 						break;
 					}
 				}
 			}
-			article.setRelations(relateds_old);
+			article.setRelations(relations_old);
 			
 			articleDAO.merge(article);
 		}
@@ -143,7 +143,7 @@ public class RelationService implements RelationServiceable {
 
 
 	@Override
-	public List<Relation> findRelatedByArticle(Long articleId) {
-		return relationDAO.findRelatedByArticle(articleId);
+	public List<Relation> findRelationByArticle(Long articleId) {
+		return relationDAO.findRelationByArticle(articleId);
 	}
 }

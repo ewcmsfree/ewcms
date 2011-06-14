@@ -49,19 +49,19 @@ public class RelationAction extends ActionSupport {
 	}
 
 	public String save(){
-		documentFac.saveRelated(getArticleId(), getSelectIds());
+		documentFac.saveRelation(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public String delete(){
-		documentFac.deleteRelated(getArticleId(), getSelectIds());
+		documentFac.deleteRelation(getArticleId(), getSelectIds());
 		return NONE;
 	}
 	
 	public void up(){
 		try{
 			if (getArticleId() != null && getSelectIds() != null){
-				documentFac.upRelated(getArticleId(), getSelectIds());
+				documentFac.upRelation(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -74,7 +74,7 @@ public class RelationAction extends ActionSupport {
 	public void down(){
 		try{
 			if (getArticleId() != null && getSelectIds() != null){
-				documentFac.downRelated(getArticleId(), getSelectIds());
+				documentFac.downRelation(getArticleId(), getSelectIds());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));

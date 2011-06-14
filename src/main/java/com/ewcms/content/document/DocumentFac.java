@@ -144,27 +144,27 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public void saveRelated(Long articleId, Long[] relatedArticleIds){
-		relationService.saveRelated(articleId, relatedArticleIds);
+	public void saveRelation(Long articleId, Long[] relationArticleIds){
+		relationService.saveRelation(articleId, relationArticleIds);
 	}
 	
 	@Override
-	public void deleteRelated(Long articleId, Long[] relatedArticleIds){
-		relationService.deleteRelated(articleId, relatedArticleIds);
+	public void deleteRelation(Long articleId, Long[] relationArticleIds){
+		relationService.deleteRelation(articleId, relationArticleIds);
 	}
 	
 	@Override
-	public void upRelated(Long articleId, Long[] relatedArticleIds){
-		relationService.upRelated(articleId, relatedArticleIds);
+	public void upRelation(Long articleId, Long[] relationArticleIds){
+		relationService.upRelation(articleId, relationArticleIds);
 	}
 
 	@Override
-	public void downRelated(Long articleId, Long[] relatedArticleIds){
-		relationService.downRelated(articleId, relatedArticleIds);
+	public void downRelation(Long articleId, Long[] relationArticleIds){
+		relationService.downRelation(articleId, relationArticleIds);
 	}
 	
 	@Override
-	public List<Relation> findRelatedByArticle(Long articleId){
-		return relationService.findRelatedByArticle(articleId);
+	public List<Relation> findRelationByArticle(Long articleId){
+		return relationService.findRelationByArticle(articleId);
 	}
 }
