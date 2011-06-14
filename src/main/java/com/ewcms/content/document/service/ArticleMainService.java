@@ -226,8 +226,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 				article.setStatus(ArticleStatus.REEDIT);
 				article.setAudit(audit);
 				article.setAuditReal(userService.getUserRealName());
-				article.setPublished(null);
-				article.setUrl(null);
 			}
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
