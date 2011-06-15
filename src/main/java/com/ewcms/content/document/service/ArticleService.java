@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.content.document.dao.ArticleDAO;
 import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
@@ -25,6 +26,7 @@ import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
+import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.history.History;
 
 /**
@@ -54,12 +56,9 @@ public class ArticleService implements ArticleServiceable {
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 		if (article.getType() == ArticleType.TITLE){
-			Content content = new Content();
-			content.setDetail("");
-			content.setPage(1);
-			List<Content> contents = new ArrayList<Content>();
-			contents.add(content);
-			article.setContents(contents);
+			titleContentNull(article);
+		}else{
+			keywordAndSummary(article);
 		}
 
 		ArticleMain articleMain = new ArticleMain();
@@ -89,24 +88,50 @@ public class ArticleService implements ArticleServiceable {
 			Assert.notNull(article_old);
 			if (article.getType() == ArticleType.GENERAL) {
 				article.setUrl(null);
+				keywordAndSummary(article);
 			} else if (article.getType() == ArticleType.TITLE) {
+				article.setKeyword("");
+				article.setSummary("");
 				if (article_old.getContents() != null && !article_old.getContents().isEmpty()) {
 					article.setContents(article_old.getContents());
 				} else {
-					Content content = new Content();
-					content.setDetail("");
-					content.setPage(1);
-					List<Content> contents = new ArrayList<Content>();
-					contents.add(content);
-					article.setContents(contents);
+					titleContentNull(article);
 				}
 			}
 			article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
-			article.setStatus(ArticleStatus.REEDIT);
+			article.setStatus(article_old.getStatus());
 			
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}
 		return articleMain.getId();
+	}
+	
+	private void keywordAndSummary(Article article){
+		List<Content> contents = article.getContents();
+		String title = article.getTitle();
+		if (contents != null && !contents.isEmpty() && title != null && title.length()>0){
+			String contentAll = "";
+			for (Content content : contents){
+				contentAll += content.getDetail();
+			}
+			if (article.getKeyword() == null || article.getKeyword().length() == 0){
+				String keyword = HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + contentAll), " ");	
+				article.setKeyword(keyword);
+			}
+			if (article.getSummary() == null || article.getSummary().length() == 0){
+				String summary = ExtractKeywordAndSummary.getTextAbstract(title, contentAll);
+				article.setSummary(summary);
+			}
+		}
+	}
+	
+	private void titleContentNull(Article article){
+		Content content = new Content();
+		content.setDetail("");
+		content.setPage(1);
+		List<Content> contents = new ArrayList<Content>();
+		contents.add(content);
+		article.setContents(contents);
 	}
 }

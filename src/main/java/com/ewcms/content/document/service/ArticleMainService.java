@@ -42,6 +42,18 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private UserServiceable userService;
+	
+	public void setGeneratorService(GeneratorServiceable generatorService){
+		this.generatorService = generatorService;
+	}
+	
+	public void setArticleMainDAO(ArticleMainDAO articleMainDAO){
+		this.articleMainDAO = articleMainDAO;
+	}
+	
+	public void setUserService(UserServiceable userService){
+		this.userService = userService;
+	}
 
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','READ') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
