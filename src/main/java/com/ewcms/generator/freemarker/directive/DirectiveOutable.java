@@ -21,6 +21,21 @@ import freemarker.template.TemplateModelException;
 public interface DirectiveOutable{
 
     /**
+     * 处理标签返回值
+     * 
+     * @param value
+     *            被处理的值
+     * @param env
+     *            Freemarker环境
+     * @param params
+     *            标签参数集合
+     * @return 返回值
+     * @throws TemplateModelException
+     */
+    @SuppressWarnings("rawtypes")
+    Object loopValue(Object value,Environment env,Map params)throws TemplateModelException;
+    
+    /**
      * 构造标签输出的内容
      * 
      * @param value
