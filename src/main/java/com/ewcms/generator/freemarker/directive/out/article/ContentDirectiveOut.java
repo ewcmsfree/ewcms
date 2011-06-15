@@ -42,7 +42,7 @@ public class ContentDirectiveOut implements DirectiveOutable{
     }
     
     @SuppressWarnings("unchecked")
-    private String getContent(Object value,Environment env)throws TemplateModelException {
+    String getContent(Object value,Environment env)throws TemplateModelException {
         if(value == null){
             logger.debug("Loop value is null");
             return null;
@@ -54,6 +54,7 @@ public class ContentDirectiveOut implements DirectiveOutable{
         }
         int pageNumber = getPageNumber(env);
         if(pageNumber >= contents.size()){
+            logger.warn("Page number {} but it max {},because it start 0.",pageNumber,contents.size()-1);
             return null;
         }else{
             Content content = contents.get(pageNumber);
@@ -61,7 +62,7 @@ public class ContentDirectiveOut implements DirectiveOutable{
         }
     }
     
-    private int getPageNumber(Environment env)throws TemplateModelException{
+    int getPageNumber(Environment env)throws TemplateModelException{
         Integer number = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_NUMBER.toString());
         return number == null ? 0 : number;
     }
