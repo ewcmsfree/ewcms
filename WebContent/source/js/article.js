@@ -324,6 +324,8 @@ function saveArticle(){
 			$.messager.alert("提示","系统错误","info");
 		}else if (data != ""){
 			$("#state").attr("value", data.state);
+			$("#keyword").attr("value", data.keyword);
+			$("#summary").attr("value", data.summary);
 			$("#saveTime_general").html("<font color='#FF0000'>" + data.modified + "</font>");
 			$("#saveTime_title").html("<font color='#FF0000'>" + data.modified + "</font>");
 			window.opener.window.articleReload();
