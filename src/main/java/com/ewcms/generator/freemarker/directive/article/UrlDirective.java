@@ -4,26 +4,33 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ewcms.generator.freemarker.directive.article;
 
-import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.Map;
 
-import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.directive.ArticleDirective;
+
+import freemarker.core.Environment;
+import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
 
 /**
+ * 链接地址标签
  *
+ * @deprecated
  * @author wangwei
  */
-@Service("direcitve.article.url")
-public class UrlDirective extends ArticleElementDirective{
+public class UrlDirective extends ArticleDirective{
 
     @Override
-    protected String constructOutValue(Article articleRmc) {
-        return articleRmc.getUrl()== null ? "" : articleRmc.getUrl() ;
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        
+        params.put("name", new SimpleScalar("url"));
+        super.execute(env, params, loopVars, body);
     }
 }

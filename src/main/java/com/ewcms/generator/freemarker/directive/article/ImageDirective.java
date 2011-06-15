@@ -11,19 +11,31 @@
 
 package com.ewcms.generator.freemarker.directive.article;
 
-import com.ewcms.content.document.model.Article;
+import java.io.IOException;
+import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import com.ewcms.generator.freemarker.directive.ArticleDirective;
+
+import freemarker.core.Environment;
+import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
+
 /**
- *
+ * 引导图标签
+ * 
+ * @deprecated
  * @author wangwei
  */
-@Service("direcitve.article.image")
-public class ImageDirective extends ArticleElementDirective {
+public class ImageDirective extends ArticleDirective {
 
     @Override
-    protected String constructOutValue(Article articleRmc) {
-        Article article = this.getArticle(articleRmc);
-        return article.getImage() == null ? "" : article.getImage();
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        
+        params.put("name", new SimpleScalar("image"));
+        super.execute(env, params, loopVars, body);
     }
 }
