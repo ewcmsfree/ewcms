@@ -60,25 +60,30 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
         }
         
         try {
-            Object value = getValue(objectValue,propertyName);
- 
             if(EmptyUtil.isArrayNotEmpty(loopVars)){
-                loopVars[0] = env.getObjectWrapper().wrap(value);
-                if(EmptyUtil.isNull(body)){
-                    logger.error("body is empty");
-                    throw new TemplateModelException("body is empty");
-                }else{
-                    body.render(env.getOut());
+                Object value = loopValue(objectValue,propertyName,env,params);
+                if(EmptyUtil.isNotNull(value)){
+                    loopVars[0] = env.getObjectWrapper().wrap(value);
+                    if(EmptyUtil.isNull(body)){
+                        logger.warn("body is empty");
+                    }else{
+                        body.render(env.getOut());
+                    }    
                 }
             }else if(EmptyUtil.isNotNull(body)){
-                FreemarkerUtil.setVariable(env, defaultLoop, value);
-                body.render(env.getOut());
-                FreemarkerUtil.removeVariable(env, defaultLoop);
+                Object value = loopValue(objectValue,propertyName,env,params);
+                if(EmptyUtil.isNotNull(value)){
+                    FreemarkerUtil.setVariable(env, defaultLoop, value);
+                    body.render(env.getOut());
+                    FreemarkerUtil.removeVariable(env, defaultLoop);
+                }
             }else{
-                Writer out = env.getOut();
-                String outValue = constructOut(value,propertyName,env,params);
-                out.write(outValue.toString());
-                out.flush();
+                String outValue = constructOut(objectValue,propertyName,env,params);
+                if(EmptyUtil.isNotNull(outValue)){
+                    Writer out = env.getOut();
+                    out.write(outValue.toString());
+                    out.flush();
+                }
             }
         } catch (NoSuchMethodException e) {
             Writer out = env.getOut();
@@ -89,10 +94,29 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     }
     
     /**
+     * 标签返回值
+     * 
+     * @param objectValue
+     *            属性所属对象的值
+     * @param propertyName
+     *            属性名
+     * @param evn
+     *            freemarker 环境
+     * @param params
+     *            标签参数集合
+     * @return 输出返回值
+     * @throws TemplateModelException,NoSuchMethodException
+     */
+    @SuppressWarnings("rawtypes")
+    protected Object loopValue(Object objectValue,String propertyName,Environment env,Map params)throws TemplateModelException,NoSuchMethodException{
+        return getValue(objectValue,propertyName);
+    }
+    
+    /**
      * 构造标签输出内容
      * 
-     * @param value
-     *            被构造的值
+     * @param objectValue
+     *            属性所属对象的值
      * @param propertyName
      *            属性名
      * @param evn
@@ -101,10 +125,16 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      *            标签参数集合
      *            
      * @return 标签输出字符串
+     * @throws TemplateModelException,NoSuchMethodException
      */
     @SuppressWarnings("rawtypes")
-    protected String constructOut(Object value,String proeprtyName,Environment env, Map params)throws TemplateModelException{
-        return value.toString();
+    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException,NoSuchMethodException{
+        Object value = getValue(objectValue,propertyName);
+        if(EmptyUtil.isNull(value)){
+            return null;
+        }else{
+            return getValue(objectValue,propertyName).toString();
+        }
     }
     
     /**
