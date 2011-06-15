@@ -53,6 +53,24 @@ public class ContentDirectiveOutTest {
         Assert.assertEquals("test1", value);
     }
     
+    @Test
+    public void testLoopValueCall()throws Exception{
+        ContentDirectiveOutMock out = new ContentDirectiveOutMock();
+        out.setPageNumber(0);
+        
+        Object value = out.loopValue(initContents(), null,null);
+        Assert.assertEquals("test", value);
+    }
+    
+    @Test
+    public void testConstructOutCall()throws Exception{
+        ContentDirectiveOutMock out = new ContentDirectiveOutMock();
+        out.setPageNumber(1);
+        
+        String value = out.constructOut(initContents(), null,null);
+        Assert.assertEquals("test1", value);
+    }
+    
     private List<Content> initContents(){
         
         List<Content> list = new ArrayList<Content>();
