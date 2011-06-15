@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.generator.freemarker.directive.out;
+package com.ewcms.generator.freemarker.directive.out.article;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +14,19 @@ import org.junit.Test;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Relation;
+import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
 
 /**
  * ArticleRelationsDirectiveOut单元测试
  * 
  * @author wangwei
  */
-public class ArticleRelationsDirectiveOutTest {
+public class RelationsDirectiveOutTest {
 
     @SuppressWarnings("unchecked")
     @Test
     public void testRelatedIsNullOfLoopValue()throws Exception{
-        ArticleRelationsDirectiveOut out = new ArticleRelationsDirectiveOut();
+        RelationsDirectiveOut out = new RelationsDirectiveOut();
         List<Article> list = (List<Article>)out.loopValue(null, null, null);
         Assert.assertTrue(list.isEmpty());
     }
@@ -33,14 +34,14 @@ public class ArticleRelationsDirectiveOutTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testLoopValue()throws Exception{
-        ArticleRelationsDirectiveOut out = new ArticleRelationsDirectiveOut();
+        RelationsDirectiveOut out = new RelationsDirectiveOut();
         List<Article> list = (List<Article>)out.loopValue(initRelateds(), null, null);
         Assert.assertTrue(list.size() == 2);
     }
     
     @Test
     public void testRelatedIsEmptyOfConstructOut()throws Exception{
-        ArticleRelationsDirectiveOut out = new ArticleRelationsDirectiveOut();
+        RelationsDirectiveOut out = new RelationsDirectiveOut();
         String outValue = out.constructOut(null, null, null);
         Assert.assertNull(outValue);
         
@@ -50,7 +51,7 @@ public class ArticleRelationsDirectiveOutTest {
     
     @Test
     public void testConstructOut()throws Exception{
-        ArticleRelationsDirectiveOut out = new ArticleRelationsDirectiveOut();
+        RelationsDirectiveOut out = new RelationsDirectiveOut();
         String outValue = out.constructOut(initRelateds(), null, null);
         String expected = "<ul>" +
         		"<li><a href=\"/index.html\" title=\"test\" target=\"_blank\">test</a></li>" +
