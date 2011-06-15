@@ -11,9 +11,9 @@
 package com.ewcms.generator.freemarker.directive.component;
 
 import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveException;
-import com.ewcms.generator.freemarker.directive.DirectiveUtil;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
 import com.ewcms.generator.freemarker.directive.ElementDirective;
 
 import freemarker.core.Environment;
@@ -98,7 +98,7 @@ public class CountDirective extends ElementDirective<Article> {
     }
 
     private String getParamValue(final Map params, final String name) throws TemplateModelException, DirectiveException {
-        return DirectiveUtil.getString(params, name);
+        return FreemarkerUtil.getString(params, name);
     }
 
     private String getSrc(Article articleRmc, final String callback) {
@@ -109,6 +109,6 @@ public class CountDirective extends ElementDirective<Article> {
 
     @Override
     protected String defaultVariable() {
-        return DirectiveVariable.Article.toString();
+        return GlobalVariable.Article.toString();
     }
 }

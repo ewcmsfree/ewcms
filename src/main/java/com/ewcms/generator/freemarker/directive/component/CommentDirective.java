@@ -11,9 +11,9 @@
 package com.ewcms.generator.freemarker.directive.component;
 
 import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveException;
-import com.ewcms.generator.freemarker.directive.DirectiveUtil;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
 import com.ewcms.generator.freemarker.directive.ElementDirective;
 
 import freemarker.core.Environment;
@@ -52,7 +52,7 @@ public class CommentDirective extends ElementDirective<Article> {
     }
 
     private String getParamValue(final Map params, final String name) throws TemplateModelException, DirectiveException {
-        return DirectiveUtil.getString(params, name);
+        return FreemarkerUtil.getString(params, name);
     }
 
     @Override
@@ -108,16 +108,16 @@ public class CommentDirective extends ElementDirective<Article> {
     }
 
     private boolean isImportJquery(final Environment env)throws TemplateModelException {
-        Boolean jquery = DirectiveUtil.getBoolean(env, DirectiveVariable.JQuery.toString());
+        Boolean jquery = FreemarkerUtil.getBoolean(env, GlobalVariable.JQuery.toString());
         return jquery == null ? true : false;
     }
 
     private void setImportJquery(final Environment env)throws TemplateModelException {
-        DirectiveUtil.setVariable(env, DirectiveVariable.JQuery.toString(), true);
+        FreemarkerUtil.setVariable(env, GlobalVariable.JQuery.toString(), true);
     }
 
     @Override
     protected String defaultVariable() {
-        return DirectiveVariable.Article.toString();
+        return GlobalVariable.Article.toString();
     }
 }
