@@ -241,6 +241,8 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 				Map<String, Object> jsonMap = new HashMap<String, Object>();
 				jsonMap.put("articleMainId", articleMain.getId());
 				jsonMap.put("state", getState());
+				jsonMap.put("keyword", articleMain.getArticle().getKeyword());
+				jsonMap.put("summary", articleMain.getArticle().getSummary());
 				if (articleMain.getArticle().getModified() != null) {
 					jsonMap.put("modified", modDataFormat.format(articleMain.getArticle().getModified()));
 				}
