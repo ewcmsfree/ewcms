@@ -16,7 +16,7 @@ import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.generator.freemarker.directive.out.article.CategoriesDirectiveOut;
 
 /**
- * ArticleCategoriesDirectiveOutss单元测试
+ * CategoriesDirectiveOutss单元测试
  * 
  * @author wangwei
  */

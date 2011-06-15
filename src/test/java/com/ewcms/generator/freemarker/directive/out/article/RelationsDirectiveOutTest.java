@@ -17,7 +17,7 @@ import com.ewcms.content.document.model.Relation;
 import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
 
 /**
- * ArticleRelationsDirectiveOut单元测试
+ * RelationsDirectiveOut单元测试
  * 
  * @author wangwei
  */
