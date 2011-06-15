@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.generator.freemarker.directive.out;
+package com.ewcms.generator.freemarker.directive.out.article;
 
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class ArticleRelationsDirectiveOut implements DirectiveOutable {
-    private static final Logger logger = LoggerFactory.getLogger(ArticleRelationsDirectiveOut.class);
+public class RelationsDirectiveOut implements DirectiveOutable {
+    private static final Logger logger = LoggerFactory.getLogger(RelationsDirectiveOut.class);
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
