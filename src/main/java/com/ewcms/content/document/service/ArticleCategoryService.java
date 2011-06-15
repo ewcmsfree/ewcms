@@ -23,7 +23,7 @@ public class ArticleCategoryService implements ArticleCategoryServiceable {
 	
 	@Autowired
 	private ArticleCategoryDAO articleCategoryDAO;
-
+	
 	public void setArticleCategoryDAO(ArticleCategoryDAO articleCategoryDAO){
 		this.articleCategoryDAO = articleCategoryDAO;
 	}
