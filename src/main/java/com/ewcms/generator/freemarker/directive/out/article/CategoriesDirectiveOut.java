@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.content.document.model.ArticleCategory;
-import com.ewcms.generator.freemarker.directive.DirectiveOutable;
+import com.ewcms.generator.freemarker.directive.out.HtmlDirectiveOut;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;
@@ -24,7 +24,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class CategoriesDirectiveOut implements DirectiveOutable {
+public class CategoriesDirectiveOut extends HtmlDirectiveOut {
     private static final Logger logger = LoggerFactory.getLogger(CategoriesDirectiveOut.class);
 
     @SuppressWarnings("rawtypes")
@@ -49,7 +49,12 @@ public class CategoriesDirectiveOut implements DirectiveOutable {
         }
         
         StringBuilder builder = new StringBuilder();
-        builder.append("<ul>");
+        builder.append("<ul");
+        String c = getClassValue(params);
+        if(EmptyUtil.isNotNull(c)){builder.append(" class=\"").append(c).append("\"");}
+        String s = getStyleValue(params);
+        if(EmptyUtil.isNotNull(s)){builder.append(" style=\"").append(s).append("\"");}
+        builder.append(">");
         for(ArticleCategory category : categories){
             builder.append("<li>").append(category.getCategoryName()).append("</li>");
         }
