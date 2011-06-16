@@ -27,14 +27,6 @@ import freemarker.template.TemplateScalarModel;
  * @author wangwei
  */
 public class RelationsDirectiveOutTest {
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testRelatedIsNullOfLoopValue()throws Exception{
-        RelationsDirectiveOut out = new RelationsDirectiveOut();
-        List<Article> list = (List<Article>)out.loopValue(null, null, null);
-        Assert.assertTrue(list.isEmpty());
-    }
     
     @SuppressWarnings("unchecked")
     @Test
@@ -47,10 +39,7 @@ public class RelationsDirectiveOutTest {
     @Test
     public void testRelatedIsEmptyOfConstructOut()throws Exception{
         RelationsDirectiveOut out = new RelationsDirectiveOut();
-        String outValue = out.constructOut(null, null, null);
-        Assert.assertNull(outValue);
-        
-        outValue = out.constructOut(new ArrayList<Relation>(),null, null);
+        String outValue = out.constructOut(new ArrayList<Relation>(),null, null);
         Assert.assertNull(outValue);
     }
     

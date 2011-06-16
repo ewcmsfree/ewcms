@@ -37,10 +37,7 @@ public class CategoriesDirectiveOutTest {
     @Test
     public void testValueIsEmptyOfConstructOut()throws Exception{
         CategoriesDirectiveOut out = new CategoriesDirectiveOut();
-        String outValue = out.constructOut(null, null, null);
-        Assert.assertNull(outValue);
-        
-        outValue = out.constructOut(new ArrayList<ArticleCategory>(), null, null);
+        String outValue = out.constructOut(new ArrayList<ArticleCategory>(), null, null);
         Assert.assertNull(outValue);
     }
     
