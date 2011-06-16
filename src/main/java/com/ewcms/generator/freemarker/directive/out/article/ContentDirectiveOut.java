@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.content.document.model.Content;
@@ -32,21 +33,19 @@ public class ContentDirectiveOut implements DirectiveOutable{
     @SuppressWarnings("rawtypes")
     @Override
     public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return getContent(value,env);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return getContent(value,env);
     }
     
     @SuppressWarnings("unchecked")
     String getContent(Object value,Environment env)throws TemplateModelException {
-        if(value == null){
-            logger.debug("Loop value is null");
-            return null;
-        }
         List<Content> contents = (List<Content>)value;
         if(EmptyUtil.isCollectionEmpty(contents)){
             logger.debug("Loop value is empty");

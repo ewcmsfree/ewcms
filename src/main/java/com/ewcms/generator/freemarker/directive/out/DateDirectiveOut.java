@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
@@ -36,6 +37,7 @@ public class DateDirectiveOut implements DirectiveOutable{
     @SuppressWarnings("rawtypes")
     @Override
     public String constructOut(Object value,Environment env,Map params)throws TemplateModelException {
+        Assert.notNull(value);
         DateFormat dateFormat = getDateFormat(params);
         return dateFormat.format(value);
     }
@@ -54,6 +56,7 @@ public class DateDirectiveOut implements DirectiveOutable{
     @SuppressWarnings("rawtypes")
     @Override
     public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return value;
     }    
     

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.content.document.model.ArticleCategory;
@@ -30,18 +31,15 @@ public class CategoriesDirectiveOut extends HtmlDirectiveOut {
     @SuppressWarnings("rawtypes")
     @Override
     public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return value;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
-        
-        if(EmptyUtil.isNull(value)){
-            logger.debug("Construct value is null");
-            return null;
-        }
-        
+        Assert.notNull(value);
+      
         List<ArticleCategory> categories = (List<ArticleCategory>)value;
         if(categories.isEmpty()){
             logger.debug("Construct value is empty");

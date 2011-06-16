@@ -8,6 +8,8 @@ package com.ewcms.generator.freemarker.directive.out;
 
 import java.util.Map;
 
+import org.springframework.util.Assert;
+
 import com.ewcms.generator.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
@@ -25,12 +27,14 @@ public class DefaultDirectiveOut implements DirectiveOutable {
     @SuppressWarnings("rawtypes")
     @Override
     public String constructOut(Object value,Environment env,Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return value.toString();
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+        Assert.notNull(value);
         return value;
     }    
 }
