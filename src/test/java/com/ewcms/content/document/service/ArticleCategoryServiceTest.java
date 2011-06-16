@@ -6,6 +6,7 @@
 
 package com.ewcms.content.document.service;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -20,9 +21,12 @@ import org.mockito.ArgumentCaptor;
 import com.ewcms.content.document.dao.ArticleCategoryDAO;
 import com.ewcms.content.document.model.ArticleCategory;
 
-import junit.framework.TestCase;
-
-public class ArticleCategoryServiceTest extends TestCase {
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
+public class ArticleCategoryServiceTest {
 
 	ArticleCategoryService articleCategoryService;
 	ArticleCategoryDAO articleCategoryDAO;
@@ -34,18 +38,13 @@ public class ArticleCategoryServiceTest extends TestCase {
 		articleCategoryService.setArticleCategoryDAO(articleCategoryDAO);
 	}
 
-	@Test
-	public void testaddArticleCategoryNull() {
-		try {
-			articleCategoryService.addArticleCategory(null);
-		} catch (IllegalArgumentException e) {
-		} catch (Exception e) {
-			fail("expected Excepton not be thrown");
-		}
+	@Test(expected = IllegalArgumentException.class)
+	public void addArticleCategoryIsNull() {
+		articleCategoryService.addArticleCategory(null);
 	}
 
 	@Test
-	public void testaddArticleCategory() {
+	public void addArticleCategory() {
 		when(articleCategoryDAO.get(1)).thenReturn(null);
 
 		ArticleCategory articleCategory = new ArticleCategory();
@@ -59,18 +58,13 @@ public class ArticleCategoryServiceTest extends TestCase {
 		assertEquals(argument.getValue().getCategoryName(), "addTest");
 	}
 
-	@Test
-	public void testupdArticleCategoryNull() {
-		try {
-			articleCategoryService.updArticleCategory(null);
-		} catch (IllegalArgumentException e) {
-		} catch (Exception e) {
-			fail("expected Excepton not be thrown");
-		}
+	@Test(expected = IllegalArgumentException.class)
+	public void updArticleCategoryIsNull() {
+		articleCategoryService.updArticleCategory(null);
 	}
 
 	@Test
-	public void testupdArticleCategory() {
+	public void updArticleCategory() {
 		ArticleCategory articleCategory = new ArticleCategory();
 		articleCategory.setId(1);
 		articleCategory.setCategoryName("addTest");
@@ -83,7 +77,7 @@ public class ArticleCategoryServiceTest extends TestCase {
 	}
 	
 	@Test
-	public void testdelArticleCategory(){
+	public void delArticleCategory(){
 		Integer articleCategoryId = 1;
 		articleCategoryService.delArticleCategory(articleCategoryId);
 		ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
@@ -91,7 +85,7 @@ public class ArticleCategoryServiceTest extends TestCase {
 	}
 	
 	@Test
-	public void testfindArticleCategory(){
+	public void findArticleCategory(){
 		ArticleCategory articleCategory = new ArticleCategory();
 		
 		articleCategory.setId(1);
@@ -107,7 +101,7 @@ public class ArticleCategoryServiceTest extends TestCase {
 	}
 	
 	@Test
-	public void testfindArticleCategoryAll(){
+	public void findArticleCategoryAll(){
 		List<ArticleCategory> articleCategorys = new ArrayList<ArticleCategory>();
 		
 		ArticleCategory vo = new ArticleCategory();
