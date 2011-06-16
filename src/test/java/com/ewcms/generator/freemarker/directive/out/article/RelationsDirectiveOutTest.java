@@ -7,7 +7,9 @@
 package com.ewcms.generator.freemarker.directive.out.article;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,6 +17,9 @@ import org.junit.Test;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Relation;
 import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
+
+import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateScalarModel;
 
 /**
  * RelationsDirectiveOut单元测试
@@ -57,6 +62,22 @@ public class RelationsDirectiveOutTest {
         		"<li><a href=\"/index.html\" title=\"test\" target=\"_blank\">test</a></li>" +
         		"<li><a href=\"/index1.html\" title=\"test1\" target=\"_blank\">test1</a></li>" +
         		"</ul>";
+        Assert.assertEquals(expected, outValue);
+    }
+    
+    @Test
+    public void testClassAndStyleOfConstructOut()throws Exception{
+        RelationsDirectiveOut out = new RelationsDirectiveOut();
+        
+        Map<String,TemplateScalarModel> params = new HashMap<String,TemplateScalarModel>();
+        params.put("class", new SimpleScalar("test_class"));
+        params.put("style", new SimpleScalar("test_style"));
+        
+        String outValue = out.constructOut(initRelateds(), null, params);
+        String expected = "<ul class=\"test_class\" style=\"test_style\">" +
+                "<li><a href=\"/index.html\" title=\"test\" target=\"_blank\">test</a></li>" +
+                "<li><a href=\"/index1.html\" title=\"test1\" target=\"_blank\">test1</a></li>" +
+                "</ul>";
         Assert.assertEquals(expected, outValue);
     }
     

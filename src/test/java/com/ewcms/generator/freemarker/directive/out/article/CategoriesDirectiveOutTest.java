@@ -7,13 +7,17 @@
 package com.ewcms.generator.freemarker.directive.out.article;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.ewcms.content.document.model.ArticleCategory;
-import com.ewcms.generator.freemarker.directive.out.article.CategoriesDirectiveOut;
+
+import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateScalarModel;
 
 /**
  * CategoriesDirectiveOutss单元测试
@@ -45,6 +49,19 @@ public class CategoriesDirectiveOutTest {
         CategoriesDirectiveOut out = new CategoriesDirectiveOut();
         String outValue = out.constructOut(initCategories(), null, null);
         String expected = "<ul><li>test</li><li>test1</li></ul>";
+        Assert.assertEquals(expected, outValue);
+    }
+    
+    @Test
+    public void testClassAndStyleOfConstructOut()throws Exception{
+        CategoriesDirectiveOut out = new CategoriesDirectiveOut();
+        
+        Map<String,TemplateScalarModel> params = new HashMap<String,TemplateScalarModel>();
+        params.put("class", new SimpleScalar("test_class"));
+        params.put("style", new SimpleScalar("test_style"));
+        
+        String outValue = out.constructOut(initCategories(), null, params);
+        String expected = "<ul class=\"test_class\" style=\"test_style\"><li>test</li><li>test1</li></ul>";
         Assert.assertEquals(expected, outValue);
     }
     
