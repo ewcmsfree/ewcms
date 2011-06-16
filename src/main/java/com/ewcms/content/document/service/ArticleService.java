@@ -56,7 +56,7 @@ public class ArticleService implements ArticleServiceable {
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 		if (article.getType() == ArticleType.TITLE){
-			titleContentNull(article);
+			titleArticleContentNull(article);
 		}else{
 			keywordAndSummary(article);
 		}
@@ -95,7 +95,7 @@ public class ArticleService implements ArticleServiceable {
 				if (article_old.getContents() != null && !article_old.getContents().isEmpty()) {
 					article.setContents(article_old.getContents());
 				} else {
-					titleContentNull(article);
+					titleArticleContentNull(article);
 				}
 			}
 			article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
@@ -126,7 +126,7 @@ public class ArticleService implements ArticleServiceable {
 		}
 	}
 	
-	private void titleContentNull(Article article){
+	private void titleArticleContentNull(Article article){
 		Content content = new Content();
 		content.setDetail("");
 		content.setPage(1);
