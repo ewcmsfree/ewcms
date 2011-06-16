@@ -59,6 +59,9 @@ public class ArticleDirective extends ObjectPropertyDirective{
     protected Object loopValue(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
         DirectiveOutable out = getDirectiveOut(propertyName);
         Object propertyValue = getValue(objectValue, propertyName);
+        if(EmptyUtil.isNull(propertyValue)){
+            return null;
+        }
         return out.loopValue(propertyValue, env, params);
     }
     
@@ -67,6 +70,9 @@ public class ArticleDirective extends ObjectPropertyDirective{
     protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
         DirectiveOutable out = getDirectiveOut(propertyName);
         Object propertyValue = getValue(objectValue, propertyName);
+        if(EmptyUtil.isNull(propertyValue)){
+            return null;
+        }
         return out.constructOut(propertyValue, env, params);
     }
     
