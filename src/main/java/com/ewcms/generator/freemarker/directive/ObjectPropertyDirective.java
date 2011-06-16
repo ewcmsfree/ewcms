@@ -43,17 +43,18 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     private static final String NAME_PARAM_NAME = "name";
     private static final String DEFAULT_LOOP_NAME = "o";
     
-    private String valueParam = VALUE_PARAM_NAME;
-    private String nameParam = NAME_PARAM_NAME;
-    private String defaultLoop = DEFAULT_LOOP_NAME;
+    protected String valueParam = VALUE_PARAM_NAME;
+    protected String nameParam = NAME_PARAM_NAME;
+    protected String defaultLoop = DEFAULT_LOOP_NAME;
     
     @Override
     @SuppressWarnings("rawtypes")
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         
+        String propertyName = getPropertyName(env,params);
         Object objectValue = getObjectValue(env, params);
-        String propertyName = getPropertyName(params);
+        
         if(EmptyUtil.isNull(propertyName)){
             logger.error("\"name\" parameter must set");
             throw new TemplateModelException("\"name\" parameter must set");
@@ -129,12 +130,9 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      */
     @SuppressWarnings("rawtypes")
     protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException,NoSuchMethodException{
+        Assert.notNull(objectValue);
         Object value = getValue(objectValue,propertyName);
-        if(EmptyUtil.isNull(value)){
-            return null;
-        }else{
-            return getValue(objectValue,propertyName).toString();
-        }
+        return value == null ? null : value.toString();
     }
     
     /**
@@ -156,10 +154,15 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
             return object;
         }
 
-        String variable = FreemarkerUtil.getString(params, valueParam);
-        if (EmptyUtil.isNotNull(variable)) {
-            logger.debug("Get value param is {}", variable);
-            object = FreemarkerUtil.getBean(env, variable);
+        String name = FreemarkerUtil.getString(params, valueParam);
+        logger.debug("Get variable is {} in params",name);
+        if(EmptyUtil.isNull(name)){
+            name = FreemarkerUtil.getString(env, valueParam);
+            logger.debug("Get variable is {} in env",name);
+        }
+        if (EmptyUtil.isNotNull(name)) {
+            logger.debug("Get value param is {}", name);
+            object = FreemarkerUtil.getBean(env, name);
             if (EmptyUtil.isNotNull(object)) {
                 logger.debug("Get value is {}",object);
                 return object;
@@ -179,8 +182,11 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    protected String getPropertyName(final Map params)throws TemplateModelException {
+    protected String getPropertyName(final Environment env, final Map params)throws TemplateModelException {
         String property = FreemarkerUtil.getString(params, nameParam);
+        if(property == null){
+            property = FreemarkerUtil.getString(env, nameParam);
+        }
         logger.debug("Property name is {}",property);
         return property;
     }
