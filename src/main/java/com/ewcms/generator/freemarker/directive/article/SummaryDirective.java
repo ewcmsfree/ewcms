@@ -6,34 +6,16 @@
 
 package com.ewcms.generator.freemarker.directive.article;
 
-import java.io.IOException;
-import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
-import com.ewcms.generator.freemarker.directive.ArticleDirective;
-
-import freemarker.core.Environment;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-
 /**
  * 文章摘要标签
  *
  * @deprecated
  * @author wangwei
  */
-@Service("direcitve.article.summary")
-public class SummaryDirective extends ArticleDirective{
+public class SummaryDirective extends ArticlePropertyDirective{
 
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        
-        params.put("name", new SimpleScalar("summary"));
-        super.execute(env, params, loopVars, body);
+    protected String getPropertyName() {
+        return "summary";
     }
 }

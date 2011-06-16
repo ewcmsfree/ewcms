@@ -6,31 +6,16 @@
 
 package com.ewcms.generator.freemarker.directive.article;
 
-import java.io.IOException;
-import java.util.Map;
-
-import com.ewcms.generator.freemarker.directive.ArticleDirective;
-
-import freemarker.core.Environment;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-
 /**
  * 文章发布时间标签
  * 
  * @deprecated
  * @author wangwei
  */
-public class PubDateDirective extends ArticleDirective {
+public class PubDateDirective extends ArticlePropertyDirective {
 
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        
-        params.put("name", new SimpleScalar("published"));
-        super.execute(env, params, loopVars, body);
+    protected String getPropertyName() {
+        return "published";
     }
 }

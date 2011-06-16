@@ -6,31 +6,16 @@
 
 package com.ewcms.generator.freemarker.directive.article;
 
-import java.io.IOException;
-import java.util.Map;
-
-import com.ewcms.generator.freemarker.directive.ArticleDirective;
-
-import freemarker.core.Environment;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-
 /**
  * 副标题标签
  * 
  * @deprecated
  * @author wangwei
  */
-public class SubTitleDirective extends ArticleDirective {
+public class SubTitleDirective extends ArticlePropertyDirective {
 
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        
-        params.put("name", new SimpleScalar("subTitle"));
-        super.execute(env, params, loopVars, body);
+    protected String getPropertyName() {
+        return "subTitle";
     }
 }
