@@ -43,8 +43,8 @@ public class ArticleDirective extends ObjectPropertyDirective{
     private Map<String,String> aliasProperties = new HashMap<String,String>(DEFAULT_ALIAS_PROPERTIES);
     private Map<String,DirectiveOutable> propertyDirectiveOuts = new HashMap<String,DirectiveOutable>(DEFAULT_PROPERTY_DIRECTIVEOUTS);
     
-    @Override
     @SuppressWarnings("rawtypes")
+    @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
         
