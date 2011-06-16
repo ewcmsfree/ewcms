@@ -6,6 +6,7 @@
 
 package com.ewcms.generator.freemarker.directive;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.generator.freemarker.FreemarkerUtil;
+import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.out.DateDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.DefaultDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.article.CategoriesDirectiveOut;
@@ -21,6 +24,9 @@ import com.ewcms.generator.freemarker.directive.out.article.ContentDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
 
 import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -34,27 +40,39 @@ public class ArticleDirective extends ObjectPropertyDirective{
     private static final Map<String,String> DEFAULT_ALIAS_PROPERTIES = initDefaultAliasProperties();
     private static final Map<String,DirectiveOutable> DEFAULT_PROPERTY_DIRECTIVEOUTS = initDefaultPropertyDirectiveOuts();
     
-    private Map<String,String> aliasProperties = DEFAULT_ALIAS_PROPERTIES;
-    private Map<String,DirectiveOutable> propertyDirectiveOuts = DEFAULT_PROPERTY_DIRECTIVEOUTS;
+    private Map<String,String> aliasProperties = new HashMap<String,String>(DEFAULT_ALIAS_PROPERTIES);
+    private Map<String,DirectiveOutable> propertyDirectiveOuts = new HashMap<String,DirectiveOutable>(DEFAULT_PROPERTY_DIRECTIVEOUTS);
     
-    @SuppressWarnings("rawtypes")
     @Override
-    protected Object loopValue(Object value,String propertyName,Environment env, Map params)throws TemplateModelException{
-        DirectiveOutable out = getDirectiveOut(propertyName);
-        return out.loopValue(value, env, params);
+    @SuppressWarnings("rawtypes")
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        
+        FreemarkerUtil.setVariable(env, valueParam, GlobalVariable.DOCUMENT.toString());
+        super.execute(env, params, loopVars, body);
+        FreemarkerUtil.removeVariable(env, valueParam);
     }
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected String constructOut(Object value,String propertyName,Environment env, Map params)throws TemplateModelException{
+    protected Object loopValue(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
         DirectiveOutable out = getDirectiveOut(propertyName);
-        return out.constructOut(value, env, params);
+        Object propertyValue = getValue(objectValue, propertyName);
+        return out.loopValue(propertyValue, env, params);
     }
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected String getPropertyName(Map params)throws TemplateModelException{
-        String value = super.getPropertyName(params);
+    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
+        DirectiveOutable out = getDirectiveOut(propertyName);
+        Object propertyValue = getValue(objectValue, propertyName);
+        return out.constructOut(propertyValue, env, params);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected String getPropertyName(Environment env,Map params)throws TemplateModelException{
+        String value = super.getPropertyName(env,params);
         return getPropertyName(value);
     }
     
@@ -136,7 +154,7 @@ public class ArticleDirective extends ObjectPropertyDirective{
         map.put("relations","relations");
         
         map.put("正文", "contents");
-        map.put("content", "contents");
+        map.put("contents", "contents");
         
         map.put("创建时间", "createTime");
         map.put("createTime", "createTime");
