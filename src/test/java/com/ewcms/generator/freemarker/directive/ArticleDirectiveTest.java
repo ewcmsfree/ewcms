@@ -6,18 +6,28 @@
 
 package com.ewcms.generator.freemarker.directive;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.content.document.model.Article;
+import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.out.DateDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.DefaultDirectiveOut;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  * ArticleDirective单元测试
  * 
  * @author wangwei
  */
-public class ArticleDirectiveTest {
+public class ArticleDirectiveTest extends FreemarkerTest{
 
     @Test
     public void testNewPutDirective()throws Exception{
@@ -73,7 +83,7 @@ public class ArticleDirectiveTest {
             Assert.assertNotNull(out);
         }
     }
-    
+        
     private String[] initAliases(){
         return new String[]{
                 "编号","标题","短标题","副标题","作者","编辑",
@@ -81,5 +91,36 @@ public class ArticleDirectiveTest {
                 "链接地址","关联文章","正文","创建时间","修改时间",
                 "发布时间"
         };
+    }
+
+    @Override
+    protected void currentConfiguration(Configuration cfg) {
+        cfg.setSharedVariable("article", new ArticleDirective());
+    }
+    
+    /**
+     * 得到模板路径
+     * 
+     * @param name 模板名
+     * @return
+     */
+    private String getTemplatePath(String name){
+        return String.format("directive/article/%s", name);
+    }
+    
+    @Test
+    public void testArticleTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("article.html"));
+
+        Map<Object,Object> params= new HashMap<Object,Object>();
+        Article article = new Article();
+        article.setTitle("标题");
+        params.put(GlobalVariable.DOCUMENT.toString(),article);
+        String value = this.process(template, params);
+        
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertTrue(value.indexOf("标题_alias") != -1);
+        Assert.assertTrue(value.indexOf("标题_property") != -1);
+        Assert.assertTrue(value.indexOf("</html>") != -1);
     }
 }
