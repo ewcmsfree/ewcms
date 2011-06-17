@@ -38,11 +38,8 @@ import freemarker.template.TemplateModelException;
 public class ArticleDirective extends ObjectPropertyDirective{
     private static final Logger logger = LoggerFactory.getLogger(ArticleDirective.class);
     
-    private static final Map<String,String> DEFAULT_ALIAS_PROPERTIES = initDefaultAliasProperties();
-    private static final Map<String,DirectiveOutable> DEFAULT_PROPERTY_DIRECTIVEOUTS = initDefaultPropertyDirectiveOuts();
-    
-    private Map<String,String> aliasProperties = new HashMap<String,String>(DEFAULT_ALIAS_PROPERTIES);
-    private Map<String,DirectiveOutable> propertyDirectiveOuts = new HashMap<String,DirectiveOutable>(DEFAULT_PROPERTY_DIRECTIVEOUTS);
+    private Map<String,String> aliasProperties = initDefaultAliasProperties();
+    private Map<String,DirectiveOutable> propertyDirectiveOuts = initDefaultPropertyDirectiveOuts();
     
     @SuppressWarnings("rawtypes")
     @Override
@@ -115,7 +112,12 @@ public class ArticleDirective extends ObjectPropertyDirective{
         return out;
     }
     
-    private static Map<String,String> initDefaultAliasProperties(){
+    /**
+     * 初始化缺省别名和属性名对应表
+     * 
+     * @return
+     */
+    protected Map<String,String> initDefaultAliasProperties(){
         Map<String,String> map = new HashMap<String,String>();
         
         map.put("编号", "id");
@@ -175,7 +177,12 @@ public class ArticleDirective extends ObjectPropertyDirective{
         return map;
     }
     
-    private static Map<String,DirectiveOutable> initDefaultPropertyDirectiveOuts(){
+    /**
+     * 初始化属性标签输出
+     * 
+     * @return
+     */
+    protected Map<String,DirectiveOutable> initDefaultPropertyDirectiveOuts(){
         Map<String,DirectiveOutable> map = new HashMap<String,DirectiveOutable>();
         
         map.put("id", new DefaultDirectiveOut());
