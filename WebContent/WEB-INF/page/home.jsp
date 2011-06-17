@@ -124,7 +124,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('任务设置','scheduling/job/index.do')"> 
+                        <a href="javascript:addTab('任务设置','scheduling/jobinfo/index.do')"> 
                             <img src="source/image/scheduling_job.png" style="border: 0" /><br/>
                             <span>任务设置</span>
                          </a>
