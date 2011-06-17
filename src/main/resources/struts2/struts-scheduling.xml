@@ -26,7 +26,7 @@
 		<action name="delete" class="com.ewcms.scheduling.web.JobInfoAction" method="delete"/>
 		<action name="query" class="com.ewcms.scheduling.web.JobInfoQueryAction" method="query"/>
 		<action name="input" class="com.ewcms.scheduling.web.JobInfoAction" method="input">
-			<result name="input">/WEB-INF/page/scheduling/jobInfo/edit.jsp</result>
+			<result name="input">/WEB-INF/page/scheduling/jobinfo/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.scheduling.web.JobInfoAction" method="save">
 			<result>/WEB-INF/page/scheduling/jobinfo/edit.jsp</result>
