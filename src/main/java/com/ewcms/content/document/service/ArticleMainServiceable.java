@@ -132,4 +132,12 @@ public interface ArticleMainServiceable {
 	 * @return Boolean true:存在,false:不存在
 	 */
 	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
+	
+	/**
+	 * 清除文章主体排序
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void clearArticleMainSort(Long articleMainId, Integer channelId);
 }

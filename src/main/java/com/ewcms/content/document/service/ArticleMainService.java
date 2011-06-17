@@ -282,6 +282,14 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (articleMain == null) return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public void clearArticleMainSort(Long articleMainId, Integer channelId) {
+		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+		Assert.notNull(articleMain);
+		if (articleMain.getSort() != null){
+			articleMain.setSort(null);
+			articleMainDAO.merge(articleMain);
+		}
+	}
 }
