@@ -190,4 +190,13 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	protected ArticleMain getOperator(Long pk) {
 		return null;
 	}
+	
+	public void clearSortArticle(){
+		try{
+			documentFac.clearArticleMainSort(getSelections().get(0), getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
 }
