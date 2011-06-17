@@ -31,7 +31,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
- * 文章标签
+ * 文章属性标签
  * 
  * @author wangwei
  */
