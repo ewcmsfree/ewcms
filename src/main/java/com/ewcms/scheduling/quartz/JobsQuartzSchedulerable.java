@@ -10,13 +10,13 @@ import java.util.List;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.common.ValidationErrorsable;
-import com.ewcms.scheduling.model.AlqcJob;
+import com.ewcms.scheduling.model.JobInfo;
 
 /**
  * 
  * @author 吴智俊
  */
-public interface AlqcJobsQuartzSchedulerable {
+public interface JobsQuartzSchedulerable {
 
     /**
      * 新建调度任务
@@ -24,7 +24,7 @@ public interface AlqcJobsQuartzSchedulerable {
      * @param job 调度器任务
      * @throws BaseException
      */
-    public void scheduleJob(AlqcJob job) throws BaseException;
+    public void scheduleJob(JobInfo job) throws BaseException;
 
     /**
      * 修改调度任务
@@ -32,7 +32,7 @@ public interface AlqcJobsQuartzSchedulerable {
      * @param job 调度器任务
      * @throws BaseException
      */
-    public void rescheduleJob(AlqcJob job) throws BaseException;
+    public void rescheduleJob(JobInfo job) throws BaseException;
 
     /**
      * 删除调度任务
@@ -63,7 +63,7 @@ public interface AlqcJobsQuartzSchedulerable {
      * @param listener 监听接口
      * @throws BaseException
      */
-    public void addAlqcSchedulerListener(AlqcSchedulerListenerable listener) throws BaseException;
+    public void addSchedulerListener(SchedulerListenerable listener) throws BaseException;
 
     /**
      * 删除调度器监听接口
@@ -71,16 +71,16 @@ public interface AlqcJobsQuartzSchedulerable {
      * @param listener 监听接口
      * @throws BaseException
      */
-    public void removeAlqcSchedulerListener(AlqcSchedulerListenerable listener) throws BaseException;
+    public void removeSchedulerListener(SchedulerListenerable listener) throws BaseException;
 
     /**
      * 查询调度器任务状态
      *
-     * @param alqcJobs 调度器任务集合
+     * @param jobInfos 调度器任务集合
      * @return List
      * @throws BaseException
      */
-    public List<AlqcJob> getJobsRuntimeInformation(List<AlqcJob> alqcJobs) throws BaseException;
+    public List<JobInfo> getJobsRuntimeInformation(List<JobInfo> jobInfos) throws BaseException;
 
     /**
      * 校验调度器任务
@@ -89,5 +89,5 @@ public interface AlqcJobsQuartzSchedulerable {
      * @param errors 错误信息
      * @throws BaseException
      */
-    public void validate(AlqcJob job, ValidationErrorsable errors) throws BaseException;
+    public void validate(JobInfo job, ValidationErrorsable errors) throws BaseException;
 }

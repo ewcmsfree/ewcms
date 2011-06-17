@@ -14,7 +14,7 @@ import com.ewcms.scheduling.BaseException;
  *
  * @author 吴智俊
  */
-public interface AlqcSchedulerListenerable {
+public interface SchedulerListenerable {
 
-    public void alqcJobFinalized(Integer jobId) throws BaseException;
+    public void jobFinalized(Integer jobId) throws BaseException;
 }

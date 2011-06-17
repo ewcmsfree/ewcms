@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "job_class")
 @SequenceGenerator(name = "seq_job_class", sequenceName = "seq_job_class_id", allocationSize = 1)
-public class AlqcJobClass implements Serializable {
+public class JobClass implements Serializable {
 
 	private static final long serialVersionUID = -4428638031352721701L;
 
@@ -77,7 +77,7 @@ public class AlqcJobClass implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final AlqcJobClass other = (AlqcJobClass) obj;
+		final JobClass other = (JobClass) obj;
 		if (this.id != other.id
 				&& (this.id == null || !this.id.equals(other.id))) {
 			return false;

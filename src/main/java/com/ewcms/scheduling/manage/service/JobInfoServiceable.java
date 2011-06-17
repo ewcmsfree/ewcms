@@ -9,27 +9,27 @@ package com.ewcms.scheduling.manage.service;
 import java.util.List;
 
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.scheduling.model.AlqcJob;
+import com.ewcms.scheduling.model.JobInfo;
 
 /**
  * @author 吴智俊
  */
-public interface AlqcJobServiceable {
+public interface JobInfoServiceable {
 	/**
 	 * 新增调度工作
 	 * 
-	 * @param alqcJob 
+	 * @param jobInfo 
 	 * @throws BaseException
 	 */
-	public AlqcJob saveJob(AlqcJob alqcJob) ;
+	public JobInfo saveJob(JobInfo jobInfo) ;
 	
 	/**
 	 * 修改调度工作
 	 * 
-	 * @param alqcJob
+	 * @param jobInfo
 	 * @throws BaseException
 	 */
-	public AlqcJob updateJob(AlqcJob alqcJob) ;
+	public JobInfo updateJob(JobInfo jobInfo) ;
 	
 	/**
 	 * 查询调度工作
@@ -38,7 +38,7 @@ public interface AlqcJobServiceable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public AlqcJob findByJob(Integer id) ;
+	public JobInfo findByJob(Integer id) ;
 	
 	/**
 	 * 查询所有的调度
@@ -46,7 +46,7 @@ public interface AlqcJobServiceable {
 	 * @param context
 	 * @return
 	 */
-	public List<AlqcJob> findByAllJob();
+	public List<JobInfo> findByAllJob();
 	
 	/**
 	 * 删除调度工作

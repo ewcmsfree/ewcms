@@ -12,13 +12,13 @@ import com.ewcms.scheduling.common.ValidationErrorsable;
 /**
  * @author 吴智俊
  */
-public class AlqcValidationException extends BaseException {
+public class ValidationException extends BaseException {
 	
 	private static final long serialVersionUID = -900119303006387745L;
 	
 	private final ValidationErrorsable errors;
 	
-	public AlqcValidationException(ValidationErrorsable errors) {
+	public ValidationException(ValidationErrorsable errors) {
 		super(errors.toString(), errors.toString());
 		
 		this.errors = errors;

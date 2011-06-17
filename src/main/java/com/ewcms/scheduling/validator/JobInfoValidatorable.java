@@ -8,14 +8,14 @@ package com.ewcms.scheduling.validator;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.common.ValidationErrorsable;
-import com.ewcms.scheduling.model.AlqcJob;
+import com.ewcms.scheduling.model.JobInfo;
 
 /**
  * 调度任务时间表达式效验接口
  *
  * @author 吴智俊
  */
-public interface AlqcJobValidatorable {
+public interface JobInfoValidatorable {
 
-    public ValidationErrorsable validateJob(AlqcJob job) throws BaseException;
+    public ValidationErrorsable validateJob(JobInfo job) throws BaseException;
 }

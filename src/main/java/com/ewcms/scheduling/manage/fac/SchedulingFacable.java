@@ -10,30 +10,30 @@ import java.util.List;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.common.ValidationErrorsable;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobClass;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobClass;
 
 /**
  * @author 吴智俊
  */
-public interface AlqcSchedulingFacable {
+public interface SchedulingFacable {
 
 	/**
 	 * 新增调度工作
 	 * 
-	 * @param job
+	 * @param jobInfo
 	 * @return
 	 * @throws BaseException
 	 */
-	public Integer saveScheduleJob(AlqcJob alqcJob) throws BaseException;
+	public Integer saveScheduleJob(JobInfo jobInfo) throws BaseException;
 	
 	/**
 	 * 修改调度工作
 	 * 
-	 * @param alqcJobReport
+	 * @param jobInfo
 	 * @throws BaseException
 	 */
-	public Integer updateScheduledJob(AlqcJob alqcJob) throws BaseException;
+	public Integer updateScheduledJob(JobInfo jobInfo) throws BaseException;
 	
 	/**
 	 * 查询所有调度工作
@@ -41,7 +41,7 @@ public interface AlqcSchedulingFacable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public List<AlqcJob> getScheduledJobs() throws BaseException;
+	public List<JobInfo> getScheduledJobs() throws BaseException;
 
 	/**
 	 * 删除调度工作
@@ -58,28 +58,28 @@ public interface AlqcSchedulingFacable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public AlqcJob getScheduledJob(Integer jobId) throws BaseException;
+	public JobInfo getScheduledJob(Integer jobId) throws BaseException;
 
 	/**
 	 * 校验调度工作
 	 * 
-	 * @param alqcJobReport
+	 * @param jobInfo
 	 * @return
 	 * @throws BaseException
 	 */
-	public ValidationErrorsable validateJob(AlqcJob alqcJob) throws BaseException;
+	public ValidationErrorsable validateJob(JobInfo jobInfo) throws BaseException;
 	
-    public Integer saveJobClass(AlqcJobClass alqcJobClass) throws BaseException;
+    public Integer saveJobClass(JobClass jobClass) throws BaseException;
 
-    public Integer updateJobClass(AlqcJobClass alqcJobClass) throws BaseException;
+    public Integer updateJobClass(JobClass jobClass) throws BaseException;
 
-    public AlqcJobClass findByJobClass(Integer id) throws BaseException;
+    public JobClass findByJobClass(Integer id) throws BaseException;
 
-    public List<AlqcJobClass> findByAllJobClass() throws BaseException;
+    public List<JobClass> findByAllJobClass() throws BaseException;
     
     public void deletedJobClass(Integer id) throws BaseException;
 
-	public AlqcJobClass findByAlqcJobClassByClassEntity(String classEntity) throws BaseException;
+	public JobClass findByJobClassByClassEntity(String classEntity) throws BaseException;
 	
 	/**
 	 * 暂停调度工作

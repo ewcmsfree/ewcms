@@ -40,7 +40,7 @@ import javax.persistence.Version;
 @Table(name = "job_trigger")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "seq_job_trigger", sequenceName = "seq_job_trigger_id", allocationSize = 1)
-public class AlqcJobTrigger implements Serializable {
+public class JobTrigger implements Serializable {
 
     private static final long serialVersionUID = -6866914186969004480L;
     public static final Integer START_TYPE_NOW = 1;//立刻执行
@@ -64,7 +64,7 @@ public class AlqcJobTrigger implements Serializable {
     @Column(name = "enddate")
     private Date endDate;
 
-    public AlqcJobTrigger() {
+    public JobTrigger() {
         version = -1;
     }
 
@@ -135,7 +135,7 @@ public class AlqcJobTrigger implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AlqcJobTrigger other = (AlqcJobTrigger) obj;
+        JobTrigger other = (JobTrigger) obj;
         if (id == null) {
             if (other.id != null) {
                 return false;

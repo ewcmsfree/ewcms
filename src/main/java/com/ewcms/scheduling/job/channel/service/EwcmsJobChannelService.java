@@ -17,13 +17,13 @@ import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.job.JobClassEntity;
 import com.ewcms.scheduling.job.channel.dao.EwcmsJobChannelDAO;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
-import com.ewcms.scheduling.manage.dao.AlqcJobClassDAO;
-import com.ewcms.scheduling.manage.dao.AlqcJobDAO;
-import com.ewcms.scheduling.manage.fac.AlqcSchedulingFacable;
+import com.ewcms.scheduling.manage.dao.JobClassDAO;
+import com.ewcms.scheduling.manage.dao.JobInfoDAO;
+import com.ewcms.scheduling.manage.fac.SchedulingFacable;
 import com.ewcms.scheduling.manage.util.ConversionUtil;
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobClass;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobClass;
 
 /**
  * 频道定时任务Service
@@ -37,19 +37,19 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	@Autowired
 	private ChannelDAO channelDAO;
 	@Autowired
-	private AlqcJobDAO alqcJobDAO;
+	private JobInfoDAO jobInfoDAO;
 	@Autowired
-	private AlqcJobClassDAO alqcJobClassDAO;
+	private JobClassDAO jobClassDAO;
 	@Autowired
-	private AlqcSchedulingFacable alqcSchedulingFac;
+	private SchedulingFacable schedulingFac;
 	
 	@Override
 	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException{
 		Channel channel = channelDAO.get(channelId);
 		if (channel != null) {
-			AlqcJob alqcJob = new AlqcJob();
+			JobInfo alqcJob = new JobInfo();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0){
-				alqcJob = alqcJobDAO.get(vo.getJobId());
+				alqcJob = jobInfoDAO.get(vo.getJobId());
 			}
 			
 			if (alqcJob == null) {
@@ -64,13 +64,13 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 				jobChannel.setId(vo.getJobId());
 				jobChannel.setJobClass(alqcJob.getJobClass());
 			}else{
-				AlqcJobClass alqcJobClass = null;
-				alqcJobClass = alqcJobClassDAO.findByAlqcJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
+				JobClass alqcJobClass = null;
+				alqcJobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
 				if (alqcJobClass.getId() == null) {
 					alqcJobClass.setClassEntity(JobClassEntity.JOB_CHANNEL);
 					alqcJobClass.setClassName("频道定时器类");
 					alqcJobClass.setDescription("频道定时器类");
-					alqcJobClassDAO.persist(alqcJobClass);
+					jobClassDAO.persist(alqcJobClass);
 				}
 				jobChannel.setJobClass(alqcJobClass);
 			}
@@ -86,9 +86,9 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 			jobChannel.setVersion(alqcJob.getVersion());
 			jobChannel.setChannel(channel);
 			if (jobChannel.getId() == null) {
-				return alqcSchedulingFac.saveScheduleJob(jobChannel);
+				return schedulingFac.saveScheduleJob(jobChannel);
 			} else {
-				return alqcSchedulingFac.updateScheduledJob(jobChannel);
+				return schedulingFac.updateScheduledJob(jobChannel);
 			}
 		}
 		return null;

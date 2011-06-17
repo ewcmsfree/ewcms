@@ -39,21 +39,21 @@ import com.ewcms.scheduling.BaseRuntimeException;
 import com.ewcms.scheduling.BaseRuntimeExceptionWrapper;
 import com.ewcms.scheduling.common.ValidationError;
 import com.ewcms.scheduling.common.ValidationErrorsable;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobCalendarTrigger;
-import com.ewcms.scheduling.model.AlqcJobSimpleTrigger;
-import com.ewcms.scheduling.model.AlqcJobTrigger;
-import com.ewcms.scheduling.vo.AlqcJobRuntimeInformation;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobCalendarTrigger;
+import com.ewcms.scheduling.model.JobSimpleTrigger;
+import com.ewcms.scheduling.model.JobTrigger;
+import com.ewcms.scheduling.vo.JobInfoRuntimeInformation;
 
 /**
  * @author 吴智俊
  */
-public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, InitializingBean {
+public class JobsQuartzScheduler implements JobsQuartzSchedulerable, InitializingBean {
 
-    protected static final Logger logger = LoggerFactory.getLogger(AlqcJobsQuartzScheduler.class);
+    protected static final Logger logger = LoggerFactory.getLogger(JobsQuartzScheduler.class);
     
-    private static final String GROUP = "AlqcJobs";
-    private static final String TRIGGER_LISTENER_NAME = "alqcSchedulerTriggerListener";
+    private static final String GROUP = "Jobs";
+    private static final String TRIGGER_LISTENER_NAME = "schedulerTriggerListener";
     private static final String JOB_DATA_KEY_DETAILS_ID = "jobDetailsID";
     
     private static final Long COEFFICIENT_MINUTE = 60L * 1000L;
@@ -65,15 +65,15 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
     
     private Scheduler scheduler;
 
-    private final Set<AlqcSchedulerListenerable> listeners;
+    private final Set<SchedulerListenerable> listeners;
     private final SchedulerListener schedulerListener;
     private final TriggerListener triggerListener;
 
-    public AlqcJobsQuartzScheduler() {
-        listeners = new HashSet<AlqcSchedulerListenerable>();
+    public JobsQuartzScheduler() {
+        listeners = new HashSet<SchedulerListenerable>();
 
-        schedulerListener = new AlqcSchedulerQuartzListener();
-        triggerListener = new AlqcSchedulerTriggerListener(TRIGGER_LISTENER_NAME);
+        schedulerListener = new SchedulerQuartzListener();
+        triggerListener = new SchedulerTriggerListener(TRIGGER_LISTENER_NAME);
     }
 
     public Scheduler getScheduler() {
@@ -96,12 +96,12 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         }
     }
 
-    public void scheduleJob(AlqcJob job) throws BaseException {
+    public void scheduleJob(JobInfo job) throws BaseException {
         JobDetail jobDetail = createJobDetail(job);
         Trigger trigger = createTrigger(job);
         try {
             scheduler.scheduleJob(jobDetail, trigger);
-            logger.info("AlqcJobsQuartzScheduler：为任务 " + job.getId() + " 创建任务 " + jobDetail.getFullName() + " 和触发器 " + trigger.getFullName());
+            logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 创建任务 " + jobDetail.getFullName() + " 和触发器 " + trigger.getFullName());
         } catch (SchedulerException e) {
             logger.error("调度Quartz任务时错误", e);
             throw new BaseException(e.toString(), "调度Quartz任务时错误");
@@ -115,7 +115,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return JobDetail
      */
     @SuppressWarnings("unchecked")
-	protected JobDetail createJobDetail(AlqcJob job) {
+	protected JobDetail createJobDetail(JobInfo job) {
         String jobName = jobName(job.getId());
         String jobClassEntity = job.getJobClass().getClassEntity().trim();
         try {
@@ -133,9 +133,9 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         }
     }
 
-    public void rescheduleJob(AlqcJob job) throws BaseException {
+    public void rescheduleJob(JobInfo job) throws BaseException {
         try {
-            Trigger oldTrigger = getAlqcJobTrigger(job.getId());
+            Trigger oldTrigger = getJobTrigger(job.getId());
 
             String jobName = jobName(job.getId());
             Trigger trigger = createTrigger(job);
@@ -145,10 +145,10 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
             if (oldTrigger == null) {
                 JobDetail jobDetail = createJobDetail(job);
                 scheduler.scheduleJob(jobDetail, trigger);
-                logger.info("AlqcJobsQuartzScheduler：为任务 " + job.getId() + " 建立触发器 " + trigger.getFullName());
+                logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 建立触发器 " + trigger.getFullName());
             } else {
                 scheduler.rescheduleJob(oldTrigger.getName(), oldTrigger.getGroup(), trigger);
-                logger.info("AlqcJobsQuartzScheduler：为任务 " + job.getId() + " 把触发器 " + oldTrigger.getFullName() + " 改为 " + trigger.getFullName());
+                logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 把触发器 " + oldTrigger.getFullName() + " 改为 " + trigger.getFullName());
             }
         } catch (SchedulerException e) {
             logger.error("调度Quartz任务错误", e);
@@ -164,16 +164,16 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @throws SchedulerException
      * @throws BaseException
      */
-    protected Trigger getAlqcJobTrigger(Integer jobId) throws SchedulerException, BaseException {
+    protected Trigger getJobTrigger(Integer jobId) throws SchedulerException, BaseException {
         Trigger trigger;
         String jobName = jobName(jobId);
         Trigger[] triggers = scheduler.getTriggersOfJob(jobName, GROUP);
         if (triggers == null || triggers.length == 0) {
             trigger = null;
-            logger.info("AlqcJobsQuartzScheduler：在任务 " + jobId + " 中未找到触发器");
+            logger.info("JobsQuartzScheduler：在任务 " + jobId + " 中未找到触发器");
         } else if (triggers.length == 1) {
             trigger = triggers[0];
-            logger.info("AlqcJobsQuartzScheduler：在任务 " + jobId + " 找到触发器 " + trigger.getFullName());
+            logger.info("JobsQuartzScheduler：在任务 " + jobId + " 找到触发器 " + trigger.getFullName());
         } else {
         	logger.error("任务有一个以上的触发器", new Object[] {new Integer(jobId)});
             throw new BaseException("任务有一个以上的触发器", "任务有一个以上的触发器");
@@ -194,27 +194,27 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
     /**
      * 设置触发器名称
      *
-     * @param alqcJobTrigger 触发器
+     * @param jobTrigger 触发器
      * @return String
      */
-    protected String triggerName(AlqcJobTrigger alqcJobTrigger) {
-        return "trigger_" + alqcJobTrigger.getId() + "_" + alqcJobTrigger.getVersion();
+    protected String triggerName(JobTrigger jobTrigger) {
+        return "trigger_" + jobTrigger.getId() + "_" + jobTrigger.getVersion();
     }
 
     /**
      * 建立触发器
      *
-     * @param alqcJob 触发器
+     * @param jobInfo 触发器
      * @return Trigger
      * @throws BaseException
      */
-    protected Trigger createTrigger(AlqcJob alqcJob) throws BaseException {
+    protected Trigger createTrigger(JobInfo jobInfo) throws BaseException {
         Trigger trigger;
-        AlqcJobTrigger jobTrigger = alqcJob.getTrigger();
-        if (jobTrigger instanceof AlqcJobSimpleTrigger) {
-            trigger = createTrigger((AlqcJobSimpleTrigger) jobTrigger);
-        } else if (jobTrigger instanceof AlqcJobCalendarTrigger) {
-            trigger = createTrigger((AlqcJobCalendarTrigger) jobTrigger);
+        JobTrigger jobTrigger = jobInfo.getTrigger();
+        if (jobTrigger instanceof JobSimpleTrigger) {
+            trigger = createTrigger((JobSimpleTrigger) jobTrigger);
+        } else if (jobTrigger instanceof JobCalendarTrigger) {
+            trigger = createTrigger((JobCalendarTrigger) jobTrigger);
         } else {
         	String quotedJobTrigger = "\"" + jobTrigger.getClass().getName() + "\"";
         	logger.error("任务触发类型没有命名", new Object[] {quotedJobTrigger});
@@ -222,7 +222,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         }
 
         JobDataMap jobDataMap = trigger.getJobDataMap();
-        jobDataMap.put(JOB_DATA_KEY_DETAILS_ID, alqcJob.getId());
+        jobDataMap.put(JOB_DATA_KEY_DETAILS_ID, jobInfo.getId());
 
         trigger.addTriggerListener(TRIGGER_LISTENER_NAME);
 
@@ -237,7 +237,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return Trigger
      * @throws BaseException
      */
-    protected Trigger createTrigger(AlqcJobSimpleTrigger jobTrigger) throws BaseException {
+    protected Trigger createTrigger(JobSimpleTrigger jobTrigger) throws BaseException {
         String triggerName = triggerName(jobTrigger);
         Date startDate = getStartDate(jobTrigger);
         Date endDate = getEndDate(jobTrigger);
@@ -248,13 +248,13 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
             trigger = new SimpleTrigger(triggerName, GROUP, startDate);
         } else {
             int recurrenceInterval = jobTrigger.getRecurrenceInterval().intValue();
-            if (jobTrigger.getRecurrenceIntervalUnit().intValue() == AlqcJobSimpleTrigger.INTERVAL_MINUTE.intValue()) {
+            if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_MINUTE.intValue()) {
                 trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_MINUTE);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == AlqcJobSimpleTrigger.INTERVAL_HOUR.intValue()) {
+            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_HOUR.intValue()) {
                 trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_HOUR);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == AlqcJobSimpleTrigger.INTERVAL_DAY.intValue()) {
+            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_DAY.intValue()) {
                 trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_DAY);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == AlqcJobSimpleTrigger.INTERVAL_WEEK.intValue()) {
+            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_WEEK.intValue()) {
                 trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_WEEK);
             } else {
             	logger.error("不能识别任务执行的间隔数", new Object[] {jobTrigger.getRecurrenceIntervalUnit()});
@@ -274,11 +274,11 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return Date
      * @throws BaseException
      */
-    protected Date getEndDate(AlqcJobTrigger jobTrigger) throws BaseException {
+    protected Date getEndDate(JobTrigger jobTrigger) throws BaseException {
         return translateFromTriggerTimeZone(jobTrigger, jobTrigger.getEndDate());
     }
 
-    protected Date translateFromTriggerTimeZone(AlqcJobTrigger jobTrigger, Date date) throws BaseException {
+    protected Date translateFromTriggerTimeZone(JobTrigger jobTrigger, Date date) throws BaseException {
         if (date != null) {
             TimeZone tz = getTriggerTimeZone(jobTrigger);
             if (tz != null) {
@@ -295,15 +295,15 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return Date
      * @throws BaseException
      */
-    protected Date getStartDate(AlqcJobTrigger jobTrigger) throws BaseException {
+    protected Date getStartDate(JobTrigger jobTrigger) throws BaseException {
         Date startDate;
 
-        if (jobTrigger.getStartType().intValue() == AlqcJobTrigger.START_TYPE_NOW.intValue()) {
+        if (jobTrigger.getStartType().intValue() == JobTrigger.START_TYPE_NOW.intValue()) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             startDate = calendar.getTime();
-        } else if (jobTrigger.getStartType().intValue() == AlqcJobTrigger.START_TYPE_SCHEDULE.intValue()) {
+        } else if (jobTrigger.getStartType().intValue() == JobTrigger.START_TYPE_SCHEDULE.intValue()) {
             startDate = translateFromTriggerTimeZone(jobTrigger, jobTrigger.getStartDate());
         } else {
         	logger.error("任务开始类型没有赋值", new Object[] {jobTrigger.getStartType()});
@@ -318,10 +318,10 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @param jobTrigger
      * @return int
      */
-    protected int repeatCount(AlqcJobSimpleTrigger jobTrigger) {
+    protected int repeatCount(JobSimpleTrigger jobTrigger) {
         Integer recurrenceCount = jobTrigger.getOccurrenceCount();
         Integer repeatCount;
-        if (recurrenceCount.intValue() == AlqcJobSimpleTrigger.RECUR_INDEFINITELY.intValue()) {
+        if (recurrenceCount.intValue() == JobSimpleTrigger.RECUR_INDEFINITELY.intValue()) {
             repeatCount = SimpleTrigger.REPEAT_INDEFINITELY;
         } else {
             repeatCount = recurrenceCount - 1;
@@ -338,7 +338,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return Trigger
      * @throws BaseException
      */
-    protected Trigger createTrigger(AlqcJobCalendarTrigger jobTrigger) throws BaseException {
+    protected Trigger createTrigger(JobCalendarTrigger jobTrigger) throws BaseException {
         String triggerName = triggerName(jobTrigger);
         Date startDate = getStartDate(jobTrigger);
         Date endDate = getEndDate(jobTrigger);
@@ -370,7 +370,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return TimeZone
      * @throws BaseException
      */
-    protected TimeZone getTriggerTimeZone(AlqcJobTrigger jobTrigger) throws BaseException {
+    protected TimeZone getTriggerTimeZone(JobTrigger jobTrigger) throws BaseException {
         String tzId = jobTrigger.getTimeZone();
         TimeZone tz;
         if (tzId == null || tzId.length() == 0) {
@@ -393,18 +393,18 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      * @return String
      * @throws BaseException
      */
-    protected String getCronExpression(AlqcJobCalendarTrigger jobTrigger) throws BaseException {
+    protected String getCronExpression(JobCalendarTrigger jobTrigger) throws BaseException {
         String minutes = jobTrigger.getMinutes();
         String hours = jobTrigger.getHours();
         String weekDays;
         String monthDays;
-        if (jobTrigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_ALL.intValue()) {
+        if (jobTrigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_ALL.intValue()) {
             weekDays = "?";
             monthDays = "*";
-        } else if (jobTrigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_WEEK.intValue()) {
+        } else if (jobTrigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_WEEK.intValue()) {
             weekDays = enumerateCronVals(jobTrigger.getWeekDays(), COUNT_WEEKDAYS);
             monthDays = "?";
-        } else if (jobTrigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_MONTH.intValue()) {
+        } else if (jobTrigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_MONTH.intValue()) {
             weekDays = "?";
             monthDays = jobTrigger.getMonthDays();
         } else {
@@ -446,9 +446,9 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         try {
             String jobName = jobName(jobId);
             if (scheduler.deleteJob(jobName, GROUP)) {
-                logger.info("AlqcJobsQuartzScheduler：任务 " + jobName + " 被删除");
+                logger.info("JobsQuartzScheduler：任务 " + jobName + " 被删除");
             } else {
-                logger.info("AlqcJobsQuartzScheduler：Quartz任务 " + jobId + " 未查到不能删除");
+                logger.info("JobsQuartzScheduler：Quartz任务 " + jobId + " 未查到不能删除");
             }
         } catch (SchedulerException e) {
             logger.error("删除Quartz任务时错误", e);
@@ -456,40 +456,40 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         }
     }
 
-    public List<AlqcJob> getJobsRuntimeInformation(List<AlqcJob> alqcJobs) throws BaseException {
-        if (alqcJobs == null || alqcJobs.size() == 0) {
-            return new ArrayList<AlqcJob>();
+    public List<JobInfo> getJobsRuntimeInformation(List<JobInfo> jobInfos) throws BaseException {
+        if (jobInfos == null || jobInfos.size() == 0) {
+            return new ArrayList<JobInfo>();
         }
         try {
             Set<String> executingJobNames = getExecutingJobNames();
             SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            for (AlqcJob alqcJob : alqcJobs) {
-                AlqcJobRuntimeInformation info = getJobRuntimeInformation(alqcJob.getId(), executingJobNames);
-                alqcJob.setState(info.getState());
+            for (JobInfo jobInfo : jobInfos) {
+                JobInfoRuntimeInformation info = getJobRuntimeInformation(jobInfo.getId(), executingJobNames);
+                jobInfo.setState(info.getState());
                 if (info.getStartTime() != null){
-                	alqcJob.setStartTime(bartDateFormat.format(info.getStartTime()));
+                	jobInfo.setStartTime(bartDateFormat.format(info.getStartTime()));
                 }else{
                 	try{
-                		alqcJob.setStartTime(bartDateFormat.format(alqcJob.getTrigger().getStartDate()));
+                		jobInfo.setStartTime(bartDateFormat.format(jobInfo.getTrigger().getStartDate()));
                 	}catch(Exception e){
                 	}
                 }
                 if (info.getEndTime() != null){
-                	alqcJob.setEndTime(bartDateFormat.format(info.getEndTime()));
+                	jobInfo.setEndTime(bartDateFormat.format(info.getEndTime()));
                 }else{
                 	try{
-                		alqcJob.setEndTime(bartDateFormat.format(alqcJob.getTrigger().getEndDate()));
+                		jobInfo.setEndTime(bartDateFormat.format(jobInfo.getTrigger().getEndDate()));
                 	}catch(Exception e){
                 	}
                 }
                 if (info.getPreviousFireTime() != null) {
-                    alqcJob.setPreviousFireTime(bartDateFormat.format(info.getPreviousFireTime()));
+                    jobInfo.setPreviousFireTime(bartDateFormat.format(info.getPreviousFireTime()));
                 }
                 if (info.getNextFireTime() != null) {
-                    alqcJob.setNextFireTime(bartDateFormat.format(info.getNextFireTime()));
+                    jobInfo.setNextFireTime(bartDateFormat.format(info.getNextFireTime()));
                 }
             }
-            return alqcJobs;
+            return jobInfos;
         } catch (SchedulerException e) {
             logger.error("获得Quartz运行时信息错误", e);
             throw new BaseException("获得Quartz运行时信息错误", "获得Quartz运行时信息错误");
@@ -501,15 +501,15 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
      *
      * @param jobId 调度器任务编号
      * @param executingJobNames 调度器任务名称
-     * @return AlqcJobRuntimeInformation
+     * @return JobRuntimeInformation
      * @throws SchedulerException
      * @throws BaseException
      */
-    protected AlqcJobRuntimeInformation getJobRuntimeInformation(Integer jobId, Set<String> executingJobNames) throws SchedulerException, BaseException {
-        AlqcJobRuntimeInformation info = new AlqcJobRuntimeInformation();
-        Trigger trigger = getAlqcJobTrigger(jobId);
+    protected JobInfoRuntimeInformation getJobRuntimeInformation(Integer jobId, Set<String> executingJobNames) throws SchedulerException, BaseException {
+        JobInfoRuntimeInformation info = new JobInfoRuntimeInformation();
+        Trigger trigger = getJobTrigger(jobId);
         if (trigger == null) {
-            info.setState(AlqcJobRuntimeInformation.STATE_UNKNOWN);
+            info.setState(JobInfoRuntimeInformation.STATE_UNKNOWN);
         } else {
         	info.setStartTime(trigger.getStartTime());
         	info.setEndTime(trigger.getEndTime());
@@ -530,19 +530,19 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         switch (quartzState) {
             case Trigger.STATE_NORMAL:
             case Trigger.STATE_BLOCKED:
-                state = executingJobNames.contains(trigger.getJobName()) ? AlqcJobRuntimeInformation.STATE_EXECUTING : AlqcJobRuntimeInformation.STATE_NORMAL;
+                state = executingJobNames.contains(trigger.getJobName()) ? JobInfoRuntimeInformation.STATE_EXECUTING : JobInfoRuntimeInformation.STATE_NORMAL;
                 break;
             case Trigger.STATE_COMPLETE:
-                state = AlqcJobRuntimeInformation.STATE_COMPLETE;
+                state = JobInfoRuntimeInformation.STATE_COMPLETE;
                 break;
             case Trigger.STATE_PAUSED:
-                state = AlqcJobRuntimeInformation.STATE_PAUSED;
+                state = JobInfoRuntimeInformation.STATE_PAUSED;
                 break;
             case Trigger.STATE_ERROR:
-                state = AlqcJobRuntimeInformation.STATE_ERROR;
+                state = JobInfoRuntimeInformation.STATE_ERROR;
                 break;
             default:
-                state = AlqcJobRuntimeInformation.STATE_UNKNOWN;
+                state = JobInfoRuntimeInformation.STATE_UNKNOWN;
                 break;
         }
         return state;
@@ -562,13 +562,13 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
         return executingJobNames;
     }
 
-    public void addAlqcSchedulerListener(AlqcSchedulerListenerable listener) {
+    public void addSchedulerListener(SchedulerListenerable listener) {
         synchronized (listeners) {
             listeners.add(listener);
         }
     }
 
-    public synchronized void removeAlqcSchedulerListener(AlqcSchedulerListenerable listener) {
+    public synchronized void removeSchedulerListener(SchedulerListenerable listener) {
         synchronized (listeners) {
             listeners.remove(listener);
         }
@@ -576,14 +576,14 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 
     protected void notifyListenersOfFinalizedJob(Integer jobId) throws BaseException {
         synchronized (listeners) {
-            for (Iterator<AlqcSchedulerListenerable> it = listeners.iterator(); it.hasNext();) {
-                AlqcSchedulerListenerable listener = (AlqcSchedulerListenerable) it.next();
-                listener.alqcJobFinalized(jobId);
+            for (Iterator<SchedulerListenerable> it = listeners.iterator(); it.hasNext();) {
+                SchedulerListenerable listener = (SchedulerListenerable) it.next();
+                listener.jobFinalized(jobId);
             }
         }
     }
 
-    protected void alqcTriggerFinalized(Trigger trigger) throws BaseException {
+    protected void getTriggerFinalized(Trigger trigger) throws BaseException {
     	try{
     		Integer jobId = trigger.getJobDataMap().getIntegerFromString(JOB_DATA_KEY_DETAILS_ID);
     		notifyListenersOfFinalizedJob(jobId);
@@ -591,9 +591,9 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
     	}
     }
 
-    protected class AlqcSchedulerQuartzListener implements SchedulerListener {
+    protected class SchedulerQuartzListener implements SchedulerListener {
 
-        public AlqcSchedulerQuartzListener() {
+        public SchedulerQuartzListener() {
         }
 
         /*
@@ -625,7 +625,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 
             if (trigger.getGroup().equals(GROUP)) {
                 try {
-                    alqcTriggerFinalized(trigger);
+                    getTriggerFinalized(trigger);
                 } catch (Exception e) {
                 	logger.error("Quartz：" + e.toString());
                 }
@@ -741,11 +741,11 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 		}
     }
 
-    protected class AlqcSchedulerTriggerListener implements TriggerListener {
+    protected class SchedulerTriggerListener implements TriggerListener {
 
         private final String name;
 
-        public AlqcSchedulerTriggerListener(String name) {
+        public SchedulerTriggerListener(String name) {
             this.name = name;
         }
 
@@ -791,7 +791,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 
             if (trigger.getGroup().equals(GROUP) && trigger.getFireTimeAfter(new Date()) == null) {
                 try {
-                    alqcTriggerFinalized(trigger);
+                    getTriggerFinalized(trigger);
                 } catch (BaseException e) {
                     logger.error(e.toString());
                 }
@@ -805,10 +805,9 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
     }
 
     /*
-     * 校验AlqcJob
-     * @see org.jict.alqc.scheduling.quartz.AlqcJobsQuartzSchedulerable#validate(org.jict.alqc.scheduling.model.AlqcJob, org.jict.alqc.scheduling.common.ValidationErrorsable)
+     * 校验Job
      */
-    public void validate(AlqcJob job, ValidationErrorsable errors) throws BaseException {
+    public void validate(JobInfo job, ValidationErrorsable errors) throws BaseException {
         Trigger quartzTrigger = createTrigger(job);
         Date firstFireTime = quartzTrigger.computeFirstFireTime(null);
         if (firstFireTime == null) {
@@ -820,7 +819,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 	public void pauseJob(Integer jobId) throws BaseException {
 		try{
 			String jobName = jobName(jobId);
-			Trigger trigger = getAlqcJobTrigger(jobId);
+			Trigger trigger = getJobTrigger(jobId);
 			int quartzState = scheduler.getTriggerState(trigger.getName(), trigger.getGroup());
 			if (quartzState == Trigger.STATE_NORMAL){
 				scheduler.pauseTrigger(trigger.getName(), trigger.getGroup());
@@ -839,7 +838,7 @@ public class AlqcJobsQuartzScheduler implements AlqcJobsQuartzSchedulerable, Ini
 	public void resumedJob(Integer jobId) throws BaseException {
 		try{
 			String jobName = jobName(jobId);
-			Trigger trigger = getAlqcJobTrigger(jobId);
+			Trigger trigger = getJobTrigger(jobId);
 			int quartzState = scheduler.getTriggerState(trigger.getName(), trigger.getGroup());
 			if (quartzState == Trigger.STATE_PAUSED){
 				scheduler.resumeTrigger(trigger.getName(), trigger.getGroup());

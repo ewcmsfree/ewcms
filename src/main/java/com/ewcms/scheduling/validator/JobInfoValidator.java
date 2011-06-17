@@ -18,18 +18,18 @@ import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.common.ValidationError;
 import com.ewcms.scheduling.common.ValidationErrors;
 import com.ewcms.scheduling.common.ValidationErrorsable;
-import com.ewcms.scheduling.model.AlqcJob;
-import com.ewcms.scheduling.model.AlqcJobCalendarTrigger;
-import com.ewcms.scheduling.model.AlqcJobSimpleTrigger;
-import com.ewcms.scheduling.model.AlqcJobTrigger;
+import com.ewcms.scheduling.model.JobInfo;
+import com.ewcms.scheduling.model.JobCalendarTrigger;
+import com.ewcms.scheduling.model.JobSimpleTrigger;
+import com.ewcms.scheduling.model.JobTrigger;
 
 /**
  * 调度任务时间表达式效验
  *
  * @author 吴智俊
  */
-@Service("alqcJobValidator")
-public class AlqcJobValidator implements AlqcJobValidatorable {
+@Service("jobInfoValidator")
+public class JobInfoValidator implements JobInfoValidatorable {
 
     private static final Pattern PATTERN_CRON_MINUTES;
     private static final Pattern PATTERN_CRON_HOURS;
@@ -57,20 +57,20 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
 //	PATTERN_TIMESTAMP_FORMAT = Pattern.compile("(\\p{L}|\\p{N}|(\\_)|(\\.)|(\\-))+");
     }
 
-    public ValidationErrorsable validateJob(AlqcJob job) throws BaseException {
+    public ValidationErrorsable validateJob(JobInfo job) throws BaseException {
         ValidationErrorsable errors = new ValidationErrors();
         validateJobDetails(errors, job);
         validateJobTrigger(errors, job);
         return errors;
     }
 
-    protected void validateJobDetails(ValidationErrorsable errors, AlqcJob job) {
+    protected void validateJobDetails(ValidationErrorsable errors, JobInfo job) {
         checkString(errors, "label", "名称", job.getLabel(), true, 100);
         checkString(errors, "description", "描述", job.getDescription(), false, 2000);
     }
 
-    protected void validateJobTrigger(ValidationErrorsable errors, AlqcJob job) throws BaseException {
-        AlqcJobTrigger trigger = job.getTrigger();
+    protected void validateJobTrigger(ValidationErrorsable errors, JobInfo job) throws BaseException {
+        JobTrigger trigger = job.getTrigger();
         if (trigger == null) {
             errors.add(new ValidationError("error.alqc.job.no.trigger", null, "没有触发器指向任务.", "trigger"));
             return;
@@ -86,7 +86,7 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
             now = TriggerUtils.translateTime(now, tz, TimeZone.getDefault());
         }
 
-        if (trigger.getStartType() == AlqcJobTrigger.START_TYPE_SCHEDULE) {
+        if (trigger.getStartType() == JobTrigger.START_TYPE_SCHEDULE) {
             Date startDate = trigger.getStartDate();
             if (startDate == null) {
                 errors.add(new ValidationError("error.not.empty", null, "开始日期不能为空.", "trigger.startDate"));
@@ -96,11 +96,11 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
         }
 
         if (trigger.getEndDate() != null) {
-            if (trigger.getStartType() == AlqcJobTrigger.START_TYPE_NOW) {
+            if (trigger.getStartType() == JobTrigger.START_TYPE_NOW) {
                 if (trigger.getEndDate().before(now)) {
                     errors.add(new ValidationError("error.before.current.date", null, "结束日期不能在过去.", "trigger.endDate"));
                 }
-            } else if (trigger.getStartType() == AlqcJobTrigger.START_TYPE_SCHEDULE) {
+            } else if (trigger.getStartType() == JobTrigger.START_TYPE_SCHEDULE) {
                 if (trigger.getEndDate().before(now)) {
                     errors.add(new ValidationError("error.before.current.date", null, "结束日期不能在过去.", "trigger.endDate"));
                 }
@@ -110,10 +110,10 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
             }
         }
 
-        if (trigger instanceof AlqcJobSimpleTrigger) {
-            validateJobSimpleTrigger(errors, (AlqcJobSimpleTrigger) trigger);
-        } else if (trigger instanceof AlqcJobCalendarTrigger) {
-            validateJobCalendarTrigger(errors, (AlqcJobCalendarTrigger) trigger);
+        if (trigger instanceof JobSimpleTrigger) {
+            validateJobSimpleTrigger(errors, (JobSimpleTrigger) trigger);
+        } else if (trigger instanceof JobCalendarTrigger) {
+            validateJobCalendarTrigger(errors, (JobCalendarTrigger) trigger);
         } else {
 //            String quotedTriggerType = "\"" + trigger.getClass().getName() + "\"";
 //            throw new JSException("jsexception.job.unknown.trigger.type", new Object[] {quotedTriggerType});
@@ -121,14 +121,14 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
         }
     }
 
-    protected void validateJobSimpleTrigger(ValidationErrorsable errors, AlqcJobSimpleTrigger trigger) throws BaseException {
+    protected void validateJobSimpleTrigger(ValidationErrorsable errors, JobSimpleTrigger trigger) throws BaseException {
     	if (trigger.getOccurrenceCount() == null){
     		throw new BaseException("次数不能为空","次数不能为空");
     	}
     	int occurrenceCount = trigger.getOccurrenceCount();
-	    if (occurrenceCount != AlqcJobSimpleTrigger.RECUR_INDEFINITELY && occurrenceCount < 1) {
+	    if (occurrenceCount != JobSimpleTrigger.RECUR_INDEFINITELY && occurrenceCount < 1) {
 	    	errors.add(new ValidationError("error.invalid", null, "次数不能少于0", "trigger.occurrenceCount"));
-	    } else if (occurrenceCount > 1 || occurrenceCount == AlqcJobSimpleTrigger.RECUR_INDEFINITELY) {
+	    } else if (occurrenceCount > 1 || occurrenceCount == JobSimpleTrigger.RECUR_INDEFINITELY) {
 	        if (trigger.getRecurrenceInterval() == null) {
 	        	errors.add(new ValidationError("error.not.empty", null, "间隔数不能为空.", "trigger.recurrenceInterval"));
 	        } else if (trigger.getRecurrenceInterval().intValue() <= 0) {
@@ -140,7 +140,7 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
 	    }
     }
 
-    protected void validateJobCalendarTrigger(ValidationErrorsable errors, AlqcJobCalendarTrigger trigger) throws BaseException {
+    protected void validateJobCalendarTrigger(ValidationErrorsable errors, JobCalendarTrigger trigger) throws BaseException {
         if (checkString(errors, "trigger.minutes", "分钟", trigger.getMinutes(), true, 200)) {
             validateCronMinutes(errors, trigger.getMinutes());
         }
@@ -149,12 +149,12 @@ public class AlqcJobValidator implements AlqcJobValidatorable {
             validateCronHours(errors, trigger.getHours());
         }
 
-        if (trigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_ALL.intValue()) {
-        } else if (trigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_WEEK.intValue()) {
+        if (trigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_ALL.intValue()) {
+        } else if (trigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_WEEK.intValue()) {
             if (trigger.getWeekDays() == null || trigger.getWeekDays().length() == 0) {
                 errors.add(new ValidationError("error.not.empty", null, "一周内不能为空.", "trigger.weekDays"));
             }
-        } else if (trigger.getDaysType().intValue() == AlqcJobCalendarTrigger.DAYS_TYPE_MONTH.intValue()) {
+        } else if (trigger.getDaysType().intValue() == JobCalendarTrigger.DAYS_TYPE_MONTH.intValue()) {
             if (checkString(errors, "trigger.monthDays", "一个月内", trigger.getMonthDays(), true, 100)) {
                 validateCronMonthDays(errors, trigger.getMonthDays());
             }
