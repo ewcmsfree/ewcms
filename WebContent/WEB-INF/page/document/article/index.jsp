@@ -61,14 +61,16 @@
                                 {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
                                 {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
                                 {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
-                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
+                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
+                                {field:'sort',title:'排序号',width:40}
                         ]],
 			         toolbar:[
 								{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
 								{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
 								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
 								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},'-',
+								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},
+								{id:'btnClearSort',text:'清除排序',iconCls:'icon-sort',handler:clearSortOperate},'-',
 								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
@@ -327,74 +329,6 @@
 				$("#moveorcopy-window").window("close");
 			}
 			
-			function shareSelf(){
-				var ids = getSelectRow();
-				if(ids == '')return;
-	    		$.messager.confirm("提示","确定共享所选文章至本站吗?",function(r){
-	    			if (r){
-			            $.post('<s:url value="/document/share/shareself.do"/>',ids,function(data){
-				            if(data=='false'){
-				            	$.messager.alert('提示','数据共享失败');
-				            }else{
-				            	$.messager.alert('提示','数据共享成功');
-				            }
-			            });	
-	    			}
-	    		});
-			}
-
-			function shareSite(){
-				var checkeds = $('#sitett').tree('getChecked');
-				if(checkeds.length == 0){
-					$.messager.alert('提示','请选择站点');
-					return;
-				}				
-	    		$.messager.confirm("提示","确定共享所选文章至所选站点吗?",function(r){
-	    			if (r){
-	    				var ids = getSelectRow();//文章id集
-	    	            for(var i=0;i<checkeds.length;++i){//站点集
-	    	            	ids =ids + 'siteIdList=' + checkeds[i].id +'&';
-	    	            }							
-	    	            
-			            $.post('<s:url value="/document/share/share.do"/>',ids,function(data){
-				            if(data=='false'){
-				            	$.messager.alert('提示','数据共享失败');
-				            }else{
-				            	$("#site-window").window("close");
-				            	$.messager.alert('提示','数据共享成功');
-				            }
-			            });	
-	    			}
-	    		});
-			}
-			
-			function share(){
-				var ids = getSelectRow();
-				if(ids == '')return;				
-				//站点目录树初始
-				$(function(){
-					$('#sitett').tree({
-						checkbox: true,
-						url: '<s:url value="/site/setup/tree.do"/>',
-						cascadeCheck:false
-					});
-				});	
-				openWindow("#site-window",{width:280,height:400,title:"选择共享站点"});
-			}
-			
-			function getSelectRow(){
-	            var rows = $("#tt").datagrid('getSelections');
-	            if(rows.length == 0){
-	            	$.messager.alert('提示','请选择要共享记录');
-	            	return '' ;
-	            }
-	            var ids = '';
-	            for(var i=0;i<rows.length;++i){
-	            	ids =ids + 'selections=' + rows[i].id +'&';
-	            }	
-	            return ids;			
-			}
-
 			function submitReviewOperate(){
 		    	var rows = $("#tt").datagrid('getSelections');
 		        if(rows.length == 0){
@@ -564,6 +498,29 @@
                     return;
                 });
                 return false;
+			}
+			function clearSortOperate(){
+                if (channelId != $('#tt2').tree('getRoot').id){
+                    var rows = $("#tt").datagrid('getSelections');
+                    if(rows.length == 0){
+                        $.messager.alert('提示','请选择清除排序记录','info');
+                        return;
+                    }
+                    if (rows.length > 1){
+                        $.messager.alert('提示','只能选择一个清除排序','info');
+                        return;
+                    }
+                    $.post('<s:url namespace="document/article" action="clearSortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId},function(data){
+                        if (data == "true"){
+                        	$.messager.alert('提示','设置消除排序号成功','info');
+                        	$("#tt").datagrid('clearSelections');
+                            articleReload();
+                        }else if (data=="system-false"){
+                            $.messager.alert('提示','系统错误','info');
+                        }
+                        return;
+                    });
+                }				
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
