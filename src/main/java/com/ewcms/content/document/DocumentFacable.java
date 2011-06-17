@@ -175,6 +175,14 @@ public interface DocumentFacable {
 	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
 
 	/**
+	 * 清除文章主体排序
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void clearArticleMainSort(Long articleMainId, Integer channelId);
+	
+	/**
 	 * 新增文章信息
 	 * 
 	 * @param article 文章信息对象

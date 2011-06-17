@@ -129,6 +129,11 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
+	public void clearArticleMainSort(Long articleMainId, Integer channelId){
+		articleMainService.clearArticleMainSort(articleMainId, channelId);
+	}
+	
+	@Override
 	public Long addArticle(Article article, Integer channelId, Date published){
 		return articleService.addArticle(article, channelId, published);
 	}
