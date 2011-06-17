@@ -29,7 +29,7 @@
 		<nekohtml.version>1.9.6.2</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>
 		<jcaptcha.version>1.0</jcaptcha.version>
-		<quartz.version>1.8.4</quartz.version>
+		<quartz.version>1.8.5</quartz.version>
 		<servlet.version>2.5</servlet.version>
 		<jsp.version>2.1</jsp.version>
 		<junit.version>4.8.1</junit.version>
