@@ -384,7 +384,8 @@
 				$('#btnShare').linkbutton('disable');
 				$('#btnReview').linkbutton('disable');
 				$('#btnSubmitReview').linkbutton('disable');
-				$('#btnSort').linkbutton('disable');				
+				$('#btnSort').linkbutton('disable');
+				$('#btnClearSort').linkbutton('disable');				
 			}
 			function enableButtons(){
 				$('#btnAdd').linkbutton('enable');
@@ -399,7 +400,8 @@
 				$('#btnShare').linkbutton('enable');
 				$('#btnReview').linkbutton('enable');
 				$('#btnSubmitReview').linkbutton('enable');
-				$('#btnSort').linkbutton('enable');			
+				$('#btnSort').linkbutton('enable');
+				$('#btnClearSort').linkbutton('enable');
 			}
 			function reviewOperate(){
 				var rows = $("#tt").datagrid('getSelections');
