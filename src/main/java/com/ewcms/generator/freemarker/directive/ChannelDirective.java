@@ -6,19 +6,12 @@
 
 package com.ewcms.generator.freemarker.directive;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.out.DefaultDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.LengthDirectiveOut;
-
-import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
 
 /**
  * 频道属性标签
@@ -27,14 +20,9 @@ import freemarker.template.TemplateModel;
  */
 public class ChannelDirective extends ArticleDirective{
     
-    @SuppressWarnings("rawtypes")
     @Override
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        
-        FreemarkerUtil.setVariable(env, valueParam, GlobalVariable.CHANNEL.toString());
-        super.execute(env, params, loopVars, body);
-        FreemarkerUtil.removeVariable(env, valueParam);
+    protected String defaultValueParamValue(){
+        return GlobalVariable.CHANNEL.toString();
     }
       
     protected Map<String,String> initDefaultAliasProperties(){

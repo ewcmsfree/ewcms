@@ -6,7 +6,6 @@
 
 package com.ewcms.generator.freemarker.directive;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.out.DateDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.DefaultDirectiveOut;
@@ -25,9 +23,6 @@ import com.ewcms.generator.freemarker.directive.out.article.ContentDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -40,15 +35,10 @@ public class ArticleDirective extends ObjectPropertyDirective{
     
     private Map<String,String> aliasProperties = initDefaultAliasProperties();
     private Map<String,DirectiveOutable> propertyDirectiveOuts = initDefaultPropertyDirectiveOuts();
-    
-    @SuppressWarnings("rawtypes")
+
     @Override
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-            TemplateDirectiveBody body) throws TemplateException, IOException {
-        
-        FreemarkerUtil.setVariable(env, valueParam, GlobalVariable.DOCUMENT.toString());
-        super.execute(env, params, loopVars, body);
-        FreemarkerUtil.removeVariable(env, valueParam);
+    protected String defaultValueParamValue(){
+        return GlobalVariable.DOCUMENT.toString();
     }
     
     @SuppressWarnings("rawtypes")
