@@ -4,91 +4,108 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ewcms.generator.freemarker.directive;
 
-import com.ewcms.content.document.model.Article;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.lang.StringUtils;
+
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
-import com.ewcms.generator.freemarker.directive.PositionDirective;
-import com.ewcms.generator.freemarker.directive.channel.ChannelTitleDirective;
-import com.ewcms.generator.freemarker.directive.channel.ChannelUrlDirective;
+import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.GlobalVariable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
- *
+ * PositionDirective单元测试
+ * 
  * @author wangwei
  */
-public class PositionDirectiveTest  extends AbstractDirectiveTest {
+public class PositionDirectiveTest extends FreemarkerTest {
 
-    private static final Log log = LogFactory.getLog(PositionDirectiveTest.class);
-    
     @Override
-    protected void setDirective(Configuration cfg) {
+    protected void currentConfiguration(Configuration cfg) {
         cfg.setSharedVariable("position", new PositionDirective());
-        cfg.setSharedVariable("channel_title", new ChannelTitleDirective());
-        cfg.setSharedVariable("channel_url", new ChannelUrlDirective());
+        cfg.setSharedVariable("channel", new ChannelDirective());
     }
 
+    /**
+     * 得到模板路径
+     * 
+     * @param name
+     *            模板名
+     * @return
+     */
+    private String getTemplatePath(String name) {
+        return String.format("directive/position/%s", name);
+    }
 
-     @Test
-    public void testExecute()throws Exception{
-         Template template = cfg.getTemplate("www/position/position_channel.html");
+    @Test
+    public void testOutTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("position_out.html"));
 
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getChannel());
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(GlobalVariable.CHANNEL.toString(), initChannel());
+
         String value = this.process(template, params);
-        log.info(value);
 
-        Assert.assertTrue(value.indexOf("http://www.jict.org/channel") == -1);
-        Assert.assertTrue(value.indexOf("channel") != -1);
-        Assert.assertTrue(value.indexOf("http://www.jict.org/grand") != -1);
-        Assert.assertTrue(value.indexOf("grand") != -1);
-        Assert.assertTrue(value.indexOf("&gt;") != -1);
+        String expected = "<a href=\"http://www.jict.org/grand\">grand</a>&gt;"
+                + "<a href=\"http://www.jict.org/parent\">parent</a>&gt;" 
+                + "<a href=\"http://www.jict.org/channel\">channel</a>";
+        
+        Assert.assertEquals(expected, value);
     }
 
-     @Test
-    public void testExecuteLoop()throws Exception{
-         Template template = cfg.getTemplate("www/position/position_loop.html");
+    @Test
+    public void testBodyTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("position_body.html"));
+        
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(GlobalVariable.CHANNEL.toString(), initChannel());
 
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getChannel());
         String value = this.process(template, params);
-        log.info(value);
+        String expected = "<a href='http://www.jict.org/grand'>grand</a>&gt;"
+            + "<a href='http://www.jict.org/parent'>parent</a>&gt;" 
+            + "<a href='http://www.jict.org/channel'>channel</a>";
+        
+        value = StringUtils.replace(value, "\n", "");
+        Assert.assertEquals(expected, value);
+    }
+    
+    @Test
+    public void testLoopTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("position_loop.html"));
+        
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(GlobalVariable.CHANNEL.toString(), initChannel());
 
-        Assert.assertTrue(value.indexOf("http://www.jict.org/channel") == -1);
-        Assert.assertTrue(value.indexOf("channel") != -1);
-        Assert.assertTrue(value.indexOf("http://www.jict.org/grand") != -1);
-        Assert.assertTrue(value.indexOf("grand") != -1);
-        Assert.assertTrue(value.indexOf("&gt;") != -1);
+        String value = this.process(template, params);
+        String expected = "<a href='http://www.jict.org/grand'>grand</a>&gt;"
+            + "<a href='http://www.jict.org/parent'>parent</a>&gt;" 
+            + "<a href='http://www.jict.org/channel'>channel</a>";
+        
+        value = StringUtils.replace(value, "\n", "");
+        Assert.assertEquals(expected, value);
     }
 
-    private Channel getChannel(){
+    private Channel initChannel() {
         Channel channel = new Channel();
 
         channel.setName("channel");
-        channel.setUrl("http://www.jict.org/channel");
+        channel.setAbsUrl("http://www.jict.org/channel");
 
         Channel parent = new Channel();
-        parent.setName("parnet");
-        parent.setUrl("http:/www.jict.org/parent");
+        parent.setName("parent");
+        parent.setAbsUrl("http://www.jict.org/parent");
         channel.setParent(parent);
 
         Channel grand = new Channel();
         grand.setName("grand");
-        grand.setUrl("http://www.jict.org/grand");
+        grand.setAbsUrl("http://www.jict.org/grand");
         parent.setParent(grand);
 
         return channel;
