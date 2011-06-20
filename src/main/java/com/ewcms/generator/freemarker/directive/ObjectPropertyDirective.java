@@ -136,6 +136,15 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
     }
     
     /**
+     * 缺省值对象在freemarker变量中的名称
+     * 
+     * @return 
+     */
+    protected String defaultValueParamValue(){
+        return null;
+    }
+    
+    /**
      * 得到对象的值
      * 
      * @param env
@@ -157,8 +166,8 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
         String name = FreemarkerUtil.getString(params, valueParam);
         logger.debug("Get variable is {} in params",name);
         if(EmptyUtil.isNull(name)){
-            name = FreemarkerUtil.getString(env, valueParam);
-            logger.debug("Get variable is {} in env",name);
+            name = defaultValueParamValue();
+            logger.debug("Get default variable is {} in env",name);
         }
         if (EmptyUtil.isNotNull(name)) {
             logger.debug("Get value param is {}", name);

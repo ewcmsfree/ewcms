@@ -29,8 +29,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
- * 指定生成页面所在位置标签
- * 
+ * 生成页面所在位置标签
  * 
  * @author wangwei
  */
@@ -38,10 +37,12 @@ public class PositionDirective implements TemplateDirectiveModel {
     
     private final static Logger logger = LoggerFactory.getLogger(PositionDirective.class);
 
+    private static final String VALUE_PARAM_NAME = "value";
     private static final String NAME_PARAM_NAME = "name";
     private static final String MARK_PARAM_NAME = "mark";
     private static final String DEFAULT_MARK = "&gt;";
 
+    private String valueParam = VALUE_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
     private String markParam = MARK_PARAM_NAME;
 
@@ -50,7 +51,7 @@ public class PositionDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 
-        List<Channel> levels = getChannelLevels(getChannel(env));
+        List<Channel> levels = getChannelLevels(getChannel(env,params));
 
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
             loopVars[0] = env.getObjectWrapper().wrap(levels);
@@ -67,7 +68,7 @@ public class PositionDirective implements TemplateDirectiveModel {
                 Channel channel = iterator.next();
                 FreemarkerUtil.setVariable(env, name, channel);
                 body.render(writer);
-                if (!iterator.hasNext()) {
+                if (iterator.hasNext()) {
                     writer.write(mark);
                 }
                 writer.flush();
@@ -81,7 +82,7 @@ public class PositionDirective implements TemplateDirectiveModel {
                 builder.append("<a href=\"").append(channel.getAbsUrl()).append("\">");
                 builder.append(channel.getName());
                 builder.append("</a>");
-                if (!iterator.hasNext()) {
+                if (iterator.hasNext()) {
                     builder.append(mark);
                 }
             }
@@ -96,14 +97,35 @@ public class PositionDirective implements TemplateDirectiveModel {
      * 
      * @param env
      *            Freemarker 环境对象
+     * @param params
+     *            标签参数集合
      * @return
      * @throws TemplateException
      */
-    private Channel getChannel(final Environment env) throws TemplateException {
-        Channel channel = (Channel) FreemarkerUtil.getBean(env,GlobalVariable.CHANNEL.toString());
+    @SuppressWarnings("rawtypes")
+    private Channel getChannel(Environment env,Map params) throws TemplateException {
+        Channel channel = (Channel)FreemarkerUtil.getBean(params, valueParam);
+        if (EmptyUtil.isNotNull(channel)) {
+            logger.debug("Get channel is {}",channel);
+            return channel;
+        }
+
+        String name = FreemarkerUtil.getString(params, valueParam);
+        logger.debug("Get variable is {} in params",name);
+        if(EmptyUtil.isNull(name)){
+            name = FreemarkerUtil.getString(env, valueParam);
+            logger.debug("Get variable is {} in env",name);
+        }
+        if(EmptyUtil.isNull(name)){
+            name = GlobalVariable.CHANNEL.toString();
+        }
+        logger.debug("Get value param is {}", name);
+        
+        channel = (Channel)FreemarkerUtil.getBean(env, name);
+        
         if (EmptyUtil.isNull(channel)) {
-            logger.error("Current channel is null");
-            throw new TemplateModelException("Current channel is null");
+            logger.error("Channel is null in freemarker variable");
+            throw new TemplateModelException("Channel is null in freemarker variable");
         }
         return channel;
     }
@@ -117,7 +139,7 @@ public class PositionDirective implements TemplateDirectiveModel {
      */
     private List<Channel> getChannelLevels(final Channel channel) {
         List<Channel> levels = new ArrayList<Channel>();
-        for (Channel c = channel; EmptyUtil.isNotNull(c.getParent()); c = c.getParent()) {   
+        for (Channel c = channel; EmptyUtil.isNotNull(c); c = c.getParent()) {   
             levels.add(0, c);
         }
         return levels;
@@ -134,6 +156,7 @@ public class PositionDirective implements TemplateDirectiveModel {
     @SuppressWarnings("rawtypes")
     private String getNameValue(Map params) throws TemplateException {
         String value = FreemarkerUtil.getString(params, nameParam);
+        logger.debug("Get name is {}",value);
         if (EmptyUtil.isNull(value)) {
             return GlobalVariable.CHANNEL.toString();
         }
@@ -151,6 +174,7 @@ public class PositionDirective implements TemplateDirectiveModel {
     @SuppressWarnings("rawtypes")
     private String getMarkValue(Map params) throws TemplateException {
         String value = FreemarkerUtil.getString(params, markParam);
+        logger.debug("Get mark is {}",value);
         if (EmptyUtil.isNull(value)) {
             return DEFAULT_MARK;
         }
@@ -158,7 +182,16 @@ public class PositionDirective implements TemplateDirectiveModel {
     }
 
     /**
-     * 频道变量名的参数名设置
+     * 设置设置频道值参数名
+     * 
+     * @param valueParam
+     */
+    public void setValueParam(String valueParam){
+        this.valueParam = valueParam;
+    }
+    
+    /**
+     * 设置频道变量名的参数名
      * 
      * @param nameParam
      *            参数名
@@ -168,7 +201,7 @@ public class PositionDirective implements TemplateDirectiveModel {
     }
 
     /**
-     * 频道间分割符参数名设置
+     * 设置频道间分割符参数名
      * 
      * @param markParam
      *            参数名
