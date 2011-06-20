@@ -1,0 +1,9 @@
+<@position;levels>
+<#list levels  as c>
+<#if c_has_next>
+<a href='<@channel value=c name="url"/>'><@channel value=c name="title"/></a>&gt;
+<#else>
+<a href='<@channel value=c name="url"/>'><@channel value=c name="title"/></a>
+</#if>
+</#list>
+</@position>
