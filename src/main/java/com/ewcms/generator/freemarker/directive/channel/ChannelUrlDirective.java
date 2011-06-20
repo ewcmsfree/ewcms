@@ -20,5 +20,4 @@ public class ChannelUrlDirective extends ChannelPropertyDirective {
         return "absUrl";
     }
 
-  
 }

@@ -14,6 +14,7 @@ package com.ewcms.generator.freemarker.directive.channel;
  * @author wangwei
  */
 public class ChannelTitleDirective extends ChannelPropertyDirective{
+    
     @Override
     protected String getPropertyName() {
         return "name";
