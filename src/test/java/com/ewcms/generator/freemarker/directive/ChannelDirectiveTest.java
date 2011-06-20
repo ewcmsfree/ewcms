@@ -43,7 +43,7 @@ public class ChannelDirectiveTest {
         
     private String[] initAliases(){
         return new String[]{
-                "编号","标题","图片","链接地址"
+             "编号","标题","图片","链接地址"
         };
     }
 
