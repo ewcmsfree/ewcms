@@ -20,7 +20,7 @@ public class ChannelDirectiveTest {
     public void testAlreadyHasAlias()throws Exception{
         String[] aliases = initAliases();
         
-        ArticleDirective directive = new ArticleDirective();
+        ChannelDirective directive = new ChannelDirective();
         
         for(String alias : aliases){
             String name = directive.getPropertyName(alias);
@@ -32,7 +32,7 @@ public class ChannelDirectiveTest {
     public void testAlreadyHasDirectiveOut()throws Exception{
         String[] aliases = initAliases();
         
-        ArticleDirective directive = new ArticleDirective();
+        ChannelDirective directive = new ChannelDirective();
         
         for(String alias : aliases){
             String name = directive.getPropertyName(alias);
