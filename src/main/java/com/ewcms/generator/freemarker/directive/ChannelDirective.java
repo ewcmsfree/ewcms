@@ -47,11 +47,13 @@ public class ChannelDirective extends ArticleDirective{
         map.put("title", "name");
         map.put("name", "name");
         
-        map.put("图片", "image");
-        map.put("image", "image");
+        map.put("图片", "iconUrl");
+        map.put("image", "iconUrl");
+        map.put("iconUrl", "iconUrl");
         
         map.put("链接地址", "absUrl");
         map.put("url", "absUrl");
+        map.put("absUrl", "absUrl");
                 
         return map;
     }
@@ -61,8 +63,8 @@ public class ChannelDirective extends ArticleDirective{
         Map<String,DirectiveOutable> map = new HashMap<String,DirectiveOutable>();
         
         map.put("id", new DefaultDirectiveOut());
-        map.put("title", new LengthDirectiveOut());
-        map.put("image", new DefaultDirectiveOut());
+        map.put("name", new LengthDirectiveOut());
+        map.put("iconUrl", new DefaultDirectiveOut());
         map.put("absUrl", new DefaultDirectiveOut());
         
         return map;
