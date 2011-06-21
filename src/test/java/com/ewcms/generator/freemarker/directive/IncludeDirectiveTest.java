@@ -4,55 +4,96 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.freemarker.directive;
 
-import com.ewcms.core.site.model.Site;
-import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.lang.xwork.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
+import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.GlobalVariable;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 /**
+ * IncludeDirective单元测试
  *
  * @author wangwei
  */
-public class IncludeDirectiveTest extends AbstractDirectiveTest {
+public class IncludeDirectiveTest extends FreemarkerTest {
 
-    private static final Log log = LogFactory.getLog(IncludeDirectiveTest.class);
     @Test
-    public void testExecute() throws Exception {
-        Template template = cfg.getTemplate("www/include/index.html");
-        Map params = new HashMap();
+    public void testGetUniqueTemplatePath(){
+       IncludeDirective directive = new IncludeDirective();
+       String path = "/home/test.html";
+       Integer siteId=new Integer(2);
+       
+       String uPath = directive.getUniqueTemplatePath(siteId, path);
+       Assert.assertEquals("2/home/test.html", uPath);
+       path = "home/test.html";
+       uPath = directive.getUniqueTemplatePath(siteId, path);
+       Assert.assertEquals("2/home/test.html", uPath);
+    }
+    
+    @Test
+    public void testChannelTemplatePath(){
+        IncludeDirective directive = new IncludeDirective();
+        String name = "index.html";
+        Integer siteId = new Integer(2);
+        Integer channelId = new Integer(1);
+        
+        String uPath = directive.getChannelTemplatePath(siteId, channelId, name);
+        Assert.assertEquals("2/1/index.html", uPath);
+    }
+    
+    @Override
+    protected void currentConfiguration(Configuration cfg) {
+        IncludeDirective directive = new IncludeDirective();
+        cfg.setSharedVariable("include", directive);
+    }
+    
+    /**
+     * 得到模板路径
+     * 
+     * @param name
+     *            模板名
+     * @return
+     */
+    private String getTemplatePath(String name) {
+        return String.format("directive/include/%s", name);
+    }
+    
+    @Test
+    public void testPathTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("path.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
         Site site = new Site();
-        site.setId(1);
-        params.put(DirectiveVariable.CurrentSite.toString(), site);
-        params.put(DirectiveVariable.Debug.toString(), true);
+        site.setId(2);
+        params.put(GlobalVariable.SITE.toString(), site);
         String value = process(template,params);
-        log.info(value);
-        Assert.assertTrue(value.indexOf("test Include") != -1);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("test-path-include", value);
+    }
+    
+    @Test
+    public void testChannelTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("channel.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(2);
+        params.put(GlobalVariable.SITE.toString(), site);
+        Channel channel = new Channel();
+        channel.setId(1);
+        params.put(GlobalVariable.CHANNEL.toString(), channel);
+        String value = process(template,params);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("test-channel-includetest-channel-include", value);
     }
 
-    @Override
-    protected void setDirective(Configuration cfg) {
-      //TODO mockito instend jmock
-//        IncludeDirective directive = new IncludeDirective();
-//        Mockery context = new Mockery();
-//        final GeneratorDAOable dao = context.mock(GeneratorDAOable.class);
-//        context.checking(new Expectations(){{
-//            oneOf(dao).getSiteDir(1);will(returnValue("www"));
-//        }});
-//        directive.setDAO(dao);
-//        cfg.setSharedVariable("include", directive);
-    }
 }
