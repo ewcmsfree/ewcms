@@ -167,8 +167,8 @@
 			        <tr id="trShowHide_4" style="display:none">
 			        	<td style="height:30px;vertical-align: middle;">文章选项：</td>
 			        	<td>
-			        		<s:checkbox id="topFlag" name="articleVo.topFlag" cssStyle="vertical-align: top;"/><label for="topFlag">文章置顶</label>&nbsp;&nbsp;
-			        		<!--<s:checkbox id="commentFlag" name="articleVo.commentFlag" cssStyle="vertical-align: middle;"/><label for="commentFlag">允许评论</label>-->
+			        		<s:checkbox id="topFlag" name="articleVo.topFlag" cssStyle="vertical-align: middle;"/><label for="topFlag">文章置顶</label>&nbsp;&nbsp;
+			        		<s:checkbox id="commentFlag" name="articleVo.commentFlag" cssStyle="vertical-align: middle;"/><label for="commentFlag">允许评论</label>
 			        	</td>
 			        	<td style="height:30px;vertical-align: middle;">分类属性：</td>
 			        	<td>
