@@ -54,7 +54,7 @@ public class ArticleCategoryService implements ArticleCategoryServiceable {
 
 	@Override
 	public List<ArticleCategory> findArticleCategoryAll() {
-		return articleCategoryDAO.findArticleCategoryAll();
+		return articleCategoryDAO.findAll();
 	}
 
 }

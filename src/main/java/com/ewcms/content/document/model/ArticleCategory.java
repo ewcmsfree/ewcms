@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -36,6 +37,7 @@ public class ArticleCategory implements Serializable {
 	@Id
 	@GeneratedValue(generator = "seq_doc_article_category", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
+	@OrderBy(value = "id")
 	private Integer id;
 	@Column(name = "categroy_name", nullable = false)
 	private String categoryName;

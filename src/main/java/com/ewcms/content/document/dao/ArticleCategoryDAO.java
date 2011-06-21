@@ -6,9 +6,6 @@
 
 package com.ewcms.content.document.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -21,12 +18,4 @@ import com.ewcms.content.document.model.ArticleCategory;
  */
 @Repository
 public class ArticleCategoryDAO extends JpaDAO<Integer, ArticleCategory> {
-	
-	@SuppressWarnings("unchecked")
-	public List<ArticleCategory> findArticleCategoryAll(){
-		String hql = "From ArticleCategory c Order By c.id";
-		List<ArticleCategory> list = this.getJpaTemplate().find(hql);
-		if (list.isEmpty()) return new ArrayList<ArticleCategory>();
-		return list;
-	}
 }
