@@ -314,14 +314,14 @@ function saveArticle(){
 		$("#articleSubTitle").attr("value","");
 		$("#articleSubTitleStyle").attr("value","");
 	}
-//	$("#articleSave").submit();
-//	window.opener.window.articleReload();
 	var params=$('#articleSave').serialize();
 	$.post("save.do" ,params ,function(data){
 		if (data == "false"){
 			$.messager.alert("提示","文章保存失败","info");
 		}else if (data == "system-false"){
 			$.messager.alert("提示","系统错误","info");
+		}else if (data == "accessdenied"){
+			$.messager.alert("提示","您没有保存文章的权限","info");
 		}else if (data != ""){
 			$("#state").attr("value", data.state);
 			$("#keyword").attr("value", data.keyword);
@@ -344,6 +344,8 @@ function submitReview(url, channelId, articleMainId){
 		}else if (data == "false"){
 			$.messager.alert("提示","提交审核失败，只有在【初稿】或【重新编辑】的文章才能提交审核","info");
 			return;
+		}else if (data == "accessdenied"){
+			$.messager.alert("提示","您没有提交审核文章的权限","info");
 		}else if (data == "system-false"){
 			$.messager.alert("提示","系统错误","info");
 			return;
@@ -560,8 +562,10 @@ function auto_save() {
 		if (autoSave){
 			var params=$('#articleSave').serialize();
 			$.post("save.do" ,params ,function(data){
-				if (data != "false" && data != "system-false" && data != ""){
+				if (data != "false" && data != "system-false" && data != "accessdenied" && data != ""){
 					$("#state").attr("value", data.state);
+					$("#keyword").attr("value", data.keyword);
+					$("#summary").attr("value", data.summary);
 					$("#saveTime_general").html("<font color='#0000FF'>" + data.modified + "</font>");
 					$("#saveTime_title").html("<font color='#0000FF'>" + data.modified + "</font>");
 					window.opener.window.articleReload();
