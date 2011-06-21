@@ -93,7 +93,8 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			hql += " And r.type=:articleType";
 			countHql += " And r.type=:articleType";
 		}
-		if (!getPermissionIsChannel()){
+		boolean isPermissionIsChannel = getPermissionIsChannel();
+		if (!isPermissionIsChannel){
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
@@ -141,7 +142,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		if (isStringNotEmpty(articleType) && !articleType.equals("-1")){
 			query.setParameter("articleType", ArticleType.valueOf(articleType));
 		}
-		if (!getPermissionIsChannel()){
+		if (!isPermissionIsChannel){
 			query.setParameter("owner", EwcmsContextUtil.getUserName());
 		}
 		query.setParameter("channelId", getChannelId());
@@ -156,7 +157,8 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And  o.channelId=:channelId ";
 		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And o.channelId=:channelId ";
 		
-		if (!getPermissionIsChannel()){
+		boolean isPermissionIsChannel = getPermissionIsChannel();
+		if (!isPermissionIsChannel){
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
@@ -166,7 +168,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		
 		query.setParameter("id", getIds(Long.class));
 		query.setParameter("channelId", getChannelId());
-		if (!getPermissionIsChannel()){
+		if (!isPermissionIsChannel){
 			query.setParameter("owner", EwcmsContextUtil.getUserName());
 		}
 		
