@@ -234,13 +234,15 @@ public class ArticleMainService implements ArticleMainServiceable {
 				article.setStatus(ArticleStatus.PRERELEASE);
 				article.setAudit(audit);
 				article.setAuditReal(userService.getUserRealName());
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
 			} else if (review == 1 && !(article.getStatus() == ArticleStatus.REEDIT || article.getStatus() == ArticleStatus.DRAFT)) {// 不通过
 				article.setStatus(ArticleStatus.REEDIT);
 				article.setAudit(audit);
 				article.setAuditReal(userService.getUserRealName());
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
 			}
-			articleMain.setArticle(article);
-			articleMainDAO.merge(articleMain);
 		}
 	}
 
