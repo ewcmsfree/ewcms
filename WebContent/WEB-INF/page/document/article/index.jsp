@@ -197,13 +197,13 @@
                 }
 
                 var url = '<s:url namespace="/document/article" action="delete"/>';
-                var ids = 'channelId=' + channelId + '&';
+                var parameter = 'channelId=' + channelId + '&';
                 for(var i=0;i<rows.length;++i){
-                    ids =ids + 'selections=' + rows[i].id +'&';
+                	parameter = parameter + 'selections=' + rows[i].id +'&';
                 }
                 $.messager.confirm("提示","确定要删除所选记录到回收站吗?",function(r){
                     if (r){
-                        $.post(url,ids,function(data){
+                        $.post(url, parameter, function(data){
                             $.messager.alert('成功','删除文档到回收站成功!');
                             $("#tt").datagrid('clearSelections');
                             $("#tt").datagrid('reload');
@@ -356,8 +356,8 @@
 			}
 			function pubOperate(){
 				var url = '<s:url namespace="/document/article" action="pubArticle"/>';
-				url = url + "?channelId=" + channelId;
-				$.post(url, '', function(data){
+				var parameter = "channelId=" + channelId + "";
+				$.post(url, parameter, function(data){
 					if (data == 'system-false'){
 						$.messager.alert('提示','系统错误','info');
 						return;
@@ -508,11 +508,11 @@
                         $.messager.alert('提示','请选择清除排序记录','info');
                         return;
                     }
-                    if (rows.length > 1){
-                        $.messager.alert('提示','只能选择一个清除排序','info');
-                        return;
-                    }
-                    $.post('<s:url namespace="document/article" action="clearSortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId},function(data){
+                    var parameter = "channelId=" + channelId + "&";
+    				for(var i=0;i<rows.length;i++){
+    					parameter = parameter + 'selections=' + rows[i].id + "&";
+    				}
+                    $.post('<s:url namespace="document/article" action="clearSortArticle"/>' ,parameter ,function(data){
                         if (data == "true"){
                         	$.messager.alert('提示','设置消除排序号成功','info');
                         	$("#tt").datagrid('clearSelections');
@@ -522,7 +522,8 @@
                         }
                         return;
                     });
-                }				
+                }
+                return false;				
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
