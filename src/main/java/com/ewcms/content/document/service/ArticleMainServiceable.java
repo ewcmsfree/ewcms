@@ -106,7 +106,7 @@ public interface ArticleMainServiceable {
 	/**
 	 * 审核文章主体
 	 * 
-	 * @param articleMainIds 文章主体集合
+	 * @param articleMainIds 文章主体编号集合
 	 * @param review 审核标志(0:通过,1:未通过)
 	 * @param audit 审核人
 	 */
@@ -136,8 +136,8 @@ public interface ArticleMainServiceable {
 	/**
 	 * 清除文章主体排序
 	 * 
-	 * @param articleMainId 文章主体编号
+	 * @param articleMainIds 文章主体编号集合
 	 * @param channelId 频道编号
 	 */
-	public void clearArticleMainSort(Long articleMainId, Integer channelId);
+	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
 }

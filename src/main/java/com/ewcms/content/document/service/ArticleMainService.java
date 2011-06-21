@@ -247,6 +247,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 		if (articleMain == null){
@@ -279,6 +280,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 		if (articleMain == null) return false;
@@ -286,12 +288,16 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void clearArticleMainSort(Long articleMainId, Integer channelId) {
-		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
-		Assert.notNull(articleMain);
-		if (articleMain.getSort() != null){
-			articleMain.setSort(null);
-			articleMainDAO.merge(articleMain);
+	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId) {
+		Assert.notNull(articleMainIds);
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+			Assert.notNull(articleMain);
+			if (articleMain.getSort() != null){
+				articleMain.setSort(null);
+				articleMainDAO.merge(articleMain);
+			}
 		}
 	}
 }
