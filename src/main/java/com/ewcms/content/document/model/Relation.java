@@ -42,6 +42,7 @@ public class Relation implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "seq_doc_relation", strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
 	private Integer id;
 	@Column(name = "sort")
 	private Integer sort;

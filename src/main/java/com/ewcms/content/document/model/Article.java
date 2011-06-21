@@ -126,7 +126,7 @@ public class Article implements Serializable {
 	private Boolean deleteFlag;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
-	@OrderBy("sort")
+	@OrderBy(value = "sort")
 	private List<Relation> relations;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
