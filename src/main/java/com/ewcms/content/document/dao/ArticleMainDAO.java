@@ -32,7 +32,7 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
 	
 	@SuppressWarnings("unchecked")
 	public List<ArticleMain> findArticleMainByChannel(Integer channelId){
-		String hql = "Select r FROM ArticleMain AS r WHERE r.channelId=? Order By r.sort Asc Nulls Last";
+		String hql = "Select r FROM ArticleMain AS r WHERE r.channelId=? Order By r.sort";
 		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId);
 		if (list.isEmpty()) return new ArrayList<ArticleMain>();
 		return list;
