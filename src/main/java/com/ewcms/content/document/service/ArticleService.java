@@ -40,6 +40,14 @@ public class ArticleService implements ArticleServiceable {
 	@Autowired
 	private ArticleMainDAO articleMainDAO;
 	
+	public void setArticleDAO(ArticleDAO articleDAO){
+		this.articleDAO = articleDAO;
+	}
+	
+	public void setArticleMainDAO(ArticleMainDAO articleMainDAO){
+		this.articleMainDAO = articleMainDAO;
+	}
+	
 	@Override
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId) {
 		return articleDAO.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
