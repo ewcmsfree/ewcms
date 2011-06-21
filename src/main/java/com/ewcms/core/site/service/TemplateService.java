@@ -129,7 +129,10 @@ public class TemplateService {
     public Template channelTPLRoot(){
     	return channelTemplate(null);
     }
-    
+	/**
+	 * 获取模板唯一路径
+	 * 
+	 */      
     public String getTemplateUniquePath(Integer siteId,Integer channelId,String templateName){
     	return siteId.toString()+"/"+ siteId.toString()+"tpl/"+channelId.toString()+"/"+templateName;
     }
