@@ -6,10 +6,14 @@
 
 package com.ewcms.generator.freemarker.directive;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,6 +21,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.service.ChannelLoaderServiceable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -55,6 +60,11 @@ public class IncludeDirectiveTest extends FreemarkerTest {
     @Override
     protected void currentConfiguration(Configuration cfg) {
         IncludeDirective directive = new IncludeDirective();
+        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        Channel channel = new Channel();
+        channel.setId(1);
+        when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
+        directive.setChannelLoaderService(channelLoaderService);
         cfg.setSharedVariable("include", directive);
     }
     
@@ -84,6 +94,7 @@ public class IncludeDirectiveTest extends FreemarkerTest {
     @Test
     public void testChannelTemplate()throws Exception{
         Template template = cfg.getTemplate(getTemplatePath("channel.html"));
+        
         Map<String,Object> params = new HashMap<String,Object>();
         Site site = new Site();
         site.setId(2);
@@ -93,7 +104,6 @@ public class IncludeDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.CHANNEL.toString(), channel);
         String value = process(template,params);
         value = StringUtils.deleteWhitespace(value);
-        Assert.assertEquals("test-channel-includetest-channel-include", value);
+        Assert.assertEquals("test-channel-includetest-channel-includetest-channel-include", value);
     }
-
 }
