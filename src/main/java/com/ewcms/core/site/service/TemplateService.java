@@ -130,6 +130,10 @@ public class TemplateService {
     	return channelTemplate(null);
     }
     
+    public String getTemplateUniquePath(Integer siteId,Integer channelId,String templateName){
+    	return siteId.toString()+"/"+ siteId.toString()+"tpl/"+channelId.toString()+"/"+templateName;
+    }
+    
 	/**
 	 * 获取站点专栏模板目录
 	 * 
