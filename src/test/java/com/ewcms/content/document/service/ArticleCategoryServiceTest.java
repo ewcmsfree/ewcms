@@ -114,7 +114,7 @@ public class ArticleCategoryServiceTest {
 		vo1.setCategoryName("findAllTest1");
 		articleCategorys.add(vo1);
 		
-		when(articleCategoryDAO.findArticleCategoryAll()).thenReturn(articleCategorys);
+		when(articleCategoryDAO.findAll()).thenReturn(articleCategorys);
 		List<ArticleCategory> lists = articleCategoryService.findArticleCategoryAll();
 		assertNotNull(lists);
 		assertEquals(lists.size(), articleCategorys.size());
