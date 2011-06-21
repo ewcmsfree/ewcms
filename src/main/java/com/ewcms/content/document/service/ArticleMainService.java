@@ -225,6 +225,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit) {
 		ArticleMain articleMain = null;
 		Article article = null;
+		Assert.notNull(articleMainIds);
 		for (Long articleMainId : articleMainIds) {
 			articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 			if (isNull(articleMain)) continue;
