@@ -144,7 +144,7 @@
                      <div class="nav-item">
                          <a href="javascript:addTab('文章分类属性','document/articlecategory/index.do')">
                             <img src="source/image/articlecategory.png" style="border:0"/><br/>
-                            <span>分章分类属性</span>
+                            <span>文章分类属性</span>
                         </a>
                     </div>
                 </div>
