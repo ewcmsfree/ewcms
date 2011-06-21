@@ -56,10 +56,8 @@ public class IncludeDirective implements TemplateDirectiveModel {
         }else{
             String name = getNameValue(params);
             if(EmptyUtil.isNotNull(name)){
-                Channel channel = getChannelValue(env,params);
-                if(EmptyUtil.isNotNull(channel)){
-                    uniquePath = getChannelTemplatePath(siteId,channel.getId(),name);
-                }
+                Integer channelId = getChannelIdValue(env,params);
+                uniquePath = getChannelTemplatePath(siteId,channelId,name);
             }
         }
         if(EmptyUtil.isNull(uniquePath)){
@@ -103,37 +101,35 @@ public class IncludeDirective implements TemplateDirectiveModel {
     }
     
     /**
-     * 得到指定频道的模板
+     * 得到指定频道编号
      * 
      * @param env freemarker环境
      * @param params 标签参数
-     * @return
+     * @return 频道编号
      * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    private Channel getChannelValue(Environment env,Map params)throws TemplateException{
+    private Integer getChannelIdValue(Environment env,Map params)throws TemplateException{
         Channel channel = (Channel)FreemarkerUtil.getBean(params, channelParam);
         if (EmptyUtil.isNotNull(channel)) {
             logger.debug("Get channel is {}",channel);
-            return channel;
+            return channel.getId();
         }
 
         Integer id = FreemarkerUtil.getInteger(params, channelParam);
         if(EmptyUtil.isNotNull(id)){
-            // TODO loading database channel 
+            logger.debug("Get channel id is {}",id);
+            return id;
         }
         
-        String name = FreemarkerUtil.getString(params, channelParam);
-        logger.debug("Get variable is {} in params",name);
-        if(EmptyUtil.isNull(name)){
-            name = FreemarkerUtil.getString(env, channelParam);
-            logger.debug("Get variable is {} in env",name);
+        String path= FreemarkerUtil.getString(params, channelParam);
+        logger.debug("Get channel by {}",path);
+        if(EmptyUtil.isNotNull(path)){
+            //TODO loading channel by path
         }
-        if(EmptyUtil.isNull(name)){
-            name = GlobalVariable.CHANNEL.toString();
-        }
+       
+        String name = GlobalVariable.CHANNEL.toString();
         logger.debug("Get value param is {}", name);
-        
         channel = (Channel)FreemarkerUtil.getBean(env, name);
         
         if (EmptyUtil.isNull(channel)) {
@@ -141,7 +137,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Channel is null in freemarker variable");
         }
         
-        return channel;
+        return channel.getId();
     }
     
     /**
