@@ -18,6 +18,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.service.ChannelLoaderServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -40,6 +41,8 @@ public class IncludeDirective implements TemplateDirectiveModel {
     private final static String CHANNEL_PARAM_NAME = "channel";
     private final static String NAME_PARAM_NAME = "name";
     
+    private ChannelLoaderServiceable channelLoaderService;
+    
     private String pathParam = PATH_PARAM_NAME;
     private String parseParam = PARSE_PARAM_NAME;
     private String channelParam = CHANNEL_PARAM_NAME;
@@ -49,14 +52,14 @@ public class IncludeDirective implements TemplateDirectiveModel {
     @Override
     public void execute(final Environment env, final Map params, final TemplateModel[] loopVars, final TemplateDirectiveBody body) throws TemplateException, IOException {
         String path = getPathValue(params);
-        Integer siteId = getSiteValue(env).getId();
+        Integer siteId = getSiteIdValue(env);
         String uniquePath = null;
         if(EmptyUtil.isNotNull(path)){
             uniquePath = getUniqueTemplatePath(siteId,path);
         }else{
             String name = getNameValue(params);
             if(EmptyUtil.isNotNull(name)){
-                Integer channelId = getChannelIdValue(env,params);
+                Integer channelId = getChannelIdValue(env,params,siteId);
                 uniquePath = getChannelTemplatePath(siteId,channelId,name);
             }
         }
@@ -70,20 +73,20 @@ public class IncludeDirective implements TemplateDirectiveModel {
     }
 
     /**
-     * 从Freemarker得到站点对象
+     * 从Freemarker得到站点编号
      * 
      * @param env freemarker环境
      * @return
      * @throws TemplateException
      */
-    private Site getSiteValue(Environment env)throws TemplateException {
+    private Integer getSiteIdValue(Environment env)throws TemplateException {
         Site site = (Site) FreemarkerUtil.getBean(env, GlobalVariable.SITE.toString());
         if(EmptyUtil.isNull(site)){
             logger.error("Site is null in freemarker variable");
             throw new TemplateModelException("Site is null in freemarker variable");
         }
         logger.debug("Site is {}",site);
-        return site;
+        return site.getId();
     }
 
     /**
@@ -105,11 +108,12 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * 
      * @param env freemarker环境
      * @param params 标签参数
+     * @param siteId 站点编号
      * @return 频道编号
      * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    private Integer getChannelIdValue(Environment env,Map params)throws TemplateException{
+    private Integer getChannelIdValue(Environment env,Map params,Integer siteId)throws TemplateException{
         Channel channel = (Channel)FreemarkerUtil.getBean(params, channelParam);
         if (EmptyUtil.isNotNull(channel)) {
             logger.debug("Get channel is {}",channel);
@@ -125,7 +129,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
         String path= FreemarkerUtil.getString(params, channelParam);
         logger.debug("Get channel by {}",path);
         if(EmptyUtil.isNotNull(path)){
-            //TODO loading channel by path
+            channel = channelLoaderService.getChannelByUrlOrPath(siteId, path);
         }
        
         String name = GlobalVariable.CHANNEL.toString();
@@ -197,6 +201,15 @@ public class IncludeDirective implements TemplateDirectiveModel {
         return StringUtils.join(new Object[]{siteId,channelId,nName},"/");
     }
 
+    /**
+     * 设置频道加载服务
+     * 
+     * @param service
+     */
+    public void setChannelLoaderService(ChannelLoaderServiceable service){
+        channelLoaderService = service;
+    }
+    
     /**
      * 设置模板参数名称
      * 
