@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.content.document.DocumentFacable;
@@ -250,6 +251,8 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 			} else {
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
@@ -326,6 +329,8 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 			if (getArticleMainId()!= null && getChannelId() != null) {
 				Struts2Util.renderText(documentFac.submitReviewArticleMain(getArticleMainId(), getChannelId()).toString());
 			}
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}

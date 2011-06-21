@@ -79,6 +79,8 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 		try {
 			documentFac.submitReviewArticleMains(getSelections(), getChannelId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
