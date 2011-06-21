@@ -87,7 +87,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
     }
 
     /**
-     * 从标签参数得到模板路径
+     * 得到模板路径
      * 
      * @param params 标签参数
      * @return
