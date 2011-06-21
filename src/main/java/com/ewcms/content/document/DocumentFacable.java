@@ -177,10 +177,10 @@ public interface DocumentFacable {
 	/**
 	 * 清除文章主体排序
 	 * 
-	 * @param articleMainId 文章主体编号
+	 * @param articleMainIds 文章主体编号集合
 	 * @param channelId 频道编号
 	 */
-	public void clearArticleMainSort(Long articleMainId, Integer channelId);
+	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
 	
 	/**
 	 * 新增文章信息

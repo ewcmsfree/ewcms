@@ -193,7 +193,7 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void clearSortArticle(){
 		try{
-			documentFac.clearArticleMainSort(getSelections().get(0), getChannelId());
+			documentFac.clearArticleMainSort(getSelections(), getChannelId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		}catch(Exception e){
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
