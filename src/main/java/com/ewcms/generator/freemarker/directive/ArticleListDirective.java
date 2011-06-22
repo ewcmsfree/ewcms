@@ -4,17 +4,24 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.freemarker.directive;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.generator.dao.GeneratorDAOable;
-import com.ewcms.generator.freemarker.directive.page.PageParam;
+import com.ewcms.generator.freemarker.FreemarkerUtil;
+import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ChannelLoaderServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -22,233 +29,299 @@ import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
- *
+ * 文章列表标签
+ * <br>
+ * 通过设置频道id或地址，可以得到相应的文章记录。
+ * 
  * @author wangwei
  */
-@Service("direcitve.articleList")
 public class ArticleListDirective implements TemplateDirectiveModel {
+    private static final Logger logger = LoggerFactory.getLogger(ArticleListDirective.class);
+    
     private static final int DEFAULT_ROWS = 20;
-    private static final String PARAM_NAME_VALUE = "value";
-    private static final String PARAM_NAME_ROW = "row";
-    private static final String PARAM_NAME_NAME = "name";
-    private static final String PARAM_NAME_TOP = "top";
-    @Autowired
-    protected GeneratorDAOable dao;
+    private static final int DEFAULT_PAGE_NUMBER = 0;
+    private static final boolean DEFAULT_TOP = false;
+    
+    @Deprecated
+    private static final String VALUE_PARAM_NAME = "value";
+    private static final String CHANNEL_PARAM_NAME = "channel";
+    private static final String ROW_PARAM_NAME = "row";
+    private static final String NAME_PARAM_NAME = "name";
+    private static final String TOP_PARAM_NAME = "top";
+    
+    @Deprecated
+    private String valueParam = VALUE_PARAM_NAME;
+    private String channelParam = CHANNEL_PARAM_NAME;
+    private String rowParam = ROW_PARAM_NAME;
+    private String nameParam = NAME_PARAM_NAME;
+    private String topParam = TOP_PARAM_NAME;
 
-    public void setGeneratorDAO(GeneratorDAOable dao) {
-        this.dao = dao;
-    }
-
+    private ArticleLoaderServiceable articleLoaderService;
+    private ChannelLoaderServiceable channelLoaderService;
+    
+    @SuppressWarnings("rawtypes")
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-        boolean debug = DirectiveUtil.isDebug(env);
-        try {
-            if (EmptyUtil.isNull(body)) {
-                throw new DirectiveException("没有显示内容");
-            }
-            Channel current = getCurrentChannel(env);
-            Site currentSite = getCurrentSite(env);
-            int channelId = getChannelId(
-                    env, params, PARAM_NAME_VALUE,
-                    currentSite.getId(), current.getId());
+        Integer siteId = getSiteIdValue(env);
 
-            if (!isChannelEnabled(channelId, current) && !debug) {
-                env.getOut().write("<p style='color:red;'>频道，还未发布</p>");
-                return;
-            }
+        Integer channelId = getChannelIdByChannel(env, params, siteId);
+        if (EmptyUtil.isNull(channelId)) {
+            channelId = getChannelIdByValue(env, params, siteId);
+        }
 
-            int row = getParamRowValue(params, PARAM_NAME_ROW);
-            int pageNumber = 0;
-            PageParam page = getPageParam(env);
-            if (channelId == current.getId() && EmptyUtil.isNotNull(page)) {
-                pageNumber = page.getPage();
-                row = page.getRow() != -1 ? page.getRow() : row;
-            }
+        if (EmptyUtil.isNull(channelId)) {
+            throw new TemplateModelException("Channel is null");
+        }
 
-            Boolean top = this.getParamTopValue(params, PARAM_NAME_TOP);
+        if (!isPublicenable(channelId, siteId)) {
+            logger.debug("Channel's id equals {} has not release.", channelId);
+            return;
+        }
 
-            List list = (top == null ?
-                findGeneratorData(channelId, pageNumber, row):
-                findGeneratorDataTop(channelId,row,top));
-            
-            if (EmptyUtil.isArrayEmpty(loopVars)) {
-                String name = getParamNameValue(params, PARAM_NAME_NAME);
-                Writer writer = env.getOut();
-                for (int i = 0; i < list.size(); i++) {
-                    Object obj = list.get(i);
-                    DirectiveUtil.setVariable(env, name, obj);
-                    DirectiveUtil.setVariable(env, DirectiveVariable.ListIndex.toString(), i + 1);
-                    body.render(writer);
-                    DirectiveUtil.removeVariable(env, DirectiveVariable.ListIndex.toString());
-                    DirectiveUtil.removeVariable(env, name);
-                }
-                writer.flush();
-            } else {
-                loopVars[0] = env.getObjectWrapper().wrap(list);
-                body.render(env.getOut());
+        int row = getRowValue(params);
+        int pageNumber = getPageNumberValue(env);
+        boolean top = getTopValue(params);
+
+        List<Article> articles = articleLoaderService.findArticlePage(channelId, pageNumber, row,top); 
+
+        if(EmptyUtil.isArrayNotEmpty(loopVars)){
+            loopVars[0] = env.getObjectWrapper().wrap(articles);
+            if(EmptyUtil.isNull(body)){
+                logger.warn("Body is null");
+            }else{
+                body.render(env.getOut());    
             }
-        } catch (DirectiveException e) {
-            e.render(env.getOut());
-        } catch (Exception e) {
-            DirectiveException ex = new DirectiveException(e);
-            ex.render(env.getOut());
+        }else if (EmptyUtil.isNotNull(body)) {
+            String name = getNameValue(params);
+            Writer writer = env.getOut();
+            for (int i = 0; i < articles.size(); i++) {
+                Article article = articles.get(i);
+                FreemarkerUtil.setVariable(env, name, article);
+                FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), Integer.valueOf(i));
+                body.render(writer);
+                FreemarkerUtil.removeVariable(env, GlobalVariable.INDEX.toString());
+                FreemarkerUtil.removeVariable(env, name);
+            }
+            writer.flush();
+        } else {
+            logger.warn("Body and loopVars are all null");
         }
     }
 
     /**
-     * 得到当前站点
-     *
-     * @param env Environment
+     * 得到当前站点编号
+     * 
+     * @param env 
+     *          Freemarker环境
      * @return
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
-    private Site getCurrentSite(final Environment env) throws TemplateModelException {
-        String current = DirectiveVariable.CurrentSite.toString();
-        Site site = (Site) DirectiveUtil.getBean(env, current);
-        Assert.notNull(site);
-        return site;
+    private Integer getSiteIdValue(final Environment env) throws TemplateException {
+        Site site = (Site) FreemarkerUtil.getBean(env, GlobalVariable.SITE.toString());
+        if(EmptyUtil.isNull(site)){
+            logger.error("Site is null in freemarker variable");
+            throw new TemplateModelException("Site is null in freemarker variable");
+        }
+        logger.debug("Site is {}",site);
+        return site.getId();
     }
 
     /**
-     * 得到当前频道
-     *
-     * @param env Environment
-     * @return
-     * @throws TemplateModelException
-     */
-    private Channel getCurrentChannel(final Environment env) throws TemplateModelException {
-        String currentChannel = DirectiveVariable.CurrentChannel.toString();
-        Channel channel = (Channel) DirectiveUtil.getBean(env, currentChannel);
-        Assert.notNull(channel);
-        return channel;
-    }
-
-    /**
-     * 得到频道指定频道编号
-     *
+     * 通过“value”参数值得到站点编号
+     * <br>
+     * 如果站点不存在则站点编号为空
+     * 
      * @param env
+     *          Freemarker环境
      * @param params
+     *          标签参数集合
+     * @param siteId 
+     *          站点编号
      * @return
-     * @throws TemplateModelException
-     * @throws ParameterException
+     * @throws TemplateException
      */
-    private int getChannelId(final Environment env, final Map params,
-            final String name, final int currentSiteId, final int currentChanneldId)
-            throws TemplateModelException, DirectiveException {
+    @SuppressWarnings("rawtypes")
+    private Integer getChannelIdByValue(Environment env,Map params,int siteId)throws TemplateException{
+        return getChannelId(env,params,siteId,valueParam);
+    }
+    
+    /**
+     * 通过“channel”参数值得到站点编号
+     * <br>
+     * 如果站点不存在则站点编号为空
+     * 
+     * @param env
+     *          Freemarker环境
+     * @param params
+     *          标签参数集合
+     * @param siteId 
+     *          站点编号
+     * @return
+     * @throws TemplateException
+     */
+    @SuppressWarnings("rawtypes")
+    private Integer getChannelIdByChannel(Environment env,Map params,int siteId)throws TemplateException{
+        return getChannelId(env,params,siteId,channelParam);
+    }
+    
+    /**
+     * 值得到站点编号
+     * <br>
+     * 如果站点不存在则站点编号为空
+     * 
+     * @param env
+     *          Freemarker环境
+     * @param params
+     *          标签参数集合
+     * @param siteId 
+     *          站点编号
+     * @param name
+     *          标签属性名
+     * @return
+     * @throws TemplateException
+     */
+    @SuppressWarnings("rawtypes")
+    private Integer getChannelId(Environment env,Map params,int siteId,String name)throws TemplateException{
 
-        Integer id = DirectiveUtil.getInteger(params, name);
+        Channel channel = (Channel) FreemarkerUtil.getBean(params, name);
+        if(EmptyUtil.isNotNull(channel)){
+            logger.debug("Channel is {}",channel.toString());
+            return channel.getId();
+        }
+        
+        Integer id = FreemarkerUtil.getInteger(params, name);
         if (EmptyUtil.isNotNull(id)) {
+            logger.debug("Channel's id is {}",id);
             return id;
         }
 
-        String varName = DirectiveUtil.getString(params, name);
-        varName = (varName == null ? DirectiveVariable.Channel.toString() : varName);
-        Channel channel = (Channel) DirectiveUtil.getBean(env, varName);
+        String value = FreemarkerUtil.getString(params, name);
+        logger.debug("Directive {} property is {}",name,value);
+        if (EmptyUtil.isStringNotEmpty(value)) {
+            value = value.trim();
+            channel = channelLoaderService.getChannelByUrlOrPath(siteId, value);
+            if(EmptyUtil.isNotNull(channel)){
+                logger.debug("Channel is {}",channel.toString());
+                return channel.getId();
+            }
+        }
+        
+        value = (value == null ? GlobalVariable.CHANNEL.toString() : value);
+        channel = (Channel) FreemarkerUtil.getBean(env, value);
         if (EmptyUtil.isNotNull(channel)) {
+            logger.debug("Channel is {}",channel.toString());
             return channel.getId();
         }
-
-        String url = DirectiveUtil.getString(params, name);
-        if (EmptyUtil.isStringNotEmpty(url)) {
-            url = url.trim();
-            return getChannelIdByUrlOrDir(currentSiteId, url);
-        }
-
-        return currentChanneldId;
+        logger.warn("Channel is null");
+        
+        return null;
     }
 
     /**
-     * 通过频道url得到频道编号
-     *
-     * @param url 频道url
+     * 判断频道是否发布
+     * 
+     * @param channelId 
+     *             频道编号
+     * @param siteId
+     *             站点编号
      * @return
-     * @throws ParameterException
+     * @throws TemplateException
      */
-    private int getChannelIdByUrlOrDir(final int siteId, final String url) throws DirectiveException {
-        Channel channel = dao.getChannelByUrlOrDir(siteId, url);
+    private boolean isPublicenable(int channelId,int siteId) throws TemplateException {
+        Channel channel = channelLoaderService.getChannel(channelId,siteId);
         if (EmptyUtil.isNull(channel)) {
-            throw new DirectiveException(String.format("%s 不存在", url));
-        }
-        return channel.getId();
-    }
-
-    private boolean isChannelEnabled(int id, Channel current) throws DirectiveException {
-        if (id == current.getId()) {
-            return current.getPublicenable();
-        }
-        Channel channel = dao.getChannel(id);
-        if (EmptyUtil.isNull(channel)) {
-            throw new DirectiveException("频道不存在");
-        }
-        if (channel.getSite().getId() != current.getSite().getId()) {
-            throw new DirectiveException("频道不存在");
+            logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
+            throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
         }
         return channel.getPublicenable();
     }
-
-    private List findGeneratorData(int channelId, int page, int rows) {
-        return dao.findArticlePage(channelId, page, rows);
-    }
-
-    private List findGeneratorDataTop(int channelId,int rows, Boolean top) {
-        return dao.findArticlePageTop(channelId,rows, top);
-    }
-
+   
     /**
      * 得到显示行数
      *
-     * @param params
+     * @param params 
+     *           标签参数集合
      * @return
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
-    private int getParamRowValue(final Map params, String name) throws TemplateModelException {
-        Integer rows = DirectiveUtil.getInteger(params, name);
-        return rows == null ? DEFAULT_ROWS : rows;
+    @SuppressWarnings("rawtypes")
+    private int getRowValue(final Map params) throws TemplateException {
+        Integer row = FreemarkerUtil.getInteger(params, rowParam);
+        return row == null ? DEFAULT_ROWS : row;
     }
 
     /**
      * 得到Name参数值
      *
      * @param params
+     *            标签参数集合
      * @return
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
-    private String getParamNameValue(final Map params, final String name) throws TemplateModelException {
-        String value = DirectiveUtil.getString(params, name);
-        return value == null ? DirectiveVariable.Article.toString() : value;
+    @SuppressWarnings("rawtypes")
+    private String getNameValue(final Map params) throws TemplateException {
+        String value = FreemarkerUtil.getString(params, nameParam);
+        return value == null ? GlobalVariable.DOCUMENT.toString() : value;
     }
 
     /**
      * 得到Top参数值
-     * 设置是否得到顶置新闻
+     * <br>
+     * 显示顶置新闻
      *
      * @param params
+     *            标签参数集合
      * @return
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
-    private Boolean getParamTopValue(final Map params, final String name) throws TemplateModelException {
-        return DirectiveUtil.getBoolean(params, name);
+    @SuppressWarnings("rawtypes")
+    private Boolean getTopValue(Map params) throws TemplateException {
+        Boolean top = FreemarkerUtil.getBoolean(params, topParam);
+        return top == null ? DEFAULT_TOP : top;
     }
 
     /**
      * 得到显示页面数
      *
      * @param env
-     * @param id 变量标示
+     *          Freemarker环境
      * @return
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
-    private PageParam getPageParam(final Environment env) throws TemplateModelException {
-        PageParam page = (PageParam) DirectiveUtil.getBean(env, DirectiveVariable.PageParam.toString());
-        return page;
+    private Integer getPageNumberValue(Environment env) throws TemplateException {
+        Integer number = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_NUMBER.toString());
+        logger.debug("Page is {}",number);
+        return number == null ? DEFAULT_PAGE_NUMBER : number;
+    }
+
+    @Deprecated
+    public void setValueParam(String valueParam) {
+        this.valueParam = valueParam;
+    }
+
+    public void setChannelParam(String channelParam) {
+        this.channelParam = channelParam;
+    }
+
+    public void setRowParam(String rowParam) {
+        this.rowParam = rowParam;
+    }
+
+    public void setNameParam(String nameParam) {
+        this.nameParam = nameParam;
+    }
+
+    public void setTopParam(String topParam) {
+        this.topParam = topParam;
+    }
+
+    public void setArticleLoaderService(ArticleLoaderServiceable service) {
+        articleLoaderService = service;
+    }
+
+    public void setChannelLoaderService(ChannelLoaderServiceable service) {
+        channelLoaderService = service;
     }
 }
