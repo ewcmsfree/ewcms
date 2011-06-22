@@ -62,7 +62,7 @@
                                 {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
                                 {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
                                 {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
-                                {field:'sort',title:'排序号',width:40}
+                                {field:'sort',title:'排序号',width:60}
                         ]],
 			         toolbar:[
 								{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
