@@ -15,6 +15,7 @@ package com.ewcms.generator.freemarker;
  * DEBUG:调试模式
  * PAGE_NUMBER:页数
  * PAGE_COUNT:总页数
+ * INDEX:所处位置
  * 
  * @author wangwei
  */
@@ -25,7 +26,8 @@ public enum GlobalVariable {
     DOCUMENT("ewcms_current_document"),
     DEBUG("ewcms_debug"),
     PAGE_NUMBER("ewcms_page_number"),
-    PAGE_COUNT("ewcms_page_count");
+    PAGE_COUNT("ewcms_page_count"),
+    INDEX("ewcms_index");
         
     private String name;
 
