@@ -19,6 +19,7 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.TemplateLoaderServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -42,6 +43,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
     private final static String NAME_PARAM_NAME = "name";
     
     private ChannelLoaderServiceable channelLoaderService;
+    private TemplateLoaderServiceable templateLoaderService;
     
     private String pathParam = PATH_PARAM_NAME;
     private String parseParam = PARSE_PARAM_NAME;
@@ -196,18 +198,25 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * @return
      */
     String getChannelTemplatePath(Integer siteId,Integer channelId,String name){
-        //TODO now only mock channel create
-        String nName = StringUtils.removeStart(name, "/");
-        return StringUtils.join(new Object[]{siteId,channelId,nName},"/");
+        return templateLoaderService.getUniquePathOfChannelTemplate(siteId, channelId, name);
     }
 
     /**
-     * 设置频道加载服务
+     * 设置频道服务
      * 
      * @param service
      */
     public void setChannelLoaderService(ChannelLoaderServiceable service){
         channelLoaderService = service;
+    }
+    
+    /**
+     * 设置模板服务
+     * 
+     * @param service
+     */
+    public void setTemplateLoaderService(TemplateLoaderServiceable service){
+        templateLoaderService = service;
     }
     
     /**
