@@ -75,7 +75,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Channel is null");
         }
 
-        if (!isPublicenable(channelId, siteId)) {
+        if (!isPublicenable(siteId,channelId)) {
             logger.debug("Channel's id equals {} has not release.", channelId);
             return;
         }
@@ -222,14 +222,14 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     /**
      * 判断频道是否发布
      * 
+     * @param siteId
+     *             站点编号 
      * @param channelId 
      *             频道编号
-     * @param siteId
-     *             站点编号
      * @return
      * @throws TemplateException
      */
-    private boolean isPublicenable(int channelId,int siteId) throws TemplateException {
+    private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
         Channel channel = channelLoaderService.getChannel(channelId,siteId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
