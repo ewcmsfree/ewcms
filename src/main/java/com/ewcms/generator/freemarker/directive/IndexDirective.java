@@ -34,7 +34,6 @@ public class IndexDirective implements TemplateDirectiveModel {
             TemplateDirectiveBody body) throws TemplateException, IOException {
         
         Integer index = getIndexValue(env);
-        index = index + 1;
         if(EmptyUtil.isNotNull(index)){
             Writer out = env.getOut();
             out.write(index.toString());
