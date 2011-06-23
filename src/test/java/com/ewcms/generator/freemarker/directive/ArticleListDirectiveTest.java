@@ -1,206 +1,173 @@
 /**
+
  * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.freemarker.directive;
 
-import com.ewcms.content.document.model.Article;
-import com.ewcms.core.site.model.Channel;
-import com.ewcms.core.site.model.Site;
-import com.ewcms.generator.dao.GeneratorDAOable;
-import freemarker.template.Configuration;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
-import com.ewcms.generator.freemarker.directive.article.PubDateDirective;
-import com.ewcms.generator.freemarker.directive.article.TitleDirective;
-import com.ewcms.generator.freemarker.directive.article.UrlDirective;
-import com.ewcms.generator.freemarker.directive.page.PageParam;
-
-import freemarker.template.Template;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.lang.xwork.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.content.document.model.Article;
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
+import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ChannelLoaderServiceable;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 /**
- *
+ * ArticleListDirective单元测试
+ * 
  * @author wangwei
  */
-public class ArticleListDirectiveTest extends AbstractDirectiveTest {
-
-    private static final Log log = LogFactory.getLog(ArticleListDirectiveTest.class);
+public class ArticleListDirectiveTest extends FreemarkerTest {
 
     @Override
-    protected void setDirective(Configuration cfg) {
-        cfg.setSharedVariable("article_title", new TitleDirective());
-        cfg.setSharedVariable("article_url", new UrlDirective());
-        cfg.setSharedVariable("article_date", new PubDateDirective());
-      
+    protected void currentConfiguration(Configuration cfg) {
+        cfg.setSharedVariable("article", new ArticleDirective());
+        cfg.setSharedVariable("index", new IndexDirective());
     }
 
-    private void setArticleListDirective(final int id,final int page,final int row){
-      //TODO mockito instend jmock
-//        Mockery  context = new Mockery();
-//        ArticleListDirective articleListDirective = new ArticleListDirective();
-//        final GeneratorDAOable dao = context.mock(GeneratorDAOable.class);
-//        articleListDirective.setGeneratorDAO(dao);
-//        context.checking(new Expectations() {{
-//                oneOf(dao).findArticlePage(with(aNonNull(Integer.class)), with(any(Integer.class)), with(equal(20)));will(returnValue(findArticlePage(id, page, row)));
-//                oneOf(dao).getChannel(with(aNonNull(Integer.class)));will(returnValue(getChannel(id)));
-//        }});
-//        cfg.setSharedVariable("article_list", articleListDirective);
-    }
-
-    @Test
-    public void testExecute() throws Exception {
-        setArticleListDirective(1,0,20);
-        Template template = cfg.getTemplate("www/article-list/article_list.html");
-
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getCurrentChannel());
-        params.put(DirectiveVariable.CurrentSite.toString(), getCurrentChannel().getSite());
-        String value = this.process(template, params);
-        log.info(value);
-
-        Assert.assertTrue(value.length() > 300);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用19") != -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用20") == -1);
-        Assert.assertTrue(value.indexOf("频道编号：1") != -1);
-    }
-
-    @Test
-    public void testExecuteDefault() throws Exception {
-        setArticleListDirective(1,0,20);
-        Template template = cfg.getTemplate("www/article-list/article_list_default.html");
-
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getCurrentChannel());
-        params.put(DirectiveVariable.CurrentSite.toString(), getCurrentChannel().getSite());
-        String value = this.process(template, params);
-        log.info(value);
-
-        Assert.assertTrue(value.length() > 100);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用4") != -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用20") == -1);
-        Assert.assertTrue(value.indexOf("频道编号：1") != -1);
-
-    }
-
-    @Test
-    public void testExecutePage() throws Exception {
-        setArticleListDirective(1,1,20);
-        Template template = cfg.getTemplate("www/article-list/article_list_page.html");
-
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getCurrentChannel());
-        params.put(DirectiveVariable.CurrentSite.toString(), getCurrentChannel().getSite());
-        PageParam pageParam = new PageParam();
-        pageParam.setPage(1);
-        pageParam.setRow(20);
-        params.put(DirectiveVariable.PageParam.toString(), pageParam);
-        String value = this.process(template, params);
-        log.info(value);
-        Assert.assertTrue(value.length() > 100);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用19") == -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用20") != -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用39") != -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用40") == -1);
-        Assert.assertTrue(value.indexOf("频道编号：1") != -1);
-    }
-
-      private void setArticleListDirective(final String url,final int page,final int row){
-        //TODO mockito instend jmock
-//        Mockery  context = new Mockery();
-//        ArticleListDirective articleListDirective = new ArticleListDirective();
-//        final GeneratorDAOable dao = context.mock(GeneratorDAOable.class);
-//        articleListDirective.setGeneratorDAO(dao);
-//        context.checking(new Expectations() {{
-//            int channelId = 1;
-//            oneOf(dao).findArticlePage(with(aNonNull(Integer.class)), with(any(Integer.class)), with(equal(20)));will(returnValue(findArticlePage(channelId, page, row)));
-//            oneOf(dao).getChannelByUrlOrDir(with(any(Integer.class)),with(aNonNull(String.class)));will(returnValue(getChannel(channelId)));
-//            oneOf(dao).getChannel(with(aNonNull(Integer.class)));will(returnValue(getChannel(channelId)));
-//        }});
-//        cfg.setSharedVariable("article_list", articleListDirective);
-    }
-
-    @Test
-    public void testExecuteLoop() throws Exception {
-        setArticleListDirective("/db/test/",0,20);
-        Template template = cfg.getTemplate("www/article-list/article_list_loop.html");
-
-        Map params = new HashMap();
-        params.put(DirectiveVariable.CurrentChannel.toString(), getCurrentChannel());
-        params.put(DirectiveVariable.CurrentSite.toString(), getCurrentChannel().getSite());
-        String value = this.process(template, params);
-        log.info(value);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用19") != -1);
-        Assert.assertTrue(value.indexOf("ewcms文章标签使用20") == -1);
+    private String getTemplatePath(String name){
+        return String.format("directive/articlelist/%s", name);
     }
     
-    private Channel getCurrentChannel() {
-        Channel channel = new Channel();
-        channel.setId(10);
-        Site site = new Site();
-        site.setId(1);
-        channel.setSite(site);
-        channel.setPublicenable(true);
-
-        return channel;
-    }
-
-    public List<Article> findArticlePage(int id, int page, int row) {
-        Channel channel = getChannel(id);
-        List<Article> list = new ArrayList<Article>();
-        int start = page * row;
-        for (int i = 0; i < row; ++i) {
-            Article article = createArticle(start + i);
-//            article.setChannel(channel);
-            list.add(article);
-        }
-        return list;
-    }
-
-    private Channel getChannel(int id) {
-        Channel channel = new Channel();
-
-        channel.setId(id);
-        channel.setName("test" + String.valueOf(id));
-        channel.setDir(channel.getName());
-        channel.setUrl(channel.getName());
-        channel.setPublicenable(true);
-        channel.setListSize(20);
-        Site site = new Site();
-        site.setId(1);
-        channel.setSite(site);
+    @Test
+    public void testChannelIsNull()throws Exception{
+        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(null);
+        ArticleListDirective directive = new ArticleListDirective();
+        directive.setChannelLoaderService(channelLoaderService);
+        cfg.setSharedVariable("alist", directive);
         
-        return channel;
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        Assert.assertEquals("throws Exception", value);
     }
-
-    private Article createArticle(int id) {
-        Article article = new Article();
-
-        article.setId(new Long(id));
-        article.setAuthor("王伟");
-        article.setOrigin("163.com");
-        article.setTitle("ewcms文章标签使用" + String.valueOf(id));
-        article.setShortTitle("文章标签使用");
-        Calendar calendar = Calendar.getInstance();
-//        article.setPublished(new Date(calendar.getTimeInMillis()));
-        article.setSummary("介绍ewcms文章中的标签使用方法。");
-        article.setImage("http://www.jict.org/image/test.jpg");
-
-        return article;
+    
+    @Test
+    public void testChannelNotPublicenable()throws Exception{
+        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        Channel channel = new Channel();
+        channel.setPublicenable(false);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        ArticleListDirective directive = new ArticleListDirective();
+        directive.setChannelLoaderService(channelLoaderService);
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("", value);
+    }
+    
+    private List<Article> createArticleRow(int row) {
+        List<Article> articles = new ArrayList<Article>();
+        for(int i = 0 ; i < row ; i++){
+            
+            Article article = new Article();
+            article.setId(new Long(i));
+            article.setAuthor("王伟");
+            article.setOrigin("163.com");
+            article.setTitle("ewcms文章标签使用" + String.valueOf(i));
+            article.setShortTitle("文章标签使用");
+            Calendar calendar = Calendar.getInstance();
+            article.setPublished(new Date(calendar.getTimeInMillis()));
+            article.setSummary("介绍ewcms文章中的标签使用方法。");
+            article.setImage("http://www.jict.org/image/test.jpg");
+            
+            articles.add(article);
+        }
+        return articles;
+    }
+    
+    @Test
+    public void testValueTemplate()throws Exception{
+        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        Channel channel = new Channel();
+        channel.setPublicenable(true);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        ArticleListDirective directive = new ArticleListDirective();
+        directive.setChannelLoaderService(channelLoaderService);
+        
+        ArticleLoaderServiceable articleLoaderService = mock(ArticleLoaderServiceable.class);
+        when(articleLoaderService.findArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
+        directive.setArticleLoaderService(articleLoaderService);
+        
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        
+        StringBuilder expected = new StringBuilder();
+        for(int i = 0 ; i < 10 ; i++){
+            expected.append(i+1).append(".ewcms文章标签使用").append(i);
+        }
+        
+        Assert.assertEquals(expected.toString(), value);
+    }
+    
+    @Test
+    public void testLoopsTemplate()throws Exception{
+        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        Channel channel = new Channel();
+        channel.setId(1);
+        channel.setPublicenable(true);
+        when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        ArticleListDirective directive = new ArticleListDirective();
+        directive.setChannelLoaderService(channelLoaderService);
+        
+        ArticleLoaderServiceable articleLoaderService = mock(ArticleLoaderServiceable.class);
+        when(articleLoaderService.findArticlePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
+        directive.setArticleLoaderService(articleLoaderService);
+        
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("loop.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        
+        StringBuilder expected = new StringBuilder();
+        for(int i = 0 ; i < 25 ; i++){
+            expected.append("ewcms文章标签使用").append(i);
+        }
+        
+        Assert.assertEquals(expected.toString(), value);
     }
 }
