@@ -33,5 +33,5 @@ public interface TemplateLoaderServiceable {
      * @param name 模板名称
      * @return
      */
-    String getUniquePathOfChannelTemplate(Integer siteId,Integer channelId,String name);
+    String getUniquePathOfChannelTemplate(int siteId,int channelId,String name);
 }
