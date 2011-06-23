@@ -66,19 +66,19 @@ public abstract class FreemarkerTest{
      * @return       生成内容   
      * @throws Exception
      */
-    protected String process(Template template,Object value)throws Exception{
+    protected String process(Template template,Object value){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(stream);
         try{
-            template.process(value, writer);                
+            template.process(value, writer);      
+            String content =  stringOf(stream.toByteArray());
+            writer.close();
+            stream.close();
+            return content;
         }catch(Exception e){
             logger.error("Freemarker process exception:{}",e.toString());
+            return "throws Exception";
         }
-        String content =  stringOf(stream.toByteArray());
-        writer.close();
-        stream.close();
-        
-        return content;
     }
 
     protected String stringOf(byte[] array) throws UnsupportedEncodingException {
