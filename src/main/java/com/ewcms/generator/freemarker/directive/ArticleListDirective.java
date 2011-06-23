@@ -99,7 +99,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
                 FreemarkerUtil.setVariable(env, name, article);
-                FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), Integer.valueOf(i));
+                FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), Integer.valueOf(i+1));
                 body.render(writer);
                 FreemarkerUtil.removeVariable(env, GlobalVariable.INDEX.toString());
                 FreemarkerUtil.removeVariable(env, name);
@@ -301,26 +301,56 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         this.valueParam = valueParam;
     }
 
-    public void setChannelParam(String channelParam) {
-        this.channelParam = channelParam;
+    /**
+     * 设置标签频道参数名
+     * 
+     * @param paramName 参数名
+     */
+    public void setChannelParam(String paramName) {
+        this.channelParam = paramName;
     }
 
-    public void setRowParam(String rowParam) {
-        this.rowParam = rowParam;
+    /**
+     * 设置标签显示行参数名
+     * 
+     * @param paramName 参数名
+     */
+    public void setRowParam(String paramName) {
+        this.rowParam = paramName;
     }
 
-    public void setNameParam(String nameParam) {
-        this.nameParam = nameParam;
+    /**
+     * 设置标签输出变量名
+     * 
+     * @param paramName 参数名称
+     */
+    public void setNameParam(String paramName) {
+        this.nameParam = paramName;
     }
 
-    public void setTopParam(String topParam) {
-        this.topParam = topParam;
+    /**
+     * 设置标签顶置显示参数名
+     * 
+     * @param paramName
+     */
+    public void setTopParam(String paramName) {
+        this.topParam = paramName;
     }
 
+    /**
+     * 设置文章服务
+     * 
+     * @param service
+     */
     public void setArticleLoaderService(ArticleLoaderServiceable service) {
         articleLoaderService = service;
     }
 
+    /**
+     * 设置频道服务接口
+     * 
+     * @param service
+     */
     public void setChannelLoaderService(ChannelLoaderServiceable service) {
         channelLoaderService = service;
     }
