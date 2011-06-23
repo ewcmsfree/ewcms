@@ -22,6 +22,7 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.TemplateLoaderServiceable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -46,17 +47,6 @@ public class IncludeDirectiveTest extends FreemarkerTest {
        Assert.assertEquals("2/home/test.html", uPath);
     }
     
-    @Test
-    public void testChannelTemplatePath(){
-        IncludeDirective directive = new IncludeDirective();
-        String name = "index.html";
-        Integer siteId = new Integer(2);
-        Integer channelId = new Integer(1);
-        
-        String uPath = directive.getChannelTemplatePath(siteId, channelId, name);
-        Assert.assertEquals("2/1/index.html", uPath);
-    }
-    
     @Override
     protected void currentConfiguration(Configuration cfg) {
         IncludeDirective directive = new IncludeDirective();
@@ -65,6 +55,9 @@ public class IncludeDirectiveTest extends FreemarkerTest {
         channel.setId(1);
         when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
         directive.setChannelLoaderService(channelLoaderService);
+        TemplateLoaderServiceable templateLoaderService = mock(TemplateLoaderServiceable.class);
+        when(templateLoaderService.getUniquePathOfChannelTemplate(any(Integer.class), any(Integer.class), any(String.class))).thenReturn("2/1/include.html");
+        directive.setTemplateLoaderService(templateLoaderService);
         cfg.setSharedVariable("include", directive);
     }
     
