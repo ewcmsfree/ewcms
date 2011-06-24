@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
@@ -146,7 +148,7 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
 
         String content = process(template, map);
         content = StringUtils.deleteWhitespace(content);
-        assertTrue(content.indexOf("title1") > 0);
+        Assert.assertEquals("throwsException", content);
     }
 
     /**
