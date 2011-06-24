@@ -31,6 +31,8 @@ import freemarker.template.TemplateModelException;
 
 /**
  * 频道列表标签
+ * <br>
+ * 频道标签主要得到系统的频道，显示频道到前台功能。可以和文章列表组合使用，实现文章的灵活显示。
  * 
  * @author wangwei
  */
@@ -39,12 +41,14 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     
     private static final int DEFAULT_ROW = -1;
     
+    @Deprecated
     private static final String VALUE_PARAM_NAME = "value";
     private static final String CHANNEL_PARAM_NAME = "channel";
     private static final String ROW_PARAM_NAME = "row";
     private static final String NAME_PARAM_NAME = "name";
     private static final String CHILD_PARAM_NAME="child";
 
+    @Deprecated
     private String valueParam = VALUE_PARAM_NAME;
     private String channelParam = CHANNEL_PARAM_NAME;
     private String rowParam = ROW_PARAM_NAME;
@@ -319,26 +323,52 @@ public class ChannelListDirective implements TemplateDirectiveModel {
         return value == null ? false : value;
     }
 
+    @Deprecated
     public void setValueParam(String valueParam) {
         this.valueParam = valueParam;
     }
 
-    public void setChannelParam(String channelParam) {
-        this.channelParam = channelParam;
+    /**
+     * 设置标签频道参数名
+     * 
+     * @param paramName 参数名
+     */
+    public void setChannelParam(String paramName) {
+        this.channelParam = paramName;
     }
 
-    public void setRowParam(String rowParam) {
-        this.rowParam = rowParam;
+    /**
+     * 设置标签显示行参数名
+     * 
+     * @param paramName 参数名
+     */
+    public void setRowParam(String paramName) {
+        this.rowParam = paramName;
     }
 
-    public void setNameParam(String nameParam) {
-        this.nameParam = nameParam;
+    /**
+     * 设置标签输出变量名参数名
+     * 
+     * @param paramName 参数名称
+     */
+    public void setNameParam(String paramName) {
+        this.nameParam = paramName;
     }
 
+    /**
+     * 设置标签是否是子频道参数名
+     * 
+     * @param paramName 参数名称
+     */
     public void setChildParam(String childParam) {
         this.childParam = childParam;
     }
 
+    /**
+     * 设置频道服务接口
+     * 
+     * @param service
+     */
     public void setChannelLoaderService(ChannelLoaderServiceable service) {
         this.channelLoaderService = service;
     }
