@@ -230,7 +230,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
-        Channel channel = channelLoaderService.getChannel(channelId,siteId);
+        Channel channel = channelLoaderService.getChannel(siteId,channelId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
             throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");

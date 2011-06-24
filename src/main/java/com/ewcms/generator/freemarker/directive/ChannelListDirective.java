@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.model.Channel;
@@ -187,8 +186,10 @@ public class ChannelListDirective implements TemplateDirectiveModel {
         }
 
         channel = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
-        Assert.notNull(channel);
-        return loadingChannelWithPublicenable(siteId, channel.getId(),child);
+        if(EmptyUtil.isNotNull(channel)){
+            return loadingChannelWithPublicenable(siteId, channel.getId(),child);    
+        }
+        return new ArrayList<Channel>();
     }
     
     /**
@@ -202,7 +203,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
-        Channel channel = channelLoaderService.getChannel(channelId,siteId);
+        Channel channel = channelLoaderService.getChannel(siteId,channelId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
             throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
@@ -219,7 +220,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateException
      */
-    private List<Channel> loadingChannelWithPublicenable(int siteId,int channelId,boolean child)throws TemplateException{
+    List<Channel> loadingChannelWithPublicenable(int siteId,int channelId,boolean child)throws TemplateException{
         
         boolean pub = isPublicenable(siteId,channelId);
         
@@ -236,7 +237,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
                 }
             }
         }else{
-            list.add(channelLoaderService.getChannel(channelId, siteId));
+            list.add(channelLoaderService.getChannel(siteId,channelId));
         }
         
         return list;
@@ -245,10 +246,14 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     /**
      * 通过频道url或变量名称加载已经发布的频道列表
      * 
-     * @param env Freemarker环境
-     * @param siteId 站点编号
-     * @param value url或变量名称
-     * @param child 显示子站点
+     * @param env 
+     *          Freemarker环境
+     * @param siteId 
+     *          站点编号
+     * @param value 
+     *          url或变量名称
+     * @param child 
+     *          显示子站点
      * @return
      * @throws TemplateException
      */
