@@ -4,110 +4,98 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.freemarker.directive.page;
 
-import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
-import com.ewcms.generator.freemarker.directive.DirectiveVariable;
-import com.ewcms.generator.freemarker.directive.page.PageParam;
-import com.ewcms.generator.freemarker.directive.page.SkipDirective;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.GlobalVariable;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 /**
- *
+ * SkipDirective单元测试
+ * 
  * @author wangwei
  */
-public class SkipDirectiveTest extends AbstractDirectiveTest {
-
-    private static final Log log = LogFactory.getLog(SkipDirectiveTest.class);
+public class SkipDirectiveTest extends FreemarkerTest {
 
     @Override
-    protected void setDirective(Configuration cfg) {
+    protected void currentConfiguration(Configuration cfg) {
         cfg.setSharedVariable("page_skip", new SkipDirective());
+        cfg.setSharedVariable("page", new PageOutDirective());
     }
-
+    
     @Test
-    public void testGetSkipType()throws Exception{
+    public void testInitAliasesMapProperties()throws Exception{
+        
+        String[] aliases = initAliases();
         SkipDirective directive = new SkipDirective();
-
-        SkipDirective.SkipType type = directive.getSkipType("f");
-        Assert.assertEquals(type, SkipDirective.SkipType.First);
-        type = directive.getSkipType("first");
-        Assert.assertEquals(type, SkipDirective.SkipType.First);
-
-        type = directive.getSkipType("l");
-        Assert.assertEquals(type, SkipDirective.SkipType.Last);
-        type = directive.getSkipType("last");
-        Assert.assertEquals(type, SkipDirective.SkipType.Last);
-
-        type = directive.getSkipType("p");
-        Assert.assertEquals(type, SkipDirective.SkipType.Previous);
-        type = directive.getSkipType("prev");
-        Assert.assertEquals(type, SkipDirective.SkipType.Previous);
-
-        type = directive.getSkipType("n");
-        Assert.assertEquals(type, SkipDirective.SkipType.Next);
-        type = directive.getSkipType("next");
-        Assert.assertEquals(type, SkipDirective.SkipType.Next);
+        for(String alias : aliases){
+            SkipPageable<PageOut> skipPage = directive.getSkipPage(alias);
+            Assert.assertNotNull(skipPage);
+        }
     }
-
+    
+    private String[] initAliases(){
+        return new String[]{
+             "f","first","首","首页",
+             "n","next","下","下一页",
+             "p","prev","上","上一页",
+             "l","last","末","末页"
+        };
+    }
+    
     /**
-     * 页面数小于或等于一不显示翻页
+     * 得到模板路径
      * 
-     * @throws Exception
+     * @param name 模板名
+     * @return
      */
-    @Test
-    public void testExecuteNotShow() throws Exception {
-        Template template = cfg.getTemplate("www/page/skip_first.html");
-        Map params = new HashMap();
-        PageParam pageParam = new PageParam();
-        pageParam.setCount(1);
-        params.put(DirectiveVariable.PageParam.toString(), pageParam);
-        String value = this.process(template, params);
-        log.info(value);
-
-        Assert.assertTrue(value.trim().length() == 0);
+    private String getTemplatePath(String name){
+        return String.format("directive/page/%s", name);
     }
-
+    
     @Test
-    public void testExecute() throws Exception {
-        Template template = cfg.getTemplate("www/page/skip_first.html");
-        Map params = new HashMap();
-        PageParam pageParam = new PageParam();
-        pageParam.setCount(5);
-        pageParam.setUrlPattern("http://test.com/dddd_%d.html");
-        params.put(DirectiveVariable.PageParam.toString(), pageParam);
+    public void testPageCountIsOnlyOne() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("skip.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(0));
+        params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(1));
         String value = this.process(template, params);
-        log.info(value);
-
-        Assert.assertTrue(value.indexOf("第一页") != -1);
-        Assert.assertTrue(value.indexOf("第一页全") != -1);
-        Assert.assertTrue(value.indexOf("http://test.com/dddd_0.html") != -1);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("，，，",value);
     }
-
+//
     @Test
-    public void testExecuteLoop() throws Exception {
-        Template template = cfg.getTemplate("www/page/skip_first_loop.html");
-        Map params = new HashMap();
-        PageParam pageParam = new PageParam();
-        pageParam.setCount(5);
-        pageParam.setUrlPattern("http://test.com/dddd_%d.html");
-        params.put(DirectiveVariable.PageParam.toString(), pageParam);
+    public void testSkipTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("skip.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(0));
+        params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(5));
         String value = this.process(template, params);
-        log.info(value);
-
-        Assert.assertTrue(value.indexOf("第一页loop") != -1);
-        Assert.assertTrue(value.indexOf("http://test.com/dddd_0.html") != -1);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("第一页，下一页，上一页，未页",value);
     }
+//
+//    @Test
+//    public void testExecuteLoop() throws Exception {
+//        Template template = cfg.getTemplate("www/page/skip_first_loop.html");
+//        Map params = new HashMap();
+//        PageParam pageParam = new PageParam();
+//        pageParam.setCount(5);
+//        pageParam.setUrlPattern("http://test.com/dddd_%d.html");
+//        params.put(GlobalVariable.PAGE_NUMBER.toString(), pageParam);
+//        String value = this.process(template, params);
+//        log.info(value);
+//
+//        Assert.assertTrue(value.indexOf("第一页loop") != -1);
+//        Assert.assertTrue(value.indexOf("http://test.com/dddd_0.html") != -1);
+//    }
 }
