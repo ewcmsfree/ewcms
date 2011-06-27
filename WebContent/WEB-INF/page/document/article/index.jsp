@@ -69,7 +69,7 @@
 								{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
 								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
 								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},
+								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},'-',
 								{id:'btnClearSort',text:'清除排序',iconCls:'icon-sort',handler:clearSortOperate},'-',
 								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
@@ -85,7 +85,6 @@
 					url: '<s:url namespace="/site/channel" action="tree"/>',
 					onClick:function(node){
 						channelId = node.id;
-						$('#channelId').attr('value',channelId);
 						if (node.attributes.maxpermission < 1){
 							disableButtons();
 							$('#btnRelease').linkbutton('disable');
@@ -102,7 +101,7 @@
 							
 							enableButtons();
 							$("#tt").datagrid('clearSelections');
-							if (channelId == $('#tt').tree('getRoot')) return;
+							if (channelId == $('#tt2').tree('getRoot')) return;
 							var url='<s:url namespace="/document/article" action="query"/>';
 							url = url + "?channelId=" + channelId;
 							$("#tt").datagrid({
