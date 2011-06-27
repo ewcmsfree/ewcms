@@ -25,7 +25,7 @@ public interface ArticleLoaderServiceable {
      * @param id 文章编号
      * @return
      */
-    Article getArticle(int id);
+    Article getArticle(Integer id);
 
     /**
      * 发布文章
@@ -33,7 +33,7 @@ public interface ArticleLoaderServiceable {
      * @param id 文章编号
      * @param url 文章链接地址
      */
-    void releaseArticle(int id, String url);
+    void releaseArticle(Integer id, String url);
     
     /**
      * 查询准备发布的文章
@@ -41,7 +41,7 @@ public interface ArticleLoaderServiceable {
      * @param channelId 频道编号 
      * @return
      */
-    List<Article> findReleaseArticles(int channelId);
+    List<Article> findReleaseArticles(Integer channelId);
     
     /**
      * 得到频道指定页面文章
@@ -55,7 +55,7 @@ public interface ArticleLoaderServiceable {
      * @param top  顶置文章
      * @return
      */
-    List<Article> findArticlePage(int channelId,int page,int row,boolean top);
+    List<Article> findArticlePage(Integer channelId,Integer page,Integer row,Boolean top);
 
     /**
      * 得到频道已经发布的文章总数
@@ -73,5 +73,5 @@ public interface ArticleLoaderServiceable {
      * 
      * @param channelId 频道编号
      */
-     void againReleaseArticle(int channelId);
+     void againReleaseArticle(Integer channelId);
 }

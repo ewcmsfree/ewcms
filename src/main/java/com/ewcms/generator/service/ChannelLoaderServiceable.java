@@ -24,11 +24,11 @@ public interface ChannelLoaderServiceable {
      * <br>
      * 频道必须是指定站点的频道。
      * 
-     * @param id 频道编号
      * @param siteId 站点编号
+     * @param id 频道编号
      * @return 频道对象
      */
-    public Channel getChannel(int id,int siteId);
+    public Channel getChannel(Integer siteId,Integer id);
     
     /**
      * 得到所属子频道
@@ -36,7 +36,7 @@ public interface ChannelLoaderServiceable {
      * @param id 频道编号
      * @return
      */
-    public List<Channel> getChannelChildren(int id);
+    public List<Channel> getChannelChildren(Integer id);
     
     /**
      * 通过频道访问链接地址和路径的频道对象
@@ -45,5 +45,5 @@ public interface ChannelLoaderServiceable {
      * @param path 频道链接地址或路径
      * @return 频道对象
      */
-    public Channel getChannelByUrlOrPath(int siteId,String path);
+    public Channel getChannelByUrlOrPath(Integer siteId,String path);
 }

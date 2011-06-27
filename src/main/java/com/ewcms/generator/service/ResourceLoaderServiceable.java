@@ -25,7 +25,7 @@ public interface ResourceLoaderServiceable {
      * @param id  资源编号
      * @return
      */
-    Resource getResource(int id);
+    Resource getResource(Integer id);
     
     /**
      * 查询需要发布的资源
@@ -33,7 +33,7 @@ public interface ResourceLoaderServiceable {
      * @param siteId 站点编号
      * @return
      */
-    List<Resource> findReleaseResource(int siteId);
+    List<Resource> findReleaseResource(Integer siteId);
 
     /**
      * 发布资源
@@ -42,5 +42,5 @@ public interface ResourceLoaderServiceable {
      * 
      * @param id 资源编号
      */
-    void releaseResource(int id);
+    void releaseResource(Integer id);
 }

@@ -25,7 +25,7 @@ public interface TemplateSourceLoaderServiceable {
      * @param siteId 站点编号
      * @return 模板资源列表
      */
-    List<TemplateSource> findReleaseTemplateSources(int siteId);
+    List<TemplateSource> findReleaseTemplateSources(Integer siteId);
     
     /**
      * 得到模板资源
@@ -33,7 +33,7 @@ public interface TemplateSourceLoaderServiceable {
      * @param id 模板资源编号
      * @return 模板资源
      */
-    TemplateSource getTemplateSource(int id);
+    TemplateSource getTemplateSource(Integer id);
     
     /**
      * 得到所属模板资源的子模板资源
@@ -41,12 +41,12 @@ public interface TemplateSourceLoaderServiceable {
      * @param id 模板资源编号
      * @return
      */
-    List<TemplateSource> getTemplateSourceChildren(int id);
+    List<TemplateSource> getTemplateSourceChildren(Integer id);
     
     /**
      * 更新模板资源为发布状态
      * 
      * @param id 模板资源编号
      */
-    void releaseTemplateSource(int id);
+    void releaseTemplateSource(Integer id);
 }
