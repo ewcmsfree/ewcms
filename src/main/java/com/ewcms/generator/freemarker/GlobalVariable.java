@@ -27,6 +27,7 @@ public enum GlobalVariable {
     DEBUG("ewcms_debug"),
     PAGE_NUMBER("ewcms_page_number"),
     PAGE_COUNT("ewcms_page_count"),
+    PAGE_OUT("ewcms_page_out"),
     INDEX("ewcms_index");
         
     private String name;
