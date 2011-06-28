@@ -4,35 +4,30 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.freemarker.directive.component;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.ewcms.content.document.model.Article;
-import com.ewcms.core.site.model.Channel;
-import com.ewcms.generator.freemarker.directive.AbstractDirectiveTest;
-import com.ewcms.generator.freemarker.directive.component.CountDirective;
+import com.ewcms.generator.freemarker.FreemarkerTest;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
-import org.junit.Assert;
 
 /**
  *
  * @author wangwei
  */
-public class CountDirectiveTest extends AbstractDirectiveTest {
+public class CountDirectiveTest extends FreemarkerTest {
 
     private static final Log log = LogFactory.getLog(CountDirectiveTest.class);
 
     @Override
-    protected void setDirective(Configuration cfg) {
-        cfg.setSharedVariable("component_count", new CountDirective());
+    protected void currentConfiguration(Configuration cfg) {
+//        cfg.setSharedVariable("component_count", new CountDirective());
     }
 
     @Test
