@@ -59,7 +59,7 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         String label = getLabelValue(params);
         String url = getUrlValue(env);
         
-        List<PageOut>   pages = getPageOuts(pageCount, pageNumber, max,url,label);
+        List<PageOut>  pages = getPageOuts(pageCount, pageNumber, max,url,label);
 
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
             loopVars[0] = env.getObjectWrapper().wrap(pages);
@@ -110,7 +110,7 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
      *            链接地址
      * @return
      */
-    private List<PageOut> getPageOuts(int count, int number, int max, String url,String label) {
+    List<PageOut> getPageOuts(int count, int number, int max, String url,String label) {
 
         int start = 0;
         int len = 0;
@@ -130,7 +130,7 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         for (int i = 0; i < len; i++) {
             pageOuts.add(new PageOut(count, start + i, url));
         }
-        if (start + len > (count - 1)) {
+        if ((start + len) < (count - 1)) {
             pageOuts.add(createMissPage(count,label));
         }
 
