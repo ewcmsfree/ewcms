@@ -70,9 +70,9 @@ public class SkipDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(1));
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        Assert.assertEquals("，，，",value);
+        Assert.assertEquals("|||",value);
     }
-//
+    
     @Test
     public void testSkipTemplate() throws Exception {
         Template template = cfg.getTemplate(getTemplatePath("skip.html"));
@@ -81,21 +81,17 @@ public class SkipDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(5));
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        Assert.assertEquals("第一页，下一页，上一页，未页",value);
+        Assert.assertEquals("第一页|下一页|上一页|未页",value);
     }
-//
-//    @Test
-//    public void testExecuteLoop() throws Exception {
-//        Template template = cfg.getTemplate("www/page/skip_first_loop.html");
-//        Map params = new HashMap();
-//        PageParam pageParam = new PageParam();
-//        pageParam.setCount(5);
-//        pageParam.setUrlPattern("http://test.com/dddd_%d.html");
-//        params.put(GlobalVariable.PAGE_NUMBER.toString(), pageParam);
-//        String value = this.process(template, params);
-//        log.info(value);
-//
-//        Assert.assertTrue(value.indexOf("第一页loop") != -1);
-//        Assert.assertTrue(value.indexOf("http://test.com/dddd_0.html") != -1);
-//    }
+
+    @Test
+    public void testLoopTemplate() throws Exception {
+        Template template = cfg.getTemplate(getTemplatePath("loop.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(0));
+        params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(5));
+        String value = this.process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        Assert.assertEquals("第一页loop|5|1",value);
+    }
 }
