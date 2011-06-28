@@ -19,6 +19,7 @@ import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 
 import freemarker.core.Environment;
+import freemarker.template.SimpleObjectWrapper;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -58,10 +59,10 @@ public class SkipDirective extends SkipBaseDirective{
         }
         String type = getTypeValue(params);
         SkipPageable<PageOut> skip = getSkipPage(type);
-        PageOut page = skip.skip(pageCount, pageNumber, label, url);
+        PageOut pageOut = skip.skip(pageCount, pageNumber, label, url);
             
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
-            loopVars[0] = env.getObjectWrapper().wrap(page);
+            loopVars[0] = SimpleObjectWrapper.getDefaultInstance().wrap(pageOut);
             if(EmptyUtil.isNull(body)){
                 logger.warn("Body is null");
             }else{
@@ -70,7 +71,7 @@ public class SkipDirective extends SkipBaseDirective{
             }
         } else {
             Writer writer = env.getOut();
-            FreemarkerUtil.setVariable(env, GlobalVariable.PAGE_OUT.toString(),page);
+            FreemarkerUtil.setVariable(env, GlobalVariable.PAGE_OUT.toString(),pageOut);
             body.render(writer);
             FreemarkerUtil.removeVariable(env, GlobalVariable.PAGE_OUT.toString());
         }
