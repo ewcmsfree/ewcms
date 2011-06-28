@@ -51,7 +51,7 @@ public class SkipDirective extends SkipBaseDirective{
         logger.debug("Page count is {}",pageCount);
         String label = getLabelValue(params);
         logger.debug("Label is {}",label);
-        String url = getUrlValue(params);
+        String url = getUrlValue(env);
         logger.debug("Url is {}",url);
         
         if (pageCount == 1) {
