@@ -92,7 +92,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(20));
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        String expected="..891011121314..";
+        String expected="##891011121314##";
         Assert.assertEquals(expected, value);
     }
     
