@@ -57,9 +57,7 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         }
         
         String label = getLabelValue(params);
-        
-        //TODO URL
-        String url = "";
+        String url = getUrlValue(env);
         
         List<PageOut>   pages = getPageOuts(pageCount, pageNumber, max,url,label);
 
