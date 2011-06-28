@@ -95,4 +95,16 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         String expected="..891011121314..";
         Assert.assertEquals(expected, value);
     }
+    
+    @Test
+    public void testNumberActiveTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("numberactive.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(10));
+        params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(20));
+        String value = this.process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        String expected="11/20";
+        Assert.assertEquals(expected, value);
+    }
 }
