@@ -33,15 +33,16 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
     private static final Logger logger = LoggerFactory.getLogger(SkipNumberDirecitve.class);
     
     private static final int DEFAULT_MAX_LENGTH = 5;
+    private static final boolean DEFAULT_ACTIVE = false;
     private static final String DEFAULT_LABEL = "..";
     
-    private static final String NUMBER_PARAM_NAME = "number";
     private static final String MAXLENGTH_PARAM_NAME = "max";
     private static final String LABEL_PARAM_NAME = "label";
+    private static final String ACTIVE_PARAM_NAME = "active";
 
     private String maxParam = MAXLENGTH_PARAM_NAME;
-    private String numberParam = NUMBER_PARAM_NAME;
     private String labelParam = LABEL_PARAM_NAME;
+    private String activeParam = ACTIVE_PARAM_NAME;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -49,20 +50,31 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
             TemplateDirectiveBody body) throws TemplateException, IOException {
         
         int pageCount = getPageCountValue(env);
-        int pageNumber = getPageNumberValue(env);
-        
-        int max = getMaxValue(params);
-        if(max == DEFAULT_MAX_LENGTH){
-            max = getNumberValue(params);
+        if(pageCount == 1){
+            return ;
         }
-        
+
+        int pageNumber = getPageNumberValue(env);
+        int max = getMaxValue(params);
         String label = getLabelValue(params);
         String url = getUrlValue(env);
         
-        List<PageOut>  pages = getPageOuts(pageCount, pageNumber, max,url,label);
+        boolean active = getActiveValue(params);
+        
+        List<PageOut>  pages;
+        if(active){
+            pages = new ArrayList<PageOut>();
+            pages.add(new PageOut(pageCount,pageNumber,null));
+        }else{
+            pages = getPageOuts(pageCount, pageNumber, max,url,label);
+        }
 
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
-            loopVars[0] = env.getObjectWrapper().wrap(pages);
+            if(pages.size() == 1){
+                loopVars[0] = env.getObjectWrapper().wrap(pages.get(0));                
+            }else{
+                loopVars[0] = env.getObjectWrapper().wrap(pages);    
+            }
             if(EmptyUtil.isNull(body)){
                 logger.warn("Body is null");
             }else{
@@ -79,22 +91,46 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private Integer getNumberValue(Map params) throws TemplateException {
-        Integer page = FreemarkerUtil.getInteger(params, numberParam);
-        return page == null ? DEFAULT_MAX_LENGTH : page;
-    }
-
+    /**
+     * 得到最大显示页数目
+     * 
+     * @param params 
+     *            参数集合
+     * @return
+     * @throws TemplateException
+     */
     @SuppressWarnings("rawtypes")
     private Integer getMaxValue(Map params) throws TemplateException {
         Integer page = FreemarkerUtil.getInteger(params, maxParam);
         return page == null ? DEFAULT_MAX_LENGTH : page;
     }
     
+    /**
+     * 得到省略标签显示
+     * 
+     * @param params
+     *            参数集合
+     * @return
+     * @throws TemplateException
+     */
     @SuppressWarnings("rawtypes")
     private String getLabelValue(Map params) throws TemplateException{
         String value = FreemarkerUtil.getString(params, labelParam);
         return value == null ? DEFAULT_LABEL : value;
+    }
+    
+    /**
+     * 得到是否显示当前页
+     * 
+     * @param params
+     *            参数集合
+     * @return
+     * @throws TemplateException
+     */
+    @SuppressWarnings("rawtypes")
+    private Boolean getActiveValue(Map params)throws TemplateException{
+        Boolean value = FreemarkerUtil.getBoolean(params, activeParam);
+        return value == null ? DEFAULT_ACTIVE : value;
     }
 
     /**
@@ -122,7 +158,9 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
             start = (start < 0 ? 0 : start);
             len = max;
         }
-
+        logger.debug("Page number start is {}",start);
+        logger.debug("Page number length is  {}",len);
+        
         List<PageOut> pageOuts = new ArrayList<PageOut>();
         if (start > 0) {
             pageOuts.add(createMissPage(count,label));
@@ -139,5 +177,32 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
 
     private PageOut createMissPage(int count,String label) {
         return new PageOut(count, -1, label, null);
+    }
+
+    /**
+     * 设置标签最大显示页数目参数名
+     * 
+     * @param maxParam 参数名
+     */
+    public void setMaxParam(String maxParam) {
+        this.maxParam = maxParam;
+    }
+
+    /**
+     * 设置标签省略号参数名
+     * 
+     * @param labelParam 参数名
+     */
+    public void setLabelParam(String labelParam) {
+        this.labelParam = labelParam;
+    }
+
+    /**
+     * 设置标签当前页输出参数名
+     * 
+     * @param activeParam 参数名
+     */
+    public void setActiveParam(String activeParam) {
+        this.activeParam = activeParam;
     }
 }
