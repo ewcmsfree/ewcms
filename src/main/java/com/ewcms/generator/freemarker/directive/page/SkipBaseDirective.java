@@ -1,3 +1,9 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
 package com.ewcms.generator.freemarker.directive.page;
 
 import java.util.Map;
@@ -11,6 +17,14 @@ import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 
+/**
+ * 页面跳转基础标签类
+ * <br>
+ * 主要为标签得到通用参数值如：页数、总页数。
+ * 
+ * @author wangwei
+ *
+ */
 public abstract class SkipBaseDirective implements TemplateDirectiveModel {
 
     private static final Integer DEFAULT_PAGE_COUNT = 1;
