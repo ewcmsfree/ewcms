@@ -17,8 +17,10 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
+ * @deprecated
  * @author wangwei
  */
+//TODO remove
 public class DirectiveException extends Exception {
 
     private static final Log log = LogFactory.getLog(DirectiveException.class);
