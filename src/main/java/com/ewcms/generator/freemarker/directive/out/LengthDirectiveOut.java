@@ -16,6 +16,7 @@ import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -36,14 +37,14 @@ public class LengthDirectiveOut implements DirectiveOutable {
     
     @SuppressWarnings("rawtypes")
     @Override
-    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         return constructOut(value,env,params);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
+    public String constructOut(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         String s = getString(value);
         int length = getLength(params);
@@ -64,13 +65,13 @@ public class LengthDirectiveOut implements DirectiveOutable {
     }
     
     @SuppressWarnings("rawtypes")
-    private int getLength(Map params)throws TemplateModelException {
+    private int getLength(Map params)throws TemplateException {
         Integer length= FreemarkerUtil.getInteger(params, lengthParam);
         return length == null ? NOT_LIMIT_LENGTH : length;
     }
     
     @SuppressWarnings("rawtypes")
-    private String getMark(Map params)throws TemplateModelException{
+    private String getMark(Map params)throws TemplateException{
         String mark = FreemarkerUtil.getString(params, markParam);
         return mark == null ? DEFAULT_MARK : mark;
     }

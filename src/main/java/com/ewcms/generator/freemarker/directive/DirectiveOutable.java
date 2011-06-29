@@ -9,7 +9,7 @@ package com.ewcms.generator.freemarker.directive;
 import java.util.Map;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateException;
 
 /**
  * 构造标签输出的内容
@@ -30,10 +30,10 @@ public interface DirectiveOutable{
      * @param params
      *            标签参数集合
      * @return 返回值
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    Object loopValue(Object value,Environment env,Map params)throws TemplateModelException;
+    Object loopValue(Object value,Environment env,Map params)throws TemplateException;
     
     /**
      * 构造标签输出的内容
@@ -46,8 +46,8 @@ public interface DirectiveOutable{
      *            标签参数集合
      *            
      * @return  输出内容
-     * @throws TemplateModelException
+     * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    String  constructOut(Object value,Environment env,Map params)throws TemplateModelException;
+    String  constructOut(Object value,Environment env,Map params)throws TemplateException;
 }

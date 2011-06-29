@@ -18,7 +18,7 @@ import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.generator.freemarker.directive.out.HtmlDirectiveOut;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateException;
 
 /**
  * 文章分类标签输出
@@ -30,14 +30,14 @@ public class CategoriesDirectiveOut extends HtmlDirectiveOut {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         return value;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
+    public String constructOut(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
       
         List<ArticleCategory> categories = (List<ArticleCategory>)value;

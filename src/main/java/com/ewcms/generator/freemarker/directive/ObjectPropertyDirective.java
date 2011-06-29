@@ -109,7 +109,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException,NoSuchMethodException
      */
     @SuppressWarnings("rawtypes")
-    protected Object loopValue(Object objectValue,String propertyName,Environment env,Map params)throws TemplateModelException,NoSuchMethodException{
+    protected Object loopValue(Object objectValue,String propertyName,Environment env,Map params)throws TemplateException,NoSuchMethodException{
         return getValue(objectValue,propertyName);
     }
     
@@ -129,7 +129,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException,NoSuchMethodException
      */
     @SuppressWarnings("rawtypes")
-    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException,NoSuchMethodException{
+    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateException,NoSuchMethodException{
         Assert.notNull(objectValue);
         Object value = getValue(objectValue,propertyName);
         return value == null ? null : value.toString();
@@ -155,7 +155,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    protected Object getObjectValue(final Environment env, final Map params)throws TemplateModelException {
+    protected Object getObjectValue(final Environment env, final Map params)throws TemplateException {
 
         Object object =  FreemarkerUtil.getBean(params, valueParam);
         if (EmptyUtil.isNotNull(object)) {
@@ -191,7 +191,7 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    protected String getPropertyName(final Environment env, final Map params)throws TemplateModelException {
+    protected String getPropertyName(final Environment env, final Map params)throws TemplateException {
         String property = FreemarkerUtil.getString(params, nameParam);
         if(property == null){
             property = FreemarkerUtil.getString(env, nameParam);

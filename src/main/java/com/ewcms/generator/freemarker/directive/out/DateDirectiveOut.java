@@ -19,7 +19,7 @@ import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateException;
 
 /**
  * 标签输出格式化日期
@@ -36,14 +36,14 @@ public class DateDirectiveOut implements DirectiveOutable{
     
     @SuppressWarnings("rawtypes")
     @Override
-    public String constructOut(Object value,Environment env,Map params)throws TemplateModelException {
+    public String constructOut(Object value,Environment env,Map params)throws TemplateException {
         Assert.notNull(value);
         DateFormat dateFormat = getDateFormat(params);
         return dateFormat.format(value);
     }
     
     @SuppressWarnings("rawtypes")
-    private DateFormat getDateFormat(Map params) throws TemplateModelException {
+    private DateFormat getDateFormat(Map params) throws TemplateException {
         String format = FreemarkerUtil.getString(params, formatParam);
         logger.debug("DateFormate is {}:",format);
         if (EmptyUtil.isNull(format)) {
@@ -55,7 +55,7 @@ public class DateDirectiveOut implements DirectiveOutable{
     
     @SuppressWarnings("rawtypes")
     @Override
-    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         return value;
     }    

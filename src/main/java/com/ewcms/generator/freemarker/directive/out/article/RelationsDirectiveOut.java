@@ -20,7 +20,7 @@ import com.ewcms.content.document.model.Relation;
 import com.ewcms.generator.freemarker.directive.out.HtmlDirectiveOut;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateException;
 
 /**
  * 引用文章标签输出
@@ -32,7 +32,7 @@ public class RelationsDirectiveOut extends HtmlDirectiveOut {
    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         List<Article> articles = new ArrayList<Article>();
         for(Relation r : (List<Relation>)value){
@@ -43,7 +43,7 @@ public class RelationsDirectiveOut extends HtmlDirectiveOut {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
+    public String constructOut(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         List<Relation> list = (List<Relation>)value;
         if(EmptyUtil.isCollectionEmpty(list)){

@@ -17,6 +17,7 @@ import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.ObjectPropertyDirective;
 
 import freemarker.core.Environment;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -37,7 +38,7 @@ public class PageOutDirective extends ObjectPropertyDirective {
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected String getPropertyName(Environment env,Map params)throws TemplateModelException{
+    protected String getPropertyName(Environment env,Map params)throws TemplateException{
         String value = super.getPropertyName(env,params);
         String property = aliasProperties.get(value);
         if(EmptyUtil.isNull(property)){

@@ -7,7 +7,6 @@
 package com.ewcms.generator.freemarker;
 
 import java.io.IOException;
-
 import java.io.InputStreamReader;
 import java.io.Reader;
 
@@ -60,6 +59,7 @@ public class DatabaseTemplateLoader implements TemplateLoader{
         
         byte[] bytes = template.getTemplateEntity().getTplEntity();
         Resource resource = new ByteArrayResource(bytes);
+        
         
         return resource;
     }

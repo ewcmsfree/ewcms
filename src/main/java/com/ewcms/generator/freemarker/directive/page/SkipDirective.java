@@ -19,7 +19,6 @@ import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 
 import freemarker.core.Environment;
-import freemarker.template.SimpleObjectWrapper;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -62,7 +61,7 @@ public class SkipDirective extends SkipBaseDirective{
         PageOut pageOut = skip.skip(pageCount, pageNumber, label, url);
             
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
-            loopVars[0] = SimpleObjectWrapper.getDefaultInstance().wrap(pageOut);
+            loopVars[0] = env.getObjectWrapper().wrap(pageOut);
             if(EmptyUtil.isNull(body)){
                 logger.warn("Body is null");
             }else{
@@ -78,7 +77,7 @@ public class SkipDirective extends SkipBaseDirective{
     }
     
     @SuppressWarnings("rawtypes")
-    private String getTypeValue(Map params) throws TemplateModelException {
+    private String getTypeValue(Map params) throws TemplateException {
         String value = FreemarkerUtil.getString(params, typeParam);
         if (EmptyUtil.isNull(value)) {
             throw new TemplateModelException("Type must setting.");

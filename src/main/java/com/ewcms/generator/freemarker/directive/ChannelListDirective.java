@@ -184,9 +184,9 @@ public class ChannelListDirective implements TemplateDirectiveModel {
             return loadingChannelWithPublicenable(env,siteId,value,child);
         }
 
-        Object[] values = (Object[]) FreemarkerUtil.getSequence(params, name);
-        if (EmptyUtil.isArrayNotEmpty(values)) {
-            return loadingArrayChannelWithPublicenable(env,siteId,values,child);
+        List<?> values = FreemarkerUtil.getSequence(params, name);
+        if (EmptyUtil.isCollectionNotEmpty(values)) {
+            return loadingListChannelWithPublicenable(env,siteId,values,child);
         }
 
         channel = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
@@ -287,18 +287,18 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateException
      */
-    private List<Channel> loadingArrayChannelWithPublicenable(Environment env,int siteId,Object[] values,boolean child)throws TemplateException{
+    private List<Channel> loadingListChannelWithPublicenable(Environment env,int siteId,List<?> values,boolean child)throws TemplateException{
         
         List<Channel> channels = new ArrayList<Channel>();
         for (Object value : values) {
-            if (value instanceof Integer) {
-                logger.debug("Channel's id is {}",value);
-                channels.addAll(loadingChannelWithPublicenable(siteId,(Integer) value,child));
+            if (value instanceof Number) {
+                logger.debug("Channel's id is {} ",value);
+                channels.addAll(loadingChannelWithPublicenable(siteId,((Number) value).intValue(),child));
             }else if (value instanceof String) {
                 logger.debug("Channel's url or variable is {}",value);
                 channels.addAll(loadingChannelWithPublicenable(env,siteId,(String)value,child));
             }else{
-                logger.debug("Channel's value type is{}",value.getClass().getName());
+                logger.debug("Channel's value type is {}",value.getClass().getName());
                 throw new TemplateModelException("Channel array are only int and string");
             }
         }
@@ -306,19 +306,19 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     }
     
     @SuppressWarnings("rawtypes")
-    private int getRowValue(Map params) throws TemplateModelException {
+    private int getRowValue(Map params) throws TemplateException {
         Integer rows = FreemarkerUtil.getInteger(params, rowParam);
         return rows == null ? DEFAULT_ROW : rows;
     }
 
     @SuppressWarnings("rawtypes")
-    private String getNameValue(Map params) throws TemplateModelException {
+    private String getNameValue(Map params) throws TemplateException {
         String value = FreemarkerUtil.getString(params, nameParam);
         return value == null ? GlobalVariable.CHANNEL.toString() : value;
     }
 
      @SuppressWarnings("rawtypes")
-    private boolean getChildValue(Map params) throws TemplateModelException {
+    private boolean getChildValue(Map params) throws TemplateException {
         Boolean value = FreemarkerUtil.getBoolean(params, childParam);
         return value == null ? false : value;
     }

@@ -11,6 +11,7 @@ import java.util.Map;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.directive.DirectiveOutable;
 
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -34,7 +35,7 @@ public abstract class HtmlDirectiveOut implements DirectiveOutable{
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    protected String getClassValue(Map params)throws TemplateModelException{
+    protected String getClassValue(Map params)throws TemplateException{
         String value =  FreemarkerUtil.getString(params, classParam);
         return value;
     }
@@ -47,7 +48,7 @@ public abstract class HtmlDirectiveOut implements DirectiveOutable{
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    protected String getStyleValue(Map params)throws TemplateModelException{
+    protected String getStyleValue(Map params)throws TemplateException{
         return FreemarkerUtil.getString(params, styleParam);
     }
 

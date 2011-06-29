@@ -23,6 +23,7 @@ import com.ewcms.generator.freemarker.directive.out.article.ContentDirectiveOut;
 import com.ewcms.generator.freemarker.directive.out.article.RelationsDirectiveOut;
 
 import freemarker.core.Environment;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -43,7 +44,7 @@ public class ArticleDirective extends ObjectPropertyDirective{
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected Object loopValue(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
+    protected Object loopValue(Object objectValue,String propertyName,Environment env, Map params)throws TemplateException, NoSuchMethodException{
         DirectiveOutable out = getDirectiveOut(propertyName);
         Object propertyValue = getValue(objectValue, propertyName);
         if(EmptyUtil.isNull(propertyValue)){
@@ -54,7 +55,7 @@ public class ArticleDirective extends ObjectPropertyDirective{
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateModelException, NoSuchMethodException{
+    protected String constructOut(Object objectValue,String propertyName,Environment env, Map params)throws TemplateException, NoSuchMethodException{
         DirectiveOutable out = getDirectiveOut(propertyName);
         Object propertyValue = getValue(objectValue, propertyName);
         if(EmptyUtil.isNull(propertyValue)){
@@ -65,7 +66,7 @@ public class ArticleDirective extends ObjectPropertyDirective{
     
     @SuppressWarnings("rawtypes")
     @Override
-    protected String getPropertyName(Environment env,Map params)throws TemplateModelException{
+    protected String getPropertyName(Environment env,Map params)throws TemplateException{
         String value = super.getPropertyName(env,params);
         return getPropertyName(value);
     }

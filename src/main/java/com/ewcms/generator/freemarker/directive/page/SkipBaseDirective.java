@@ -36,7 +36,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateModelException
      */
-    protected Integer getPageNumberValue(Environment env)throws TemplateModelException {
+    protected Integer getPageNumberValue(Environment env)throws TemplateException {
         Integer value = FreemarkerUtil.getInteger(env,GlobalVariable.PAGE_NUMBER.toString());
         return EmptyUtil.isNull(value) ? DEFAULT_PAGE_NUMBER : value;
     }
@@ -49,7 +49,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateModelException
      */
-    protected Integer getPageCountValue(Environment env)throws TemplateModelException {
+    protected Integer getPageCountValue(Environment env)throws TemplateException {
         Integer value = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_COUNT.toString());
         return EmptyUtil.isNull(value) ? DEFAULT_PAGE_COUNT : value;
     }

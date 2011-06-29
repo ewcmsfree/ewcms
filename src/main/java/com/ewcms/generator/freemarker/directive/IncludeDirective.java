@@ -168,7 +168,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    private Boolean getParseValue(Map params) throws TemplateModelException {
+    private Boolean getParseValue(Map params) throws TemplateException {
         Boolean enabled = FreemarkerUtil.getBoolean(params, parseParam);
         return EmptyUtil.isNull(enabled) ? Boolean.TRUE : enabled;
     }

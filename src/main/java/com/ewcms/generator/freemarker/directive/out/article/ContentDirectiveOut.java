@@ -20,7 +20,7 @@ import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
-import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateException;
 
 /**
  * 文章内容输出标签
@@ -32,20 +32,20 @@ public class ContentDirectiveOut implements DirectiveOutable{
     
     @SuppressWarnings("rawtypes")
     @Override
-    public Object loopValue(Object value, Environment env, Map params)throws TemplateModelException {
+    public Object loopValue(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         return getContent(value,env);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    public String constructOut(Object value, Environment env, Map params)throws TemplateModelException {
+    public String constructOut(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
         return getContent(value,env);
     }
     
     @SuppressWarnings("unchecked")
-    String getContent(Object value,Environment env)throws TemplateModelException {
+    String getContent(Object value,Environment env)throws TemplateException {
         List<Content> contents = (List<Content>)value;
         if(EmptyUtil.isCollectionEmpty(contents)){
             logger.debug("Loop value is empty");
@@ -61,7 +61,7 @@ public class ContentDirectiveOut implements DirectiveOutable{
         }
     }
     
-    int getPageNumber(Environment env)throws TemplateModelException{
+    int getPageNumber(Environment env)throws TemplateException{
         Integer number = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_NUMBER.toString());
         return number == null ? 0 : number;
     }
