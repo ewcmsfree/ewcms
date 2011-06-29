@@ -23,6 +23,7 @@ import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
 
 /**
  * 跳转页数标签
@@ -102,7 +103,12 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
     @SuppressWarnings("rawtypes")
     private Integer getMaxValue(Map params) throws TemplateException {
         Integer page = FreemarkerUtil.getInteger(params, maxParam);
-        return page == null ? DEFAULT_MAX_LENGTH : page;
+        page = page == null ? DEFAULT_MAX_LENGTH : page;
+        if(page <= 0){
+            logger.error("max is {}",page);
+            throw new TemplateModelException("max <= 0");
+        }
+        return page;
     }
     
     /**
