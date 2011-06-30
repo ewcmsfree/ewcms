@@ -21,6 +21,8 @@
 		<commons.lang.version>2.4</commons.lang.version>
 		<commons.logging.version>1.1.1</commons.logging.version>
 		<commons.codec.version>1.4</commons.codec.version>
+                <commons.vfs.version>1.0</commons.vfs.version>
+                <jcraft.version>0.1.44-1</jcraft.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<aspectjweaver.version>1.6.8</aspectjweaver.version>
 		<jackson.version>1.5.3</jackson.version>
@@ -147,7 +149,6 @@
 			<artifactId>spring-security-acl</artifactId>
 			<version>${springframework.security.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
@@ -189,6 +190,16 @@
                        <groupId>org.slf4j</groupId>
                        <artifactId>slf4j-jdk14</artifactId>
                        <version>${slf4j.version}</version>
+                </dependency>
+                <dependency>
+                       <groupId>commons-vfs</groupId>
+                       <artifactId>commons-vfs</artifactId>
+                       <version>${commons.vfs.version}</version>
+                </dependency>
+                <dependency>
+                       <groupId>com.jcraft</groupId>
+                       <artifactId>jsch</artifactId>
+                       <version>${jcraft.version}</version>
                 </dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
