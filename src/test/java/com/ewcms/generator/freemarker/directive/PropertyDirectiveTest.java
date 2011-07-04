@@ -18,6 +18,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
+import com.ewcms.generator.ObjectBean;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 
 import freemarker.template.Configuration;
@@ -29,11 +30,11 @@ import freemarker.template.Template;
  * @author wangwei
  *
  */
-public class ObjectPropertyDirectiveTest extends FreemarkerTest{
+public class PropertyDirectiveTest extends FreemarkerTest{
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
-        cfg.setSharedVariable("property", new ObjectPropertyDirective());
+        cfg.setSharedVariable("property", new PropertyDirective());
     }
     
     /**
@@ -46,19 +47,16 @@ public class ObjectPropertyDirectiveTest extends FreemarkerTest{
         ObjectBean objectValue = new ObjectBean();
         objectValue.setId(1);
         objectValue.setReadOnly(true);
-        objectValue.value = "public";
         
         ObjectBean parent = new ObjectBean();
         parent.setTitle("test");
         objectValue.setParent(parent);
         
-        ObjectPropertyDirective directive = new ObjectPropertyDirective();
+        PropertyDirective directive = new PropertyDirective();
         Integer id = (Integer)directive.getValue(objectValue, "id");
         assertEquals(id,new Integer(1));
         Boolean readOnly = (Boolean)directive.getValue(objectValue, "readOnly");
         assertTrue(readOnly);
-        String value = (String)directive.getValue(objectValue, "value");
-        assertEquals(value,"public");
         
         String title = (String)directive.getValue(objectValue, "parent.title");
         assertEquals(title,"test");
