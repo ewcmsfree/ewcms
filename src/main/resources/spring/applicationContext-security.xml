@@ -16,6 +16,9 @@
         <sec:intercept-url pattern="/source/*" access="permitAll"/>
         <sec:intercept-url pattern="/login.do" access="permitAll"/>
         <sec:intercept-url pattern="/accessDenied.do" access="permitAll"/>
+        <sec:intercept-url pattern="/submit.vote" access="permitAll"/>
+        <sec:intercept-url pattern="/view.vote" access="permitAll"/>
+        <sec:intercept-url pattern="/result.vote" access="permitAll"/>
                 
         <sec:intercept-url pattern="/index.do" access="authenticated"/>
         <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
