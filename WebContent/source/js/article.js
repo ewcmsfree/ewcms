@@ -529,7 +529,21 @@ function insertImageOperator(){
     }
 	$("#image-window").window("close");
 }
-
+function openVoteWidnow(url){
+	$('#editifr_vote').attr('src',url);
+	openWindow("#vote-window",{width:600,height:500,title:"问卷调查选择"});
+}
+function insertVote(){
+	var rows = editifr_vote.getVoteRows();
+	var urlAndContextName = editifr_vote.$('#urlAndContextName').val();
+	for (var i=0;i<rows.length;i++){
+		var html_obj= "<iframe src='"  + urlAndContextName + "/view.vote?id=" + rows[i].id + "' frameborder='0' scrolling='auto' style='padding:1px;' with='100%' height='100%'></iframe>";
+		if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+			tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+		}
+	}
+	$("#vote-window").window("close");
+}
 function auto_save() {
 	if ($.trim($("#articleTitle").val())==""){
 		return;
