@@ -4,26 +4,36 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.generator.release.html;
 
-import com.ewcms.generator.release.ReleaseException;
-import com.ewcms.generator.freemarker.directive.page.PageParam;
+import java.util.List;
+
+import com.ewcms.core.site.model.Template;
+import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.ResourceInfo;
 
 import freemarker.template.Configuration;
-import java.io.Writer;
 
 /**
- *
+ * 生成html页面接口
+ * 
  * @author wangwei
  */
-public interface GeneratorHtmlable <T>{
+public interface GeneratorHtmlable {
  
-    public void process(Configuration cfg,Writer writer,T object,PageParam pageParm)throws ReleaseException;
-
-    public void processDebug(Configuration cfg,Writer writer,T objec,PageParam pageParam)throws ReleaseException;
+    /**
+     * 根据模板生成频道页面
+     * 
+     * @param cfg
+     *          Freemarker配置对象
+     * @param template
+     *          系统设置模板
+     * @param channelId
+     *          频道编号
+     * @return 生成页面的资源对象
+     * @throws ReleaseException
+     */
+    public List<ResourceInfo> process(Configuration cfg,Template template,int channelId)throws ReleaseException;
+    
     
 }

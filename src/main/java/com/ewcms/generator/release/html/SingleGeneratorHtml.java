@@ -18,13 +18,14 @@ import freemarker.template.Configuration;
  *
  * @author wangwei
  */
-public class ListGeneratorHtml implements GeneratorHtmlable {
+public class SingleGeneratorHtml implements GeneratorHtmlable {
 
     @Override
     public List<ResourceInfo> process(Configuration cfg,Template template, int channelId)throws ReleaseException {
         // TODO Auto-generated method stub
         return null;
     }
+ 
 
     
 }
