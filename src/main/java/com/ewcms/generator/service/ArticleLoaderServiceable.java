@@ -59,6 +59,8 @@ public interface ArticleLoaderServiceable {
 
     /**
      * 得到频道已经发布的文章总数
+     * <br>
+     * 如果已经发布文章总数大于频道最大显示记录数，则返回最大记录数
      * 
      * @param channelId 频道编号
      * @return 
