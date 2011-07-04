@@ -8,12 +8,9 @@ package com.ewcms.generator.freemarker.directive;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.StringTokenizer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -35,9 +32,9 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class ObjectPropertyDirective implements TemplateDirectiveModel {
+public class PropertyDirective implements TemplateDirectiveModel {
 
-    private static Logger logger = LoggerFactory.getLogger(ObjectPropertyDirective.class);
+    private static Logger logger = LoggerFactory.getLogger(PropertyDirective.class);
     
     private static final String VALUE_PARAM_NAME = "value";
     private static final String NAME_PARAM_NAME = "name";
@@ -209,67 +206,14 @@ public class ObjectPropertyDirective implements TemplateDirectiveModel {
      *                属性名
      * @return           
      */
-    protected Object getValue(final Object objectValue,final String property)throws NoSuchMethodException{
-        if(property.indexOf(".") > -1){
-            StringTokenizer parse = new StringTokenizer(property,".");
-            Object value = objectValue;
-            while(parse.hasMoreTokens()){
-                String name = parse.nextToken();
-                value = getPropertyValue(value,name);
-            }
-            return value;
-        }else{
-            return getPropertyValue(objectValue,property);
-        }
-    }
-
-    /**
-     * java bean get方法名类型
-     * 
-     * @author wangwei
-     *
-     */
-    enum BeanGetMethodType {get,is}
-    
-    /**
-     * 得到属性值
-     * 
-     * <p>
-     * 该属性不是包含对象的属性，也就是属性名不含"."
-     * </p>
-     * 
-     * @param object
-     *            对象
-     * @param name
-     *            属性名
-     * @return 属性值
-     * @throws NoSuchMethodException
-     */
-    private Object getPropertyValue(final Object object,final String name)throws NoSuchMethodException{
-        Assert.isTrue(name.indexOf('.') == -1,"simple property name has \".\" char");
-        
-        Class<?> clazz = object.getClass();
-        
-        for(BeanGetMethodType type : BeanGetMethodType.values()){
-            try{
-                String methodName = type.name() + StringUtils.capitalize(name);
-                Method method = clazz.getMethod(methodName);
-                logger.debug("Method is {}",method);
-                return method.invoke(object);    
-            }catch(Exception e){
-                logger.debug("get{} value exception:{}",name,e);
-            }
-        }
-                
+    protected Object getValue(Object objectValue,String property)throws NoSuchMethodException{
         try{
-            Field filed = clazz.getDeclaredField(name);
-            logger.debug("Filed is {}",filed);
-            return filed.get(object);
+            return PropertyUtils.getProperty(objectValue, property);    
+        }catch(NoSuchMethodException e){
+            throw e;
         }catch(Exception e){
-            logger.debug("{} value exception:{}",name,e);
+            throw new NoSuchMethodException(e.toString());
         }
-                
-        throw new NoSuchMethodException("No property \"" + name + "\" on instance of " + object.getClass().getName());
     }
 
     /**

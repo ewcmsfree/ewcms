@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.freemarker.directive.ObjectPropertyDirective;
+import com.ewcms.generator.freemarker.directive.PropertyDirective;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
@@ -25,7 +25,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class PageOutDirective extends ObjectPropertyDirective {
+public class PageOutDirective extends PropertyDirective {
 
     private static final Logger logger = LoggerFactory.getLogger(PageOutDirective.class);
     

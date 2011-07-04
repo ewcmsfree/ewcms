@@ -31,7 +31,7 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class ArticleDirective extends ObjectPropertyDirective{
+public class ArticleDirective extends PropertyDirective{
     private static final Logger logger = LoggerFactory.getLogger(ArticleDirective.class);
     
     private Map<String,String> aliasProperties = initDefaultAliasProperties();
