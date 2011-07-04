@@ -1,0 +1,146 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+package com.ewcms.content.vote;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ewcms.content.vote.model.Subject;
+import com.ewcms.content.vote.model.SubjectItem;
+import com.ewcms.content.vote.model.Questionnaire;
+import com.ewcms.content.vote.model.Person;
+import com.ewcms.content.vote.service.SubjectItemServiceable;
+import com.ewcms.content.vote.service.SubjectServiceable;
+import com.ewcms.content.vote.service.QuestionnaireServiceable;
+import com.ewcms.content.vote.service.PersonServiceable;
+
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
+@Service
+public class VoteFac implements VoteFacable {
+
+	@Autowired
+	private QuestionnaireServiceable questionnaireService;
+	@Autowired
+	private SubjectServiceable subjectService;
+	@Autowired
+	private SubjectItemServiceable subjectItemService;
+	@Autowired
+	private PersonServiceable personService;
+
+	@Override
+	public Long addPerson(Person person) {
+		return personService.addPerson(person);
+	}
+
+	@Override
+	public Long addQuestionnaire(Questionnaire questionnaire) {
+		return questionnaireService.addQuestionnaire(questionnaire);
+	}
+
+	@Override
+	public Long addSubject(Long questionnaireId, Subject subject) {
+		return subjectService.addSubject(questionnaireId, subject);
+	}
+
+	@Override
+	public Long addSubjectItem(Long subjectId, SubjectItem subjectItem) {
+		return subjectItemService.addSubjectItem(subjectId, subjectItem);
+	}
+
+	@Override
+	public void delQuestionnaire(Long questionnaireId) {
+		questionnaireService.delQuestionnaire(questionnaireId);
+	}
+
+	@Override
+	public void delSubject(Long questionnaireId, Long subjectId) {
+		subjectService.delSubject(questionnaireId, subjectId);
+	}
+
+	@Override
+	public void delSubjectItem(Long subjectId, Long subjectItemId) {
+		subjectItemService.delSubjectItem(subjectId, subjectItemId);
+	}
+
+	@Override
+	public Boolean findPersonIsEntity(Long questionnaireId, String ip) {
+		return personService.findPersonIsEntity(questionnaireId, ip);
+	}
+
+	@Override
+	public Questionnaire findQuestionnaire(Long questionnaireId) {
+		return questionnaireService.findQuestionnaire(questionnaireId);
+	}
+
+	@Override
+	public Subject findSubject(Long subjectId) {
+		return subjectService.findSubject(subjectId);
+	}
+
+	@Override
+	public SubjectItem findSubjectItem(Long subjectItemId) {
+		return subjectItemService.findSubjectItem(subjectItemId);
+	}
+
+	@Override
+	public SubjectItem findSubjectItemBySubject(Long subjectId) {
+		return subjectItemService.findSubjectItemBySubject(subjectId);
+	}
+
+	@Override
+	public StringBuffer getQuestionnaireResultToHtml(Long questionnaireId, String servletContentName, String ipAddr, Boolean isView) {
+		return questionnaireService.getQuestionnaireResultToHtml(questionnaireId, servletContentName, ipAddr, isView);
+	}
+	
+	public StringBuffer getQuestionnaireResultClientToHtml(Long questionnaireId, String servletContentName, String ipAddr){
+		return questionnaireService.getQuestionnaireResultClientToHtml(questionnaireId, servletContentName, ipAddr);
+	}
+
+	@Override
+	public StringBuffer getQuestionnaireViewToHtml(Long questionnaireId, String servletContentName) {
+		return questionnaireService.getQuestionnaireViewToHtml(questionnaireId, servletContentName);
+	}
+
+	@Override
+	public Long updQuestionnaire(Long questionnaireId, Questionnaire questionnaire) {
+		return questionnaireService.updQuestionnaire(questionnaireId, questionnaire);
+	}
+
+	@Override
+	public Long updSubject(Long questionnaireId, Subject subject) {
+		return subjectService.updSubject(questionnaireId, subject);
+	}
+
+	@Override
+	public Long updSubjectItem(SubjectItem subjectItem) {
+		return subjectItemService.updSubjectItem(subjectItem);
+	}
+
+	@Override
+	public void downSubject(Long questionnaireId, Long subjectId) {
+		subjectService.downSubject(questionnaireId, subjectId);
+	}
+
+	@Override
+	public void downSubjectItem(Long subjectId, Long subjectItemId) {
+		subjectItemService.downSubjectItem(subjectId, subjectItemId);
+	}
+
+	@Override
+	public void upSubject(Long questionnaireId, Long subjectId) {
+		subjectService.upSubject(questionnaireId, subjectId);
+	}
+
+	@Override
+	public void upSubjectItem(Long subjectId, Long subjectItemId) {
+		subjectItemService.upSubjectItem(subjectId, subjectItemId);
+	}
+}

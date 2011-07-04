@@ -1,0 +1,109 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+package com.ewcms.content.vote.service;
+
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ewcms.content.vote.dao.SubjectDAO;
+import com.ewcms.content.vote.dao.SubjectItemDAO;
+import com.ewcms.content.vote.dao.QuestionnaireDAO;
+import com.ewcms.content.vote.dao.PersonDAO;
+import com.ewcms.content.vote.model.Subject;
+import com.ewcms.content.vote.model.SubjectItem;
+import com.ewcms.content.vote.model.Questionnaire;
+import com.ewcms.content.vote.model.SubjectStatus;
+import com.ewcms.content.vote.model.Person;
+import com.ewcms.content.vote.model.Record;
+
+/**
+ * 
+ * @author wu_zhijun
+ */
+@Service
+public class PersonService implements PersonServiceable {
+	
+	protected static final Logger logger = LoggerFactory.getLogger(PersonService.class);
+	
+	@Autowired
+	private QuestionnaireDAO questionnaireDAO;
+	@Autowired
+	private PersonDAO personDAO;
+	@Autowired
+	private SubjectDAO subjectDAO;
+	@Autowired
+	private SubjectItemDAO subjectItemDAO;
+	
+	@Override
+	public Long addPerson(Person person) {
+		personDAO.persist(person);
+		personDAO.flush(person);
+		updVoteNumber(person);
+		
+		Questionnaire questionnaire = questionnaireDAO.get(person.getQuestionnaireId());
+		questionnaire.setNumber(questionnaire.getNumber() + 1);
+		questionnaireDAO.merge(questionnaire);
+		
+		return person.getId();
+	}
+	
+	@Override
+	public Boolean findPersonIsEntity(Long questionnaireId, String ip){
+		return personDAO.findPersonIsEntity(questionnaireId, ip);
+	}
+	
+	private void updVoteNumber(Person person){
+		List<Record> records = person.getRecords();
+		for (Record record : records){
+			String subjectName = record.getSubjectName();
+			String subjectValue = record.getSubjectValue();
+			
+			String[] recordNames = subjectName.split("_");
+			if (recordNames.length == 2){
+				if (recordNames[0].equals("Subject")){
+					if (isNumber(recordNames[1])){
+						Long subjectId = new Long(recordNames[1]);
+						Subject subject = subjectDAO.get(subjectId);
+						if (subject == null) continue;
+						if (subject.getSubjectStatus() == SubjectStatus.INPUT){
+							SubjectItem subjectItem = subjectItemDAO.findSubjectItemBySubject(subjectId);
+							if (subjectItem == null) continue;
+							subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+							subjectItemDAO.merge(subjectItem);
+						}else{
+							if (isNumber(subjectValue)){
+								Long subjectItemId = new Long(subjectValue);
+								SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
+								subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+								subjectItemDAO.merge(subjectItem);
+							}							
+						}
+					}
+				}
+			}else if (recordNames.length == 4){
+				if (recordNames[0].equals("Subject") && recordNames[2].equals("Item")){
+					if (isNumber(recordNames[3])){
+						Long subjectItemId = new Long(recordNames[3]);
+						SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
+						subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+						subjectItemDAO.merge(subjectItem);
+					}
+				}
+			}
+		}
+	}
+	
+	private Boolean isNumber(String value){
+		Pattern pattern = Pattern.compile("[0-9]*");
+		return pattern.matcher(value).matches();   
+	}
+}
