@@ -325,6 +325,17 @@
                 </div>
             </div>
         </div>
+		<div id="vote-window" class="easyui-window" title="问卷调查" icon="icon-save" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_vote"  name="editifr_vote" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="insertVote();return false;">选择</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#vote-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
         <div id="ewcms-cookies" class="easyui-window" closed="true" style="display:none;overflow:hidden;" icon="icon-cookies">
         	<div class="easyui-layout" fit="true" >
 	        	<div region="center" border="false">
