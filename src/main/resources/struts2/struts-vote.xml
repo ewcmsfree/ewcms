@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="vote" extends="struts-default" namespace="/vote">
+		<action name="index">
+			<result>/WEB-INF/page/vote/index.jsp</result>
+		</action>
+	</package>	
+	<package name="vote.questionnaire" extends="struts-default" namespace="/vote/questionnaire">
+		<action name="index" class="com.ewcms.content.vote.web.QuestionnaireAction">
+			<result>/WEB-INF/page/vote/questionnaire/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.vote.web.QuestionnaireAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.vote.web.QuestionnaireQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.vote.web.QuestionnaireAction" method="input">
+			<result name="input">/WEB-INF/page/vote/questionnaire/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.vote.web.QuestionnaireAction" method="save">
+			<result>/WEB-INF/page/vote/questionnaire/edit.jsp</result>
+			<result name="input">/WEB-INF/page/vote/questionnaire/edit.jsp</result>
+		</action>
+		<action name="resultVote" class="com.ewcms.content.vote.web.QuestionnaireAction" method="resultVote"/>
+		<action name="article" class="com.ewcms.content.vote.web.QuestionnaireAction">
+			<result>/WEB-INF/page/vote/questionnaire/article.jsp</result>
+		</action>
+	</package>
+	<package name="vote.subject" extends="struts-default" namespace="/vote/subject">
+		<action name="index" class="com.ewcms.content.vote.web.SubjectAction">
+			<result>/WEB-INF/page/vote/subject/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.vote.web.SubjectAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.vote.web.SubjectQueryAction" method="query">
+			<result>/WEB-INF/page/vote/subject/index.jsp</result>
+		</action>
+		<action name="input" class="com.ewcms.content.vote.web.SubjectAction" method="input">
+			<result name="input">/WEB-INF/page/vote/subject/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.vote.web.SubjectAction" method="save">
+			<result>/WEB-INF/page/vote/subject/edit.jsp</result>
+			<result name="input">/WEB-INF/page/vote/subject/edit.jsp</result>
+		</action>
+		<action name="up" class="com.ewcms.content.vote.web.SubjectAction" method="up"/>
+		<action name="down" class="com.ewcms.content.vote.web.SubjectAction" method="down"/>
+	</package>
+	<package name="vote.subjectitem" extends="struts-default" namespace="/vote/subjectitem">
+		<action name="index" class="com.ewcms.content.vote.web.SubjectItemAction">
+			<result>/WEB-INF/page/vote/subjectitem/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.vote.web.SubjectItemAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.vote.web.SubjectItemQueryAction" method="query">
+			<result>/WEB-INF/page/vote/subjectitem/index.jsp</result>
+		</action>
+		<action name="input" class="com.ewcms.content.vote.web.SubjectItemAction" method="input">
+			<result name="input">/WEB-INF/page/vote/subjectitem/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.vote.web.SubjectItemAction" method="save">
+			<result>/WEB-INF/page/vote/subjectitem/edit.jsp</result>
+			<result name="input">/WEB-INF/page/vote/subjectitem/edit.jsp</result>
+		</action>
+		<action name="inputopt" class="com.ewcms.content.vote.web.SubjectItemAction" method="inputopt">
+			<result name="input">/WEB-INF/page/vote/subjectitem/editopt.jsp</result>
+		</action>
+		<action name="saveopt" class="com.ewcms.content.vote.web.SubjectItemAction" method="saveopt">
+			<result name="input">/WEB-INF/page/vote/subjectitem/editopt.jsp</result>
+		</action>
+		<action name="up" class="com.ewcms.content.vote.web.SubjectItemAction" method="up"/>
+		<action name="down" class="com.ewcms.content.vote.web.SubjectItemAction" method="down"/>
+	</package>
+</struts>	
