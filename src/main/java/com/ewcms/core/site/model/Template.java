@@ -45,6 +45,8 @@ import org.hibernate.annotations.Formula;
  * <li>channelId:模板所属专栏
  * <li>path:模板路径
  * <li>site:模板所属站点
+ * <li>uriPatter:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html
+ * <li>type:模板类型
  * </ul>
  * 
  * @author 周冬初
@@ -85,6 +87,10 @@ public class Template implements Serializable {
 	private String path;
 	@Column(length = 150)
 	private String uniquePath;
+	
+	//TODO new property
+	private String uriPatter;
+	private TemplateType type;
 	
 	public String getUniquePath() {
 		return uniquePath;
@@ -159,6 +165,7 @@ public class Template implements Serializable {
 	}
 
 	public static long getSerialversionuid() {
+	    
 		return serialVersionUID;
 	}
 
@@ -179,11 +186,28 @@ public class Template implements Serializable {
 	public void setTemplateEntity(TemplateEntity templateEntity) {
 		this.templateEntity = templateEntity;
 	}
-
+	
 	public boolean hasChildren() {
 		return this.childrenCount > 0;
 	}
-	@PreUpdate
+	
+	public String getUriPatter() {
+        return uriPatter;
+    }
+
+    public void setUriPatter(String uriPatter) {
+        this.uriPatter = uriPatter;
+    }
+
+    public TemplateType getType() {
+        return type;
+    }
+
+    public void setType(TemplateType type) {
+        this.type = type;
+    }
+
+    @PreUpdate
 	@PrePersist
 	public void afterPersist(){
 		constructPath();
