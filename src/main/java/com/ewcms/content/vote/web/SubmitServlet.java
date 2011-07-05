@@ -25,7 +25,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ewcms.content.vote.VoteFacable;
 import com.ewcms.content.vote.model.Person;
+import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.Record;
+import com.octo.captcha.service.CaptchaService;
+import com.octo.captcha.service.CaptchaServiceException;
 
 /**
  * 提交调查投票内容 
@@ -38,7 +41,7 @@ public class SubmitServlet extends HttpServlet {
 
 	protected static final Logger logger = LoggerFactory.getLogger(SubmitServlet.class);
 	
-    @Override
+   @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
     }
@@ -49,8 +52,8 @@ public class SubmitServlet extends HttpServlet {
     	ServletOutputStream out = null;
     	String 	output = "";
     	try{
-	    	String voteFlag = req.getParameter("voteFlag");
-	    	if (voteFlag.equals("true")){
+	    	Boolean voteFlag = Boolean.valueOf(req.getParameter("voteFlag"));
+	    	if (voteFlag){
 	    		output = "投票已经结束！";
 	    	}else{
 		    	String questionnaireId = req.getParameter("questionnaireId");
@@ -59,51 +62,71 @@ public class SubmitServlet extends HttpServlet {
 		    	
 		    	ServletContext application = getServletContext(); 
 		    	WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(application);
-		    	VoteFacable voteFac = (VoteFacable) wac.getBean("voteFac");
 		    	
-		    	Boolean isEntity = voteFac.findPersonIsEntity(new Long(questionnaireId), ipAddr);
-		    	if (!isEntity){
-			    	Enumeration<String> paramNames = req.getParameterNames();
-			    
-			    	Person person = new Person();
-			    	person.setIp(ipAddr);
-			    	person.setQuestionnaireId(new Long(questionnaireId));
-			    		
-			    	List<Record> records = new ArrayList<Record>();
-			    	while(paramNames.hasMoreElements()){
-			    		String parameterName = paramNames.nextElement();
-			    		if (parameterName.indexOf("Subject") == 0){
-			    			String[] parameterValue = req.getParameterValues(parameterName);
-			    			if (parameterValue.length > 0){
-			    				for (String value : parameterValue){
-						    		logger.info(parameterName + " : " + value);
-						    		if (value.equals("")) continue;
-						    		
-						    		Record record = new Record();
-						    		record.setSubjectName(parameterName);
-						    		record.setSubjectValue(value);
-						    		records.add(record);
-			    				}
-			    			}
-			    		}
-			    	}
-			    	person.setRecords(records);
-			    	removeRepeat(person);
-			    	voteFac.addPerson(person);
-			    	output = "投票成功，感谢您的投票！";
-		    	}else{
-		    		output = "您已经投过票了！";
+		    	VoteFacable voteFac = (VoteFacable) wac.getBean("voteFac");
+		    	Questionnaire questionnaire = voteFac.findQuestionnaire(new Long(questionnaireId));
+		    	Boolean captcha = true;
+		    	if (questionnaire.getVerifiCode()){
+			    	CaptchaService captchaService = (CaptchaService)wac.getBean("captchaService");
+			        String checkcode = req.getParameter("j_checkcode");;
+			        if (checkcode == null) {
+			            checkcode = "";
+			        }
+			        checkcode = checkcode.toUpperCase();
+			        String captchaId = req.getSession().getId();
+			        captcha = captchaService.validateResponseForID(captchaId, checkcode);
 		    	}
+		        if (captcha) {
+				   	Boolean isEntity = voteFac.findPersonIsEntity(new Long(questionnaireId), ipAddr);
+				   	if (!isEntity){
+				    	Enumeration<String> paramNames = req.getParameterNames();
+				    
+				    	Person person = new Person();
+				    	person.setIp(ipAddr);
+				    	person.setQuestionnaireId(new Long(questionnaireId));
+				    		
+				    	List<Record> records = new ArrayList<Record>();
+				    	while(paramNames.hasMoreElements()){
+				    		String parameterName = paramNames.nextElement();
+				    		if (parameterName.indexOf("Subject") == 0){
+				    			String[] parameterValue = req.getParameterValues(parameterName);
+				    			if (parameterValue.length > 0){
+				    				for (String value : parameterValue){
+							    		logger.info(parameterName + " : " + value);
+							    		if (value.equals("")) continue;
+							    		
+							    		Record record = new Record();
+							    		record.setSubjectName(parameterName);
+							    		record.setSubjectValue(value);
+							    		records.add(record);
+				    				}
+				    			}
+				    		}
+				    	}
+				    	person.setRecords(records);
+				    	removeRepeat(person);
+				    	voteFac.addPerson(person);
+				    	output = "投票成功，感谢您的投票！";
+				   	}else{
+				   		output = "您已经投过票了！";
+				   	}
+			    }else{
+			    	output = "验证码不正确";
+			    }
 	    	}
-	    	output += "<p><a href='javascript:history.go(-1);'>返回<a>";
-	    	
-	    	out = resp.getOutputStream();
-	    	
-	    	resp.setCharacterEncoding("utf-8");
-	    	resp.setContentType("text/html; charset=utf-8");
-	    	out.write(output.getBytes());
-	    	out.flush();
+	    } catch (CaptchaServiceException e) {
+	       	output = "验证码不正确";
+	    } catch (Exception e){
+	    	output =  "参数不正确";
     	}finally{
+    		output += "<p><a href='javascript:history.go(-1);'>返回<a>";
+    		
+		    out = resp.getOutputStream();
+		    resp.setCharacterEncoding("utf-8");
+		    resp.setContentType("text/html; charset=utf-8");
+		    out.write(output.getBytes());
+		    out.flush();
+		    
     		if (out != null){
     			out.close();
     			out = null;
