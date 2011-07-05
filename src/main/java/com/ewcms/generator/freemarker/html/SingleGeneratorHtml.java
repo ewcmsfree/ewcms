@@ -10,11 +10,14 @@ import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
@@ -40,6 +43,8 @@ import freemarker.template.TemplateException;
  */
 public class SingleGeneratorHtml implements GeneratorHtmlable {
 
+    private static final Logger logger = LoggerFactory.getLogger(SingleGeneratorHtml.class);
+    
     private Site site;
     private Channel channel;
     private Configuration cfg;
@@ -61,35 +66,39 @@ public class SingleGeneratorHtml implements GeneratorHtmlable {
         if(getType(template) == TemplateType.HOME){
             rule = new DefaultHomeUriRule();
         }else{
-            rule = new UriRule(template.getUniquePath());
+            rule = new UriRule(template.getUriPatter());
         }
-        
-       
-        return null;
+        return Arrays.asList(writer(template.getUniquePath(),rule,parameters));
     }
     
-    private ResourceInfo writer(String templatePath,UriRuleable rule,Map<String,Object> parameters)throws IOException, TemplateException, ReleaseException{
-        String tempFileName = RandomStringUtils.random(32);
-        File temp = File.createTempFile(tempFileName, ".html");
-        
-        Writer out =new FileWriter(temp);
-        freemarker.template.Template template= cfg.getTemplate(templatePath);
-        template.process(parameters, out);
-        out.flush();
-        out.close();
-        String uri = rule.getUri(parameters);
-        ResourceInfo info = new ResourceInfo(temp.getPath(),uri);
-        return info;
+    private ResourceInfo writer(String templatePath,UriRuleable rule,Map<String,Object> parameters)throws ReleaseException{
+        String tempFileName = RandomStringUtils.random(32,FILE_NAME_CHARS);
+        logger.debug("Temp file's name is {}",tempFileName);
+        try{
+            File temp = File.createTempFile(tempFileName, ".html");
+            logger.debug("Temp file's path is {}",temp.getPath());
+            Writer out =new FileWriter(temp);
+            freemarker.template.Template template= cfg.getTemplate(templatePath);
+            template.process(parameters, out);
+            out.flush();
+            out.close();
+            String uri = rule.getUri(parameters);
+            ResourceInfo info = new ResourceInfo(temp.getPath(),uri);
+            return info;
+        }catch(IOException e){
+            logger.error("Writer tempfile error {}",e);
+            throw new ReleaseException(e);
+        }catch(TemplateException e){
+            logger.error("Freemarker proccess error {}",e);
+            throw new ReleaseException(e);
+        }
     }
-    
-    
     
     private TemplateType getType(Template template){
-        return TemplateType.HOME;
+        return template.getType();
     }
     
     private Map<String,Object> constructParameters() {
-        
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.SITE.toString(), site);
         params.put(GlobalVariable.CHANNEL.toString(), channel);
