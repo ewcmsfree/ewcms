@@ -6,6 +6,8 @@
 
 package com.ewcms.generator.uri;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import org.junit.Test;
 
 import com.ewcms.generator.ObjectBean;
 import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.freemarker.GlobalVariable;
 
 /**
  * UrlRule单元测试
@@ -25,6 +28,7 @@ import com.ewcms.generator.ReleaseException;
  */
 public class UriRuleTest {
     
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Test
     public void testNoneVariableParseVariables()throws Exception{
         String patter = "home/index.html";
@@ -122,16 +126,25 @@ public class UriRuleTest {
     
     @Test
     public void testGetUri()throws Exception{
-        String patter = "news/cn/${now?yyyy-MM-dd}/${o.id}.html";
+        String patter = "news/cn/${o.id}.html";
         Map<String,Object> parameters = new HashMap<String,Object>();
         parameters.put("o", initObjectBean()); 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2011, 0, 1);
-        parameters.put("now", new Date(calendar.getTimeInMillis()));
+        UriRule rule = new UriRule(patter);
+        String uri = rule.getUri(parameters);
+        Assert.assertEquals("news/cn/1.html", uri);
+    }
+    
+    @Test
+    public void testInnerVariableGetUri()throws Exception{
+        String patter = "news/cn/${now?yyyy-MM-dd}/${c.id}_${p}.html";
+        Map<String,Object> parameters = new HashMap<String,Object>();
+        parameters.put(GlobalVariable.CHANNEL.toString(), initObjectBean()); 
+        parameters.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(1));
         
         UriRule rule = new UriRule(patter);
         String uri = rule.getUri(parameters);
-        Assert.assertEquals("news/cn/2011-01-01/1.html", uri);
+        String expected ="news/cn/"+ dateFormat.format(new Date()) + "/1_1.html";
+        Assert.assertEquals(expected, uri);
     }
     
     private ObjectBean initObjectBean(){
