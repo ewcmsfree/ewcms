@@ -147,7 +147,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			js.append("    </dl>\n");
 			if (questionnaire.getVerifiCode()){
 				js.append("    <dl>\n");
-				js.append("      <img id='id_checkcode' width='180px' src='/" + servletContentName + "/checkcode.jpg' alt='checkcode.jpg' title='看不清，换一张'/>\n");
+				js.append("      <img id='id_checkcode' name='id_checkcode' width='180px' src='/" + servletContentName + "/checkcode.jpg' alt='checkcode.jpg' title='看不清，换一张' onclick='codeRefresh(\"id_checkcode\",\"/" + servletContentName + "/checkcode.jpg\");'/>\n");
 				js.append("      <input type='text' name='j_checkcode' class='checkcode'/>验证码不区分大小写");
 				js.append("    </dl>\n");
 			}
