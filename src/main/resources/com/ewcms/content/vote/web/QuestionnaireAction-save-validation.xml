@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="questionnaireVo.title">
+        <field-validator type="requiredstring">
+            <message>主题不能为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">50</param>
+        	<message>标题长度必须小于${maxLength}个字符</message>
+        </field-validator>
+    </field>
+</validators>
+
+
