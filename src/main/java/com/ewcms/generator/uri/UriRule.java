@@ -129,7 +129,7 @@ public class UriRule implements UriRuleable{
      * @throws ReleaseException
      */
     Object getVariableValue(String variable,Map<String,Object> parameters)throws ReleaseException {
-        
+        logger.debug("Variable is {}",variable);
         String p = StringUtils.splitPreserveAllTokens(variable,".")[0];
         logger.debug("Parameter name is {}",p);
         
@@ -144,7 +144,7 @@ public class UriRule implements UriRuleable{
             throw new ReleaseException(variable + " is not exist");
         }
         try{
-            if(!parameter.equals(variable)){
+            if(!p.equals(variable)){
                 String property = StringUtils.removeStart(variable, p + ".");
                 logger.debug("Property name is {}",property);
                 return PropertyUtils.getProperty(object, property);
@@ -193,14 +193,22 @@ public class UriRule implements UriRuleable{
         map.put("a", GlobalVariable.DOCUMENT.toString());
         map.put("c", GlobalVariable.CHANNEL.toString());
         map.put("s", GlobalVariable.SITE.toString());
+        map.put("p", GlobalVariable.PAGE_NUMBER.toString());
+        
+        map.put("article", GlobalVariable.DOCUMENT.toString());
+        map.put("channel", GlobalVariable.CHANNEL.toString());
+        map.put("site", GlobalVariable.SITE.toString());
+        map.put("page", GlobalVariable.PAGE_NUMBER.toString());
         
         map.put("文章", GlobalVariable.DOCUMENT.toString());
         map.put("频道", GlobalVariable.CHANNEL.toString());
         map.put("站点", GlobalVariable.SITE.toString());
+        map.put("页数", GlobalVariable.PAGE_NUMBER.toString());
         
         map.put(GlobalVariable.DOCUMENT.toString(), GlobalVariable.DOCUMENT.toString());
         map.put(GlobalVariable.CHANNEL.toString(), GlobalVariable.CHANNEL.toString());
         map.put(GlobalVariable.SITE.toString(), GlobalVariable.SITE.toString());
+        map.put(GlobalVariable.PAGE_NUMBER.toString(), GlobalVariable.PAGE_NUMBER.toString());
         
         map.put("now", "now");
         map.put("today", "now");

@@ -15,6 +15,6 @@ import com.ewcms.generator.ReleaseException;
  */
 public class DefaultListUriRule extends UriRule {
     public DefaultListUriRule()throws ReleaseException{
-        super("${c.absUrl}/${page}.html");
+        super("${c.absUrl}/${p}.html");
     }
 }
