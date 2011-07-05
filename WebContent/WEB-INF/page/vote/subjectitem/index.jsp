@@ -40,7 +40,7 @@
        							{text:'上移',iconCls:'icon-up',handler:upOperate},'-',
      							{text:'下移',iconCls:'icon-down',handler:downOperate},'-',
        							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack},'-'
+       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
        						]                    
 				});
 			});

@@ -26,7 +26,7 @@
 				<tr>
 					<td>选项方式：</td>
 					<td>
-						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
+						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.subjectItemStatus" value="SINGLETEXT"></s:radio>
 						<s:radio list="#{'MULTITEXT':'多行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
 					</td>
 				</tr>

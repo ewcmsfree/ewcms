@@ -27,7 +27,7 @@
 					<td>选项：</td>
 					<td class="formFieldError">
 						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.title" size="50"/>
-						<s:fielderror ><s:param value="%{'subjectVo.title'}" /></s:fielderror>
+						<s:fielderror ><s:param value="%{'subjectVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>

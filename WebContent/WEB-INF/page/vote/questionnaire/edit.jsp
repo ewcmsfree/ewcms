@@ -29,7 +29,7 @@
 					<td>主题：</td>
 					<td class="formFieldError">
 						<s:textfield id="title" cssClass="inputtext" name="questionnaireVo.title" size="50"/>
-						<s:fielderror ><s:param value="%{'questionnaireVo.title'}" /></s:fielderror>
+						<s:fielderror ><s:param value="%{'questionnaireVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>

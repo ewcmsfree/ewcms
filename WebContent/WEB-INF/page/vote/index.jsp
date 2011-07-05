@@ -18,20 +18,11 @@
 					checkbox: false,
 					url: '<s:url namespace="/site/channel" action="tree"/>',
 					onClick:function(node){
-						var channelId = node.id;
-						if (node.attributes.maxpermission < 1){
-							return;
-						}else {
-							if (channelId == $('#tt2').tree('getRoot')) return;
-							var url='<s:url namespace="/vote/questionnaire" action="index"/>';
-							url = url + "?channelId=" + channelId;
-							$('#mainifr').attr('src',url);
-							$('#subjectifr').attr('src','');
-							var rootnode = $('#tt2').tree('getRoot');
-							if (rootnode.id == node.id && node.attributes.maxpermission >=2){
-								return;
-							}				            
-						}
+						if (node.id == $('#tt2').tree('getRoot')) return;
+						var url='<s:url namespace="/vote/questionnaire" action="index"/>';
+						url = url + "?channelId=" + node.id;
+						$('#mainifr').attr('src',url);
+						$('#subjectifr').attr('src','');
 					}
 				});
 			});

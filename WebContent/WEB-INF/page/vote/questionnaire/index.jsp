@@ -50,7 +50,7 @@
                                 		}
                                 		return flag;
                                 	}
-                                },
+                                }
                         ]],
         				toolbar:[
      							{text:'新增',iconCls:'icon-add',handler:addOperate},'-',
@@ -59,7 +59,7 @@
      							{text:'预览',iconCls:'icon-remove', handler:privOperateBack},'-',
      							{text:'结果',iconCls:'icon-remove', handler:resultOperateBack},'-',
      							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-     							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack},'-'
+     							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
      						]                    
 				});
 				$('#tt_main').datagrid({
