@@ -19,6 +19,8 @@ import com.ewcms.generator.ResourceInfo;
  */
 public interface GeneratorHtmlable {
  
+    static final String FILE_NAME_CHARS = "1234567890abcdefghigklmnopqrstuvwxyz";
+
     /**
      * 根据模板生成频道页面
      * 
