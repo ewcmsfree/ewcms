@@ -57,3 +57,6 @@ function checkVote(id){
 	}
 	return true;
 }
+function codeRefresh(obj, url){
+	obj.src = url + '?nocache=' + Math.random();
+}
