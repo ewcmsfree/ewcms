@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.freemarker.GlobalVariable;
 
 /**
  * 实现统一资源地址规则实现
@@ -33,6 +35,7 @@ public class UriRule implements UriRuleable{
     
     private static final DateFormat DEFAULT_DATA_FORMAT =new SimpleDateFormat("yyyy-MM-dd");
     private static final DecimalFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat("#");
+    private static final Map<String,String> ALIAS_PARAMETERS = initAliasParameters();
     
     private String uriPatter;
     private List<String[]> variables ;
@@ -56,6 +59,8 @@ public class UriRule implements UriRuleable{
             return uri;
         }
         
+        parameters = additionalParameter(parameters);
+        
         for(String[] var : variables){
             Object value = getVariableValue(var[0],parameters);
             String format = formatValue(value,var[1]);
@@ -71,6 +76,18 @@ public class UriRule implements UriRuleable{
         return uri;
     }
     
+    /**
+     * 添加参数变量
+     * 
+     * @param parameters 参数集合
+     */
+    private Map<String,Object> additionalParameter(Map<String,Object> parameters){
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.putAll(parameters);
+        map.put("now", new Date());
+        
+        return map;
+    }
     /**
      * 解析Uri模板得到变量名和数据显示格式
      * 
@@ -112,16 +129,23 @@ public class UriRule implements UriRuleable{
      * @throws ReleaseException
      */
     Object getVariableValue(String variable,Map<String,Object> parameters)throws ReleaseException {
-        String param = StringUtils.splitPreserveAllTokens(variable,".")[0];
-        logger.debug("Parameter name is {}",param);
-        Object object = parameters.get(param);
+        
+        String p = StringUtils.splitPreserveAllTokens(variable,".")[0];
+        logger.debug("Parameter name is {}",p);
+        
+        String parameter = ALIAS_PARAMETERS.get(p);
+        if(parameter == null){
+            logger.warn("\"{}\" parameter is not exist",p);
+            parameter = p;
+        }
+        Object object = parameters.get(parameter);
         if(object == null){
-            logger.error("\"{}\" parameter is not exist",param);
+            logger.error("\"{}\" parameter is not exist",parameter);
             throw new ReleaseException(variable + " is not exist");
         }
         try{
-            if(!param.equals(variable)){
-                String property = StringUtils.removeStart(variable, param + ".");
+            if(!parameter.equals(variable)){
+                String property = StringUtils.removeStart(variable, p + ".");
                 logger.debug("Property name is {}",property);
                 return PropertyUtils.getProperty(object, property);
             }else{
@@ -161,5 +185,26 @@ public class UriRule implements UriRuleable{
         }else{
             return value.toString();
         }
+    }
+    
+    private static Map<String,String> initAliasParameters(){
+        Map<String,String> map = new HashMap<String,String>();
+        
+        map.put("a", GlobalVariable.DOCUMENT.toString());
+        map.put("c", GlobalVariable.CHANNEL.toString());
+        map.put("s", GlobalVariable.SITE.toString());
+        
+        map.put("文章", GlobalVariable.DOCUMENT.toString());
+        map.put("频道", GlobalVariable.CHANNEL.toString());
+        map.put("站点", GlobalVariable.SITE.toString());
+        
+        map.put(GlobalVariable.DOCUMENT.toString(), GlobalVariable.DOCUMENT.toString());
+        map.put(GlobalVariable.CHANNEL.toString(), GlobalVariable.CHANNEL.toString());
+        map.put(GlobalVariable.SITE.toString(), GlobalVariable.SITE.toString());
+        
+        map.put("now", "now");
+        map.put("today", "now");
+        
+        return map;
     }
 }

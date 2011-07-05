@@ -15,6 +15,6 @@ import com.ewcms.generator.ReleaseException;
  */
 public class DefaultHomeUriRule extends UriRule{
     public DefaultHomeUriRule()throws ReleaseException{
-        super("c.absUrl/index.html");
+        super("${c.absUrl}/index.html");
     }
 }

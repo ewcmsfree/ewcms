@@ -15,6 +15,6 @@ import com.ewcms.generator.ReleaseException;
  */
 public class DefaultArticleUriRule extends UriRule{
     public DefaultArticleUriRule()throws ReleaseException{
-        super("/document/${a.createTime}/${a.id}.html");
+        super("/document/${a.createTime}/${a.id}_${page}.html");
     }
 }
