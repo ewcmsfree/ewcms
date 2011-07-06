@@ -8,23 +8,28 @@ package com.ewcms.generator.freemarker.directive.page;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.ewcms.generator.uri.UriRuleable;
+
+import freemarker.template.TemplateException;
+
 /**
  * 跳转末页
  *
  * @author wangwei
  */
-class SkipPageLast implements SkipPageable<PageOut> {
+class SkipPageLast extends SkipPageBase{
 
     private static final String DEFAULT_LABEL="未页";
     
     @Override
-    public PageOut skip(Integer count,Integer number,String label,String url) {
+    public PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException{
         if(StringUtils.isBlank(label)){
             label = DEFAULT_LABEL;
         }
         int last = count -1;
-        if(number == last){
-            url = null;
+        String url = null;
+        if(number != last){
+            url = getUriValue(rule, last);
         }
         return new PageOut(count,last,label,url);
 

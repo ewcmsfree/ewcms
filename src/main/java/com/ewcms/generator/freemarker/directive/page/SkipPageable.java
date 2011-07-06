@@ -6,6 +6,10 @@
 
 package com.ewcms.generator.freemarker.directive.page;
 
+import com.ewcms.generator.uri.UriRuleable;
+
+import freemarker.template.TemplateException;
+
 /**
  * 跳转页面
  * <br>
@@ -24,8 +28,9 @@ interface SkipPageable<T> {
      * @param count  总页数
      * @param number 页数
      * @param label  显示标签
-     * @param url    链接地址
+     * @param rule   url生成规则
+     * @throws TemplateException
      * @return
      */
-    T skip(Integer count,Integer number,String label,String url);
+    T skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException;
 }

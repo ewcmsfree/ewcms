@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.uri.UriRuleable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -58,7 +59,6 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         int pageNumber = getPageNumberValue(env);
         int max = getMaxValue(params);
         String label = getLabelValue(params);
-        String url = getUrlValue(env);
         
         boolean active = getActiveValue(params);
         
@@ -67,7 +67,8 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
             pages = new ArrayList<PageOut>();
             pages.add(new PageOut(pageCount,pageNumber,null));
         }else{
-            pages = getPageOuts(pageCount, pageNumber, max,url,label);
+            UriRuleable rule = getUriRule(env);
+            pages = getPageOuts(rule,pageCount, pageNumber, max,label);
         }
 
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
@@ -142,17 +143,17 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
     /**
      * 显示跳转页的集合
      * 
+     * @param rule
+     *            uri生成规则
      * @param count
      *            总页数
      * @param number
      *            当前页数
      * @param max
      *            最大显页数
-     * @param url
-     *            链接地址
      * @return
      */
-    List<PageOut> getPageOuts(int count, int number, int max, String url,String label) {
+    List<PageOut> getPageOuts(UriRuleable rule,int count, int number, int max,String label)throws TemplateException {
 
         int start = 0;
         int len = 0;
@@ -172,6 +173,7 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
             pageOuts.add(createMissPage(count,label));
         }
         for (int i = 0; i < len; i++) {
+            String url = getUriValue(rule, number);
             pageOuts.add(new PageOut(count, start + i, url));
         }
         if ((start + len) < (count - 1)) {

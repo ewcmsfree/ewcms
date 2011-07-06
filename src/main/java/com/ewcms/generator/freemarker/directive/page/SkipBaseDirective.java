@@ -6,9 +6,13 @@
 
 package com.ewcms.generator.freemarker.directive.page;
 
+import org.springframework.util.Assert;
+
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.generator.ReleaseException;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.uri.UriRuleable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveModel;
@@ -55,14 +59,33 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
     }
 
     /**
-     * 得到链接地址
+     * 得到Uri生成那个规则
      * 
-     * @param env 
-     *         Freemarker 环境变量
+     * @param env
      * @return
      * @throws TemplateException
      */
-    protected String getUrlValue(Environment env) throws TemplateException {
-        return "";
+    protected UriRuleable getUriRule(Environment env)throws TemplateException{
+        return (UriRuleable)FreemarkerUtil.getBean(env, GlobalVariable.URI_RULE.toString());
+    }
+    
+    /**
+     * 得到链接地址
+     * 
+     * @param rule 
+     *         uri生成规则
+     * @param pageNumber
+     *         页数
+     * @return
+     * @throws TemplateException
+     */
+    protected String getUriValue(UriRuleable rule,Integer pageNumber) throws TemplateException {
+        Assert.notNull(rule);
+        rule.putParameter(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
+        try{
+            return rule.getUri();    
+        }catch(ReleaseException e){
+            throw new TemplateModelException("Generator uri error:{}",e);
+        }
     }
 }

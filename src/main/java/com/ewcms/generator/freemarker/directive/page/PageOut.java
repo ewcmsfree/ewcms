@@ -44,7 +44,7 @@ public class PageOut {
     public String getUrl() {
         return url;
     }
-    
+   
     @Override
     public int hashCode() {
         final int prime = 31;

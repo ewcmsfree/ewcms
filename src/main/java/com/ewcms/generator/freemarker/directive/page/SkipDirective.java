@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.uri.UriRuleable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -50,16 +51,15 @@ public class SkipDirective extends SkipBaseDirective{
         logger.debug("Page count is {}",pageCount);
         String label = getLabelValue(params);
         logger.debug("Label is {}",label);
-        String url = getUrlValue(env);
-        logger.debug("Url is {}",url);
-        
+
         if (pageCount == 1) {
             return;
         }
         String type = getTypeValue(params);
         SkipPageable<PageOut> skip = getSkipPage(type);
-        PageOut pageOut = skip.skip(pageCount, pageNumber, label, url);
-            
+        UriRuleable rule = getUriRule(env);
+        PageOut pageOut = skip.skip(pageCount, pageNumber, label, rule);
+        
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
             loopVars[0] = env.getObjectWrapper().wrap(pageOut);
             if(EmptyUtil.isNull(body)){
