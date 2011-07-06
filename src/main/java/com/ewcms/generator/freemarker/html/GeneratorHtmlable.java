@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.ReleaseException;
-import com.ewcms.generator.ResourceInfo;
+import com.ewcms.generator.output.OutputResource;
 
 /**
  * 生成html页面接口
@@ -19,6 +19,9 @@ import com.ewcms.generator.ResourceInfo;
  */
 public interface GeneratorHtmlable {
  
+    /**
+     * 生成临时文件名称指定的范围
+     */
     static final String FILE_NAME_CHARS = "1234567890abcdefghigklmnopqrstuvwxyz";
 
     /**
@@ -30,7 +33,7 @@ public interface GeneratorHtmlable {
      * @return 生成页面的资源集合
      * @throws ReleaseException
      */
-    public List<ResourceInfo> process(Template template)throws ReleaseException;
+    public List<OutputResource> process(Template template)throws ReleaseException;
     
     
 }

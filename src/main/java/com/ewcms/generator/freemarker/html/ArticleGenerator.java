@@ -10,16 +10,16 @@ import java.util.List;
 
 import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.ReleaseException;
-import com.ewcms.generator.ResourceInfo;
+import com.ewcms.generator.output.OutputResource;
 
 /**
  *
  * @author wangwei
  */
-public class ArticleGeneratorHtml implements GeneratorHtmlable {
+public class ArticleGenerator implements GeneratorHtmlable {
 
     @Override
-    public List<ResourceInfo> process(Template template)
+    public List<OutputResource> process(Template template)
             throws ReleaseException {
         // TODO Auto-generated method stub
         return null;
