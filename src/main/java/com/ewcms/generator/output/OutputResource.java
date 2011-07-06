@@ -6,7 +6,14 @@
 
 package com.ewcms.generator.output;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
+import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.output.event.DefaultOutputEvent;
+import com.ewcms.generator.output.event.OutputEventable;
 
 /**
  * 发布资源
@@ -21,6 +28,12 @@ public class OutputResource {
     private String path;
     private String releasePath;
     private long size = -1L;
+    private List<OutputResource> children;
+    private OutputEventable event =new DefaultOutputEvent();
+    
+    public OutputResource(){
+        this("","");
+    }
     
     public OutputResource(String path,String releasePath){
         this(path,releasePath,-1l);
@@ -43,6 +56,7 @@ public class OutputResource {
     public String getReleasePath() {
         return releasePath =StringUtils.removeStart(releasePath, PATH_SEPARATOR);
     }
+    
     public void setReleasePath(String releasePath) {
         this.releasePath = releasePath;
     }
@@ -50,8 +64,42 @@ public class OutputResource {
     public long getSize() {
         return size;
     }
+    
     public void setSize(long size) {
         this.size = size;
+    }
+    
+    public List<OutputResource> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<OutputResource> children) {
+        this.children = children;
+    }
+    
+    public void addChild(OutputResource resource){
+        if(children == null){
+            children = new ArrayList<OutputResource>();
+        }
+        children.add(resource);
+    }
+    
+    public void registerEvent(OutputEventable event){
+        this.event = event;
+    }
+    
+    public void outputSuccess()throws ReleaseException{
+        event.success();
+        close();
+    }
+    
+    public void outputError()throws ReleaseException{
+        event.error();
+        close();
+    }
+    
+    private void close(){
+        //TODO 销毁资源
     }
 
     @Override
