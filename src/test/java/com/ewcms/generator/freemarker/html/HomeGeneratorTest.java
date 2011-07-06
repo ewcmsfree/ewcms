@@ -19,8 +19,8 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.generator.ResourceInfo;
 import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.output.OutputResource;
 
 import freemarker.template.Configuration;
 
@@ -29,7 +29,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class SingleGeneratorHtmlTest extends FreemarkerTest {
+public class HomeGeneratorTest extends FreemarkerTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
@@ -38,11 +38,11 @@ public class SingleGeneratorHtmlTest extends FreemarkerTest {
     
     @Test
     public void testHomeTemplate()throws Exception{
-        GeneratorHtmlable generator = new SingleGeneratorHtml(cfg,initSite(),initChannel());
-        List<ResourceInfo> list = generator.process(initTemplate(getTemplatePath("index.html"),TemplateType.HOME));
+        GeneratorHtmlable generator = new HomeGenerator(cfg,initSite(),initChannel());
+        List<OutputResource> list = generator.process(initTemplate(getTemplatePath("index.html"),TemplateType.HOME));
         Assert.assertFalse(list.isEmpty());
         
-        ResourceInfo info = list.get(0);
+        OutputResource info = list.get(0);
         String content = getContent(info.getPath());
         content = StringUtils.deleteWhitespace(content);
         Assert.assertEquals("homepage", content);

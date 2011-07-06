@@ -20,8 +20,11 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.generator.ResourceInfo;
 import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.freemarker.directive.page.PageOutDirective;
+import com.ewcms.generator.freemarker.directive.page.SkipDirective;
+import com.ewcms.generator.freemarker.directive.page.SkipNumberDirecitve;
+import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.service.ArticleLoaderServiceable;
 
 import freemarker.template.Configuration;
@@ -31,11 +34,13 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class ListGeneratorHtmlTest extends FreemarkerTest {
+public class ListGeneratorTest extends FreemarkerTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
-        //不需要使用
+        cfg.setSharedVariable("page_number", new SkipNumberDirecitve());
+        cfg.setSharedVariable("page_skip", new SkipDirective());
+        cfg.setSharedVariable("page", new PageOutDirective());
     }
     
     @Test
@@ -43,8 +48,8 @@ public class ListGeneratorHtmlTest extends FreemarkerTest {
         ArticleLoaderServiceable service = mock(ArticleLoaderServiceable.class);
         when(service.getArticleCount(any(Integer.class))).thenReturn(100);
         
-        ListGeneratorHtml generator = new ListGeneratorHtml(cfg,initSite(),initChannel(),service);
-        List<ResourceInfo> resources = generator.process(initTemplate(getTemplatePath("list.html")));
+        ListGenerator generator = new ListGenerator(cfg,initSite(),initChannel(),service);
+        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")));
         Assert.assertEquals(10, resources.size());
         Assert.assertEquals("news/cn/0.html", resources.get(0).getReleasePath());
         Assert.assertEquals("news/cn/9.html", resources.get(9).getReleasePath());
