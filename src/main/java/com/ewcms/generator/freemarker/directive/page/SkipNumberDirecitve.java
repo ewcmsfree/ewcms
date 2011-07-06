@@ -172,12 +172,14 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
         if (start > 0) {
             pageOuts.add(createMissPage(count,label));
         }
-        GeneratorUrl generatorUrl = new GeneratorUrl(rule);
+        
+        GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
         for (int i = 0; i < len; i++) {
             int p = start + i;
             String url = generatorUrl.getUriValue(p);
             pageOuts.add(new PageOut(count, p, url));
         }
+        
         if ((start + len) < (count - 1)) {
             pageOuts.add(createMissPage(count,label));
         }

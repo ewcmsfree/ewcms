@@ -30,7 +30,7 @@ class SkipPageLast implements SkipPageable{
         int last = count -1;
         String url = null;
         if(number != last){
-            GeneratorUrl generatorUrl = new GeneratorUrl(rule);
+            GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
             url = generatorUrl.getUriValue(last);
         }
         return new PageOut(count,last,label,url);

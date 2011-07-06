@@ -72,9 +72,12 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
     static class GeneratorUrl{
         
         private UriRuleable rule;
+        private Integer currentPage;
         
-        GeneratorUrl(UriRuleable rule){
+        GeneratorUrl(UriRuleable rule,Integer currentPage){
+            Assert.notNull(rule);
             this.rule = rule;
+            this.currentPage = currentPage;
         }
         
         /**
@@ -82,19 +85,24 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
          * 
          * @param rule 
          *         uri生成规则
-         * @param pageNumber
+         * @param page
          *         页数
          * @return
          * @throws TemplateException
          */
-        public String getUriValue(Integer pageNumber) throws TemplateException {
-            Assert.notNull(rule);
-            rule.putParameter(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
+        public String getUriValue(Integer page) throws TemplateException {
             try{
-                return rule.getUri();    
+                setPage(page);
+                String uri =  rule.getUri(); 
+                setPage(currentPage);
+                return uri;
             }catch(ReleaseException e){
                 throw new TemplateModelException("Generator uri error:{}",e);
             }
+        }
+        
+        private void setPage(Integer page){
+            rule.putParameter(GlobalVariable.PAGE_NUMBER.toString(), page);
         }
     }
 }

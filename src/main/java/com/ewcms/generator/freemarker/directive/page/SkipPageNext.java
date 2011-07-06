@@ -30,7 +30,7 @@ class SkipPageNext implements SkipPageable{
        int next = number + 1;
        String url = null;
        if(next < count){
-           GeneratorUrl generatorUrl = new GeneratorUrl(rule);
+           GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
            url = generatorUrl.getUriValue(next);
        }else{
            next = count -1;

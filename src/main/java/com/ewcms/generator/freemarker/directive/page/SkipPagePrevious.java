@@ -32,7 +32,7 @@ class SkipPagePrevious implements SkipPageable{
         if(prev < 0){
             prev = 0;
         }else{
-            GeneratorUrl generatorUrl = new GeneratorUrl(rule);
+            GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
             url = generatorUrl.getUriValue(prev);
         }
         return new PageOut(count,prev,label,url);
