@@ -38,7 +38,7 @@ public class ListGenerator extends GeneratorHtmlBase {
     private Configuration cfg;
     private Site site;
     private Channel channel;
-    private ArticleLoaderServiceable articleService;
+    private ArticleLoaderServiceable service;
     UriRuleable uriRule = new DefaultListUriRule();
     
     public ListGenerator(Configuration cfg,Site site,
@@ -47,7 +47,7 @@ public class ListGenerator extends GeneratorHtmlBase {
         this.cfg = cfg;
         this.site = site;
         this.channel = channel;
-        this.articleService = service;
+        this.service = service;
     }
     
     @Override
@@ -66,7 +66,7 @@ public class ListGenerator extends GeneratorHtmlBase {
     }
     
     private Integer getPageCount(){
-        Integer count = articleService.getArticleCount(channel.getId());
+        Integer count = service.getArticleCount(channel.getId());
         logger.debug("Article count is {}",count);
         Integer row = channel.getListSize();
         
