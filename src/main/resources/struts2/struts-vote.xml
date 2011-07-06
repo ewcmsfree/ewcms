@@ -81,4 +81,9 @@
 			<result>/WEB-INF/page/vote/person/index.jsp</result>
 		</action>
 	</package>
+	<package name="vote.record" extends="struts-default" namespace="/vote/record">
+		<action name="index" class="com.ewcms.content.vote.web.RecordAction">
+			<result>/WEB-INF/page/vote/record/index.jsp</result>
+		</action>
+	</package>
 </struts>	
