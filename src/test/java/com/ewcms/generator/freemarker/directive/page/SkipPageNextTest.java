@@ -6,8 +6,13 @@
 
 package com.ewcms.generator.freemarker.directive.page;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.ewcms.generator.uri.UriRuleable;
 
 /**
  * SkipPageNext单元测试
@@ -17,25 +22,28 @@ import org.junit.Test;
 public class SkipPageNextTest {
 
     @Test
-    public void testNumberIsLast() {
-        String url = "http://test.com/dddd_3.html";
+    public void testNumberIsLast()throws Exception{
         SkipPageNext skip = new SkipPageNext();
-        PageOut page = skip.skip(10,9,"next",url);
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        PageOut page = skip.skip(10,9,"next",rule);
         Assert.assertEquals("next",page.getLabel());
         Assert.assertEquals(page.getUrl(),null);
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
     }
     
     @Test
-    public void testSkipNext(){
+    public void testSkipNext()throws Exception{
         String url = "http://test.com/dddd_3.html";
         SkipPageNext skip = new SkipPageNext();
-        PageOut page = skip.skip(10,8,"next",url);
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn(url);
+        PageOut page = skip.skip(10,8,"next",rule);
         Assert.assertEquals("next",page.getLabel());
         Assert.assertEquals(page.getUrl(),url);
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
         
-        page = skip.skip(10,7,"next",url);
+        page = skip.skip(10,7,"next",rule);
         Assert.assertEquals(Integer.valueOf(9), page.getNumber());
     }
     
