@@ -55,7 +55,7 @@ public class Person implements Serializable {
 	@Column(name = "questionnaire_id")
 	private Long questionnaireId;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Record.class, orphanRemoval = true)
-	@JoinColumn(name = "record_id")
+	@JoinColumn(name = "person_id")
 	@OrderBy(value = "id")
 	private List<Record> records = new ArrayList<Record>();
 	@Temporal(TemporalType.TIMESTAMP)
