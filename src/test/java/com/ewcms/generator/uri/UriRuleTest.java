@@ -129,8 +129,10 @@ public class UriRuleTest {
         String patter = "news/cn/${o.id}.html";
         Map<String,Object> parameters = new HashMap<String,Object>();
         parameters.put("o", initObjectBean()); 
-        UriRule rule = new UriRule(patter);
-        String uri = rule.getUri(parameters);
+        UriRule rule = new UriRule();
+        rule.parse(patter);
+        rule.setParameters(parameters);
+        String uri = rule.getUri();
         Assert.assertEquals("news/cn/1.html", uri);
     }
     
@@ -141,8 +143,10 @@ public class UriRuleTest {
         parameters.put(GlobalVariable.CHANNEL.toString(), initObjectBean()); 
         parameters.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(1));
         
-        UriRule rule = new UriRule(patter);
-        String uri = rule.getUri(parameters);
+        UriRule rule = new UriRule();
+        rule.parse(patter);
+        rule.setParameters(parameters);
+        String uri = rule.getUri();
         String expected ="news/cn/"+ dateFormat.format(new Date()) + "/1_1.html";
         Assert.assertEquals(expected, uri);
     }
