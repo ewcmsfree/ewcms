@@ -26,7 +26,7 @@ public class OutputResource {
     private static final String PATH_SEPARATOR = "/";
     
     private String path;
-    private String releasePath;
+    private String uri;
     private long size = -1L;
     private List<OutputResource> children;
     private OutputEventable event =new DefaultOutputEvent();
@@ -35,13 +35,13 @@ public class OutputResource {
         this("","");
     }
     
-    public OutputResource(String path,String releasePath){
-        this(path,releasePath,-1l);
+    public OutputResource(String path,String uri){
+        this(path,uri,-1l);
     }
     
-    public OutputResource(String path,String releasePath,long size){
+    public OutputResource(String path,String uri,long size){
         this.path = path;
-        this.releasePath = releasePath;
+        this.uri = uri;
         this.size = size;
     }
     
@@ -53,12 +53,12 @@ public class OutputResource {
         this.path = path;
     }
     
-    public String getReleasePath() {
-        return releasePath =StringUtils.removeStart(releasePath, PATH_SEPARATOR);
+    public String getUri() {
+        return uri =StringUtils.removeStart(uri, PATH_SEPARATOR);
     }
     
-    public void setReleasePath(String releasePath) {
-        this.releasePath = releasePath;
+    public void setUri(String releasePath) {
+        this.uri = releasePath;
     }
     
     public long getSize() {
@@ -129,7 +129,9 @@ public class OutputResource {
 
     @Override
     public String toString() {
-        return "ResourceInfo [path=" + path + ", releasePath=" + releasePath
-                + ", size=" + size + "]";
+        return "OutputResource [path=" + path 
+                + ", uri=" + uri
+                + ", size=" + size 
+                + "]";
     }
 }
