@@ -6,6 +6,8 @@
 
 package com.ewcms.content.vote;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -147,5 +149,10 @@ public class VoteFac implements VoteFacable {
 	@Override
 	public void delPerson(Long personId) {
 		personService.delPerson(personId);
+	}
+
+	@Override
+	public List<String> getRecordToHtml(Long questionnaireId, Long personId) {
+		return personService.getRecordToHtml(questionnaireId, personId);
 	}
 }

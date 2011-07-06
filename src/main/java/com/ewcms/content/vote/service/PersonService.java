@@ -6,6 +6,7 @@
 
 package com.ewcms.content.vote.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.ewcms.content.vote.dao.SubjectDAO;
 import com.ewcms.content.vote.dao.SubjectItemDAO;
@@ -24,6 +26,7 @@ import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.SubjectStatus;
 import com.ewcms.content.vote.model.Person;
 import com.ewcms.content.vote.model.Record;
+import com.ewcms.content.vote.util.NumberUtil;
 
 /**
  * 
@@ -110,5 +113,49 @@ public class PersonService implements PersonServiceable {
 	@Override
 	public void delPerson(Long personId) {
 		personDAO.removeByPK(personId);
+	}
+
+	@Override
+	public List<String> getRecordToHtml(Long questionnaireId, Long personId){
+		List<String> htmls = new ArrayList<String>();
+		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
+		Assert.notNull(questionnaire);
+		List<Subject> subjects = questionnaire.getSubjects();
+		Assert.notNull(subjects);
+		if (!subjects.isEmpty()){
+			Long number = 1L;
+			for (Subject subject : subjects){
+				StringBuffer html = new StringBuffer();
+				html.append(number + "." + subject.getTitle() + " : ");
+				
+				String subjectName = "Subject_" + subject.getId();
+				
+				List<Record> records = personDAO.findRecordBySubjectTitle(personId, subjectName);
+				if (records == null || records.isEmpty()) continue;
+				if (subject.getSubjectStatus() != SubjectStatus.INPUT){
+					for (Record record : records){
+						String name = record.getSubjectName();
+						String[] names = name.split("_");
+						if (names.length == 2){
+							if (NumberUtil.isNumber(record.getSubjectValue())){
+								SubjectItem subjectItem = subjectItemDAO.get(new Long(record.getSubjectValue()));
+								if (subjectItem == null) continue;
+								html.append("【" + subjectItem.getTitle() + "】 ");
+							}else{
+								html.append(record.getSubjectValue() + " ");
+							}
+						}else if (names.length == 4){
+							html.append(record.getSubjectValue() + " ");
+						}
+					}
+				}else{
+					Record record = records.get(0);
+					html.append(record.getSubjectValue());
+				}
+				htmls.add(html.toString());
+				number++;
+			}
+		}
+		return htmls;
 	}
 }

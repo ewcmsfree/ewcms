@@ -43,8 +43,6 @@ public class Record implements Serializable {
 	private String subjectName;
 	@Column(name = "subject_value", columnDefinition = "text")
 	private String subjectValue;
-	@Column(name = "input_value", columnDefinition = "text")
-	private String inputValue;
 
 	public Long getId() {
 		return id;
@@ -68,14 +66,6 @@ public class Record implements Serializable {
 
 	public void setSubjectValue(String subjectValue) {
 		this.subjectValue = subjectValue;
-	}
-
-	public String getInputValue() {
-		return inputValue;
-	}
-
-	public void setInputValue(String inputValue) {
-		this.inputValue = inputValue;
 	}
 
 	@Override

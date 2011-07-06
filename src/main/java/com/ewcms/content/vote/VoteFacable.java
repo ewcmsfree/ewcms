@@ -6,6 +6,8 @@
 
 package com.ewcms.content.vote;
 
+import java.util.List;
+
 import com.ewcms.content.vote.model.Subject;
 import com.ewcms.content.vote.model.SubjectItem;
 import com.ewcms.content.vote.model.Questionnaire;
@@ -61,4 +63,6 @@ public interface VoteFacable {
 	public void downSubjectItem(Long subjectId, Long subjectItemId);
 	
 	public void delPerson(Long personId);
+	
+	public List<String> getRecordToHtml(Long questionnaireId, Long personId);
 }

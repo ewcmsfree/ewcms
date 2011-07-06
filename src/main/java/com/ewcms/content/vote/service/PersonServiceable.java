@@ -6,6 +6,8 @@
 
 package com.ewcms.content.vote.service;
 
+import java.util.List;
+
 import com.ewcms.content.vote.model.Person;
 
 /**
@@ -18,4 +20,6 @@ public interface PersonServiceable {
 	public Boolean findPersonIsEntity(Long questionnaireId, String ip);
 	
 	public void delPerson(Long personId);
+	
+	public List<String> getRecordToHtml(Long questionnaireId, Long personId);
 }
