@@ -16,6 +16,7 @@ package com.ewcms.generator.freemarker;
  * PAGE_NUMBER:页数
  * PAGE_COUNT:总页数
  * INDEX:所处位置
+ * URI_RULE:uri生成规则
  * 
  * @author wangwei
  */
@@ -28,7 +29,8 @@ public enum GlobalVariable {
     PAGE_NUMBER("ewcms_page_number"),
     PAGE_COUNT("ewcms_page_count"),
     PAGE_OUT("ewcms_page_out"),
-    INDEX("ewcms_index");
+    INDEX("ewcms_index"),
+    URI_RULE("ewcms_uri");
         
     private String name;
 
