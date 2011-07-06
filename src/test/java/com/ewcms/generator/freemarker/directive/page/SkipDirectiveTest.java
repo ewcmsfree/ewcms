@@ -6,6 +6,9 @@
 
 package com.ewcms.generator.freemarker.directive.page;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import org.junit.Test;
 
 import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.GlobalVariable;
+import com.ewcms.generator.uri.UriRuleable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -79,6 +83,9 @@ public class SkipDirectiveTest extends FreemarkerTest {
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(0));
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(5));
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
         Assert.assertEquals("第一页|下一页|上一页|未页",value);
