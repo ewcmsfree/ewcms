@@ -39,9 +39,10 @@ public interface ArticleLoaderServiceable {
      * 查询准备发布的文章
      * 
      * @param channelId 频道编号 
+     * @param limit 最大文件数
      * @return
      */
-    List<Article> findReleaseArticles(Integer channelId);
+    List<Article> findReleaseArticles(Integer channelId,Integer limit);
     
     /**
      * 得到频道指定页面文章
