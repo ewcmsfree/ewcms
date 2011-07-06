@@ -8,6 +8,8 @@ package com.ewcms.content.vote.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,6 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * 填写问卷人员
@@ -54,6 +58,13 @@ public class Person implements Serializable {
 	@JoinColumn(name = "record_id")
 	@OrderBy(value = "id")
 	private List<Record> records = new ArrayList<Record>();
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "recordtime")
+	private Date recordTime;
+	
+	public Person(){
+		recordTime = new Date(Calendar.getInstance().getTime().getTime());
+	}
 
 	public Long getId() {
 		return id;
@@ -85,6 +96,14 @@ public class Person implements Serializable {
 
 	public void setRecords(List<Record> records) {
 		this.records = records;
+	}
+
+	public Date getRecordTime() {
+		return recordTime;
+	}
+
+	public void setRecordTime(Date recordTime) {
+		this.recordTime = recordTime;
 	}
 
 	@Override

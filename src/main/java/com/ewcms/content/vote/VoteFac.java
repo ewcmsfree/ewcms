@@ -143,4 +143,9 @@ public class VoteFac implements VoteFacable {
 	public void upSubjectItem(Long subjectId, Long subjectItemId) {
 		subjectItemService.upSubjectItem(subjectId, subjectItemId);
 	}
+
+	@Override
+	public void delPerson(Long personId) {
+		personService.delPerson(personId);
+	}
 }

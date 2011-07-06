@@ -16,4 +16,6 @@ public interface PersonServiceable {
 	public Long addPerson(Person person);
 	
 	public Boolean findPersonIsEntity(Long questionnaireId, String ip);
+	
+	public void delPerson(Long personId);
 }

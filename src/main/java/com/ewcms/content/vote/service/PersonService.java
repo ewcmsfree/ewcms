@@ -106,4 +106,9 @@ public class PersonService implements PersonServiceable {
 		Pattern pattern = Pattern.compile("[0-9]*");
 		return pattern.matcher(value).matches();   
 	}
+
+	@Override
+	public void delPerson(Long personId) {
+		personDAO.removeByPK(personId);
+	}
 }

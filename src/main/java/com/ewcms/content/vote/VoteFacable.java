@@ -59,4 +59,6 @@ public interface VoteFacable {
 	public void upSubjectItem(Long subjectId, Long subjectItemId);
 	
 	public void downSubjectItem(Long subjectId, Long subjectItemId);
+	
+	public void delPerson(Long personId);
 }
