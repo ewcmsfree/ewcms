@@ -26,7 +26,12 @@
                     columns:[[
                                 {field:'id',title:'编号',width:60},
                                 {field:'ip',title:'IP地址',width:120},
-                                {field:'recordTime',title:'投票时间',width:125}
+                                {field:'recordTime',title:'投票时间',width:125},
+                                {field:'item',title:'填写内容',width:60,
+                                	formatter:function(val,rec){
+                                		return '<a href="#" onclick="showRecord(' + rec.id + ');">内容</a>';
+                                	}
+                                }
                         ]],
         				toolbar:[
 								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
@@ -35,6 +40,11 @@
       						]                    
 				});
 			});
+			function showRecord(id){
+				var url =  '<s:url namespace="/vote/record" action="index"/>?personId=' + id + '&questionnaireId=' + $('#questionnaireId').val() + '';
+				$('#editifr_record').attr('src',url);
+				openWindow('#record-window',{width:300,height:180,title:'内容'});
+			}
 		</script>
 	</head>
 	<body class="easyui-layout">
@@ -64,6 +74,16 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
+                </div>
+            </div>
+        </div>
+		<div id="record-window" class="easyui-window" icon="icon-votedetail" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_record"  name="editifr_record" frameborder="0" width="100%" height="100%" scrolling="auto"></iframe>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#record-window').window('close');return false;">关闭</a>
                 </div>
             </div>
         </div>
