@@ -14,6 +14,7 @@ function checkVote(id){
 	var str='';
 	var position = '';
 	var err = false;
+	
 	for(var i=0;i<arrs.length;i++){
 		var sid = arrs[i];
 		var eles = document.getElementsByName('Subject_'+sid);
@@ -48,6 +49,11 @@ function checkVote(id){
 				}
 			}
 		}
+	}
+	var code = document.getElementsByName('j_checkcode');
+	if (code[0] != null){
+		err = true;
+		str+='\n验证码不能为空';
 	}
 	if(err){
 		var url = window.location+'';
