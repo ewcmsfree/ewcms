@@ -27,6 +27,8 @@
 		<action name="article" class="com.ewcms.content.vote.web.QuestionnaireAction">
 			<result>/WEB-INF/page/vote/questionnaire/article.jsp</result>
 		</action>
+		<action name="stop" class="com.ewcms.content.vote.web.QuestionnaireAction" method="stop"/>
+		<action name="restore" class="com.ewcms.content.vote.web.QuestionnaireAction" method="restore"/>
 	</package>
 	<package name="vote.subject" extends="struts-default" namespace="/vote/subject">
 		<action name="index" class="com.ewcms.content.vote.web.SubjectAction">
@@ -69,5 +71,14 @@
 		</action>
 		<action name="up" class="com.ewcms.content.vote.web.SubjectItemAction" method="up"/>
 		<action name="down" class="com.ewcms.content.vote.web.SubjectItemAction" method="down"/>
+	</package>
+	<package name="vote.person" extends="struts-default" namespace="/vote/person">
+		<action name="index" class="com.ewcms.content.vote.web.PersonAction">
+			<result>/WEB-INF/page/vote/person/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.vote.web.PersonQueryAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.vote.web.PersonQueryAction" method="query">
+			<result>/WEB-INF/page/vote/person/index.jsp</result>
+		</action>
 	</package>
 </struts>	
