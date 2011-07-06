@@ -79,18 +79,17 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 		Assert.notNull(questionnaire);
 		
 		StringBuffer js = new StringBuffer();
-		js.append("<html><head></head><body>");
 		js.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
 		js.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/vote.css'/>\n");
 		js.append("<script language='javascript' src='/" + servletContentName + "/source/js/vote.js'></script>\n");
 		
-		if (questionnaire.getVoteFalg() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
+		if (questionnaire.getVoteFlag() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
 			js.append("<p>对不起，此调查已结束，不再接受投票</p>");
 		}else{
 			js.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
 			js.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 			js.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
-			js.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFalg() + "'>\n");
+			js.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
 			
 			List<Subject> subjects = questionnaire.getSubjects();
 			Assert.notNull(subjects);
@@ -165,7 +164,6 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			js.append("</div>\n");
 		}
 		js.append("</div>");
-		js.append("</body></html>");
 		logger.info(js.toString());
 		
 		return js;

@@ -84,13 +84,13 @@ public class Questionnaire implements Serializable {
 	@Column(name = "sort")
 	private Long sort;
 	@Column(name = "voteflag")
-	private Boolean voteFalg;
+	private Boolean voteFlag;
 	
 	public Questionnaire(){
 		number = 0L;
 		verifiCode = false;
 		questionnaireStatus = QuestionnaireStatus.VIEW;
-		voteFalg = false;
+		voteFlag = false;
 	}
 
 	public Long getId() {
@@ -182,12 +182,12 @@ public class Questionnaire implements Serializable {
 		this.sort = sort;
 	}
 
-	public Boolean getVoteFalg() {
-		return voteFalg;
+	public Boolean getVoteFlag() {
+		return voteFlag;
 	}
 
-	public void setVoteFalg(Boolean voteFalg) {
-		this.voteFalg = voteFalg;
+	public void setVoteFlag(Boolean voteFlag) {
+		this.voteFlag = voteFlag;
 	}
 
 	@Override
