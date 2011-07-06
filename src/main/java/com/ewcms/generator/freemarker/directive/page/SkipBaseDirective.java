@@ -69,26 +69,6 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
         return (UriRuleable)FreemarkerUtil.getBean(env, GlobalVariable.URI_RULE.toString());
     }
     
-    /**
-     * 得到链接地址
-     * 
-     * @param rule 
-     *         uri生成规则
-     * @param pageNumber
-     *         页数
-     * @return
-     * @throws TemplateException
-     */
-    protected String getUriValue(UriRuleable rule,Integer pageNumber) throws TemplateException {
-        Assert.notNull(rule);
-        rule.putParameter(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
-        try{
-            return rule.getUri();    
-        }catch(ReleaseException e){
-            throw new TemplateModelException("Generator uri error:{}",e);
-        }
-    }
-    
     static class GeneratorUrl{
         
         private UriRuleable rule;
