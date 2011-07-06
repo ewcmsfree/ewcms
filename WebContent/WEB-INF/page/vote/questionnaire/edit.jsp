@@ -63,6 +63,12 @@
 						<s:fielderror ><s:param value="%{'questionnaireVo.number'}" /></s:fielderror>
 					</td>
 				</tr>
+				<tr>
+					<td>结束投票：</td>
+					<td>
+						<s:checkbox id="voteFlag" name="questionnaireVo.voteFlag" cssStyle="vertical-align: middle;"/><label for="verifiCode">结束投票</label>&nbsp;&nbsp;
+					</td>
+				</tr>
 			</table>
 			<s:hidden name="questionnaireVo.id"/>
 			<s:hidden name="questionnaireVo.sort"/>

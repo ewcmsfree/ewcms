@@ -20,7 +20,7 @@
 					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '',
 					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '',
 					editwidth:500,
-					editheight:210,
+					editheight:235,
 					querywidth:500,
 					queryheight:100
 				});
@@ -56,9 +56,10 @@
      							{text:'新增',iconCls:'icon-add',handler:addOperate},'-',
      							{text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
      							{text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
-     							{text:'预览',iconCls:'icon-remove', handler:privOperateBack},'-',
-     							{text:'结果',iconCls:'icon-remove', handler:resultOperateBack},'-',
-     							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
+     							{text:'预览',iconCls:'icon-voteprivew', handler:privOperateBack},'-',
+     							{text:'结果',iconCls:'icon-voteresult', handler:resultOperateBack},'-',
+     							{text:'明细',iconCls:'icon-votedetail', handler:detailOperate},'-',
+     							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
      							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
      						]                    
 				});
@@ -69,6 +70,7 @@
 						parent.$('#subjectifr').attr('src',url);
 					},
 					onUnselect:function(rowIndex,rowData){
+						$('#tt_main').datagrid('unselectRow', rowIndex)
 						parent.$('#subjectifr').attr('src','');
 					}
 				});
@@ -98,18 +100,26 @@
 				window.open('<s:url namespace="/vote/questionnaire" action="resultVote"/>?id=' + rows[0].id + '','popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/2 + ',top=' + (window.screen.height - 700)/2 + '');
 			}
 			function delOperate(){
-				delOperateBack();
 				parent.$('#subjectifr').attr('src','');
+				delOperateBack();
 				return false;
 			}
 			function updOperate(){
-				updOperateBack();
 				parent.$('#subjectifr').attr('src','');
+				updOperateBack();
 				return false;
 			}
 			function addOperate(){
-				addOperateBack();
 				parent.$('#subjectifr').attr('src','');
+				addOperateBack();
+				return false;
+			}
+			function detailOperate(){
+			}
+			function queryOperate(){
+				$('#tt_main').datagrid('clearSelections');
+				parent.$('#subjectifr').attr('src','');
+				queryOperateBack();
 				return false;
 			}
 		</script>
@@ -148,7 +158,7 @@
                	</form>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch_Article();">查询</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
                 </div>
             </div>

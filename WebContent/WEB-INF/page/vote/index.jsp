@@ -33,9 +33,9 @@
 			<ul id="tt2"></ul>
 		</div>  
 	    <div region="center" style="padding:2px;" border="false">  
-	    	<iframe id="mainifr" name="mainifr" class="mainifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:35%;" style="padding:0px;"></iframe>
+	    	<iframe id="mainifr" name="mainifr" class="mainifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:45%;" style="padding:0px;"></iframe>
 	    	</p>
-	    	<iframe id="subjectifr" name="subjectifr" class="subjectifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:63%;" style="padding:0px;"></iframe>
+	    	<iframe id="subjectifr" name="subjectifr" class="subjectifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:53%;" style="padding:0px;"></iframe>
 	    </div>
 	</body>
 </html>

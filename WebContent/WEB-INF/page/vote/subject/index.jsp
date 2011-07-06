@@ -43,7 +43,7 @@
       							{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
       							{text:'上移',iconCls:'icon-up',handler:upOperate},'-',
     							{text:'下移',iconCls:'icon-down',handler:downOperate},'-',
-      							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
+      							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
       						]                       
 				});
@@ -108,6 +108,10 @@
 	            });
 	            return false;
 			}
+			function queryOperate(){
+				$('#tt_detail').datagrid('clearSelections');
+				queryOperateBack();
+			}
 		</script>
 	</head>
 	<body class="easyui-layout">
@@ -144,7 +148,7 @@
                	</form>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch_Article();">查询</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
                 </div>
             </div>
