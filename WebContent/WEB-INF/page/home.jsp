@@ -202,9 +202,9 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('调查投票','vote/index.do')">
+                        <a href="javascript:addTab('问卷调查','vote/index.do')">
                             <img src="source/image/vote.png" style="border:0"/><br/>
-                            <span>调查投票</span>
+                            <span>问卷调查</span>
                         </a>
                     </div>
                     </sec:authorize>
