@@ -88,4 +88,33 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Generator uri error:{}",e);
         }
     }
+    
+    static class GeneratorUrl{
+        
+        private UriRuleable rule;
+        
+        GeneratorUrl(UriRuleable rule){
+            this.rule = rule;
+        }
+        
+        /**
+         * 得到链接地址
+         * 
+         * @param rule 
+         *         uri生成规则
+         * @param pageNumber
+         *         页数
+         * @return
+         * @throws TemplateException
+         */
+        public String getUriValue(Integer pageNumber) throws TemplateException {
+            Assert.notNull(rule);
+            rule.putParameter(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
+            try{
+                return rule.getUri();    
+            }catch(ReleaseException e){
+                throw new TemplateModelException("Generator uri error:{}",e);
+            }
+        }
+    }
 }

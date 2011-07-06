@@ -33,7 +33,7 @@ import freemarker.template.TemplateModelException;
 public class SkipDirective extends SkipBaseDirective{
     private static final Logger logger = LoggerFactory.getLogger(SkipDirective.class);
     
-    private static final Map<String,SkipPageable<PageOut>> mapSkips = initTypeMapSkips();
+    private static final Map<String,SkipPageable> mapSkips = initTypeMapSkips();
     private static final String TYPE_PARAM_NAME = "type";
     private static final String LABEL_PARAM_NAME = "label";
     
@@ -56,7 +56,7 @@ public class SkipDirective extends SkipBaseDirective{
             return;
         }
         String type = getTypeValue(params);
-        SkipPageable<PageOut> skip = getSkipPage(type);
+        SkipPageable skip = getSkipPage(type);
         UriRuleable rule = getUriRule(env);
         PageOut pageOut = skip.skip(pageCount, pageNumber, label, rule);
         
@@ -90,8 +90,8 @@ public class SkipDirective extends SkipBaseDirective{
         return FreemarkerUtil.getString(params, labelParam);
     }
     
-    SkipPageable<PageOut> getSkipPage(String type)throws TemplateException{
-        SkipPageable<PageOut> skipPage = mapSkips.get(type);
+    SkipPageable getSkipPage(String type)throws TemplateException{
+        SkipPageable skipPage = mapSkips.get(type);
         if(EmptyUtil.isNull(skipPage)){
             logger.error("Skip page has not {} of types",type);
             throw new TemplateModelException("Skip page has not " + type + "of types.");
@@ -99,8 +99,8 @@ public class SkipDirective extends SkipBaseDirective{
         return skipPage;
     }
     
-    static Map<String,SkipPageable<PageOut>> initTypeMapSkips(){
-        Map<String,SkipPageable<PageOut>> map = new HashMap<String,SkipPageable<PageOut>>();
+    static Map<String,SkipPageable> initTypeMapSkips(){
+        Map<String,SkipPageable> map = new HashMap<String,SkipPageable>();
         
         map.put("f",new SkipPageFirst());
         map.put("first", new SkipPageFirst());

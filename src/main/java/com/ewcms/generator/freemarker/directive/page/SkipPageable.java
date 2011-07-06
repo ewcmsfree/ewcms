@@ -20,7 +20,7 @@ import freemarker.template.TemplateException;
  *
  * @param <T> 跳转页面类型
  */
-interface SkipPageable<T> {
+interface SkipPageable {
 
     /**
      * 跳转页面对象
@@ -32,5 +32,5 @@ interface SkipPageable<T> {
      * @throws TemplateException
      * @return
      */
-    T skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException;
+    PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException;
 }

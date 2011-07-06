@@ -8,6 +8,7 @@ package com.ewcms.generator.freemarker.directive.page;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.ewcms.generator.freemarker.directive.page.SkipBaseDirective.GeneratorUrl;
 import com.ewcms.generator.uri.UriRuleable;
 
 import freemarker.template.TemplateException;
@@ -17,7 +18,7 @@ import freemarker.template.TemplateException;
  * 
  * @author wangwei
  */
-class SkipPageNext extends SkipPageBase{
+class SkipPageNext implements SkipPageable{
 
     private static final String DEFAULT_LABEL="下一页";
 
@@ -29,7 +30,8 @@ class SkipPageNext extends SkipPageBase{
        int next = number + 1;
        String url = null;
        if(next < count){
-           url = getUriValue(rule, next);
+           GeneratorUrl generatorUrl = new GeneratorUrl(rule);
+           url = generatorUrl.getUriValue(next);
        }else{
            next = count -1;
        }
