@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>调查投票明细列表</title>	
+		<title>问卷调查主题列表</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
@@ -30,7 +30,7 @@
                     columns:[[
                                 {field:'id',title:'编号',width:60},
                                 {field:'title',title:'选项标题',width:500},
-                                {field:'subjectItemDescription',title:'选项方式',width:100},
+                                {field:'subjectItemStatusDescription',title:'选择方式',width:100},
                                 {field:'voteNumber',title:'票数',width:60}
                         ]],
         				toolbar:[
@@ -47,11 +47,11 @@
 			function upOperate(){
 				var rows = $('#tt_item').datagrid('getSelections');
 				if(rows.length == 0){
-	            	$.messager.alert('提示','请选择调查投票明细列表记录','info');
+	            	$.messager.alert('提示','请选择问卷调查主题列表记录','info');
 	                return;
 	            }
 	            if (rows.length > 1){
-					$.messager.alert('提示','只能选择一个调查投票明细列表记录','info');
+					$.messager.alert('提示','只能选择一个问卷调查主题列表记录','info');
 					return;
 		        }
 		        var url = '<s:url namespace="/vote/subjectitem" action="up"/>';
@@ -72,11 +72,11 @@
 			function downOperate(){
 				var rows = $('#tt_item').datagrid('getSelections');
 				if(rows.length == 0){
-	            	$.messager.alert('提示','请选择调查投票明细列表记录','info');
+	            	$.messager.alert('提示','请选择问卷调查主题列表记录','info');
 	                return;
 	            }
 	            if (rows.length > 1){
-					$.messager.alert('提示','只能选择一个调查投票明细列表记录','info');
+					$.messager.alert('提示','只能选择一个问卷调查主题列表记录','info');
 					return;
 		        }
 		        var url = '<s:url namespace="/vote/subjectitem" action="down"/>';
@@ -103,7 +103,7 @@
 	    <div region="center" style="padding:2px;" split="true">  
 			<table id="tt_item" fit="true" split="true"></table>
 	    </div>
-        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;调查投票明细列表" style="display:none;">
+        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;问卷调查主题列表" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>

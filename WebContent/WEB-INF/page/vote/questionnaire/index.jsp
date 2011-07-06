@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>调查投票列表</title>	
+		<title>问卷调查</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
@@ -58,7 +58,7 @@
      							{text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
      							{text:'预览',iconCls:'icon-voteprivew', handler:privOperateBack},'-',
      							{text:'结果',iconCls:'icon-voteresult', handler:resultOperateBack},'-',
-     							{text:'明细',iconCls:'icon-votedetail', handler:detailOperate},'-',
+     							{text:'投票人员',iconCls:'icon-votedetail', handler:detailOperate},'-',
      							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
      							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
      						]                    
@@ -115,6 +115,18 @@
 				return false;
 			}
 			function detailOperate(){
+				var rows = $('#tt_main').datagrid('getSelections');
+				if(rows.length == 0){
+	            	$.messager.alert('提示','请选择结果查看记录','info');
+	                return;
+	            }
+	            if (rows.length > 1){
+					$.messager.alert('提示','只能选择一个结果查看','info');
+					return;
+		        }
+				var url =  '<s:url namespace="/vote/person" action="index"/>?questionnaireId=' + rows[0].id + '';
+				$('#editifr_person').attr('src',url);
+				openWindow('#person-window',{width:500,height:265,title:'人员'});
 			}
 			function queryOperate(){
 				$('#tt_main').datagrid('clearSelections');
@@ -125,10 +137,10 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-	    <div region="center" title="调查投票主体" style="padding:2px;" split="true">  
+	    <div region="center" title="问卷调查" style="padding:2px;" split="true">  
 			<table id="tt_main" fit="true" split="true"></table>
 	    </div>
-        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;调查投票" style="display:none;">
+        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;问卷调查" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
@@ -163,7 +175,16 @@
                 </div>
             </div>
         </div>
+		<div id="person-window" class="easyui-window" icon="icon-votedetail" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_person"  name="editifr_person" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#person-window').window('close');return false;">关闭</a>
+                </div>
+            </div>
+        </div>
         <s:hidden id="channelId" name="channelId"/>
-        <s:hidden id="questionnaireTitle"/>
 	</body>
 </html>

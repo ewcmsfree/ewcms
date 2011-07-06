@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>调查投票明细</title>	
+		<title>问卷调查主题</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
@@ -35,7 +35,7 @@
                                 		return '<a href="#" onclick="showDetailItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
                                 	}
                                 },
-                                {field:'subjectStatusDescription',title:'选项方式',width:100}
+                                {field:'subjectStatusDescription',title:'主题选择方式',width:100}
                         ]],
         				toolbar:[
       							{text:'新增',iconCls:'icon-add',handler:addOperateBack},'-',
@@ -50,7 +50,7 @@
 				$('#detaildiv').attr('title',parent.$('#questionnaireTitle').val());
 			});
 			function showDetailItem(subjectId, subjectTitle, optionDescription){
-				var detailTitle = subjectTitle + ' - 调查投票明细列表';
+				var detailTitle = subjectTitle + ' - 问卷调查主题列表';
 				var url = "";
 				if (optionDescription == '录入'){
 					url = '<s:url namespace="/vote/subjectitem" action="inputopt"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
@@ -58,16 +58,16 @@
 					url = '<s:url namespace="/vote/subjectitem" action="index"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				}
 				$('#editifr').attr('src',url);
-				openWindow('#edit-window',{width:858,height:374,title:detailTitle});
+				openWindow('#edit-window',{width:858,height:320,title:detailTitle});
 			}
 			function upOperate(){
 				var rows = $('#tt_detail').datagrid('getSelections');
 				if(rows.length == 0){
-	            	$.messager.alert('提示','请选择调查投票明细记录','info');
+	            	$.messager.alert('提示','请选择问卷调查主题记录','info');
 	                return;
 	            }
 	            if (rows.length > 1){
-					$.messager.alert('提示','只能选择一个调查投票明细记录','info');
+					$.messager.alert('提示','只能选择一个问卷调查主题记录','info');
 					return;
 		        }
 		        var url = '<s:url namespace="/vote/subject" action="up"/>';
@@ -87,11 +87,11 @@
 			function downOperate(){
 				var rows = $('#tt_detail').datagrid('getSelections');
 				if(rows.length == 0){
-	            	$.messager.alert('提示','请选择调查投票明细记录','info');
+	            	$.messager.alert('提示','请选择问卷调查主题记录','info');
 	                return;
 	            }
 	            if (rows.length > 1){
-					$.messager.alert('提示','只能选择一个调查投票明细记录','info');
+					$.messager.alert('提示','只能选择一个问卷调查主题记录','info');
 					return;
 		        }
 		        var url = '<s:url namespace="/vote/subject" action="down"/>';
@@ -115,10 +115,10 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div id="detaildiv" region="center" style="padding:2px;" title="编号: <s:property value='questionnaireId'/> - 调查投票明细" split="true">
+		<div id="detaildiv" region="center" style="padding:2px;" title="编号: <s:property value='questionnaireId'/> - 问卷调查主题" split="true">
 			<table id="tt_detail" fit="true" split="true"></table>
 	 	</div>
-        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;调查投票" style="display:none;">
+        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;问卷调查主题" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>

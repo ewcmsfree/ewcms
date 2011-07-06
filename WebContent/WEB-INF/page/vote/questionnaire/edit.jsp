@@ -66,7 +66,7 @@
 				<tr>
 					<td>结束投票：</td>
 					<td>
-						<s:checkbox id="voteFlag" name="questionnaireVo.voteFlag" cssStyle="vertical-align: middle;"/><label for="verifiCode">结束投票</label>&nbsp;&nbsp;
+						<s:checkbox id="voteFlag" name="questionnaireVo.voteFlag" cssStyle="vertical-align: middle;"/><label for="voteFlag">结束投票</label>
 					</td>
 				</tr>
 			</table>
