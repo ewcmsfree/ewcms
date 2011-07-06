@@ -25,7 +25,7 @@ public interface ArticleLoaderServiceable {
      * @param id 文章编号
      * @return
      */
-    Article getArticle(Integer id);
+    Article getArticle(Long id);
 
     /**
      * 发布文章
@@ -33,7 +33,7 @@ public interface ArticleLoaderServiceable {
      * @param id 文章编号
      * @param url 文章链接地址
      */
-    void releaseArticle(Integer id, String url);
+    void releaseArticle(Long id, String url);
     
     /**
      * 查询准备发布的文章
