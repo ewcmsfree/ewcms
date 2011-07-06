@@ -65,7 +65,7 @@ public interface ArticleLoaderServiceable {
      * @param channelId 频道编号
      * @return 
      */
-    int getArticleCount(int channelId);
+    int getArticleCount(Integer channelId);
     
     /**
      * 重新发布已发布的文章
