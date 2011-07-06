@@ -30,9 +30,17 @@ public class PersonDAO extends JpaDAO<Long, Person>{
 	
 	@SuppressWarnings("unchecked")
 	public List<Record> findRecordBySubjectTitle(Long personId, String subjectName){
-		String hql = "Select r From Person As p Right Join p.records As r Where p.id=? And r.subjectName Like ? Order By r.subjectName";
-		List<Record> list = this.getJpaTemplate().find(hql, personId, subjectName + "%");
+		String hql = "Select r From Person As p Right Join p.records As r Where p.id=? And r.subjectName=?";
+		List<Record> list = this.getJpaTemplate().find(hql, personId, subjectName);
 		if (list.isEmpty()) return null;
 		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Record findRecordBySubjectItemTitle(Long personId, String subjectItemName){
+		String hql = "Select r From Person As p Right Join p.records As r Where p.id=? And r.subjectName=?";
+		List<Record> list = this.getJpaTemplate().find(hql, personId, subjectItemName);
+		if (list.isEmpty()) return null;
+		return list.get(0);
 	}
 }

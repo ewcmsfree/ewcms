@@ -141,6 +141,10 @@ public class PersonService implements PersonServiceable {
 								SubjectItem subjectItem = subjectItemDAO.get(new Long(record.getSubjectValue()));
 								if (subjectItem == null) continue;
 								html.append("【" + subjectItem.getTitle() + "】 ");
+								String subjectItemName = subjectName + "_Item_" + subjectItem.getId();
+								Record recordItem = personDAO.findRecordBySubjectItemTitle(personId, subjectItemName);
+								if (recordItem == null) continue;
+								html.append(recordItem.getSubjectValue() + " ");
 							}else{
 								html.append(record.getSubjectValue() + " ");
 							}
