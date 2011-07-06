@@ -81,7 +81,7 @@ public class ArticleGenerator extends GeneratorHtmlBase {
                 Map<String,Object> parameters = constructParameters(article,i,count);
                 resource.addChild(generator(t,parameters,uriRule));
             }
-            String url = resource.getChildren().get(0).getReleasePath();
+            String url = resource.getChildren().get(0).getUri();
             resource.registerEvent(new ArticleOutputEvent(article.getId(),url,service));
             resources.add(resource);
         }
