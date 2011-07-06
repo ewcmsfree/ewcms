@@ -39,27 +39,38 @@ public class UriRule implements UriRuleable{
     
     private String uriPatter;
     private List<String[]> variables ;
-    
-    public UriRule(String patter) throws ReleaseException {
-        Assert.notNull(patter);
-        variables = parseVariables(patter);
-        uriPatter = patter;
-    }
-    
-    UriRule(){
-        // unit test use
-    };
+    private Map<String,Object> parameters = initParameters();
     
     @Override
-    public String getUri(Map<String, Object> parameters)throws ReleaseException {
+    public void setParameters(Map<String,Object> ps){
+        parameters.putAll(ps);
+    }
+    
+    @Override
+    public void parse(String patter)throws ReleaseException{
+        Assert.notNull(patter);
+        uriPatter = patter;
+        variables = parseVariables(patter);
+    }
+    
+    @Override
+    public void putParameter(String parameter,Object value){
+        parameters.put(parameter, value);
+    }
+    
+    @Override
+    public String getUri()throws ReleaseException {
         Assert.notNull(parameters);
         
         String uri = uriPatter;
+        if(uri == null){
+            logger.error("Patter must setting");
+            throw new ReleaseException("First call \"parse\" method");
+        }
+        
         if(variables.isEmpty()){
             return uri;
         }
-        
-        parameters = additionalParameter(parameters);
         
         for(String[] var : variables){
             Object value = getVariableValue(var[0],parameters);
@@ -77,17 +88,15 @@ public class UriRule implements UriRuleable{
     }
     
     /**
-     * 添加参数变量
-     * 
-     * @param parameters 参数集合
+     * 初始化参数列表
      */
-    private Map<String,Object> additionalParameter(Map<String,Object> parameters){
+    private Map<String,Object> initParameters(){
         Map<String,Object> map = new HashMap<String,Object>();
-        map.putAll(parameters);
         map.put("now", new Date());
         
         return map;
     }
+    
     /**
      * 解析Uri模板得到变量名和数据显示格式
      * 

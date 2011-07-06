@@ -6,6 +6,9 @@
 
 package com.ewcms.generator.uri;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ewcms.generator.ReleaseException;
 
 /**
@@ -14,7 +17,20 @@ import com.ewcms.generator.ReleaseException;
  * @author wangwei
  */
 public class DefaultHomeUriRule extends UriRule{
-    public DefaultHomeUriRule()throws ReleaseException{
-        super("${c.absUrl}/index.html");
+    
+    private static final Logger logger = LoggerFactory.getLogger(DefaultHomeUriRule.class);
+    
+    public DefaultHomeUriRule(){
+        String patter = "${c.absUrl}/index.html";
+        try {
+            super.parse(patter);
+        } catch (ReleaseException e) {
+            logger.error("Patter parse error:{}",e.toString());
+        }
+    }
+    
+    @Override
+    public void parse(String patter)throws ReleaseException{
+        throw new ReleaseException("This method Can't call use");
     }
 }

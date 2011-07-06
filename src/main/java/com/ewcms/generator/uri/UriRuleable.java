@@ -16,14 +16,36 @@ import com.ewcms.generator.ReleaseException;
  * @author wangwei
  */
 public interface UriRuleable {
-        
+    
+    /**
+     * 解析uri模板
+     * 
+     * @param patter uri模板
+     * @throws ReleaseException
+     */
+    void parse(String patter)throws ReleaseException;
+    
+    /**
+     * 设置参数集合
+     * 
+     * @param parameters
+     */
+    void setParameters(Map<String,Object> parameters);
+    
+    /**
+     * 放入参数到参数集合中,如果参数存在则覆盖参数
+     * 
+     * @param parameter 参数名
+     * @param value 参数值
+     */
+     void putParameter(String parameter,Object value);
+    
     /**
      * 得到通一资源地址
      * 
-     * @param parameters 生成地址参数集合
      * @return
      * @throws ReleaseException
      */
-    public String getUri(Map<String,Object> parameters)throws ReleaseException;
+     String getUri()throws ReleaseException;
     
 }
