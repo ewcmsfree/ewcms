@@ -42,7 +42,7 @@ public class SkipDirectiveTest extends FreemarkerTest {
         String[] aliases = initAliases();
         SkipDirective directive = new SkipDirective();
         for(String alias : aliases){
-            SkipPageable<PageOut> skipPage = directive.getSkipPage(alias);
+            SkipPageable skipPage = directive.getSkipPage(alias);
             Assert.assertNotNull(skipPage);
         }
     }
