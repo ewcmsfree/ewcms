@@ -11,9 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
+import org.junit.Assert;
 
 import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.ReleaseException;
@@ -46,8 +45,6 @@ public class GeneratorHtmlBaseTest {
         Assert.assertTrue(map.containsKey(GlobalVariable.URI_RULE.toString()));
         Assert.assertEquals("test", rule.getUri());
     }
-    
-    
     
     static class GeneratorHtml extends GeneratorHtmlBase{
         @Override

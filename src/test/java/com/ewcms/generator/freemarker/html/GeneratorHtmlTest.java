@@ -15,6 +15,13 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 
+/**
+ * 页面生成单元测试类
+ * <br>
+ * 提供页面生成单元测试基础方法类
+ * 
+ * @author wangwei
+ */
 public abstract class GeneratorHtmlTest extends FreemarkerTest {
     
     protected String getContent(String path)throws Exception{

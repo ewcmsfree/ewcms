@@ -12,9 +12,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.ewcms.generator.freemarker.directive.page.PageOutDirective;
