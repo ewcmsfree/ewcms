@@ -29,7 +29,7 @@
                 	singleSelect:true,
                     columns:[[
                                 {field:'id',title:'编号',width:60},
-                                {field:'title',title:'调查主题',width:500},
+                                {field:'title',title:'问卷名称',width:500},
                                 {field:'questionnaireStatusDescription',title:'查看方式',width:100},
                                 {field:'number',title:'投票人数',width:60},
                                 {field:'verifiCode',title:'验证码',width:43,
@@ -161,7 +161,7 @@
                             <td class="tdinput">
                                 <input type="text" id="id" name="id" class="inputtext"/>
                             </td>
-                            <td class="tdtitle">标题：</td>
+                            <td class="tdtitle">问卷名称：</td>
                             <td class="tdinput">
                                 <input type="text" id="title" name="title" class="inputtext"/>
                             </td>

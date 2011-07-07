@@ -30,7 +30,7 @@
                 	singleSelect:true,
                     columns:[[
                                 {field:'id',title:'编号',width:60},
-                                {field:'title',title:'主题',width:500,
+                                {field:'title',title:'主题名称',width:500,
                                 	formatter:function(val,rec){
                                 		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
                                 	}
@@ -47,10 +47,9 @@
       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
       						]                       
 				});
-				$('#subjectdiv').attr('title',parent.$('#questionnaireTitle').val());
 			});
 			function showSubjectItem(subjectId, subjectTitle, optionDescription){
-				var subjectTitle = subjectTitle + ' - 问卷调查主题列表';
+				var subjectTitle = '[<span style="color:red;">主题编号：</span>' + subjectId + '] [<span style="color:red;">主题名称：</span>' + subjectTitle + '] - 问卷调查主题列表';
 				var url = "";
 				if (optionDescription == '录入'){
 					$('#save_span').attr("style","");
@@ -117,7 +116,7 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div id="subjectdiv" region="center" style="padding:2px;" title="编号: <s:property value='questionnaireId'/> - 问卷调查主题" split="true">
+		<div id="subjectdiv" region="center" style="padding:2px;" title="[<span style='color:red;'>问卷编号</span>: <s:property value='questionnaireId'/>] [<span style='color:red;'>问卷名称</span>: <s:property value='questionnaireTitle'/>] - 问卷调查主题 " split="true">
 			<table id="tt_subject" fit="true" split="true"></table>
 	 	</div>
         <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;问卷调查主题" style="display:none;">
@@ -141,7 +140,7 @@
                             <td class="tdinput">
                                 <input type="text" id="id" name="id" class="inputtext"/>
                             </td>
-                            <td class="tdtitle">标题：</td>
+                            <td class="tdtitle">主题名称：</td>
                             <td class="tdinput">
                                 <input type="text" id="title" name="title" class="inputtext"/>
                             </td>
@@ -156,5 +155,6 @@
             </div>
         </div>
         <s:hidden id="questionnaireId" name="questionnaireId"/>
+        <s:hidden id="questionnaireTitle"/>
 	</body>
 </html>

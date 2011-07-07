@@ -34,7 +34,6 @@
                                 }
                         ]],
         				toolbar:[
-								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
       							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
       						]                    
