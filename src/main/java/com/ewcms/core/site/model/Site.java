@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -78,14 +79,16 @@ public class Site implements Serializable {
     @Column()
     private Boolean publicenable = false;
     @Column()
-    private String serverDir;
-    @Column()
     private String resourceDir;    
     @ManyToOne(cascade = {CascadeType.REFRESH}, targetEntity = Organ.class)
     @JoinColumn(name = "organ_id", nullable = true)
     private Organ organ;
     @Formula(value="(Select count(o.id) From site_site o Where o.parent_id= id)")
     private int childrenCount = 0;
+    
+    @OneToOne(cascade={CascadeType.ALL},targetEntity=SiteServer.class)
+    @JoinColumn(name="serverId",nullable=true)  
+    private SiteServer siteServer;
     
     public Integer getId() {
         return id;
@@ -175,14 +178,6 @@ public class Site implements Serializable {
         this.publicenable = publicenable;
     }
 
-    public String getServerDir() {
-        return serverDir;
-    }
-
-    public void setServerDir(String serverDir) {
-        this.serverDir = serverDir;
-    }
-
     public String getResourceDir() {
         return resourceDir;
     }
@@ -191,7 +186,15 @@ public class Site implements Serializable {
         this.resourceDir = resourceDir;
     }
 
-    @JsonIgnore
+    public SiteServer getSiteServer() {
+		return siteServer;
+	}
+
+	public void setSiteServer(SiteServer siteServer) {
+		this.siteServer = siteServer;
+	}
+
+	@JsonIgnore
     public Organ getOrgan() {
 		return organ;
 	}
