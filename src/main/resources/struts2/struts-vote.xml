@@ -76,7 +76,7 @@
 		<action name="index" class="com.ewcms.content.vote.web.PersonAction">
 			<result>/WEB-INF/page/vote/person/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.content.vote.web.PersonQueryAction" method="delete"/>
+		<action name="delete" class="com.ewcms.content.vote.web.PersonAction" method="delete"/>
 		<action name="query" class="com.ewcms.content.vote.web.PersonQueryAction" method="query">
 			<result>/WEB-INF/page/vote/person/index.jsp</result>
 		</action>
