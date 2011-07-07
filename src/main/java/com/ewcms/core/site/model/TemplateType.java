@@ -7,6 +7,5 @@
 package com.ewcms.core.site.model;
 
 public enum TemplateType {
-
     HOME,LIST,DETAIL,OTHER;
 }

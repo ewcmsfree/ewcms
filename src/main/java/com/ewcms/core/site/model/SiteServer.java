@@ -16,7 +16,7 @@ import javax.persistence.Table;
 /**
  * <li>id:站点服务器编号
  * <li>path:发布路径
- * <li>ip:服务器IP
+ * <li>hostName:服务器IP
  * <li>port: 端口号
  * <li>user:用户　
  * <li>password:密码
@@ -35,7 +35,7 @@ public class SiteServer implements Serializable {
     @Column(length = 100)
     private String path;
     @Column(length = 20)
-    private String ip;
+    private String hostName;
     @Column(length = 5)
     private String port;
     @Column(length = 30)
@@ -55,11 +55,12 @@ public class SiteServer implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getIp() {
-		return ip;
+
+	public String getHostName() {
+		return hostName;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setHostName(String hostName) {
+		this.hostName = hostName;
 	}
 	public String getPort() {
 		return port;
