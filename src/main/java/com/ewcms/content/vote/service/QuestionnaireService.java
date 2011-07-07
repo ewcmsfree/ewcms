@@ -194,7 +194,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			}
 		}
 		
-		result.append("<div id='voteresult' style='height:100%;overflow:auto;text-align:left'>\n");
+		result.append("<div id='voteresult' style='height:100%;overflow-y:auto;text-align:left;'>\n");
 		result.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/voteresult.css'/>\n");
 		result.append("  <div style='padding:10px;overflow:hidden;_overflow:visible;_height:1%;'>\n");
 		result.append("    <h2 style='float:left;'>" + questionnaire.getTitle() + "：调查结果</h2>\n");

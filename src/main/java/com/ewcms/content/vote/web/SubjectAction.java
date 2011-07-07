@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.vote.VoteFacable;
+import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.Subject;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -36,6 +37,14 @@ public class SubjectAction extends CrudBaseAction<Subject, Long> {
 
 	public void setQuestionnaireId(Long questionnaireId) {
 		this.questionnaireId = questionnaireId;
+	}
+
+	public String getQuestionnaireTitle() {
+		if (getQuestionnaireId() != null){
+			Questionnaire questionnaire = voteFac.findQuestionnaire(getQuestionnaireId());
+			return questionnaire.getTitle();
+		}
+		return "";
 	}
 
 	public Subject getSubjectVo(){
