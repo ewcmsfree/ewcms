@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.ewcms.common.io.NumberUtil;
 import com.ewcms.content.vote.VoteFacable;
 
 /**
@@ -41,7 +41,7 @@ public class ResultServlet extends HttpServlet {
 		try{
 			String id = req.getParameter("id");
 			
-			if (NumberUtil.isNumber(id)){
+			if (!id.equals("") && StringUtils.isNumeric(id)){
 				Long questionnaireId = new Long(id);
 				
 		    	ServletContext application = getServletContext(); 

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.ewcms.common.io.NumberUtil;
 import com.ewcms.content.vote.dao.SubjectDAO;
 import com.ewcms.content.vote.dao.SubjectItemDAO;
 import com.ewcms.content.vote.dao.QuestionnaireDAO;
@@ -138,7 +138,7 @@ public class PersonService implements PersonServiceable {
 						String name = record.getSubjectName();
 						String[] names = name.split("_");
 						if (names.length == 2){
-							if (NumberUtil.isNumber(record.getSubjectValue())){
+							if (!record.getSubjectValue().equals("") && StringUtils.isNumeric(record.getSubjectValue())){
 								SubjectItem subjectItem = subjectItemDAO.get(new Long(record.getSubjectValue()));
 								if (subjectItem == null) continue;
 								html.append("【" + subjectItem.getTitle() + "】 ");
