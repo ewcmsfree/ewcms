@@ -75,10 +75,14 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	
 	@Override
 	public StringBuffer getQuestionnaireViewToHtml(Long questionnaireId, String servletContentName){
-		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
-		Assert.notNull(questionnaire);
-		
 		StringBuffer js = new StringBuffer();
+		
+		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
+		if (questionnaire == null) {
+			js.append("没有问卷调查");
+			return js;
+		}
+		
 		js.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
 		js.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/vote.css'/>\n");
 		js.append("<script language='javascript' src='/" + servletContentName + "/source/js/vote.js'></script>\n");
@@ -86,13 +90,18 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 		if (questionnaire.getVoteFlag() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
 			js.append("<p>对不起，此调查已结束，不再接受投票</p>");
 		}else{
+			List<Subject> subjects = questionnaire.getSubjects();
+			if (subjects == null){
+				js.append("<p>没有调查主题</p>");
+				js.append("</div>");
+				return js;
+			}
+			
 			js.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
 			js.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 			js.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
 			js.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
 			
-			List<Subject> subjects = questionnaire.getSubjects();
-			Assert.notNull(subjects);
 			
 			js.append("    <dl>\n");
 			
@@ -176,10 +185,13 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	
 	@Override
 	public StringBuffer getQuestionnaireResultToHtml(Long questionnaireId, String servletContentName, String ipAddr, Boolean isView){
-		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
-		Assert.notNull(questionnaire);
-		
 		StringBuffer result = new StringBuffer();
+		
+		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
+		if (questionnaire == null) {
+			result.append("没有问卷调查结果");
+			return result;
+		}
 		
 		if (isView){
 			if (questionnaire.getQuestionnaireStatus() == QuestionnaireStatus.NOVIEW){
@@ -246,7 +258,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	}
 	
 	private Long CalculateSum(Subject subject){
-		Assert.notNull(subject);
+		if (subject == null) return 0L;
 		List<SubjectItem> subjectItems = subject.getSubjectItems();
 		Long sum = 0L;
 		for (SubjectItem subjectItem : subjectItems){
