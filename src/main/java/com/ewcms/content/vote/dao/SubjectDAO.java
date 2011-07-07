@@ -14,7 +14,9 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.vote.model.Subject;
 
 /**
- * @author wu_zhijun
+ * 问卷调查主题DAO
+ * 
+ * @author 吴智俊
  */
 @Repository
 public class SubjectDAO extends JpaDAO<Long, Subject> {

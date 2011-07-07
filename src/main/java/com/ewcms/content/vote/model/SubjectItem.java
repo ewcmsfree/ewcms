@@ -19,12 +19,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * 调查问卷主题明细列表
+ * 问卷调查主题明细
  * 
  * <ul>
  * <li>id:编号</li>
  * <li>title:选项标题</li>
- * <li>subjectItemStatus:调查问卷主题明细列表状态</li>
+ * <li>subjectItemStatus:问卷调查主题明细状态</li>
  * <li>sort:排序</li>
  * <li>content:内容</li>
  * <li>voteNumber:票数</li>

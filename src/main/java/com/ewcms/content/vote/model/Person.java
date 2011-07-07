@@ -28,13 +28,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * 填写问卷人员
+ * 投票人员信息
  * 
  * <ul>
  * <li>id:编号</li>
  * <li>ip:IP</li>
  * <li>questionnaireId:问卷调查编号</li>
  * <li>records:用户填写问卷调查结果对象集合</li>
+ * <li>recordTime:投票时间</li>
  * </ul>
  * 
  * @author 吴智俊

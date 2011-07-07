@@ -28,9 +28,9 @@ import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.SubjectStatus;
 
 /**
+ * 问卷调查主体Service
  * 
- * @author wu_zhijun
- *
+ * @author 吴智俊
  */
 @Service
 public class QuestionnaireService implements QuestionnaireServiceable {

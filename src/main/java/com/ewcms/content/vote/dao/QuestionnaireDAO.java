@@ -14,7 +14,9 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.vote.model.Questionnaire;
 
 /**
- * @author wu_zhijun
+ * 问卷调查主体DAO
+ * 
+ * @author 吴智俊
  */
 @Repository
 public class QuestionnaireDAO extends JpaDAO<Long, Questionnaire> {

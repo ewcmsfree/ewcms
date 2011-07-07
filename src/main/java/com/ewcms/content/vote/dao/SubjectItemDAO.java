@@ -12,7 +12,13 @@ import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.vote.model.SubjectItem;
+import com.ewcms.content.vote.model.SubjectStatus;
 
+/**
+ * 问卷调查主题明细DAO
+ * 
+ * @author 吴智俊
+ */
 @Repository
 public class SubjectItemDAO extends JpaDAO<Long, SubjectItem> {
 	
@@ -25,9 +31,9 @@ public class SubjectItemDAO extends JpaDAO<Long, SubjectItem> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public SubjectItem findSubjectItemBySubject(Long subjectId){
-		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=?";
-		List<SubjectItem> list = this.getJpaTemplate().find(hql, subjectId);
+	public SubjectItem findSubjectItemBySubjectAndInputStatus(Long subjectId){
+		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=? And s.subjectStatus=?";
+		List<SubjectItem> list = this.getJpaTemplate().find(hql, subjectId, SubjectStatus.INPUT);
 		if (list.isEmpty()) return null;
 		return list.get(0);
 	}

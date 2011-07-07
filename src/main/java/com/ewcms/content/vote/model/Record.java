@@ -23,7 +23,6 @@ import javax.persistence.Table;
  * <li>id:编号</li>
  * <li>subjectName:主题名
  * <li>subjectValue:主题值</li>
- * <li>inputValue:填写内容</li>
  * </ul>
  * 
  * @author 吴智俊

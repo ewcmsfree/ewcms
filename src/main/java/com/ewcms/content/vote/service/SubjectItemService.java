@@ -18,9 +18,9 @@ import com.ewcms.content.vote.model.Subject;
 import com.ewcms.content.vote.model.SubjectItem;
 
 /**
+ * 问卷调查主题明细Service
  * 
- * @author wu_zhijun
- *
+ * @author 吴智俊
  */
 @Service
 public class SubjectItemService implements SubjectItemServiceable {
@@ -70,8 +70,8 @@ public class SubjectItemService implements SubjectItemServiceable {
 	}
 
 	@Override
-	public SubjectItem findSubjectItemBySubject(Long subjectId) {
-		return subjectItemDAO.findSubjectItemBySubject(subjectId);
+	public SubjectItem findSubjectItemBySubjectAndInputStatus(Long subjectId) {
+		return subjectItemDAO.findSubjectItemBySubjectAndInputStatus(subjectId);
 	}
 
 	@Override

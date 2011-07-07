@@ -7,7 +7,7 @@
 package com.ewcms.content.vote.model;
 
 /**
- * 调查与投票明细列表状态
+ * 问卷调查主题明细选项状态
  * 
  * @author wu_zhijun
  */

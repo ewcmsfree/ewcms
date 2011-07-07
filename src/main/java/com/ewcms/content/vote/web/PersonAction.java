@@ -63,6 +63,4 @@ public class PersonAction extends CrudBaseAction<Person, Long> {
 	public void setSelections(List<Long> selections) {
 		super.setOperatorPK(selections);
 	}
-
-
 }

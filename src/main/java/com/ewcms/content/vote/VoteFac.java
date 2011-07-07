@@ -21,9 +21,9 @@ import com.ewcms.content.vote.service.QuestionnaireServiceable;
 import com.ewcms.content.vote.service.PersonServiceable;
 
 /**
- * 
- * @author wu_zhijun
- *
+ * 调查投票Fac
+ *  
+ * @author 吴智俊
  */
 @Service
 public class VoteFac implements VoteFacable {
@@ -93,8 +93,8 @@ public class VoteFac implements VoteFacable {
 	}
 
 	@Override
-	public SubjectItem findSubjectItemBySubject(Long subjectId) {
-		return subjectItemService.findSubjectItemBySubject(subjectId);
+	public SubjectItem findSubjectItemBySubjectAndInputStatus(Long subjectId) {
+		return subjectItemService.findSubjectItemBySubjectAndInputStatus(subjectId);
 	}
 
 	@Override

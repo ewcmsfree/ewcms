@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ewcms.common.io.NumberUtil;
 import com.ewcms.content.vote.VoteFacable;
-import com.ewcms.content.vote.util.NumberUtil;
 
 /**
  * 查看调查投票结果

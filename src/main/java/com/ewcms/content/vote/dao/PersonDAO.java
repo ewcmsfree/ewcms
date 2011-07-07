@@ -15,6 +15,7 @@ import com.ewcms.content.vote.model.Person;
 import com.ewcms.content.vote.model.Record;
 
 /**
+ * 投票人员信息DAO
  * 
  * @author 吴智俊
  */

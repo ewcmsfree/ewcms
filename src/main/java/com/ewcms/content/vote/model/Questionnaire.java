@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * 调查问卷主体
+ * 问卷调查主体
  * 
  * <ul>
  * <li>id:编号</li>

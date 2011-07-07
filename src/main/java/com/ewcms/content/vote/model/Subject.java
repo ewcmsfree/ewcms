@@ -28,13 +28,13 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * 调查问卷主题
+ * 问卷调查主题
  * 
  * <ul>
  * <li>id:编号</li>
  * <li>title:标题</li>
  * <li>subjectStatus:选项状态</li>
- * <li>subjectItems:调查问卷明细列表对象集合</li>
+ * <li>subjectItems:问卷调查明细列表对象集合</li>
  * <li>sort:排序</li>
  * </ul>
  * 

@@ -88,7 +88,7 @@ public class SubjectItemAction extends CrudBaseAction<SubjectItem, Long> {
 	}
 	
 	public String inputopt(){
-		SubjectItem voteDetailItem = voteFac.findSubjectItemBySubject(getSubjectId());
+		SubjectItem voteDetailItem = voteFac.findSubjectItemBySubjectAndInputStatus(getSubjectId());
 		if (voteDetailItem == null) setSubjectItemVo(new SubjectItem());
 		setSubjectItemVo(voteDetailItem);
 		return "input";

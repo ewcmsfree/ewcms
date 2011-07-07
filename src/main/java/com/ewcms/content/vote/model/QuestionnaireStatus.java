@@ -7,7 +7,7 @@
 package com.ewcms.content.vote.model;
 
 /**
- * 调查问卷主体状态
+ * 问卷调查主体查看状态
  * 
  * @author wu_zhijun
  */

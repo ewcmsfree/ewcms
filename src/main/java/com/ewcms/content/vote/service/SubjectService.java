@@ -19,9 +19,9 @@ import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.SubjectStatus;
 
 /**
+ * 问卷调查主题Service
  * 
- * @author wu_zhijun
- *
+ * @author 吴智俊
  */
 @Service
 public class SubjectService implements SubjectServiceable {

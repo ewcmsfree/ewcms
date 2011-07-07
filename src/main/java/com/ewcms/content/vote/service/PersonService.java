@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.common.io.NumberUtil;
 import com.ewcms.content.vote.dao.SubjectDAO;
 import com.ewcms.content.vote.dao.SubjectItemDAO;
 import com.ewcms.content.vote.dao.QuestionnaireDAO;
@@ -26,11 +27,11 @@ import com.ewcms.content.vote.model.Questionnaire;
 import com.ewcms.content.vote.model.SubjectStatus;
 import com.ewcms.content.vote.model.Person;
 import com.ewcms.content.vote.model.Record;
-import com.ewcms.content.vote.util.NumberUtil;
 
 /**
+ * 投票人员信息Service
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  */
 @Service
 public class PersonService implements PersonServiceable {
@@ -78,7 +79,7 @@ public class PersonService implements PersonServiceable {
 						Subject subject = subjectDAO.get(subjectId);
 						if (subject == null) continue;
 						if (subject.getSubjectStatus() == SubjectStatus.INPUT){
-							SubjectItem subjectItem = subjectItemDAO.findSubjectItemBySubject(subjectId);
+							SubjectItem subjectItem = subjectItemDAO.findSubjectItemBySubjectAndInputStatus(subjectId);
 							if (subjectItem == null) continue;
 							subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
 							subjectItemDAO.merge(subjectItem);
