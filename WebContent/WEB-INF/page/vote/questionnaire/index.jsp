@@ -20,7 +20,7 @@
 					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '',
 					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '',
 					editwidth:650,
-					editheight:280,
+					editheight:260,
 					querywidth:500,
 					queryheight:100
 				});
