@@ -14,13 +14,9 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
-import com.ewcms.core.site.model.Channel;
-import com.ewcms.core.site.model.Site;
-import com.ewcms.core.site.model.Template;
-import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.directive.page.PageOutDirective;
 import com.ewcms.generator.freemarker.directive.page.SkipDirective;
 import com.ewcms.generator.freemarker.directive.page.SkipNumberDirecitve;
@@ -34,7 +30,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class ListGeneratorTest extends FreemarkerTest {
+public class ListGeneratorTest  extends GeneratorHtmlTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
@@ -51,37 +47,34 @@ public class ListGeneratorTest extends FreemarkerTest {
         ListGenerator generator = new ListGenerator(cfg,initSite(),initChannel(),service);
         List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")));
         Assert.assertEquals(10, resources.size());
-        Assert.assertEquals("news/cn/0.html", resources.get(0).getReleasePath());
-        Assert.assertEquals("news/cn/9.html", resources.get(9).getReleasePath());
+        Assert.assertEquals("news/cn/0.html", resources.get(0).getUri());
+        assertPage0Content(resources.get(0));
+        Assert.assertEquals("news/cn/9.html", resources.get(9).getUri());
+        assertPage9Content(resources.get(9));
     }
     
-    private Site initSite(){
-        Site  site = new Site();
+    private void assertPage0Content(OutputResource resource)throws Exception{
+        StringBuilder builder = new StringBuilder();
+        builder.append("listpage");
+        for(int i = 0 ; i < 7 ; ++i ){
+            builder.append("/news/cn/").append(i).append(".html|").append(i+1);
+        }
+        builder.append("|..");
         
-        return site;
+        String content = this.getContent(resource.getPath());
+        content = StringUtils.deleteWhitespace(content);
+        Assert.assertEquals(builder.toString(), content);
     }
     
-    private Channel initChannel(){
-        Channel channel = new Channel();
-        
-        channel.setId(1);
-        channel.setListSize(10);
-        channel.setAbsUrl("/news/cn");
-        
-        return channel;
+    private void assertPage9Content(OutputResource resource)throws Exception{
+        StringBuilder builder = new StringBuilder();
+        builder.append("listpage");
+        builder.append("|..");
+        for(int i = 3 ; i < 10 ; ++i ){
+            builder.append("/news/cn/").append(i).append(".html|").append(i+1);
+        }
+        String content = this.getContent(resource.getPath());
+        content = StringUtils.deleteWhitespace(content);
+        Assert.assertEquals(builder.toString(), content);
     }
-    
-    private String getTemplatePath(String name) {
-        return String.format("html/%s", name);
-    }
-    
-    private Template initTemplate(String path){
-        Template template = new Template();
-        
-        template.setUniquePath(path);
-        template.setType(TemplateType.LIST);
-        
-        return template;
-    }
-
 }
