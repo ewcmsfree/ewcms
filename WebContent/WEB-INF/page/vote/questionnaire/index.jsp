@@ -19,8 +19,8 @@
 					inputURL:'<s:url namespace="/vote/questionnaire" action="input"/>?channelId=' + $('#channelId').val() + '',
 					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '',
 					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '',
-					editwidth:500,
-					editheight:235,
+					editwidth:650,
+					editheight:280,
 					querywidth:500,
 					queryheight:100
 				});

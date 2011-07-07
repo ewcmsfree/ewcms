@@ -24,8 +24,8 @@
 		<s:form action="save" namespace="/vote/subject">
 			<table class="formtable" >
 				<tr>
-					<td>主题：</td>
-					<td class="formFieldError">
+					<td width="15%" height="21px">主题名称：</td>
+					<td width="85%" height="21px" class="formFieldError">
 						<s:textfield id="title" cssClass="inputtext" name="subjectVo.title" size="50"/>
 						<s:fielderror ><s:param value="%{'subjectVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>

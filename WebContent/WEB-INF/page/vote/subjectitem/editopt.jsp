@@ -24,16 +24,17 @@
 		<s:form action="saveopt" namespace="/vote/subjectitem">
 			<table class="formtable" >
 				<tr>
-					<td>选项方式：</td>
-					<td>
+					<td width="15%" height="21px">选项方式：</td>
+					<td width="85%" height="21px">
 						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
 						<s:radio list="#{'MULTITEXT':'多行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
 					</td>
 				</tr>
 				<tr>
-					<td>票数：</td>
-					<td>
-						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.voteNumber"/>
+					<td >票数：</td>
+					<td class="formFieldError">
+						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.voteNumber" maxlength="10"/>
+						<s:fielderror ><s:param value="%{'subjectItemVo.voteNumber'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>

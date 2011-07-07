@@ -24,10 +24,10 @@
 		<s:form action="save" namespace="/vote/subjectitem">
 			<table class="formtable" >
 				<tr>
-					<td>选项：</td>
-					<td class="formFieldError">
+					<td width="15%" height="21px;">选项名称：</td>
+					<td width="85%" height="21px" class="formFieldError">
 						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.title" size="50"/>
-						<s:fielderror ><s:param value="%{'subjectVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
+						<s:fielderror ><s:param value="%{'subjectItemVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -38,9 +38,9 @@
 				</tr>
 				<tr>
 					<td>票数：</td>
-					<td>
-						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.voteNumber" size="50"/>
-						
+					<td class="formFieldError">
+						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.voteNumber" maxlength="10"/>
+						<s:fielderror ><s:param value="%{'subjectItemVo.voteNumber'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>

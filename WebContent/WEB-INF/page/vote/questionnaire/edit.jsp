@@ -26,8 +26,8 @@
 		<s:form action="save" namespace="/vote/questionnaire">
 			<table class="formtable" >
 				<tr>
-					<td>主题：</td>
-					<td class="formFieldError">
+					<td width="15%" height="21px">问卷名称：</td>
+					<td width="85%" height="21px" class="formFieldError">
 						<s:textfield id="title" cssClass="inputtext" name="questionnaireVo.title" size="50"/>
 						<s:fielderror ><s:param value="%{'questionnaireVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
@@ -58,15 +58,15 @@
 				</tr>
 				<tr>
 					<td>人数：</td>
-					<td>
-						<s:textfield id="number" cssClass="inputtext" name="questionnaireVo.number"/>
-						<s:fielderror ><s:param value="%{'questionnaireVo.number'}" /></s:fielderror>
+					<td class="formFieldError">
+						<s:textfield id="number" cssClass="inputtext" name="questionnaireVo.number" maxlength="10"/>
+						<s:fielderror><s:param value="%{'questionnaireVo.number'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>结束投票：</td>
 					<td>
-						<s:checkbox id="voteFlag" name="questionnaireVo.voteFlag" cssStyle="vertical-align: middle;"/><label for="voteFlag">结束投票</label>
+						<s:checkbox id="voteFlag" name="questionnaireVo.voteFlag"/><label for="voteFlag">结束投票</label>
 					</td>
 				</tr>
 			</table>
