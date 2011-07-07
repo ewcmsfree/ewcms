@@ -3,16 +3,6 @@
 "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
 
 <validators>
-    <field name="subjectItemVo.title">
-        <field-validator type="requiredstring">
-        	<param name="trim">true</param>
-            <message>主题不能为空</message>
-        </field-validator>
-        <field-validator type="stringlength">
-        	<param name="maxLength">50</param>
-        	<message>标题长度必须小于${maxLength}个字符</message>
-        </field-validator>
-    </field>
     <field name="subjectItemVo.voteNumber">
     	<field-validator type="required">
     		<param name="trim">true</param>
@@ -20,7 +10,7 @@
     	</field-validator>
         <field-validator type="regex">
             <param name="expression"><![CDATA[(^[0-9]+$)]]></param>
-            <message>票数必须是整数</message>
+            <message>票数是整数</message>
         </field-validator>        
     </field>
 </validators>

@@ -5,6 +5,7 @@
 <validators>
     <field name="articleVo.title">
         <field-validator type="requiredstring">
+        	<param name="trim">true</param>
             <message>标题不能为空</message>
         </field-validator>
         <field-validator type="stringlength">
