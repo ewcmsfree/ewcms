@@ -157,14 +157,17 @@ public class SkipNumberDirecitve extends SkipBaseDirective {
 
         int start = 0;
         int len = 0;
-        if (count <= max) {
+        if ( number < max ) {
             start = 0;
-            len = count;
-        } else {
-            start = number - (max - 1) / 2;
-            start = (start < 0 ? 0 : start);
+            len = count <= max ? count : max;
+        }else if(count < number + max){
+            start = count - max;
             len = max;
+        } else {
+            start = number - max / 2;
+            len = max -1 ;
         }
+        
         logger.debug("Page number start is {}",start);
         logger.debug("Page number length is  {}",len);
         
