@@ -32,7 +32,7 @@
                                 {field:'id',title:'编号',width:60},
                                 {field:'title',title:'主题',width:500,
                                 	formatter:function(val,rec){
-                                		return '<a href="#" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
+                                		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
                                 	}
                                 },
                                 {field:'subjectStatusDescription',title:'主题选择方式',width:100}
@@ -53,8 +53,10 @@
 				var subjectTitle = subjectTitle + ' - 问卷调查主题列表';
 				var url = "";
 				if (optionDescription == '录入'){
+					$('#save_span').attr("style","");
 					url = '<s:url namespace="/vote/subjectitem" action="inputopt"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				}else{
+					$('#save_span').attr("style","display:none");
 					url = '<s:url namespace="/vote/subjectitem" action="index"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				}
 				$('#editifr').attr('src',url);
@@ -124,6 +126,7 @@
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                	<span id="save_span"><a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a></span>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#editifr').attr('src','');$('#edit-window').window('close');">关闭</a>
                 </div>
             </div>

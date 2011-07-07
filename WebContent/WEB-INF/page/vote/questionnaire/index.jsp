@@ -180,9 +180,6 @@
                 <div region="center" border="false">
                 	<iframe id="editifr_person"  name="editifr_person" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
                 </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#person-window').window('close');return false;">关闭</a>
-                </div>
             </div>
         </div>
         <s:hidden id="channelId" name="channelId"/>

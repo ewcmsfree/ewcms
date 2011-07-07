@@ -32,9 +32,8 @@
 	    <div region="west" title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
 			<ul id="tt2"></ul>
 		</div>  
-	    <div region="center" style="padding:2px;" border="false">  
-	    	<iframe id="mainifr" name="mainifr" class="mainifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:45%;" style="padding:0px;"></iframe>
-	    	</p>
+	    <div region="center" style="padding:2px;" border="false">
+	    	<iframe id="mainifr" name="mainifr" class="mainifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:47%;" style="padding:0px;"></iframe>
 	    	<iframe id="subjectifr" name="subjectifr" class="subjectifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no" style="width:100%;height:53%;" style="padding:0px;"></iframe>
 	    </div>
 	</body>
