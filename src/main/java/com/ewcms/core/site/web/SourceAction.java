@@ -42,7 +42,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	private SiteFac siteFac;
 	@Autowired
 	private GeneratorServiceable generatorSev;
-
 	private File sourceFile;
 	private String sourceFileFileName;
 	private String sourceFileContentType;
@@ -410,6 +409,19 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		try {
 			TemplateSource vo = siteFac
 					.getTemplateSource(getSourceVo().getId());
+				if (sourceFile != null){
+					TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
+					vo.setSize(converKB(sourceFile.length()));
+					byte[] buffer = new byte[Integer.parseInt(String
+							.valueOf(sourceFile.length()))];
+					InputStream in = new BufferedInputStream(new FileInputStream(
+							sourceFile), Integer.parseInt(String.valueOf(sourceFile
+							.length())));
+					in.read(buffer);
+					tplEntityVo.setSrcEntity(buffer);
+					vo.setSourceEntity(tplEntityVo);
+			}
+			vo.setName(sourceFileFileName);
 			vo.setDescribe(getSourceVo().getDescribe());
 			siteFac.updTemplateSource(vo);
 			addActionMessage("数据保存成功！");

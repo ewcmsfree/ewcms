@@ -36,9 +36,6 @@ import org.hibernate.annotations.Formula;
  * <li>absUrl:栏目访问地址
  * <li>listSize:列表显示最大条数
  * <li>maxSize:最大显示条数
- * <li>homeTPL:栏目首页模板
- * <li>listTPL:栏目列表模板
- * <li>detailTPL:栏目内容模板
  * <li>publicenable:是否允许发布
  * <li>describe:专栏说明
  * <li>channelEntity:专栏引导图
@@ -50,9 +47,7 @@ import org.hibernate.annotations.Formula;
 @Table(name = "site_channel")
 @SequenceGenerator(name = "seq_site_channel", sequenceName = "seq_site_channel_id", allocationSize = 1)
 public class Channel implements Serializable {
-
 	private static final String PATH_SEPARATOR = "/";
-
 	@Id
 	@GeneratedValue(generator = "seq_site_channel", strategy = GenerationType.SEQUENCE)
 	private Integer id;
@@ -80,15 +75,6 @@ public class Channel implements Serializable {
 	private Integer maxSize = 9999;
 	@Column()
 	private Boolean publicenable = false;
-	@ManyToOne(cascade = { CascadeType.REFRESH }, targetEntity = Template.class)
-	@JoinColumn(name = "hometpl_id", nullable = true)
-	private Template homeTPL;
-	@ManyToOne(cascade = { CascadeType.REFRESH }, targetEntity = Template.class)
-	@JoinColumn(name = "listtpl_id", nullable = true)
-	private Template listTPL;
-	@ManyToOne(cascade = { CascadeType.REFRESH }, targetEntity = Template.class)
-	@JoinColumn(name = "detailtpl_id", nullable = true)
-	private Template detailTPL;
 	@Column()
 	private Integer internalSort;
 	@Formula(value = "(Select count(o.id) From site_channel o Where o.parent_id= id)")
@@ -187,30 +173,6 @@ public class Channel implements Serializable {
 
 	public void setMaxSize(Integer maxSize) {
 		this.maxSize = maxSize;
-	}
-
-	public Template getHomeTPL() {
-		return homeTPL;
-	}
-
-	public void setHomeTPL(Template homeTPL) {
-		this.homeTPL = homeTPL;
-	}
-
-	public Template getListTPL() {
-		return listTPL;
-	}
-
-	public void setListTPL(Template listTPL) {
-		this.listTPL = listTPL;
-	}
-
-	public Template getDetailTPL() {
-		return detailTPL;
-	}
-
-	public void setDetailTPL(Template detailTPL) {
-		this.detailTPL = detailTPL;
 	}
 
 	public Boolean getPublicenable() {

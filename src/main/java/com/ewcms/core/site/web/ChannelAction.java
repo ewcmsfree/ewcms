@@ -108,7 +108,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 		try {
 			if (id == null) {
 				ChannelNode rootVo = siteFac.channelNodeRoot();
-				if (isPub && !rootVo.isPublicable()){
+				if (isPub && !rootVo.isPublicable()) {
 					Struts2Util.renderJson("{}");
 					return;
 				}
@@ -116,20 +116,36 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				treeFile.setId(rootVo.getId().toString());
 				treeFile.setText(rootVo.getName());
 				treeFile.setState("open");
-				Map<String,String> attributes = new HashMap<String,String>();
-				int max = TreeNodeConvert.treeNodePermission(attributes,rootVo.getPermissions());
+				Map<String, String> attributes = new HashMap<String, String>();
+				int max = TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
 				treeFile.setAttributes(attributes);
-				switch(max){
-					case 1:treeFile.setIconCls("icon-table-refresh");break;
-					case 2:treeFile.setIconCls("icon-table-edit");break;
-					case 4:treeFile.setIconCls("icon-table-pub");break;
-					case 8:treeFile.setIconCls("icon-note-add");break;
-					case 16:treeFile.setIconCls("icon-note-edit");break;
-					case 32:treeFile.setIconCls("icon-note-delete");break;
-					case 64:treeFile.setIconCls("icon-note");break;
-					default:treeFile.setIconCls("icon-note-error");
+				switch (max) {
+				case 1:
+					treeFile.setIconCls("icon-table-refresh");
+					break;
+				case 2:
+					treeFile.setIconCls("icon-table-edit");
+					break;
+				case 4:
+					treeFile.setIconCls("icon-table-pub");
+					break;
+				case 8:
+					treeFile.setIconCls("icon-note-add");
+					break;
+				case 16:
+					treeFile.setIconCls("icon-note-edit");
+					break;
+				case 32:
+					treeFile.setIconCls("icon-note-delete");
+					break;
+				case 64:
+					treeFile.setIconCls("icon-note");
+					break;
+				default:
+					treeFile.setIconCls("icon-note-error");
 				}
-				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(), isPub)));
+				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(),
+						isPub)));
 				Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 				return;
 			}
@@ -186,8 +202,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	public void movetoChannel() {
 		try {
 			Channel vo = siteFac.getChannel(getChannelVo().getId());
-			Channel parentVo = siteFac.getChannel(getChannelVo().getParent()
-					.getId());
+			Channel parentVo = siteFac.getChannel(getChannelVo().getParent().getId());
 			vo.setParent(parentVo);
 			siteFac.updChannel(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
@@ -214,57 +229,24 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	public String saveInfo() {
 		try {
 			Channel vo = siteFac.getChannel(getChannelVo().getId());
-			Template detailTPL = getChannelVo().getDetailTPL();
-			Template listTPL = getChannelVo().getListTPL();
-			Template homeTPL = getChannelVo().getHomeTPL();
-			if (vo.getParent() != null) {
-				if (detailTPL.getId() == null) {
-					vo.setDetailTPL(null);
-				} else {
-					if (vo.getDetailTPL() == null
-							|| detailTPL.getId().intValue() != vo
-									.getDetailTPL().getId()) {
-						detailTPL.setId(createChannelTPL(detailTPL.getId()));
-						vo.setDetailTPL(detailTPL);
-					}
-				}
 
-				if (listTPL.getId() == null) {
-					vo.setListTPL(null);
-				} else {
-					if (vo.getListTPL() == null
-							|| listTPL.getId().intValue() != vo.getListTPL()
-									.getId()) {
-						listTPL.setId(createChannelTPL(listTPL.getId()));
-						vo.setListTPL(listTPL);
-					}
-				}
+			if (vo.getParent() != null) {
+
 				vo.setDir(getChannelVo().getDir());
 				vo.setListSize(getChannelVo().getListSize());
 				vo.setUrl(getChannelVo().getUrl());
 				vo.setMaxSize(getChannelVo().getMaxSize());
 				vo.setDescribe(getChannelVo().getDescribe());
 			}
-			if (homeTPL.getId() == null) {
-				vo.setHomeTPL(null);
-			} else {
-				if (vo.getHomeTPL() == null
-						|| homeTPL.getId().intValue() != vo.getHomeTPL()
-								.getId()) {
-					homeTPL.setId(createChannelTPL(homeTPL.getId()));
-					vo.setHomeTPL(homeTPL);
-				}
-			}
+
 			vo.setPublicenable(getChannelVo().getPublicenable());
 			if (iconFile != null) {
 				ChannelEntity entityVo = vo.getChannelEntity();
-				if(entityVo==null)
-				entityVo = new ChannelEntity();
-				byte[] buffer = new byte[Integer.parseInt(String
-						.valueOf(iconFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(
-						iconFile), Integer.parseInt(String.valueOf(iconFile
-						.length())));
+				if (entityVo == null)
+					entityVo = new ChannelEntity();
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(iconFile.length()))];
+				InputStream in = new BufferedInputStream(new FileInputStream(iconFile), Integer.parseInt(String
+						.valueOf(iconFile.length())));
 				in.read(buffer);
 				entityVo.setIconEntity(buffer);
 				vo.setChannelEntity(entityVo);
@@ -278,12 +260,11 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 		return INPUT;
 	}
 
-	private Integer createChannelTPL(Integer id) {
+	public void importChannelTPL() {
 		try {
-			Template template = siteFac.getTemplate(id);
+			Template template = siteFac.getTemplate(getChannelVo().getId());
 			if (template.getChannelId() != null)
-				return template.getId();
-
+				return;
 			Template vo = new Template();
 			vo.setSite(getCurrentSite());
 			vo.setName(template.getName());
@@ -291,14 +272,11 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 			TemplateEntity tplEntity = new TemplateEntity();
 			tplEntity.setTplEntity(template.getTemplateEntity().getTplEntity());
 			vo.setTemplateEntity(tplEntity);
-			vo.setParent(siteFac.channelTemplate(
-					getChannelVo().getId().toString()));
-			vo.setPath(siteFac.getTemplate(vo.getParent().getId()).getPath() + "/"
-					+ template.getName());
+			vo.setParent(siteFac.channelTemplate(getChannelVo().getId().toString()));
+			vo.setPath(siteFac.getTemplate(vo.getParent().getId()).getPath() + "/" + template.getName());
 			vo.setChannelId(getChannelVo().getId());
-			return siteFac.addTemplate(vo);
+			siteFac.addTemplate(vo);
 		} catch (Exception e) {
 		}
-		return null;
 	}
 }

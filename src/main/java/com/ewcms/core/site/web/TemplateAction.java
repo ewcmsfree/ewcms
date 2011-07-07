@@ -397,7 +397,22 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		try {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
 			vo.setDescribe(getTemplateVo().getDescribe());
+			if(templateFile!=null){
+				vo.setSize(converKB(templateFile.length()));			
+				TemplateEntity tplEntityVo = new TemplateEntity();
+					byte[] buffer = new byte[Integer.parseInt(String
+							.valueOf(templateFile.length()))];
+					InputStream in = new BufferedInputStream(
+							new FileInputStream(templateFile),
+							Integer.parseInt(String.valueOf(templateFile
+									.length())));
+					in.read(buffer);
+					tplEntityVo.setTplEntity(buffer);
+					vo.setTemplateEntity(tplEntityVo);
+				vo.setName(templateFileFileName);
+			}
 			siteFac.updTemplate(vo);
+			
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
 			addActionMessage("数据保存失败！");
