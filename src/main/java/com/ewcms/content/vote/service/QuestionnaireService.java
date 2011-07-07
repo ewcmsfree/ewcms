@@ -91,7 +91,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			js.append("<p>对不起，此调查已结束，不再接受投票</p>");
 		}else{
 			List<Subject> subjects = questionnaire.getSubjects();
-			if (subjects == null){
+			if (subjects == null || subjects.isEmpty()){
 				js.append("<p>没有调查主题</p>");
 				js.append("</div>");
 				return js;
@@ -101,8 +101,6 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			js.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 			js.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
 			js.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
-			
-			
 			js.append("    <dl>\n");
 			
 			Long row = 1L;
