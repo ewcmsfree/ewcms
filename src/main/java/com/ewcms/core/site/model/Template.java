@@ -14,6 +14,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,8 +23,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -45,7 +45,7 @@ import org.hibernate.annotations.Formula;
  * <li>channelId:模板所属专栏
  * <li>path:模板路径
  * <li>site:模板所属站点
- * <li>uriPatter:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html
+ * <li>uriPattern:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html
  * <li>type:模板类型
  * </ul>
  * 
@@ -85,11 +85,12 @@ public class Template implements Serializable {
 	private Integer channelId;
 	@Column(length = 150)
 	private String path;
-	@Column(length = 150)
+	@Column(length = 150,unique=true)
 	private String uniquePath;
-	
-	//TODO new property
-	private String uriPatter;
+	@Column(length = 150)
+	private String uriPattern;
+	@Column(length = 15)
+	@Enumerated(EnumType.STRING)
 	private TemplateType type;
 	
 	public String getUniquePath() {
@@ -191,15 +192,15 @@ public class Template implements Serializable {
 		return this.childrenCount > 0;
 	}
 	
-	public String getUriPatter() {
-        return uriPatter;
-    }
+    public String getUriPattern() {
+		return uriPattern;
+	}
 
-    public void setUriPatter(String uriPatter) {
-        this.uriPatter = uriPatter;
-    }
+	public void setUriPattern(String uriPattern) {
+		this.uriPattern = uriPattern;
+	}
 
-    public TemplateType getType() {
+	public TemplateType getType() {
         return type;
     }
 
