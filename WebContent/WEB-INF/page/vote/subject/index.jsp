@@ -16,7 +16,7 @@
 				//基本变量初始
 				setGlobaVariable({
 					singleSelect:true,
-					tableid:'#tt_detail',
+					tableid:'#tt_subject',
 					inputURL:'<s:url namespace="/vote/subject" action="input"/>?questionnaireId=' + $('#questionnaireId').val() + '',
 					queryURL:'<s:url namespace="/vote/subject" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '',
 					deleteURL:'<s:url namespace="/vote/subject" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '',
@@ -32,7 +32,7 @@
                                 {field:'id',title:'编号',width:60},
                                 {field:'title',title:'主题',width:500,
                                 	formatter:function(val,rec){
-                                		return '<a href="#" onclick="showDetailItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
+                                		return '<a href="#" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
                                 	}
                                 },
                                 {field:'subjectStatusDescription',title:'主题选择方式',width:100}
@@ -47,10 +47,10 @@
       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
       						]                       
 				});
-				$('#detaildiv').attr('title',parent.$('#questionnaireTitle').val());
+				$('#subjectdiv').attr('title',parent.$('#questionnaireTitle').val());
 			});
-			function showDetailItem(subjectId, subjectTitle, optionDescription){
-				var detailTitle = subjectTitle + ' - 问卷调查主题列表';
+			function showSubjectItem(subjectId, subjectTitle, optionDescription){
+				var subjectTitle = subjectTitle + ' - 问卷调查主题列表';
 				var url = "";
 				if (optionDescription == '录入'){
 					url = '<s:url namespace="/vote/subjectitem" action="inputopt"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
@@ -58,10 +58,10 @@
 					url = '<s:url namespace="/vote/subjectitem" action="index"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				}
 				$('#editifr').attr('src',url);
-				openWindow('#edit-window',{width:858,height:320,title:detailTitle});
+				openWindow('#edit-window',{width:858,height:320,title:subjectTitle});
 			}
 			function upOperate(){
-				var rows = $('#tt_detail').datagrid('getSelections');
+				var rows = $('#tt_subject').datagrid('getSelections');
 				if(rows.length == 0){
 	            	$.messager.alert('提示','请选择问卷调查主题记录','info');
 	                return;
@@ -80,12 +80,12 @@
 						$.messager.alert("提示","系统错误","info");
 						return;
 					}
-					$("#tt_detail").datagrid('reload');
+					$("#tt_subject").datagrid('reload');
 	            });
 	            return false;
 			}
 			function downOperate(){
-				var rows = $('#tt_detail').datagrid('getSelections');
+				var rows = $('#tt_subject').datagrid('getSelections');
 				if(rows.length == 0){
 	            	$.messager.alert('提示','请选择问卷调查主题记录','info');
 	                return;
@@ -104,19 +104,19 @@
 						$.messager.alert("提示","系统错误","info");
 						return;
 					}
-					$("#tt_detail").datagrid('reload');
+					$("#tt_subject").datagrid('reload');
 	            });
 	            return false;
 			}
 			function queryOperate(){
-				$('#tt_detail').datagrid('clearSelections');
+				$('#tt_subject').datagrid('clearSelections');
 				queryOperateBack();
 			}
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div id="detaildiv" region="center" style="padding:2px;" title="编号: <s:property value='questionnaireId'/> - 问卷调查主题" split="true">
-			<table id="tt_detail" fit="true" split="true"></table>
+		<div id="subjectdiv" region="center" style="padding:2px;" title="编号: <s:property value='questionnaireId'/> - 问卷调查主题" split="true">
+			<table id="tt_subject" fit="true" split="true"></table>
 	 	</div>
         <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;问卷调查主题" style="display:none;">
             <div class="easyui-layout" fit="true">
