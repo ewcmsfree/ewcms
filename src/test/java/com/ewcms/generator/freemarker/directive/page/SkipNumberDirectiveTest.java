@@ -54,16 +54,39 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     }
     
     @Test
+    public void testMaxGePageNumberGetPageOuts()throws Exception{
+        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        List<PageOut> pages = directive.getPageOuts(rule,10, 5, 7, "..");
+        Assert.assertEquals(8, pages.size());
+        Assert.assertEquals(pages.get(0).getLabel(), "1");
+        Assert.assertEquals(pages.get(7).getLabel(),"..");
+    }
+    
+    @Test
     public void testMiddleGetPgeOuts()throws Exception{
         SkipNumberDirecitve directive = new SkipNumberDirecitve();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
-        List<PageOut> pages = directive.getPageOuts(rule,20, 10, 6, "..");
+        List<PageOut> pages = directive.getPageOuts(rule,20, 10, 7, "..");
         Assert.assertEquals(8, pages.size());
         Assert.assertEquals(pages.get(0).getLabel(), "..");
-        Assert.assertEquals(pages.get(1).getLabel(),"9");
-        Assert.assertEquals(pages.get(3).getLabel(), "11");
+        Assert.assertEquals(pages.get(1).getLabel(),"8");
         Assert.assertEquals(pages.get(7).getLabel(), "..");
+    }
+    
+    
+    @Test
+    public void testEndGetPgeOuts()throws Exception{
+        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        List<PageOut> pages = directive.getPageOuts(rule,20, 17, 7, "..");
+        Assert.assertEquals(8, pages.size());
+        Assert.assertEquals(pages.get(0).getLabel(), "..");
+        Assert.assertEquals(pages.get(1).getLabel(),"14");
+        Assert.assertEquals(pages.get(7).getLabel(), "20");
     }
     
     @Override
@@ -93,7 +116,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        String expected="..891011121314..";
+        String expected="..8910111213..";
         Assert.assertEquals(expected, value);
     }
     
@@ -108,7 +131,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        String expected="##891011121314##";
+        String expected="##8910111213##";
         Assert.assertEquals(expected, value);
     }
     
