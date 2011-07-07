@@ -9,11 +9,16 @@ package com.ewcms.content.vote.util;
 import java.util.regex.Pattern;
 
 /**
- * 
- * @author wu_zhijun
- *
+ *  
+ * @author 吴智俊
  */
 public class NumberUtil {
+	/**
+	 * 判断是否为整数
+	 * 
+	 * @param value 
+	 * @return
+	 */
 	public static Boolean isNumber(String value){
 		Pattern pattern = Pattern.compile("[0-9]*");
 		return pattern.matcher(value).matches();   
