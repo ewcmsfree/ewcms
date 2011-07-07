@@ -8,7 +8,6 @@ package com.ewcms.content.vote.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -74,7 +73,7 @@ public class PersonService implements PersonServiceable {
 			String[] recordNames = subjectName.split("_");
 			if (recordNames.length == 2){
 				if (recordNames[0].equals("Subject")){
-					if (isNumber(recordNames[1])){
+					if (StringUtils.isNumeric(recordNames[1])){
 						Long subjectId = new Long(recordNames[1]);
 						Subject subject = subjectDAO.get(subjectId);
 						if (subject == null) continue;
@@ -84,7 +83,7 @@ public class PersonService implements PersonServiceable {
 							subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
 							subjectItemDAO.merge(subjectItem);
 						}else{
-							if (isNumber(subjectValue)){
+							if (StringUtils.isNumeric(subjectValue)){
 								Long subjectItemId = new Long(subjectValue);
 								SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
 								subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
@@ -95,7 +94,7 @@ public class PersonService implements PersonServiceable {
 				}
 			}else if (recordNames.length == 4){
 				if (recordNames[0].equals("Subject") && recordNames[2].equals("Item")){
-					if (isNumber(recordNames[3])){
+					if (StringUtils.isNumeric(recordNames[3])){
 						Long subjectItemId = new Long(recordNames[3]);
 						SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
 						subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
@@ -106,11 +105,6 @@ public class PersonService implements PersonServiceable {
 		}
 	}
 	
-	private Boolean isNumber(String value){
-		Pattern pattern = Pattern.compile("[0-9]*");
-		return pattern.matcher(value).matches();   
-	}
-
 	@Override
 	public void delPerson(Long personId) {
 		personDAO.removeByPK(personId);
