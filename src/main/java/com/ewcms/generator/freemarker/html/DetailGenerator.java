@@ -33,34 +33,34 @@ import freemarker.template.Configuration;
  *
  * @author wangwei
  */
-public class ArticleGenerator extends GeneratorHtmlBase {
+public class DetailGenerator extends GeneratorHtmlBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleGenerator.class);
+    private static final Logger logger = LoggerFactory.getLogger(DetailGenerator.class);
     
-    private static final Integer MAX_PAGES = 1000;
+    private static final Integer MAX_ARTICLES = 1000;
     
     private Configuration cfg;
     private Site site;
     private Channel channel;
     private ArticleLoaderServiceable service;
-    private Integer maxPages;
+    private Integer maxArticles;
     
     UriRuleable uriRule = new DefaultArticleUriRule();
     
-    public ArticleGenerator(Configuration cfg,Site site,
+    public DetailGenerator(Configuration cfg,Site site,
             Channel channel,ArticleLoaderServiceable service){
         
-        this(cfg,site,channel,service,MAX_PAGES);
+        this(cfg,site,channel,service,MAX_ARTICLES);
     }
     
-    public ArticleGenerator(Configuration cfg,Site site,
-            Channel channel,ArticleLoaderServiceable service,Integer maxPages){
+    public DetailGenerator(Configuration cfg,Site site,
+            Channel channel,ArticleLoaderServiceable service,Integer maxArticles){
         
         this.cfg = cfg;
         this.site = site;
         this.channel = channel;
         this.service = service;
-        this.maxPages = maxPages;
+        this.maxArticles = maxArticles;
     }
     
     @Override
@@ -74,6 +74,7 @@ public class ArticleGenerator extends GeneratorHtmlBase {
             Integer count = article.getContentTotal();
             
             if(count == 0){
+                logger.debug("Aritcle content is null");
                 continue;
             }
             
@@ -81,7 +82,9 @@ public class ArticleGenerator extends GeneratorHtmlBase {
                 Map<String,Object> parameters = constructParameters(article,i,count);
                 resource.addChild(generator(t,parameters,uriRule));
             }
+            
             String url = resource.getChildren().get(0).getUri();
+            logger.debug("Aritcle uri is {}",url);
             resource.registerEvent(new ArticleOutputEvent(article.getId(),url,service));
             resources.add(resource);
         }
@@ -90,7 +93,7 @@ public class ArticleGenerator extends GeneratorHtmlBase {
     }
     
     private List<Article> findReleaseArticles(){
-        return service.findReleaseArticles(channel.getId(), maxPages);
+        return service.findReleaseArticles(channel.getId(), maxArticles);
     }
     
     private Map<String,Object> constructParameters(Article article,Integer pageNumber,Integer pageCount) {
