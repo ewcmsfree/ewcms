@@ -6,7 +6,6 @@
 
 package com.ewcms.generator.output.event;
 
-import com.ewcms.generator.ReleaseException;
 import com.ewcms.generator.service.ArticleLoaderServiceable;
 
 /**
@@ -27,12 +26,12 @@ public class ArticleOutputEvent implements OutputEventable {
     }
 
     @Override
-    public void success() throws ReleaseException {
+    public void success() {
         service.releaseArticle(id, url);
     }
 
     @Override
-    public void error() throws ReleaseException {
+    public void error(String message,Throwable e){
         // TODO 写错误日志
     }
 }

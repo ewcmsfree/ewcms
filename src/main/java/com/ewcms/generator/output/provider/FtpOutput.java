@@ -6,6 +6,23 @@
 
 package com.ewcms.generator.output.provider;
 
-public class FtpOutput {
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+
+import com.ewcms.core.site.model.SiteServer;
+
+/**
+ * 发布指定的资源到ftp服务器上
+ * 
+ * @author wangwei
+ */
+public class FtpOutput extends OutputBase{
+
+    @Override
+    protected FileObject getTargetRoot(SiteServer server,FileSystemManager manager) throws FileSystemException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

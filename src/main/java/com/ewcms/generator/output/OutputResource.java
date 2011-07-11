@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.ewcms.generator.ReleaseException;
 import com.ewcms.generator.output.event.DefaultOutputEvent;
 import com.ewcms.generator.output.event.OutputEventable;
 
@@ -88,13 +87,17 @@ public class OutputResource {
         this.event = event;
     }
     
-    public void outputSuccess()throws ReleaseException{
+    public boolean isOutput(){
+        return !(StringUtils.isBlank(path) || StringUtils.isBlank(uri));
+    }
+    
+    public void outputSuccess(){
         event.success();
         close();
     }
     
-    public void outputError()throws ReleaseException{
-        event.error();
+    public void outputError(String message,Throwable e){
+        event.error(message,e);
         close();
     }
     

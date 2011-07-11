@@ -10,10 +10,11 @@ import java.util.List;
 
 import org.apache.commons.vfs.FileSystemException;
 
-import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.SiteServer;
+import com.ewcms.generator.ReleaseException;
 
 /**
- * 输出资源文件到指定发布路径或服务器上
+ * 输出和发布资源
  * 
  * @author wangwei
  */
@@ -22,10 +23,10 @@ public interface Outputable {
     /**
      * 输出资源
      * 
-     * @param site 站点对象
-     * @param infos 发布的资源集合 
+     * @param server 发布服务
+     * @param resources 发布的资源集合 
      * @throws FileSystemException
      */
-    public void out(Site site,List<OutputResource> infos)throws FileSystemException;
+    public void out(SiteServer server,List<OutputResource> resources)throws ReleaseException;
     
 }

@@ -6,8 +6,6 @@
 
 package com.ewcms.generator.output.event;
 
-import com.ewcms.generator.ReleaseException;
-
 /**
  * 发布事件接口
  * 
@@ -16,16 +14,15 @@ import com.ewcms.generator.ReleaseException;
 public interface OutputEventable {
 
     /**
-     * 发布成功事件
-     * 
-     * @throws ReleaseException
+     * 发布事件
      */
-    public void success()throws ReleaseException;
+    public void success();
     
     /**
-     * 发布失败实际
+     * 错误事件
      * 
-     * @throws ReleaseException
+     * @param message 错误信息
+     * @param e 异常
      */
-    public void error()throws ReleaseException;
+    public void error(String message,Throwable e);
 }

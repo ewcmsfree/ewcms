@@ -6,22 +6,20 @@
 
 package com.ewcms.generator.output.event;
 
-import com.ewcms.generator.ReleaseException;
-
 /**
- * 空事件
+ * 缺省事件
  * 
  * @author wangwei
  */
 public class DefaultOutputEvent implements OutputEventable{
 
     @Override
-    public void success() throws ReleaseException {
+    public void success() {
         
     }
 
     @Override
-    public void error() throws ReleaseException {
+    public void error(String message,Throwable e){
         //TODO 写错误日志
     }
 }
