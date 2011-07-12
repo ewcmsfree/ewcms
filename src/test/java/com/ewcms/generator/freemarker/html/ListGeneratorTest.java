@@ -43,8 +43,8 @@ public class ListGeneratorTest  extends GeneratorHtmlTest {
         ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
         when(service.getArticleCount(any(Integer.class))).thenReturn(100);
         
-        ListGenerator generator = new ListGenerator(cfg,initSite(),initChannel(),service);
-        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")));
+        ListGenerator generator = new ListGenerator(cfg,service);
+        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")),initSite(),initChannel());
         Assert.assertEquals(10, resources.size());
         Assert.assertEquals("news/cn/0.html", resources.get(0).getUri());
         assertPage0Content(resources.get(0));

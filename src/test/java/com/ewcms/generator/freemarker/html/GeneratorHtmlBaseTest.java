@@ -14,8 +14,10 @@ import java.util.Map;
 import org.junit.Test;
 import org.junit.Assert;
 
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.uri.UriRule;
@@ -47,10 +49,10 @@ public class GeneratorHtmlBaseTest {
     }
     
     static class GeneratorHtml extends GeneratorHtmlBase{
+
         @Override
-        public List<OutputResource> process(Template template)throws ReleaseException {
+        public List<OutputResource> process(Template template, Site site,Channel channel) throws PublishException {
             return null;
         }
-        
     }
 }

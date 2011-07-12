@@ -39,8 +39,8 @@ public class DetailGeneratorTest extends GeneratorHtmlTest {
         ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
         when(service.findReleaseArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
         
-        DetailGenerator generator = new DetailGenerator(cfg,initSite(),initChannel(),service);
-        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("detail.html")));
+        DetailGenerator generator = new DetailGenerator(cfg,service);
+        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("detail.html")),initSite(),initChannel());
         Assert.assertEquals(1, resources.size());
         OutputResource resource = resources.get(0);
         Assert.assertEquals(4, resource.getChildren().size());

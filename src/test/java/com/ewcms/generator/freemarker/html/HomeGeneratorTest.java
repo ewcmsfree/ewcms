@@ -30,8 +30,8 @@ public class HomeGeneratorTest extends GeneratorHtmlTest {
     
     @Test
     public void testHomeTemplate()throws Exception{
-        GeneratorHtmlable generator = new HomeGenerator(cfg,initSite(),initChannel());
-        List<OutputResource> list = generator.process(initTemplate(getTemplatePath("index.html")));
+        GeneratorHtmlable generator = new HomeGenerator(cfg);
+        List<OutputResource> list = generator.process(initTemplate(getTemplatePath("index.html")),initSite(),initChannel());
         Assert.assertFalse(list.isEmpty());
         
         OutputResource info = list.get(0);
