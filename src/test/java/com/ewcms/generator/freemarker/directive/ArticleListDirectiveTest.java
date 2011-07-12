@@ -27,8 +27,8 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
-import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
+import com.ewcms.generator.service.ChannelPublishServiceable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -52,10 +52,10 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testChannelIsNull()throws Exception{
-        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(null);
         ArticleListDirective directive = new ArticleListDirective();
-        directive.setChannelLoaderService(channelLoaderService);
+        directive.setChannelService(channelLoaderService);
         cfg.setSharedVariable("alist", directive);
         
         Template template = cfg.getTemplate(getTemplatePath("value.html"));
@@ -69,12 +69,12 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testChannelNotPublicenable()throws Exception{
-        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         Channel channel = new Channel();
         channel.setPublicenable(false);
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ArticleListDirective directive = new ArticleListDirective();
-        directive.setChannelLoaderService(channelLoaderService);
+        directive.setChannelService(channelLoaderService);
         cfg.setSharedVariable("alist", directive);
         
         Template template = cfg.getTemplate(getTemplatePath("value.html"));
@@ -109,16 +109,16 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testValueTemplate()throws Exception{
-        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         Channel channel = new Channel();
         channel.setPublicenable(true);
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ArticleListDirective directive = new ArticleListDirective();
-        directive.setChannelLoaderService(channelLoaderService);
+        directive.setChannelService(channelLoaderService);
         
-        ArticleLoaderServiceable articleLoaderService = mock(ArticleLoaderServiceable.class);
+        ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
         when(articleLoaderService.findArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
-        directive.setArticleLoaderService(articleLoaderService);
+        directive.setArticleService(articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);
         
@@ -140,18 +140,18 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testLoopsTemplate()throws Exception{
-        ChannelLoaderServiceable channelLoaderService = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         Channel channel = new Channel();
         channel.setId(1);
         channel.setPublicenable(true);
         when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ArticleListDirective directive = new ArticleListDirective();
-        directive.setChannelLoaderService(channelLoaderService);
+        directive.setChannelService(channelLoaderService);
         
-        ArticleLoaderServiceable articleLoaderService = mock(ArticleLoaderServiceable.class);
+        ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
         when(articleLoaderService.findArticlePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
-        directive.setArticleLoaderService(articleLoaderService);
+        directive.setArticleService(articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);
         

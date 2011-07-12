@@ -20,7 +20,7 @@ import com.ewcms.generator.freemarker.directive.page.PageOutDirective;
 import com.ewcms.generator.freemarker.directive.page.SkipDirective;
 import com.ewcms.generator.freemarker.directive.page.SkipNumberDirecitve;
 import com.ewcms.generator.output.OutputResource;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
 
 import freemarker.template.Configuration;
 
@@ -40,7 +40,7 @@ public class ListGeneratorTest  extends GeneratorHtmlTest {
     
     @Test
     public void testListTemplate()throws Exception{
-        ArticleLoaderServiceable service = mock(ArticleLoaderServiceable.class);
+        ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
         when(service.getArticleCount(any(Integer.class))).thenReturn(100);
         
         ListGenerator generator = new ListGenerator(cfg,initSite(),initChannel(),service);

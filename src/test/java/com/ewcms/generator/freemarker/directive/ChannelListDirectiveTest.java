@@ -24,7 +24,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerTest;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.ChannelPublishServiceable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -74,9 +74,9 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         ChannelListDirective directive = new ChannelListDirective();
         
         Channel channel = createChannel(1,false);
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, false);
         Assert.assertTrue(list.isEmpty());
@@ -87,9 +87,9 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         ChannelListDirective directive = new ChannelListDirective();
         
         Channel channel = createChannel(1,true);
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, false);
         Assert.assertFalse(list.isEmpty());
@@ -101,11 +101,11 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         ChannelListDirective directive = new ChannelListDirective();
         
         Channel channel = createChannel(1,true);
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         List<Channel> children = createChannelChildren(1,5);
         when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, true);
         Assert.assertFalse(list.isEmpty());
@@ -129,9 +129,9 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         ChannelListDirective directive = new ChannelListDirective();
         
         Channel channel = createChannel(1,true);
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         cfg.setSharedVariable("clist", directive);
         
@@ -148,11 +148,11 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         ChannelListDirective directive = new ChannelListDirective();
         
         Channel channel = createChannel(1,true);
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         List<Channel> children = createChannelChildren(1,5);
         when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         cfg.setSharedVariable("clist", directive);
         
@@ -170,12 +170,12 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         
         ChannelListDirective directive = new ChannelListDirective();
         
-        ChannelLoaderServiceable service = mock(ChannelLoaderServiceable.class);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(1, 1)).thenReturn(createChannel(1,true));
         when(service.getChannel(1, 2)).thenReturn(createChannel(2,true));
         when(service.getChannel(1, 3)).thenReturn(createChannel(3,true));
         when(service.getChannelByUrlOrPath(1,"/db/test")).thenReturn(createChannel(3,true));
-        directive.setChannelLoaderService(service);
+        directive.setChannelService(service);
         
         cfg.setSharedVariable("clist", directive);
     }

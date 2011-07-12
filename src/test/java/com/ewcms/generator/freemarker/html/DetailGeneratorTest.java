@@ -23,7 +23,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.generator.freemarker.directive.ArticleDirective;
 import com.ewcms.generator.output.OutputResource;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
 
 import freemarker.template.Configuration;
 
@@ -36,7 +36,7 @@ public class DetailGeneratorTest extends GeneratorHtmlTest {
     
     @Test
     public void testDetailTemplate()throws Exception{
-        ArticleLoaderServiceable service = mock(ArticleLoaderServiceable.class);
+        ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
         when(service.findReleaseArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
         
         DetailGenerator generator = new DetailGenerator(cfg,initSite(),initChannel(),service);
