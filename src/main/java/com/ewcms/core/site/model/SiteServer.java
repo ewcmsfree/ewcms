@@ -52,13 +52,14 @@ public class SiteServer implements Serializable {
     private String password;
 	@Column(length = 15)
 	@Enumerated(EnumType.STRING)
-	private UploadType uploadType;
+	private OutputType outputType;
     
-	public UploadType getUploadType() {
-		return uploadType;
+
+	public OutputType getOutputType() {
+		return outputType;
 	}
-	public void setUploadType(UploadType uploadType) {
-		this.uploadType = uploadType;
+	public void setOutputType(OutputType outputType) {
+		this.outputType = outputType;
 	}
 	public Integer getId() {
 		return id;
