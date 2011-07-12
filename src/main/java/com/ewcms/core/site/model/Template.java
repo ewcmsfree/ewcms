@@ -92,7 +92,15 @@ public class Template implements Serializable {
 	@Column(length = 15)
 	@Enumerated(EnumType.STRING)
 	private TemplateType type;
-
+    @Column()
+    private Boolean enabledUse = false; 
+    
+	public Boolean getEnabledUse() {
+		return enabledUse;
+	}
+	public void setEnabledUse(Boolean enabledUse) {
+		this.enabledUse = enabledUse;
+	}
 	public String getUniquePath() {
 		return uniquePath;
 	}

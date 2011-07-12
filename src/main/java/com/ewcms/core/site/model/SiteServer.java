@@ -53,7 +53,7 @@ public class SiteServer implements Serializable {
 	@Column(length = 15)
 	@Enumerated(EnumType.STRING)
 	private OutputType outputType;
-    
+   
 
 	public OutputType getOutputType() {
 		return outputType;
