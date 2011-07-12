@@ -19,7 +19,7 @@
 					inputURL:'<s:url namespace="/vote/questionnaire" action="input"/>?channelId=' + $('#channelId').val() + '',
 					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '',
 					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '',
-					editwidth:650,
+					editwidth:700,
 					editheight:260,
 					querywidth:500,
 					queryheight:100
@@ -102,17 +102,14 @@
 			function delOperate(){
 				parent.$('#subjectifr').attr('src','');
 				delOperateBack();
-				return false;
 			}
 			function updOperate(){
 				parent.$('#subjectifr').attr('src','');
 				updOperateBack();
-				return false;
 			}
 			function addOperate(){
 				parent.$('#subjectifr').attr('src','');
 				addOperateBack();
-				return false;
 			}
 			function detailOperate(){
 				var rows = $('#tt_main').datagrid('getSelections');
@@ -132,7 +129,6 @@
 				$('#tt_main').datagrid('clearSelections');
 				parent.$('#subjectifr').attr('src','');
 				queryOperateBack();
-				return false;
 			}
 		</script>
 	</head>

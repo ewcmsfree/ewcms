@@ -24,7 +24,7 @@
 	</head>
 	<body onload="tipMessage();">
 		<s:form action="save" namespace="/vote/questionnaire">
-			<table class="formtable" >
+			<table class="formtable" align="center">
 				<tr>
 					<td width="15%" height="21px">问卷名称：</td>
 					<td width="85%" height="21px" class="formFieldError">
@@ -59,7 +59,7 @@
 				<tr>
 					<td>人数：</td>
 					<td class="formFieldError">
-						<s:textfield id="number" cssClass="inputtext" name="questionnaireVo.number" maxlength="10"/>
+						<s:textfield id="number" cssClass="inputtext" name="questionnaireVo.number" maxlength="10" />
 						<s:fielderror><s:param value="%{'questionnaireVo.number'}" /></s:fielderror>
 					</td>
 				</tr>
