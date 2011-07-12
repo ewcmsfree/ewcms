@@ -17,7 +17,7 @@ import com.ewcms.core.site.model.TemplateSource;
  * 
  * @author wangwei
  */
-public interface TemplateSourceLoaderServiceable {
+public interface TemplateSourcePublishServiceable {
 
     /**
      * 查询需要发布的模板资源

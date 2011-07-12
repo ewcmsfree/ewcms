@@ -17,7 +17,7 @@ import com.ewcms.core.site.model.Channel;
  * 
  * @author wangwei
  */
-public interface ChannelLoaderServiceable {
+public interface ChannelPublishServiceable {
 
     /**
      * 通过频道编号得到频道对象

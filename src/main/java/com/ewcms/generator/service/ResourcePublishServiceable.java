@@ -17,7 +17,7 @@ import com.ewcms.content.resource.model.Resource;
  * 
  * @author wangwei
  */
-public interface ResourceLoaderServiceable {
+public interface ResourcePublishServiceable {
 
     /**
      * 得到资源

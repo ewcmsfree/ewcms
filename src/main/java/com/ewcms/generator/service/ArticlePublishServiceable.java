@@ -17,7 +17,7 @@ import com.ewcms.content.document.model.Article;
  * 
  * @author wangwei
  */
-public interface ArticleLoaderServiceable {
+public interface ArticlePublishServiceable {
 
     /**
      * 得到指定的文章

@@ -15,7 +15,7 @@ import com.ewcms.core.site.model.Template;
  * 
  * @author wangwei
  */
-public interface TemplateLoaderServiceable {
+public interface TemplatePublishServiceable {
 
     /**
      * 通过UniquePath得到模板，模板不存在返回null值
