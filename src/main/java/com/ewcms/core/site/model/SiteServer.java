@@ -13,6 +13,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,15 +22,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * <li>id:站点服务器编�?
+ * <li>id:站点服务器编�?
  * <li>path:发布路径
  * <li>hostName:服务器IP
- * <li>port: 端口�?
- * <li>user:用户�?
+ * <li>port: 端口�?
+ * <li>user:用户�?
  * <li>password:密码
  * </ul>
  * 
- * @author 周冬�?
+ * @author 周冬�?
  */
 @Entity
 @Table(name = "site_siteserver")
@@ -48,7 +50,16 @@ public class SiteServer implements Serializable {
     private String user;
     @Column(length = 20)
     private String password;
+	@Column(length = 15)
+	@Enumerated(EnumType.STRING)
+	private UploadType uploadType;
     
+	public UploadType getUploadType() {
+		return uploadType;
+	}
+	public void setUploadType(UploadType uploadType) {
+		this.uploadType = uploadType;
+	}
 	public Integer getId() {
 		return id;
 	}
