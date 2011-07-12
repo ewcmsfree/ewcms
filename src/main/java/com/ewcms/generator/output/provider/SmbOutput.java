@@ -6,22 +6,36 @@
 
 package com.ewcms.generator.output.provider;
 
+import java.util.List;
+
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.SiteServer;
+import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.output.OutputResource;
 
 /**
- * 发布指定的资源到window共享目录中
+ * 发布指定的资源到window共享目录和Samba服务
  * 
  * @author wangwei
  */
 public class SmbOutput extends OutputBase {
 
+    private static final Logger logger = LoggerFactory.getLogger(SmbOutput.class);
+    
     @Override
-    protected FileObject getTargetRoot(SiteServer server,FileSystemManager manager) throws FileSystemException {
-        // TODO Auto-generated method stub
+    public void out(SiteServer server, List<OutputResource> resources)throws ReleaseException {
+        //TODO VFS1.0没有实现
+        throw new ReleaseException("vfs 1.0 do not provider implement");
+    }
+    @Override
+    protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
+        //TODO VFS1.0没有实现
         return null;
     }
 }

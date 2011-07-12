@@ -17,9 +17,13 @@ import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
+import org.apache.commons.vfs.provider.ftp.FtpFileProvider;
 import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,17 +55,34 @@ public abstract class OutputBase implements Outputable {
     private FileSystemManager fileSystemManager = DEFAULT_FILE_SYSTEM_MANAGER;
 
     @Override
-    public void out(SiteServer server, List<OutputResource> resources)
-            throws ReleaseException {
+    public void out(SiteServer server, List<OutputResource> resources)throws ReleaseException {
 
         try {
-            FileObject root = getTargetRoot(server, fileSystemManager);
+            FileSystemOptions opts = new FileSystemOptions();
+            setUserAuthenticator(opts,server.getUser(),server.getPassword());
+            FileObject root = getTargetRoot(opts,server,fileSystemManager);
             outResources(root, server.getPath(), resources);
             root.close();
         } catch (FileSystemException e) {
             logger.error("Init output is error:{}", e.toString());
             throw new ReleaseException(e);
         }
+    }
+    
+    /**
+     * 设置用户认证
+     * 
+     * @param opts
+     *           文件系统设置选项
+     * @param username
+     *            用户名
+     * @param password
+     *            密码
+     * @throws FileSystemException
+     */
+    protected void setUserAuthenticator(FileSystemOptions opts,String username,String password)throws FileSystemException {
+        StaticUserAuthenticator auth = new StaticUserAuthenticator(null,username,password);
+        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
     }
 
     /**
@@ -123,6 +144,7 @@ public abstract class OutputBase implements Outputable {
         DefaultFileSystemManager manager = new DefaultFileSystemManager();
         manager.addProvider("sftp", new SftpFileProvider());
         manager.addProvider("file", new DefaultLocalFileProvider());
+        manager.addProvider("ftp", new FtpFileProvider());
         manager.setFilesCache(new DefaultFilesCache());
         manager.init();
         return manager;
@@ -131,15 +153,17 @@ public abstract class OutputBase implements Outputable {
     /**
      * 得到发布到资源根目录对象
      * 
+     * @param opts
+     *            文件系统设置选项
      * @param server
-     *            发布服务对象
+     *            发布服务
      * @param manager
      *            文件管理对象
      * @return 根目录文件对象
      * @throws FileSystemException
      */
-    protected abstract FileObject getTargetRoot(SiteServer server,
-            FileSystemManager manager) throws FileSystemException;
+    protected abstract FileObject getTargetRoot(FileSystemOptions opts,
+            SiteServer server,FileSystemManager manager) throws FileSystemException;
 
     /**
      * 读入本地资源数据流

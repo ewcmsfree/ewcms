@@ -26,19 +26,17 @@ public class SftpOutput extends OutputBase {
     private static final Logger logger = LoggerFactory.getLogger(SftpOutput.class);
     
     @Override
-    protected FileObject getTargetRoot(SiteServer server,FileSystemManager manager)throws FileSystemException{
+    protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager)throws FileSystemException{
         
-        FileSystemOptions opts = new FileSystemOptions();
         SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(opts, "no");
-        
+                
         StringBuilder builder = new StringBuilder();
         builder.append("sftp://");
-        builder.append(server.getUser()).append(":").append(server.getPassword());
-        builder.append("@").append(server.getHostName()).append(":").append(server.getPort());
+        builder.append(server.getHostName()).append(":").append(server.getPort());
         builder.append(server.getPath());
         
         String address = builder.toString();
-        logger.debug("uri is sftp://{}:xxxx@{}:{}{}",new String[]{server.getUser(),server.getHostName(),server.getPort(),server.getPath()});
+        logger.debug("uri is  {}",address);
         
         return manager.resolveFile(address, opts);
     }
