@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -17,23 +18,25 @@ import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.generator.output.OutputResource;
 
 /**
- * LocalOutput单元测试
+ * FtpOutput单元测试
  * 
  * @author wangwei
  */
-public class LocalOutputTest {
+public class FtpOutputTest {
     
     @Test
     public void testGetTargtRoot()throws Exception{
-        LocalOutput out = new LocalOutput();
-        FileObject target = out.getTargetRoot(null,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
+        FtpOutput out = new FtpOutput();
+        FileSystemOptions opts = new FileSystemOptions();
+        out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
+        FileObject target = out.getTargetRoot(opts,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
         Assert.notNull(target);
         target.close();
     }
     
     @Test
     public void testOut()throws Exception{
-        LocalOutput out = new LocalOutput();
+        FtpOutput out = new FtpOutput();
         SiteServer server = initServer();
         List<OutputResource> resources = initResources();
         
@@ -43,6 +46,10 @@ public class LocalOutputTest {
     private SiteServer initServer(){
         SiteServer  server = new SiteServer();
         
+        server.setHostName("127.0.0.1");
+        server.setPort("21");
+        server.setUser("wangwei");
+        server.setPassword("hhywangwei");
         String rootPath = System.getProperty("java.io.tmpdir","/tmp");
         server.setPath(rootPath);
         
@@ -52,7 +59,7 @@ public class LocalOutputTest {
     private List<OutputResource> initResources(){
         List<OutputResource> list = new ArrayList<OutputResource>();
         String source = OutputBaseTest.class.getResource("write.jpg").getPath();
-        OutputResource resource = new OutputResource(source,"vfs/local/write.jpg");
+        OutputResource resource = new OutputResource(source,"/home/wangwei/test/ftp/write.jpg");
         list.add(resource);
         
         return list;
