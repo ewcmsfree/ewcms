@@ -6,7 +6,7 @@
 
 package com.ewcms.generator.output.event;
 
-import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
 
 /**
  * 发布文章事件
@@ -15,11 +15,11 @@ import com.ewcms.generator.service.ArticleLoaderServiceable;
  */
 public class ArticleOutputEvent implements OutputEventable {
 
-    private ArticleLoaderServiceable service;
+    private ArticlePublishServiceable service;
     private Long id;
     private String url;
     
-    public ArticleOutputEvent(Long id,String url,ArticleLoaderServiceable service){
+    public ArticleOutputEvent(Long id,String url,ArticlePublishServiceable service){
         this.id = id;
         this.url = url;
         this.service = service;
