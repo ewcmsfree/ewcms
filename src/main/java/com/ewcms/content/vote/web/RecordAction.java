@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.content.vote.VoteFacable;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * 
+ * @author 吴智俊
+ *
+ */
 public class RecordAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;

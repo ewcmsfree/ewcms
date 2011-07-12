@@ -14,6 +14,11 @@ import com.ewcms.content.vote.VoteFacable;
 import com.ewcms.content.vote.model.Person;
 import com.ewcms.web.CrudBaseAction;
 
+/**
+ * 
+ * @author 吴智俊
+ *
+ */
 public class PersonAction extends CrudBaseAction<Person, Long> {
 
 	private static final long serialVersionUID = 6841903567671820584L;

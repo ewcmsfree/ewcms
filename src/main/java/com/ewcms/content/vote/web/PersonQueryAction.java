@@ -18,6 +18,11 @@ import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.vote.model.Person;
 import com.ewcms.web.QueryBaseAction;
 
+/**
+ * 
+ * @author 吴智俊
+ *
+ */
 public class PersonQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = 9052235352505644394L;

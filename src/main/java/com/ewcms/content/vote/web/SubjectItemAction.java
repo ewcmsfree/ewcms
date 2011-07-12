@@ -16,6 +16,11 @@ import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
+/**
+ * 
+ * @author 吴智俊
+ *
+ */
 public class SubjectItemAction extends CrudBaseAction<SubjectItem, Long> {
 
 	private static final long serialVersionUID = 2559743672480588136L;

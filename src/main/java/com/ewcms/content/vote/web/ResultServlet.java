@@ -24,7 +24,8 @@ import com.ewcms.content.vote.VoteFacable;
 /**
  * 查看调查投票结果
  * 
- * @author wu_zhijun
+ * @author 吴智俊
+ * 
  */
 public class ResultServlet extends HttpServlet {
 

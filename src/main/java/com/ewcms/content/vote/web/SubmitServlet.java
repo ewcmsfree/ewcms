@@ -33,7 +33,7 @@ import com.octo.captcha.service.CaptchaServiceException;
 /**
  * 提交调查投票内容 
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  */
 public class SubmitServlet extends HttpServlet {
 

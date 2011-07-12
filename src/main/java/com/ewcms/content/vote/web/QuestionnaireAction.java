@@ -25,7 +25,8 @@ import com.ewcms.web.CrudBaseAction;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
- * @author wu_zhijun
+ * @author 吴智俊
+ * 
  */
 public class QuestionnaireAction extends CrudBaseAction<Questionnaire, Long> {
 

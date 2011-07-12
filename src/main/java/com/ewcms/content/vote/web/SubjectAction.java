@@ -19,7 +19,7 @@ import com.ewcms.web.util.Struts2Util;
 
 /**
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  *
  */
 public class SubjectAction extends CrudBaseAction<Subject, Long> {

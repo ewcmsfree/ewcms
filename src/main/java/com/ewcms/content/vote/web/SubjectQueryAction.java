@@ -16,7 +16,7 @@ import com.ewcms.web.QueryBaseAction;
 
 /**
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  *
  */
 public class SubjectQueryAction extends QueryBaseAction {

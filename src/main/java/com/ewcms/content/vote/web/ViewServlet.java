@@ -23,7 +23,7 @@ import com.ewcms.content.vote.VoteFacable;
 /**
  * 显示调查投票内容 
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  */
 public class ViewServlet extends HttpServlet {
 
