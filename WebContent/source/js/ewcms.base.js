@@ -86,18 +86,6 @@ function HashMap(){
          entry = new Object();      
      }      
  } 
- 
-/**
-  * iframe自适应大小调节
-  */  
-function iframeFitHeight(oIframe){
-     newHeight = oIframe.contentWindow.document.body.scrollHeight;
-     newWidth = oIframe.contentWindow.document.body.scrollWidth;
-     if(newHeight < 80)newHeight = 80;
-     if(newWidth < 150)newWidth = 150;
-     oIframe.width = newWidth;
-     oIframe.height = newHeight;
-}  
 
 function isExistID(elementID){
 	if($(elementID).length == 0){
@@ -106,21 +94,24 @@ function isExistID(elementID){
 	}
 	return true;
 }
-
 /**
- * ewcms基础对象
- */
-function EwcmsBase(options){
+  * ewcms基础对象
+  */
+function EwcmsBase(){
     var toolMap = new HashMap();//工具拦HashMap对象
     var frozenMap = new HashMap();//表格冻结字段HashMap对象
     var queryURL,winWidth,winHeight,dgWidth,dgHeight;
-    if(typeof(options) != 'undefined'){
-    	queryURL = options.queryURL ? options.queryURL : "";
-    	winWidth = options.winWidth ? options.winWidth : 500;
-    	winHeight = options.winHeight ? options.winHeight : 300;
-    	dgWidth = options.dgWidth ? options.dgWidth : 500;
-    	dgHeight = options.dgHeight ? options.dgHeight : 300;
-    }
+    winWidth = 500;
+    winHeight = 300;
+    dgWidth = 500;
+    dgHeight = 300;
+	
+    frozenMap.put("ck", "{field:'ck',checkbox:true,width:50}");
+    toolMap.put("新增", "{text:'新增',iconCls:'icon-add',handler:'addCallBack'}");
+    toolMap.put("修改", "{text:'修改',iconCls:'icon-edit',handler:'updCallBack'}");
+    toolMap.put("删除", "{text:'删除',iconCls:'icon-remove',handler:'delCallBack'}");
+    toolMap.put("查询", "{text:'查询',iconCls:'icon-search',handler:'queryCallBack'}");   
+    toolMap.put("缺省查询", "{text:'缺省查询',iconCls:'icon-back',handler:'defQueryCallBack'}");
 	this.setWinWidth = function(width){
 		winWidth=width;
 	}
@@ -152,11 +143,11 @@ function EwcmsBase(options){
 		$(windowID).removeAttr("style");
 		if(typeof(options) == 'undefined')options = {};
 		$(windowID).window({
-		   title: (options.title ? options.title : ''),
+		   title: (options.title ? options.title : '窗口'),
 		   width: (options.width ? options.width : winWidth),
 		   height: (options.height ? options.height : winHeight),
-		   left:(options.left ? options.left : ($(window).width() - options.width)/2),
-		   top:(options.top ? options.top : ($(window).height() - options.height)/2),
+		   left:(options.left ? options.left : ($(window).width() - (options.width ? options.width : winWidth))/2),
+		   top:(options.top ? options.top : ($(window).height() - (options.height ? options.height : winHeight))/2),
 		   modal: (options.modal ? options.modal : true),
 		   maximizable:(options.maximizable ? options.maximizable : false),
 		   minimizable:(options.minimizable ? options.minimizable : false)
@@ -181,6 +172,9 @@ function EwcmsBase(options){
 		    $.messager.alert('提示','数据查询地址未指定');
 		    return;
 		}
+		
+		var frozenArr = eval("[["+frozenMap.values().join(',')+"]]");
+		var toolArr = eval("["+toolMap.values().join(",'-',")+"]");
 		$(datagridID).datagrid({
 			title:(options.title ? options.title : ''),
 		    iconCls:(options.iconCls ? options.iconCls : ''),
@@ -193,10 +187,10 @@ function EwcmsBase(options){
 		    singleSelect:(options.singleSelect ? options.singleSelect : false),
 		    striped: (options.striped ? options.striped : true),
 		    url:(options.url ? options.url : queryURL),
-		    idField:(options.idField ? options.idField : ''),
-		    frozenColumns:(options.frozenColumns ? options.frozenColumns : [[frozenMap.values().join(",")]]),
-		    columns:baseOptions.columns,
-		    toolbar:(options.toolbar ? options.toolbar : [toolMap.values().join(",'-',")]),
+		    idField:(options.idField ? options.idField : 'id'),
+		    frozenColumns: frozenArr,
+		    columns:options.columns,
+		    toolbar:toolArr,
 		    onLoadSuccess:function(data){
 		    	if(data.errors)$.messager.alert('提示',data.errors.join('\n'));
 		    }
@@ -204,7 +198,7 @@ function EwcmsBase(options){
 	}
 	
 	this.addToolItem = function(text,icon,handler){
-		toolMap.put(text, "{text:'"+text+"',iconCls:'"+icon+",handler:"+handler+"}");
+		toolMap.put(text, "{text:'"+text+"',iconCls:'"+icon+"',handler:"+handler+"}");
 	}
 	
 	this.delToolItem = function(text){
@@ -212,38 +206,18 @@ function EwcmsBase(options){
 	}
 	
 	this.addFrozenItem = function(field,title,width){
-		frozenMap.put(text, "{field:'"+field+"',title:'"+title+",width:"+width+"}");
-	}
-	
-	this.initToolBar = function(){
-		//初试化默认工具栏
-	    addToolItem('新增','icon-add','addOperateBack');	
-	    addToolItem('修改','icon-edit','updOperateBack');
-	    addToolItem('删除','icon-remove','delOperateBack');
-	    addToolItem('查询','icon-search','queryOperateBack');
-	    addToolItem('缺省查询','icon-back','initOperateQueryBack');
-	    //初试化 冻结字段
-	    frozenMap.put("ck", "{field:'ck',checkbox:true,width:50}");		
+		frozenMap.put(text, "{field:'"+field+"',title:'"+title+"',width:"+width+"}");
 	}
 }
 
 /**
- * ewcms操作对象
- */
-function EwcmsOperate(ewcmsBaseObj,options){
-	var queryURL,inputURL,deleteURL,datagridID,windowID;
-	var ebOBJ = ewcmsBaseObj;
-    if(typeof(ewcmsBaseObj) != 'undefined'){
-    	queryURL = ewcmsBaseObj.getQueryURL() ? ewcmsBaseObj.getQueryURL() : "";
-    }
-    
-    if(typeof(options) != 'undefined'){
-    	queryURL = options.queryURL ? options.queryURL : "";
-    	winWidth = options.winWidth ? options.winWidth : 500;
-    	winHeight = options.winHeight ? options.winHeight : 300;
-    	dgWidth = options.dgWidth ? options.dgWidth : 500;
-    	dgHeight = options.dgHeight ? options.dgHeight : 300;
-    }    
+  * ewcms操作对象
+  */
+function EwcmsOperate(){
+	var queryURL,inputURL,deleteURL,datagridID,editWinID,queryWinID;  
+    datagridID = '#tt';
+    editWinID = '#edit-window';
+    queryWinID = '#query-window';
     
 	this.setQueryURL = function(url){
 		queryURL = url;
@@ -257,27 +231,33 @@ function EwcmsOperate(ewcmsBaseObj,options){
 		deleteURL = url;
 	}
 	
-	this.setWindowID = function(winID){
-		windowID = winID;
+	this.setEditWinID = function(winID){
+		editWinID = winID;
+	}
+	this.setQueryWinID= function(winID){
+		queryWinID = winID;
 	}
 	
 	this.setDatagridID = function(dgID){
 		datagridID = dgID;
 	}
-
-	this.setEbOBJ = function(ewcmsBaseObj){
-		ebOBJ = ewcmsBaseObj;
-		queryURL = ewcmsBaseObj.getQueryURL() ? ewcmsBaseObj.getQueryURL() : queryURL;
-	}
+	
+	function isExistVAR(varName,describe){
+		if(typeof(varName) == 'undefined' || varName==""){
+		    $.messager.alert('提示',describe);
+		    return false;
+		}
+		return true;
+	}	
 	
 	/*根据查询条件查询记录*/ 
 	this.querySearch = function(formID){
-		if(typeof(formID) == 'undefined')formID = '#queryform';
+		if(typeof(formID) == 'undefined' || formID == '')formID = '#queryform';
 	    var value = $(formID).serialize();
 	    value = "parameters['" + value;
 	    value = value.replace(/\=/g,"']=");
 	    value = value.replace(/\&/g,"&parameters['");
-	    
+	    if(!isExistVAR('queryURL','查询操作地址未指定'))return;
 	    var url = queryURL;
 	    var index = url.indexOf("?");
 	    if (index == -1){
@@ -285,24 +265,27 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	    }else{
 	        url = url + '&' + value;
 	    }
+	    if(!isExistID(datagridID))return;
 	    $(datagridID).datagrid({
 	        pageNumber:1,
 	        url:url
 	    });
-	    $(windowID).window('close');
+	    if(!isExistID(queryWinID))return;
+	    $(queryWinID).window('close');
 	}
 	
 	/*刷新修改后的记录*/ 
 	this.queryReload = function(hide){
 	    $(datagridID).datagrid('reload');
 	    if(hide){
-	        $(windowID).window('close');
+	        $(editWinID).window('close');
 	        $(datagridID).datagrid('clearSelections');
 	    }
 	}
 	            
 	/*查询指定的id号记录*/ 
 	this.queryNews = function(ids){
+		if(!isExistVAR('queryURL','查询操作地址未指定'))return;
 		var url = queryURL;          	
 	    var index = url.indexOf("?");
 	    if (index == -1){
@@ -314,6 +297,7 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	    for (var i =0 ; i < ids.length ; ++i){
 	        url += 'selections=' + ids[i] + '&';
 	    }
+	    if(!isExistID(datagridID))return;
 	    $(datagridID).datagrid({
 	        'url':url
 	    });
@@ -321,25 +305,32 @@ function EwcmsOperate(ewcmsBaseObj,options){
 				
 	/*表单提交操作*/    
 	this.saveOperator = function(iframeID){
-	    if(typeof(iframeID) == 'undefined')iframeID = 'editifr';
+	    if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = 'editifr';
 	    window.frames[iframeID].document.forms[0].submit();
 	}
 	            
 	/*添加操作*/ 
 	this.addOperateBack = function(iframeID){
-		if(typeof(iframeID) == 'undefined')iframeID = '#editifr';
-	    $(iframeid).attr('src',inputURL);
-	    $(windowID).window('open');
+		if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = '#editifr';
+		if(!isExistVAR('inputURL','编辑操作页面地址未指定'))return;
+		if(!isExistID(iframeID))return;
+	    $(iframeID).attr('src',inputURL);
+	    if(!isExistID(editWinID))return;
+	    openWindow(editWinID);
 	}
 		    	
 	/*修改操作*/ 
-	this.updOperateBack = function(iframeID){
-		if(typeof(iframeID) == 'undefined')iframeID = '#editifr';
-	    var rows = $(tableid).datagrid('getSelections');
+	this.updOperateBack = function(iframeID,options){
+		if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = '#editifr';
+		if(!isExistID(datagridID))return;
+		if(!isExistID(iframeID))return;
+		if(!isExistID(editWinID))return;		
+	    var rows = $(datagridID).datagrid('getSelections');
 	    if(rows.length == 0){
 	        $.messager.alert('提示','请选择修改记录','info');
 	        return;
 	    }
+	    if(!isExistVAR('inputURL','编辑操作页面地址未指定'))return;
 	    var url = inputURL;            
 	    var index = url.indexOf("?");
 	    if (index == -1){
@@ -351,6 +342,7 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	    callBackId=function(row){
 	        return row.id;
 	    }
+	    if(typeof(options) == 'undefined')options = {};	    
 	    if(options.callBackId){
 	        callBackId = options.callBackId;
 	    }
@@ -358,11 +350,13 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	        url += 'selections=' + callBackId(rows[i]) +'&';
 	    }
 	    $(iframeID).attr('src',url);
-	    $(windowID).window('open');
+	    openWindow(editWinID);
 	}
 		    	
 	/*删除操作*/ 
-	this.delOperateBack = function(){        	  	
+	this.delOperateBack = function(){
+		if(!isExistID(datagridID))return;
+		if(!isExistVAR('deleteURL','删除操作页面地址未指定'))return;
 	    var rows = $(datagridID).datagrid('getSelections');
 	    if(rows.length == 0){
 	        $.messager.alert('提示','请选择删除记录','info');
@@ -374,7 +368,7 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	    }
 	    $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
 	        if (r){
-	            $.post(url,ids,function(data){          	
+	            $.post(deleteURL,ids,function(data){          	
 	            	$.messager.alert('成功','删除成功','info');
 	            	$(datagridID).datagrid('clearSelections');
 	                $(datagridID).datagrid('reload');              	
@@ -385,11 +379,14 @@ function EwcmsOperate(ewcmsBaseObj,options){
 		    	
 	/*查询操作*/ 
 	this.queryOperateBack = function(){
-	    $(windowID).window('open');
+		if(!isExistID(queryWinID))return;
+	    openWindow(queryWinID);
 	}
 		    	
 	/*初始查询操作*/ 
 	this.initOperateQueryBack = function(){
+		if(!isExistID(datagridID))return;
+		if(!isExistVAR('queryURL','查询操作地址未指定'))return;
 	    $(datagridID).datagrid({
 	        pageNumber:1,
 	        url:queryURL
@@ -398,6 +395,7 @@ function EwcmsOperate(ewcmsBaseObj,options){
 	
 	//根据参数查询URL对应值
 	this.getQueryStringRegExp = function(name){
+		if(!isExistVAR('queryURL','查询操作地址未指定'))return;
 	    var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
 	    if (reg.test(queryURL)) return unescape(RegExp.$2.replace(/\+/g, " "));
 	    return "";

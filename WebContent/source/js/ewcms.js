@@ -27,7 +27,7 @@ var ewcms = {
 
 /*新开窗口*/ 
 function openWindow(selected,options){
-     ewcms.openWindow(selected, options)
+     ewcms.openWindow(selected, options);
 }
 
 /*关闭窗口*/ 
