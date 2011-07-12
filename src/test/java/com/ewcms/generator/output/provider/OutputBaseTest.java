@@ -20,6 +20,9 @@ import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,6 +36,16 @@ import com.ewcms.generator.output.OutputResource;
  */
 public class OutputBaseTest {
 
+    
+    @Test
+    public void testSetUserAuthenticator()throws Exception{
+        OutputBaseImpl output = new OutputBaseImpl();
+        FileSystemOptions opts = new FileSystemOptions();
+        output.setUserAuthenticator(opts, "username", "password");
+        UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+        Assert.assertNotNull(auth);
+    }
+    
     @Test
     public void testGetTargetPath(){
         OutputBaseImpl output = new OutputBaseImpl();
@@ -115,7 +128,7 @@ public class OutputBaseTest {
     class OutputBaseImpl extends  OutputBase{
 
         @Override
-        protected FileObject getTargetRoot(SiteServer server,FileSystemManager manager) throws FileSystemException {
+        protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
             return null;
         }
     }

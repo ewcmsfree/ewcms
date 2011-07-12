@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -27,7 +28,9 @@ public class SftpOutputTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         SftpOutput out = new SftpOutput();
-        FileObject target = out.getTargetRoot(initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
+        FileSystemOptions opts = new FileSystemOptions();
+        out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
+        FileObject target = out.getTargetRoot(opts,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
         Assert.notNull(target);
         target.close();
     }

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
 package com.ewcms.generator.output.provider;
 
 import java.util.ArrayList;
@@ -15,7 +21,7 @@ public class LocalOutputTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         LocalOutput out = new LocalOutput();
-        FileObject target = out.getTargetRoot(initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
+        FileObject target = out.getTargetRoot(null,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
         Assert.notNull(target);
         target.close();
     }
