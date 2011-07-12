@@ -20,8 +20,8 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
-import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
+import com.ewcms.generator.service.ChannelPublishServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -58,8 +58,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     private String nameParam = NAME_PARAM_NAME;
     private String topParam = TOP_PARAM_NAME;
 
-    private ArticleLoaderServiceable articleLoaderService;
-    private ChannelLoaderServiceable channelLoaderService;
+    private ArticlePublishServiceable articleService;
+    private ChannelPublishServiceable channelService;
     
     @SuppressWarnings("rawtypes")
     @Override
@@ -84,7 +84,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         int pageNumber = getPageNumberValue(env);
         boolean top = getTopValue(params);
 
-        List<Article> articles = articleLoaderService.findArticlePage(channelId, pageNumber, row,top); 
+        List<Article> articles = articleService.findArticlePage(channelId, pageNumber, row,top); 
 
         if(EmptyUtil.isArrayNotEmpty(loopVars)){
             loopVars[0] = env.getObjectWrapper().wrap(articles);
@@ -201,7 +201,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         logger.debug("Directive {} property is {}",name,value);
         if (EmptyUtil.isStringNotEmpty(value)) {
             value = value.trim();
-            channel = channelLoaderService.getChannelByUrlOrPath(siteId, value);
+            channel = channelService.getChannelByUrlOrPath(siteId, value);
             if(EmptyUtil.isNotNull(channel)){
                 logger.debug("Channel is {}",channel.toString());
                 return channel.getId();
@@ -230,7 +230,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
-        Channel channel = channelLoaderService.getChannel(siteId,channelId);
+        Channel channel = channelService.getChannel(siteId,channelId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
             throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
@@ -342,8 +342,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * 
      * @param service
      */
-    public void setArticleLoaderService(ArticleLoaderServiceable service) {
-        articleLoaderService = service;
+    public void setArticleService(ArticlePublishServiceable service) {
+        articleService = service;
     }
 
     /**
@@ -351,7 +351,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * 
      * @param service
      */
-    public void setChannelLoaderService(ChannelLoaderServiceable service) {
-        channelLoaderService = service;
+    public void setChannelService(ChannelPublishServiceable service) {
+        channelService = service;
     }
 }

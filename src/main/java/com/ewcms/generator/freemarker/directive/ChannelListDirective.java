@@ -20,7 +20,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.service.ChannelLoaderServiceable;
+import com.ewcms.generator.service.ChannelPublishServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -55,7 +55,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     private String nameParam = NAME_PARAM_NAME;
     private String childParam = CHILD_PARAM_NAME;
     
-    private ChannelLoaderServiceable channelLoaderService;
+    private ChannelPublishServiceable channelService;
     
     @SuppressWarnings("rawtypes")
     @Override
@@ -207,7 +207,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
-        Channel channel = channelLoaderService.getChannel(siteId,channelId);
+        Channel channel = channelService.getChannel(siteId,channelId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
             throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
@@ -234,14 +234,14 @@ public class ChannelListDirective implements TemplateDirectiveModel {
         
         List<Channel> list = new ArrayList<Channel>();
         if(child){
-            List<Channel> children = channelLoaderService.getChannelChildren(channelId);
+            List<Channel> children = channelService.getChannelChildren(channelId);
             for(Channel c: children){
                 if(c.getPublicenable()){
                     list.add(c);
                 }
             }
         }else{
-            list.add(channelLoaderService.getChannel(siteId,channelId));
+            list.add(channelService.getChannel(siteId,channelId));
         }
         
         return list;
@@ -267,7 +267,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
             logger.debug("Channel is {}",channel.toString());
             return loadingChannelWithPublicenable(siteId, channel.getId(),child);
         }
-        channel = channelLoaderService.getChannelByUrlOrPath(siteId, value);
+        channel = channelService.getChannelByUrlOrPath(siteId, value);
         if(EmptyUtil.isNotNull(channel)){
             logger.debug("Channel is {}",channel.toString());
             return loadingChannelWithPublicenable(siteId, channel.getId(),child);
@@ -369,7 +369,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * 
      * @param service
      */
-    public void setChannelLoaderService(ChannelLoaderServiceable service) {
-        this.channelLoaderService = service;
+    public void setChannelService(ChannelPublishServiceable service) {
+        this.channelService = service;
     }
 }

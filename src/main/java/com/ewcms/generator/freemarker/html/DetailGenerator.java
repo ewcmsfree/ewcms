@@ -22,7 +22,7 @@ import com.ewcms.generator.ReleaseException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.output.event.ArticleOutputEvent;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
 import com.ewcms.generator.uri.DefaultArticleUriRule;
 import com.ewcms.generator.uri.UriRuleable;
 
@@ -42,19 +42,19 @@ public class DetailGenerator extends GeneratorHtmlBase {
     private Configuration cfg;
     private Site site;
     private Channel channel;
-    private ArticleLoaderServiceable service;
+    private ArticlePublishServiceable service;
     private Integer maxArticles;
     
     UriRuleable uriRule = new DefaultArticleUriRule();
     
     public DetailGenerator(Configuration cfg,Site site,
-            Channel channel,ArticleLoaderServiceable service){
+            Channel channel,ArticlePublishServiceable service){
         
         this(cfg,site,channel,service,MAX_ARTICLES);
     }
     
     public DetailGenerator(Configuration cfg,Site site,
-            Channel channel,ArticleLoaderServiceable service,Integer maxArticles){
+            Channel channel,ArticlePublishServiceable service,Integer maxArticles){
         
         this.cfg = cfg;
         this.site = site;

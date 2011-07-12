@@ -20,7 +20,7 @@ import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.ReleaseException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
-import com.ewcms.generator.service.ArticleLoaderServiceable;
+import com.ewcms.generator.service.ArticlePublishServiceable;
 import com.ewcms.generator.uri.DefaultListUriRule;
 import com.ewcms.generator.uri.UriRuleable;
 
@@ -38,11 +38,11 @@ public class ListGenerator extends GeneratorHtmlBase {
     private Configuration cfg;
     private Site site;
     private Channel channel;
-    private ArticleLoaderServiceable service;
+    private ArticlePublishServiceable service;
     UriRuleable uriRule = new DefaultListUriRule();
     
     public ListGenerator(Configuration cfg,Site site,
-            Channel channel,ArticleLoaderServiceable service){
+            Channel channel,ArticlePublishServiceable service){
         
         this.cfg = cfg;
         this.site = site;

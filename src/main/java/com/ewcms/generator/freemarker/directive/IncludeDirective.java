@@ -18,8 +18,8 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
-import com.ewcms.generator.service.ChannelLoaderServiceable;
-import com.ewcms.generator.service.TemplateLoaderServiceable;
+import com.ewcms.generator.service.ChannelPublishServiceable;
+import com.ewcms.generator.service.TemplatePublishServiceable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -42,8 +42,8 @@ public class IncludeDirective implements TemplateDirectiveModel {
     private final static String CHANNEL_PARAM_NAME = "channel";
     private final static String NAME_PARAM_NAME = "name";
     
-    private ChannelLoaderServiceable channelLoaderService;
-    private TemplateLoaderServiceable templateLoaderService;
+    private ChannelPublishServiceable channelService;
+    private TemplatePublishServiceable templateService;
     
     private String pathParam = PATH_PARAM_NAME;
     private String parseParam = PARSE_PARAM_NAME;
@@ -131,7 +131,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
         String path= FreemarkerUtil.getString(params, channelParam);
         logger.debug("Get channel by {}",path);
         if(EmptyUtil.isNotNull(path)){
-            channel = channelLoaderService.getChannelByUrlOrPath(siteId, path);
+            channel = channelService.getChannelByUrlOrPath(siteId, path);
         }
        
         String name = GlobalVariable.CHANNEL.toString();
@@ -198,7 +198,7 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * @return
      */
     String getChannelTemplatePath(Integer siteId,Integer channelId,String name){
-        return templateLoaderService.getUniquePathOfChannelTemplate(siteId, channelId, name);
+        return templateService.getUniquePathOfChannelTemplate(siteId, channelId, name);
     }
 
     /**
@@ -206,8 +206,8 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * 
      * @param service
      */
-    public void setChannelLoaderService(ChannelLoaderServiceable service){
-        channelLoaderService = service;
+    public void setChannelService(ChannelPublishServiceable service){
+        channelService = service;
     }
     
     /**
@@ -215,8 +215,8 @@ public class IncludeDirective implements TemplateDirectiveModel {
      * 
      * @param service
      */
-    public void setTemplateLoaderService(TemplateLoaderServiceable service){
-        templateLoaderService = service;
+    public void setTemplateService(TemplatePublishServiceable service){
+        templateService = service;
     }
     
     /**
