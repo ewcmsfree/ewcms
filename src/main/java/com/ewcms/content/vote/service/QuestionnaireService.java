@@ -42,6 +42,14 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	@Autowired
 	private PersonDAO personDAO;
 	
+	public void setQuestionnaireDAO(QuestionnaireDAO questionnaireDAO){
+		this.questionnaireDAO = questionnaireDAO;
+	}
+	
+	public void setPersonDAO(PersonDAO personDAO){
+		this.personDAO = personDAO;
+	}
+	
 	@Override
 	public Long addQuestionnaire(Questionnaire questionnaire) {
 		Integer channelId = questionnaire.getChannelId();
@@ -66,8 +74,10 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	}
 
 	@Override
-	public Long updQuestionnaire(Long questionnaireId, Questionnaire questionnaire) {
+	public Long updQuestionnaire(Questionnaire questionnaire) {
+		Assert.notNull(questionnaire.getId());
 		Questionnaire questionnaire_old = questionnaireDAO.get(questionnaire.getId());
+		Assert.notNull(questionnaire_old);
 		questionnaire.setSubjects(questionnaire_old.getSubjects());
 		questionnaireDAO.merge(questionnaire);
 		return questionnaire.getId();
@@ -75,39 +85,39 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	
 	@Override
 	public StringBuffer getQuestionnaireViewToHtml(Long questionnaireId, String servletContentName){
-		StringBuffer js = new StringBuffer();
+		StringBuffer view = new StringBuffer();
 		
 		Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
 		if (questionnaire == null) {
-			js.append("没有问卷调查");
-			return js;
+			view.append("没有问卷调查");
+			return view;
 		}
 		
-		js.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
-		js.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/vote.css'/>\n");
-		js.append("<script language='javascript' src='/" + servletContentName + "/source/js/vote.js'></script>\n");
+		view.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
+		view.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/vote.css'/>\n");
+		view.append("<script language='javascript' src='/" + servletContentName + "/source/js/vote.js'></script>\n");
 		
 		if (questionnaire.getVoteFlag() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
-			js.append("<p>对不起，此调查已结束，不再接受投票</p>");
+			view.append("<p>对不起，此调查已结束，不再接受投票</p>");
 		}else{
 			List<Subject> subjects = questionnaire.getSubjects();
 			if (subjects == null || subjects.isEmpty()){
-				js.append("<p>没有调查主题</p>");
-				js.append("</div>");
-				return js;
+				view.append("<p>没有调查主题</p>");
+				view.append("</div>");
+				return view;
 			}
 			
-			js.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
-			js.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
-			js.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
-			js.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
-			js.append("    <dl>\n");
+			view.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
+			view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
+			view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
+			view.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
+			view.append("    <dl>\n");
 			
 			Long row = 1L;
 			for (Subject subject : subjects){
 				List<SubjectItem> subjectItems = subject.getSubjectItems();
 				if (subjectItems.isEmpty()) continue;
-				js.append("      <dt id='" + subject.getId() + "'>" + row + "." + subject.getTitle() + "</dt>\n");
+				view.append("      <dt id='" + subject.getId() + "'>" + row + "." + subject.getTitle() + "</dt>\n");
 				SubjectStatus subjectStatus = subject.getSubjectStatus();
 				String subjectStatusValue = "";
 				switch(subjectStatus){
@@ -123,57 +133,57 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				}
 				for (SubjectItem subjectItem : subjectItems){
 					SubjectItemStatus subjectItemStatus = subjectItem.getSubjectItemStatus();
-					js.append("      <dd>\n");
+					view.append("      <dd>\n");
 					if (!subjectStatusValue.equals("text")){
-						js.append("      <label><input name='Subject_" + subject.getId() + "' type='" + subjectStatusValue + "' value='" + subjectItem.getId() + "' id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "_Button'/>" + subjectItem.getTitle() + "</label>\n");
+						view.append("      <label><input name='Subject_" + subject.getId() + "' type='" + subjectStatusValue + "' value='" + subjectItem.getId() + "' id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "_Button'/>" + subjectItem.getTitle() + "</label>\n");
 					}
 					switch(subjectItemStatus){
 						case CHOOSE :
 							break;
 						case SINGLETEXT :
 							if (subjectStatusValue.equals("text")){
-								js.append("      <input id='Subject_" + subject.getId() + "' name='Subject_" + subject.getId() + "' type='text' value=''/></dd>\n");
+								view.append("      <input id='Subject_" + subject.getId() + "' name='Subject_" + subject.getId() + "' type='text' value=''/></dd>\n");
 							}else{
-								js.append("      <input id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' name='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' type='text' value='' onClick=\"clickInput('Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "');\"/></dd>\n");
+								view.append("      <input id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' name='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' type='text' value='' onClick=\"clickInput('Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "');\"/></dd>\n");
 							}
 							break;
 						case MULTITEXT :
 							if (subjectStatusValue.equals("text")){
-								js.append("      <textarea style='height:60px;width:400px;vertical-align:top;' id='Subject_" + subject.getId() + "' name='Subject_" + subject.getId() + "'/></textarea></dd>\n");
+								view.append("      <textarea style='height:60px;width:400px;vertical-align:top;' id='Subject_" + subject.getId() + "' name='Subject_" + subject.getId() + "'/></textarea></dd>\n");
 							}else{
-								js.append("      <textarea style='height:60px;width:400px;vertical-align:top;' id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' name='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' onClick=\"clickInput('Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "');\"/></textarea></dd>\n");
+								view.append("      <textarea style='height:60px;width:400px;vertical-align:top;' id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' name='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "' onClick=\"clickInput('Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "');\"/></textarea></dd>\n");
 							}
 							break;
 					}
-					js.append("      </dd>\n");
+					view.append("      </dd>\n");
 				}
 				row++;
 			}
 			
-			js.append("    </dl>\n");
+			view.append("    </dl>\n");
 			if (questionnaire.getVerifiCode()){
-				js.append("    <dl>\n");
-				js.append("      <dd>\n");
-				js.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='/" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"/" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
-				js.append("        <input type='text' name='j_checkcode' class='checkcode' size='10' maxlength='4' title='验证码不区分大小写'/>");
-				js.append("      </dd>\n");
-				js.append("    </dl>\n");
+				view.append("    <dl>\n");
+				view.append("      <dd>\n");
+				view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='/" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"/" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
+				view.append("        <input type='text' name='j_checkcode' class='checkcode' size='10' maxlength='4' title='验证码不区分大小写'/>");
+				view.append("      </dd>\n");
+				view.append("    </dl>\n");
 			}
-			js.append("    <dl>\n");
-			js.append("       <dd>\n");
-			js.append("         <input type='submit' value='提交' onclick='return checkVote(" + questionnaireId + ");'>&nbsp;&nbsp;");
+			view.append("    <dl>\n");
+			view.append("       <dd>\n");
+			view.append("         <input type='submit' value='提交' onclick='return checkVote(" + questionnaireId + ");'>&nbsp;&nbsp;");
 			if (questionnaire.getQuestionnaireStatus() != QuestionnaireStatus.NOVIEW){
-				js.append("         <input type='button' value='查看' onclick='javascript:window.open(\"/" + servletContentName + "/result.vote?id=" + questionnaireId + "\",\"_blank\")'>\n");
+				view.append("         <input type='button' value='查看' onclick='javascript:window.open(\"/" + servletContentName + "/result.vote?id=" + questionnaireId + "\",\"_blank\")'>\n");
 			}
-			js.append("       </dd>\n");
-			js.append("    </dl>\n");
-			js.append("  </form>\n");
-			js.append("</div>\n");
+			view.append("       </dd>\n");
+			view.append("    </dl>\n");
+			view.append("  </form>\n");
+			view.append("</div>\n");
 		}
-		js.append("</div>");
-		logger.info(js.toString());
+		view.append("</div>");
+		logger.info(view.toString());
 		
-		return js;
+		return view;
 	}
 	
 	@Override
@@ -212,11 +222,11 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 		result.append("  </div>\n");
 		
 		List<Subject> subjects = questionnaire.getSubjects();
-		Long detailId = 1L;
+		Long subjectSort = 1L;
 		for (Subject subject : subjects){
 			if (subject.getSubjectStatus() == SubjectStatus.INPUT) continue;
 			result.append("  <div class='voteresultb'>\n");
-			result.append("    <h3>" + detailId + "." + subject.getTitle() + "[" + subject.getSubjectStatusDescription() + "]</h3>\n");
+			result.append("    <h3>" + subjectSort + "." + subject.getTitle() + "[" + subject.getSubjectStatusDescription() + "]</h3>\n");
 			result.append("    <table name ='ChartTable'>\n");
 			result.append("      <tbody>\n");
 			result.append("        <tr class='row0'>\n");
@@ -225,7 +235,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			result.append("        </tr>\n");
 				
 			List<SubjectItem> subjectItems = subject.getSubjectItems();
-			Long detailItemId = 1L;
+			Long subjectItemSort = 1L;
 			Long sum = CalculateSum(subject);
 			for (SubjectItem subjectItem : subjectItems){
 				String percentage = "0%";
@@ -240,16 +250,16 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				}
 				
 				result.append("        <tr class='row1'>\n");
-				result.append("          <td class='col1'><span>" + detailItemId + "</span><p>" + subjectItem.getTitle() + "</p></td>\n");
+				result.append("          <td class='col1'><span>" + subjectItemSort + "</span><p>" + subjectItem.getTitle() + "</p></td>\n");
 				result.append("          <td class='col2'><div style='width:190px; line-height:33px;position:relative;'>" + subjectItem.getVoteNumber() + "票 比例:" + percentage + "<span class='percent_bg'><span class='percent' style='width:" + percentage + "'/></span></span></div>\n");
 				result.append("        </tr>\n");
-				detailItemId++;
+				subjectItemSort++;
 			}
 			result.append("      </tbody>\n");
 			result.append("    </table>\n");
 			result.append("  </div>\n");
 				
-			detailId++;
+			subjectSort++;
 		}		
 		
 		return result;

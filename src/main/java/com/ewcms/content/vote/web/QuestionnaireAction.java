@@ -125,7 +125,7 @@ public class QuestionnaireAction extends CrudBaseAction<Questionnaire, Long> {
 		}
 		vo.setChannelId(getChannelId());
 		if (isUpdate) {
-			return voteFac.updQuestionnaire(vo.getId(), vo);
+			return voteFac.updQuestionnaire(vo);
 		}else{
 			return voteFac.addQuestionnaire(vo);
 		}

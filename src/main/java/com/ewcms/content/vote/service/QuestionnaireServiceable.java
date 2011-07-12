@@ -26,11 +26,10 @@ public interface QuestionnaireServiceable {
 	/**
 	 * 修改问卷调查主体
 	 * 
-	 * @param questionnaireId 问卷调查主体编号
 	 * @param questionnaire 问卷调查主体对象
 	 * @return Long 问卷调查主体编号
 	 */
-	public Long updQuestionnaire(Long questionnaireId, Questionnaire questionnaire);
+	public Long updQuestionnaire(Questionnaire questionnaire);
 	
 	/**
 	 * 删除问卷调查主体

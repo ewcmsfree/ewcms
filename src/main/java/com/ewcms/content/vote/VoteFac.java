@@ -112,8 +112,8 @@ public class VoteFac implements VoteFacable {
 	}
 
 	@Override
-	public Long updQuestionnaire(Long questionnaireId, Questionnaire questionnaire) {
-		return questionnaireService.updQuestionnaire(questionnaireId, questionnaire);
+	public Long updQuestionnaire(Questionnaire questionnaire) {
+		return questionnaireService.updQuestionnaire(questionnaire);
 	}
 
 	@Override
