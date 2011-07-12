@@ -27,7 +27,7 @@ import com.ewcms.generator.uri.UriRuleable;
 import freemarker.template.Configuration;
 
 /**
- * 生成单页面
+ * 生成home页面
  * <br>
  * 如index.html,不需要外部数据辅助页面生成
  * 
@@ -39,8 +39,8 @@ public class HomeGenerator extends GeneratorHtmlBase {
     
     private Site site;
     private Channel channel;
-    Configuration cfg;
-    UriRuleable rule = new DefaultHomeUriRule();
+    private Configuration cfg;
+    private UriRuleable rule = new DefaultHomeUriRule();
     
     public HomeGenerator(Configuration cfg,Site site,Channel channel){
         Assert.notNull(cfg);
@@ -54,6 +54,10 @@ public class HomeGenerator extends GeneratorHtmlBase {
     
     @Override
     public List<OutputResource> process(Template template)throws ReleaseException {
+       return process(template,rule);
+    }
+    
+    protected List<OutputResource> process(Template template,UriRuleable rule)throws ReleaseException {
         Map<String,Object> parameters = constructParameters();
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
         return Arrays.asList(generator(t,parameters,rule));
