@@ -8,7 +8,7 @@ package com.ewcms.core.site.model;
  *
  */
 public enum UploadType {
-    LOCAL("本地上传"),SFTP("sftp上传"),FTP("ftp上传"),SMB("smb方式");
+    LOCAL("本地"),SFTP("sftp"),FTP("ftp"),SMB("windows共享");
 	private String description;
 	
 	private UploadType(String description){

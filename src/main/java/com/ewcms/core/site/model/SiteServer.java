@@ -22,11 +22,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * <li>id:站点服务器编�?
+ * <li>id:编号 
  * <li>path:发布路径
  * <li>hostName:服务器IP
- * <li>port: 端口�?
- * <li>user:用户�?
+ * <li>port: 端口
+ * <li>user:用户
  * <li>password:密码
  * </ul>
  * 
