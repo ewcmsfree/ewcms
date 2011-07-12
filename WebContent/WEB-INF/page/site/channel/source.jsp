@@ -10,19 +10,14 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script>
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url action="input" namespace="/site/template/source"/>?sourceVo.channelId=<s:property value="channelVo.id"/>',
-					queryURL:'<s:url action="query" namespace="/site/template/source"/>?parameters["channelId"]=<s:property value="channelVo.id"/>',
-					deleteURL:'<s:url action="delete" namespace="/site/template/source"/>',
-					editwidth:450,
-					editheight:300
-				});
-				//数据表格定义 						
-				openDataGrid({
+				//创建和设置页面的基本对象 EwcmsBase
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template/source"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
+				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
 				                 {field:'path',title:'资源路径',width:300,align:'left'},
@@ -32,6 +27,12 @@
 								 }}
 				    ]]
 				});
+
+				//创建和设置页面的操作对象 EwcmsOperate
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url action="input" namespace="/site/template/source"/>?sourceVo.channelId=<s:property value="channelVo.id"/>');
+				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template/source"/>');
 			});
 			
 			function editTPL(idValue){
@@ -79,6 +80,7 @@
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
                 </div>
             </div>
+            
         </div>
 	</body>
 </html>
