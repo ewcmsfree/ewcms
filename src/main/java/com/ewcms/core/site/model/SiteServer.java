@@ -30,7 +30,7 @@ import javax.persistence.Table;
  * <li>password:密码
  * </ul>
  * 
- * @author 周冬�?
+ * @author 周冬初
  */
 @Entity
 @Table(name = "site_siteserver")
