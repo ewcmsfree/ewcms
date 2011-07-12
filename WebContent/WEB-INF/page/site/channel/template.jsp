@@ -17,7 +17,9 @@
 			function browseTPL(){
 				openWindow("#template-window");
 			}
-
+			function browseSetTPL(){
+				openWindow("#settplproperty-window");
+			}
 			function selectTPL(){
 				var node = $('#tt2').tree('getSelected');
     	    	if(node == null || typeof(node) == 'undefined' || node.iconCls != "")
@@ -47,6 +49,7 @@
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.addToolItem(("导入","icon-print","browseTPL"));
+				ewcmsBOBJ.addToolItem(("设置","icon-undo","browseSetTPL"));
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
@@ -123,26 +126,13 @@
             </div>
         </div> 
         
-        <div id="settplproperty-window" class="easyui-window" closed="true"   style="display:none;overflow:hidden;">
+        <div id="settplproperty-window" class="easyui-window" closed="true"  style="display:none;overflow:hidden;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false">
-					<table class="formtable" align="center">
-						<tr>
-							<td>模板类型：</td>
-							<td>
-								<s:textfield name="templateVo.type"  readonly="true" cssClass="inputdisabled" size="50"/>
-							</td>
-						</tr>
-						<tr>
-							<td>路径生成规则：</td>
-							<td >
-								<s:textfield name="templateVo.uriPattern" cssClass="inputtext"/>
-							</td>				
-						</tr>
-					</table>
+                   <iframe id="settplifr"  name="settplifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:setTPL();">确定</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:window.frames['settplifr'].document.forms[0].submit();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick='javascript:closeWindow("#settplproperty-window");'>取消</a>
                 </div>
             </div>

@@ -9,17 +9,15 @@
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>	
 		<script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>	
-		<script type="text/javascript" src='<s:url value="/source/js/tplselect.js"/>'></script>			
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>		
 		<script type="text/javascript"> 
-			var tpltreeURL = '<s:url value="/site/template/treeChannel.do"/>?templateVo.channelId=<s:property value="channelVo.id"/>';
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
 							$.messager.alert('提示','<s:property escape="false"/>');
 			        </s:iterator>  
 		     	</s:if>  
-			}					
+			}							
 		</script>
 	</head>
 	<body onload="tipMessage();">
@@ -50,15 +48,7 @@
 						<td >
 							<s:property value="channelVo.site.siteURL"/>
 						</td>				
-					</tr>	
-					<tr>
-						<td >首页模板：</td>
-						<td >
-							<s:textfield name="channelVo.homeTPL.path" size="60" readonly="true" cssClass="inputdisabled"/>
-							<input type="button" name="Submit" value="选择.." class="inputbutton" onClick='browseTPL("channelVo.homeTPL.path","channelVo.homeTPL.id");'>
-							<s:hidden name="channelVo.homeTPL.id"/>									
-						</td>					
-					</tr>													
+					</tr>														
 				</s:if>	
 				<s:else>
 					<tr>
@@ -86,31 +76,7 @@
 							<s:textfield name="channelVo.url" cssClass="inputtext" size="30"/>
 							<s:fielderror ><s:param value="%{'channelVo.url'}" /></s:fielderror>
 						</td>				
-					</tr>	
-					<tr>
-						<td >首页模板：</td>
-						<td >
-							<s:textfield name="channelVo.homeTPL.path" size="60" readonly="true" cssClass="inputdisabled"/>
-							<input type="button" name="Submit" value="选择.." class="inputbutton" onClick='browseTPL("channelVo.homeTPL.path","channelVo.homeTPL.id");'>
-							<s:hidden name="channelVo.homeTPL.id"/>									
-						</td>					
-					</tr>
-					<tr>
-						<td  >列表页模板：</td>
-						<td >
-							<s:textfield name="channelVo.listTPL.path" size="60" readonly="true" cssClass="inputdisabled"/>
-							<input type="button" name="Submit" value="选择.." class="inputbutton" onClick='browseTPL("channelVo.listTPL.path","channelVo.listTPL.id");'>
-							<s:hidden name="channelVo.listTPL.id"/>									
-						</td>
-					</tr>
-					<tr>
-						<td  >详细页模板：</td>
-						<td >
-							<s:textfield name="channelVo.detailTPL.path" size="60" readonly="true" cssClass="inputdisabled"/>
-							<input type="button" name="Submit" value="选择.." class="inputbutton" onClick='browseTPL("channelVo.detailTPL.path","channelVo.detailTPL.id");'>
-							<s:hidden name="channelVo.detailTPL.id"/>									
-						</td>			
-					</tr>	
+					</tr>		
 					<tr>
 						<td  >列表页最大文档数：</td>
 						<td  class="formFieldError">
@@ -149,19 +115,5 @@
 			</table>
 			<s:hidden name="channelVo.id"/>					
 		</s:form>
-				
-        <div id="template-window" class="easyui-window" closed="true"   style="display:none;overflow:hidden;">
-            <div class="easyui-layout" fit="true" >
-                <div region="center" border="false">
-                	<ul  id="tt2"></ul>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:selectTPL();">确定</a>
-                    <a class="easyui-linkbutton" icon="icon-remove" href="javascript:void(0)"  onclick="javascript:setvalueTPL('','');">清空</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:closeTPL();">取消</a>
-                </div>
-            </div>
-        </div>
-        
 	</body>
 </html>

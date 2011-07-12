@@ -24,10 +24,10 @@
 		<s:else>	
 			<div class="easyui-tabs"  id="systemtab" border="false" fit="true">
 				<div title="基本信息" style="padding: 5px;">
-					<iframe  id="editinfoifr"  name="editinfoifr" src='<s:url action="editContent"/>?sourceVo.id=<s:property value="sourceVo.id"/>' class="editifr" scrolling="no"></iframe>				
+					<iframe  id="editinfoifr"  name="editinfoifr" src='<s:url action="editInfo"/>?sourceVo.id=<s:property value="sourceVo.id"/>' class="editifr" scrolling="no"></iframe>				
 				</div>
 				<div title="内容编辑" style="padding: 5px;">
-					<iframe  id="editcontentifr"  name="editcontentifr" src='<s:url action="editInfo"/>?sourceVo.id=<s:property value="sourceVo.id"/>' class="editifr" scrolling="no"></iframe>										
+					<iframe  id="editcontentifr"  name="editcontentifr" src='<s:url action="editContent"/>?sourceVo.id=<s:property value="sourceVo.id"/>' class="editifr" scrolling="no"></iframe>										
 				</div>								
 			</div>			
 		</s:else>
