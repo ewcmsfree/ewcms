@@ -33,11 +33,11 @@ import freemarker.template.Configuration;
  *
  * @author wangwei
  */
-public class DetailGenerator extends GeneratorHtmlBase {
+public class DetailGenerator extends GeneratorBase {
 
     private static final Logger logger = LoggerFactory.getLogger(DetailGenerator.class);
     
-    private static final Integer MAX_ARTICLES = 10000;
+    private static final Integer MAX_ARTICLES = 1000;
     
     private Configuration cfg;
     private ArticlePublishServiceable service;
@@ -85,7 +85,7 @@ public class DetailGenerator extends GeneratorHtmlBase {
     }
     
     private List<Article> findReleaseArticles(Integer channelId){
-        return service.findReleaseArticles(channelId, maxArticles);
+        return service.findPublishArticles(channelId, maxArticles);
     }
     
     private Map<String,Object> constructParameters(Site site,Channel channel,

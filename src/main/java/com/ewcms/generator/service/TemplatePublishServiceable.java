@@ -6,6 +6,8 @@
 
 package com.ewcms.generator.service;
 
+import java.util.List;
+
 import com.ewcms.core.site.model.Template;
 
 /**
@@ -17,6 +19,24 @@ import com.ewcms.core.site.model.Template;
  */
 public interface TemplatePublishServiceable {
 
+    /**
+     * 得到模板对象
+     * 
+     * @param id b模板编号
+     * @return 
+     */
+    Template getTemplate(Integer id);
+    
+    /**
+     * 得到频道下所有模板
+     * <br>
+     * 得到已经发布模板，如有文章模板必需排在第一个
+     * 
+     * @param id 频道频道编号
+     * @return 模板对象
+     */
+    List<Template> getTemplatesInChannel(Integer id);
+    
     /**
      * 通过UniquePath得到模板，模板不存在返回null值
      * 

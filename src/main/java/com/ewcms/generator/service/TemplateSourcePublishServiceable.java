@@ -44,9 +44,17 @@ public interface TemplateSourcePublishServiceable {
     List<TemplateSource> getTemplateSourceChildren(Integer id);
     
     /**
+     * 查询需要发布的模板资源
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    List<TemplateSource> findPublishTemplateSource(Integer siteId);
+    
+    /**
      * 更新模板资源为发布状态
      * 
      * @param id 模板资源编号
      */
-    void releaseTemplateSource(Integer id);
+    void publishTemplateSource(Integer id);
 }

@@ -19,7 +19,7 @@ import com.ewcms.generator.output.OutputResource;
  * 
  * @author wangwei
  */
-public interface GeneratorHtmlable {
+public interface Generatorable {
  
     /**
      * 生成临时文件名称指定的范围

@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.output.Outputable;
 
@@ -55,7 +55,7 @@ public abstract class OutputBase implements Outputable {
     private FileSystemManager fileSystemManager = DEFAULT_FILE_SYSTEM_MANAGER;
 
     @Override
-    public void out(SiteServer server, List<OutputResource> resources)throws ReleaseException {
+    public void out(SiteServer server, List<OutputResource> resources)throws PublishException {
 
         try {
             FileSystemOptions opts = new FileSystemOptions();
@@ -65,7 +65,7 @@ public abstract class OutputBase implements Outputable {
             root.close();
         } catch (FileSystemException e) {
             logger.error("Init output is error:{}", e.toString());
-            throw new ReleaseException(e);
+            throw new PublishException(e);
         }
     }
     
@@ -95,10 +95,10 @@ public abstract class OutputBase implements Outputable {
      *            根目录路径
      * @param resources
      *            发布的资源
-     * @throws ReleaseException
+     * @throws PublishException
      */
     protected void outResources(FileObject root, String rootPath,
-            List<OutputResource> resources) throws ReleaseException {
+            List<OutputResource> resources) throws PublishException {
 
         if (resources == null || resources.isEmpty()) {
             return;
@@ -121,12 +121,12 @@ public abstract class OutputBase implements Outputable {
                     logger.error("Output {} is error:{}", resource.getUri(),
                             e.toString());
                     resource.outputError("发布文件错误", e);
-                    throw new ReleaseException(e);
+                    throw new PublishException(e);
                 } catch (IOException e) {
                     logger.error("Output {} is error:", resource.getUri(),
                             e.toString());
                     resource.outputError("发布文件错误", e);
-                    throw new ReleaseException(e);
+                    throw new PublishException(e);
                 }
             }
 

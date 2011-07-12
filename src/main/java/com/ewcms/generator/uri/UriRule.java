@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 
 /**
@@ -47,7 +47,7 @@ public class UriRule implements UriRuleable{
     }
     
     @Override
-    public void parse(String patter)throws ReleaseException{
+    public void parse(String patter)throws PublishException{
         Assert.notNull(patter);
         uriPatter = patter;
         variables = parseVariables(patter);
@@ -59,13 +59,13 @@ public class UriRule implements UriRuleable{
     }
     
     @Override
-    public String getUri()throws ReleaseException {
+    public String getUri()throws PublishException {
         Assert.notNull(parameters);
         
         String uri = uriPatter;
         if(uri == null){
             logger.error("Patter must setting");
-            throw new ReleaseException("First call \"parse\" method");
+            throw new PublishException("First call \"parse\" method");
         }
         
         if(variables.isEmpty()){
@@ -103,7 +103,7 @@ public class UriRule implements UriRuleable{
      * @param patter
      * @return
      */
-    List<String[]> parseVariables(String patter)throws ReleaseException{
+    List<String[]> parseVariables(String patter)throws PublishException{
         
         String[] tokens = StringUtils.splitPreserveAllTokens(patter, "$");
         List<String[]> variables = new ArrayList<String[]>();
@@ -112,7 +112,7 @@ public class UriRule implements UriRuleable{
            if(StringUtils.startsWith(token, "{")) {
                if(token.length()< 3 || token.indexOf("}")< 0){
                    logger.error("Uri {} is error",token);
-                   throw new ReleaseException("Uri patter is error.");
+                   throw new PublishException("Uri patter is error.");
                }
                token = StringUtils.substring(token,1);
                String name = StringUtils.splitByWholeSeparator(token, "}")[0];
@@ -135,9 +135,9 @@ public class UriRule implements UriRuleable{
      * @param variable 变量名称
      * @param parameters 参数集合
      * @return 变量值
-     * @throws ReleaseException
+     * @throws PublishException
      */
-    Object getVariableValue(String variable,Map<String,Object> parameters)throws ReleaseException {
+    Object getVariableValue(String variable,Map<String,Object> parameters)throws PublishException {
         logger.debug("Variable is {}",variable);
         String p = StringUtils.splitPreserveAllTokens(variable,".")[0];
         logger.debug("Parameter name is {}",p);
@@ -150,7 +150,7 @@ public class UriRule implements UriRuleable{
         Object object = parameters.get(parameter);
         if(object == null){
             logger.error("\"{}\" parameter is not exist",parameter);
-            throw new ReleaseException(variable + " is not exist");
+            throw new PublishException(variable + " is not exist");
         }
         try{
             if(!p.equals(variable)){
@@ -162,7 +162,7 @@ public class UriRule implements UriRuleable{
             }
         }catch(Exception e){
             logger.error("Get variable value is error:{}",e.toString());
-            throw new ReleaseException(e);
+            throw new PublishException(e);
         }
     }
     

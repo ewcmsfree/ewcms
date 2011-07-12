@@ -32,7 +32,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class ListGenerator extends GeneratorHtmlBase {
+public class ListGenerator extends GeneratorBase {
     
     private static final Logger logger = LoggerFactory.getLogger(ListGenerator.class);
     

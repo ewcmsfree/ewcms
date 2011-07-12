@@ -11,19 +11,19 @@ package com.ewcms.generator;
  * 
  * @author wangwei
  */
-public class ReleaseException extends Exception {
+public class PublishException extends Exception {
 
-    public ReleaseException(){}
+    public PublishException(){}
 
-     public ReleaseException(String message) {
+     public PublishException(String message) {
         super(message);
     }
 
-    public ReleaseException(String message, Throwable thrwbl) {
+    public PublishException(String message, Throwable thrwbl) {
         super(message, thrwbl);
     }
 
-    public ReleaseException(Throwable thrwbl){
+    public PublishException(Throwable thrwbl){
         super(thrwbl);
     }
 }

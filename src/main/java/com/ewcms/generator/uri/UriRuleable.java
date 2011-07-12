@@ -8,7 +8,7 @@ package com.ewcms.generator.uri;
 
 import java.util.Map;
 
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 
 /**
  * 资源发布地址规则接口
@@ -21,9 +21,9 @@ public interface UriRuleable {
      * 解析uri模板
      * 
      * @param patter uri模板
-     * @throws ReleaseException
+     * @throws PublishException
      */
-    void parse(String patter)throws ReleaseException;
+    void parse(String patter)throws PublishException;
     
     /**
      * 设置参数集合
@@ -44,8 +44,8 @@ public interface UriRuleable {
      * 得到通一资源地址
      * 
      * @return
-     * @throws ReleaseException
+     * @throws PublishException
      */
-     String getUri()throws ReleaseException;
+     String getUri()throws PublishException;
     
 }

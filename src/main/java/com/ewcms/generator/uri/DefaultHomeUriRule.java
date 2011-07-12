@@ -9,7 +9,7 @@ package com.ewcms.generator.uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 
 /**
  * 缺省首页 uri生成规则
@@ -24,13 +24,13 @@ public class DefaultHomeUriRule extends UriRule{
         String patter = "${c.absUrl}/index.html";
         try {
             super.parse(patter);
-        } catch (ReleaseException e) {
+        } catch (PublishException e) {
             logger.error("Patter parse error:{}",e.toString());
         }
     }
     
     @Override
-    public void parse(String patter)throws ReleaseException{
-        throw new ReleaseException("This method Can't call use");
+    public void parse(String patter)throws PublishException{
+        throw new PublishException("This method Can't call use");
     }
 }

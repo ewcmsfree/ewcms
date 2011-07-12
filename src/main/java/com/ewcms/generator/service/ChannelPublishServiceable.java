@@ -21,6 +21,14 @@ public interface ChannelPublishServiceable {
 
     /**
      * 通过频道编号得到频道对象
+     * 
+     * @param id 频道编号
+     * @return 频道对象
+     */
+    public Channel getChannel(Integer id);
+    
+    /**
+     * 通过频道编号得到频道对象
      * <br>
      * 频道必须是指定站点的频道。
      * 

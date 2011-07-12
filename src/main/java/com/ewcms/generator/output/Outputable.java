@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.commons.vfs.FileSystemException;
 
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 
 /**
  * 输出和发布资源
@@ -27,6 +27,6 @@ public interface Outputable {
      * @param resources 发布的资源集合 
      * @throws FileSystemException
      */
-    public void out(SiteServer server,List<OutputResource> resources)throws ReleaseException;
+    public void out(SiteServer server,List<OutputResource> resources)throws PublishException;
     
 }

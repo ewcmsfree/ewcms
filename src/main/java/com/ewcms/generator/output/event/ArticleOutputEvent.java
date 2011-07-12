@@ -27,7 +27,7 @@ public class ArticleOutputEvent implements OutputEventable {
 
     @Override
     public void success() {
-        service.releaseArticle(id, url);
+        service.publishArticle(id, url);
     }
 
     @Override

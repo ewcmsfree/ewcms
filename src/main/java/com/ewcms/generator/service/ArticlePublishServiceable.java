@@ -33,7 +33,7 @@ public interface ArticlePublishServiceable {
      * @param id 文章编号
      * @param url 文章链接地址
      */
-    void releaseArticle(Long id, String url);
+    void publishArticle(Long id, String url);
     
     /**
      * 查询准备发布的文章
@@ -42,7 +42,7 @@ public interface ArticlePublishServiceable {
      * @param limit 最大文件数
      * @return
      */
-    List<Article> findReleaseArticles(Integer channelId,Integer limit);
+    List<Article> findPublishArticles(Integer channelId,Integer limit);
     
     /**
      * 得到频道指定页面文章
@@ -76,5 +76,5 @@ public interface ArticlePublishServiceable {
      * 
      * @param channelId 频道编号
      */
-     void againReleaseArticle(Integer channelId);
+     void againPublishArticle(Integer channelId);
 }

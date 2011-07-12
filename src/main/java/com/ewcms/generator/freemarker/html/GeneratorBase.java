@@ -30,8 +30,8 @@ import freemarker.template.TemplateException;
  *  
  * @author wangwei
  */
-public abstract class GeneratorHtmlBase implements GeneratorHtmlable {
-    private static final Logger logger = LoggerFactory.getLogger(GeneratorHtmlBase.class);
+public abstract class GeneratorBase implements Generatorable {
+    private static final Logger logger = LoggerFactory.getLogger(GeneratorBase.class);
 
     /**
      * 得到Freemarker中模板

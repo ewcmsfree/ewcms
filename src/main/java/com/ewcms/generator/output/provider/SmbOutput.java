@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.output.OutputResource;
 
 /**
@@ -29,9 +29,9 @@ public class SmbOutput extends OutputBase {
     private static final Logger logger = LoggerFactory.getLogger(SmbOutput.class);
     
     @Override
-    public void out(SiteServer server, List<OutputResource> resources)throws ReleaseException {
+    public void out(SiteServer server, List<OutputResource> resources)throws PublishException {
         //TODO VFS1.0没有实现
-        throw new ReleaseException("vfs 1.0 do not provider implement");
+        throw new PublishException("vfs 1.0 do not provider implement");
     }
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
