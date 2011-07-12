@@ -51,9 +51,11 @@ function checkVote(id){
 		}
 	}
 	var code = document.getElementsByName('j_checkcode');
-	if (code[0] != null){
-		err = true;
-		str+='\n验证码不能为空';
+	if (code != null && code.length == 1){
+		if (code[0].value.trim() == ''){
+			err = true;
+			str+='\n验证码不能为空';
+		}
 	}
 	if(err){
 		var url = window.location+'';
