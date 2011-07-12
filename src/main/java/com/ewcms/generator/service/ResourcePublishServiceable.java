@@ -43,4 +43,11 @@ public interface ResourcePublishServiceable {
      * @param id 资源编号
      */
     void publishResource(Integer id);
+    
+    /**
+     * 把已经发布的资源变成未发布资源。
+     *  
+     * @param siteId 站点编号
+     */
+    void againPublishResource(Integer siteId);
 }

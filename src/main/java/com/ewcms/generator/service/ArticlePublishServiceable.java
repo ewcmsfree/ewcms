@@ -69,9 +69,6 @@ public interface ArticlePublishServiceable {
     int getArticleCount(Integer channelId);
     
     /**
-     * 重新发布已发布的文章
-     * 
-     * <br/>
      * 把已经发布的文章变成预发布文章。
      * 
      * @param channelId 频道编号

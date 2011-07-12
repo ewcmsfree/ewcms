@@ -57,4 +57,11 @@ public interface TemplateSourcePublishServiceable {
      * @param id 模板资源编号
      */
     void publishTemplateSource(Integer id);
+    
+    /**
+     * 把已经发布的模板资源变成未发布的模板资源。
+     *  
+     * @param siteId 站点编号
+     */
+    void againPublishTemplateSource(Integer siteId);
 }
