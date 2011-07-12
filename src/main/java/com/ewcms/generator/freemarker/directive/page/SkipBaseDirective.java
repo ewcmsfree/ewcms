@@ -9,7 +9,7 @@ package com.ewcms.generator.freemarker.directive.page;
 import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.FreemarkerUtil;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.uri.UriRuleable;
@@ -96,7 +96,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
                 String uri =  rule.getUri(); 
                 setPage(currentPage);
                 return uri;
-            }catch(ReleaseException e){
+            }catch(PublishException e){
                 throw new TemplateModelException("Generator uri error:{}",e);
             }
         }
