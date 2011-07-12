@@ -215,7 +215,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			result.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/voteresult.css'/>\n");
 			result.append("  <div style='padding:10px;overflow:hidden;_overflow:visible;_height:1%;'>\n");
 			result.append("    <h2 style='float:left;'>" + questionnaire.getTitle() + "：调查结果</h2>\n");
-			result.append("    <h2 style='float:right;'>投票人数：" + questionnaire.getNumber() + "</h2>\n");
+			//result.append("    <h2 style='float:right;'>投票人数：" + questionnaire.getNumber() + "</h2>\n");
 			result.append("  </div>\n");
 			
 			List<Subject> subjects = questionnaire.getSubjects();
@@ -226,6 +226,11 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			Long subjectSort = 1L;
 			for (Subject subject : subjects){
 				if (subject.getSubjectStatus() == SubjectStatus.INPUT) continue;
+				
+				List<SubjectItem> subjectItems = subject.getSubjectItems();
+				if (subjectItems == null || subjectItems.isEmpty()) continue; 
+				isItemEntity = true;
+				
 				result.append("  <div class='voteresultb'>\n");
 				result.append("    <h3>" + subjectSort + "." + subject.getTitle() + "[" + subject.getSubjectStatusDescription() + "]</h3>\n");
 				result.append("    <table name ='ChartTable'>\n");
@@ -235,10 +240,6 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				result.append("          <th width='264' class='col2' scope='col'>比例</th>\n");
 				result.append("        </tr>\n");
 					
-				List<SubjectItem> subjectItems = subject.getSubjectItems();
-				
-				if (subjectItems != null && !subjectItems.isEmpty()) isItemEntity = true;
-				
 				Long subjectItemSort = 1L;
 				Long sum = CalculateSum(subject);
 				for (SubjectItem subjectItem : subjectItems){
