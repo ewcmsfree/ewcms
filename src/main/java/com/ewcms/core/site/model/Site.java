@@ -41,7 +41,7 @@ import org.hibernate.annotations.Formula;
  * <li>extraFile:生成扩展文件名称
  * <li>parent:父站点
  * <li>publicenable:是否允许发布
- * <li>serverDir:站点发布服务器 绝对目录
+ * <li>siteServer:站点发布服务器信息对象
  * <li>resourceDir:站点资源发布 绝对目录
  * </ul>
  * 

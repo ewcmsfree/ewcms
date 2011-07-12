@@ -27,6 +27,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 	@Autowired
 	private SiteFac siteFac;
 	private Integer id;
+	
 	public Site getSiteVo() {
 		return super.getVo();
 	}
@@ -118,6 +119,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 		if(getSiteVo()==null || getSiteVo().getOrgan()==null||getSiteVo().getOrgan().getId()==null)return false;
 		return true;
 	}
+	
 	/**
 	 * 创建机构站点.
 	 */
@@ -199,6 +201,21 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			addActionMessage("数据保存失败！");
 		}
 		setSiteVo(siteFac.getSite(vo.getId()));
+		return INPUT;
+	}
+	
+	/**
+	 * 保存站点服务器信息.
+	 */
+	public String saveSiteServer() {
+		try {
+			Site vo = getSiteVo();
+			siteFac.saveSiteServer(vo);
+			addActionMessage("数据保存成功！");
+		} catch (Exception e) {
+			this.outputInfo(e.toString());
+			addActionMessage("数据保存失败！");
+		}
 		return INPUT;
 	}
 }

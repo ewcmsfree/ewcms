@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.dao.SiteDAO;
-import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.web.vo.TreeNode;
@@ -42,7 +41,14 @@ public class SiteService {
 		siteDao.persist(vo);
 		return vo.getId();
 	}
-
+	
+	public Integer saveSiteServer(Site vo) {
+		Site oldvo = getSite(vo.getId());
+		oldvo.setSiteServer(vo.getSiteServer());
+		updSite(oldvo);
+		return oldvo.getSiteServer().getId();
+	}
+	
 	public void delSiteBatch(List<Integer> idList) {
 		for (Integer id : idList) {
 			delSite(id);

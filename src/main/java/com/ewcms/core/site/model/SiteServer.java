@@ -1,4 +1,10 @@
 /**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+/**
  * 
  */
 package com.ewcms.core.site.model;
@@ -14,15 +20,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * <li>id:站点服务器编号
+ * <li>id:站点服务器编�?
  * <li>path:发布路径
  * <li>hostName:服务器IP
- * <li>port: 端口号
- * <li>user:用户　
+ * <li>port: 端口�?
+ * <li>user:用户�?
  * <li>password:密码
  * </ul>
  * 
- * @author 周冬初
+ * @author 周冬�?
  */
 @Entity
 @Table(name = "site_siteserver")

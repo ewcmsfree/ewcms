@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
+import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -433,7 +435,27 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 		return INPUT;
 	}
-
+	
+	/**
+	 * 模板类型选择
+	 * 
+	 * @return 记录集
+	 */
+	public List<TemplateType> getTemplateTypeList() {
+		return Arrays.asList(TemplateType.values());
+	}
+	public String setTemplateProperty() {
+		try {
+			Template vo = siteFac.getTemplate(getTemplateVo().getId());
+			vo.setType(getTemplateVo().getType());
+			vo.setUriPattern(getTemplateVo().getUriPattern());
+			siteFac.updTemplate(vo);
+			addActionMessage("模板属性设置成功！");
+		} catch (Exception e) {
+			addActionMessage("模板属性设置失败！");
+		}
+		return INPUT;
+	}	
 	private String converKB(long size) {
 		DecimalFormat dfom = new DecimalFormat("####.0");
 		if (size <= 0)

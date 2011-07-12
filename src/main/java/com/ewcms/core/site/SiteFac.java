@@ -92,6 +92,9 @@ public class SiteFac{
 		siteService.delSite(id);		
 	}
 
+	public Integer saveSiteServer(Site vo){
+		return siteService.saveSiteServer(vo);
+	}
 	
 	public Site getSite(Integer id) {
 		return siteService.getSite(id);

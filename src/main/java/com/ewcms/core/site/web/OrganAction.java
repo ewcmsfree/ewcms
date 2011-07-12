@@ -112,15 +112,6 @@ public class OrganAction extends CrudBaseAction<Organ, Integer> {
 	}
 
 	/**
-	 * 获取机构树.
-	 */
-	public void organByIDTree() throws Exception {
-		// TreeNode treeSite = organFac.organtoTree(getOrganVo().getId(),2);
-		// Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeSite }));
-		// return null;
-	}
-
-	/**
 	 * 创建机构.
 	 */
 	public void addOrgan() {

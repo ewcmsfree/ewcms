@@ -92,11 +92,10 @@ public class Template implements Serializable {
 	@Column(length = 15)
 	@Enumerated(EnumType.STRING)
 	private TemplateType type;
-	
+
 	public String getUniquePath() {
 		return uniquePath;
 	}
-
 	public void setUniquePath(String uniquePath) {
 		this.uniquePath = uniquePath;
 	}

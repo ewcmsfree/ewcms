@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -84,7 +83,7 @@ public class TemplateSource implements Serializable {
     private Integer channelId;
     @Column(length = 150)
     private String path;
-	@Column(length = 150)
+	@Column(length = 150,unique=true)
 	private String uniquePath;
     @Column()
     private Boolean release = false;
