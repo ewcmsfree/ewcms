@@ -23,7 +23,7 @@ import com.ewcms.content.document.model.ArticleCategory;
 
 /**
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  *
  */
 public class ArticleCategoryServiceTest {

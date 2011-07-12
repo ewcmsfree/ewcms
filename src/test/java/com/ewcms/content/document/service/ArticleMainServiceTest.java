@@ -28,7 +28,7 @@ import com.ewcms.security.manage.service.UserServiceable;
 
 /**
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  *
  */
 public class ArticleMainServiceTest {

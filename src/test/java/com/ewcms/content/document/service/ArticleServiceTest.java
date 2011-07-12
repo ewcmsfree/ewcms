@@ -24,7 +24,7 @@ import com.ewcms.content.document.model.ArticleType;
 
 /**
  * 
- * @author wu_zhijun
+ * @author 吴智俊
  *
  */
 public class ArticleServiceTest {
