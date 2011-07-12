@@ -16,7 +16,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.uri.UriRuleable;
@@ -39,14 +39,14 @@ public abstract class GeneratorHtmlBase implements GeneratorHtmlable {
      * @param cfg freemaker配置对象
      * @param path 模板路径
      * @return
-     * @throws ReleaseException
+     * @throws PublishException
      */
-    protected Template getFreemarkerTemplate(Configuration cfg,String path)throws ReleaseException{
+    protected Template getFreemarkerTemplate(Configuration cfg,String path)throws PublishException{
         try {
             return cfg.getTemplate(path);
         } catch (IOException e) {
             logger.error("{} template is not exist.error:",path,e);
-            throw new ReleaseException(e);
+            throw new PublishException(e);
         }
     }
     /**
@@ -56,9 +56,9 @@ public abstract class GeneratorHtmlBase implements GeneratorHtmlable {
      * @param rule
      * @param parameters
      * @return
-     * @throws ReleaseException
+     * @throws PublishException
      */
-    protected OutputResource generator(Template template,Map<String, Object> parameters,UriRuleable rule) throws ReleaseException {
+    protected OutputResource generator(Template template,Map<String, Object> parameters,UriRuleable rule) throws PublishException {
         
         try {
             completeParameters(parameters,rule);
@@ -70,10 +70,10 @@ public abstract class GeneratorHtmlBase implements GeneratorHtmlable {
             return new OutputResource(temp.getPath(), rule.getUri());
         } catch (IOException e) {
             logger.error("Writer tempfile error {}", e);
-            throw new ReleaseException(e);
+            throw new PublishException(e);
         } catch (TemplateException e) {
             logger.error("Freemarker proccess error {}", e);
-            throw new ReleaseException(e);
+            throw new PublishException(e);
         }
     }
     

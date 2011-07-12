@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.uri.DefaultHomeUriRule;
@@ -37,33 +37,27 @@ public class HomeGenerator extends GeneratorHtmlBase {
 
     static final Logger logger = LoggerFactory.getLogger(HomeGenerator.class);
     
-    private Site site;
-    private Channel channel;
     private Configuration cfg;
     private UriRuleable rule = new DefaultHomeUriRule();
     
-    public HomeGenerator(Configuration cfg,Site site,Channel channel){
+    public HomeGenerator(Configuration cfg){
         Assert.notNull(cfg);
-        Assert.notNull(site);
-        Assert.notNull(channel);
         
         this.cfg = cfg;
-        this.channel = channel;
-        this.site = site;
     }
     
     @Override
-    public List<OutputResource> process(Template template)throws ReleaseException {
-       return process(template,rule);
+    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException {
+       return process(template,rule,site,channel);
     }
     
-    protected List<OutputResource> process(Template template,UriRuleable rule)throws ReleaseException {
-        Map<String,Object> parameters = constructParameters();
+    protected List<OutputResource> process(Template template,UriRuleable rule,Site site,Channel channel)throws PublishException {
+        Map<String,Object> parameters = constructParameters(site,channel);
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
         return Arrays.asList(generator(t,parameters,rule));
     }
     
-    private Map<String,Object> constructParameters() {
+    private Map<String,Object> constructParameters(Site site,Channel channel) {
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.SITE.toString(), site);
         params.put(GlobalVariable.CHANNEL.toString(), channel);

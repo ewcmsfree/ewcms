@@ -8,8 +8,10 @@ package com.ewcms.generator.freemarker.html;
 
 import java.util.List;
 
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.output.OutputResource;
 
 /**
@@ -29,11 +31,14 @@ public interface GeneratorHtmlable {
      * 
      * @param template
      *          模板设置
-     *          
+     * @param site
+     *          站点
+     * @param channel
+     *          频道         
      * @return 生成页面的资源集合
-     * @throws ReleaseException
+     * @throws PublishException
      */
-    public List<OutputResource> process(Template template)throws ReleaseException;
+    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException;
     
     
 }

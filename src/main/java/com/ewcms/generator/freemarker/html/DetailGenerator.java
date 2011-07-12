@@ -18,7 +18,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.output.event.ArticleOutputEvent;
@@ -37,37 +37,29 @@ public class DetailGenerator extends GeneratorHtmlBase {
 
     private static final Logger logger = LoggerFactory.getLogger(DetailGenerator.class);
     
-    private static final Integer MAX_ARTICLES = 1000;
+    private static final Integer MAX_ARTICLES = 10000;
     
     private Configuration cfg;
-    private Site site;
-    private Channel channel;
     private ArticlePublishServiceable service;
     private Integer maxArticles;
     
     UriRuleable uriRule = new DefaultArticleUriRule();
     
-    public DetailGenerator(Configuration cfg,Site site,
-            Channel channel,ArticlePublishServiceable service){
-        
-        this(cfg,site,channel,service,MAX_ARTICLES);
+    public DetailGenerator(Configuration cfg,ArticlePublishServiceable service){
+        this(cfg,service,MAX_ARTICLES);
     }
     
-    public DetailGenerator(Configuration cfg,Site site,
-            Channel channel,ArticlePublishServiceable service,Integer maxArticles){
-        
+    public DetailGenerator(Configuration cfg,ArticlePublishServiceable service,Integer maxArticles){
         this.cfg = cfg;
-        this.site = site;
-        this.channel = channel;
         this.service = service;
         this.maxArticles = maxArticles;
     }
     
     @Override
-    public List<OutputResource> process(Template template)throws ReleaseException {
+    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException {
         List<OutputResource> resources = new ArrayList<OutputResource>();
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
-        List<Article> articles = findReleaseArticles();
+        List<Article> articles = findReleaseArticles(channel.getId());
         logger.debug("aritcle count is {}",articles.size());
         for(Article article : articles){
             OutputResource resource = new OutputResource();
@@ -79,7 +71,7 @@ public class DetailGenerator extends GeneratorHtmlBase {
             }
             
             for(int i = 0 ; i < count; ++i){
-                Map<String,Object> parameters = constructParameters(article,i,count);
+                Map<String,Object> parameters = constructParameters(site,channel,article,i,count);
                 resource.addChild(generator(t,parameters,uriRule));
             }
             
@@ -92,11 +84,13 @@ public class DetailGenerator extends GeneratorHtmlBase {
         return resources;
     }
     
-    private List<Article> findReleaseArticles(){
-        return service.findReleaseArticles(channel.getId(), maxArticles);
+    private List<Article> findReleaseArticles(Integer channelId){
+        return service.findReleaseArticles(channelId, maxArticles);
     }
     
-    private Map<String,Object> constructParameters(Article article,Integer pageNumber,Integer pageCount) {
+    private Map<String,Object> constructParameters(Site site,Channel channel,
+            Article article,Integer pageNumber,Integer pageCount) {
+        
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.SITE.toString(), site);
         params.put(GlobalVariable.CHANNEL.toString(), channel);
