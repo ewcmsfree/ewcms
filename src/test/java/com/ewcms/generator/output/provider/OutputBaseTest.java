@@ -10,9 +10,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,18 +64,8 @@ public class OutputBaseTest {
     }
     
     @Test
-    public void testWriteStream()throws Exception{
-        InputStream in = OutputBaseTest.class.getResourceAsStream("write.jpg");
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        
-        OutputBaseImpl output = new OutputBaseImpl();
-        output.writeStream(out,in);
-                
-        Assert.assertEquals(335961,out.size());
-    }
-    
-    @Test
     public void testOutResources()throws Exception{
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
         
         OutputBaseImpl output = new OutputBaseImpl(){
             
@@ -89,7 +76,7 @@ public class OutputBaseTest {
                 FileObject fileObject = mock(FileObject.class);
                 FileContent content = mock(FileContent.class);
                 content.setAttribute("path",path);
-                when(content.getOutputStream()).thenReturn(new ByteArrayOutputStream());
+                when(content.getOutputStream()).thenReturn(out);
                 when(fileObject.getContent()).thenReturn(content);
                 return fileObject;
             }
@@ -98,16 +85,11 @@ public class OutputBaseTest {
                 Assert.assertEquals("/test/docuemnt/"+count.toString()+"/index.html", path);
             }
             
-            @Override
-            protected void writeStream(OutputStream out, InputStream in) throws IOException {
-                super.writeStream(out, in);
-                int size = ((ByteArrayOutputStream)out).size();
-                Assert.assertEquals(335961, size);
-            }
         };
         
         List<OutputResource> resources = initOutResources();
         output.outResources(null, "test", resources);
+        Assert.assertEquals((335961 * resources.size()), out.size());
     }
     
     private List<OutputResource> initOutResources(){
