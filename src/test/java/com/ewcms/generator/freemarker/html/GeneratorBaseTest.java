@@ -22,7 +22,7 @@ import com.ewcms.generator.freemarker.GlobalVariable;
 import com.ewcms.generator.output.OutputResource;
 import com.ewcms.generator.uri.UriRule;
 
-public class GeneratorHtmlBaseTest {
+public class GeneratorBaseTest {
 
     @Test
     public void testCreateTempFile()throws Exception{
@@ -48,7 +48,7 @@ public class GeneratorHtmlBaseTest {
         Assert.assertEquals("test", rule.getUri());
     }
     
-    static class GeneratorHtml extends GeneratorHtmlBase{
+    static class GeneratorHtml extends GeneratorBase{
 
         @Override
         public List<OutputResource> process(Template template, Site site,Channel channel) throws PublishException {

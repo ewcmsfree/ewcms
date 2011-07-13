@@ -21,7 +21,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class HomeGeneratorTest extends GeneratorHtmlTest {
+public class HomeGeneratorTest extends GeneratorTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
@@ -30,14 +30,14 @@ public class HomeGeneratorTest extends GeneratorHtmlTest {
     
     @Test
     public void testHomeTemplate()throws Exception{
-        GeneratorHtmlable generator = new HomeGenerator(cfg);
+        Generatorable generator = new HomeGenerator(cfg);
         List<OutputResource> list = generator.process(initTemplate(getTemplatePath("index.html")),initSite(),initChannel());
         Assert.assertFalse(list.isEmpty());
         
-        OutputResource info = list.get(0);
-        String content = getContent(info.getPath());
+        OutputResource resource = list.get(0);
+        String content = getContent(resource);
         content = StringUtils.deleteWhitespace(content);
         Assert.assertEquals("homepage", content);
-        Assert.assertEquals("news/cn/index.html", info.getUri());
+        Assert.assertEquals("/news/cn/index.html", resource.getUri());
     }
 }

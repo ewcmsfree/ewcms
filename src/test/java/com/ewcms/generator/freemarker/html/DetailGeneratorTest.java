@@ -27,7 +27,7 @@ import com.ewcms.generator.service.ArticlePublishServiceable;
 
 import freemarker.template.Configuration;
 
-public class DetailGeneratorTest extends GeneratorHtmlTest {
+public class DetailGeneratorTest extends GeneratorTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
@@ -37,20 +37,20 @@ public class DetailGeneratorTest extends GeneratorHtmlTest {
     @Test
     public void testDetailTemplate()throws Exception{
         ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
-        when(service.findReleaseArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
+        when(service.findPublishArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
         
         DetailGenerator generator = new DetailGenerator(cfg,service);
         List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("detail.html")),initSite(),initChannel());
         Assert.assertEquals(1, resources.size());
         OutputResource resource = resources.get(0);
         Assert.assertEquals(4, resource.getChildren().size());
-        assertEquals("document/2011-01-01/2_0.html","1page",resource.getChildren().get(0));
-        assertEquals("document/2011-01-01/2_3.html","4page",resource.getChildren().get(3));
+        assertEquals("/document/2011-01-01/2_0.html","1page",resource.getChildren().get(0));
+        assertEquals("/document/2011-01-01/2_3.html","4page",resource.getChildren().get(3));
     }
     
     private void assertEquals(String uri,String content,OutputResource resource)throws Exception{
         Assert.assertEquals(uri, resource.getUri());
-        String c =getContent(resource.getPath());
+        String c =getContent(resource);
         c = StringUtils.deleteWhitespace(c);
         Assert.assertEquals(content, c);
     }

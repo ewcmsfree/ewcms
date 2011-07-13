@@ -7,13 +7,15 @@
 package com.ewcms.generator.freemarker.html;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.generator.freemarker.FreemarkerTest;
+import com.ewcms.generator.output.OutputResource;
 
 /**
  * 页面生成单元测试类
@@ -22,16 +24,21 @@ import com.ewcms.generator.freemarker.FreemarkerTest;
  * 
  * @author wangwei
  */
-public abstract class GeneratorHtmlTest extends FreemarkerTest {
+public abstract class GeneratorTest extends FreemarkerTest {
     
-    protected String getContent(String path)throws Exception{
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path),"utf-8"));
+    protected String getContent(OutputResource resource)throws Exception{
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        resource.write(out);
+        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in,"utf-8"));
         StringBuilder builder = new StringBuilder();
         String line;
         while((line = reader.readLine())!= null){
             builder.append(line);
         }
         reader.close();
+        in.close();
+        out.close();
         return builder.toString();
     }
     

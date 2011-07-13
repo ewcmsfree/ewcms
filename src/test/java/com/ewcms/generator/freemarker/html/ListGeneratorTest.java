@@ -29,7 +29,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class ListGeneratorTest  extends GeneratorHtmlTest {
+public class ListGeneratorTest  extends GeneratorTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
@@ -46,9 +46,9 @@ public class ListGeneratorTest  extends GeneratorHtmlTest {
         ListGenerator generator = new ListGenerator(cfg,service);
         List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")),initSite(),initChannel());
         Assert.assertEquals(10, resources.size());
-        Assert.assertEquals("news/cn/0.html", resources.get(0).getUri());
+        Assert.assertEquals("/news/cn/0.html", resources.get(0).getUri());
         assertPage0Content(resources.get(0));
-        Assert.assertEquals("news/cn/9.html", resources.get(9).getUri());
+        Assert.assertEquals("/news/cn/9.html", resources.get(9).getUri());
         assertPage9Content(resources.get(9));
     }
     
@@ -60,7 +60,7 @@ public class ListGeneratorTest  extends GeneratorHtmlTest {
         }
         builder.append("|..");
         
-        String content = this.getContent(resource.getPath());
+        String content = this.getContent(resource);
         content = StringUtils.deleteWhitespace(content);
         Assert.assertEquals(builder.toString(), content);
     }
@@ -72,7 +72,7 @@ public class ListGeneratorTest  extends GeneratorHtmlTest {
         for(int i = 3 ; i < 10 ; ++i ){
             builder.append("/news/cn/").append(i).append(".html|").append(i+1);
         }
-        String content = this.getContent(resource.getPath());
+        String content = this.getContent(resource);
         content = StringUtils.deleteWhitespace(content);
         Assert.assertEquals(builder.toString(), content);
     }
