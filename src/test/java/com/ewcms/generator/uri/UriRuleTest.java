@@ -18,7 +18,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.ewcms.generator.ObjectBean;
-import com.ewcms.generator.ReleaseException;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.GlobalVariable;
 
 /**
@@ -46,7 +46,7 @@ public class UriRuleTest {
             UriRule rule = new UriRule();
             rule.parseVariables(patter);
             Assert.fail();
-        }catch(ReleaseException e){
+        }catch(PublishException e){
             
         }
     }
@@ -72,7 +72,7 @@ public class UriRuleTest {
             UriRule rule = new UriRule();
             rule.getVariableValue("a.id", parameters);
             Assert.fail();
-        }catch(ReleaseException e){
+        }catch(PublishException e){
         }
     }
     
