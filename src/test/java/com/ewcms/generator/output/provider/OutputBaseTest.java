@@ -6,7 +6,11 @@
 
 package com.ewcms.generator.output.provider;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
@@ -25,6 +29,7 @@ import org.junit.Test;
 
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.generator.output.OutputResource;
+import com.ewcms.generator.output.event.OutputEventable;
 
 /**
  * OutputBase单元测试
@@ -89,29 +94,98 @@ public class OutputBaseTest {
         
         List<OutputResource> resources = initOutResources();
         output.outResources(null, "test", resources);
-        Assert.assertEquals((335961 * resources.size()), out.size());
+        Assert.assertEquals(335961 * 2, out.size());
+    }
+    
+    @Test
+    public void testOutResourcesException()throws Exception{
+        OutputBaseImpl output = new OutputBaseImpl();
+        List<OutputResource> resources = initOutResources();
+                
+        OutputEventable rootEvent = mock(OutputEventable.class);
+        OutputResource r = resources.get(0);
+        r.registerEvent(rootEvent);
+        
+        OutputEventable child1Event = mock(OutputEventable.class);
+        r.getChildren().get(0).registerEvent(child1Event);
+        
+        r.getChildren().remove(1);
+        NullCloseOutputResource newChild = new NullCloseOutputResource("/noFile/noExist","/docuemnt/2/index.html");
+        OutputEventable child2Event = mock(OutputEventable.class);
+        newChild.registerEvent(child2Event);
+        r.getChildren().add(newChild);
+        
+        output.outResources(null, "test", resources);
+        
+        verify(rootEvent,never()).success();
+        verify(rootEvent).error(eq("子资源发布错误:/docuemnt/2/index.html"), any(Throwable.class));
+        
+        verify(child1Event).success();
+        verify(child1Event,never()).error(any(String.class), any(Throwable.class));
+        
+        verify(child2Event,never()).success();
+        verify(child2Event).error(eq("发布错误:/docuemnt/2/index.html"), any(Throwable.class));
     }
     
     private List<OutputResource> initOutResources(){
         
         List<OutputResource> list = new ArrayList<OutputResource>();
-        OutputResource root = new OutputResource();
+        NullCloseOutputResource root = new NullCloseOutputResource();
         list.add(root);
         
         List<OutputResource> children = new ArrayList<OutputResource>();
         String source = OutputBaseTest.class.getResource("write.jpg").getPath();
-        children.add(new OutputResource(source,"/docuemnt/1/index.html"));
-        children.add(new OutputResource(source,"/docuemnt/2/index.html"));
+        children.add(new NullCloseOutputResource(source,"/docuemnt/1/index.html"));
+        children.add(new NullCloseOutputResource(source,"/docuemnt/2/index.html"));
         root.setChildren(children);
         
         return list;
     }
     
-    class OutputBaseImpl extends  OutputBase{
+    static class OutputBaseImpl extends  OutputBase{
 
+        @Override
+        protected FileObject getTargetFileObject(FileObject root,String path)throws FileSystemException{
+            FileObject fileObject = mock(FileObject.class);
+            FileContent content = mock(FileContent.class);
+            content.setAttribute("path",path);
+            when(content.getOutputStream()).thenReturn(new ByteArrayOutputStream());
+            when(fileObject.getContent()).thenReturn(content);
+            return fileObject;
+        }
+        
         @Override
         protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
             return null;
+        }
+    }
+    
+    /**
+     * 把OutputResource Close方法清空
+     * 
+     * @author wangwei
+     */
+    static class NullCloseOutputResource extends OutputResource{
+        
+        public NullCloseOutputResource() {
+            super();
+        }
+
+        public NullCloseOutputResource(byte[] content, String uri) {
+            super(content, uri);
+        }
+
+        public NullCloseOutputResource(String path, String uri, long size) {
+            super(path, uri, size);
+        }
+
+        public NullCloseOutputResource(String path, String uri) {
+            super(path, uri);
+        }
+
+        @Override
+        public void close(){
+           // none
         }
     }
 }
