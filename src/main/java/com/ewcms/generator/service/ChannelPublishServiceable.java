@@ -20,6 +20,14 @@ import com.ewcms.core.site.model.Channel;
 public interface ChannelPublishServiceable {
 
     /**
+     * 得到站点顶级频道
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    public Channel getChannelRoot(Integer siteId);
+    
+    /**
      * 通过频道编号得到频道对象
      * 
      * @param id 频道编号

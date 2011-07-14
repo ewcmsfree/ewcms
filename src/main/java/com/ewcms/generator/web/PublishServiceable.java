@@ -4,7 +4,9 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.generator;
+package com.ewcms.generator.web;
+
+import com.ewcms.generator.PublishException;
 
 
 /**
@@ -73,5 +75,5 @@ public interface PublishServiceable {
      * @param templateSource 模板资源
      * @throws PublishException
      */
-    void publishResource(Integer id,Boolean templateSource)throws PublishException;
+    void publishResourceAgain(Integer id,Boolean templateSource)throws PublishException;
 }

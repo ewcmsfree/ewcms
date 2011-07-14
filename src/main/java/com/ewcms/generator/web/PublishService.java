@@ -4,23 +4,28 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.generator;
+package com.ewcms.generator.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.Template;
+import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.generator.PublishException;
 import com.ewcms.generator.freemarker.html.DetailGenerator;
 import com.ewcms.generator.freemarker.html.Generatorable;
 import com.ewcms.generator.freemarker.html.HomeGenerator;
@@ -35,6 +40,7 @@ import com.ewcms.generator.output.provider.SmbOutput;
 import com.ewcms.generator.service.ArticlePublishServiceable;
 import com.ewcms.generator.service.ChannelPublishServiceable;
 import com.ewcms.generator.service.ResourcePublishServiceable;
+import com.ewcms.generator.service.SitePublishServiceable;
 import com.ewcms.generator.service.TemplatePublishServiceable;
 import com.ewcms.generator.service.TemplateSourcePublishServiceable;
 
@@ -51,9 +57,11 @@ public class PublishService implements PublishServiceable {
     private static final Logger logger = LoggerFactory.getLogger(PublishService.class);
     
     @Autowired
-    private ArticlePublishServiceable articleService;
+    private SitePublishServiceable siteService;
     @Autowired
     private ChannelPublishServiceable channelService;
+    @Autowired
+    private ArticlePublishServiceable articleService;
     @Autowired
     private ResourcePublishServiceable resourceService;
     @Autowired
@@ -98,13 +106,16 @@ public class PublishService implements PublishServiceable {
     private void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
         Generatorable generator = generators.get(template.getType());
         List<OutputResource> resources = generator.process(template, site, channel);
-        SiteServer server = site.getSiteServer();
-        Outputable output = outputs.get(server.getOutputType());
-        output.out(server, resources);
+        outputResources(site.getSiteServer(),resources);
         //文章生成有最大限制，所以需要循环调用，生成全部文章
         if(template.getType() == TemplateType.DETAIL && !resources.isEmpty()){
             publishChannelTemplate(site,channel,template);
         }
+    }
+    
+    private void outputResources(SiteServer server,List<OutputResource> resources)throws PublishException{
+        Outputable output = outputs.get(server.getOutputType());
+        output.out(server, resources);
     }
 
     @Override
@@ -115,19 +126,60 @@ public class PublishService implements PublishServiceable {
 
     @Override
     public void publishSiteResource(Integer id) throws PublishException {
-        // TODO Auto-generated method stub
-        
+        Site site = siteService.getSite(id);
+        if(site == null){
+            logger.debug("Site id = {} is not exist",id);
+            throw new PublishException("Site is not exits");
+        }
+        SiteServer server = site.getSiteServer();
+        publishSiteLocalResource(id,server);
+        publishSiteTemplateSource(id,server);
     }
 
+    private void publishSiteLocalResource(Integer id,SiteServer server)throws PublishException{
+        List<Resource> resources = resourceService.findPublishResource(id);
+        List<OutputResource> outputResources = new ArrayList<OutputResource>();
+        for(Resource resource  : resources){
+            outputResources.add(createOutputResource(resource));
+        }
+        outputResources(server,outputResources);
+    }
+    
+    private OutputResource createOutputResource(Resource resource){
+        OutputResource outputResource ;
+        if(StringUtils.isBlank(resource.getPathZip()) || StringUtils.isBlank(resource.getReleasePathZip())){
+            outputResource = new OutputResource();
+            //TODO register event
+            outputResource.addChild(new OutputResource(resource.getPath(),resource.getReleasePath()));
+            outputResource.addChild(new OutputResource(resource.getPath(),resource.getReleasePath()));
+            
+        }else{
+            outputResource = new OutputResource(resource.getPath(),resource.getReleasePath());
+        }
+        return outputResource;
+    }
+    
+    private void publishSiteTemplateSource(Integer id,SiteServer server)throws PublishException{
+        List<TemplateSource> sources = templateSourceService.findReleaseTemplateSources(id);
+        List<OutputResource> outputResources = new ArrayList<OutputResource>();
+        for(TemplateSource source  : sources){
+            OutputResource outputResource = 
+                new OutputResource(source.getSourceEntity().getSrcEntity(),source.getUniquePath());
+            //TODO register event
+            outputResources.add(outputResource);
+        }
+        outputResources(server,outputResources);
+    }
+    
     @Override
     public void publishSiteResourceAgain(Integer id) throws PublishException {
-        // TODO Auto-generated method stub
-        
+        resourceService.againPublishResource(id);
+        templateSourceService.againPublishTemplateSource(id);
+        publishSiteResource(id);
     }
 
     @Override
-    public void publishResource(Integer id, Boolean templateSource)throws PublishException {
-        // TODO Auto-generated method stub
+    public void publishResourceAgain(Integer id, Boolean templateSource)throws PublishException {
         
     }
     
