@@ -6,10 +6,8 @@
 
 package com.ewcms.generator.output.provider;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,12 +20,13 @@ import org.apache.commons.vfs.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs.cache.DefaultFilesCache;
 import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs.provider.ftp.FtpFileProvider;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.generator.PublishException;
 import com.ewcms.generator.output.OutputResource;
@@ -86,51 +85,90 @@ public abstract class OutputBase implements Outputable {
     }
 
     /**
-     * 发布在资源 <br>
-     * 使用递归发布所有资源
+     * 发布在资源
      * 
      * @param root
      *            根目录文件对象
      * @param rootPath
      *            根目录路径
      * @param resources
-     *            发布的资源
+     *            发布的资源集合
      * @throws PublishException
      */
-    protected void outResources(FileObject root, String rootPath,
-            List<OutputResource> resources) throws PublishException {
+    protected void outResources(FileObject root, String rootPath,List<OutputResource> resources) {
 
         if (resources == null || resources.isEmpty()) {
             return;
         }
-
+        
         for (OutputResource resource : resources) {
-
-            if (resource.isOutput()) {
-                String targetPath = getTargetPath(rootPath, resource.getUri());
-                logger.debug("Target path is {}", targetPath);
-
-                try {
-                    FileObject target = getTargetFileObject(root, targetPath);
-                    FileContent content = target.getContent();
-                    writeStream(content.getOutputStream(),getLocalStream(resource.getPath()));
-                    content.close();
-                    target.close();
-                    resource.outputSuccess();
-                } catch (FileSystemException e) {
-                    logger.error("Output {} is error:{}", resource.getUri(),
-                            e.toString());
-                    resource.outputError("发布文件错误", e);
-                    throw new PublishException(e);
-                } catch (IOException e) {
-                    logger.error("Output {} is error:", resource.getUri(),
-                            e.toString());
-                    resource.outputError("发布文件错误", e);
-                    throw new PublishException(e);
+            try{
+                outResource(root,rootPath,resource);
+            }catch(PublishException e){
+                logger.error(e.toString());
+            }
+            
+        }
+    }
+    
+    /**
+     * 发布单个资源
+     * <br>
+     * 递归发布子资源
+     * 
+    * @param root
+     *            根目录文件对象
+     * @param rootPath
+     *            根目录路径
+     * @param resource
+     *            发布的资源
+     * @throws PublishException
+     */
+    protected void outResource(FileObject root,String rootPath,OutputResource resource)throws PublishException{
+        
+        if(EmptyUtil.isCollectionNotEmpty(resource.getChildren())){
+            List<OutputResource> errorResources = new ArrayList<OutputResource>();
+            for (OutputResource child : resource.getChildren()) {
+                try{
+                    outResource(root, rootPath, child);
+                }catch(PublishException e){
+                    logger.debug("Children has error:{}",e);
+                    errorResources.add(child);
                 }
             }
+            if(errorResources.isEmpty()){
+                resource.outputSuccess();
+            }else{
+                String[] errorUirs = new String[errorResources.size()];
+                for(int i = 0 ; i < errorResources.size() ; ++i){
+                    errorUirs[i] = errorResources.get(i).getUri();
+                }
+                PublishException e =new PublishException("子资源发布错误:"+StringUtils.join(errorUirs,","));
+                resource.outputError("子资源发布错误:"+StringUtils.join(errorUirs,","), e);
+                throw e;
+            }
+        }
+        
+        if (resource.isOutput()) {
+            String targetPath = getTargetPath(rootPath, resource.getUri());
+            logger.debug("Target path is {}", targetPath);
 
-            outResources(root, rootPath, resource.getChildren());
+            try {
+                FileObject target = getTargetFileObject(root, targetPath);
+                FileContent content = target.getContent();
+                resource.write(content.getOutputStream());
+                content.close();
+                target.close();
+                resource.outputSuccess();
+            } catch (FileSystemException e) {
+                logger.error("Output {} is error:{}", resource.getUri(),e);
+                resource.outputError("发布错误:" + resource.getUri(), e);
+                throw new PublishException(e);
+            } catch (IOException e) {
+                logger.error("Output {} is error:", resource.getUri(),e);
+                resource.outputError("发布错误:" + resource.getUri() , e);
+                throw new PublishException(e);
+            }
         }
     }
 
@@ -166,40 +204,6 @@ public abstract class OutputBase implements Outputable {
             SiteServer server,FileSystemManager manager) throws FileSystemException;
 
     /**
-     * 读入本地资源数据流
-     * 
-     * @param path
-     * @return
-     * @throws IOException
-     */
-    protected InputStream getLocalStream(String path) throws IOException {
-        return new FileInputStream(path);
-    }
-
-    /**
-     * 输出本地资源到发布资源数据流中
-     * 
-     * @param output
-     *            输出流
-     * @param in
-     *            输入流()
-     * @throws IOException
-     */
-    protected void writeStream(OutputStream out, InputStream in)
-            throws IOException {
-
-        byte[] buffer = new byte[1024 * 10];
-        int len = 0;
-        while ((len = in.read(buffer)) > 0) {
-            out.write(buffer, 0, len);
-        }
-        out.flush();
-
-        in.close();
-        out.close();
-    }
-
-    /**
      * 得到输出文件的绝对路径
      * 
      * @param root
@@ -224,8 +228,7 @@ public abstract class OutputBase implements Outputable {
      * @return
      * @throws FileSystemException
      */
-    protected FileObject getTargetFileObject(FileObject root, String path)
-            throws FileSystemException {
+    protected FileObject getTargetFileObject(FileObject root, String path)throws FileSystemException {
         FileObject out = root.resolveFile(path);
         if (!out.exists()) {
             out.createFile();
