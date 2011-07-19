@@ -14,6 +14,7 @@ import org.apache.commons.lang.xwork.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
@@ -33,6 +34,7 @@ import com.ewcms.publication.service.TemplateSourcePublishServiceable;
  * 
  * @author wangwei
  */
+@Service
 public class ResourcePublish implements ResourcePublishable{
     
     private static final Logger logger = LoggerFactory.getLogger(ResourcePublish.class);
