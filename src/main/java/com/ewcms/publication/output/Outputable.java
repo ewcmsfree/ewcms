@@ -14,7 +14,7 @@ import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.publication.PublishException;
 
 /**
- * 输出和发布资源
+ * 发布资源接口
  * 
  * @author wangwei
  */
