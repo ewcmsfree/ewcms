@@ -46,17 +46,17 @@ public class PublishService implements PublishServiceable {
     private static final Logger logger = LoggerFactory.getLogger(PublishService.class);
     
     @Autowired
-    private ChannelPublishServiceable channelService;
+    protected ChannelPublishServiceable channelService;
     @Autowired
-    private ArticlePublishServiceable articleService;
+    protected ArticlePublishServiceable articleService;
     @Autowired
-    private TemplatePublishServiceable templateService;
+    protected TemplatePublishServiceable templateService;
     @Autowired
-    private ResourcePublishable resourcePublish;
+    protected ResourcePublishable resourcePublish;
     @Autowired
-    private Configuration cfg;
+    protected Configuration cfg;
     
-    private Map<TemplateType,Generatorable> generators = initGenerators();
+    protected Map<TemplateType,Generatorable> generators = initGenerators();
 
     @Override
     public void publishSite(Integer id) throws PublishException {
@@ -97,7 +97,7 @@ public class PublishService implements PublishServiceable {
         }
     }
     
-    private void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
+    protected void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
         Generatorable generator = generators.get(template.getType());
         List<OutputResource> resources = generator.process(template, site, channel);
         SiteServer server = site.getSiteServer();

@@ -32,10 +32,10 @@ public interface PublishServiceable {
      * 只发布发生改变的频道，如频道文章或关联频道数据改变。
      * 
      * @param id 频道编号
-     * @param publishChildren 发布所有的子频道
+     * @param all 发布所有的子频道
      * 
      * @throws PublishException
      */
-    void publishChannel(Integer id,boolean publishChildren) throws PublishException;
+    void publishChannel(Integer id,boolean all) throws PublishException;
     
 }
