@@ -13,7 +13,7 @@ import com.ewcms.publication.service.ArticlePublishServiceable;
  * 
  * @author wangwei
  */
-public class ArticleOutputEvent implements OutputEventable {
+public class ArticleOutputEvent extends DefaultOutputEvent {
 
     private ArticlePublishServiceable service;
     private Long id;
