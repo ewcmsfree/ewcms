@@ -205,6 +205,7 @@ public class OutputResource {
         if(!StringUtils.isBlank(path)){
             File file = new File(path);
             file.deleteOnExit();
+            path = null;
             logger.debug("Delete {}",path);
         }
     }
