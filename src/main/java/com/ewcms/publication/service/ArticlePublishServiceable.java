@@ -42,7 +42,7 @@ public interface ArticlePublishServiceable {
      * @param limit 最大文件数
      * @return
      */
-    List<Article> findPublishArticles(Integer channelId,Integer limit);
+    List<Article> findPreReleaseArticles(Integer channelId,Integer limit);
     
     /**
      * 得到频道指定页面文章
@@ -56,7 +56,7 @@ public interface ArticlePublishServiceable {
      * @param top  顶置文章
      * @return
      */
-    List<Article> findArticlePage(Integer channelId,Integer page,Integer row,Boolean top);
+    List<Article> findReleaseArticlePage(Integer channelId,Integer page,Integer row,Boolean top);
 
     /**
      * 得到频道已经发布的文章总数
@@ -73,5 +73,5 @@ public interface ArticlePublishServiceable {
      * 
      * @param channelId 频道编号
      */
-     void againPublishArticle(Integer channelId);
+     void updatePreRelease(Integer channelId);
 }

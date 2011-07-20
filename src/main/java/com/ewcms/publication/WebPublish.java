@@ -39,7 +39,7 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
     
     @Override
     public void publishChannelAgain(Integer id,boolean all) throws PublishException {
-        articleService.againPublishArticle(id);
+        articleService.updatePreRelease(id);
         publishChannel(id,all);
     }
 

@@ -91,7 +91,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         int pageNumber = getPageNumberValue(env);
         boolean top = getTopValue(params);
 
-        List<Article> articles = articleService.findArticlePage(channelId, pageNumber, row,top); 
+        List<Article> articles = articleService.findReleaseArticlePage(channelId, pageNumber, row,top); 
 
         if(EmptyUtil.isArrayNotEmpty(loopVars)){
             loopVars[0] = env.getObjectWrapper().wrap(articles);

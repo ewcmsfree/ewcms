@@ -33,7 +33,7 @@ public interface ResourcePublishServiceable {
      * @param siteId 站点编号
      * @return
      */
-    List<Resource> findPublishResource(Integer siteId);
+    List<Resource> findNotReleaseResources(Integer siteId);
 
     /**
      * 发布资源
@@ -49,5 +49,5 @@ public interface ResourcePublishServiceable {
      *  
      * @param siteId 站点编号
      */
-    void againPublishResource(Integer siteId);
+    void updateNotRelease(Integer siteId);
 }

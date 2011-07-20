@@ -85,7 +85,7 @@ public class DetailGenerator extends GeneratorBase {
     }
     
     private List<Article> findReleaseArticles(Integer channelId){
-        return service.findPublishArticles(channelId, maxArticles);
+        return service.findPreReleaseArticles(channelId, maxArticles);
     }
     
     private Map<String,Object> constructParameters(Site site,Channel channel,

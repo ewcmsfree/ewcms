@@ -59,7 +59,7 @@ public class ResourcePublish implements ResourcePublishable{
     }
 
     private void publishSiteLocalResource(Integer id,SiteServer server)throws PublishException{
-        List<Resource> resources = resourceService.findPublishResource(id);
+        List<Resource> resources = resourceService.findNotReleaseResources(id);
         List<OutputResource> outputResources = new ArrayList<OutputResource>();
         for(Resource resource  : resources){
             outputResources.add(createOutputResource(resource));
@@ -90,7 +90,7 @@ public class ResourcePublish implements ResourcePublishable{
    
     
     private void publishSiteTemplateSource(Integer id,SiteServer server)throws PublishException{
-        List<TemplateSource> sources = templateSourceService.findReleaseTemplateSources(id);
+        List<TemplateSource> sources = templateSourceService.findNotReleaseTemplateSources(id);
         List<OutputResource> outputResources = new ArrayList<OutputResource>();
         for(TemplateSource source  : sources){
             outputResources.add(createOutputResource(source));
@@ -113,8 +113,8 @@ public class ResourcePublish implements ResourcePublishable{
     
     @Override
     public void publishSiteAgain(Integer id) throws PublishException {
-        resourceService.againPublishResource(id);
-        templateSourceService.againPublishTemplateSource(id);
+        resourceService.updateNotRelease(id);
+        templateSourceService.updateNotRelease(id);
         publishSite(id);
     }
 
