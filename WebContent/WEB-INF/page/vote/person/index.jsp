@@ -10,39 +10,41 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script>
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url namespace="/vote/person" action="input"/>?questionnaireId' + $('#questionnaireId').val() + '',
-					queryURL:'<s:url namespace="/vote/person" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '',
-					deleteURL:'<s:url namespace="/vote/person" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '',
-					querywidth:300,
-					queryheight:130
-				});
-				//数据表格定义 						
-                openDataGrid({
+				//创建和设置页面的基本对象 EwcmsBase
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/person" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '');
+				ewcmsBOBJ.openDataGrid('#tt',{
                     columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'ip',title:'IP地址',width:120},
-                                {field:'recordTime',title:'投票时间',width:125},
-                                {field:'item',title:'填写内容',width:60,
-                                	formatter:function(val,rec){
-                                		return '<a href="#" onclick="showRecord(' + rec.id + ');">内容</a>';
-                                	}
-                                }
-                        ]],
-        				toolbar:[
-      							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-      							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-      						]                    
+                              {field:'id',title:'编号',width:60},
+                              {field:'ip',title:'IP地址',width:120},
+                              {field:'recordTime',title:'投票时间',width:125},
+                              {field:'item',title:'填写内容',width:60,
+                              	formatter:function(val,rec){
+                              		return '<a href="#" onclick="showRecord(' + rec.id + ');">内容</a>';
+                              	}
+                              }
+                      ]]
 				});
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.setWinWidth(400);
+				ewcmsBOBJ.setWinHeight(180);
+
+				//创建和设置页面的操作对象 EwcmsOperate
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/vote/person" action="input"/>?questionnaireId' + $('#questionnaireId').val() + '');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/person" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '');
 			});
 			function showRecord(id){
 				var url =  '<s:url namespace="/vote/record" action="index"/>?personId=' + id + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				$('#editifr_record').attr('src',url);
-				openWindow('#record-window',{width:400,height:180,title:'内容'});
+				openWindow('#record-window',{title:'内容'});
 			}
 		</script>
 	</head>
