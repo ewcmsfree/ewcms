@@ -6,14 +6,17 @@
 
 package com.ewcms.publication.freemarker;
 
-import freemarker.template.Configuration;
-import freemarker.template.TemplateException;
 import java.io.IOException;
+
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
+
 /**
+ * 提供FreeMarker配置对象
  *
  * @author wangwei
  */
