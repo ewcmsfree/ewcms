@@ -33,7 +33,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
 
     @Test
     public void testMaxIsOneGetPageOuts()throws Exception{
-        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        SkipNumberDirective directive = new SkipNumberDirective();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
         List<PageOut> pages = directive.getPageOuts(rule,5, 0, 1, "..");
@@ -44,7 +44,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testMaxGeCountGetPageOuts()throws Exception{
-        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        SkipNumberDirective directive = new SkipNumberDirective();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
         List<PageOut> pages = directive.getPageOuts(rule,5, 0, 6, "");
@@ -55,7 +55,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testMaxGePageNumberGetPageOuts()throws Exception{
-        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        SkipNumberDirective directive = new SkipNumberDirective();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
         List<PageOut> pages = directive.getPageOuts(rule,10, 5, 7, "..");
@@ -66,7 +66,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testMiddleGetPgeOuts()throws Exception{
-        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        SkipNumberDirective directive = new SkipNumberDirective();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
         List<PageOut> pages = directive.getPageOuts(rule,20, 10, 7, "..");
@@ -79,7 +79,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     
     @Test
     public void testEndGetPgeOuts()throws Exception{
-        SkipNumberDirecitve directive = new SkipNumberDirecitve();
+        SkipNumberDirective directive = new SkipNumberDirective();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn("");
         List<PageOut> pages = directive.getPageOuts(rule,20, 17, 7, "..");
@@ -91,7 +91,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     
     @Override
     protected void currentConfiguration(Configuration cfg) {
-         cfg.setSharedVariable("page_number", new SkipNumberDirecitve());
+         cfg.setSharedVariable("page_number", new SkipNumberDirective());
          cfg.setSharedVariable("page", new PageOutDirective());
     }
     
