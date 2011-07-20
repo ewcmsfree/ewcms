@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import com.ewcms.publication.freemarker.directive.page.PageOutDirective;
 import com.ewcms.publication.freemarker.directive.page.SkipDirective;
-import com.ewcms.publication.freemarker.directive.page.SkipNumberDirecitve;
+import com.ewcms.publication.freemarker.directive.page.SkipNumberDirective;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
@@ -33,7 +33,7 @@ public class ListGeneratorTest  extends GeneratorTest {
 
     @Override
     protected void currentConfiguration(Configuration cfg) {
-        cfg.setSharedVariable("page_number", new SkipNumberDirecitve());
+        cfg.setSharedVariable("page_number", new SkipNumberDirective());
         cfg.setSharedVariable("page_skip", new SkipDirective());
         cfg.setSharedVariable("page", new PageOutDirective());
     }
