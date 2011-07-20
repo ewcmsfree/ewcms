@@ -14,7 +14,7 @@ import com.ewcms.publication.PublishException;
  * 
  * @author wangwei
  */
-public interface PublishServiceable {
+public interface SchedulingPublishable {
 
     /**
      * 发布站点

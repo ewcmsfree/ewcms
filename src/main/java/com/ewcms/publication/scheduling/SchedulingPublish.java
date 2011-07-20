@@ -41,9 +41,9 @@ import freemarker.template.Configuration;
  * @author wangwei
  */
 @Service
-public class PublishService implements PublishServiceable {
+public class SchedulingPublish implements SchedulingPublishable {
 
-    private static final Logger logger = LoggerFactory.getLogger(PublishService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SchedulingPublish.class);
     
     @Autowired
     protected ChannelPublishServiceable channelService;
@@ -82,11 +82,30 @@ public class PublishService implements PublishServiceable {
         }
     }
     
+    
     private void publishChannel(Channel channel)throws PublishException{
+        if(isPublishing(channel)){
+            return ;
+        }
+        
         List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
         for(Template template : templates){
             publishChannelTemplate(channel.getSite(),channel,template);
         }
+    }
+    
+    /**
+     * 判断频道是否在发布
+     * 
+     * @param siteId
+     *            站点编号
+     * @param channelId
+     *            频道编号
+     * @throws PublishException
+     */
+    protected synchronized boolean isPublishing(Channel channel){
+        //判断频道是否在发布
+        return false;
     }
     
     private void publishChannelAll(Channel channel)throws PublishException{

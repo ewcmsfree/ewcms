@@ -13,48 +13,32 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.PublishException;
+import com.ewcms.publication.scheduling.SchedulingPublish;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
-import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
- * 实现发布服务
+ * 实现web发布服务
  * 
  * @author wangwei
  */
 @Service
-public class PublishService extends com.ewcms.publication.scheduling.PublishService implements PublishServiceable {
+public class WebPublish extends SchedulingPublish implements WebPublishable {
 
-    private static final Logger logger = LoggerFactory.getLogger(PublishService.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebPublish.class);
     
-    @Autowired
-    private ChannelPublishServiceable channelService;
     @Autowired
     private ArticlePublishServiceable articleService;
     @Autowired
-    private TemplatePublishServiceable templateService;
+    protected ChannelPublishServiceable channelService;
     
     @Override
-    public void publishTemplate(Integer id) throws PublishException {
-        Template template = templateService.getTemplate(id);
-        if(template == null){
-            logger.warn("Template is not exist. Id = {}.",id);
-            return ;
-        }
-        if(!isCurrentSite(template.getSite().getId())){
-            //判断
-        }
-        Channel channel = channelService.getChannel(template.getChannelId());
-        if(channel == null){
-            logger.warn("Channel is not exist. Id = {}.",template.getChannelId());
-            return ;
-        }
-        publishChannelTemplate(channel.getSite(),channel,template);
+    public void publishChannel(Integer id,boolean all) throws PublishException {
+        publishChannelEnable(channelService.getChannel(id));
     }
-        
+    
     @Override
     public void publishChannelAgain(Integer id,boolean all) throws PublishException {
         articleService.againPublishArticle(id);
@@ -77,6 +61,31 @@ public class PublishService extends com.ewcms.publication.scheduling.PublishServ
     }
     
     /**
+     * 验证发布是否有效
+     * 
+     * @param siteId
+     *            站点编号
+     * @param channelId
+     *            频道编号
+     * @throws PublishException
+     */
+    private void publishChannelEnable(Channel channel)throws PublishException{
+        if(channel == null){
+            logger.error("channel is null");
+            throw new PublishException("Channel is not exits");
+        }
+        int siteId = channel.getSite().getId();
+        if(!isCurrentSite(siteId)){
+            logger.error("Not current site");
+            throw new PublishException("Not current site");
+        }
+        if(isPublishing(channel)){
+            logger.error("Channel is still publishing");
+            throw new PublishException("Channel is still publishing");
+        }
+    }
+    
+    /**
      * 判断发布的信息是否当前站点信息
      * <br>
      * 防止恶意发布
@@ -87,6 +96,7 @@ public class PublishService extends com.ewcms.publication.scheduling.PublishServ
     private boolean isCurrentSite(Integer siteId){
         Site site = EwcmsContextUtil.getCurrentSite();
         if(site == null || site.getId() == null){
+            logger.debug("current site id {} ,but site id {}",site.getId() ,siteId);
             return false;
         }
         return siteId == site.getId();

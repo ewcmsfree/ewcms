@@ -7,6 +7,7 @@
 package com.ewcms.publication.web;
 
 import com.ewcms.publication.PublishException;
+import com.ewcms.publication.scheduling.SchedulingPublishable;
 
 
 /**
@@ -14,7 +15,7 @@ import com.ewcms.publication.PublishException;
  * 
  * @author wangwei
  */
-public interface PublishServiceable extends com.ewcms.publication.scheduling.PublishServiceable{
+public interface WebPublishable extends SchedulingPublishable{
 
     /**
      * 重新发布和生成频道下html页面
@@ -26,16 +27,6 @@ public interface PublishServiceable extends com.ewcms.publication.scheduling.Pub
      * @throws PublishException
      */
     void publishChannelAgain(Integer id, boolean all) throws PublishException;
-    
-    /**
-     * 发布和生成单模板的html页面
-     * <br>
-     * 模板对应的页面都会从新生成和发布。
-     *     
-     * @param id 模板编号
-     * @throws PublishException
-     */
-    void publishTemplate(Integer id) throws PublishException;
     
     /**
      * 发布站点资源
