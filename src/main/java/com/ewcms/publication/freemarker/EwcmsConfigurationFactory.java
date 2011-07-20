@@ -72,11 +72,18 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
         return super.createConfiguration();
     }
     
+    /**
+     * 初始化模板加载
+     */
     private void initTemplateLoader(){
+        
         postTemplateLoaders.add(new DatabaseTemplateLoader(templateService));
         super.setPostTemplateLoaders(postTemplateLoaders.toArray(new TemplateLoader[postTemplateLoaders.size()]));
     }
     
+    /**
+     * 初始定制指令
+     */
     private void initFreemarkerVariables(){
         
         freemarkerVariables.put("article", new ArticleDirective());
