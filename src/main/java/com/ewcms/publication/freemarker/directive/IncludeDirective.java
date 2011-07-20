@@ -50,6 +50,15 @@ public class IncludeDirective implements TemplateDirectiveModel {
     private String channelParam = CHANNEL_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
     
+    public IncludeDirective(){
+        
+    }
+    
+    public IncludeDirective(ChannelPublishServiceable channelService,TemplatePublishServiceable templateService){
+        this.channelService = channelService;
+        this.templateService = templateService;
+    }
+    
     @SuppressWarnings("rawtypes")
     @Override
     public void execute(final Environment env, final Map params, final TemplateModel[] loopVars, final TemplateDirectiveBody body) throws TemplateException, IOException {

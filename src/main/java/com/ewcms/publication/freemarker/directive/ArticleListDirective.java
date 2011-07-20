@@ -61,6 +61,13 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     private ArticlePublishServiceable articleService;
     private ChannelPublishServiceable channelService;
     
+    public ArticleListDirective(){}
+    
+    public ArticleListDirective(ChannelPublishServiceable channelService,ArticlePublishServiceable articleService){
+        this.articleService  = articleService;
+        this.channelService = channelService;
+    }
+    
     @SuppressWarnings("rawtypes")
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {

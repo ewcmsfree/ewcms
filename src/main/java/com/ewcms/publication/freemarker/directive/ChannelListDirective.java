@@ -57,6 +57,14 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     
     private ChannelPublishServiceable channelService;
     
+    public ChannelListDirective(){
+        
+    }
+    
+    public ChannelListDirective(ChannelPublishServiceable channelService){
+        this.channelService = channelService;
+    }
+    
     @SuppressWarnings("rawtypes")
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {

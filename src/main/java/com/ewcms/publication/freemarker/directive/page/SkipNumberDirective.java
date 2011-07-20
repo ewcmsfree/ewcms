@@ -31,8 +31,8 @@ import freemarker.template.TemplateModelException;
  * 
  * @author wangwei
  */
-public class SkipNumberDirecitve extends SkipBaseDirective {
-    private static final Logger logger = LoggerFactory.getLogger(SkipNumberDirecitve.class);
+public class SkipNumberDirective extends SkipBaseDirective {
+    private static final Logger logger = LoggerFactory.getLogger(SkipNumberDirective.class);
     
     private static final int DEFAULT_MAX_LENGTH = 5;
     private static final boolean DEFAULT_ACTIVE = false;
