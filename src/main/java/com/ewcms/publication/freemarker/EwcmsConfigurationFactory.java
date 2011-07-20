@@ -122,4 +122,12 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     public void setTemplateService(TemplatePublishServiceable service){
         this.templateService = service;
     }
+
+    public void setChannelService(ChannelPublishServiceable channelService) {
+        this.channelService = channelService;
+    }
+
+    public void setArticleService(ArticlePublishServiceable articleService) {
+        this.articleService = articleService;
+    }
 }
