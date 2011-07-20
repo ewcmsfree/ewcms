@@ -4,10 +4,8 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.web;
+package com.ewcms.publication;
 
-import com.ewcms.publication.PublishException;
-import com.ewcms.publication.scheduling.SchedulingPublishable;
 
 
 /**

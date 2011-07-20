@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.web;
+package com.ewcms.publication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.publication.PublishException;
-import com.ewcms.publication.scheduling.SchedulingPublish;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;

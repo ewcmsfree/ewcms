@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.scheduling;
+package com.ewcms.publication;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,6 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.html.DetailGenerator;
 import com.ewcms.publication.freemarker.html.Generatorable;
 import com.ewcms.publication.freemarker.html.HomeGenerator;
