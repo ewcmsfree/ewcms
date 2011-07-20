@@ -37,7 +37,7 @@ public class DetailGeneratorTest extends GeneratorTest {
     @Test
     public void testDetailTemplate()throws Exception{
         ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
-        when(service.findPublishArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
+        when(service.findPreReleaseArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
         
         DetailGenerator generator = new DetailGenerator(cfg,service);
         List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("detail.html")),initSite(),initChannel());

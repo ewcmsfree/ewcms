@@ -117,7 +117,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         directive.setChannelService(channelLoaderService);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
+        when(articleLoaderService.findReleaseArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
         directive.setArticleService(articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);
@@ -150,7 +150,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         directive.setChannelService(channelLoaderService);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findArticlePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
+        when(articleLoaderService.findReleaseArticlePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
         directive.setArticleService(articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);
