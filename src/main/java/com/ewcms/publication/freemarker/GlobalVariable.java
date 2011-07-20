@@ -30,7 +30,7 @@ public enum GlobalVariable {
     PAGE_COUNT("ewcms_page_count"),
     PAGE_OUT("ewcms_page_out"),
     INDEX("ewcms_index"),
-    URI_RULE("ewcms_uri");
+    URI_RULE("ewcms_uri_rule");
         
     private String name;
 
