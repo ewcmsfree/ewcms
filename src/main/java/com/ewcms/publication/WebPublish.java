@@ -99,5 +99,4 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
         }
         return siteId == site.getId();
     }
-
 }
