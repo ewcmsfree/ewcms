@@ -39,7 +39,7 @@ public interface ArticlePublishServiceable {
      * 查询准备发布的文章
      * 
      * @param channelId 频道编号 
-     * @param limit 最大文件数
+     * @param limit 最大文章数
      * @return
      */
     List<Article> findPreReleaseArticles(Integer channelId,Integer limit);
