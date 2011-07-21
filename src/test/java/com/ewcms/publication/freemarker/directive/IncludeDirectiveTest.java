@@ -36,7 +36,7 @@ public class IncludeDirectiveTest extends FreemarkerTest {
 
     @Test
     public void testGetUniqueTemplatePath(){
-       IncludeDirective directive = new IncludeDirective();
+       IncludeDirective directive = new IncludeDirective(null,null);
        String path = "/home/test.html";
        Integer siteId=new Integer(2);
        
@@ -49,15 +49,13 @@ public class IncludeDirectiveTest extends FreemarkerTest {
     
     @Override
     protected void currentConfiguration(Configuration cfg) {
-        IncludeDirective directive = new IncludeDirective();
         ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         Channel channel = new Channel();
         channel.setId(1);
         when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
-        directive.setChannelService(channelLoaderService);
         TemplatePublishServiceable templateLoaderService = mock(TemplatePublishServiceable.class);
         when(templateLoaderService.getUniquePathOfChannelTemplate(any(Integer.class), any(Integer.class), any(String.class))).thenReturn("2/1/include.html");
-        directive.setTemplateService(templateLoaderService);
+        IncludeDirective directive = new IncludeDirective(channelLoaderService,templateLoaderService);
         cfg.setSharedVariable("include", directive);
     }
     
