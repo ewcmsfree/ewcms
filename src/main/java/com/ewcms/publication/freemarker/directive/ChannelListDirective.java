@@ -57,10 +57,6 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     
     private ChannelPublishServiceable channelService;
     
-    public ChannelListDirective(){
-        
-    }
-    
     public ChannelListDirective(ChannelPublishServiceable channelService){
         this.channelService = channelService;
     }
@@ -370,14 +366,5 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      */
     public void setChildParam(String childParam) {
         this.childParam = childParam;
-    }
-
-    /**
-     * 设置频道服务接口
-     * 
-     * @param service
-     */
-    public void setChannelService(ChannelPublishServiceable service) {
-        this.channelService = service;
     }
 }

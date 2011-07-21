@@ -50,10 +50,6 @@ public class IncludeDirective implements TemplateDirectiveModel {
     private String channelParam = CHANNEL_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
     
-    public IncludeDirective(){
-        
-    }
-    
     public IncludeDirective(ChannelPublishServiceable channelService,TemplatePublishServiceable templateService){
         this.channelService = channelService;
         this.templateService = templateService;
@@ -208,24 +204,6 @@ public class IncludeDirective implements TemplateDirectiveModel {
      */
     String getChannelTemplatePath(Integer siteId,Integer channelId,String name){
         return templateService.getUniquePathOfChannelTemplate(siteId, channelId, name);
-    }
-
-    /**
-     * 设置频道服务
-     * 
-     * @param service
-     */
-    public void setChannelService(ChannelPublishServiceable service){
-        channelService = service;
-    }
-    
-    /**
-     * 设置模板服务
-     * 
-     * @param service
-     */
-    public void setTemplateService(TemplatePublishServiceable service){
-        templateService = service;
     }
     
     /**

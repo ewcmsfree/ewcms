@@ -40,7 +40,7 @@ import freemarker.template.TemplateModelException;
 public class ArticleListDirective implements TemplateDirectiveModel {
     private static final Logger logger = LoggerFactory.getLogger(ArticleListDirective.class);
     
-    private static final int DEFAULT_ROWS = 20;
+    private static final int DEFAULT_ROW = 20;
     private static final int DEFAULT_PAGE_NUMBER = 0;
     private static final boolean DEFAULT_TOP = false;
     
@@ -60,8 +60,6 @@ public class ArticleListDirective implements TemplateDirectiveModel {
 
     private ArticlePublishServiceable articleService;
     private ChannelPublishServiceable channelService;
-    
-    public ArticleListDirective(){}
     
     public ArticleListDirective(ChannelPublishServiceable channelService,ArticlePublishServiceable articleService){
         this.articleService  = articleService;
@@ -87,7 +85,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             return;
         }
 
-        int row = getRowValue(params);
+        int row = getRowValue(params,channelId,env);
         int pageNumber = getPageNumberValue(env);
         boolean top = getTopValue(params);
 
@@ -225,7 +223,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         
         return null;
     }
-
+    
     /**
      * 判断频道是否发布
      * 
@@ -254,9 +252,23 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    private int getRowValue(final Map params) throws TemplateException {
+    private int getRowValue(Map params,int channelId,Environment env) throws TemplateException {
         Integer row = FreemarkerUtil.getInteger(params, rowParam);
-        return row == null ? DEFAULT_ROWS : row;
+        if(row != null){
+            if(row > 0){
+                return row;
+            }else{
+                logger.error("Row must than 0,but row is {}",row);
+                throw new TemplateModelException("Row must than 0");
+            }
+        }
+        
+        Channel channel = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
+        if(channelId == channel.getId()){
+            return channel.getListSize();
+        }else{
+            return DEFAULT_ROW;
+        }
     }
 
     /**
@@ -342,23 +354,5 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      */
     public void setTopParam(String paramName) {
         this.topParam = paramName;
-    }
-
-    /**
-     * 设置文章服务
-     * 
-     * @param service
-     */
-    public void setArticleService(ArticlePublishServiceable service) {
-        articleService = service;
-    }
-
-    /**
-     * 设置频道服务接口
-     * 
-     * @param service
-     */
-    public void setChannelService(ChannelPublishServiceable service) {
-        channelService = service;
     }
 }
