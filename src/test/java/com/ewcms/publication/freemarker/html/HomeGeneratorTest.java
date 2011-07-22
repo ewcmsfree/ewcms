@@ -31,7 +31,7 @@ public class HomeGeneratorTest extends GeneratorTest {
     @Test
     public void testHomeTemplate()throws Exception{
         Generatorable generator = new HomeGenerator(cfg);
-        List<OutputResource> list = generator.process(initTemplate(getTemplatePath("index.html")),initSite(),initChannel());
+        List<OutputResource> list = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("index.html")));
         Assert.assertFalse(list.isEmpty());
         
         OutputResource resource = list.get(0);

@@ -44,7 +44,7 @@ public class ListGeneratorTest  extends GeneratorTest {
         when(service.getArticleCount(any(Integer.class))).thenReturn(100);
         
         ListGenerator generator = new ListGenerator(cfg,service);
-        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("list.html")),initSite(),initChannel());
+        List<OutputResource> resources = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("list.html")));
         Assert.assertEquals(10, resources.size());
         Assert.assertEquals("/news/cn/0.html", resources.get(0).getUri());
         assertPage0Content(resources.get(0));

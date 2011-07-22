@@ -40,7 +40,7 @@ public class DetailGeneratorTest extends GeneratorTest {
         when(service.findPreReleaseArticles(any(Integer.class),any(Integer.class))).thenReturn(initArtilces());
         
         DetailGenerator generator = new DetailGenerator(cfg,service);
-        List<OutputResource> resources = generator.process(initTemplate(getTemplatePath("detail.html")),initSite(),initChannel());
+        List<OutputResource> resources = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("detail.html")));
         Assert.assertEquals(1, resources.size());
         OutputResource resource = resources.get(0);
         Assert.assertEquals(4, resource.getChildren().size());
