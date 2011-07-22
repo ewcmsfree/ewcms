@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.freemarker.html;
 
+import java.io.OutputStream;
 import java.util.List;
 
 import com.ewcms.core.site.model.Channel;
@@ -22,12 +23,8 @@ import com.ewcms.publication.output.OutputResource;
 public interface Generatorable {
  
     /**
-     * 生成临时文件名称指定的范围
-     */
-    static final String FILE_NAME_CHARS = "1234567890abcdefghigklmnopqrstuvwxyz";
-
-    /**
-     * 根据模板生成频道页面
+     * 根据模板生成页面
+     * 
      * @param site
      *          站点
      * @param channel
@@ -40,5 +37,19 @@ public interface Generatorable {
      */
     public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException;
     
-    
+    /**
+     * 预览模板生成的页面
+     * 
+     * @param stream 
+     *          输出数据流
+     * @param site
+     *          站点
+     * @param channel
+     *          频道         
+     * @param template
+     *          模板设置
+     * 
+     * @throws PublishException
+     */
+    public void previewProcess(OutputStream stream,Site site,Channel channel,Template template)throws PublishException;
 }

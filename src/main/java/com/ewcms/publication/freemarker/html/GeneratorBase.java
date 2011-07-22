@@ -34,6 +34,11 @@ public abstract class GeneratorBase implements Generatorable {
     private static final Logger logger = LoggerFactory.getLogger(GeneratorBase.class);
 
     /**
+     * 生成临时文件名称指定的范围
+     */
+    private static final String FILE_NAME_CHARS = "1234567890abcdefghigklmnopqrstuvwxyz";
+    
+    /**
      * 得到Freemarker中模板
      * 
      * @param cfg freemaker配置对象

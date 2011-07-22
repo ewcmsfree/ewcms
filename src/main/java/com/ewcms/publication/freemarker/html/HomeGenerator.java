@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.freemarker.html;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -63,5 +64,12 @@ public class HomeGenerator extends GeneratorBase {
         params.put(GlobalVariable.CHANNEL.toString(), channel);
         
         return params;
+    }
+
+    @Override
+    public void previewProcess(OutputStream stream, Site site, Channel channel,
+            Template template) throws PublishException {
+        // TODO Auto-generated method stub
+        
     }
 }

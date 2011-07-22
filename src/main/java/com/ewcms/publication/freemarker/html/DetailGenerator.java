@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.freemarker.html;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,13 @@ public class DetailGenerator extends GeneratorBase {
         params.put(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
         params.put(GlobalVariable.PAGE_COUNT.toString(), pageCount);
         return params;
+    }
+
+    @Override
+    public void previewProcess(OutputStream stream, Site site, Channel channel,
+            Template template) throws PublishException {
+        // TODO Auto-generated method stub
+        
     }
     
 }
