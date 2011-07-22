@@ -117,7 +117,7 @@ public class SchedulingPublish implements SchedulingPublishable {
     
     protected void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
         Generatorable generator = generators.get(template.getType());
-        List<OutputResource> resources = generator.process(template, site, channel);
+        List<OutputResource> resources = generator.process(site, channel, template);
         SiteServer server = site.getSiteServer();
         OutputFactory.factory(server.getOutputType()).out(server, resources);
         

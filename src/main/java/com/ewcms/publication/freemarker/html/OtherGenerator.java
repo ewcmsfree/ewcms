@@ -32,7 +32,7 @@ public class OtherGenerator extends HomeGenerator {
     }
     
     @Override
-    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException {
+    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
         UriRuleable rule = new UriRule();
         rule.parse(template.getUriPattern());
         return process(template,rule,site,channel);

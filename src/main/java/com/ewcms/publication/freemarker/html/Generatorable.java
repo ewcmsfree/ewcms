@@ -28,17 +28,17 @@ public interface Generatorable {
 
     /**
      * 根据模板生成频道页面
-     * 
-     * @param template
-     *          模板设置
      * @param site
      *          站点
      * @param channel
      *          频道         
+     * @param template
+     *          模板设置
+     * 
      * @return 生成页面的资源集合
      * @throws PublishException
      */
-    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException;
+    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException;
     
     
 }

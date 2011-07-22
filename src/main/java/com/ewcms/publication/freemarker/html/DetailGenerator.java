@@ -56,7 +56,7 @@ public class DetailGenerator extends GeneratorBase {
     }
     
     @Override
-    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException {
+    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
         List<OutputResource> resources = new ArrayList<OutputResource>();
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
         List<Article> articles = findReleaseArticles(channel.getId());

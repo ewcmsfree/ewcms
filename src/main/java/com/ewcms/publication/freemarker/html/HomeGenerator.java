@@ -47,7 +47,7 @@ public class HomeGenerator extends GeneratorBase {
     }
     
     @Override
-    public List<OutputResource> process(Template template,Site site,Channel channel)throws PublishException {
+    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
        return process(template,rule,site,channel);
     }
     
