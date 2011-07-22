@@ -68,32 +68,32 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         
         return children;
     }
-    
     @Test
-    public void testChannelNotPublicenabledLoaderChannelWithPublicabled()throws Exception{
-        Channel channel = createChannel(1,false);
-        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
-        when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
-        ChannelListDirective directive = new ChannelListDirective(service);
-        
-        List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, false);
-        Assert.assertTrue(list.isEmpty());
-    }
-    
-    @Test
-    public void testLoaderChannelWithPublicabled()throws Exception{
+    public void testLoadingChannel()throws Exception{
         Channel channel = createChannel(1,true);
         ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, false);
+        List<Channel> list = directive.loadingChannel(1, 1, false,false);
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals(1, list.size());
     }
     
     @Test
-    public void testLoaderChannelWithPublicabledChildren()throws Exception{
+    public void testDebugLoadingChannel()throws Exception{
+        Channel channel = createChannel(1,false);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
+        when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        ChannelListDirective directive = new ChannelListDirective(service);
+        
+        List<Channel> list = directive.loadingChannel(1, 1, false,true);
+        Assert.assertEquals(1, list.size());
+    }
+   
+    
+    @Test
+    public void testLoadingChannelChildren()throws Exception{
         Channel channel = createChannel(1,true);
         ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
@@ -101,9 +101,23 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannelWithPublicenable(1, 1, true);
+        List<Channel> list = directive.loadingChannel(1, 1, true,false);
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals(3, list.size());
+    }
+    
+    @Test
+    public void testDebugLoadingChannelChildren()throws Exception{
+        Channel channel = createChannel(1,true);
+        ChannelPublishServiceable service = mock(ChannelPublishServiceable.class);
+        when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        List<Channel> children = createChannelChildren(1,5);
+        when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
+        ChannelListDirective directive = new ChannelListDirective(service);
+        
+        List<Channel> list = directive.loadingChannel(1, 1, true,true);
+        Assert.assertFalse(list.isEmpty());
+        Assert.assertEquals(5, list.size());
     }
     
     private String getTemplatePath(String name){

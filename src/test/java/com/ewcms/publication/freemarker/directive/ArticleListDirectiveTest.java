@@ -106,9 +106,78 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
     }
     
     @Test
+    public void testChannelIdNotExist()throws Exception{
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(null);
+        
+        ArticleListDirective directive = new ArticleListDirective(channelLoaderService,null);
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        Assert.assertEquals("throws Exception", value);
+    }
+    
+    @Test
+    public void testChannelIdNotPublish()throws Exception{
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
+        Channel channel = new Channel();
+        channel.setId(1);
+        channel.setPublicenable(false);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        
+        ArticleListDirective directive = new ArticleListDirective(channelLoaderService,null);
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        String value = process(template, params);
+        Assert.assertEquals("", value);
+    }
+    
+    @Test
+    public void testDebugValueTemplate()throws Exception{
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
+        Channel channel = new Channel();
+        channel.setId(1);
+        channel.setPublicenable(false);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        
+        ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
+        when(articleLoaderService.findReleaseArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
+        
+        ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("value.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        params.put(GlobalVariable.DEBUG.toString(), Boolean.TRUE);
+        String value = process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        
+        StringBuilder expected = new StringBuilder();
+        for(int i = 0 ; i < 10 ; i++){
+            expected.append(i+1).append(".ewcms文章标签使用").append(i);
+        }
+        
+        Assert.assertEquals(expected.toString(), value);
+    }
+    
+    @Test
     public void testValueTemplate()throws Exception{
         ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
         Channel channel = new Channel();
+        channel.setId(1);
         channel.setPublicenable(true);
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         
@@ -160,6 +229,39 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         StringBuilder expected = new StringBuilder();
         for(int i = 0 ; i < 25 ; i++){
             expected.append("ewcms文章标签使用").append(i);
+        }
+        
+        Assert.assertEquals(expected.toString(), value);
+    }
+    
+    @Test
+    public void testDefaultRowTemplate()throws Exception{
+        ChannelPublishServiceable channelLoaderService = mock(ChannelPublishServiceable.class);
+        Channel channel = new Channel();
+        channel.setId(1);
+        channel.setListSize(12);
+        channel.setPublicenable(true);
+        when(channelLoaderService.getChannelByUrlOrPath(any(Integer.class), any(String.class))).thenReturn(channel);
+        when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
+        
+        ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
+        when(articleLoaderService.findReleaseArticlePage(1, 0, 12, false)).thenReturn(createArticleRow(12));
+        ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
+        
+        cfg.setSharedVariable("alist", directive);
+        
+        Template template = cfg.getTemplate(getTemplatePath("defaultrow.html"));
+        Map<String,Object> params = new HashMap<String,Object>();
+        Site site = new Site();
+        site.setId(1);
+        params.put(GlobalVariable.SITE.toString(), site);
+        params.put(GlobalVariable.CHANNEL.toString(), channel);
+        String value = process(template, params);
+        value = StringUtils.deleteWhitespace(value);
+        
+        StringBuilder expected = new StringBuilder();
+        for(int i = 0 ; i < 12 ; i++){
+            expected.append(i+1).append(".ewcms文章标签使用").append(i);
         }
         
         Assert.assertEquals(expected.toString(), value);
