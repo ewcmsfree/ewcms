@@ -41,15 +41,11 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     
     private static final int DEFAULT_ROW = -1;
     
-    @Deprecated
-    private static final String VALUE_PARAM_NAME = "value";
     private static final String CHANNEL_PARAM_NAME = "channel";
     private static final String ROW_PARAM_NAME = "row";
     private static final String NAME_PARAM_NAME = "name";
     private static final String CHILD_PARAM_NAME="child";
 
-    @Deprecated
-    private String valueParam = VALUE_PARAM_NAME;
     private String channelParam = CHANNEL_PARAM_NAME;
     private String rowParam = ROW_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
@@ -68,10 +64,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
             int row = getRowValue(params);
             int siteId = getSiteIdValue(env);
             
-            List<Channel> channels = getChannelListByChannel(env,params, siteId, child);
-            if(EmptyUtil.isCollectionEmpty(channels)){
-                channels = getChannelListByValue(env,params, siteId, child);
-            }
+            List<Channel> channels = getChannelList(env,params, siteId, child);
             
             row = (row == DEFAULT_ROW) ? channels.size() : row;
             if(row < channels.size()){
@@ -117,44 +110,6 @@ public class ChannelListDirective implements TemplateDirectiveModel {
         logger.debug("Site is {}",site);
         return site.getId();
     }
-
-    /**
-     * 通过“value”参数值得到显示频道集合
-     * 
-     * @param env
-     *          Freemarker环境
-     * @param params
-     *          标签参数集合
-     * @param siteId 
-     *          站点编号
-     * @param child 
-     *          显示子频道
-     * @return
-     * @throws TemplateException
-     */
-    @SuppressWarnings("rawtypes")
-    private List<Channel> getChannelListByValue(Environment env,Map params,int siteId,boolean child)throws TemplateException{
-        return getChannelList(env,params,siteId,valueParam,child);
-    }
-    
-    /**
-     * 通过“channel”参数值得到显示频道集合
-     * 
-     * @param env
-     *          Freemarker环境
-     * @param params
-     *          标签参数集合
-     * @param siteId 
-     *          站点编号
-     * @param child 
-     *          显示子频道
-     * @return
-     * @throws TemplateException
-     */
-    @SuppressWarnings("rawtypes")
-    private List<Channel> getChannelListByChannel(Environment env,Map params,int siteId,boolean child)throws TemplateException{
-        return getChannelList(env,params,siteId,channelParam,child);
-    }
     
     /**
      * 得到显示频道集合
@@ -171,77 +126,69 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     @SuppressWarnings("rawtypes")
-    private List<Channel> getChannelList(Environment env,Map params,int siteId,String name,boolean child)throws TemplateException{
+    private List<Channel> getChannelList(Environment env,Map params,int siteId,boolean child)throws TemplateException{
+        final String name = channelParam;
+        boolean debug = FreemarkerUtil.isDebug(env);
         
         Channel channel = (Channel) FreemarkerUtil.getBean(params, name);
         if (EmptyUtil.isNotNull(channel)) {
-            return loadingChannelWithPublicenable(siteId, channel.getId(),child);
+            return loadingChannel(siteId, channel.getId(),child,debug);
         }
 
         Integer channelId = FreemarkerUtil.getInteger(params, name);
         if (EmptyUtil.isNotNull(channelId)) {
-            return loadingChannelWithPublicenable(siteId, channelId,child);
+            return loadingChannel(siteId, channelId,child,debug);
         }
 
         String value = FreemarkerUtil.getString(params, name);
         if (EmptyUtil.isStringNotEmpty(value)) {
-            return loadingChannelWithPublicenable(env,siteId,value,child);
+            return loadingChannelInVariable(env,siteId,value,child,debug);
         }
 
         List<?> values = FreemarkerUtil.getSequence(params, name);
         if (EmptyUtil.isCollectionNotEmpty(values)) {
-            return loadingListChannelWithPublicenable(env,siteId,values,child);
+            return loadingChannelByList(env,siteId,values,child,debug);
         }
 
         channel = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
         if(EmptyUtil.isNotNull(channel)){
-            return loadingChannelWithPublicenable(siteId, channel.getId(),child);    
+            return loadingChannel(siteId, channel.getId(),child,debug);    
         }
         return new ArrayList<Channel>();
     }
     
     /**
-     * 判断频道是否发布
+     * 通过频道编号得到显示的频道列表
      * 
-     * @param siteId
-     *             站点编号
-     * @param channelId 
-     *             频道编号
+     * @param siteId 站点编号
+     * @param channelId 频道编号
+     * @param child 显示子站点
+     * @param debug 调试模式 （debug为true,没有发布频道也显示）
      * @return
      * @throws TemplateException
      */
-    private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
+    List<Channel> loadingChannel(int siteId,int channelId,boolean child,boolean debug)throws TemplateException{
+        
         Channel channel = channelService.getChannel(siteId,channelId);
         if (EmptyUtil.isNull(channel)) {
             logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
             throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
         }
-        return channel.getPublicenable();
-    }
-    
-    /**
-     * 通过频道编号加载已经发布的频道列表
-     * 
-     * @param siteId 站点编号
-     * @param channelId 频道编号
-     * @param child 显示子站点
-     * @return
-     * @throws TemplateException
-     */
-    List<Channel> loadingChannelWithPublicenable(int siteId,int channelId,boolean child)throws TemplateException{
         
-        boolean pub = isPublicenable(siteId,channelId);
-        
-        if(!pub){
+        if(!debug && !channel.getPublicenable()){
             return new ArrayList<Channel>();
         }
         
         List<Channel> list = new ArrayList<Channel>();
         if(child){
             List<Channel> children = channelService.getChannelChildren(channelId);
-            for(Channel c: children){
-                if(c.getPublicenable()){
-                    list.add(c);
+            if(debug){
+                list.addAll(children);
+            }else{
+                for(Channel c: children){
+                    if(c.getPublicenable()){
+                        list.add(c);
+                    }
                 }
             }
         }else{
@@ -252,7 +199,7 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     }
     
     /**
-     * 通过频道url或变量名称加载已经发布的频道列表
+     * 通过频道url或变量名得到显示频道列表
      * 
      * @param env 
      *          Freemarker环境
@@ -265,22 +212,22 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateException
      */
-    private List<Channel> loadingChannelWithPublicenable(Environment env, int siteId,String value, boolean child)throws TemplateException{
+    private List<Channel> loadingChannelInVariable(Environment env, int siteId,String value, boolean child,boolean debug)throws TemplateException{
         Channel channel = (Channel)FreemarkerUtil.getBean(env, value);
         if(EmptyUtil.isNotNull(channel)){
             logger.debug("Channel is {}",channel.toString());
-            return loadingChannelWithPublicenable(siteId, channel.getId(),child);
+            return loadingChannel(siteId, channel.getId(),child,debug);
         }
         channel = channelService.getChannelByUrlOrPath(siteId, value);
         if(EmptyUtil.isNotNull(channel)){
             logger.debug("Channel is {}",channel.toString());
-            return loadingChannelWithPublicenable(siteId, channel.getId(),child);
+            return loadingChannel(siteId, channel.getId(),child,debug);
         }
         throw new TemplateModelException(value + "Url or variable " + value + " had not exist");
     }
     
     /**
-     * 通过频道数组加载已经发布的频道列表
+     * 通过频道集合得到显示频道列表
      * <br>
      * 数组内可以是频道编号，频道地址，变量名称。
      * 
@@ -291,16 +238,16 @@ public class ChannelListDirective implements TemplateDirectiveModel {
      * @return
      * @throws TemplateException
      */
-    private List<Channel> loadingListChannelWithPublicenable(Environment env,int siteId,List<?> values,boolean child)throws TemplateException{
+    private List<Channel> loadingChannelByList(Environment env,int siteId,List<?> values,boolean child,boolean debug)throws TemplateException{
         
         List<Channel> channels = new ArrayList<Channel>();
         for (Object value : values) {
             if (value instanceof Number) {
                 logger.debug("Channel's id is {} ",value);
-                channels.addAll(loadingChannelWithPublicenable(siteId,((Number) value).intValue(),child));
+                channels.addAll(loadingChannel(siteId,((Number) value).intValue(),child,debug));
             }else if (value instanceof String) {
                 logger.debug("Channel's url or variable is {}",value);
-                channels.addAll(loadingChannelWithPublicenable(env,siteId,(String)value,child));
+                channels.addAll(loadingChannelInVariable(env,siteId,(String)value,child,debug));
             }else{
                 logger.debug("Channel's value type is {}",value.getClass().getName());
                 throw new TemplateModelException("Channel array are only int and string");
@@ -325,11 +272,6 @@ public class ChannelListDirective implements TemplateDirectiveModel {
     private boolean getChildValue(Map params) throws TemplateException {
         Boolean value = FreemarkerUtil.getBoolean(params, childParam);
         return value == null ? false : value;
-    }
-
-    @Deprecated
-    public void setValueParam(String valueParam) {
-        this.valueParam = valueParam;
     }
 
     /**

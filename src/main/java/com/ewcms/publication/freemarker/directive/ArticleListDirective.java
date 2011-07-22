@@ -44,15 +44,11 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     private static final int DEFAULT_PAGE_NUMBER = 0;
     private static final boolean DEFAULT_TOP = false;
     
-    @Deprecated
-    private static final String VALUE_PARAM_NAME = "value";
     private static final String CHANNEL_PARAM_NAME = "channel";
     private static final String ROW_PARAM_NAME = "row";
     private static final String NAME_PARAM_NAME = "name";
     private static final String TOP_PARAM_NAME = "top";
     
-    @Deprecated
-    private String valueParam = VALUE_PARAM_NAME;
     private String channelParam = CHANNEL_PARAM_NAME;
     private String rowParam = ROW_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
@@ -71,25 +67,19 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         Integer siteId = getSiteIdValue(env);
 
-        Integer channelId = getChannelIdByChannel(env, params, siteId);
-        if (EmptyUtil.isNull(channelId)) {
-            channelId = getChannelIdByValue(env, params, siteId);
-        }
-
-        if (EmptyUtil.isNull(channelId)) {
-            throw new TemplateModelException("Channel is null");
-        }
-
-        if (!isPublicenable(siteId,channelId)) {
-            logger.debug("Channel's id equals {} has not release.", channelId);
+        Channel channel = getChannel(env, params, siteId);
+        
+        boolean debug = FreemarkerUtil.isDebug(env);
+        if (!debug && !channel.getPublicenable()) {
+            logger.debug("Channel's id is {},it is not release.", channel.getId());
             return;
         }
 
-        int row = getRowValue(params,channelId,env);
+        int row = getRowValue(params,channel,env);
         int pageNumber = getPageNumberValue(env);
         boolean top = getTopValue(params);
 
-        List<Article> articles = articleService.findReleaseArticlePage(channelId, pageNumber, row,top); 
+        List<Article> articles = articleService.findReleaseArticlePage(channel.getId(), pageNumber, row,top); 
 
         if(EmptyUtil.isArrayNotEmpty(loopVars)){
             loopVars[0] = env.getObjectWrapper().wrap(articles);
@@ -132,49 +122,9 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         logger.debug("Site is {}",site);
         return site.getId();
     }
-
-    /**
-     * 通过“value”参数值得到站点编号
-     * <br>
-     * 如果站点不存在则站点编号为空
-     * 
-     * @param env
-     *          Freemarker环境
-     * @param params
-     *          标签参数集合
-     * @param siteId 
-     *          站点编号
-     * @return
-     * @throws TemplateException
-     */
-    @SuppressWarnings("rawtypes")
-    private Integer getChannelIdByValue(Environment env,Map params,int siteId)throws TemplateException{
-        return getChannelId(env,params,siteId,valueParam);
-    }
     
     /**
-     * 通过“channel”参数值得到站点编号
-     * <br>
-     * 如果站点不存在则站点编号为空
-     * 
-     * @param env
-     *          Freemarker环境
-     * @param params
-     *          标签参数集合
-     * @param siteId 
-     *          站点编号
-     * @return
-     * @throws TemplateException
-     */
-    @SuppressWarnings("rawtypes")
-    private Integer getChannelIdByChannel(Environment env,Map params,int siteId)throws TemplateException{
-        return getChannelId(env,params,siteId,channelParam);
-    }
-    
-    /**
-     * 值得到站点编号
-     * <br>
-     * 如果站点不存在则站点编号为空
+     * 值得到频道
      * 
      * @param env
      *          Freemarker环境
@@ -188,18 +138,24 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    private Integer getChannelId(Environment env,Map params,int siteId,String name)throws TemplateException{
-
+    private Channel getChannel(Environment env,Map params,int siteId)throws TemplateException{
+        final String name = channelParam;
+        
         Channel channel = (Channel) FreemarkerUtil.getBean(params, name);
         if(EmptyUtil.isNotNull(channel)){
             logger.debug("Channel is {}",channel.toString());
-            return channel.getId();
+            return channel;
         }
         
         Integer id = FreemarkerUtil.getInteger(params, name);
         if (EmptyUtil.isNotNull(id)) {
             logger.debug("Channel's id is {}",id);
-            return id;
+            channel = channelService.getChannel(siteId,id);
+            if(channel == null){
+                logger.warn("Channel's id is {},it is not exist.",id);
+                throw new TemplateModelException("Channel is null");
+            }
+            return channel;
         }
 
         String value = FreemarkerUtil.getString(params, name);
@@ -209,7 +165,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             channel = channelService.getChannelByUrlOrPath(siteId, value);
             if(EmptyUtil.isNotNull(channel)){
                 logger.debug("Channel is {}",channel.toString());
-                return channel.getId();
+                return channel;
             }
         }
         
@@ -217,30 +173,11 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         channel = (Channel) FreemarkerUtil.getBean(env, value);
         if (EmptyUtil.isNotNull(channel)) {
             logger.debug("Channel is {}",channel.toString());
-            return channel.getId();
+            return channel;
         }
         logger.warn("Channel is null");
         
-        return null;
-    }
-    
-    /**
-     * 判断频道是否发布
-     * 
-     * @param siteId
-     *             站点编号 
-     * @param channelId 
-     *             频道编号
-     * @return
-     * @throws TemplateException
-     */
-    private boolean isPublicenable(int siteId,int channelId) throws TemplateException {
-        Channel channel = channelService.getChannel(siteId,channelId);
-        if (EmptyUtil.isNull(channel)) {
-            logger.error("Channel's id is {},it's not exist in site's({}).",channelId,siteId);
-            throw new TemplateModelException("Channl's id is " + channelId + ",it's not exist.");
-        }
-        return channel.getPublicenable();
+        throw new TemplateModelException("Channel is null");
     }
    
     /**
@@ -252,7 +189,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      * @throws TemplateException
      */
     @SuppressWarnings("rawtypes")
-    private int getRowValue(Map params,int channelId,Environment env) throws TemplateException {
+    private int getRowValue(Map params,Channel channel,Environment env) throws TemplateException {
         Integer row = FreemarkerUtil.getInteger(params, rowParam);
         if(row != null){
             if(row > 0){
@@ -263,8 +200,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             }
         }
         
-        Channel channel = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
-        if(channelId == channel.getId()){
+        Channel current = (Channel) FreemarkerUtil.getBean(env, GlobalVariable.CHANNEL.toString());
+        if(channel.equals(current)){
             return channel.getListSize();
         }else{
             return DEFAULT_ROW;
@@ -314,12 +251,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         logger.debug("Page is {}",number);
         return number == null ? DEFAULT_PAGE_NUMBER : number;
     }
-
-    @Deprecated
-    public void setValueParam(String valueParam) {
-        this.valueParam = valueParam;
-    }
-
+    
     /**
      * 设置标签频道参数名
      * 
