@@ -7,6 +7,7 @@
 package com.ewcms.publication.freemarker.html;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,13 @@ public class GeneratorBaseTest {
         @Override
         public List<OutputResource> process(Site site, Channel channel,Template template) throws PublishException {
             return null;
+        }
+
+        @Override
+        public void previewProcess(OutputStream stream, Site site,
+                Channel channel, Template template) throws PublishException {
+            // TODO Auto-generated method stub
+            
         }
     }
 }
