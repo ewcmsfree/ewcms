@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.resource;
+package com.ewcms.publication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,14 +13,11 @@ import java.util.List;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.TemplateSource;
-import com.ewcms.publication.PublishException;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.output.event.ResourceOutputEvent;
@@ -34,17 +31,32 @@ import com.ewcms.publication.service.TemplateSourcePublishServiceable;
  * 
  * @author wangwei
  */
-@Service
-public class ResourcePublish implements ResourcePublishable{
+class ResourcePublish implements ResourcePublishable{
     
     private static final Logger logger = LoggerFactory.getLogger(ResourcePublish.class);
     
-    @Autowired
     private SitePublishServiceable siteService;
-    @Autowired
     private ResourcePublishServiceable resourceService;
-    @Autowired
     private TemplateSourcePublishServiceable templateSourceService;
+    
+    /**
+     * 构造资源发布对象
+     * 
+     * @param siteService
+     *              站点服务
+     * @param resourceService
+     *              资源服务
+     * @param templateSourceService
+     *              模板资源服务
+     */
+    public ResourcePublish(SitePublishServiceable siteService,
+            ResourcePublishServiceable resourceService,
+            TemplateSourcePublishServiceable templateSourceService){
+        
+        this.siteService = siteService;
+        this.resourceService = resourceService;
+        this.templateSourceService = templateSourceService;
+    }
     
     @Override
     public void publishSite(Integer id) throws PublishException {

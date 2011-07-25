@@ -8,8 +8,6 @@ package com.ewcms.publication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
@@ -22,14 +20,11 @@ import com.ewcms.web.util.EwcmsContextUtil;
  * 
  * @author wangwei
  */
-@Service
 public class WebPublish extends SchedulingPublish implements WebPublishable {
 
     private static final Logger logger = LoggerFactory.getLogger(WebPublish.class);
     
-    @Autowired
     private ArticlePublishServiceable articleService;
-    @Autowired
     protected ChannelPublishServiceable channelService;
     
     @Override

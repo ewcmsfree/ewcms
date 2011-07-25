@@ -12,8 +12,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
@@ -27,10 +26,12 @@ import com.ewcms.publication.freemarker.html.ListGenerator;
 import com.ewcms.publication.freemarker.html.OtherGenerator;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
-import com.ewcms.publication.resource.ResourcePublishable;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
+import com.ewcms.publication.service.ResourcePublishServiceable;
+import com.ewcms.publication.service.SitePublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
+import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 
 import freemarker.template.Configuration;
 
@@ -39,24 +40,29 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-@Service
-public class SchedulingPublish implements SchedulingPublishable {
+public class SchedulingPublish implements SchedulingPublishable,InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(SchedulingPublish.class);
     
-    @Autowired
     protected ChannelPublishServiceable channelService;
-    @Autowired
     protected ArticlePublishServiceable articleService;
-    @Autowired
     protected TemplatePublishServiceable templateService;
-    @Autowired
+    
+    private SitePublishServiceable siteService;
+    private ResourcePublishServiceable resourceService;
+    private TemplateSourcePublishServiceable templateSourceService;
+    
     protected ResourcePublishable resourcePublish;
-    @Autowired
     protected Configuration cfg;
     
     protected Map<TemplateType,Generatorable> generators = initGenerators();
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        resourcePublish = new ResourcePublish(siteService,resourceService,templateSourceService);
+        
+    }
+    
     @Override
     public void publishSite(Integer id) throws PublishException {
         resourcePublish.publishSite(id);
@@ -149,4 +155,18 @@ public class SchedulingPublish implements SchedulingPublishable {
     public void setTemplateService(TemplatePublishServiceable templateService) {
         this.templateService = templateService;
     }
+    
+    public void setSiteService(SitePublishServiceable siteService) {
+        this.siteService = siteService;
+    }
+
+    public void setResourceService(ResourcePublishServiceable resourceService) {
+        this.resourceService = resourceService;
+    }
+
+    public void setTemplateSourceService(
+            TemplateSourcePublishServiceable templateSourceService) {
+        this.templateSourceService = templateSourceService;
+    }
+
 }
