@@ -11,4 +11,8 @@
         <property name="defaultEncoding" value = "UTF-8"/>
     </bean>
     
+    <!-- 
+    <bean id="schedulingPublish" class="com.ewcms.publication.SchedulingPublish" autowire="byType"/>
+    <bean id="webPublish" class="com.ewcms.publication.WebPublish" autowire="byType"/>
+     -->  
 </beans>
