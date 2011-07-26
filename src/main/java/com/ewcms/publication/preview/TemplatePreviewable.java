@@ -9,6 +9,7 @@ package com.ewcms.publication.preview;
 import java.io.OutputStream;
 
 import com.ewcms.core.site.model.Template;
+import com.ewcms.publication.PublishException;
 
 /**
  * 模板预览接口
@@ -17,6 +18,17 @@ import com.ewcms.core.site.model.Template;
  */
 public interface TemplatePreviewable {
 
-    public void view(OutputStream out,Template template);
+    /**
+     * 查看模板生成
+     * 
+     * @param out       
+     *          输出数据流
+     * @param template
+     *          模板
+     * @param mock
+     *          是否模拟 
+     * @throws PublishException
+     */
+    public void view(OutputStream out,Template template,Boolean mock)throws PublishException;
         
 }

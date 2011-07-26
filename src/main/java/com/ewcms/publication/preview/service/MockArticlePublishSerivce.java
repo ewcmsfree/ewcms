@@ -11,7 +11,12 @@ import java.util.List;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
-public class ArticlePublishSerivce implements ArticlePublishServiceable{
+/**
+ * 模拟ArticlePublishSerivceable实现，为模板预览提供文章模拟数据。
+ * 
+ * @author wangwei
+ */
+public class MockArticlePublishSerivce implements ArticlePublishServiceable{
 
     @Override
     public Article getArticle(Long id) {
@@ -46,7 +51,5 @@ public class ArticlePublishSerivce implements ArticlePublishServiceable{
     @Override
     public void updatePreRelease(Integer channelId) {
         // TODO Auto-generated method stub
-        
     }
-
 }
