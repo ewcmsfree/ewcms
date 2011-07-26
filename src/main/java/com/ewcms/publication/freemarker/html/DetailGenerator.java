@@ -7,6 +7,8 @@
 package com.ewcms.publication.freemarker.html;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.output.event.ArticleOutputEvent;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.uri.DefaultArticleUriRule;
+import com.ewcms.publication.uri.NullUriRule;
 import com.ewcms.publication.uri.UriRuleable;
 
 import freemarker.template.Configuration;
@@ -56,11 +59,42 @@ public class DetailGenerator extends GeneratorBase {
         this.maxArticles = maxArticles;
     }
     
+    /**
+     * 构造生成页面参数集合
+     * 
+     * @param site
+     *          站点对象
+     * @param channel
+     *          频道对象
+     * @param article
+     *          文章对象
+     * @param pageNumber
+     *          页数
+     * @param pageCount
+     *          页数总合
+     * @param debug
+     *          是否调试
+     * @return
+     */
+    private Map<String,Object> constructParameters(Site site,Channel channel,
+            Article article,Integer pageNumber,Integer pageCount,Boolean debug) {
+        
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put(GlobalVariable.SITE.toString(), site);
+        params.put(GlobalVariable.CHANNEL.toString(), channel);
+        params.put(GlobalVariable.DOCUMENT.toString(), article);
+        params.put(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
+        params.put(GlobalVariable.PAGE_COUNT.toString(), pageCount);
+        params.put(GlobalVariable.DEBUG.toString(), debug);
+        
+        return params;
+    }
+    
     @Override
     public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
         List<OutputResource> resources = new ArrayList<OutputResource>();
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
-        List<Article> articles = findReleaseArticles(channel.getId());
+        List<Article> articles = service.findPreReleaseArticles(channel.getId(), maxArticles);
         logger.debug("aritcle count is {}",articles.size());
         for(Article article : articles){
             OutputResource resource = new OutputResource();
@@ -72,7 +106,7 @@ public class DetailGenerator extends GeneratorBase {
             }
             
             for(int i = 0 ; i < count; ++i){
-                Map<String,Object> parameters = constructParameters(site,channel,article,i,count);
+                Map<String,Object> parameters = constructParameters(site,channel,article,i,count,Boolean.FALSE);
                 resource.addChild(generator(t,parameters,uriRule));
             }
             
@@ -85,27 +119,13 @@ public class DetailGenerator extends GeneratorBase {
         return resources;
     }
     
-    private List<Article> findReleaseArticles(Integer channelId){
-        return service.findPreReleaseArticles(channelId, maxArticles);
-    }
-    
-    private Map<String,Object> constructParameters(Site site,Channel channel,
-            Article article,Integer pageNumber,Integer pageCount) {
-        
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put(GlobalVariable.SITE.toString(), site);
-        params.put(GlobalVariable.CHANNEL.toString(), channel);
-        params.put(GlobalVariable.DOCUMENT.toString(), article);
-        params.put(GlobalVariable.PAGE_NUMBER.toString(), pageNumber);
-        params.put(GlobalVariable.PAGE_COUNT.toString(), pageCount);
-        return params;
-    }
-
     @Override
-    public void previewProcess(OutputStream stream, Site site, Channel channel,
-            Template template) throws PublishException {
-        // TODO Auto-generated method stub
-        
+    public void previewProcess(OutputStream stream, Site site, Channel channel,Template template) throws PublishException {
+        List<Article> articles = service.findPreReleaseArticles(channel.getId(), maxArticles);
+        Map<String,Object> parameters = constructParameters(site,channel,articles.get(0),1,5,Boolean.TRUE);
+        freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
+        UriRuleable rule =new NullUriRule();
+        Writer writer = new OutputStreamWriter(stream);
+        write(t , parameters, rule, writer);
     }
-    
 }

@@ -13,12 +13,14 @@ import java.io.Writer;
 import java.util.Map;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.output.OutputResource;
+import com.ewcms.publication.uri.UriRule;
 import com.ewcms.publication.uri.UriRuleable;
 
 import freemarker.template.Configuration;
@@ -54,31 +56,17 @@ public abstract class GeneratorBase implements Generatorable {
             throw new PublishException(e);
         }
     }
+    
     /**
-     * 生成指定的页面
+     * 完整生成页面参数
      * 
-     * @param template
-     * @param rule
-     * @param parameters
-     * @return
-     * @throws PublishException
+     * @param parameters 参数集合
+     * @param rule uri生成规则
      */
-    protected OutputResource generator(Template template,Map<String, Object> parameters,UriRuleable rule) throws PublishException {
-        
-        try {
-            completeParameters(parameters,rule);
-            File temp = createTempFile();
-            Writer out = new FileWriter(temp);
-            template.process(parameters, out);
-            out.flush();
-            out.close();
-            return new OutputResource(temp.getPath(), rule.getUri());
-        } catch (IOException e) {
-            logger.error("Writer tempfile error {}", e);
-            throw new PublishException(e);
-        } catch (TemplateException e) {
-            logger.error("Freemarker proccess error {}", e);
-            throw new PublishException(e);
+    protected void completeParameters(Map<String,Object> parameters,UriRuleable rule){
+        rule.setParameters(parameters);
+        if(!parameters.containsKey(GlobalVariable.URI_RULE.toString())){
+            parameters.put(GlobalVariable.URI_RULE.toString(), rule);
         }
     }
     
@@ -98,16 +86,67 @@ public abstract class GeneratorBase implements Generatorable {
     }
     
     /**
-     * 完整生成页面参数
+     * 写出模板生成内容
      * 
-     * @param parameters 参数集合
-     * @param rule uri生成规则
+     * @param template   模板对象
+     * @param parameters 参数
+     * @param rule       链接地址生成规则
+     * @param writer     输出对象
+     * @throws TemplateException
+     * @throws IOException
      */
-    protected void completeParameters(Map<String,Object> parameters,UriRuleable rule){
-        rule.setParameters(parameters);
-        if(!parameters.containsKey(GlobalVariable.URI_RULE.toString())){
-            parameters.put(GlobalVariable.URI_RULE.toString(), rule);
+    protected void write(Template template,Map<String, Object> parameters,UriRuleable rule,Writer writer)throws PublishException{
+        completeParameters(parameters,rule);
+        try{
+            template.process(parameters, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            logger.error("Writer tempfile error {}", e);
+            throw new PublishException(e);
+        } catch (TemplateException e) {
+            logger.error("Freemarker proccess error {}", e);
+            throw new PublishException(e);
         }
     }
 
+    /**
+     * 生成指定的页面
+     * 
+     * @param template    模板对象
+     * @param rule        链接地址生成规则
+     * @param parameters  参数集合
+     * @return
+     * @throws PublishException
+     */
+    protected OutputResource generator(Template template,Map<String, Object> parameters,UriRuleable rule) throws PublishException {
+        
+        try {
+            File temp = createTempFile();
+            write(template,parameters,rule,new FileWriter(temp));
+            return new OutputResource(temp.getPath(), rule.getUri());
+        } catch (IOException e) {
+            logger.error("Writer tempfile error {}", e);
+            throw new PublishException(e);
+        } 
+    }
+    
+    /**
+     * 得到链接地址生成规则
+     * 
+     * @param patter      生成模板
+     * @param defaultRule 缺省生成规则
+     * @return
+     * @throws PublishException
+     */
+    protected UriRuleable getUriRule(String patter,UriRuleable defaultRule)throws PublishException{
+        if(StringUtils.isBlank(patter)){
+            return defaultRule;
+        }else{
+            UriRuleable rule = new UriRule();
+            rule.parse(patter);
+            return rule;
+        }
+    }
+   
 }

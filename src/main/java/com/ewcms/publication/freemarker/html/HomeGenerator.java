@@ -7,13 +7,13 @@
 package com.ewcms.publication.freemarker.html;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
@@ -23,6 +23,7 @@ import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.uri.DefaultHomeUriRule;
+import com.ewcms.publication.uri.NullUriRule;
 import com.ewcms.publication.uri.UriRuleable;
 
 import freemarker.template.Configuration;
@@ -36,40 +37,49 @@ import freemarker.template.Configuration;
  */
 public class HomeGenerator extends GeneratorBase {
 
-    static final Logger logger = LoggerFactory.getLogger(HomeGenerator.class);
+    private static final UriRuleable DEFAULT_URI_RULE = new DefaultHomeUriRule();
     
     private Configuration cfg;
-    private UriRuleable rule = new DefaultHomeUriRule();
     
     public HomeGenerator(Configuration cfg){
         Assert.notNull(cfg);
-        
         this.cfg = cfg;
     }
     
-    @Override
-    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
-       return process(template,rule,site,channel);
-    }
-    
-    protected List<OutputResource> process(Template template,UriRuleable rule,Site site,Channel channel)throws PublishException {
-        Map<String,Object> parameters = constructParameters(site,channel);
-        freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
-        return Arrays.asList(generator(t,parameters,rule));
-    }
-    
-    private Map<String,Object> constructParameters(Site site,Channel channel) {
+    /**
+     * 构造生成页面参数集合
+     * 
+     * @param site 
+     *          站点对象
+     * @param channel 
+     *          频道对象
+     * @param debug
+     *          是否调试
+     * @return
+     */
+    private Map<String,Object> constructParameters(Site site,Channel channel,Boolean debug) {
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.SITE.toString(), site);
         params.put(GlobalVariable.CHANNEL.toString(), channel);
+        params.put(GlobalVariable.DEBUG.toString(), debug);
         
         return params;
     }
+        
+    @Override
+    public List<OutputResource> process(Site site,Channel channel,Template template)throws PublishException {
+        Map<String,Object> parameters = constructParameters(site,channel,Boolean.FALSE);
+        freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
+        UriRuleable rule = getUriRule(template.getUriPattern(),DEFAULT_URI_RULE);
+        return Arrays.asList(generator(t,parameters,rule));
+    }
 
     @Override
-    public void previewProcess(OutputStream stream, Site site, Channel channel,
-            Template template) throws PublishException {
-        // TODO Auto-generated method stub
-        
+    public void previewProcess(OutputStream stream, Site site, Channel channel,Template template) throws PublishException {
+        Map<String,Object> parameters = constructParameters(site,channel,Boolean.TRUE);
+        freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
+        UriRuleable rule =new NullUriRule();
+        Writer writer = new OutputStreamWriter(stream);
+        write(t , parameters, rule, writer);
     }
 }
