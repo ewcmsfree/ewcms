@@ -121,8 +121,12 @@ public class DetailGenerator extends GeneratorBase {
     
     @Override
     public void previewProcess(OutputStream stream, Site site, Channel channel,Template template) throws PublishException {
-        List<Article> articles = service.findPreReleaseArticles(channel.getId(), maxArticles);
-        Map<String,Object> parameters = constructParameters(site,channel,articles.get(0),1,5,Boolean.TRUE);
+        int pageCount = 5;
+        int pageNumber = 1;
+        int max = 1;
+        
+        List<Article> articles = service.findPreReleaseArticles(channel.getId(), max);
+        Map<String,Object> parameters = constructParameters(site,channel,articles.get(0),pageNumber,pageCount,Boolean.TRUE);
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
         UriRuleable rule =new NullUriRule();
         Writer writer = new OutputStreamWriter(stream);
