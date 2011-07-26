@@ -184,5 +184,4 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             TemplateSourcePublishServiceable templateSourceService) {
         this.templateSourceService = templateSourceService;
     }
-
 }
