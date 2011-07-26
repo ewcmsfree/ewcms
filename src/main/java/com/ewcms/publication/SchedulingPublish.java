@@ -23,7 +23,6 @@ import com.ewcms.publication.freemarker.html.DetailGenerator;
 import com.ewcms.publication.freemarker.html.Generatorable;
 import com.ewcms.publication.freemarker.html.HomeGenerator;
 import com.ewcms.publication.freemarker.html.ListGenerator;
-import com.ewcms.publication.freemarker.html.OtherGenerator;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -157,7 +156,6 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         map.put(TemplateType.HOME, new HomeGenerator(cfg));
         map.put(TemplateType.LIST, new ListGenerator(cfg,articleService));
         map.put(TemplateType.DETAIL, new DetailGenerator(cfg,articleService));
-        map.put(TemplateType.OTHER, new OtherGenerator(cfg));
         
         return map;
     }
