@@ -7,7 +7,7 @@
 package com.ewcms.core.site.model;
 
 public enum TemplateType {
-    HOME("专栏首页"),LIST("专栏列表"),DETAIL("文章内容"),OTHER("其它");
+    HOME("专栏首页"),LIST("专栏列表"),DETAIL("文章内容");
 	private String description;
 	
 	private TemplateType(String description){
