@@ -13,8 +13,36 @@ package com.ewcms.publication;
  * 
  * @author wangwei
  */
-public interface WebPublishable extends SchedulingPublishable{
+public interface WebPublishable{
 
+    /**
+     * 发布站点
+     * 
+     * @throws PublishException
+     */
+    void publishSite()throws PublishException;
+    
+    /**
+     * 重新发布站点
+     * <br>
+     * 所有内容都会从新发布
+     * 
+     * @throws PublishException
+     */
+    void publishSiteAgain()throws PublishException;
+    
+    /**
+     * 发布和生成频道下html页面
+     * <br>
+     * 只发布发生改变的频道，如频道文章或关联频道数据改变。
+     * 
+     * @param id 频道编号
+     * @param all 发布所有的子频道
+     * 
+     * @throws PublishException
+     */
+    void publishChannel(Integer id,boolean all) throws PublishException;
+    
     /**
      * 重新发布和生成频道下html页面
      * <br>
@@ -31,20 +59,18 @@ public interface WebPublishable extends SchedulingPublishable{
      * <br>
      * 发布站点下未发布所有资源。
      * 
-     * @param id 站点编号
      * @throws PublishException
      */
-    void publishSiteResource(Integer id)throws PublishException;
+    void publishSiteResource()throws PublishException;
     
     /**
      * 重新发布站点资源
      * <br>
      * 重新发布站点所有资源，不管是否已经发布。
      * 
-     * @param id 站点编号
      * @throws PublishException
      */
-    void publishSiteResourceAgain(Integer id)throws PublishException;
+    void publishSiteResourceAgain()throws PublishException;
 
     /**
      * 发布单个资源

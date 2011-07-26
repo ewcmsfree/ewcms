@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.publication.service.ArticlePublishServiceable;
-import com.ewcms.publication.service.ChannelPublishServiceable;
+import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -24,42 +23,55 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
 
     private static final Logger logger = LoggerFactory.getLogger(WebPublish.class);
     
-    private ArticlePublishServiceable articleService;
-    protected ChannelPublishServiceable channelService;
-    
-    @Override
-    public void publishChannel(Integer id,boolean all) throws PublishException {
-        publishChannelEnable(channelService.getChannel(id));
+    /**
+     * 得到当前站点编号
+     * 
+     * @return 站点编号
+     * @throws PublishException
+     */
+    private Integer getCurrentSiteId()throws PublishException{
+        Site site = EwcmsContextUtil.getCurrentSite();
+        if(site == null || site.getId() == null){
+            logger.debug("Current Site is not exist");
+            throw new PublishException("Current Site is not exist");
+        }
+        return site.getId();
     }
     
     @Override
-    public void publishChannelAgain(Integer id,boolean all) throws PublishException {
-        articleService.updatePreRelease(id);
-        publishChannel(id,all);
+    public void publishSite() throws PublishException {
+        super.publishSite(getCurrentSiteId());
     }
 
     @Override
-    public void publishSiteResource(Integer id) throws PublishException {
-        resourcePublish.publishSite(id);
+    public void publishSiteAgain() throws PublishException {
+        Integer id = getCurrentSiteId();
+        Channel root = channelService.getChannelRoot(id);
+        publishChannelAgain(root.getId(),true);
     }
     
     @Override
-    public void publishSiteResourceAgain(Integer id) throws PublishException {
-        resourcePublish.publishSiteAgain(id);
-    }
-
-    @Override
-    public void publishResourceAgain(Integer id, Boolean templateSource)throws PublishException {
-        resourcePublish.publishAgain(id, templateSource);
+    public void publishSite(Integer id)throws PublishException{
+        throw new PublishException("It's forbidden");
     }
     
     /**
-     * 验证发布是否有效
+     * 判断发布的信息是否当前站点信息
      * 
-     * @param siteId
-     *            站点编号
-     * @param channelId
-     *            频道编号
+     * @param siteId 站点编号
+     * @return
+     */
+    private boolean isCurrentSite(Integer siteId)throws PublishException{
+        return siteId == getCurrentSiteId();
+    }
+    
+    /**
+     * 验证频道发布是否有效
+     * <br>
+     * 防止恶意发布
+     * 
+     * @param channel 
+     *            频道
      * @throws PublishException
      */
     private void publishChannelEnable(Channel channel)throws PublishException{
@@ -67,31 +79,75 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
             logger.error("channel is null");
             throw new PublishException("Channel is not exits");
         }
+        
         int siteId = channel.getSite().getId();
         if(!isCurrentSite(siteId)){
-            logger.error("Not current site");
-            throw new PublishException("Not current site");
+            logger.error("Channel is not current site's it");
+            throw new PublishException("Channel is not current site's it");
         }
-        if(isPublishing(channel)){
+        
+        if(isPublishingNow(channel)){
             logger.error("Channel is still publishing");
             throw new PublishException("Channel is still publishing");
         }
     }
     
+    @Override
+    public void publishChannel(Integer id,boolean all) throws PublishException {
+        publishChannelEnable(channelService.getChannel(id));
+        super.publishChannel(id, all);
+    }
+    
+    @Override
+    public void publishChannelAgain(Integer id,boolean all) throws PublishException {
+        Channel channel = channelService.getChannel(id);
+        publishChannelEnable(channel);
+         
+        resourcePublish.publishSite(id);
+        if(all){
+            publishChannelAll(channel,true);
+        }else{
+            publishChannel(channel,true);
+        }
+    }
+
+    @Override
+    public void publishSiteResource() throws PublishException {
+        Integer siteId = getCurrentSiteId();
+        resourcePublish.publishSite(siteId);
+    }
+    
+    @Override
+    public void publishSiteResourceAgain() throws PublishException {
+        Integer siteId = getCurrentSiteId();
+        resourcePublish.publishSiteAgain(siteId);
+    }
+
     /**
-     * 判断发布的信息是否当前站点信息
+     * 验证模板资源发布是否有效
      * <br>
      * 防止恶意发布
      * 
-     * @param siteId 站点编号
-     * @return
+     * @param source 
+     *            模板资源
+     * @throws PublishException
      */
-    private boolean isCurrentSite(Integer siteId){
-        Site site = EwcmsContextUtil.getCurrentSite();
-        if(site == null || site.getId() == null){
-            logger.debug("current site id {} ,but site id {}",site.getId() ,siteId);
-            return false;
+    private void publishTemplateSourceEnable(TemplateSource source)throws PublishException{
+        if(source == null){
+            logger.error("TemplateSource is null");
+            throw new PublishException("TemplateSource is not exits");
         }
-        return siteId == site.getId();
+        if(!isCurrentSite(source.getSite().getId())){
+            logger.error("TemplateSource do not current site's it");
+            throw new PublishException("TemplateSource do not current site's it");
+        }
     }
+    
+    @Override
+    public void publishResourceAgain(Integer id, Boolean templateSource)throws PublishException {
+        TemplateSource source = templateSourceService.getTemplateSource(id);
+        publishTemplateSourceEnable(source);
+        resourcePublish.publishAgain(id, templateSource);
+    }
+    
 }

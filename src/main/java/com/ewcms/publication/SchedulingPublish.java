@@ -48,9 +48,9 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
     protected ArticlePublishServiceable articleService;
     protected TemplatePublishServiceable templateService;
     
-    private SitePublishServiceable siteService;
-    private ResourcePublishServiceable resourceService;
-    private TemplateSourcePublishServiceable templateSourceService;
+    protected SitePublishServiceable siteService;
+    protected ResourcePublishServiceable resourceService;
+    protected TemplateSourcePublishServiceable templateSourceService;
     
     protected ResourcePublishable resourcePublish;
     protected Configuration cfg;
@@ -81,16 +81,40 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         resourcePublish.publishSite(id);
         
         if(all){
-            publishChannelAll(channel);
+            publishChannelAll(channel,false);
         }else{
-            publishChannel(channel);
+            publishChannel(channel,false);
         }
     }
     
+    /**
+     * 判断频道是否正在发布
+     * 
+     * @param siteId
+     *            站点编号
+     * @param channelId
+     *            频道编号
+     * @throws PublishException
+     */
+    protected synchronized boolean isPublishingNow(Channel channel){
+        //判断频道是否在发布
+        return false;
+    }
     
-    private void publishChannel(Channel channel)throws PublishException{
-        if(isPublishing(channel)){
+    /**
+     * 发布频道
+     * 
+     * @param channel 频道
+     * @param again 是否再次发布
+     * @throws PublishException
+     */
+    protected void publishChannel(Channel channel,boolean again)throws PublishException{
+        if(isPublishingNow(channel)){
             return ;
+        }
+        
+        if(again){
+            articleService.updatePreRelease(channel.getId());
         }
         
         List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
@@ -99,29 +123,23 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         }
     }
     
+    
     /**
-     * 判断频道是否在发布
+     * 发布频道及所有子频道
      * 
-     * @param siteId
-     *            站点编号
-     * @param channelId
-     *            频道编号
+     * @param channel 频道
+     * @param again 是否再次发布
      * @throws PublishException
      */
-    protected synchronized boolean isPublishing(Channel channel){
-        //判断频道是否在发布
-        return false;
-    }
-    
-    private void publishChannelAll(Channel channel)throws PublishException{
+    protected void publishChannelAll(Channel channel,boolean again)throws PublishException{
         List<Channel> children = channelService.getChannelChildren(channel.getId());
         for(Channel c : children){
-            publishChannelAll(c);
-            publishChannel(channel);
+            publishChannelAll(c,again);
+            publishChannel(channel,again);
         }
     }
     
-    protected void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
+    private void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
         Generatorable generator = generators.get(template.getType());
         List<OutputResource> resources = generator.process(site, channel, template);
         SiteServer server = site.getSiteServer();
