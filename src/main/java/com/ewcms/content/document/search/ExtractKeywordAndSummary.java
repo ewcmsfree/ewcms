@@ -42,7 +42,6 @@ public class ExtractKeywordAndSummary {
 		return text.replaceAll("[\\s\\u0020\u3000]{2,}", " ");
 	}
 
-	@SuppressWarnings("unchecked")
 	public static String[] getKeyword(String content) {
 		content = getTextFromHtml(content);
 		IKSegmentation seg = new IKSegmentation(new StringReader(content));
@@ -75,7 +74,7 @@ public class ExtractKeywordAndSummary {
 				}
 			}
 
-			Collections.sort(arr, new Comparator() {
+			Collections.sort(arr, new Comparator<Object>() {
 				public int compare(Object o1, Object o2) {
 					Object arr1[] = (Object[]) o1;
 					Object arr2[] = (Object[]) o2;
@@ -126,25 +125,23 @@ public class ExtractKeywordAndSummary {
 		return arr;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static Object[] keyArray(LinkedHashMap<String, Integer> map) {
 		if (map.size() == 0)
 			return new Object[0];
 		Object arr[] = new Object[map.size()];
 		int i = 0;
-		for (Iterator iter = map.keySet().iterator(); iter.hasNext();)
+		for (Iterator<String> iter = map.keySet().iterator(); iter.hasNext();)
 			arr[i++] = iter.next();
 
 		return arr;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static Object[] valueArray(LinkedHashMap<String, Integer> map) {
 		if (map.size() == 0)
 			return new Object[0];
 		Object arr[] = new Object[map.size()];
 		int i = 0;
-		for (Iterator iter = map.values().iterator(); iter.hasNext();)
+		for (Iterator<Integer> iter = map.values().iterator(); iter.hasNext();)
 			arr[i++] = iter.next();
 
 		return arr;
