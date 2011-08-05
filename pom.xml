@@ -21,10 +21,10 @@
 		<commons.lang.version>2.4</commons.lang.version>
 		<commons.logging.version>1.1.1</commons.logging.version>
 		<commons.codec.version>1.4</commons.codec.version>
-                <commons.beanutils.version>1.8.3</commons.beanutils.version>
-                <commons.vfs.version>1.0</commons.vfs.version>
-                <jcraft.version>0.1.44-1</jcraft.version>
-                <jcifs.version>1.2.19</jcifs.version>
+        <commons.beanutils.version>1.8.3</commons.beanutils.version>
+        <commons.vfs.version>1.0</commons.vfs.version>
+        <jcraft.version>0.1.44-1</jcraft.version>
+        <jcifs.version>1.2.19</jcifs.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<aspectjweaver.version>1.6.8</aspectjweaver.version>
 		<jackson.version>1.5.3</jackson.version>
