@@ -26,7 +26,7 @@ public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 	private static final String SCHEDULER_FACTORY = "historyModelFac";
 	
 	@Override
-	protected void alqcJobExecute(JobExecutionContext context) throws JobExecutionException {
+	protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
         try {
         	logger.info("定时清除历史记录开始...");
             getHistoryModelFac().delHistoryModelBeforeDate();
@@ -40,7 +40,7 @@ public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 	}
 
 	@Override
-	protected void alqcJobClear() {
+	protected void jobClear() {
 	}
 
     protected HistoryModelFacable getHistoryModelFac() {

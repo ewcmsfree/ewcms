@@ -40,7 +40,7 @@ public abstract class BaseEwcmsExecutionJob implements Job {
 
             this.applicationContext = (ApplicationContext) schedulerContext.get(SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
             
-            alqcJobExecute(context);
+            jobExecute(context);
         } catch (JobExecutionException e) {
         	throw new JobExecutionException(e);
         } catch (SchedulerException e) {
@@ -52,10 +52,10 @@ public abstract class BaseEwcmsExecutionJob implements Job {
     protected void clear() {
         jobContext = null;
         schedulerContext = null;
-        alqcJobClear();
+        jobClear();
     }
 
-    protected abstract void alqcJobExecute(JobExecutionContext context) throws JobExecutionException;
+    protected abstract void jobExecute(JobExecutionContext context) throws JobExecutionException;
 
-    protected abstract void alqcJobClear();
+    protected abstract void jobClear();
 }

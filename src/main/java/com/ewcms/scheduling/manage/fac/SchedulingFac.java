@@ -88,8 +88,8 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	protected void validate(JobInfo jobInfo) throws BaseException {
 		ValidationErrorsable errors = validator.validateJob(jobInfo);
 		if (errors.isError()) {
+			logger.debug("JobInfo Validate Error {}", errors);
 			throw new ValidationException(errors);
-			//throw new BaseException(errors.toString(),errors.toString());
 		}
 	}
 
@@ -100,28 +100,29 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 		return removeDuplicateAndSort(jobs);
 	}
 
-	@SuppressWarnings("unchecked")
+	/*
+	 * 剔除重复记录,并根据JobInfo对象的id进行排序
+	 */
 	protected List<JobInfo> removeDuplicateAndSort(List<JobInfo> list) {
-		//剔除重复记录
+		// 剔除重复记录
 		HashSet<JobInfo> h = new HashSet<JobInfo>(list);
 		list.clear();
 		list.addAll(h);
-		//排序
-		Collections.sort(list, new Comparator() {
+		// 排序
+		Collections.sort(list, new Comparator<Object>() {
 			public int compare(Object o1, Object o2) {
-				JobInfo p1 = (JobInfo)o1;
-				JobInfo p2 = (JobInfo)o2;
+				JobInfo p1 = (JobInfo) o1;
+				JobInfo p2 = (JobInfo) o2;
 				if (p1.getId() > p2.getId())
 					return 1;
-				else 
+				else
 					return 0;
 			}
 		});
 		return list;
 	}
 
-	protected void setRuntimeInformation(List<JobInfo> jobs)
-			throws BaseException {
+	protected void setRuntimeInformation(List<JobInfo> jobs) throws BaseException {
 		if (jobs != null && !jobs.isEmpty()) {
 			scheduler.getJobsRuntimeInformation(jobs);
 		}
@@ -168,8 +169,7 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 		JobInfo savedJob = jobInfoService.updateJob(jobInfo);
 		JobTrigger updatedTrigger = savedJob.getTrigger();
 
-		if (updatedTrigger.getId() != origTriggerId
-				|| updatedTrigger.getVersion() != origTriggerVersion) {
+		if (updatedTrigger.getId() != origTriggerId || updatedTrigger.getVersion() != origTriggerVersion) {
 			scheduler.rescheduleJob(savedJob);
 		} else {
 			logger.info("触发器属性没有改变 " + jobInfo.getId() + " 任务,任务将不会被改变");
@@ -178,8 +178,7 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public ValidationErrorsable validateJob(JobInfo jobInfo)
-			throws BaseException {
+	public ValidationErrorsable validateJob(JobInfo jobInfo) throws BaseException {
 		ValidationErrorsable errors = validator.validateJob(jobInfo);
 		if (!hasTriggerErrors(errors)) {
 			scheduler.validate(jobInfo, errors);
@@ -206,7 +205,7 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	public List<JobClass> findByAllJobClass() throws BaseException {
 		return (List<JobClass>) jobClassService.findByAllJobClass();
 	}
-	
+
 	@Override
 	public void deletedJobClass(Integer id) throws BaseException {
 		jobClassService.deletedJobClass(id);
@@ -214,21 +213,18 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 
 	protected boolean hasTriggerErrors(ValidationErrorsable errors) {
 		boolean triggerError = false;
-		for (Iterator<ValidationErrorable> it = errors.getErrors().iterator(); !triggerError
-				&& it.hasNext();) {
+		for (Iterator<ValidationErrorable> it = errors.getErrors().iterator(); !triggerError && it.hasNext();) {
 			ValidationErrorable error = (ValidationErrorable) it.next();
 			String field = error.getField();
-			if (field != null
-					&& (field.equals("trigger") || field.startsWith("trigger."))) {
+			if (field != null && (field.equals("trigger") || field.startsWith("trigger."))) {
 				triggerError = true;
 			}
 		}
 		return triggerError;
 	}
-	
+
 	@Override
-	public JobClass findByJobClassByClassEntity(String classEntity)
-			throws BaseException {
+	public JobClass findByJobClassByClassEntity(String classEntity) throws BaseException {
 		return jobClassService.findByJobClassByClassEntity(classEntity);
 	}
 

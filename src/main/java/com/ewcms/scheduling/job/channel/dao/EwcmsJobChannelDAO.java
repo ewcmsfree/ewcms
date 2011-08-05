@@ -37,7 +37,7 @@ public class EwcmsJobChannelDAO extends JpaDAO<Integer, EwcmsJobChannel> {
 
 	@SuppressWarnings("unchecked")
 	public List<Channel> getChannelChildren(final Integer parentId) {
-		Object res = this.getJpaTemplate().execute(new JpaCallback() {
+		Object res = this.getJpaTemplate().execute(new JpaCallback<Object>() {
 			@Override
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				if (parentId == null)

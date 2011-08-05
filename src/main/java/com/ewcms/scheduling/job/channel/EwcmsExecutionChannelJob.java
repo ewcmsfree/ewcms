@@ -36,7 +36,7 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
     protected EwcmsJobChannel jobDetails;
     
-    protected void alqcJobExecute(JobExecutionContext context) throws JobExecutionException {
+    protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
         try {
             excutePublic();
         } catch (JobExecutionException e) {
@@ -103,7 +103,7 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
     	}
     }
 
-    protected void alqcJobClear() {
+    protected void jobClear() {
         jobDetails = null;
     }
 
