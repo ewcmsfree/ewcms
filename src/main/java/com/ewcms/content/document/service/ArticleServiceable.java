@@ -47,14 +47,6 @@ public interface ArticleServiceable {
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
 	
 	/**
-	 * 查询文章
-	 * 
-	 * @param articleId
-	 * @return Article 文章对象
-	 */
-	public Article findArticle(Long articleId);
-	
-	/**
 	 * 
 	 * @param channelId
 	 * @return

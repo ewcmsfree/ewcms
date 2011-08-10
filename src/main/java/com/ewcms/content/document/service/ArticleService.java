@@ -146,7 +146,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	}
 
 	@Override
-	public Article findArticle(Long articleId) {
+	public Article getArticle(Long articleId) {
 		return articleDAO.get(articleId);
 	}
 	

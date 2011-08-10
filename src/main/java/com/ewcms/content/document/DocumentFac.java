@@ -22,6 +22,7 @@ import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.content.document.service.RelationServiceable;
 import com.ewcms.publication.PublishException;
+import com.ewcms.publication.service.ArticlePublishServiceable;
 
 /**
  *
@@ -38,6 +39,8 @@ public class DocumentFac implements DocumentFacable {
 	private ArticleServiceable articleService;
 	@Autowired
 	private RelationServiceable relationService;
+	@Autowired
+	private ArticlePublishServiceable articlePublishService;
 	
 	@Override
 	public Integer addArticleCategory(ArticleCategory articleCategory){
@@ -191,19 +194,17 @@ public class DocumentFac implements DocumentFacable {
 
 	@Override
 	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
-		// TODO Auto-generated method stub
-		return null;
+		return articlePublishService.findPreReleaseArticles(channelId, limit);
 	}
 
 	@Override
 	public List<Article> findReleaseArticlePage(Integer channelId,	Integer page, Integer row, Boolean top) {
-		// TODO Auto-generated method stub
-		return null;
+		return articlePublishService.findReleaseArticlePage(channelId, page, row, top);
 	}
 
 	@Override
 	public Article getArticle(Long id) {
-		return articleService.findArticle(id);
+		return articlePublishService.getArticle(id);
 	}
 
 	@Override
@@ -213,13 +214,11 @@ public class DocumentFac implements DocumentFacable {
 
 	@Override
 	public void publishArticle(Long id, String url) {
-		// TODO Auto-generated method stub
-		
+		articlePublishService.publishArticle(id, url);
 	}
 
 	@Override
 	public void updatePreRelease(Integer channelId) {
-		// TODO Auto-generated method stub
-		
+		articlePublishService.updatePreRelease(channelId);
 	}
 }
