@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -23,7 +24,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
  *
  */
 @Service
-public class TemplateSourceService {
+public class TemplateSourceService implements TemplateSourcePublishServiceable{
 	@Autowired
 	private TemplateSourceDAO templateSourceDao;
 	
@@ -41,6 +42,7 @@ public class TemplateSourceService {
 		updPubPath(vo);
 		return vo.getId();
 	}
+	
 	/**
 	 * 模板目录发生修改，需要更新模板发布路径，并且包括其子模板路径
 	 * 
@@ -127,8 +129,31 @@ public class TemplateSourceService {
     
 	private Site getCurSite(){
 		return EwcmsContextUtil.getCurrentSite();
-	}   
+	} 
+	
 	private String getSiteSrcName(){
 		return getCurSite().getId()+"src";
-	}    
+	}
+
+	@Override
+	public List<TemplateSource> findNotReleaseTemplateSources(Integer siteId) {
+		return templateSourceDao.getNotReleaseTemplateSource(siteId);
+	}
+
+	@Override
+	public List<TemplateSource> getTemplateSourceChildren(Integer id) {
+		return templateSourceDao.getTemplateSourceChildren(id, getCurSite().getId());
+	}
+
+	@Override
+	public void publishTemplateSource(Integer id) {
+		TemplateSource vo = getTemplateSource(id);
+		vo.setRelease(true);
+		updTemplateSource(vo);
+	}
+
+	@Override
+	public void updateNotRelease(Integer siteId) {
+		templateSourceDao.updateNotRelease(siteId);
+	}
 }

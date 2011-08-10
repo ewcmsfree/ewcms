@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.SiteDAO;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.service.SitePublishServiceable;
 import com.ewcms.web.vo.TreeNode;
 
 /**
@@ -25,7 +26,7 @@ import com.ewcms.web.vo.TreeNode;
  * 
  */
 @Service
-public class SiteService {
+public class SiteService implements SitePublishServiceable{
 
 	@Autowired
 	private SiteDAO siteDao;

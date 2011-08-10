@@ -68,5 +68,27 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 		List<Channel> channelList = (List<Channel>) res;
 		if(channelList==null||channelList.size()==0)return null;
 		return channelList.get(0);		
-	}	
+	}
+	
+	/**
+	 * 获取站点首页专栏
+	 * 
+	 */	
+	public Channel getChannelByURL(final Integer siteId,final String path){
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Object res = this.getJpaTemplate().execute(new JpaCallback() {
+			@Override
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				String hql = "From Channel o Where o.site.id=? and o.pubPath=? Order By o.id";
+				Query query = em.createQuery(hql);
+				query.setParameter(1, siteId);
+				query.setParameter(2, path);
+				return query.getResultList();
+
+			}
+		});	
+		List<Channel> channelList = (List<Channel>) res;
+		if(channelList==null||channelList.size()==0)return null;
+		return channelList.get(0);		
+	}		
 }

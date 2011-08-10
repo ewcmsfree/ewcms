@@ -3,10 +3,6 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-
-/**
- *
- */
 package com.ewcms.core.site.service;
 
 import java.util.ArrayList;
@@ -14,9 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -28,11 +22,11 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.security.acls.domain.EwcmsPermission;
 import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -42,29 +36,18 @@ import com.ewcms.web.util.EwcmsContextUtil;
  * 
  */
 @Service
-public class ChannelService {
+public class ChannelService implements ChannelPublishServiceable{
 
     @Autowired
     private ChannelDAO channelDao;
-
     @Autowired
     private EwcmsAclServiceable aclService;
-    
-    @PreAuthorize("isAuthenticated()")
-    public Set<Permission> getPermissionsOfChannelById(final Integer id) {
-        final Channel channel = channelDao.get(id);
-        Assert.notNull(channel, "channel is null");
-        return getPermissionsofChannel(channel);
-    }
 
-    @PreAuthorize("isAuthenticated()")
-    public Set<Permission> getPermissionsofChannel(final Channel channel) {
+    private Set<Permission> getPermissionsofChannel(final Channel channel) {
         Assert.notNull(channel, "channel is null");
         return aclService.getPermissions(channel);
     }
-
-
-    @PreAuthorize("isAuthenticated()")
+    
     public Acl findAclOfChannel(final Channel channel){
         final ObjectIdentity objectIdentity = new ObjectIdentityImpl(channel);
         try{
@@ -72,9 +55,8 @@ public class ChannelService {
         }catch(NotFoundException e){
             return null;
         }        
-    }
+    }	
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
     public void updatePermissionOfChannel(final Integer id,final Map<String,Integer> sidNamePermissionMasks,boolean inherit){
         Channel channel = getChannel(id);
         Channel parent = null;
@@ -82,7 +64,7 @@ public class ChannelService {
             parent = channel.getParent();
         }
         aclService.updatePermissionsBySidNamePermissionMask(channel, sidNamePermissionMasks, parent);
-    }
+    } 
     
     /**
      * 获取当前频道的子频道
@@ -93,7 +75,6 @@ public class ChannelService {
      * @param publicenable 是否发布(true:只显示发布的子频道,false:显示所有子频道）
      * @return 子频道集合
      */
-    @PreAuthorize("isAuthenticated()")
     public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable) {
         List<ChannelNode> nodes = new ArrayList<ChannelNode>();
         List<Channel> channels = channelDao.getChannelChildren(id,getCurSite().getId());
@@ -144,7 +125,6 @@ public class ChannelService {
      * 
      * @return channel
      */
-    @PreAuthorize("isAuthenticated()")
     public ChannelNode channelNodeRoot() {
         Channel channel = channelDao.getChannelRoot(getCurSite().getId());
         if (channel == null) {
@@ -173,9 +153,6 @@ public class ChannelService {
      * 
      * @return 频道编号
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','CREATE')")
     public Integer addChannel(Integer parentId, String name) {
         Assert.notNull(parentId, "parentId is null");
         Channel channel = new Channel();
@@ -190,9 +167,6 @@ public class ChannelService {
     /**
      * 重命名站点专栏.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','UPDATE')")
     public void renameChannel(Integer id, String name) {
         Channel vo = getChannel(id);
         vo.setName(name);
@@ -202,8 +176,6 @@ public class ChannelService {
     /**
      * 修改站点专栏.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#channel,'ADMIN') or hasPermission(#channel,'UPDATE')")
     public Integer updChannel(final Channel channel) {
         channelDao.merge(channel);
         updAbsUrlAndPubPath(channel);
@@ -227,9 +199,6 @@ public class ChannelService {
         channelDao.merge(channel);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','DELETE')")
     public void delChannel(Integer id) {
         channelDao.removeByPK(id);
     }
@@ -241,4 +210,24 @@ public class ChannelService {
     private Site getCurSite() {
         return EwcmsContextUtil.getCurrentSite();
     }
+
+	@Override
+	public Channel getChannelRoot(Integer siteId) {
+		return channelDao.getChannelRoot(siteId);
+	}
+
+	@Override
+	public Channel getChannel(Integer siteId, Integer id) {
+		return this.getChannel(id);
+	}
+
+	@Override
+	public List<Channel> getChannelChildren(Integer id) {
+		return channelDao.getChannelChildren(id,getCurSite().getId());
+	}
+
+	@Override
+	public Channel getChannelByUrlOrPath(Integer siteId, String path) {
+		return channelDao.getChannelByURL(siteId, path);
+	}
 }

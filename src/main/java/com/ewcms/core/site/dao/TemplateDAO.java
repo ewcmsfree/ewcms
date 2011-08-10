@@ -123,11 +123,28 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
                 String hql = "From Template o Where  o.uniquePath=?";
                 TypedQuery<Template> query = em.createQuery(hql, Template.class);
                 query.setParameter(1,path);
-                
                 return query.getResultList();
             }
         });
-	    
 	    return res.isEmpty() ? null : res.get(0);
 	}
+	
+	/**
+	 * 获取专栏所有模板
+	 * 
+	 * @param id 专栏编号
+	 * @return 模板集合
+	 */
+	public List<Template> getTemplatesInChannel(final Integer id){
+	    List<Template> res = this.getJpaTemplate().execute(new JpaCallback<List<Template>>() {
+            @Override
+            public List<Template> doInJpa(EntityManager em) throws PersistenceException {
+                String hql = "From Template o Where  o.channelId=? order by o.type";
+                TypedQuery<Template> query = em.createQuery(hql, Template.class);
+                query.setParameter(1,id);
+                return query.getResultList();
+            }
+        });
+	    return res.isEmpty() ? null : res;
+	}	
 }

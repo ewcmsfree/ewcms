@@ -17,6 +17,7 @@ import com.ewcms.core.site.dao.TemplateDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.history.History;
+import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -24,7 +25,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
  *
  */
 @Service
-public class TemplateService {
+public class TemplateService implements TemplatePublishServiceable{
 
 	@Autowired
 	private TemplateDAO templateDao;
@@ -176,5 +177,20 @@ public class TemplateService {
 	}
 	private String getSiteTplName(){
 		return getCurSite().getId()+"tpl";
+	}
+	
+	@Override
+	public List<Template> getTemplatesInChannel(Integer id) {
+		return templateDao.getTemplatesInChannel(id);
+	}
+	
+	@Override
+	public Template getTemplateByUniquePath(String path) {
+		return templateDao.getTemplateByPath(path);
+	}
+	
+	@Override
+	public String getUniquePathOfChannelTemplate(Integer siteId, Integer channelId, String name) {
+		return siteId.toString()+"/"+siteId.toString()+"tpl/"+channelId.toString()+"/"+name;
 	}
 }

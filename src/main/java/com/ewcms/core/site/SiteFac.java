@@ -10,7 +10,10 @@
 package com.ewcms.core.site;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.acls.model.Acl;
 import org.springframework.stereotype.Service;
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.model.Channel;
@@ -41,52 +44,46 @@ public class SiteFac{
 	private OrganService organService;	
 	@Autowired
 	private TemplateSourceService templateSourceService;
-	
-	
+
+    @PreAuthorize("isAuthenticated()")
+    public Acl findAclOfChannel(final Channel channel){
+    	return channelService.findAclOfChannel(channel);
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+    public void updatePermissionOfChannel(final Integer id,final Map<String,Integer> sidNamePermissionMasks,boolean inherit){
+    	channelService.updatePermissionOfChannel(id, sidNamePermissionMasks, inherit);
+    }
 	public List<Site> getSiteListByOrgans(Integer[] organs, Boolean publicenable) {
 		return siteService.getSiteListByOrgans(organs, publicenable);
 	}
 
-
-	
 	public List<TreeNode> getOrganSiteTreeList(Integer organId) {
 		return siteService.getOrganSiteTreeList(organId);
 	}
 
-
-	
 	public List<TreeNode> getOrganSiteTreeList(Integer parentId, Integer organId) {
 		return siteService.getOrganSiteTreeList(parentId, organId);
 	}
 
-
-	
 	public List<TreeNode> getCustomerSiteTreeList() {
 		return siteService.getCustomerSiteTreeList();
 	}
 
-
-	
 	public List<TreeNode> getCustomerSiteTreeList(Integer parentId) {
 		return siteService.getCustomerSiteTreeList(parentId);
 	}
 
-
-	
 	public Integer addSite(Integer parentId, String siteName,Integer organId){
 		return siteService.addSite(parentId,siteName,organId);
 	}
 
-	
 	public void delSiteBatch(List<Integer> idList) {
 		siteService.delSiteBatch(idList);		
 	}
-
 	
 	public Integer updSite(Site vo) {
 		return siteService.updSite(vo);
 	}
-
 	
 	public void delSite(Integer id) {
 		siteService.delSite(id);		
@@ -99,18 +96,15 @@ public class SiteFac{
 	public Site getSite(Integer id) {
 		return siteService.getSite(id);
 	}
-
 	
 	public Template getTemplate(Integer id) {
 		return templateService.getTemplate(id);
 	}
 
-	
 	public Integer addTemplate(Template vo) {
 		return templateService.addTemplate(vo);
 	}
 
-	
 	public Integer updTemplate(Template vo) {
 		return templateService.updTemplate(vo);
 	}
@@ -131,29 +125,35 @@ public class SiteFac{
 		return templateService.getTemplateList();
 	}
 
-	
+	@PreAuthorize("isAuthenticated()")
 	public List<ChannelNode> getChannelChildren(Integer parentId,
 			Boolean publicenable) {
 		return channelService.getChannelChildren(parentId, publicenable);
 	}
 
-
-	
+    @PreAuthorize("hasRole('ROLE_ADMIN') "
+            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','ADMIN') " 
+            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','CREATE')")	
 	public Integer addChannel(Integer parentId, String name) {
 		return channelService.addChannel(parentId, name);
 	}
 
-	
+    @PreAuthorize("hasRole('ROLE_ADMIN') "
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','UPDATE')")	
 	public void renameChannel(Integer id, String name) {
 		channelService.renameChannel(id, name);
 	}
 
-	
+    @PreAuthorize("hasRole('ROLE_ADMIN') "
+            +"or hasPermission(#channel,'ADMIN') or hasPermission(#channel,'UPDATE')")	
 	public Integer updChannel(Channel vo) {
 		return channelService.updChannel(vo);
 	}
 
-	
+    @PreAuthorize("hasRole('ROLE_ADMIN') "
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','DELETE')")	
 	public void delChannel(Integer id) {
 		channelService.delChannel(id);
 	}
@@ -162,7 +162,7 @@ public class SiteFac{
 	public Channel getChannel(Integer id) {
 		return channelService.getChannel(id);
 	}	
-	
+	@PreAuthorize("isAuthenticated()")
 	public Channel getChannelRoot() {
 		return channelService.getChannelRoot();
 	}

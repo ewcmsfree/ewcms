@@ -10,7 +10,7 @@
 package com.ewcms.core.site.model;
 
 /**
- * @author 周冬初
+ * @author 周冬�?
  *
  */
 public enum OutputType {
