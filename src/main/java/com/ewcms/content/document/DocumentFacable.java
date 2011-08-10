@@ -13,7 +13,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Relation;
-import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.publication.PublishException;
 
 /**
  *
@@ -142,7 +142,7 @@ public interface DocumentFacable {
 	 * @param channelId 频道编号
 	 * @throws ReleaseException
 	 */
-	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException;
+	public void pubArticleMainByChannel(Integer channelId) throws PublishException;
 	
 	/**
 	 * 审核文章主体
@@ -251,4 +251,16 @@ public interface DocumentFacable {
 	 * @return List 相关文章集合
 	 */
 	public List<Relation> findRelationByArticle(Long articleId);
+	
+	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit);
+
+	public List<Article> findReleaseArticlePage(Integer channelId,	Integer page, Integer row, Boolean top);
+
+	public Article getArticle(Long id);
+
+	public int getArticleCount(Integer channelId);
+
+	public void publishArticle(Long id, String url);
+
+	public void updatePreRelease(Integer channelId);
 }

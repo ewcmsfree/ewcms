@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,8 +24,8 @@ import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
-import com.ewcms.generator.GeneratorServiceable;
-import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.publication.PublishException;
+import com.ewcms.publication.WebPublishable;
 import com.ewcms.security.manage.service.UserServiceable;
 
 /**
@@ -37,16 +36,16 @@ import com.ewcms.security.manage.service.UserServiceable;
 public class ArticleMainService implements ArticleMainServiceable {
 
 	@Autowired
-	private GeneratorServiceable generatorService;
+	private WebPublishable webPublish;
 	@Autowired
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private UserServiceable userService;
 	
-	public void setGeneratorService(GeneratorServiceable generatorService){
-		this.generatorService = generatorService;
+	public void setWebPublish(WebPublishable webPublish) {
+		this.webPublish = webPublish;
 	}
-	
+
 	public void setArticleMainDAO(ArticleMainDAO articleMainDAO){
 		this.articleMainDAO = articleMainDAO;
 	}
@@ -56,13 +55,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','READ') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId) {
 		return articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void delArticleMain(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
@@ -73,7 +70,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
@@ -90,7 +86,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
@@ -103,7 +98,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
@@ -122,7 +116,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId) {
 		Assert.notNull(articleMainIds);
 		for (Long articleMainId : articleMainIds) {
@@ -131,7 +124,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#target_channel,'WRITE') " + "or hasPermission(#target_channel,'PUBLISH') " + "or hasPermission(#chantarget_channelnel,'CREATE') " + "or hasPermission(#target_channel,'UPDATE') " + "or hasPermission(#target_channel,'DELETE') " + "or hasPermission(#target_channel,'ADMIN') ")
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
 		ArticleMain articleMain = null;
 		Article article = null;
@@ -191,7 +183,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#target_channel,'WRITE') " + "or hasPermission(#target_channel,'PUBLISH') " + "or hasPermission(#target_channel,'CREATE') " + "or hasPermission(#target_channel,'UPDATE') " + "or hasPermission(#target_channel,'DELETE') " + "or hasPermission(#target_channel,'ADMIN') ")
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
 		ArticleMain articleMain = null;
 		for (Integer target_channelId : channelIds) {
@@ -213,15 +204,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException {
+	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
 		if (isNotNull(channelId)) {
-			generatorService.generator(channelId);
+			webPublish.publishChannel(channelId, true);
 		}
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit) {
 		ArticleMain articleMain = null;
 		Article article = null;
@@ -248,7 +237,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 		if (articleMain == null){
@@ -281,7 +269,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 		if (articleMain == null) return false;
@@ -289,7 +276,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId) {
 		Assert.notNull(articleMainIds);
 		for (Long articleMainId : articleMainIds){

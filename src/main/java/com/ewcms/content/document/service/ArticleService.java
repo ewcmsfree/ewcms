@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -27,18 +26,23 @@ import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
+import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
+import com.ewcms.publication.service.ArticlePublishServiceable;
 
 /**
  * @author 吴智俊
  */
 @Service
-public class ArticleService implements ArticleServiceable {
+public class ArticleService implements ArticleServiceable, ArticlePublishServiceable {
 
 	@Autowired
 	private ArticleDAO articleDAO;
 	@Autowired
 	private ArticleMainDAO articleMainDAO;
+	@Autowired
+	private ChannelDAO channelDAO;
 	
 	public void setArticleDAO(ArticleDAO articleDAO){
 		this.articleDAO = articleDAO;
@@ -55,7 +59,6 @@ public class ArticleService implements ArticleServiceable {
 
 	@Override
 	@History(modelObjectIndex = 0)
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Long addArticle(Article article, Integer channelId, Date published) {
 		Assert.notNull(article);
 		if (isNotNull(published)) {
@@ -80,7 +83,6 @@ public class ArticleService implements ArticleServiceable {
 
 	@Override
 	@History(modelObjectIndex = 0)
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
@@ -141,5 +143,54 @@ public class ArticleService implements ArticleServiceable {
 		List<Content> contents = new ArrayList<Content>();
 		contents.add(content);
 		article.setContents(contents);
+	}
+
+	@Override
+	public Article findArticle(Long articleId) {
+		return articleDAO.get(articleId);
+	}
+	
+	@Override
+	public int getArticleCount(Integer channelId){
+		Channel channel = channelDAO.get(channelId);
+		Assert.notNull(channel);
+		int maxSize = channel.getMaxSize();
+		int releaseMaxSize = articleDAO.findArticleReleseMaxSize(channelId);
+		if (maxSize < releaseMaxSize){
+			return maxSize;
+		}else{
+			return releaseMaxSize;
+		}
+	}
+
+	@Override
+	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
+		Channel channel = channelDAO.get(channelId);
+		Assert.notNull(channel);
+		return articleDAO.findArticlePreReleaseByChannelAndLimit(channelId, limit); 
+	}
+
+	@Override
+	public List<Article> findReleaseArticlePage(Integer channelId, Integer page, Integer row, Boolean top) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void publishArticle(Long id, String url) {
+		Article article = articleDAO.get(id);
+		Assert.notNull(article);
+		article.setUrl(url);
+		articleDAO.merge(article);
+	}
+
+	@Override
+	public void updatePreRelease(Integer channelId) {
+		List<Article> articles = articleDAO.findArticleRelease(channelId);
+		for (Article article : articles){
+			article.setUrl("");
+			article.setStatus(ArticleStatus.PRERELEASE);
+			articleDAO.merge(article);
+		}
 	}
 }

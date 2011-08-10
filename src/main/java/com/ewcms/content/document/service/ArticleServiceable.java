@@ -45,4 +45,19 @@ public interface ArticleServiceable {
 	 * @return Boolean true:是,false:否
 	 */
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
+	
+	/**
+	 * 查询文章
+	 * 
+	 * @param articleId
+	 * @return Article 文章对象
+	 */
+	public Article findArticle(Long articleId);
+	
+	/**
+	 * 
+	 * @param channelId
+	 * @return
+	 */
+	public int getArticleCount(Integer channelId);
 }
