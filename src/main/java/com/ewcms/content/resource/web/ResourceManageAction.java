@@ -11,8 +11,8 @@
 package com.ewcms.content.resource.web;
 
 import com.ewcms.content.resource.ResourceFacable;
-import com.ewcms.generator.GeneratorServiceable;
-import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.publication.PublishException;
+import com.ewcms.publication.WebPublishable;
 import com.ewcms.web.util.Struts2Util;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ResourceManageAction {
     private int[] selections;
 
     @Autowired
-    private GeneratorServiceable generatorService;
+    private WebPublishable webpublish;
     
     @Autowired
     private ResourceFacable resourceFac;
@@ -51,8 +51,8 @@ public class ResourceManageAction {
     public void release() {
         for(int id : selections){
             try{
-                generatorService.generatorResourceSingle(id);
-            }catch(ReleaseException e){
+            	webpublish.publishResourceAgain(id, true);
+            }catch(PublishException e){
                //TODO 错误处理
             }
         }

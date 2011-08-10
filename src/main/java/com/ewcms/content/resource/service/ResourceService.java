@@ -134,6 +134,6 @@ public class ResourceService implements ResourceServiceable {
 
     private String getCurrentReleaseDir(){
          Site site = EwcmsContextUtil.getCurrentSite();
-        return site.getServerDir();
+        return site.getSiteServer().getPath();
     }
 }
