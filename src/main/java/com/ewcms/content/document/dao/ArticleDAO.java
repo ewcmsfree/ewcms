@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleStatus;
 
 /**
  * 文章信息DAO
@@ -27,5 +28,13 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     	List<Article> list = this.getJpaTemplate().find(hql, articleId, articleCategoryId);
     	if (list.isEmpty()) return false;
     	return true;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Integer findArticleReleseMaxSize(Integer channelId){
+    	String hql = "Select Count(a.id) From ArticleMain As m Left Join a.article As a Where m.channelId=? And a.status=?";
+    	List<Integer> list = this.getJpaTemplate().find(hql, channelId, ArticleStatus.RELEASE);
+    	if (list.isEmpty()) return 0;
+    	return list.get(0);
     }
 }
