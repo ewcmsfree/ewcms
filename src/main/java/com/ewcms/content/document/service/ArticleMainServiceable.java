@@ -9,7 +9,7 @@ package com.ewcms.content.document.service;
 import java.util.List;
 
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.generator.release.ReleaseException;
+import com.ewcms.publication.PublishException;
 
 /**
  * 文章主体操作接口
@@ -99,9 +99,10 @@ public interface ArticleMainServiceable {
 	 * 发布文章主体
 	 * 
 	 * @param channelId 频道编号
+	 * @throws PublishException 
 	 * @throws ReleaseException
 	 */
-	public void pubArticleMainByChannel(Integer channelId) throws ReleaseException;
+	public void pubArticleMainByChannel(Integer channelId) throws PublishException;
 	
 	/**
 	 * 审核文章主体
