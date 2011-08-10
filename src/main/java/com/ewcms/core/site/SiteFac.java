@@ -11,9 +11,12 @@ package com.ewcms.core.site;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.Permission;
 import org.springframework.stereotype.Service;
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.model.Channel;
@@ -56,7 +59,11 @@ public class SiteFac{
 	public List<Site> getSiteListByOrgans(Integer[] organs, Boolean publicenable) {
 		return siteService.getSiteListByOrgans(organs, publicenable);
 	}
-
+	
+	public Set<Permission> getPermissionsById(int id) {
+		return channelService.getPermissionsById(id);
+	}
+	
 	public List<TreeNode> getOrganSiteTreeList(Integer organId) {
 		return siteService.getOrganSiteTreeList(organId);
 	}
@@ -119,8 +126,6 @@ public class SiteFac{
 		templateService.delTemplate(id);		
 	}
 
-
-	
 	public List<Template> getTemplateList() {
 		return templateService.getTemplateList();
 	}
@@ -187,13 +192,11 @@ public class SiteFac{
 		return templateService.getTemplaeTreeList(parentId, channelName);
 	}
 
-	
 	public void updSiteParent(Integer organId,Integer parentId, Integer newParentId) {
 		siteService.updSiteParent(organId,parentId, newParentId);
 		
 	}
 
-	
 	public Integer addOrgan(Integer parentId, String organName) {
 		return organService.addOrgan(parentId, organName);
 	}
@@ -223,55 +226,43 @@ public class SiteFac{
 		return organService.getOrganTreeList(parentId);
 	}
 
-	
 	public TemplateSource getTemplateSource(Integer id) {
 		return templateSourceService.getTemplateSource(id);
 	}
 
-	
 	public Integer addTemplateSource(TemplateSource vo) {
 		return templateSourceService.addTemplateSource(vo);
 	}
-
 	
 	public Integer updTemplateSource(TemplateSource vo) {
 		return templateSourceService.updTemplateSource(vo);
 	}
 
-	
 	public void delTemplateSource(Integer id) {
 		templateSourceService.delTemplateSource(id);	
 	}
 
-
-
-	
 	public List<TemplateSource> getTemplaeSourceTreeList(Boolean channelEnable) {
 		return templateSourceService.getTemplaeSourceTreeList(channelEnable);
 	}
-
 	
 	public List<TemplateSource> getTemplaeSourceTreeList(Integer parentId,
 			Boolean channelEnable) {
 		return templateSourceService.getTemplaeSourceTreeList(parentId, channelEnable);
 	}
-
 	
 	public Template channelTemplate(String tplName) {
 		return templateService.channelTemplate(tplName);
 	}
 
-	
 	public Template channelTPLRoot() {
 		return templateService.channelTPLRoot();
 	}
 
-	
 	public TemplateSource channelTemplateSource(String srcName) {
 		return templateSourceService.channelTemplateSource(srcName);
 	}
 
-	
 	public TemplateSource channelSRCRoot() {
 		return templateSourceService.channelSRCRoot();
 	}
