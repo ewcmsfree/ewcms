@@ -48,6 +48,10 @@ public class ChannelService implements ChannelPublishServiceable{
         return aclService.getPermissions(channel);
     }
     
+    public Set<Permission> getPermissionsById(int id) {
+        return getPermissionsofChannel(getChannel(id));
+    }
+    
     public Acl findAclOfChannel(final Channel channel){
         final ObjectIdentity objectIdentity = new ObjectIdentityImpl(channel);
         try{
