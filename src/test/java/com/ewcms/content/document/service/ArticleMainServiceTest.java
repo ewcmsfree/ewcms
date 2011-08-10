@@ -23,7 +23,6 @@ import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.generator.GeneratorServiceable;
 import com.ewcms.security.manage.service.UserServiceable;
 
 /**
@@ -34,17 +33,14 @@ import com.ewcms.security.manage.service.UserServiceable;
 public class ArticleMainServiceTest {
 	
 	private ArticleMainService articleMainService;
-	private GeneratorServiceable generatorService;
 	private ArticleMainDAO articleMainDAO;
 	private UserServiceable userService;
 	
 	@Before
 	public void setUp() {
 		articleMainService = new ArticleMainService();
-		generatorService = mock(GeneratorServiceable.class);
 		articleMainDAO = mock(ArticleMainDAO.class);
 		userService = mock(UserServiceable.class);
-		articleMainService.setGeneratorService(generatorService);
 		articleMainService.setArticleMainDAO(articleMainDAO);
 		articleMainService.setUserService(userService);
 	}
