@@ -22,7 +22,7 @@ import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
-import com.ewcms.core.site.service.ChannelService;
+import com.ewcms.core.site.SiteFac;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -37,7 +37,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Autowired
-	private ChannelService channelService;
+	private SiteFac siteFac;
 	    
 	private Integer channelId;
 		
@@ -180,7 +180,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 
 	private Boolean getPermissionIsChannel(){
 		if (getChannelId() == null) return false;
-		Set<Permission>  permissions = channelService.getPermissionsOfChannelById(getChannelId());
+		Set<Permission>  permissions = siteFac.getPermissionsById(getChannelId());
 		for (Permission permission : permissions){
 			if (permission.getMask() > 2){
 				return true;
