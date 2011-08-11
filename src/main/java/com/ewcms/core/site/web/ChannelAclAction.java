@@ -19,8 +19,8 @@ import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.stereotype.Controller;
 
+import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.core.site.service.ChannelService;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Controller
@@ -30,14 +30,14 @@ public class ChannelAclAction extends ActionSupport{
     private Boolean inherit = Boolean.TRUE;
     private Map<String,Integer> sidPermissions;
     
-    @Autowired
-    private ChannelService channelService;
+	@Autowired
+	private SiteFac siteFac;
         
     @Override
     public String input(){
         
-        final Channel channel = channelService.getChannel(id);
-        final Acl acl = channelService.findAclOfChannel(channel);  
+        final Channel channel = siteFac.getChannel(id);
+        final Acl acl = siteFac.findAclOfChannel(channel);  
         
         sidPermissions =new LinkedHashMap<String,Integer>();
         if(acl == null){
@@ -63,7 +63,7 @@ public class ChannelAclAction extends ActionSupport{
     
     @Override
     public String execute(){
-        channelService.updatePermissionOfChannel(id, sidPermissions, inherit);
+    	siteFac.updatePermissionOfChannel(id, sidPermissions, inherit);
         return SUCCESS;
     }
        
@@ -88,9 +88,5 @@ public class ChannelAclAction extends ActionSupport{
 
     public void setId(Integer id){
         this.id = id;
-    }
-    
-    public void setChannelService(ChannelService channelService){
-        this.channelService = channelService;
     }
 }

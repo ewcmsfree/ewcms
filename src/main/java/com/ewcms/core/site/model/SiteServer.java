@@ -39,7 +39,6 @@ public class SiteServer implements Serializable {
     @Id
     @GeneratedValue(generator = "seq_site_siteserver", strategy = GenerationType.SEQUENCE)
     private Integer id;
-    
     @Column(length = 100)
     private String path;
     @Column(length = 20)
@@ -54,7 +53,6 @@ public class SiteServer implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private OutputType outputType;
    
-
 	public OutputType getOutputType() {
 		return outputType;
 	}

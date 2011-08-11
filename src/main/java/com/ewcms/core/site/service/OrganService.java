@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.dao.OrganDAO;
 import com.ewcms.core.site.model.Organ;
-import com.ewcms.core.site.model.Template;
 import com.ewcms.web.vo.TreeNode;
 
 /**
@@ -28,9 +27,6 @@ import com.ewcms.web.vo.TreeNode;
 public class OrganService {
 	@Autowired
 	private OrganDAO organDao;
-	@Autowired
-	private SiteService siteService;
-
 	public Integer addOrgan(Integer parentId, String organName) {
 		Organ vo = new Organ();
 		if(parentId != null)
