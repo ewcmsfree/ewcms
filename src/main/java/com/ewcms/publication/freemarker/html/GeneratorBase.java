@@ -114,21 +114,36 @@ public abstract class GeneratorBase implements Generatorable {
      * 生成指定的页面
      * 
      * @param template    模板对象
-     * @param rule        链接地址生成规则
      * @param parameters  参数集合
+     * @param rule        链接地址生成规则
      * @return
      * @throws PublishException
      */
     protected OutputResource generator(Template template,Map<String, Object> parameters,UriRuleable rule) throws PublishException {
-        
-        try {
-            File temp = createTempFile();
-            write(template,parameters,rule,new FileWriter(temp));
-            return new OutputResource(temp.getPath(), rule.getUri());
-        } catch (IOException e) {
-            logger.error("Writer tempfile error {}", e);
-            throw new PublishException(e);
-        } 
+       return generator(template,parameters,rule,rule);
+    }
+    
+    /**
+     * 生成指定的页面
+     * 
+     * @param template    模板对象
+     * @param parameters  参数集合
+     * @param pageRule    翻页链接地址生成规则
+     * @param fileRule    页面文件地址生成规则
+     * @return
+     * @throws PublishException
+     */
+    protected OutputResource generator(Template template,Map<String,Object> parameters,UriRuleable pageRule,UriRuleable fileRule)throws PublishException{
+    	 try {
+             File temp = createTempFile();
+             fileRule.setParameters(parameters);
+             String uri = fileRule.getUri();
+             write(template,parameters,pageRule,new FileWriter(temp));
+             return new OutputResource(temp.getPath(), uri);
+         } catch (IOException e) {
+             logger.error("Writer tempfile error {}", e);
+             throw new PublishException(e);
+         } 
     }
     
     /**

@@ -25,6 +25,7 @@ import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.service.ArticlePublishServiceable;
+import com.ewcms.publication.uri.DefaultHomeUriRule;
 import com.ewcms.publication.uri.DefaultListUriRule;
 import com.ewcms.publication.uri.NullUriRule;
 import com.ewcms.publication.uri.UriRuleable;
@@ -41,17 +42,20 @@ public class ListGenerator extends GeneratorBase {
     private static final Logger logger = LoggerFactory.getLogger(ListGenerator.class);
     
     private static final UriRuleable DEFAULT_URI_RULE = new DefaultListUriRule();
+    private static final UriRuleable DEFAULT_HOME_URI_RULE = new DefaultHomeUriRule();
     
     private Configuration cfg;
     private ArticlePublishServiceable service;
-    UriRuleable uriRule = new DefaultListUriRule();
+    private boolean createHome;
     
-    public ListGenerator(Configuration cfg,ArticlePublishServiceable service){
+    public ListGenerator(Configuration cfg,ArticlePublishServiceable service,boolean createHome){
         Assert.notNull(cfg);
         Assert.notNull(service);
+        Assert.notNull(createHome);
         
         this.cfg = cfg;
         this.service = service;
+        this.createHome = createHome;
     }
     
     /**
@@ -99,6 +103,12 @@ public class ListGenerator extends GeneratorBase {
         logger.debug("Page count is {}",pageCount);
         
         UriRuleable rule = getUriRule(template.getUriPattern(),DEFAULT_URI_RULE);
+        
+        if(createHome){
+        	Map<String,Object> parameters = constructParameters(site,channel,0,pageCount,Boolean.FALSE);
+        	OutputResource resource = generator(t,parameters,rule,DEFAULT_HOME_URI_RULE);
+        	resources.add(resource);
+        }
         
         for(int i = 0 ; i < pageCount; ++i){
             Map<String,Object> parameters = constructParameters(site,channel,i,pageCount,Boolean.FALSE);

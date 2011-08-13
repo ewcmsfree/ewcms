@@ -6,9 +6,7 @@
 
 package com.ewcms.publication;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +51,6 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
     
     protected ResourcePublishable resourcePublish;
     protected Configuration cfg;
-    
-    protected Map<TemplateType,Generatorable> generators = initGenerators();
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -101,6 +97,88 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
     }
     
     /**
+     * 发布生成页面到指定位置 
+     * 
+     * @param site        站点
+     * @param resources   发布的页面资源
+     * @throws PublishException
+     */
+    private void outputHtml(Site site,List<OutputResource> resources)throws PublishException{
+        SiteServer server = site.getSiteServer();
+        OutputFactory.factory(server.getOutputType()).out(server, resources);
+    }
+    
+    /**
+     * 发布频道文章
+     * 
+     * @param site      站点
+     * @param channel   频道
+     * @param templates 频道模版集合 
+     * @throws PublishException
+     */
+	private void publishDetail(Site site, Channel channel, List<Template> templates)throws PublishException {
+		for(Template template  :  templates){
+			if (template.getType() == TemplateType.DETAIL) {
+				Generatorable generator = new DetailGenerator(cfg, articleService);
+				List<OutputResource> resources = generator.process(site, channel,template);
+				outputHtml(site, resources);
+			}
+		}
+	}
+	
+	/**
+	 * 判断是否有首页模版
+	 * 
+	 * @param templates 频道模版集合 
+	 * @return
+	 */
+	private boolean hasHome(List<Template> templates){
+		for(Template template : templates){
+			if(template.getType() == TemplateType.HOME){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 发布频道列表
+	 * 
+     * @param site      站点
+     * @param channel   频道
+     * @param templates 频道模版集合 
+	 * @throws PublishException
+	 */
+	private void publishList(Site site,Channel channel,List<Template> templates)throws PublishException{
+		for(Template template  :  templates){
+			if(template.getType() == TemplateType.LIST){
+				boolean createHome = !hasHome(templates);
+				Generatorable generator = new ListGenerator(cfg, articleService,createHome);
+				List<OutputResource> resources = generator.process(site, channel,template);
+				outputHtml(site, resources);
+			}
+		}
+	}
+    
+	/**
+	 * 发布频道首页 
+	 * 
+     * @param site      站点
+     * @param channel   频道
+     * @param templates 频道模版集合 
+	 * @throws PublishException
+	 */
+	private void publishHome(Site  site,Channel channel,List<Template> templates)throws PublishException{
+		for(Template template  :  templates){
+			if(template.getType() == TemplateType.HOME){
+				Generatorable generator = new HomeGenerator(cfg);
+				List<OutputResource> resources = generator.process(site, channel,template);
+				outputHtml(site, resources);
+			}
+		}
+	}
+    
+    /**
      * 发布频道
      * 
      * @param channel 频道
@@ -117,11 +195,12 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         }
         
         List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
-        for(Template template : templates){
-            publishChannelTemplate(channel.getSite(),channel,template);
-        }
+        Site site = channel.getSite();
+        
+        publishDetail(site,channel,templates);
+        publishList(site,channel,templates);
+        publishHome(site,channel,templates);
     }
-    
     
     /**
      * 发布频道及所有子频道
@@ -136,28 +215,6 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             publishChannelAll(c,again);
             publishChannel(channel,again);
         }
-    }
-    
-    private void publishChannelTemplate(Site site,Channel channel,Template template)throws PublishException{
-        Generatorable generator = generators.get(template.getType());
-        List<OutputResource> resources = generator.process(site, channel, template);
-        SiteServer server = site.getSiteServer();
-        OutputFactory.factory(server.getOutputType()).out(server, resources);
-        
-        //文章生成有最大限制，所以需要循环调用，生成全部文章
-        if(template.getType() == TemplateType.DETAIL && !resources.isEmpty()){
-            publishChannelTemplate(site,channel,template);
-        }
-    }
-    
-    private Map<TemplateType,Generatorable> initGenerators(){
-        Map<TemplateType,Generatorable> map = new HashMap<TemplateType,Generatorable>();
-        
-        map.put(TemplateType.HOME, new HomeGenerator(cfg));
-        map.put(TemplateType.LIST, new ListGenerator(cfg,articleService));
-        map.put(TemplateType.DETAIL, new DetailGenerator(cfg,articleService));
-        
-        return map;
     }
     
     public void setArticleService(ArticlePublishServiceable articleService) {
