@@ -38,20 +38,6 @@ public class ListGeneratorTest  extends GeneratorTest {
         cfg.setSharedVariable("page", new PageOutDirective());
     }
     
-    @Test
-    public void testListTemplate()throws Exception{
-        ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
-        when(service.getArticleCount(any(Integer.class))).thenReturn(100);
-        
-        ListGenerator generator = new ListGenerator(cfg,service);
-        List<OutputResource> resources = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("list.html")));
-        Assert.assertEquals(10, resources.size());
-        Assert.assertEquals("/news/cn/0.html", resources.get(0).getUri());
-        assertPage0Content(resources.get(0));
-        Assert.assertEquals("/news/cn/9.html", resources.get(9).getUri());
-        assertPage9Content(resources.get(9));
-    }
-    
     private void assertPage0Content(OutputResource resource)throws Exception{
         StringBuilder builder = new StringBuilder();
         builder.append("listpage");
@@ -76,4 +62,35 @@ public class ListGeneratorTest  extends GeneratorTest {
         content = StringUtils.deleteWhitespace(content);
         Assert.assertEquals(builder.toString(), content);
     }
+    
+    @Test
+    public void testListTemplate()throws Exception{
+        ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
+        when(service.getArticleCount(any(Integer.class))).thenReturn(100);
+        
+        ListGenerator generator = new ListGenerator(cfg,service,false);
+        List<OutputResource> resources = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("list.html")));
+        Assert.assertEquals(10, resources.size());
+        Assert.assertEquals("/news/cn/0.html", resources.get(0).getUri());
+        assertPage0Content(resources.get(0));
+        Assert.assertEquals("/news/cn/9.html", resources.get(9).getUri());
+        assertPage9Content(resources.get(9));
+    }
+    
+    @Test
+    public void teestListTemplateCreateHome()throws Exception{
+    	 ArticlePublishServiceable service = mock(ArticlePublishServiceable.class);
+         when(service.getArticleCount(any(Integer.class))).thenReturn(100);
+         
+         ListGenerator generator = new ListGenerator(cfg,service,true);
+         List<OutputResource> resources = generator.process(initSite(),initChannel(),initTemplate(getTemplatePath("list.html")));
+         Assert.assertEquals(11, resources.size());
+         Assert.assertEquals("/news/cn/index.html", resources.get(0).getUri());
+         assertPage0Content(resources.get(0));
+         Assert.assertEquals("/news/cn/0.html", resources.get(1).getUri());
+         assertPage0Content(resources.get(1));
+         Assert.assertEquals("/news/cn/9.html", resources.get(10).getUri());
+         assertPage9Content(resources.get(10));
+    }
+  
 }
