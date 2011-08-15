@@ -36,7 +36,6 @@ import com.ewcms.web.util.EwcmsContextUtil;
  */
 @Service
 public class ChannelService implements ChannelServiceable{
-
     @Autowired
     private ChannelDAO channelDao;
     @Autowired
