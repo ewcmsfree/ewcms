@@ -1,4 +1,10 @@
 /**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+/**
  * 
  */
 package com.ewcms.core.site.service;
@@ -33,7 +39,7 @@ public interface TemplateSourceServiceable extends TemplateSourcePublishServicea
 	
 
 	/**
-	 * 获取站点专栏资源根目录
+	 * 获取站点专栏资源根目�?
 	 * 
 	 */    
     public TemplateSource channelSRCRoot();

@@ -1,4 +1,10 @@
 /**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+/**
  * 
  */
 package com.ewcms.core.site.service;
@@ -33,12 +39,12 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
 	public List<Template> getTemplaeTreeList(Integer parentId,Boolean channelEnable);
 
 	/**
-	 * 获取模板子模板集及 某个专栏模板
+	 * 获取模板子模板集�?某个专栏模板
 	 * 
 	 */ 	
 	public List<Template> getTemplaeTreeList(Integer parentId,String channelName);
 	/**
-	 * 获取站点专栏模板根目录
+	 * 获取站点专栏模板根目�?
 	 * 
 	 */    
     public Template channelTPLRoot();

@@ -1,4 +1,10 @@
 /**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+/**
  * 
  */
 package com.ewcms.core.site.service;
@@ -52,7 +58,7 @@ public interface SiteServiceable extends SitePublishServiceable {
 	public List<TreeNode> getCustomerSiteTreeList(Integer parentId);	
 	
 	/**
-	 * 获取子站点.
+	 * 获取子站�?
 	 */
 	public List<TreeNode> getSiteChildren(Integer parentId, Integer organId);
 }
