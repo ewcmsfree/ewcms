@@ -12,7 +12,6 @@ package com.ewcms.core.site;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.model.Acl;
@@ -24,11 +23,11 @@ import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
-import com.ewcms.core.site.service.ChannelService;
+import com.ewcms.core.site.service.ChannelServiceable;
 import com.ewcms.core.site.service.OrganService;
-import com.ewcms.core.site.service.SiteService;
-import com.ewcms.core.site.service.TemplateService;
-import com.ewcms.core.site.service.TemplateSourceService;
+import com.ewcms.core.site.service.SiteServiceable;
+import com.ewcms.core.site.service.TemplateServiceable;
+import com.ewcms.core.site.service.TemplateSourceServiceable;
 import com.ewcms.web.vo.TreeNode;
 
 /**
@@ -38,15 +37,15 @@ import com.ewcms.web.vo.TreeNode;
 @Service
 public class SiteFac{
 	@Autowired
-	private SiteService siteService;
+	private SiteServiceable siteService;
 	@Autowired
-	private TemplateService templateService;
+	private TemplateServiceable templateService;
 	@Autowired
-	private ChannelService channelService;
+	private ChannelServiceable channelService;
 	@Autowired
 	private OrganService organService;	
 	@Autowired
-	private TemplateSourceService templateSourceService;
+	private TemplateSourceServiceable templateSourceService;
 
     @PreAuthorize("isAuthenticated()")
     public Acl findAclOfChannel(final Channel channel){

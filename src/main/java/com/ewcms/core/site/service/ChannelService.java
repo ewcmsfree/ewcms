@@ -26,7 +26,6 @@ import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.security.acls.domain.EwcmsPermission;
 import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -36,7 +35,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
  * 
  */
 @Service
-public class ChannelService implements ChannelPublishServiceable{
+public class ChannelService implements ChannelServiceable{
 
     @Autowired
     private ChannelDAO channelDao;

@@ -26,7 +26,7 @@ import com.ewcms.web.vo.TreeNode;
  * 
  */
 @Service
-public class SiteService implements SitePublishServiceable{
+public class SiteService implements SiteServiceable{
 
 	@Autowired
 	private SiteDAO siteDao;

@@ -24,7 +24,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
  *
  */
 @Service
-public class TemplateSourceService implements TemplateSourcePublishServiceable{
+public class TemplateSourceService implements TemplateSourceServiceable{
 	@Autowired
 	private TemplateSourceDAO templateSourceDao;
 	
