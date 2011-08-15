@@ -78,7 +78,6 @@
         <action name="del" class="com.ewcms.core.site.web.TemplateAction" method="delTemplate"/>	
         <action name="addFolder" class="com.ewcms.core.site.web.TemplateAction" method="addFolder"/> 
         <action name="moveto" class="com.ewcms.core.site.web.TemplateAction" method="movetoTemplate"/>
-        <action name="urltoid" class="com.ewcms.core.site.web.TemplateAction" method="urltoID"/>
 		<action name="edit" class="com.ewcms.core.site.web.TemplateAction">
 			<result>/WEB-INF/page/site/template/edit.jsp</result>
 		</action>
@@ -93,7 +92,10 @@
 		</action>	
 		<action name="saveContent" class="com.ewcms.core.site.web.TemplateAction" method="saveContent">
 			<result name="input">/WEB-INF/page/site/template/content.jsp</result>
-		</action>		               	
+		</action>	
+		<action name="setProperty" class="com.ewcms.core.site.web.TemplateAction" method="setTemplateProperty">
+			<result name="input">/WEB-INF/page/site/template/templateset.jsp</result>
+		</action>				               	
 	</package>
 	
     <package name="site.template.source"  extends="struts-default" namespace="/site/template/source">
@@ -147,6 +149,7 @@
 		<action name="rename" class="com.ewcms.core.site.web.ChannelAction" method="renameChannel"/>
 		<action name="del" class="com.ewcms.core.site.web.ChannelAction" method="delChannel"/>
 		<action name="moveto" class="com.ewcms.core.site.web.ChannelAction" method="movetoChannel"/>
+		<action name="importtpl" class="com.ewcms.core.site.web.ChannelAction" method="importChannelTPL"/>
 		<action name="edit" class="com.ewcms.core.site.web.ChannelAction">
 			<result>/WEB-INF/page/site/channel/edit.jsp</result>
 		</action>
