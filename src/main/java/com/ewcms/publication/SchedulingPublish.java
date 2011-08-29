@@ -11,6 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
@@ -54,8 +55,14 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        resourcePublish = new ResourcePublish(siteService,resourceService,templateSourceService);
+        Assert.notNull(channelService,"channelService must setting");
+        Assert.notNull(articleService,"articleService must setting");
+        Assert.notNull(templateService,"templateService must setting");
+        Assert.notNull(siteService,"siteService must setting");
+        Assert.notNull(resourceService,"resourceService must setting");
+        Assert.notNull(templateSourceService,"templateSourceService must setting");
         
+        resourcePublish = new ResourcePublish(siteService,resourceService,templateSourceService);
     }
     
     @Override
