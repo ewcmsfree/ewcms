@@ -8,6 +8,8 @@ package com.ewcms.publication.preview;
 
 import java.io.OutputStream;
 
+import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.PublishException;
 
@@ -23,12 +25,16 @@ public interface TemplatePreviewable {
      * 
      * @param out       
      *          输出数据流
+     * @param site       
+     *          站点
+     * @param channel       
+     *          频道
      * @param template
      *          模板
      * @param mock
      *          是否模拟 
      * @throws PublishException
      */
-    public void view(OutputStream out,Template template,Boolean mock)throws PublishException;
+    public void view(OutputStream out,Site site,Channel channel,Template template,Boolean mock)throws PublishException;
         
 }
