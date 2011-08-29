@@ -67,12 +67,6 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> {
         });
     }
 
-    public void publishResource(Integer id) {
-         Resource resource = get(id);
-         resource.setRelease(Boolean.TRUE);
-         persist(resource);
-    }
-
     public void updateNotRelease(final Integer siteId) {
         getJpaTemplate().execute(new JpaCallback<Object>() {
             @Override

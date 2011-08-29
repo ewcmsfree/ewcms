@@ -145,7 +145,9 @@ public class ResourceService implements ResourceServiceable {
 
     @Override
     public void publishResource(Integer id) {
-         resourceDao.publishResource(id);
+        Resource resource = resourceDao.get(id);
+        resource.setRelease(Boolean.TRUE);
+        resourceDao.persist(resource);
     }
 
     @Override
