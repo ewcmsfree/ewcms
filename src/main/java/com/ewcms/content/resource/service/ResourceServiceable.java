@@ -6,18 +6,19 @@
 
 package com.ewcms.content.resource.service;
 
-import com.ewcms.content.resource.model.Resource;
-import com.ewcms.content.resource.model.ResourceType;
-
 import java.io.File;
 import java.io.IOException;
+
+import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.ResourceType;
+import com.ewcms.publication.service.ResourcePublishServiceable;
 
 /**
  * 上传文件操作接口
  * 
  * @author 吴智俊
  */
-public interface ResourceServiceable {
+public interface ResourceServiceable extends ResourcePublishServiceable {
 
     /**
      * 新增上传文件

@@ -8,6 +8,7 @@ package com.ewcms.content.resource.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,5 +136,20 @@ public class ResourceService implements ResourceServiceable {
     private String getCurrentReleaseDir(){
          Site site = EwcmsContextUtil.getCurrentSite();
         return site.getSiteServer().getPath();
+    }
+    
+    @Override
+    public List<Resource> findNotReleaseResources(Integer siteId) {
+        return resourceDao.findNotReleaseResources(siteId);
+    }
+
+    @Override
+    public void publishResource(Integer id) {
+         resourceDao.publishResource(id);
+    }
+
+    @Override
+    public void updateNotRelease(Integer siteId) {
+        resourceDao.updateNotRelease(siteId);
     }
 }
