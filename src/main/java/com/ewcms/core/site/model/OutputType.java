@@ -10,7 +10,7 @@
 package com.ewcms.core.site.model;
 
 /**
- * @author 周冬�?
+ * @author 周冬�?
  *
  */
 public enum OutputType {
@@ -24,4 +24,5 @@ public enum OutputType {
 	public String getDescription(){
 		return description;
 	}
+	
 }
