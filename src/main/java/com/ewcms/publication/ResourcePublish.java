@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
@@ -52,6 +53,10 @@ class ResourcePublish implements ResourcePublishable{
     public ResourcePublish(SitePublishServiceable siteService,
             ResourcePublishServiceable resourceService,
             TemplateSourcePublishServiceable templateSourceService){
+        
+        Assert.notNull(siteService,"siteService is null");
+        Assert.notNull(resourceService,"resourceService is null");
+        Assert.notNull(templateSourceService,"templateSourceService is null");
         
         this.siteService = siteService;
         this.resourceService = resourceService;
