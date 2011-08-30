@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>站点设置</title>	
+		<title>站点发布设置</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>	
@@ -16,12 +16,36 @@
 			        <s:iterator value="actionMessages">  
 							$.messager.alert('提示','<s:property escape="false"/>');
 			        </s:iterator>  
-		     	</s:if>  
+		     	</s:if> 
+		     	outputTypeChange('<s:property value="siteVo.siteServer.outputType"/>'); 
+			}
+
+			function outputTypeChange(valuestr){
+				$('#serverInfo1').hide();
+				$('#serverInfo2').hide();
+				$('#serverInfo3').hide();
+				$('#serverInfo4').hide();
+				$('#serverInfo5').hide();
+				if(valuestr=="LOCAL"){
+					$('#serverInfo5').show();
+					return;
+				}
+				if(valuestr=="SFTP" || valuestr=="FTP"){
+					$('#serverInfo1').show();
+					$('#serverInfo2').show();
+					$('#serverInfo3').show();
+					$('#serverInfo4').show();
+					$('#serverInfo5').show();
+					return;
+				}
+				if(valuestr=="SMB"){
+					$('#serverInfo1').show();
+				}				
 			}
 		</script>
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="saveConfig" namespace="/site/organ">				
+		<s:form action="saveServer" namespace="/site/organ">				
 			<table class="formtable" align="center">
 				<tr>
 					<td>站点名称：</td>
@@ -31,66 +55,47 @@
 					</td>
 				</tr>				
 				<tr>
-					<td>站点目录：</td>
+					<td>发布类型：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.siteRoot" cssClass="inputtext"/>
-						<ul class="errorMessage"><li><span style="color:gray;">只能由数字、字符、下划线组成</span></li></ul>
-						<s:fielderror ><s:param value="%{'siteVo.siteRoot'}" /></s:fielderror>
+						<s:select list="outputTypeList" name="siteVo.siteServer.outputType" cssClass="inputtext"  listKey="name()" listValue="description"  onchange="outputTypeChange(this.value);" headerKey="" headerValue="------请选择------"/>
 					</td>				
 				</tr>
-				<tr>
-					<td >访问地址URL：</td>
+				<tr id="serverInfo1" style="display:none;">
+					<td >服务器IP：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.siteURL" cssClass="inputtext" size="40"/>
+						<s:textfield name="siteVo.siteServer.hostName" cssClass="inputtext" size="40"/>
 						<ul class="errorMessage"><li><span style="color:gray;">例如：http://www.bbb.cn</span></li></ul>
 						<s:fielderror><s:param value="%{'siteVo.siteURL'}" /></s:fielderror>
 					</td>
 				</tr>
-				<tr>
-					<td>描述：</td>
+				<tr id="serverInfo2" style="display:none;">
+					<td>端口：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.describe" cssClass="inputtext"/>
-						<s:fielderror ><s:param value="%{'siteVo.describe'}" /></s:fielderror>
+						<s:textfield name="siteVo.siteServer.port" cssClass="inputtext"/>
 					</td>				
 				</tr>	
-				<tr>
-					<td>meta关键字：</td>
+				<tr id="serverInfo3" style="display:none;">
+					<td>用户名：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.metaKey" cssClass="inputtext" size="40"/>
-						<ul class="errorMessage"><li><span style="color:gray;">页面中使用关键字，便于SEO</span></li></ul>
-						<s:fielderror><s:param value="%{'siteVo.metaKey'}" /></s:fielderror>
+						<s:textfield name="siteVo.siteServer.userName" cssClass="inputtext" size="40"/>
 					</td>
 				</tr>
-				<tr>
-					<td >meta说明：</td>
+				<tr id="serverInfo4" style="display:none;">
+					<td >密码：</td>
 					<td class="formFieldError">
-						<s:textarea name="siteVo.metaDescripe" style="width:222px;height:60px" cssClass="inputtext"/>
-						<s:fielderror ><s:param value="%{'siteVo.metaDescripe'}" /></s:fielderror>
+						<s:textfield name="siteVo.siteServer.password" cssClass="inputtext" size="40"/>
 					</td>				
 				</tr>
-				<tr>
-					<td>生成文件的扩展名：</td>
+				<tr id="serverInfo5" style="display:none;">
+					<td>发布路径：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.extraFile" cssClass="inputtext"/>
-						<ul class="errorMessage"><li><span style="color:gray;">允许htm,html,shtml,jsp，默认shtml</span></li></ul>
-						<s:fielderror ><s:param value="%{'siteVo.extraFile'}" /></s:fielderror>
-					</td>				
-				</tr>
-				<tr>
-					<td>资源发布目录：</td>
-					<td class="formFieldError">
-						<s:textfield name="siteVo.resourceDir" cssClass="inputtext"  size="40"/>
+						<s:textfield name="siteVo.siteServer.path" cssClass="inputtext"  size="40"/>
 						<ul class="errorMessage"><li><span style="color:gray;">比如：e:/resource</span></li></ul>
 						<s:fielderror ><s:param value="%{'siteVo.resourceDir'}" /></s:fielderror>
 					</td>				
-				</tr>	
-				<tr>
-					<td >是否允许发布：</td>
-					<td >
-						<s:checkbox name="siteVo.publicenable"></s:checkbox>
-					</td>				
 				</tr>																												
 			</table>	
+			<s:hidden name="siteVo.siteServer.id"/>
 			<s:hidden name="siteVo.id"/>
 		</s:form>							
 	</body>

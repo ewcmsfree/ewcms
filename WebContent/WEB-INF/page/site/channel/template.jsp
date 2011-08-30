@@ -17,9 +17,7 @@
 			function browseTPL(){
 				openWindow("#template-window");
 			}
-			function browseSetTPL(){
-				openWindow("#settplproperty-window");
-			}
+
 			function selectTPL(){
 				var node = $('#tt2').tree('getSelected');
     	    	if(node == null || typeof(node) == 'undefined' || node.iconCls != "")
@@ -27,13 +25,12 @@
     	    		$.messager.alert('提示','请选择模板文件');
     	    		return false;
     	    	}
-	            $.post('<s:url action="importtpl"/>',{'channelVo.id':node.id},function(data){
+	            $.post('<s:url action="importtpl"/>',{'channelVo.id':<s:property value="channelVo.id"/>,'channelVo.name':node.id},function(data){
 		            if(data == 'false'){
 	    	    		$.messager.alert('提示','模板导入失败');
 	    	    		return;
 		            }
 		            defQueryCallBack();
-		            closeTPL();
 	    	    }); 	    	    					
 			}	
 			
@@ -48,8 +45,7 @@
 				//创建和设置页面的基本对象 EwcmsBase`
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
-				ewcmsBOBJ.addToolItem(("导入","icon-print","browseTPL"));
-				ewcmsBOBJ.addToolItem(("设置","icon-undo","browseSetTPL"));
+				ewcmsBOBJ.addToolItem("导入","icon-print","browseTPL");
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
@@ -64,7 +60,7 @@
 				//创建和设置页面的操作对象 EwcmsOperate
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setInputURL('<input type="button" name="Submit" value="编辑.." class="inputbutton" onClick="editTPL('+rec.id+');">');
+				ewcmsOOBJ.setInputURL('<s:url action="input" namespace="/site/template"/>?templateVo.channelId=<s:property value="channelVo.id"/>');
 				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template"/>');
 			});			
 			function editTPL(idValue){
@@ -122,18 +118,6 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:selectTPL();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:closeWindow('#template-window');">取消</a>
-                </div>
-            </div>
-        </div> 
-        
-        <div id="settplproperty-window" class="easyui-window" closed="true"  style="display:none;overflow:hidden;">
-            <div class="easyui-layout" fit="true" >
-                <div region="center" border="false">
-                   <iframe id="settplifr"  name="settplifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:window.frames['settplifr'].document.forms[0].submit();">确定</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick='javascript:closeWindow("#settplproperty-window");'>取消</a>
                 </div>
             </div>
         </div>               

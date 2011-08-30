@@ -242,8 +242,18 @@
 				var url='<s:url action="configSite"/>';
 				url = url + "? siteVo.id=" + getNodeId(node);	
 				$("#editifr").attr('src',url); 
-			    openWindow('#edit-window',{width:600,height:400,top:10,left:10,title:'站点设置'});				   						
-			}			
+			    openWindow('#edit-window',{width:600,height:400,top:10,left:10,title:'属性设置'});				   						
+			}
+
+			function serverSite(){
+				//判断是否选择了操作机构
+    			var node = getSelectNode();
+    			if(!node) return;	  			
+				var url='<s:url action="serverSite"/>';
+				url = url + "? siteVo.id=" + getNodeId(node);
+				$("#serverifr").attr('src',url);
+			    openWindow('#server-window',{width:600,height:400,top:10,left:10,title:'发布设置'});	
+			}
 		</script>		
 
 	<body class="easyui-layout">
@@ -258,7 +268,8 @@
 		<div id="treeopmenu" class="easyui-menu" style="width:100px; padding:4px 0 8px 0;">
 			<div icon="icon-add" onclick="addSite();">创建站点</div>	
 			<div icon="icon-redo" onclick="setSite();">设为主站</div>
-			<div icon="icon-reload" onclick="configSite();">站点设置</div>
+			<div icon="icon-reload" onclick="configSite();">属性设置</div>
+			<div icon="icon-reload" onclick="serverSite();">发布设置</div>
 			<div icon="icon-undo" onclick="renameSite();">重命名</div>	   	
 			<div icon="icon-remove" onclick="delSite();">删除</div>								
 			<div icon="icon-ok" onclick="parseSite();">粘贴</div>	
@@ -266,7 +277,7 @@
 		</div>
 		<input type="hidden" value="<s:property value="organVo.homeSiteId"/>" name="homeSiteId">	
 		
-        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;站点设置" style="display:none;">
+        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;属性设置" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" frameborder="0" width=100% height=335 style="overflow:hidden;"></iframe>
@@ -276,7 +287,18 @@
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick=" $('#edit-window').window('close');">关闭窗口</a>
                 </div>
             </div>
-        </div>		
+        </div>
+        <div id="server-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;发布设置" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                   <iframe id="serverifr"  name="serverifr" frameborder="0" width=100% height=335 style="overflow:hidden;"></iframe>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator('serverifr')">保存</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick=" $('#server-window').window('close');">关闭窗口</a>
+                </div>
+            </div>
+        </div>	        		
 	</body>
 	</s:else>
 </html>

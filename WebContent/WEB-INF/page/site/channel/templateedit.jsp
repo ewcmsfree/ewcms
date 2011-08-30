@@ -30,6 +30,18 @@
 					</td>
 				</tr>
 				<tr>
+					<td>模板类型：</td>
+					<td>
+						<s:select list="templateTypeList" name="templateVo.type" listKey="name()" listValue="description" headerKey="" headerValue="------请选择------"/>
+					</td>
+				</tr>
+				<tr>
+					<td>URI规则：</td>
+					<td >
+						<s:textfield name="templateVo.uriPattern" cssClass="inputtext"/>
+					</td>				
+				</tr>				
+				<tr>
 					<td>说明：</td>
 					<td class="formFieldError">
 						<s:textfield name="templateVo.describe" cssClass="inputtext"/>
