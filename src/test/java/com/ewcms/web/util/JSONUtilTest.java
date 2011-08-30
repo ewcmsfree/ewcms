@@ -15,20 +15,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.ewcms.web.util.JSONUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * JSONUtil单元测试
  *
  * @author wangwei
  */
 public class JSONUtilTest {
 
-    private static Log log = LogFactory.getLog(JSONUtilTest.class);
+    private static Logger logger = LoggerFactory.getLogger(JSONUtilTest.class);
 
     @Test
     public void testToJSONByObject() {
@@ -41,7 +40,7 @@ public class JSONUtilTest {
         model.setBrithDate(new Date(calendar.getTimeInMillis()));
 
         String jsonString = JSONUtil.toJSON(model);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString, "{\"name\":\"中文\",\"id\":1,\"brithDate\":\"2009-01-01\",\"money\":1.1}");
     }
 
@@ -56,7 +55,7 @@ public class JSONUtilTest {
         model.setBrithDate(new Date(calendar.getTimeInMillis()));
 
         String jsonString = JSONUtil.toJSON(model,new SimpleDateFormat("yyyy年MM月dd日"));
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString, "{\"name\":\"中文\",\"id\":1,\"brithDate\":\"2009年01月01日\",\"money\":1.1}");
     }
 
@@ -69,7 +68,7 @@ public class JSONUtilTest {
 
         JSONModel[] array = new JSONModel[]{model, model};
         String jsonString = JSONUtil.toJSON(array);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1}]");
 
@@ -86,7 +85,7 @@ public class JSONUtilTest {
         list.add(model);
 
         String jsonString = JSONUtil.toJSON(list);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1}]");
     }
@@ -100,7 +99,7 @@ public class JSONUtilTest {
         map.put("money", 1.1f);
 
         String jsonString = JSONUtil.toJSON(map);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString, "{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1}");
     }
 
@@ -118,7 +117,7 @@ public class JSONUtilTest {
         array[1] = map;
 
         String jsonString = JSONUtil.toJSON(array);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1}]");
     }
@@ -136,7 +135,7 @@ public class JSONUtilTest {
         list.add(map);
 
         String jsonString = JSONUtil.toJSON(list);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1}]");
     }
@@ -184,7 +183,7 @@ public class JSONUtilTest {
         values.add(new Object[]{"中文1", 2, null, 2.1f});
 
         String jsonString = JSONUtil.toJSON(aliases, values);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文1\",\"id\":2,\"brithDate\":null,\"money\":2.1}]");
 
@@ -201,7 +200,7 @@ public class JSONUtilTest {
         values.add(Arrays.asList(new Object[]{"中文1", 2, null, 2.1f}));
 
         String jsonString = JSONUtil.toJSON(aliases, values);
-        log.info(jsonString);
+        logger.info(jsonString);
         Assert.assertEquals(jsonString,
                 "[{\"name\":\"中文\",\"id\":1,\"brithDate\":null,\"money\":1.1},{\"name\":\"中文1\",\"id\":2,\"brithDate\":null,\"money\":2.1}]");
 
