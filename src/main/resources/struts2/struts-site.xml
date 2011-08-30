@@ -39,7 +39,13 @@
 		</action>
 		<action name="saveConfig" class="com.ewcms.core.site.web.SetupAction" method="saveInfo">
 			<result name="input">/WEB-INF/page/site/organ/config.jsp</result>
-		</action>					
+		</action>
+		<action name="serverSite" class="com.ewcms.core.site.web.SetupAction" method="editSite">
+			<result name="input">/WEB-INF/page/site/organ/server.jsp</result>
+		</action>
+		<action name="saveServer" class="com.ewcms.core.site.web.SetupAction" method="saveServer">
+			<result name="input">/WEB-INF/page/site/organ/server.jsp</result>
+		</action>							
 	</package>	
 	
 	<package name="site.setup"  extends="struts-default" namespace="/site/setup"> 	
