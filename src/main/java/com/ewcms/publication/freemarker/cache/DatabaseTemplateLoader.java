@@ -53,7 +53,7 @@ public class DatabaseTemplateLoader implements TemplateLoader{
         TemplateEntity entity = template.getTemplateEntity();
         if(entity == null){
             logger.debug("template content is null");
-            throw new FileNotFoundException(path + " entity does not exist.");
+            throw new FileNotFoundException(path + " content is null.");
         }
         
         byte[] content = entity.getTplEntity();
