@@ -139,7 +139,7 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
         article.setSubTitle("模板预览子标题");
         article.setSummary("模板预览,显示用户设置的模板样式。");
         article.setTag("preview");
-        int len = Math.abs(random.nextInt()) % 5;
+        int len = Math.abs(random.nextInt()) % 6;
         len = (len == 0 ? 1 : len);
         article.setTitle(DEFAULT_TITLE.substring(len * 5));
         article.setTopFlag(top);
