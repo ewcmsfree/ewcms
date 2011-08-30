@@ -60,6 +60,7 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     private TemplatePublishServiceable templateService;
     
     private CacheStorage cacheStorage =new MruCacheStorage(30,500);
+    private boolean localizedLookup = false;
     
     @Override
     public Configuration createConfiguration()throws IOException,TemplateException{
@@ -105,7 +106,10 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     
     public Configuration getConfiguration() throws IOException, TemplateException{
         config = (config == null ? this.createConfiguration() : config);
+        
+        config.setLocalizedLookup(localizedLookup);
         config.setCacheStorage(cacheStorage);
+        
         return config;
     }
 
@@ -133,5 +137,9 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     
     public void setCacheStorage(CacheStorage cacheStorage){
         this.cacheStorage = cacheStorage;
+    }
+    
+    public void setLocalizedLookup(boolean localizedLookup){
+        this.localizedLookup = localizedLookup;
     }
 }
