@@ -217,6 +217,7 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      * @throws PublishException
      */
     protected void publishChannel(Channel channel,boolean again)throws PublishException{
+        
         if(isPublishingNow(channel)){
             return ;
         }
