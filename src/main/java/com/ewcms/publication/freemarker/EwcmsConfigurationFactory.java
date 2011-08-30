@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 
@@ -37,6 +36,8 @@ import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
 
+import freemarker.cache.CacheStorage;
+import freemarker.cache.MruCacheStorage;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -54,13 +55,11 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     
     private List<TemplateLoader> postTemplateLoaders = new ArrayList<TemplateLoader>();;
     
-    @Autowired
     protected ChannelPublishServiceable channelService;
-    @Autowired
     protected ArticlePublishServiceable articleService;
-    @Autowired
     private TemplatePublishServiceable templateService;
     
+    private CacheStorage cacheStorage =new MruCacheStorage(30,500);
     
     @Override
     public Configuration createConfiguration()throws IOException,TemplateException{
@@ -106,6 +105,7 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     
     public Configuration getConfiguration() throws IOException, TemplateException{
         config = (config == null ? this.createConfiguration() : config);
+        config.setCacheStorage(cacheStorage);
         return config;
     }
 
@@ -129,5 +129,9 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
 
     public void setArticleService(ArticlePublishServiceable articleService) {
         this.articleService = articleService;
+    }
+    
+    public void setCacheStorage(CacheStorage cacheStorage){
+        this.cacheStorage = cacheStorage;
     }
 }
