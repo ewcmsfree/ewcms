@@ -46,14 +46,14 @@ public class DatabaseTemplateLoader implements TemplateLoader{
         Template template = templateService.getTemplateByUniquePath(path);
         
         if(template == null){
-            logger.debug("template is null");
-            throw new FileNotFoundException(path + " does not exist.");
+            logger.debug("{} is not exist.",path);
+            return null;
         }
         
         TemplateEntity entity = template.getTemplateEntity();
         if(entity == null){
             logger.debug("template content is null");
-            return null;
+            throw new FileNotFoundException(path + " entity does not exist.");
         }
         
         byte[] content = entity.getTplEntity();
