@@ -3,12 +3,12 @@
 "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
 
 <validators>
-    <field name="siteVo.serverDir">
+    <field name="siteVo.siteRoot">
         <field-validator type="requiredstring">
             <message>目录不能为空!</message>
         </field-validator>
        <field-validator type="regex">
-            <param name="expression"><![CDATA[(^[0-9A-Za-z_/:-]+$)]]></param>
+            <param name="expression"><![CDATA[(^[0-9A-Za-z_]+$)]]></param>
             <message>目录格式错误!</message>
         </field-validator>        
     </field>
