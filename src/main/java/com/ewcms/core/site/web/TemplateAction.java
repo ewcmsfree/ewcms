@@ -143,6 +143,8 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		if(isUpdate){
 			Template oldvo = siteFac.getTemplate(getTemplateVo().getId());
 			oldvo.setDescribe(getTemplateVo().getDescribe());
+			oldvo.setType(getTemplateVo().getType());
+			oldvo.setUriPattern(getTemplateVo().getUriPattern());
 			if(templateFile!=null){
 				oldvo.getTemplateEntity().setTplEntity(getTemplateVo().getTemplateEntity().getTplEntity());
 				oldvo.setName(templateFileFileName);
@@ -444,18 +446,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public List<TemplateType> getTemplateTypeList() {
 		return Arrays.asList(TemplateType.values());
 	}
-	public String setTemplateProperty() {
-		try {
-			Template vo = siteFac.getTemplate(getTemplateVo().getId());
-			vo.setType(getTemplateVo().getType());
-			vo.setUriPattern(getTemplateVo().getUriPattern());
-			siteFac.updTemplate(vo);
-			addActionMessage("模板属性设置成功！");
-		} catch (Exception e) {
-			addActionMessage("模板属性设置失败！");
-		}
-		return INPUT;
-	}	
+	
 	private String converKB(long size) {
 		DecimalFormat dfom = new DecimalFormat("####.0");
 		if (size <= 0)

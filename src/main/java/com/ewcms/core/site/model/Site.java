@@ -87,7 +87,7 @@ public class Site implements Serializable {
     private int childrenCount = 0;
     
     @OneToOne(cascade={CascadeType.ALL},targetEntity=SiteServer.class)
-    @JoinColumn(name="serverId",nullable=true)  
+    @JoinColumn(name="serverId",nullable=true)
     private SiteServer siteServer;
     
     public Integer getId() {

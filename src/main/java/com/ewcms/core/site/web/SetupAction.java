@@ -9,9 +9,11 @@
  */
 package com.ewcms.core.site.web;
 
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -159,7 +161,11 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
-
+	
+	public List<OutputType> getOutputTypeList() {
+		return Arrays.asList(OutputType.values());
+	}
+	
 	/**
 	 * 移动专栏.
 	 */
@@ -194,6 +200,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			Site oldVo = siteFac.getSite(vo.getId());
 			vo.setOrgan(oldVo.getOrgan());
 			vo.setParent(oldVo.getParent());
+			vo.setSiteServer(oldVo.getSiteServer());
 			siteFac.updSite(vo);
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
@@ -207,7 +214,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 	/**
 	 * 保存站点服务器信息.
 	 */
-	public String saveSiteServer() {
+	public String saveServer() {
 		try {
 			Site vo = getSiteVo();
 			siteFac.saveSiteServer(vo);

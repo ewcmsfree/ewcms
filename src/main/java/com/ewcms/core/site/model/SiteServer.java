@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * <li>path:发布路径
  * <li>hostName:服务器IP
  * <li>port: 端口
- * <li>user:用户
+ * <li>userName:用户
  * <li>password:密码
  * </ul>
  * 
@@ -46,7 +46,7 @@ public class SiteServer implements Serializable {
     @Column(length = 5)
     private String port;
     @Column(length = 30)
-    private String user;
+    private String userName;
     @Column(length = 20)
     private String password;
 	@Column(length = 15)
@@ -84,11 +84,11 @@ public class SiteServer implements Serializable {
 	public void setPort(String port) {
 		this.port = port;
 	}
-	public String getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUserName(String user) {
+		this.userName = user;
 	}
 	public String getPassword() {
 		return password;

@@ -262,7 +262,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 
 	public void importChannelTPL() {
 		try {
-			Template template = siteFac.getTemplate(getChannelVo().getId());
+			Template template = siteFac.getTemplate(Integer.parseInt(getChannelVo().getName()));
 			if (template.getChannelId() != null)
 				return;
 			Template vo = new Template();
