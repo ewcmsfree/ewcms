@@ -30,6 +30,10 @@ import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.service.SitePublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
+import com.ewcms.publication.task.ChannelPublishTask;
+import com.ewcms.publication.task.MemoryTaskRegistry;
+import com.ewcms.publication.task.TaskRegistryable;
+import com.ewcms.publication.task.Taskable;
 
 import freemarker.template.Configuration;
 
@@ -41,6 +45,7 @@ import freemarker.template.Configuration;
 public class SchedulingPublish implements SchedulingPublishable,InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(SchedulingPublish.class);
+    private static final TaskRegistryable DEFAULT_TASK_REGISTRY = new MemoryTaskRegistry();
     
     protected ChannelPublishServiceable channelService;
     protected ArticlePublishServiceable articleService;
@@ -53,6 +58,8 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
     protected ResourcePublishable resourcePublish;
     protected Configuration cfg;
 
+    protected TaskRegistryable taskRegistry = DEFAULT_TASK_REGISTRY;
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(channelService,"channelService must setting");
@@ -92,16 +99,23 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
     /**
      * 判断频道是否正在发布
      * 
-     * @param siteId
-     *            站点编号
-     * @param channelId
-     *            频道编号
-     * @throws PublishException
+     * @param channel 频道
      */
     protected synchronized boolean isPublishingNow(Channel channel){
-        //判断频道是否在发布
+        
+        Integer id = channel.getId();
+        if(taskRegistry.alreadyExistTask(id)){
+            return true;
+        }
+        
+        Site site = channel.getSite();
+        Taskable task = new ChannelPublishTask(site,channel);
+        taskRegistry.registerNewTask(id, task);
+        
         return false;
     }
+    
+    
     
     /**
      * 发布生成页面到指定位置 
@@ -185,6 +199,16 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 		}
 	}
     
+	/**
+	 * 发布完成
+	 * <br>
+	 * 删除频道发布任务
+	 */
+	protected void publishFinish(Channel channel){
+	    Integer id = channel.getId();
+	    taskRegistry.removeTask(id);
+	}
+	
     /**
      * 发布频道
      * 
@@ -207,6 +231,8 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         publishDetail(site,channel,templates);
         publishList(site,channel,templates);
         publishHome(site,channel,templates);
+        
+        publishFinish(channel);
     }
     
     /**
@@ -248,4 +274,9 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             TemplateSourcePublishServiceable templateSourceService) {
         this.templateSourceService = templateSourceService;
     }
+    
+    public void setTaskRegistry(TaskRegistryable taskRegistry){
+        this.taskRegistry = taskRegistry;
+    }
+    
 }
