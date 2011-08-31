@@ -8,9 +8,10 @@
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/datagrid-detailview.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
 		<script>
 			var channelId = 0;
@@ -27,6 +28,7 @@
 				});
 				//数据表格定义 						
                 openDataGrid({
+                	singleSelect:true,
                     columns:[[
                                 {field:'id',title:'编号',width:60},
                                 {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
@@ -57,9 +59,8 @@
                                         return rec.article.title + classValue;
                                     }
                                 },
-                                {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                                {field:'owner',title:'创建者',width:80,formatter:function(val,rec){return rec.article.owner;}},
                                 {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
-                                {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
                                 {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
                                 {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
                                 {field:'sort',title:'排序号',width:60}
@@ -67,17 +68,50 @@
 			         toolbar:[
 								{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
 								{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
-								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
-								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{id:'btnSort',text:'排序',iconCls:'icon-sort',handler:sortOperate},'-',
-								{id:'btnClearSort',text:'清除排序',iconCls:'icon-sort',handler:clearSortOperate},'-',
 								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
 								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
 								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
-								{id:'btnSubmitReview',text:'提交审核',iconCls:'icon-submitreview',handler:submitReviewOperate},'-',
-								{id:'btnReview',text:'审核',iconCls:'icon-review',handler:reviewOperate},'-',
-								{id:'btnPub',text:'发布',iconCls:'icon-publish',handler:pubOperate}							
+								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
+								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
+								{id:'btnSort',text:'排序',iconCls:'icon-sort'},'-',
+								{id:'btnReview',text:'审核',iconCls:'icon-review'},'-',
+								{id:'btnPub',text:'发布',iconCls:'icon-publish'}							
 						     ]
+				});
+				$("#tt").datagrid({
+  					 view: detailview,    
+					 detailFormatter: function(rowIndex, rowData){
+					    var operateTracks = rowData.article.operateTracks;
+					    var htmls = [];
+					    if (operateTracks.length == 0){
+						    htmls.push('<div style="padding:5px 0">没有操作记录!</div>');
+					    }else{
+					    	htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
+					    	htmls.push('<div class="datagrid-header-inner" style="display: block;">');
+					    	htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
+					    	htmls.push('<tr style="height: 21px">');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
+					    	htmls.push('</tr>');
+					    	htmls.push('</table>');
+					    	htmls.push('</div>');
+					    	htmls.push('</div>');                  
+						    htmls.push('<div class="datagrid-body">');
+						    for (var i=0;i<operateTracks.length;i++){
+						    	htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">' +
+						    	           '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>' + (operateTracks.length - i) + '</span></div></td>' +
+							               '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>' + operateTracks[i].userName + '</span></div></td>' + 
+							               '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>' + operateTracks[i].statusDesc + '</span></div></td>' + 
+							               '<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>' + operateTracks[i].operateTime + '</span></div></td>' + 
+							               '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>' + operateTracks[i].description + '</span></div></td></tr></table>');
+						    }
+						    htmls.push('</div></div>');
+					    }
+					    return htmls.join("");
+				     }
 				});
 				//站点专栏目录树初始
 				$('#tt2').tree({
@@ -116,6 +150,9 @@
 								return;
 							}				            
 						}
+						$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
+						$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
+						$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
 					}
 				});
 				$('#tt3').click(function(){
@@ -133,6 +170,9 @@
 					}    			
 
 				});
+				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
+				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
+				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
 			});
 			
 			//重载站点专栏目录树
@@ -147,6 +187,9 @@
 	            	pageNumber:1,
 	                url:url
 	            });
+				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
+				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
+				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
 			}
 			
 			function addOperate(){
@@ -408,20 +451,29 @@
 		        	$.messager.alert('提示','请选择审核的文章','info');
 		           	return ;
 		        }
-				openWindow("#review-window",{width:550,height:200,title:"审核"});
+				openWindow("#review-window",{width:550,height:230,title:"审核"});
 			}
 			function reviewArticle(){
 		    	var rows = $("#tt").datagrid('getSelections');
 		        if(rows.length == 0){
-		        	$.messager.alert('提示','请选择发布记录','info');
+		        	$.messager.alert('提示','请选择审核记录','info');
 		            return;
 		        }
+		        if (rows.length > 1){
+                    $.messager.alert('提示','只能选择一个审核','info');
+                    return;
+                }
+
+		        var parameter = {};
+		        parameter["review"] = $("input[name='reviewRadio']:checked").val();
+		        parameter["channelId"] = channelId;
+		        parameter["selections"] = rows[0].id;
+		        parameter["description"] = $("#description").val();
 		        
-		        var parameter = 'review=' + $("input[name='reviewRadio']:checked").val() + '&channelId=' + channelId + '&';
-		        var rows = $("#tt").datagrid('getSelections');
-				for(var i=0;i<rows.length;i++){
-					parameter = parameter + 'selections=' + rows[i].id + "&";
-				}
+		        //var parameter = 'review=' + $("input[name='reviewRadio']:checked").val() + '&channelId=' + channelId + '&';
+				//for(var i=0;i<rows.length;i++){
+					//parameter = parameter + 'selections=' + rows[i].id + "&";
+				//}
 		        var url = '<s:url namespace="/document/article" action="reviewArticle"/>';
 		        $.post(url, parameter, function(data){
 		        	$("#review-window").window("close");
@@ -618,11 +670,11 @@
                 		</tr>
                 		<tr>
                 			<td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="reviewRadio" name="reviewRadio" list='#{0:"通过"}' cssStyle="vertical-align: middle;" value="0"></s:radio></td>
-                			<td height="40">&nbsp;所选文章将进入"发布版"状态</td>
+                			<td height="40">&nbsp;进入下一个状态</td>
                 		</tr>
                 		<tr>
                 			<td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="reviewRadio" name="reviewRadio"  list='#{1:"不通过"}' cssStyle="vertical-align: middle;"></s:radio></td>
-                			<td height="40">&nbsp;所选文章将进入"重新编辑"状态</td>
+                			<td height="40">&nbsp;<s:textarea id="description" name="description" cols="42"/></td>
                 		</tr>
                 	</table>
                 </div>
@@ -656,5 +708,17 @@
                 </div>
             </div>
         </div>
+        <div id="btnSortSub" style="width:80px;display:none;">
+	        <div icon="icon-sort" onclick="sortOperate();">设置</div>
+	        <div icon="icon-sort" onclick="clearSortOperate();">清除</div>
+	    </div>
+	    <div id="btnReviewSub" style="width:80px;display:none;">
+	        <div icon="icon-submitreview" onclick="submitReviewOperate();">提交</div>
+	        <div icon="icon-review" onclick="reviewOperate();">进行</div>
+	    </div>
+	    <div id="btnPubSub" style="width:80px;display:none;">
+	        <div icon="icon-publish" onclick="pubOperate();">确认</div>
+	        <div icon="" onclick="alert('退回');">退回</div>
+	    </div>
 	</body>
 </html>

@@ -21,17 +21,19 @@
         </script>		
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="save" namespace="/document/articlecategory">
+		<s:form action="save" namespace="/document/reviewprocess">
 			<table class="formtable" >
 				<tr>
 					<td>名称：</td>
 					<td class="formFieldError">
-						<s:textfield id="categoryName" cssClass="inputtext" name="articleCategoryVo.categoryName"/>
-						<s:fielderror ><s:param value="%{'articleCategoryVo.categoryName'}" /></s:fielderror>
+						<s:textfield id="name" cssClass="inputtext" name="reviewProcessVo.name"/>
+						<s:fielderror ><s:param value="%{'reviewProcessVo.name'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="articleCategoryVo.id"/>
+			<s:hidden name="reviewProcessVo.id"/>
+			<s:hidden name="reviewProcessVo.channelId"/>
+			<s:hidden name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			
