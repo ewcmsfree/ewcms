@@ -64,7 +64,7 @@ public class ArticleServiceTest {
 		
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleService.updArticle(article, articleMain.getId(), channelId, null);
+		//articleService.updArticle(article, articleMain.getId(), channelId, null);
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
 		assertEquals(argument.getValue().getArticle().getTitle(), "updTest");
