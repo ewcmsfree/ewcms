@@ -10,16 +10,16 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>	
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
 		<script type="text/javascript">
-			var tplload=false,srcloda=false,authload=false,quartzload=false,infoload=false;
+			var tplload=false,srcloda=false,authload=false,quartzload=false,infoload=false,processload=false;
 			$(function(){
 				$('#systemtab').tabs({
 					onSelect:function(title){
-							
 							var tplurl='<s:url action="channelTemplate"/>?channelVo.id=<s:property value="channelVo.id"/>';
 							var srcurl='<s:url action="channelSource"/>?channelVo.id=<s:property value="channelVo.id"/>';
 							var authurl='<s:url action="channelAcl"/>?id=<s:property value="channelVo.id"/>';
 							var quartzurl="<s:url namespace='/scheduling/jobchannel' action='index'/>?channelId=<s:property value='channelVo.id'/>";
-							var infourl='<s:url action="editInfo"/>?channelVo.id=<s:property value="channelVo.id"/>';							
+							var infourl='<s:url action="editInfo"/>?channelVo.id=<s:property value="channelVo.id"/>';
+							var processurl="<s:url namespace='/document/reviewprocess' action='index'/>?channelId=<s:property value='channelVo.id'/>";							
 							if(title=="专栏模板"&&!tplload){
 								$("#edittplifr").attr('src',tplurl);
 								tplload=true;
@@ -39,7 +39,11 @@
 							if(title=="基本设置"&&!infoload){
 								$("#editinfoifr").attr('src',infourl);
 								infoload=true;
-							}														
+							}		
+							if (title=="审核流程"&&!processload){
+								$("#editprocessifr").attr('src',processurl);
+								processload=true;
+							}												
 					}
 				});
 			});	
@@ -53,7 +57,6 @@
 		</s:if>
 		<s:else>
 			<div class="easyui-tabs" id="systemtab" border="false" fit="true">
-        
 				<div title="基本设置">
 					<iframe  id="editinfoifr"  name="editinfoifr" class="editifr" scrolling="no"></iframe>
 				</div>			
@@ -67,9 +70,11 @@
 				    <iframe id="editauthifr"  name="editauthifr" class="editifr" scrolling="no"></iframe> 
 				</div>
 				<div title="发布设置" style="padding: 5px;">
-					<iframe  id="editquartzifr"  name="editquartzifr" class="editifr" scrolling="no"></iframe>		
+					<iframe id="editquartzifr"  name="editquartzifr" class="editifr" scrolling="no"></iframe>		
 				</div>	
- 																						
+ 				<div title="审核流程">
+ 					<iframe id="editprocessifr" name="editprocessifr" class="editifr" scrolling="no"></iframe>
+ 				</div>																		
 			</div>	
 		</s:else>
 	</body>
