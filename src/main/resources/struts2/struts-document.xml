@@ -75,4 +75,20 @@
 		</action>
 		<action name="findArticleCategoryAll" class="com.ewcms.content.document.web.ArticleCategoryAction" method="findArticleCategoryAll"/>
 	</package>
+	<package name="document.reviewprocess" extends="struts-default" namespace="/document/reviewprocess">
+		<action name="index" class="com.ewcms.content.document.web.ReviewProcessAction">
+			<result>/WEB-INF/page/document/reviewprocess/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.document.web.ReviewProcessAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.document.web.ReviewProcessQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.document.web.ReviewProcessAction" method="input">
+			<result name="input">/WEB-INF/page/document/reviewprocess/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.document.web.ReviewProcessAction" method="save">
+			<result>/WEB-INF/page/document/reviewprocess/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/reviewprocess/edit.jsp</result>
+		</action>
+		<action name="up" class="com.ewcms.content.document.web.ReviewProcessAction" method="up"/>
+		<action name="down" class="com.ewcms.content.document.web.ReviewProcessAction" method="down"/>
+	</package>
 </struts>	
