@@ -17,10 +17,12 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Relation;
+import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.content.document.service.ArticleCategoryServiceable;
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.content.document.service.RelationServiceable;
+import com.ewcms.content.document.service.ReviewProcessServiceable;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
@@ -41,6 +43,8 @@ public class DocumentFac implements DocumentFacable {
 	private RelationServiceable relationService;
 	@Autowired
 	private ArticlePublishServiceable articlePublishService;
+	@Autowired
+	private ReviewProcessServiceable reviewProcessService;
 	
 	@Override
 	public Integer addArticleCategory(ArticleCategory articleCategory){
@@ -128,8 +132,8 @@ public class DocumentFac implements DocumentFacable {
 	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor){
-		articleMainService.reviewArticleMain(articleMainIds, channelId, review, eauthor);
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor, String description){
+		articleMainService.reviewArticleMain(articleMainIds, channelId, review, eauthor, description);
 	}
 	
 	@Override
@@ -158,8 +162,8 @@ public class DocumentFac implements DocumentFacable {
 	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published){
-		return articleService.updArticle(article, articleMainId, channelId, published);
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName){
+		return articleService.updArticle(article, articleMainId, channelId, published, userName);
 	}
 
 	@Override
@@ -220,5 +224,50 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public void updatePreRelease(Integer channelId) {
 		articlePublishService.updatePreRelease(channelId);
+	}
+
+	@Override
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess) {
+		return reviewProcessService.addReviewProcess(channelId, reviewProcess);
+	}
+
+	@Override
+	public void delReviewProcess(Long reviewProcessId) {
+		reviewProcessService.delReviewProcess(reviewProcessId);
+	}
+
+	@Override
+	public void downReviewProcess(Integer channelId, Long reviewProcessId) {
+		reviewProcessService.downReviewProcess(channelId, reviewProcessId);
+	}
+
+	@Override
+	public void upReivewProcess(Integer channelId, Long reviewProcessId) {
+		reviewProcessService.upReivewProcess(channelId, reviewProcessId);
+	}
+
+	@Override
+	public Long updReviewProcess(ReviewProcess reviewProcess) {
+		return reviewProcessService.updReviewProcess(reviewProcess);
+	}
+
+	@Override
+	public ReviewProcess findReviewProcess(Long reviewProcessId) {
+		return reviewProcessService.findReviewProcess(reviewProcessId);
+	}
+
+	@Override
+	public List<ReviewProcess> findReviewProcessByChannel(Integer channelId) {
+		return reviewProcessService.findReviewProcessByChannel(channelId);
+	}
+
+	@Override
+	public ReviewProcess findFirstReviewProcessByChannel(Integer channelId) {
+		return reviewProcessService.findFirstReviewProcessByChannel(channelId);
+	}
+
+	@Override
+	public Long findReviewProcessCountByChannel(Integer channelId) {
+		return reviewProcessService.findReviewProcessCountByChannel(channelId);
 	}
 }

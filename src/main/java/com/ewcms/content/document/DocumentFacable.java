@@ -13,6 +13,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleCategory;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Relation;
+import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.publication.PublishException;
 
 /**
@@ -150,8 +151,9 @@ public interface DocumentFacable {
 	 * @param articleMainIds 文章主体集合
 	 * @param review 审核标志(0:通过,1:未通过)
 	 * @param eauthor 审核人
+	 * @param description 描述
 	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor);
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor, String description);
 	
 	/**
 	 * 文章主体进行排序
@@ -201,7 +203,7 @@ public interface DocumentFacable {
 	 * @param published 发布时间
 	 * @return Long 文章主体编号
 	 */
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName);
 
 	/**
 	 * 文章与文章分类属性是否有关联
@@ -263,4 +265,76 @@ public interface DocumentFacable {
 	public void publishArticle(Long id, String url);
 
 	public void updatePreRelease(Integer channelId);
+	
+	/**
+	 * 新增审核流程
+	 * 
+	 * @param channelId 频道编号
+	 * @param reviewProcess 审核流程对象
+	 * @return Long 审核流程编号
+	 */
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess);
+	
+	/**
+	 * 修改审核流程
+	 * 
+	 * @param reviewProcess 审核流程对象
+	 * @return Long 审核流程编号
+	 */
+	public Long updReviewProcess(ReviewProcess reviewProcess);
+	
+	/**
+	 * 删除审核流程
+	 * 
+	 * @param reviewProcessId 审核流程编号
+	 */
+	public void delReviewProcess(Long reviewProcessId);
+	
+	/**
+	 * 审核流程上移一位
+	 * 
+	 * @param channelId 频道编号
+	 * @param reviewProcessId 审核流程编号
+	 */
+	public void upReivewProcess(Integer channelId, Long reviewProcessId);
+	
+	/**
+	 * 审核流程下移一位
+	 * 
+	 * @param channelId 频道编号
+	 * @param reviewProcessId 审核流程编号
+	 */
+	public void downReviewProcess(Integer channelId, Long reviewProcessId);
+	
+	/**
+	 * 查询审核流程
+	 * 
+	 * @param reviewProcessId 审核流程编号
+	 * @return ReviewProcess 审核流程对象
+	 */
+	public ReviewProcess findReviewProcess(Long reviewProcessId);
+	
+	/**
+	 * 查询频道下的所有审核流程
+	 * 
+	 * @param channelId 频道编号
+	 * @return List 审核流程对象集合
+	 */
+	public List<ReviewProcess> findReviewProcessByChannel(Integer channelId);
+	
+	/**
+	 * 查询频道下的审核流程第一个节点
+	 * 
+	 * @param channelId 频道编号
+	 * @return ReviewProcess 审核流程对象
+	 */
+	public ReviewProcess findFirstReviewProcessByChannel(Integer channelId);
+	
+	/**
+	 * 查询频道下的审核流程数
+	 * 
+	 * @param channelId 频道编号
+	 * @return Long 个数
+	 */
+	public Long findReviewProcessCountByChannel(Integer channelId);
 }

@@ -22,6 +22,7 @@ public interface ArticleServiceable {
 	 * @param article 文章信息对象
 	 * @param channelId 频道编号
 	 * @param published 发布时间
+	 * 
 	 * @return Long 文章主体编号
 	 */
 	public Long addArticle(Article article, Integer channelId, Date published);
@@ -33,15 +34,18 @@ public interface ArticleServiceable {
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
 	 * @param published 发布时间
+	 * @param userName 用户名
+	 * 
 	 * @return Long 文章主体编号
 	 */
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName);
 
 	/**
 	 * 文章与文章分类属性是否有关联
 	 * 
 	 * @param articleId 文章信息编号
 	 * @param articleCategoryId 文章分类属性编号
+	 * 
 	 * @return Boolean true:是,false:否
 	 */
 	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);

@@ -26,10 +26,12 @@ import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
+import com.ewcms.content.document.util.ArticleUtil;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
 import com.ewcms.publication.service.ArticlePublishServiceable;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * @author 吴智俊
@@ -83,7 +85,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 
 	@Override
 	@History(modelObjectIndex = 0)
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published) {
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		
@@ -108,8 +110,17 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 					titleArticleContentNull(article);
 				}
 			}
-			article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+			
+			Date modNow = new Date(Calendar.getInstance().getTime().getTime());
+			
+			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
+			
+			ArticleUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, "修改文章");
+			
+			article.setCategories(article_old.getCategories());
+			article.setRelations(article_old.getRelations());
+			article.setOperateTracks(article_old.getOperateTracks());
 			
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
@@ -188,6 +199,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	public void updatePreRelease(Integer channelId) {
 		List<Article> articles = articleDAO.findArticleRelease(channelId);
 		for (Article article : articles){
+			ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "");
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);
 			articleDAO.merge(article);

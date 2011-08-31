@@ -122,6 +122,7 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	}
 
 	private Integer review;
+	private String description;
 
 	public Integer getReview() {
 		return review;
@@ -130,10 +131,18 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	public void setReview(Integer review) {
 		this.review = review;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public void reviewArticle() {
 		try {
-			documentFac.reviewArticleMain(getSelections(), getChannelId(), getReview(), EwcmsContextUtil.getUserName());
+			documentFac.reviewArticleMain(getSelections(), getChannelId(), getReview(), EwcmsContextUtil.getUserName(), getDescription());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));

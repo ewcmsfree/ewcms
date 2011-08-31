@@ -19,14 +19,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ewcms.content.document.dao.ArticleMainDAO;
+import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
+import com.ewcms.content.document.model.ReviewProcess;
+import com.ewcms.content.document.util.ArticleUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
-import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * 
@@ -40,7 +43,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Autowired
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
-	private UserServiceable userService;
+	private ReviewProcessDAO reviewProcessDAO;
 	
 	public void setWebPublish(WebPublishable webPublish) {
 		this.webPublish = webPublish;
@@ -50,10 +53,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 		this.articleMainDAO = articleMainDAO;
 	}
 	
-	public void setUserService(UserServiceable userService){
-		this.userService = userService;
-	}
-
 	@Override
 	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId) {
 		return articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
@@ -79,6 +78,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}else{
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
+			
+			ArticleUtil.addOperateTrack(article, article.getStatusDescription(), userName, "删除到回收站");
+			
 			article.setDeleteFlag(true);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
@@ -91,6 +93,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
+		
+		ArticleUtil.addOperateTrack(article, article.getStatusDescription(), userName, "从回收站恢复");
+		
 		article.setStatus(ArticleStatus.REEDIT);
 		article.setDeleteFlag(false);
 		articleMain.setArticle(article);
@@ -104,7 +109,16 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		if (article.getStatus() == ArticleStatus.DRAFT || article.getStatus() == ArticleStatus.REEDIT) {
-			article.setStatus(ArticleStatus.REVIEW);
+			List<ReviewProcess> rpList = reviewProcessDAO.findReviewProcessByChannel(channelId);
+			if (rpList == null || rpList.isEmpty()){
+				ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "发布版");
+				article.setStatus(ArticleStatus.PRERELEASE);
+			}else{
+				ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "提交审核");
+				article.setStatus(ArticleStatus.REVIEW);
+				article.setReviewProcessId(rpList.get(0).getId());
+			}
+			
 			if (article.getPublished() == null) {
 				article.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
 			}
@@ -175,7 +189,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 					articleMain_new.setArticle(target_article);
 					articleMain_new.setChannelId(target_channelId);
 					articleMainDAO.persist(articleMain_new);
-
 				}
 			}
 		}
@@ -206,12 +219,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
 		if (isNotNull(channelId)) {
+			//TODO 判断频道是否需要审核。如果需要审核，抛出需要审核的提示；如果不需要审核，直接发布。
 			webPublish.publishChannel(channelId, true);
 		}
 	}
 
 	@Override
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit) {
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description) {
 		ArticleMain articleMain = null;
 		Article article = null;
 		Assert.notNull(articleMainIds);
@@ -220,18 +234,42 @@ public class ArticleMainService implements ArticleMainServiceable {
 			if (isNull(articleMain)) continue;
 			article = articleMain.getArticle();
 			if (isNull(article)) continue;
-			if (review == 0 && article.getStatus() == ArticleStatus.REVIEW) {// 通过
-				article.setStatus(ArticleStatus.PRERELEASE);
-				article.setAudit(audit);
-				article.setAuditReal(userService.getUserRealName());
-				articleMain.setArticle(article);
-				articleMainDAO.merge(articleMain);
-			} else if (review == 1 && !(article.getStatus() == ArticleStatus.REEDIT || article.getStatus() == ArticleStatus.DRAFT)) {// 不通过
-				article.setStatus(ArticleStatus.REEDIT);
-				article.setAudit(audit);
-				article.setAuditReal(userService.getUserRealName());
-				articleMain.setArticle(article);
-				articleMainDAO.merge(articleMain);
+			//TODO 根据频道里审核流程判断是否还要审核。如果不需要再审核，就把文章状态改为预发布；如果还需要审核，还是审核状态。
+			if (article.getStatus() == ArticleStatus.REVIEW) {
+				ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcessId(), channelId);
+				if (review == 0){// 通过
+					if (rp != null){
+						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:blue;'>通过</span>");
+						if (rp.getNextProcess() != null) {
+							Long nextReviewProcessId = rp.getNextProcess().getId();
+							article.setReviewProcessId(nextReviewProcessId);
+//							ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过");
+						}else{
+//							ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过并可使发布");
+							article.setStatus(ArticleStatus.PRERELEASE);
+						}
+					}else{
+						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
+						//TODO 文章处于异常状态
+					}
+					articleMain.setArticle(article);
+					articleMainDAO.merge(articleMain);
+				}else if (review == 1){// 不通过
+					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:red;'>不通过</span>,原因:" + description);
+					if (rp != null){
+						if (rp.getPrevProcess() != null){
+							Long parentId = rp.getPrevProcess().getId();
+							article.setReviewProcessId(parentId);
+						}else{
+							article.setStatus(ArticleStatus.REEDIT);
+						}
+					}else{
+						//TODO 文章处于异常状态
+						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
+					}
+					articleMain.setArticle(article);
+					articleMainDAO.merge(articleMain);
+				}
 			}
 		}
 	}

@@ -30,6 +30,7 @@ import com.ewcms.history.model.HistoryModel;
 import com.ewcms.history.util.ByteToObject;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -216,7 +217,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 		String author = userService.getUserRealName();
 		vo.setAuthor(author);
 		if (isUpdate) {
-			return documentFac.updArticle(vo, getArticleMainId(), getChannelId(), pub_date);
+			return documentFac.updArticle(vo, getArticleMainId(), getChannelId(), pub_date, EwcmsContextUtil.getUserName());
 		} else {
 			return documentFac.addArticle(vo, getChannelId(), pub_date);
 		}

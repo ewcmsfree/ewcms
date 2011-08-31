@@ -7,6 +7,7 @@
 package com.ewcms.content.document.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,18 +50,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>commentFlag:允许评论</li>
  * <li>type:文章类型</li>
  * <li>owner:创建者</li>
- * <li>audit:审核人</li>
- * <li>auditReal:审核人实名</li>
+ * <li>reviewProcessId:审核流程编号</li>
  * <li>published:发布时间</li>
  * <li>modified:修改时间</li>
  * <li>status:状态</li>
  * <li>url:链接地址</li>
  * <li>deleteFlag:删除标志</li>
- * <li>relatedArticles:相关文章</li>
+ * <li>relations:相关文章</li>
  * <li>createTime:创建时间</li>
  * <li>categories:文章分类属性集合</li>
  * <li>contentTotal:内容总页数<li>
  * <li>inside:使用内部标题</li>
+ * <li>operateTracks:操作记录</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -95,7 +96,7 @@ public class Article implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Content.class, orphanRemoval = true)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "page asc")
-	private List<Content> contents;
+	private List<Content> contents = new ArrayList<Content>();
 	@Column(name = "image")
 	private String image;
 	@Column(name = "top_flag")
@@ -107,10 +108,8 @@ public class Article implements Serializable {
 	private ArticleType type;
 	@Column(name = "owner")
 	private String owner;
-	@Column(name = "audit")
-	private String audit;
-	@Column(name = "audit_real")
-	private String auditReal;
+	@Column(name = "reviewprocess_id")
+	private Long reviewProcessId;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "published")
 	private Date published;
@@ -127,18 +126,22 @@ public class Article implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "sort")
-	private List<Relation> relations;
+	private List<Relation> relations = new ArrayList<Relation>();
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = ArticleCategory.class)
-	@JoinTable(name = "doc_article_articlecategory", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articlecategory_id", referencedColumnName = "id"))
+	@JoinTable(name = "doc_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
-	private List<ArticleCategory> categories;
+	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
 	@Column(name = "total")
 	private Integer contentTotal;
 	@Column(name = "inside")
 	private Boolean inside;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ArticleOperateTrack.class, orphanRemoval = true)
+	@JoinColumn(name = "article_id")
+	@OrderBy(value = "id DESC")
+	private List<ArticleOperateTrack> operateTracks = new ArrayList<ArticleOperateTrack>();
 	
 	public Article() {
 		topFlag = false;
@@ -271,12 +274,12 @@ public class Article implements Serializable {
 		this.type = type;
 	}
 
-	public String getAudit() {
-		return audit;
+	public Long getReviewProcessId() {
+		return reviewProcessId;
 	}
 
-	public void setAudit(String audit) {
-		this.audit = audit;
+	public void setReviewProcessId(Long reviewProcessId) {
+		this.reviewProcessId = reviewProcessId;
 	}
 
 	public String getOwner() {
@@ -285,14 +288,6 @@ public class Article implements Serializable {
 
 	public void setOwner(String owner) {
 		this.owner = owner;
-	}
-
-	public String getAuditReal() {
-		return auditReal;
-	}
-
-	public void setAuditReal(String auditReal) {
-		this.auditReal = auditReal;
 	}
 
 	public Date getPublished() {
@@ -378,6 +373,14 @@ public class Article implements Serializable {
 
 	public void setInside(Boolean inside) {
 		this.inside = inside;
+	}
+
+	public List<ArticleOperateTrack> getOperateTracks() {
+		return operateTracks;
+	}
+
+	public void setOperateTracks(List<ArticleOperateTrack> operateTracks) {
+		this.operateTracks = operateTracks;
 	}
 
 	@Override

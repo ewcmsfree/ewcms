@@ -37,7 +37,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     
     @SuppressWarnings("unchecked")
 	public Integer findArticleReleseMaxSize(Integer channelId){
-    	String hql = "Select Count(a.id) From ArticleMain As m Left Join a.article As a Where m.channelId=? And a.status=?";
+    	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=? And m.article.status=?";
     	List<Integer> list = this.getJpaTemplate().find(hql, channelId, ArticleStatus.RELEASE);
     	if (list.isEmpty()) return 0;
     	return list.get(0);
@@ -51,7 +51,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 				if (channelId == null){
 					return new ArrayList<Article>();
 				}
-				String hql = "Select a From ArticleMain As m Right Join a.article As a Where m.channelId=? And a.status=?";
+				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? And m.reference=false";
 				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.PRERELEASE).setMaxResults(limit).getResultList();
 			}
     	});
@@ -66,7 +66,8 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 				if (channelId == null){
 					return new ArrayList<Article>();
 				}
-				String hql = "Select a From ArticleMain As m Right Join a.article As a Where m.channelId=? And a.status=?";
+				//TODO 未修改完
+				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
 				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.RELEASE).getResultList();
 			}
     	});

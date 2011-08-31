@@ -110,8 +110,9 @@ public interface ArticleMainServiceable {
 	 * @param articleMainIds 文章主体编号集合
 	 * @param review 审核标志(0:通过,1:未通过)
 	 * @param audit 审核人
+	 * @param description 描述
 	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit);
+	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description);
 	
 	/**
 	 * 文章主体进行排序
