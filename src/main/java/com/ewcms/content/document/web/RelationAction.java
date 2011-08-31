@@ -82,6 +82,5 @@ public class RelationAction extends ActionSupport {
 		}catch(Exception e){
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
-
 	}
 }
