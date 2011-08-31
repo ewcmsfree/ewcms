@@ -7,7 +7,6 @@
 package com.ewcms.publication.freemarker.cache;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -52,8 +51,8 @@ public class DatabaseTemplateLoader implements TemplateLoader{
         
         TemplateEntity entity = template.getTemplateEntity();
         if(entity == null){
-            logger.debug("template content is null");
-            throw new FileNotFoundException(path + " content is null.");
+            logger.debug("{} content is null",path);
+            return null;
         }
         
         byte[] content = entity.getTplEntity();
