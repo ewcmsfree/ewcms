@@ -39,17 +39,14 @@ public class DatabaseTemplateLoaderTest {
     }
     
     @Test
-    public void testFindTemplateSourceContentIsNull(){
+    public void testFindTemplateSourceContentIsNull()throws Exception{
         
         TemplatePublishServiceable service = mock(TemplatePublishServiceable.class);
         when(service.getTemplateByUniquePath(any(String.class))).thenReturn(new Template());
         DatabaseTemplateLoader loader = new DatabaseTemplateLoader(service);
-        try{
-            loader.findTemplateSource("/test.html");
-            Assert.fail();
-        }catch(Exception e){
-            
-        }
+        Object source = loader.findTemplateSource("/test.html");
+        
+        Assert.assertNull(source);
     }
     
     private Date updTime = new Date();
