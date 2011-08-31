@@ -1343,3 +1343,9 @@ a.s-btn-plain-active .s-btn-downarrow{
 	*zoom:1;
 	overflow:hidden;
 }
+.datagrid-row-collapse{
+	background:url('images/datagrid_row_collapse.gif') no-repeat center center;
+}
+.datagrid-row-expand{
+	background:url('images/datagrid_row_expand.gif') no-repeat center center;
+}
