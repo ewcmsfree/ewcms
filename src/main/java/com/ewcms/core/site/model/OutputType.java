@@ -4,17 +4,17 @@
  * http://www.ewcms.com
  */
 
-/**
- * 
- */
 package com.ewcms.core.site.model;
 
 /**
- * @author 周冬�?
- *
+ * 输出服务类型
+ * 
+ * @author 周冬初
  */
 public enum OutputType {
-    LOCAL("本地"),SFTP("sftp"),FTP("ftp"),SMB("windows共享");
+    
+    LOCAL("本地"),SFTP("sftp"),FTP("ftp"),FTPS("ftps"),SMB("windows共享");
+    
 	private String description;
 	
 	private OutputType(String description){
