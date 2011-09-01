@@ -86,7 +86,7 @@ public class ArticleDirectiveTest extends FreemarkerTest{
         
     private String[] initAliases(){
         return new String[]{
-                "编号","标题","短标题","副标题","作者","编辑",
+                "编号","标题","短标题","副标题","作者",
                 "引导图","摘要","来源","关键字","标签","分类",
                 "链接地址","关联文章","正文","创建时间","修改时间",
                 "发布时间"
