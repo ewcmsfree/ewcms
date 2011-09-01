@@ -43,7 +43,7 @@ public abstract class OutputBase implements Outputable {
 
         try {
             FileSystemOptions opts = new FileSystemOptions();
-            setUserAuthenticator(opts,server.getUser(),server.getPassword());
+            setUserAuthenticator(opts,server.getUserName(),server.getPassword());
             FileObject root = getTargetRoot(opts,server,VFS.getManager());
             outResources(root, server.getPath(), resources);
             root.close();
