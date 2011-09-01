@@ -44,7 +44,7 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     private ArticlePublishServiceable articleService ;
     private ChannelPublishServiceable channelService;
     private TemplatePublishServiceable templateService;
-    private Configuration mockConfiguration = createMockConfiguration();
+    private Configuration mockConfiguration;
     
     /**
      * 创建模拟Freemaker configuration
@@ -88,6 +88,7 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
         Assert.notNull(articleService,"articleService must setting");
         Assert.notNull(channelService,"channelService configuration must setting");
         Assert.notNull(templateService,"templateService must setting");
+        mockConfiguration = createMockConfiguration();
     }
     
     public void setConfiguration(Configuration cfg){
