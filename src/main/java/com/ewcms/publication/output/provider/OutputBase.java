@@ -11,18 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.auth.StaticUserAuthenticator;
-import org.apache.commons.vfs.cache.DefaultFilesCache;
-import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.ftp.FtpFileProvider;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
-import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
+import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,25 +37,14 @@ public abstract class OutputBase implements Outputable {
 
     private static final Logger logger = LoggerFactory.getLogger(OutputBase.class);
     private static final String PATH_SPARATOR = "/";
-    public static FileSystemManager DEFAULT_FILE_SYSTEM_MANAGER ;
-    
-    static{
-        try{
-            DEFAULT_FILE_SYSTEM_MANAGER = initFileSystemManager();
-        }catch(FileSystemException e){
-            logger.error("Init DEFAULT_FILE_SYSTEM_MANAGER is fail:{}",e);
-        }
-    }
-
-    private FileSystemManager fileSystemManager = DEFAULT_FILE_SYSTEM_MANAGER;
 
     @Override
     public void out(SiteServer server, List<OutputResource> resources)throws PublishException {
 
         try {
             FileSystemOptions opts = new FileSystemOptions();
-            setUserAuthenticator(opts,server.getUserName(),server.getPassword());
-            FileObject root = getTargetRoot(opts,server,fileSystemManager);
+            setUserAuthenticator(opts,server.getUser(),server.getPassword());
+            FileObject root = getTargetRoot(opts,server,VFS.getManager());
             outResources(root, server.getPath(), resources);
             root.close();
         } catch (FileSystemException e) {
@@ -173,22 +158,6 @@ public abstract class OutputBase implements Outputable {
     }
 
     /**
-     * 初始化文件管理对象
-     * 
-     * @return 文件管理对象
-     * @throws FileSystemException
-     */
-    protected static FileSystemManager initFileSystemManager()throws FileSystemException {
-        DefaultFileSystemManager manager = new DefaultFileSystemManager();
-        manager.addProvider("sftp", new SftpFileProvider());
-        manager.addProvider("file", new DefaultLocalFileProvider());
-        manager.addProvider("ftp", new FtpFileProvider());
-        manager.setFilesCache(new DefaultFilesCache());
-        manager.init();
-        return manager;
-    }
-
-    /**
      * 得到发布到资源根目录对象
      * 
      * @param opts
@@ -234,15 +203,5 @@ public abstract class OutputBase implements Outputable {
             out.createFile();
         }
         return out;
-    }
-
-    /**
-     * 设置文件管理类
-     * 
-     * @param manager
-     *            文件管理类
-     */
-    public void setFileSystemManager(FileSystemManager manager) {
-        fileSystemManager = manager;
     }
 }
