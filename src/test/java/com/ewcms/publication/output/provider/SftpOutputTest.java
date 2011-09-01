@@ -9,8 +9,9 @@ package com.ewcms.publication.output.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -30,7 +31,7 @@ public class SftpOutputTest {
         SftpOutput out = new SftpOutput();
         FileSystemOptions opts = new FileSystemOptions();
         out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
-        FileObject target = out.getTargetRoot(opts,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
+        FileObject target = out.getTargetRoot(opts,initServer(), VFS.getManager());
         Assert.notNull(target);
         target.close();
     }
@@ -60,7 +61,12 @@ public class SftpOutputTest {
     private List<OutputResource> initResources(){
         List<OutputResource> list = new ArrayList<OutputResource>();
         String source = OutputBaseTest.class.getResource("write.jpg").getPath();
-        OutputResource resource = new OutputResource(source,"vfs/sftp/write.jpg");
+        OutputResource resource = new OutputResource(source,"/home/wangwei/test/ftp/write.jpg"){
+            @Override
+            public void close(){
+                //Don't remove source file
+            }
+        };
         list.add(resource);
         
         return list;

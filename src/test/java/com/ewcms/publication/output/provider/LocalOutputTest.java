@@ -9,7 +9,8 @@ package com.ewcms.publication.output.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.VFS;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
@@ -26,7 +27,7 @@ public class LocalOutputTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         LocalOutput out = new LocalOutput();
-        FileObject target = out.getTargetRoot(null,initServer(), SftpOutput.DEFAULT_FILE_SYSTEM_MANAGER);
+        FileObject target = out.getTargetRoot(null,initServer(), VFS.getManager());
         Assert.notNull(target);
         target.close();
     }
@@ -52,7 +53,12 @@ public class LocalOutputTest {
     private List<OutputResource> initResources(){
         List<OutputResource> list = new ArrayList<OutputResource>();
         String source = OutputBaseTest.class.getResource("write.jpg").getPath();
-        OutputResource resource = new OutputResource(source,"vfs/local/write.jpg");
+        OutputResource resource = new OutputResource(source,"/home/wangwei/test/ftp/write.jpg"){
+            @Override
+            public void close(){
+                //Don't remove source file
+            }
+        };
         list.add(resource);
         
         return list;
