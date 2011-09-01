@@ -191,7 +191,7 @@ public class ArticleMainServiceTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void submitReviewArticleMainsIsNull1(){
-		articleMainService.submitReviewArticleMains(null, 1);
+		articleMainService.submitReviewArticleMain(null, 1);
 	}
 	
 	@Test
@@ -199,35 +199,35 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain_1 = initArticleMain();
 		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
 		
-		ArticleMain articleMain_2 = new ArticleMain();
-		articleMain_2.setId(2L);
-		articleMain_2.setChannelId(1);
-		Article article_2 = new Article();
-		article_2.setId(3L);
-		article_2.setStatus(ArticleStatus.REVIEW);
-		article_2.setTitle("test3");
-		articleMain_2.setArticle(article_2);
-		
-		ArticleMain articleMain_3 = new ArticleMain();
-		articleMain_3.setId(3L);
-		articleMain_3.setChannelId(1);
-		Article article_3 = new Article();
-		article_3.setId(4L);
-		article_3.setStatus(ArticleStatus.REVIEW);
-		article_3.setTitle("test4");
-		articleMain_3.setArticle(article_3);
-		
-		List<Long> articleMainIds = new ArrayList<Long>();
-		articleMainIds.add(1L);
-		articleMainIds.add(2L);
-		articleMainIds.add(3L);
+//		ArticleMain articleMain_2 = new ArticleMain();
+//		articleMain_2.setId(2L);
+//		articleMain_2.setChannelId(1);
+//		Article article_2 = new Article();
+//		article_2.setId(3L);
+//		article_2.setStatus(ArticleStatus.REVIEW);
+//		article_2.setTitle("test3");
+//		articleMain_2.setArticle(article_2);
+//		
+//		ArticleMain articleMain_3 = new ArticleMain();
+//		articleMain_3.setId(3L);
+//		articleMain_3.setChannelId(1);
+//		Article article_3 = new Article();
+//		article_3.setId(4L);
+//		article_3.setStatus(ArticleStatus.REVIEW);
+//		article_3.setTitle("test4");
+//		articleMain_3.setArticle(article_3);
+//		
+//		List<Long> articleMainIds = new ArrayList<Long>();
+//		articleMainIds.add(1L);
+//		articleMainIds.add(2L);
+//		articleMainIds.add(3L);
 		
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(1L, 1)).thenReturn(articleMain_1);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(articleMain_2);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
-		when(userService.getUserRealName()).thenReturn("wuzhijun");
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(articleMain_2);
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
+//		when(userService.getUserRealName()).thenReturn("wuzhijun");
 		
-		articleMainService.reviewArticleMain(articleMainIds, 1, 0, "wzj","");
+		articleMainService.reviewArticleMain(articleMain_1.getId(), 1, 0, "");
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(3)).merge(argument.capture());
@@ -240,35 +240,35 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain_1 = initArticleMain();
 		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
 		
-		ArticleMain articleMain_2 = new ArticleMain();
-		articleMain_2.setId(2L);
-		articleMain_2.setChannelId(1);
-		Article article_2 = new Article();
-		article_2.setId(3L);
-		article_2.setStatus(ArticleStatus.PRERELEASE);
-		article_2.setTitle("test3");
-		articleMain_2.setArticle(article_2);
-		
-		ArticleMain articleMain_3 = new ArticleMain();
-		articleMain_3.setId(3L);
-		articleMain_3.setChannelId(1);
-		Article article_3 = new Article();
-		article_3.setId(4L);
-		article_3.setStatus(ArticleStatus.RELEASE);
-		article_3.setTitle("test4");
-		articleMain_3.setArticle(article_3);
-		
-		List<Long> articleMainIds = new ArrayList<Long>();
-		articleMainIds.add(1L);
-		articleMainIds.add(2L);
-		articleMainIds.add(3L);
+//		ArticleMain articleMain_2 = new ArticleMain();
+//		articleMain_2.setId(2L);
+//		articleMain_2.setChannelId(1);
+//		Article article_2 = new Article();
+//		article_2.setId(3L);
+//		article_2.setStatus(ArticleStatus.PRERELEASE);
+//		article_2.setTitle("test3");
+//		articleMain_2.setArticle(article_2);
+//		
+//		ArticleMain articleMain_3 = new ArticleMain();
+//		articleMain_3.setId(3L);
+//		articleMain_3.setChannelId(1);
+//		Article article_3 = new Article();
+//		article_3.setId(4L);
+//		article_3.setStatus(ArticleStatus.RELEASE);
+//		article_3.setTitle("test4");
+//		articleMain_3.setArticle(article_3);
+//		
+//		List<Long> articleMainIds = new ArrayList<Long>();
+//		articleMainIds.add(1L);
+//		articleMainIds.add(2L);
+//		articleMainIds.add(3L);
 		
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(1L, 1)).thenReturn(articleMain_1);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(articleMain_2);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
-		when(userService.getUserRealName()).thenReturn("wuzhijun");
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(articleMain_2);
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
+//		when(userService.getUserRealName()).thenReturn("wuzhijun");
 		
-		articleMainService.reviewArticleMain(articleMainIds, 1, 1, "wzj","");
+		articleMainService.reviewArticleMain(articleMain_1.getId(), 1, 1, "");
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(3)).merge(argument.capture());
@@ -278,7 +278,7 @@ public class ArticleMainServiceTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void reviewArticleMainIsNull(){
-		articleMainService.reviewArticleMain(null, 1, 0, "wzj","");
+		articleMainService.reviewArticleMain(null, 1, 0, "");
 	}
 	
 	@Test
@@ -286,31 +286,31 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain_1 = initArticleMain();
 		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
 		
-		ArticleMain articleMain_2 = new ArticleMain();
-		articleMain_2.setId(2L);
-		articleMain_2.setChannelId(1);
-		Article article_2 = new Article();
-		article_2.setId(3L);
-		article_2.setStatus(ArticleStatus.REVIEW);
-		article_2.setTitle("test3");
-		articleMain_2.setArticle(article_2);
-		
-		ArticleMain articleMain_3 = new ArticleMain();
-		articleMain_3.setId(3L);
-		articleMain_3.setChannelId(1);
-		articleMain_3.setArticle(null);
-		
-		List<Long> articleMainIds = new ArrayList<Long>();
-		articleMainIds.add(1L);
-		articleMainIds.add(2L);
-		articleMainIds.add(3L);
+//		ArticleMain articleMain_2 = new ArticleMain();
+//		articleMain_2.setId(2L);
+//		articleMain_2.setChannelId(1);
+//		Article article_2 = new Article();
+//		article_2.setId(3L);
+//		article_2.setStatus(ArticleStatus.REVIEW);
+//		article_2.setTitle("test3");
+//		articleMain_2.setArticle(article_2);
+//		
+//		ArticleMain articleMain_3 = new ArticleMain();
+//		articleMain_3.setId(3L);
+//		articleMain_3.setChannelId(1);
+//		articleMain_3.setArticle(null);
+//		
+//		List<Long> articleMainIds = new ArrayList<Long>();
+//		articleMainIds.add(1L);
+//		articleMainIds.add(2L);
+//		articleMainIds.add(3L);
 		
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(1L, 1)).thenReturn(articleMain_1);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(null);
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
-		when(userService.getUserRealName()).thenReturn("wuzhijun");
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(null);
+//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
+//		when(userService.getUserRealName()).thenReturn("wuzhijun");
 		
-		articleMainService.reviewArticleMain(articleMainIds, 1, 0, "wzj","");
+		articleMainService.reviewArticleMain(articleMain_1.getId(), 1, 0, "");
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(1)).merge(argument.capture());
