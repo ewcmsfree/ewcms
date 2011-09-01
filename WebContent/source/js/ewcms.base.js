@@ -197,8 +197,12 @@ function EwcmsBase(){
 		});
 	}
 	
-	this.addToolItem = function(text,icon,handler){
-		toolMap.put(text, "{text:'"+text+"',iconCls:'"+icon+"',handler:"+handler+"}");
+	this.addToolItem = function(text,icon,handler,id){
+		if(typeof(id) == 'undefined'){
+			toolMap.put(text, "{text:'"+text+"',iconCls:'"+icon+"',handler:"+handler+"}");
+		}else{
+			toolMap.put(text, "{id:'"+id + "',text:'"+text+"',iconCls:'"+icon+"',handler:"+handler+"}");
+		}
 	}
 	
 	this.delToolItem = function(text){
