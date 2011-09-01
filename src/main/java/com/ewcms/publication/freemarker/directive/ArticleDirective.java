@@ -126,9 +126,6 @@ public class ArticleDirective extends PropertyDirective{
         map.put("作者", "author");
         map.put("author", "author");
         
-        map.put("编辑", "auditReal");
-        map.put("audit", "auditReal");
-        
         map.put("引导图", "image");
         map.put("image", "image");
         
