@@ -238,7 +238,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcessId(), channelId);
 			if (review == 0){// 通过
 				if (rp != null){
-					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:blue;'>通过</span>");
+					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + ":<span style='color:blue;'>通过</span>");
 					if (rp.getNextProcess() != null) {
 						Long nextReviewProcessId = rp.getNextProcess().getId();
 						article.setReviewProcessId(nextReviewProcessId);
@@ -254,7 +254,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
 			}else if (review == 1){// 不通过
-				ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:red;'>不通过</span>,原因:" + description);
+				ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + ":<span style='color:red;'>不通过</span>&nbsp;&nbsp;原因:" + description);
 				if (rp != null){
 					if (rp.getPrevProcess() != null){
 						Long parentId = rp.getPrevProcess().getId();
