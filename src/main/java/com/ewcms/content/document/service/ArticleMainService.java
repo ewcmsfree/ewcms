@@ -129,13 +129,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 		return false;
 	}
 
-	@Override
-	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId) {
-		Assert.notNull(articleMainIds);
-		for (Long articleMainId : articleMainIds) {
-			submitReviewArticleMain(articleMainId, channelId);
-		}
-	}
+//	@Override
+//	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId) {
+//		Assert.notNull(articleMainIds);
+//		for (Long articleMainId : articleMainIds) {
+//			submitReviewArticleMain(articleMainId, channelId);
+//		}
+//	}
 
 	@Override
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
@@ -225,51 +225,49 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description) {
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description) {
 		ArticleMain articleMain = null;
 		Article article = null;
-		Assert.notNull(articleMainIds);
-		for (Long articleMainId : articleMainIds) {
-			articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
-			if (isNull(articleMain)) continue;
-			article = articleMain.getArticle();
-			if (isNull(article)) continue;
-			//TODO 根据频道里审核流程判断是否还要审核。如果不需要再审核，就把文章状态改为预发布；如果还需要审核，还是审核状态。
-			if (article.getStatus() == ArticleStatus.REVIEW) {
-				ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcessId(), channelId);
-				if (review == 0){// 通过
-					if (rp != null){
-						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:blue;'>通过</span>");
-						if (rp.getNextProcess() != null) {
-							Long nextReviewProcessId = rp.getNextProcess().getId();
-							article.setReviewProcessId(nextReviewProcessId);
-//							ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过");
-						}else{
-//							ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过并可使发布");
-							article.setStatus(ArticleStatus.PRERELEASE);
-						}
+		Assert.notNull(articleMainId);
+		articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+		if (isNull(articleMain)) return;
+		article = articleMain.getArticle();
+		if (isNull(article)) return;
+		//TODO 根据频道里审核流程判断是否还要审核。如果不需要再审核，就把文章状态改为预发布；如果还需要审核，还是审核状态。
+		if (article.getStatus() == ArticleStatus.REVIEW) {
+			ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcessId(), channelId);
+			if (review == 0){// 通过
+				if (rp != null){
+					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:blue;'>通过</span>");
+					if (rp.getNextProcess() != null) {
+						Long nextReviewProcessId = rp.getNextProcess().getId();
+						article.setReviewProcessId(nextReviewProcessId);
+//						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过");
 					}else{
-						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
-						//TODO 文章处于异常状态
+//						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "通过并可使发布");
+						article.setStatus(ArticleStatus.PRERELEASE);
 					}
-					articleMain.setArticle(article);
-					articleMainDAO.merge(articleMain);
-				}else if (review == 1){// 不通过
-					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:red;'>不通过</span>,原因:" + description);
-					if (rp != null){
-						if (rp.getPrevProcess() != null){
-							Long parentId = rp.getPrevProcess().getId();
-							article.setReviewProcessId(parentId);
-						}else{
-							article.setStatus(ArticleStatus.REEDIT);
-						}
-					}else{
-						//TODO 文章处于异常状态
-						ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
-					}
-					articleMain.setArticle(article);
-					articleMainDAO.merge(articleMain);
+				}else{
+					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
+					//TODO 文章处于异常状态
 				}
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
+			}else if (review == 1){// 不通过
+				ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), rp.getName() + "<span style='color:red;'>不通过</span>,原因:" + description);
+				if (rp != null){
+					if (rp.getPrevProcess() != null){
+						Long parentId = rp.getPrevProcess().getId();
+						article.setReviewProcessId(parentId);
+					}else{
+						article.setStatus(ArticleStatus.REEDIT);
+					}
+				}else{
+					//TODO 文章处于异常状态
+					ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "审核流程已改变,此文章不能再进行审核");
+				}
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
 			}
 		}
 	}

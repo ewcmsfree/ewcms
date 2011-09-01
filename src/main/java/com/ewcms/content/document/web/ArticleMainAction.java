@@ -77,8 +77,10 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	public void submitReviews() {
 		try {
-			documentFac.submitReviewArticleMains(getSelections(), getChannelId());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			if (getSelections() != null && getSelections().size() == 1 && getChannelId() != null){
+				documentFac.submitReviewArticleMain(getSelections().get(0), getChannelId());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		} catch (Exception e) {
@@ -142,8 +144,10 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	public void reviewArticle() {
 		try {
-			documentFac.reviewArticleMain(getSelections(), getChannelId(), getReview(), EwcmsContextUtil.getUserName(), getDescription());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			if (getSelections() != null && getSelections().size() == 1 && getChannelId() != null){
+				documentFac.reviewArticleMain(getSelections().get(0), getChannelId(), getReview(), getDescription());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		} catch (Exception e) {

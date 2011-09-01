@@ -103,13 +103,6 @@ public interface DocumentFacable {
 	 */
 	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
 	
-	/**
-	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
-	 * 
-	 * @param articleMainIds 文章主体编号集合
-	 * @param channelId 频道编号
-	 */
-	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
 
 	/**
 	 * 拷贝文章主体
@@ -148,12 +141,12 @@ public interface DocumentFacable {
 	/**
 	 * 审核文章主体
 	 * 
-	 * @param articleMainIds 文章主体集合
+	 * @param articleMainIds 文章主体编号
+	 * @param channelId 频道编号
 	 * @param review 审核标志(0:通过,1:未通过)
-	 * @param eauthor 审核人
 	 * @param description 描述
 	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor, String description);
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description);
 	
 	/**
 	 * 文章主体进行排序

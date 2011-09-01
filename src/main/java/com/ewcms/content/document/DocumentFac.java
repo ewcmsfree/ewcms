@@ -102,12 +102,6 @@ public class DocumentFac implements DocumentFacable {
 	}
 	
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId){
-		articleMainService.submitReviewArticleMains(articleMainIds, channelId);
-	}
-	
-	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#target_channel,'WRITE') " + "or hasPermission(#target_channel,'PUBLISH') " + "or hasPermission(#chantarget_channelnel,'CREATE') " + "or hasPermission(#target_channel,'UPDATE') " + "or hasPermission(#target_channel,'DELETE') " + "or hasPermission(#target_channel,'ADMIN') ")
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId){
 		return articleMainService.copyArticleMainToChannel(articleMainIds, channelIds, source_channelId);
@@ -132,8 +126,8 @@ public class DocumentFac implements DocumentFacable {
 	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String eauthor, String description){
-		articleMainService.reviewArticleMain(articleMainIds, channelId, review, eauthor, description);
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description){
+		articleMainService.reviewArticleMain(articleMainId, channelId, review, description);
 	}
 	
 	@Override

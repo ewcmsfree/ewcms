@@ -67,7 +67,7 @@ public interface ArticleMainServiceable {
 	 * @param articleMainIds 文章主体编号集合
 	 * @param channelId 频道编号
 	 */
-	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
+	//public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
 
 	/**
 	 * 拷贝文章主体
@@ -112,7 +112,17 @@ public interface ArticleMainServiceable {
 	 * @param audit 审核人
 	 * @param description 描述
 	 */
-	public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description);
+	//public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description);
+	
+	/**
+	 * 审核文章
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param review 审核标志(0:通过,1:未通过)
+	 * @param description 描述
+	 */
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description);
 	
 	/**
 	 * 文章主体进行排序
