@@ -49,7 +49,7 @@ public class FtpOutputTest {
         
         server.setHostName("127.0.0.1");
         server.setPort("21");
-        server.setUser("wangwei");
+        server.setUserName("wangwei");
         server.setPassword("hhywangwei");
         String rootPath = System.getProperty("java.io.tmpdir","/tmp");
         server.setPath(rootPath);

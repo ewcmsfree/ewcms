@@ -50,7 +50,7 @@ public class SftpOutputTest {
         
         server.setHostName("127.0.0.1");
         server.setPort("22");
-        server.setUser("wangwei");
+        server.setUserName("wangwei");
         server.setPassword("hhywangwei");
         String rootPath = System.getProperty("java.io.tmpdir","/tmp");
         server.setPath(rootPath);
