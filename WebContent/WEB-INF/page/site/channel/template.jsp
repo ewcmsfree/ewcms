@@ -51,8 +51,11 @@
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
 				                 {field:'path',title:'模板路径',width:300,align:'left'},
 				                 {field:'describe',title:'说明',width:120,align:'left'},
-				                 {field:'parentId',title:'编辑',width:60,align:'center',formatter:function(val,rec){
-									return '<input type="button" name="Submit" value="编辑.." class="inputbutton" onClick="editTPL('+rec.id+');">';
+				                 {field:'parentId',title:'预览',width:70,align:'center',formatter:function(val,rec){
+										return '<input type="button" name="Submit" value="预 览" class="inputbutton" onClick="previewTPL('+rec.id+');">';
+								 }},
+				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
+									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+');">';
 								 }}
 				    ]]
 				});
@@ -65,7 +68,11 @@
 			});			
 			function editTPL(idValue){
 				top.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
-			}			
+			}	
+
+			function previewTPL(idValue){
+				window.open('<s:url action="preview" namespace="/site/template"/>?templateVo.channelId=<s:property value="channelVo.id"/>&templateVo.id='+idValue, "previewwin", "height=100, width=400, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no");			
+			}					
 		</script>		
 	</head>
 	<body class="easyui-layout">
