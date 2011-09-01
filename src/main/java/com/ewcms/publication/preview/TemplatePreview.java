@@ -8,6 +8,8 @@ package com.ewcms.publication.preview;
 
 import java.io.OutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -16,12 +18,15 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.publication.PublishException;
+import com.ewcms.publication.freemarker.EwcmsConfigurationFactory;
 import com.ewcms.publication.freemarker.html.DetailGenerator;
 import com.ewcms.publication.freemarker.html.Generatorable;
 import com.ewcms.publication.freemarker.html.HomeGenerator;
 import com.ewcms.publication.freemarker.html.ListGenerator;
 import com.ewcms.publication.preview.service.MockArticlePublishService;
 import com.ewcms.publication.service.ArticlePublishServiceable;
+import com.ewcms.publication.service.ChannelPublishServiceable;
+import com.ewcms.publication.service.TemplatePublishServiceable;
 
 import freemarker.template.Configuration;
 
@@ -32,39 +37,72 @@ import freemarker.template.Configuration;
  */
 public class TemplatePreview implements TemplatePreviewable,InitializingBean {
 
+    private static final Logger logger = LoggerFactory.getLogger(TemplatePreview.class);
     private static final ArticlePublishServiceable MOCK_ARTICLE_SERVICE = new MockArticlePublishService();
     
     private Configuration configuration;
     private ArticlePublishServiceable articleService ;
+    private ChannelPublishServiceable channelService;
+    private TemplatePublishServiceable templateService;
+    private Configuration mockConfiguration = createMockConfiguration();
+    
+    /**
+     * 创建模拟Freemaker configuration
+     * 
+     * @return
+     */
+    private Configuration createMockConfiguration(){
+        try{
+            EwcmsConfigurationFactory factory = new  EwcmsConfigurationFactory();
+            factory.setArticleService(MOCK_ARTICLE_SERVICE);
+            factory.setChannelService(channelService);
+            factory.setTemplateService(templateService);
+            return factory.createConfiguration();
+        }catch(Exception e){
+            logger.error("Freemarker configure created error:{}",e);
+            throw new IllegalStateException(e);
+        }
+    }
     
     @Override
     public void view(OutputStream out, Site site, Channel channel,
             Template template, Boolean mock) throws PublishException {
         
         ArticlePublishServiceable service = (mock ? MOCK_ARTICLE_SERVICE : articleService);
+        Configuration cfg = (mock ? mockConfiguration : configuration);
         
         Generatorable generator ;
         if(template.getType() == TemplateType.HOME){
-            generator = new HomeGenerator(configuration);
+            generator = new HomeGenerator(cfg);
         }else if(template.getType() == TemplateType.LIST){
-            generator = new ListGenerator(configuration,service,false);
+            generator = new ListGenerator(cfg,service,false);
         }else{
-            generator = new DetailGenerator(configuration,service);
+            generator = new DetailGenerator(cfg,service);
         }
         generator.previewProcess(out, site, channel, template);
     }
     
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(configuration,"template's configuration is null");
-        Assert.notNull(articleService,"ArticleService must setting");
+        Assert.notNull(configuration,"template's configuration must setting");
+        Assert.notNull(articleService,"articleService must setting");
+        Assert.notNull(channelService,"channelService configuration must setting");
+        Assert.notNull(templateService,"templateService must setting");
     }
     
     public void setConfiguration(Configuration cfg){
         this.configuration = cfg;
     }
-    
-    public void setArticleSerivce(ArticlePublishServiceable service){
-        this.articleService = service;
+
+    public void setArticleService(ArticlePublishServiceable articleService) {
+        this.articleService = articleService;
+    }
+
+    public void setChannelService(ChannelPublishServiceable channelService) {
+        this.channelService = channelService;
+    }
+
+    public void setTemplateService(TemplatePublishServiceable templateService) {
+        this.templateService = templateService;
     }   
 }

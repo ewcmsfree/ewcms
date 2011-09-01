@@ -41,8 +41,7 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
 
     @Override
     public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
-        // it's not mock
-        return new ArrayList<Article>();
+        return findReleaseArticlePage(channelId,0,limit,false);
     }
 
     @Override
