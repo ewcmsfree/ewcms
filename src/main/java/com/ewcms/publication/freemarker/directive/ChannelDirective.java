@@ -35,7 +35,7 @@ public class ChannelDirective extends ArticleDirective{
         map.put("title", "name");
         map.put("name", "name");
         
-        map.put("图片", "iconUrl");
+        map.put("引导图", "iconUrl");
         map.put("image", "iconUrl");
         map.put("iconUrl", "iconUrl");
         
