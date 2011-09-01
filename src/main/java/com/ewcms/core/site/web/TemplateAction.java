@@ -21,11 +21,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.publication.preview.TemplatePreviewable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -45,6 +50,8 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	private String templateFileContentType;
 	private String templateContent;
 	private Integer id;
+	@Autowired
+	private TemplatePreviewable templatePreview;
 
 	public Template getTemplateVo() {
 		return super.getVo();
@@ -53,7 +60,6 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public void setTemplateVo(Template templateVo) {
 		super.setVo(templateVo);
 	}
-
 
 	public String getTemplateFileContentType() {
 		return templateFileContentType;
@@ -115,7 +121,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 
 	@Override
 	protected void deleteOperator(Integer pk) {
-		try{
+		try {
 			siteFac.delTemplate(pk);
 		} catch (Exception e) {
 			outputInfo(e.toString());
@@ -125,92 +131,89 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	@Override
 	protected Integer saveOperator(Template vo, boolean isUpdate) {
 		TemplateEntity tplEntityVo = new TemplateEntity();
-		try{
-		if(templateFile!=null){
-			getTemplateVo().setSize(converKB(templateFile.length()));			
-			
-				byte[] buffer = new byte[Integer.parseInt(String
-						.valueOf(templateFile.length()))];
-				InputStream in = new BufferedInputStream(
-						new FileInputStream(templateFile),
-						Integer.parseInt(String.valueOf(templateFile
-								.length())));
+		try {
+			if (templateFile != null) {
+				getTemplateVo().setSize(converKB(templateFile.length()));
+
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
+				InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+						.valueOf(templateFile.length())));
 				in.read(buffer);
 				tplEntityVo.setTplEntity(buffer);
 				getTemplateVo().setTemplateEntity(tplEntityVo);
-			
-		}
-		if(isUpdate){
-			Template oldvo = siteFac.getTemplate(getTemplateVo().getId());
-			oldvo.setDescribe(getTemplateVo().getDescribe());
-			oldvo.setType(getTemplateVo().getType());
-			oldvo.setUriPattern(getTemplateVo().getUriPattern());
-			if(templateFile!=null){
-				oldvo.getTemplateEntity().setTplEntity(getTemplateVo().getTemplateEntity().getTplEntity());
-				oldvo.setName(templateFileFileName);
+
 			}
-			return siteFac.updTemplate(oldvo);
-		}else{
-			getTemplateVo().setTemplateEntity(tplEntityVo);
-			getTemplateVo().setSite(getCurrentSite());
-			getTemplateVo().setParent(siteFac.channelTemplate(getTemplateVo().getChannelId().toString()));
-			if(templateFile!=null){
-				getTemplateVo().setName(templateFileFileName);
-			}else{
-				String fileName ="new"+(int)(Math.random()*100)+".htm";
-				getTemplateVo().setName(fileName);
+			if (isUpdate) {
+				Template oldvo = siteFac.getTemplate(getTemplateVo().getId());
+				oldvo.setDescribe(getTemplateVo().getDescribe());
+				oldvo.setType(getTemplateVo().getType());
+				oldvo.setUriPattern(getTemplateVo().getUriPattern());
+				if (templateFile != null) {
+					oldvo.getTemplateEntity().setTplEntity(getTemplateVo().getTemplateEntity().getTplEntity());
+					oldvo.setName(templateFileFileName);
+				}
+				return siteFac.updTemplate(oldvo);
+			} else {
+				getTemplateVo().setTemplateEntity(tplEntityVo);
+				getTemplateVo().setSite(getCurrentSite());
+				getTemplateVo().setParent(siteFac.channelTemplate(getTemplateVo().getChannelId().toString()));
+				if (templateFile != null) {
+					getTemplateVo().setName(templateFileFileName);
+				} else {
+					String fileName = "new" + (int) (Math.random() * 100) + ".htm";
+					getTemplateVo().setName(fileName);
+				}
+				return siteFac.addTemplate(getTemplateVo());
 			}
-			return siteFac.addTemplate(getTemplateVo());
+		} catch (Exception e) {
+			this.outputInfo(e.toString());
+			return null;
 		}
-		}catch(Exception e){this.outputInfo(e.toString());return null;}
 	}
 
 	@Override
 	protected Template createEmptyVo() {
-		 Template newvo = new Template();
-		 newvo.setChannelId(vo.getChannelId());
-		 newvo.setPath(siteFac.channelTemplate(vo.getChannelId().toString()).getPath());
-		 return newvo;
+		Template newvo = new Template();
+		newvo.setChannelId(vo.getChannelId());
+		newvo.setPath(siteFac.channelTemplate(vo.getChannelId().toString()).getPath());
+		return newvo;
 	}
 
 	public String importTemplate() {
 		if (templateFile != null) {
 			try {
 				if (templateFileContentType != null
-						&& "application/zip,application/x-zip-compressed"
-								.indexOf(templateFileContentType) != -1) {
+						&& "application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
 					ZipFile zfile = new ZipFile(templateFile);
 					Enumeration zList = zfile.entries();
-					Map<String,Integer> dirMap = new HashMap<String,Integer>();
+					Map<String, Integer> dirMap = new HashMap<String, Integer>();
 					ZipEntry ze = null;
 					String[] pathArr;
-					String pathKey,path;					
+					String pathKey, path;
 					while (zList.hasMoreElements()) {
 						ze = (ZipEntry) zList.nextElement();
 						Template vo = new Template();
 						vo.setSite(getCurrentSite());
 						pathArr = ze.getName().split("/");
-						vo.setName(pathArr[pathArr.length-1]);
-						pathKey = ze.getName().substring(0,ze.getName().lastIndexOf(pathArr[pathArr.length-1]));
-						if(pathKey==null || pathKey.length() ==0){
-							if(getTemplateVo().getParent().getId()==null){
+						vo.setName(pathArr[pathArr.length - 1]);
+						pathKey = ze.getName().substring(0, ze.getName().lastIndexOf(pathArr[pathArr.length - 1]));
+						if (pathKey == null || pathKey.length() == 0) {
+							if (getTemplateVo().getParent().getId() == null) {
 								vo.setParent(null);
-							}else{
+							} else {
 								vo.setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
 							}
-						}else{
+						} else {
 							vo.setParent(siteFac.getTemplate(dirMap.get(pathKey)));
 						}
-						
+
 						if (ze.isDirectory()) {
-							dirMap.put(ze.getName(),siteFac.addTemplate(vo));
+							dirMap.put(ze.getName(), siteFac.addTemplate(vo));
 							continue;
 						}
 
-						InputStream in = new BufferedInputStream(
-								zfile.getInputStream(ze));
-						byte[] buffer = new byte[Integer.parseInt(String
-								.valueOf(ze.getSize()))];
+						InputStream in = new BufferedInputStream(zfile.getInputStream(ze));
+						byte[] buffer = new byte[Integer.parseInt(String.valueOf(ze.getSize()))];
 						in.read(buffer);
 						TemplateEntity tplEntityVo = new TemplateEntity();
 						tplEntityVo.setTplEntity(buffer);
@@ -223,28 +226,25 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					getTemplateVo().setName(templateFileFileName);
 					getTemplateVo().setSize(converKB(templateFile.length()));
 					TemplateEntity tplEntityVo = new TemplateEntity();
-					byte[] buffer = new byte[Integer.parseInt(String
-							.valueOf(templateFile.length()))];
-					InputStream in = new BufferedInputStream(
-							new FileInputStream(templateFile),
-							Integer.parseInt(String.valueOf(templateFile
-									.length())));
+					byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
+					InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+							.valueOf(templateFile.length())));
 					in.read(buffer);
 					tplEntityVo.setTplEntity(buffer);
 					getTemplateVo().setTemplateEntity(tplEntityVo);
-					if(getTemplateVo().getParent().getId()==null){
+					if (getTemplateVo().getParent().getId() == null) {
 						getTemplateVo().setParent(null);
-					}else{
+					} else {
 						getTemplateVo().setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
-					}					
+					}
 					siteFac.addTemplate(getTemplateVo());
 				}
 			} catch (Exception e) {
 				outputInfo(e.toString());
 			}
 		} else {
-			if(getTemplateVo().getParent()!=null&&getTemplateVo().getParent().getId()!=null)
-			getTemplateVo().setPath(siteFac.getTemplate(getTemplateVo().getParent().getId()).getPath());
+			if (getTemplateVo().getParent() != null && getTemplateVo().getParent().getId() != null)
+				getTemplateVo().setPath(siteFac.getTemplate(getTemplateVo().getParent().getId()).getPath());
 		}
 		return INPUT;
 	}
@@ -258,8 +258,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			treeFile.setText(getCurrentSite().getSiteName());
 			treeFile.setState("open");
 			treeFile.setChildren(TreeNodeConvert.templateConvert(siteFac.getTemplaeTreeList(false)));
-			Struts2Util
-					.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
+			Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 			return;
 		}
 		List<TreeNode> tnList = TreeNodeConvert.templateConvert(siteFac.getTemplaeTreeList(id, false));
@@ -269,7 +268,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON(tnList));
 		}
 	}
-	
+
 	/**
 	 * 获取专栏模板树目录.
 	 */
@@ -279,18 +278,17 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			treeFile.setText(getCurrentSite().getSiteName());
 			treeFile.setState("open");
 			treeFile.setChildren(TreeNodeConvert.templateConvert(siteFac.getTemplaeTreeList(true)));
-			Struts2Util
-					.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
+			Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 			return;
 		}
-		List<TreeNode> tnList = TreeNodeConvert.templateConvert(siteFac.getTemplaeTreeList(id,getTemplateVo().getChannelId().toString()));
+		List<TreeNode> tnList = TreeNodeConvert.templateConvert(siteFac.getTemplaeTreeList(id, getTemplateVo()
+				.getChannelId().toString()));
 		if (tnList.isEmpty()) {
 			Struts2Util.renderJson("{}");
 		} else {
 			Struts2Util.renderJson(JSONUtil.toJSON(tnList));
 		}
-	}	
-	
+	}
 
 	/**
 	 * 新建模板文件.
@@ -301,11 +299,11 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			vo.setSite(getCurrentSite());
 			vo.setSize("0 KB");
 			vo.setTemplateEntity(new TemplateEntity());
-			if(vo.getParent().getId()==null){
+			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
-			}else{
+			} else {
 				getTemplateVo().setParent(siteFac.getTemplate(vo.getParent().getId()));
-			}				
+			}
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
@@ -321,11 +319,11 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		try {
 			Template vo = getTemplateVo();
 			vo.setSite(getCurrentSite());
-			if(vo.getParent().getId()==null){
+			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
-			}else{
+			} else {
 				getTemplateVo().setParent(siteFac.getTemplate(vo.getParent().getId()));
-			}		
+			}
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
@@ -369,9 +367,9 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public void movetoTemplate() {
 		try {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
-			if(getTemplateVo().getParent().getId()==null){
+			if (getTemplateVo().getParent().getId() == null) {
 				vo.setParent(null);
-			}else{
+			} else {
 				vo.setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
 			}
 			siteFac.updTemplate(vo);
@@ -389,7 +387,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		if (getTemplateVo() != null && getTemplateVo().getId() != null) {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
 			try {
-				setTemplateContent(new String(vo.getTemplateEntity().getTplEntity(),"UTF-8"));
+				setTemplateContent(new String(vo.getTemplateEntity().getTplEntity(), "UTF-8"));
 			} catch (Exception e) {
 			}
 			setTemplateVo(vo);
@@ -401,22 +399,19 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		try {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
 			vo.setDescribe(getTemplateVo().getDescribe());
-			if(templateFile!=null){
-				vo.setSize(converKB(templateFile.length()));			
+			if (templateFile != null) {
+				vo.setSize(converKB(templateFile.length()));
 				TemplateEntity tplEntityVo = new TemplateEntity();
-					byte[] buffer = new byte[Integer.parseInt(String
-							.valueOf(templateFile.length()))];
-					InputStream in = new BufferedInputStream(
-							new FileInputStream(templateFile),
-							Integer.parseInt(String.valueOf(templateFile
-									.length())));
-					in.read(buffer);
-					tplEntityVo.setTplEntity(buffer);
-					vo.setTemplateEntity(tplEntityVo);
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
+				InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+						.valueOf(templateFile.length())));
+				in.read(buffer);
+				tplEntityVo.setTplEntity(buffer);
+				vo.setTemplateEntity(tplEntityVo);
 				vo.setName(templateFileFileName);
 			}
 			siteFac.updTemplate(vo);
-			
+
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
 			addActionMessage("数据保存失败！");
@@ -437,7 +432,20 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 		return INPUT;
 	}
-	
+
+	public void previewTemplate() {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			templatePreview.view(response.getOutputStream(), getCurrentSite(),
+					siteFac.getChannel(getTemplateVo().getChannelId()), siteFac.getTemplate(getTemplateVo().getId()),
+					true);
+		} catch (Exception e) {
+			outputInfo(e.toString());
+		}
+	}
+
 	/**
 	 * 模板类型选择
 	 * 
@@ -446,7 +454,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public List<TemplateType> getTemplateTypeList() {
 		return Arrays.asList(TemplateType.values());
 	}
-	
+
 	private String converKB(long size) {
 		DecimalFormat dfom = new DecimalFormat("####.0");
 		if (size <= 0)
