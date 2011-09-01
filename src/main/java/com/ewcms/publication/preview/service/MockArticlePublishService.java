@@ -67,8 +67,6 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
     
     static{
         Article article = new Article();
-        article.setAudit("audit test");
-        article.setAuditReal("编辑测试员");
         article.setAuthor("作者测试员");
         article.setCommentFlag(true);
         article.setContentTotal(5);
@@ -119,8 +117,6 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
     
     private Article createArticle(int index,boolean top){
         Article article = new Article();
-        article.setAudit("audit test");
-        article.setAuditReal("编辑测试员");
         article.setAuthor("作者测试员");
         article.setCommentFlag(true);
         article.setContentTotal(5);
