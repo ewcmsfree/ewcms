@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.publication.output.provider.FtpOutput;
+import com.ewcms.publication.output.provider.FtpsOutput;
 import com.ewcms.publication.output.provider.LocalOutput;
 import com.ewcms.publication.output.provider.SftpOutput;
 import com.ewcms.publication.output.provider.SmbOutput;
@@ -39,6 +40,7 @@ public class OutputFactory{
         
         map.put(OutputType.LOCAL, new LocalOutput());
         map.put(OutputType.FTP, new FtpOutput());
+        map.put(OutputType.FTPS, new FtpsOutput());
         map.put(OutputType.SFTP, new SftpOutput());
         map.put(OutputType.SMB, new SmbOutput());
         
