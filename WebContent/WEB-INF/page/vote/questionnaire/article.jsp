@@ -10,49 +10,52 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url namespace="/vote/questionnaire" action="input"/>',
-					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>',
-					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>',
-					querywidth:500,
-					queryheight:100
+				//创建和设置页面的基本对象 EwcmsBase
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/questionnaire" action="query"/>');
+	
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				
+				ewcmsBOBJ.openDataGrid('#tt',{
+	                columns:[[
+                              {field:'id',title:'编号',width:60},
+                              {field:'title',title:'调查主题',width:500},
+                              {field:'questionnaireStatusDescription',title:'查看方式',width:100},
+                              {field:'number',title:'投票人数',width:60},
+                              {field:'verifiCode',title:'验证码',width:43,
+                              	formatter:function(val,rec){
+                              		return val ? '&nbsp;&nbsp;是' : '&nbsp;&nbsp;否';
+                              	}
+                              },
+                              {field:'startTime',title:'开始时间',width:125},
+                              {field:'endTime',title:'结束时间',width:125},
+                              {field:'voteFlag',title:'结束投票',width:55,
+                              	formatter:function(val,rec){
+                              		var flag = '&nbsp;&nbsp;&nbsp;否';
+                              		var nowDate = new Date();
+                              		if (val){
+                                  		flag = '&nbsp;&nbsp;&nbsp;是';
+                              		}else if (rec.endTime < nowDate.toLocaleString()){
+                              			flag = '&nbsp;&nbsp;&nbsp;是';
+                              		}
+                              		return flag;
+                              	}
+                              }
+	                  ]]
 				});
-				//数据表格定义 						
-                openDataGrid({
-                    columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'title',title:'调查主题',width:500},
-                                {field:'questionnaireStatusDescription',title:'查看方式',width:100},
-                                {field:'number',title:'投票人数',width:60},
-                                {field:'verifiCode',title:'验证码',width:43,
-                                	formatter:function(val,rec){
-                                		return val ? '&nbsp;&nbsp;是' : '&nbsp;&nbsp;否';
-                                	}
-                                },
-                                {field:'startTime',title:'开始时间',width:125},
-                                {field:'endTime',title:'结束时间',width:125},
-                                {field:'voteFlag',title:'结束投票',width:55,
-                                	formatter:function(val,rec){
-                                		var flag = '&nbsp;&nbsp;&nbsp;否';
-                                		var nowDate = new Date();
-                                		if (val){
-                                    		flag = '&nbsp;&nbsp;&nbsp;是';
-                                		}else if (rec.endTime < nowDate.toLocaleString()){
-                                			flag = '&nbsp;&nbsp;&nbsp;是';
-                                		}
-                                		return flag;
-                                	}
-                                },
-                        ]],
-        				toolbar:[
-     							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-     							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack},'-'
-     						]                    
-				});			
+	
+				//创建和设置页面的操作对象 EwcmsOperate
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				//ewcmsOOBJ.setInputURL('<s:url namespace="/vote/questionnaire" action="input"/>');
+				//ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/questionnaire" action="delete"/>');
+				
 				$('#tt2').tree({
 					checkbox: false,
 					url: '<s:url namespace="/site/channel" action="tree"/>',

@@ -10,43 +10,34 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/subject" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '');
+
+				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate);
+				ewcmsBOBJ.addToolItem('下移','icon-down',downOperate);
+				
+				ewcmsBOBJ.openDataGrid('#tt_subject',{
 					singleSelect:true,
-					tableid:'#tt_subject',
-					inputURL:'<s:url namespace="/vote/subject" action="input"/>?questionnaireId=' + $('#questionnaireId').val() + '',
-					queryURL:'<s:url namespace="/vote/subject" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '',
-					deleteURL:'<s:url namespace="/vote/subject" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '',
-					editwidth:500,
-					editheight:200,
-					querywidth:500,
-					queryheight:100
-				});
-				//数据表格定义 						
-                openDataGrid({
-                	singleSelect:true,
                     columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'title',title:'主题名称',width:500,
-                                	formatter:function(val,rec){
-                                		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
-                                	}
-                                },
-                                {field:'subjectStatusDescription',title:'主题选择方式',width:100}
-                        ]],
-        				toolbar:[
-      							{text:'新增',iconCls:'icon-add',handler:addOperateBack},'-',
-      							{text:'修改',iconCls:'icon-edit',handler:updOperateBack},'-',
-      							{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
-      							{text:'上移',iconCls:'icon-up',handler:upOperate},'-',
-    							{text:'下移',iconCls:'icon-down',handler:downOperate},'-',
-      							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
-      							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-      						]                       
+                              {field:'id',title:'编号',width:60},
+                              {field:'title',title:'主题名称',width:500,
+                              	formatter:function(val,rec){
+                              		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
+                              	}
+                              },
+                              {field:'subjectStatusDescription',title:'主题选择方式',width:100}
+                      ]]
 				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setDatagridID('#tt_subject');
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/vote/subject" action="input"/>?questionnaireId=' + $('#questionnaireId').val() + '');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/subject" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '');
 			});
 			function showSubjectItem(subjectId, subjectTitle, optionDescription){
 				var subjectTitle = '[<span style="color:red;">主题编号：</span>' + subjectId + '] [<span style="color:red;">主题名称：</span>' + subjectTitle + '] - 问卷调查主题列表';
@@ -59,7 +50,7 @@
 					url = '<s:url namespace="/vote/subjectitem" action="index"/>?subjectId=' + subjectId + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				}
 				$('#editifr').attr('src',url);
-				openWindow('#edit-window',{width:858,height:320,title:subjectTitle});
+				ewcmsBOBJ.openWindow('#edit-window',{width:858,height:320,title:subjectTitle});
 			}
 			function upOperate(){
 				var rows = $('#tt_subject').datagrid('getSelections');
@@ -111,7 +102,7 @@
 			}
 			function queryOperate(){
 				$('#tt_subject').datagrid('clearSelections');
-				queryOperateBack();
+				queryCallBack();
 			}
 		</script>
 	</head>

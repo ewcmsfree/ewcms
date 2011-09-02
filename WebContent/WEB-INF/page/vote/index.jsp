@@ -10,8 +10,8 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>		
+		<script type="text/javascript">
 			$(function(){
 				//站点专栏目录树初始
 				$('#tt2').tree({

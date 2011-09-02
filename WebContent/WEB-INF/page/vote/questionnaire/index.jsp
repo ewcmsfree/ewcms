@@ -10,59 +10,63 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					tableid:'#tt_main',
-					inputURL:'<s:url namespace="/vote/questionnaire" action="input"/>?channelId=' + $('#channelId').val() + '',
-					queryURL:'<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '',
-					deleteURL:'<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '',
-					editwidth:700,
-					editheight:260,
-					querywidth:500,
-					queryheight:100
-				});
-				//数据表格定义 						
-                openDataGrid({
-                	singleSelect:true,
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+
+				ewcmsBOBJ.addToolItem('新增','icon-add', addOperate);
+				ewcmsBOBJ.addToolItem('修改','icon-edit',updOperate);
+				ewcmsBOBJ.addToolItem('删除','icon-remove',delOperate);
+				ewcmsBOBJ.addToolItem('预览','icon-voteprivew',privOperateBack);
+				ewcmsBOBJ.addToolItem('结果','icon-voteresult',resultOperateBack);
+				ewcmsBOBJ.addToolItem('投票人员','icon-votedetail',detailOperate);
+				ewcmsBOBJ.addToolItem('查询','icon-search',queryOperate);
+				ewcmsBOBJ.addToolItem('缺省查询','icon-back',defQueryCallBack);
+	
+				ewcmsBOBJ.openDataGrid('#tt_main',{
                     columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'title',title:'问卷名称',width:500},
-                                {field:'questionnaireStatusDescription',title:'查看方式',width:100},
-                                {field:'number',title:'投票人数',width:60},
-                                {field:'verifiCode',title:'验证码',width:43,
-                                	formatter:function(val,rec){
-                                		return val ? '&nbsp;&nbsp;是' : '&nbsp;&nbsp;否';
-                                	}
-                                },
-                                {field:'startTime',title:'开始时间',width:125},
-                                {field:'endTime',title:'结束时间',width:125},
-                                {field:'voteFlag',title:'结束投票',width:55,
-                                	formatter:function(val,rec){
-                                		var flag = '&nbsp;&nbsp;&nbsp;否';
-                                		var nowDate = new Date();
-                                		if (val){
-                                    		flag = '&nbsp;&nbsp;&nbsp;是';
-                                		}else if (rec.endTime < nowDate.toLocaleString()){
-                                			flag = '&nbsp;&nbsp;&nbsp;是';
-                                		}
-                                		return flag;
-                                	}
-                                }
-                        ]],
-        				toolbar:[
-     							{text:'新增',iconCls:'icon-add',handler:addOperate},'-',
-     							{text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
-     							{text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
-     							{text:'预览',iconCls:'icon-voteprivew', handler:privOperateBack},'-',
-     							{text:'结果',iconCls:'icon-voteresult', handler:resultOperateBack},'-',
-     							{text:'投票人员',iconCls:'icon-votedetail', handler:detailOperate},'-',
-     							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
-     							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-     						]                    
+                              {field:'id',title:'编号',width:60},
+                              {field:'title',title:'问卷名称',width:500},
+                              {field:'questionnaireStatusDescription',title:'查看方式',width:100},
+                              {field:'number',title:'投票人数',width:60},
+                              {field:'verifiCode',title:'验证码',width:43,
+                              	formatter:function(val,rec){
+                              		return val ? '&nbsp;&nbsp;是' : '&nbsp;&nbsp;否';
+                              	}
+                              },
+                              {field:'startTime',title:'开始时间',width:125},
+                              {field:'endTime',title:'结束时间',width:125},
+                              {field:'voteFlag',title:'结束投票',width:55,
+                              	formatter:function(val,rec){
+                              		var flag = '&nbsp;&nbsp;&nbsp;否';
+                              		var nowDate = new Date();
+                              		if (val){
+                                  		flag = '&nbsp;&nbsp;&nbsp;是';
+                              		}else if (rec.endTime < nowDate.toLocaleString()){
+                              			flag = '&nbsp;&nbsp;&nbsp;是';
+                              		}
+                              		return flag;
+                              	}
+                              }
+                      ]]
 				});
+
+				//创建和设置页面的操作对象 EwcmsOperate
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setDatagridID('#tt_main');
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/vote/questionnaire" action="input"/>?channelId=' + $('#channelId').val() + '');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/questionnaire" action="delete"/>?channelId=' + $('#channelId').val() + '');
+
 				$('#tt_main').datagrid({
 					onSelect:function(rowIndex,rowData){
 						var url='<s:url namespace="/vote/subject" action="index"/>';
@@ -101,15 +105,15 @@
 			}
 			function delOperate(){
 				parent.$('#subjectifr').attr('src','');
-				delOperateBack();
+				delCallBack();
 			}
 			function updOperate(){
 				parent.$('#subjectifr').attr('src','');
-				updOperateBack();
+				updCallBack();
 			}
 			function addOperate(){
 				parent.$('#subjectifr').attr('src','');
-				addOperateBack();
+				addCallBack();
 			}
 			function detailOperate(){
 				var rows = $('#tt_main').datagrid('getSelections');
@@ -123,12 +127,12 @@
 		        }
 				var url =  '<s:url namespace="/vote/person" action="index"/>?questionnaireId=' + rows[0].id + '';
 				$('#editifr_person').attr('src',url);
-				openWindow('#person-window',{width:500,height:265,title:'人员'});
+				ewcmsBOBJ.openWindow('#person-window',{width:500,height:265,title:'人员'});
 			}
 			function queryOperate(){
 				$('#tt_main').datagrid('clearSelections');
 				parent.$('#subjectifr').attr('src','');
-				queryOperateBack();
+				queryCallBack();
 			}
 		</script>
 	</head>

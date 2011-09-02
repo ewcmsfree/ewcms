@@ -10,39 +10,30 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					tableid:'#tt_item',
-					inputURL:'<s:url namespace="/vote/subjectitem" action="input"/>?subjectId=' + $('#subjectId').val() + '',
-					queryURL:'<s:url namespace="/vote/subjectitem" action="query"/>?subjectId=' + $('#subjectId').val() + '',
-					deleteURL:'<s:url namespace="/vote/subjectitem" action="delete"/>?subjectId=' + $('#subjectId').val() + '',
-					editwidth:500,
-					editheight:200,
-					querywidth:500,
-					queryheight:100
-				});
-				//数据表格定义 						
-                openDataGrid({
-                	singleSelect:true,
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/subjectitem" action="query"/>?subjectId=' + $('#subjectId').val() + '');
+
+				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate);
+				ewcmsBOBJ.addToolItem('下移','icon-down',downOperate);
+				
+				ewcmsBOBJ.openDataGrid('#tt_item',{
                     columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'title',title:'选项名称',width:500},
-                                {field:'subjectItemStatusDescription',title:'选择方式',width:100},
-                                {field:'voteNumber',title:'票数',width:60}
-                        ]],
-        				toolbar:[
-       							{text:'新增',iconCls:'icon-add',handler:addOperateBack},'-',
-       							{text:'修改',iconCls:'icon-edit',handler:updOperateBack},'-',
-       							{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
-       							{text:'上移',iconCls:'icon-up',handler:upOperate},'-',
-     							{text:'下移',iconCls:'icon-down',handler:downOperate},'-',
-       							{text:'查询',iconCls:'icon-search', handler:queryOperate},'-',
-       							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-       						]                    
+                              {field:'id',title:'编号',width:60},
+                              {field:'title',title:'选项名称',width:500},
+                              {field:'subjectItemStatusDescription',title:'选择方式',width:100},
+                              {field:'voteNumber',title:'票数',width:60}
+                      ]]
 				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setDatagridID('#tt_item');
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/vote/subjectitem" action="input"/>?subjectId=' + $('#subjectId').val() + '');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/subjectitem" action="delete"/>?subjectId=' + $('#subjectId').val() + '');
 			});
 			function upOperate(){
 				var rows = $('#tt_item').datagrid('getSelections');
@@ -95,7 +86,7 @@
 			}
 			function queryOperate(){
 				$('#tt_item').datagrid('clearSelections');
-				queryOperateBack();
+				queryCallBack();
 			}
 		</script>
 	</head>

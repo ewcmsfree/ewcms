@@ -12,11 +12,15 @@
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-		<script>
+		<script type="text/javascript">
 			$(function(){
-				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/person" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				
 				ewcmsBOBJ.openDataGrid('#tt',{
                     columns:[[
                               {field:'id',title:'编号',width:60},
@@ -29,22 +33,14 @@
                               }
                       ]]
 				});
-				ewcmsBOBJ.delToolItem('新增');
-				ewcmsBOBJ.delToolItem('修改');
-				ewcmsBOBJ.delToolItem('删除');
-				ewcmsBOBJ.setWinWidth(400);
-				ewcmsBOBJ.setWinHeight(180);
 
-				//创建和设置页面的操作对象 EwcmsOperate
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setInputURL('<s:url namespace="/vote/person" action="input"/>?questionnaireId' + $('#questionnaireId').val() + '');
-				ewcmsOOBJ.setDeleteURL('<s:url namespace="/vote/person" action="delete"/>?questionnaireId=' + $('#questionnaireId').val() + '');
 			});
 			function showRecord(id){
 				var url =  '<s:url namespace="/vote/record" action="index"/>?personId=' + id + '&questionnaireId=' + $('#questionnaireId').val() + '';
 				$('#editifr_record').attr('src',url);
-				openWindow('#record-window',{title:'内容'});
+				ewcmsBOBJ.openWindow('#record-window',{width:400,height:180,title:'内容'});
 			}
 		</script>
 	</head>
