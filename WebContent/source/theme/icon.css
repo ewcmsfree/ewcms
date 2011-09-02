@@ -58,14 +58,23 @@
 .icon-move{
 	background:url('icons/move.png') no-repeat;
 }
-.icon-submitreview{
-	background:url('icons/submitreview.png') no-repeat;
-}
 .icon-review{
 	background:url('icons/review.png') no-repeat;
 }
+.icon-reviewsubmit{
+	background:url('icons/review_submit.png') no-repeat;
+}
+.icon-reviewprocess{
+	background:url('icons/review_process.png') no-repeat;
+}
 .icon-publish{
 	background:url('icons/publish.png') no-repeat;
+}
+.icon-publishok{
+	background:url('icons/publish_ok.png') no-repeat;
+}
+.icon-breakarticle{
+	background:url('icons/breakarticle.png') no-repeat;
 }
 .icon-share{
 	background:url('icons/share.png') no-repeat;
@@ -75,6 +84,13 @@
 }
 .icon-sort{
     background:url('icons/sort.png') no-repeat;
+}
+.icon-sortset{
+    background:url('icons/sort_set.png') no-repeat;
+}
+.icon-sortclear{
+	background:url('icons/sort_clear.png') no-repeat;
+	
 }
 .icon-voteprivew{
 	background:url('icons/voteprivew.png') no-repeat;
