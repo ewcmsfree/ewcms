@@ -7,39 +7,37 @@
 		<title>历史记录</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url namespace="/history" action="input"/>',
-					queryURL:'<s:url namespace="/history" action="query"/>',
-					deleteURL:'<s:url namespace="/history" action="delete"/>',
-					editwidth:1000,
-					editheight:700
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/history" action="query"/>');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+
+				ewcmsBOBJ.openDataGrid('#tt',{
+	                columns:[[
+							{field:'id',title:'编号',width:40,sortable:true},
+							{field:'className',title:'类名',width:400},
+							{field:'methodName',title:'方法名',width:100},
+							{field:'createDate',title:'保存时间',width:125},
+							{field:'idName',title:'关键字名称',width:100},
+							{field:'idValue',title:'关键字值',width:100},
+							{field:'idType',title:'关键字类型',width:120},
+							{field:'userName',title:'操作员',width:80}
+	                  ]],
+	                  pagination:true
 				});
-				//数据表格定义 						
-				openDataGrid({
-					columns:[[
-								{field:'id',title:'编号',width:40,sortable:true},
-								{field:'className',title:'类名',width:400},
-								{field:'methodName',title:'方法名',width:100},
-								{field:'createDate',title:'保存时间',width:125},
-								{field:'idName',title:'关键字名称',width:100},
-								{field:'idValue',title:'关键字值',width:100},
-								{field:'idType',title:'关键字类型',width:120},
-								{field:'userName',title:'操作员',width:80}
-							]],
-			         toolbar:[
-								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
-								{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-								{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-						     ]
-				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/history" action="delete"/>');
 			});
 		</script>
 		<ewcms:datepickerhead/>	
