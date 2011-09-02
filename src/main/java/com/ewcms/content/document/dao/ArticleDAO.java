@@ -59,6 +59,22 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     }
     
     @SuppressWarnings("unchecked")
+	public List<Article> findArticleReleasePage(final Integer channelId, final Integer page, final Integer row, final Boolean top){
+    	Object result = this.getJpaTemplate().execute(new JpaCallback<Object>(){
+			@Override
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				if (channelId == null){
+					return new ArrayList<Article>();
+				}
+				//TODO page、row、top三个参数还未传入hql查询语句中
+				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? Order By m.article.topFlag Desc, m.sort Asc, Case When m.article.published Is Null Then 1 Else 0 End, m.article.published Desc, Case When m.article.modified Is Null Then 1 Else 0 End, m.article.modified Desc, m.id";
+				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.RELEASE).getResultList();
+			}
+    	});
+    	return (List<Article>)result;
+    }
+    
+    @SuppressWarnings("unchecked")
 	public List<Article> findArticleRelease(final Integer channelId){
     	Object result = this.getJpaTemplate().execute(new JpaCallback<Object>(){
 			@Override
@@ -67,7 +83,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 					return new ArrayList<Article>();
 				}
 				//TODO 未修改完
-				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=?";
 				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.RELEASE).getResultList();
 			}
     	});
