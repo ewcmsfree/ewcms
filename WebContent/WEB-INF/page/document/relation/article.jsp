@@ -10,21 +10,20 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			var channelId = 0;
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:' ',
-					queryURL:' ',
-					deleteURL:' ',
-					editwidth:1000,
-					editheight:700
-				});
-				//数据表格定义 						
-                openDataGrid({
-                    columns:[[
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+
+				ewcmsBOBJ.openDataGrid('#tt',{
+	                columns:[[
                               {field:'id',title:'编号',width:60},
                               {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
                               {field:'reference',title:'引用',width:60,hidden:true},
@@ -54,17 +53,17 @@
                                       return rec.article.title + classValue;
                                   }
                               },
-                              {field:'author',title:'作者',width:80,formatter:function(val,rec){return rec.article.author;}},
+                              {field:'owner',title:'创建者',width:80,formatter:function(val,rec){return rec.article.owner;}},
                               {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
-                              {field:'auditReal',title:'审核人',width:80,formatter:function(val,rec){return rec.article.auditReal;}},
                               {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
-                              {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}}
-                        ]],
-			         toolbar:[
-								{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-								{text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery}
-						     ]
+                              {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
+                              {field:'sort',title:'排序号',width:60}
+	                  ]],
 				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				
 				//站点专栏目录树初始
 				$('#tt2').tree({
 					checkbox: false,

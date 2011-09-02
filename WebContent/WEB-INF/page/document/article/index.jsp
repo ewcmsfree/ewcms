@@ -12,72 +12,76 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/datagrid-detailview.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			var channelId = 0;
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url namespace="/document/article" action="input"/>',
-					queryURL:'<s:url namespace="/document/article" action="query"/>',
-					deleteURL:'<s:url namespace="/document/article" action="delete"/>',
-					editwidth:1000,
-					editheight:700,
-					querywidth:600,
-					queryheight:200
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+
+				ewcmsBOBJ.addToolItem('新增','icon-add', addOperate,'btnAdd');
+				ewcmsBOBJ.addToolItem('修改','icon-edit',updOperate,'btnUpd');
+				ewcmsBOBJ.addToolItem('删除','icon-remove',delOperate,'btnRemove');
+				ewcmsBOBJ.addToolItem('查询','icon-search',queryCallBack,'btnSearch');
+				ewcmsBOBJ.addToolItem('缺省查询','icon-back',initOperateQuery,'btnBack');
+				ewcmsBOBJ.addToolItem('复制','icon-copy',copyOperate,'btnCopy');
+				ewcmsBOBJ.addToolItem('移动','icon-move',moveOperate,'btnMove');
+				ewcmsBOBJ.addToolItem('排序','icon-sort',initSubMenu,'btnSort');
+				ewcmsBOBJ.addToolItem('审核','icon-review',initSubMenu,'btnReview');
+				ewcmsBOBJ.addToolItem('发布','icon-publish',initSubMenu,'btnPub');
+
+				ewcmsBOBJ.openDataGrid('#tt',{
+					singleSelect:true,
+	                columns:[[
+                              {field:'id',title:'编号',width:60},
+                              {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
+                              {field:'reference',title:'引用',width:60,hidden:true},
+                              {field:'flags',title:'属性',width:60,
+                                  formatter:function(val,rec){
+                                      var pro = [];
+                                      if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                      if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                      if (rec.article.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
+                                      if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
+                                      if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+                                      
+                                      return pro.join("");
+                                  }
+                              },
+                              {field:'title',title:'标题<span style=\"color:red;\">[分类]</span>',width:500,
+                                  formatter:function(val,rec){
+                                      var classPro = [];
+                                      var categories = rec.article.categories;
+                                      for (var i=0;i<categories.length;i++){
+                                         classPro.push(categories[i].categoryName);
+                                      }
+                                      var classValue = "";
+                                      if (classPro.length > 0){
+                                          classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+                                      }
+                                      return rec.article.title + classValue;
+                                  }
+                              },
+                              {field:'owner',title:'创建者',width:80,formatter:function(val,rec){return rec.article.owner;}},
+                              {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
+                              {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
+                              {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
+                              {field:'sort',title:'排序号',width:60}
+	                  ]]
 				});
-				//数据表格定义 						
-                openDataGrid({
-                	singleSelect:true,
-                    columns:[[
-                                {field:'id',title:'编号',width:60},
-                                {field:'topFlag',title:'置顶',width:60,hidden:true,formatter:function(val,rec){return rec.article.topFlag;}},
-                                {field:'reference',title:'引用',width:60,hidden:true},
-                                {field:'flags',title:'属性',width:60,
-                                    formatter:function(val,rec){
-                                        var pro = [];
-                                        if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-                                        if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-                                        if (rec.article.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
-                                        if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
-                                        if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
-                                        
-                                        return pro.join("");
-                                    }
-                                },
-                                {field:'title',title:'标题<span style=\"color:red;\">[分类]</span>',width:500,
-                                    formatter:function(val,rec){
-                                        var classPro = [];
-                                        var categories = rec.article.categories;
-                                        for (var i=0;i<categories.length;i++){
-                                           classPro.push(categories[i].categoryName);
-                                        }
-                                        var classValue = "";
-                                        if (classPro.length > 0){
-                                            classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
-                                        }
-                                        return rec.article.title + classValue;
-                                    }
-                                },
-                                {field:'owner',title:'创建者',width:80,formatter:function(val,rec){return rec.article.owner;}},
-                                {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
-                                {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
-                                {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
-                                {field:'sort',title:'排序号',width:60}
-                        ]],
-			         toolbar:[
-								{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
-								{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
-								{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
-								{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-								{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
-								{id:'btnCopy',text:'复制',iconCls:'icon-copy',handler:copyOperate},'-',
-								{id:'btnMove',text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{id:'btnSort',text:'排序',iconCls:'icon-sort'},'-',
-								{id:'btnReview',text:'审核',iconCls:'icon-review'},'-',
-								{id:'btnPub',text:'发布',iconCls:'icon-publish'}							
-						     ]
-				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				//ewcmsOOBJ.setInputURL('<s:url namespace="/document/article" action="input"/>');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/article" action="delete"/>');
+				
 				$("#tt").datagrid({
   					 view: detailview,    
 					 detailFormatter: function(rowIndex, rowData){
@@ -94,7 +98,7 @@
 					    	htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
 					    	htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
 					    	htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
-					    	htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
+					    	htmls.push('<td><div class="datagrid-cell" style="width: 700px;; text-align: left;"><span>描述</span></div></td>');
 					    	htmls.push('</tr>');
 					    	htmls.push('</table>');
 					    	htmls.push('</div>');
@@ -106,7 +110,7 @@
 							               '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>' + operateTracks[i].userName + '</span></div></td>' + 
 							               '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>' + operateTracks[i].statusDesc + '</span></div></td>' + 
 							               '<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>' + operateTracks[i].operateTime + '</span></div></td>' + 
-							               '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>' + operateTracks[i].description + '</span></div></td></tr></table>');
+							               '<td><div class="datagrid-cell" style="width: 700px; text-align: left;"><span>' + operateTracks[i].description + '</span></div></td></tr></table>');
 						    }
 						    htmls.push('</div></div>');
 					    }
@@ -150,9 +154,7 @@
 								return;
 							}				            
 						}
-						$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
-						$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
-						$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
+						initSubMenu();
 					}
 				});
 				$('#tt3').click(function(){
@@ -170,9 +172,7 @@
 					}    			
 
 				});
-				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
-				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
-				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
+				
 			});
 			
 			//重载站点专栏目录树
@@ -187,9 +187,7 @@
 	            	pageNumber:1,
 	                url:url
 	            });
-				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
-				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
-				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
+				initSubMenu();
 			}
 			
 			function addOperate(){
@@ -261,6 +259,7 @@
 	            	pageNumber:1,
 	                url:url
 	            });
+				initSubMenu();
 			}
 
 			function querySearch_Article(){
@@ -277,6 +276,7 @@
                 });
 
                 $("#query-window").window('close');
+                initSubMenu();
 			}
 
 			function moveOperate(){
@@ -291,7 +291,7 @@
 	            }
 	            $("#span_move").attr("style","");
 	            $("#span_copy").attr("style","display:none");
-				openWindow("#moveorcopy-window",{width:300,height:400,title:'移动文章选择'});
+	            ewcmsBOBJ.openWindow("#moveorcopy-window",{title:'移动文章选择',width:300,height:400});
 			}
 
 			function copyOperate(){
@@ -306,7 +306,7 @@
 	            }
 	            $("#span_move").attr("style","display:none");
 	            $("#span_copy").attr("style","");
-				openWindow("#moveorcopy-window",{width:300,height:400,title:'复制文章选择'});
+	            ewcmsBOBJ.openWindow("#moveorcopy-window",{width:300,height:400,title:'复制文章选择'});
 			}
 
 			function moveArticle(){
@@ -451,7 +451,7 @@
 		        	$.messager.alert('提示','请选择审核的文章','info');
 		           	return ;
 		        }
-				openWindow("#review-window",{width:550,height:230,title:"审核"});
+		        ewcmsBOBJ.openWindow("#review-window",{width:550,height:230,title:"审核"});
 			}
 			function reviewArticle(){
 		    	var rows = $("#tt").datagrid('getSelections');
@@ -507,7 +507,7 @@
 	                            $.post('<s:url namespace="document/article" action="isSortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId,'isTop':$("#tt").datagrid("getSelections")[0].article.topFlag,'sort':r},function(data){
 	                                if (data=="true"){
 	                                    sort = r;
-	                                	openWindow("#sort-window",{width:550,height:200,title:"排序"});
+	                                    ewcmsBOBJ.openWindow("#sort-window",{width:550,height:200,title:"排序"});
 	                                	return;
 	                                }else if (data=="false"){
 	                                	$.post('<s:url namespace="document/article" action="sortArticle"/>',{'selections':$("#tt").datagrid("getSelections")[0].id,'channelId':channelId,'isTop':$("#tt").datagrid("getSelections")[0].article.topFlag,'sort':r},function(data){
@@ -575,6 +575,39 @@
                     });
                 }
                 return false;				
+			}
+			function initSubMenu(){
+				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
+				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
+				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
+			}
+			function breakOperate(){
+		    	var rows = $("#tt").datagrid('getSelections');
+		        if(rows.length == 0){
+		        	$.messager.alert('提示','请选择退回记录','info');
+		            return;
+		        }
+		        if (rows.length > 1){
+                    $.messager.alert('提示','只能选择一个退回','info');
+                    return;
+                }
+
+		        var parameter = {};
+		        parameter["channelId"] = channelId;
+		        parameter["selections"] = rows[0].id;
+		        
+		        var url = '<s:url namespace="/document/article" action="breakArticle"/>';
+		        $.post(url, parameter, function(data){
+			        if (data == 'system-false'){
+			        	$.messager.alert('提示','文章退回失败','info');
+			        }else if (data == 'true'){
+				        $("#tt").datagrid('clearSelections');
+				        articleReload();
+				        $.messager.alert('提示','文章退回成功','info');
+			        }
+			        return;
+		        });				
+		        return false;
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
@@ -660,7 +693,7 @@
                 </div>
             </div>
         </div>
-        <div id="review-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+        <div id="review-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;width:550px;height:230px;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false" style="padding: 5px;">
                 	<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#99BBE8" style="border: #99BBE8 1px solid;">
@@ -709,16 +742,16 @@
             </div>
         </div>
         <div id="btnSortSub" style="width:80px;display:none;">
-	        <div icon="icon-sort" onclick="sortOperate();">设置</div>
-	        <div icon="icon-sort" onclick="clearSortOperate();">清除</div>
+	        <div icon="icon-sortset" onclick="sortOperate();">设置</div>
+	        <div icon="icon-sortclear" onclick="clearSortOperate();">清除</div>
 	    </div>
 	    <div id="btnReviewSub" style="width:80px;display:none;">
-	        <div icon="icon-submitreview" onclick="submitReviewOperate();">提交</div>
-	        <div icon="icon-review" onclick="reviewOperate();">进行</div>
+	        <div icon="icon-reviewsubmit" onclick="submitReviewOperate();">提交</div>
+	        <div icon="icon-reviewprocess" onclick="reviewOperate();">确认</div>
 	    </div>
 	    <div id="btnPubSub" style="width:80px;display:none;">
-	        <div icon="icon-publish" onclick="pubOperate();">确认</div>
-	        <div icon="" onclick="alert('退回');">退回</div>
+	        <div icon="icon-publishok" onclick="pubOperate();">确认</div>
+	        <div icon="icon-breakarticle" onclick="breakOperate();">退回</div>
 	    </div>
 	</body>
 </html>

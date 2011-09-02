@@ -7,36 +7,33 @@
 		<title>历史内容</title>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>" />
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>" />
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:' ',
-					queryURL:'<s:url namespace="/document/history" action="query"><s:param name="articleId" value="articleId"></s:param></s:url>',
-					deleteURL:' ',
-					editwidth:1000,
-					editheight:700
-				});
-				//数据表格定义 						
-				openDataGrid({
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/history" action="query"><s:param name="articleId" value="articleId"></s:param></s:url>');
+
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+
+				ewcmsBOBJ.openDataGrid('#tt',{
 					singleSelect:true,
-					columns:[[
-					          {field:'historyId',title:'编号',width:60,hidden:true},
-					          {field:'version',title:'版本号',width:100,sortable:true},
-			                  {field:'maxPage',title:'页数',width:200},
-			                  {field:'historyTime',title:'时间',width:200}
-							]],
-			         toolbar:[
-							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack}
-						    ],
-			         pagination:true
+	                columns:[[
+					        {field:'historyId',title:'编号',width:60,hidden:true},
+					        {field:'version',title:'版本号',width:100,sortable:true},
+			                {field:'maxPage',title:'页数',width:200},
+			                {field:'historyTime',title:'时间',width:200}
+	                  ]]
 				});
+
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
 			});
 			function selectOperator(){
 				var rows = $('#tt').datagrid('getSelections');

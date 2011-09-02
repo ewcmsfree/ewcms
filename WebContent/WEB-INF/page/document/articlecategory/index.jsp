@@ -6,27 +6,28 @@
 		<title>文章分类属性</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 		$(function(){
-			//基本变量初始
-			setGlobaVariable({
-				inputURL:'<s:url namespace="/document/articlecategory" action="input"/>',
-				queryURL:'<s:url namespace="/document/articlecategory" action="query"/>',
-				deleteURL:'<s:url namespace="/document/articlecategory" action="delete"/>',
-				defaultWidth:300
+			ewcmsBOBJ = new EwcmsBase();
+			ewcmsBOBJ.setQueryURL('<s:url namespace="/document/articlecategory" action="query"/>');
+			
+			ewcmsBOBJ.openDataGrid('#tt',{
+                columns:[[
+						{field:'id',title:'序号',width:50,sortable:true},
+		                {field:'categoryName',title:'名称',width:200}
+                  ]]
 			});
-			//数据表格定义 						
-			openDataGrid({
-				columns:[[
-							{field:'id',title:'序号',width:50,sortable:true},
-		                 	{field:'categoryName',title:'名称',width:200}
-		                 ]]
-			});
+
+			ewcmsOOBJ = new EwcmsOperate();
+			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+			ewcmsOOBJ.setInputURL('<s:url namespace="/document/articlecategory" action="input"/>');
+			ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/articlecategory" action="delete"/>');
 		});
 		</script>		
 	</head>
