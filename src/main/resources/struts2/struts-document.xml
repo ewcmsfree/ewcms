@@ -30,6 +30,7 @@
 		<action name="isSortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="isSortArticle"/>
 		<action name="sortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="sortArticle"/>
 		<action name="clearSortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="clearSortArticle"/>
+		<action name="breakArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="breakArticle"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index">
