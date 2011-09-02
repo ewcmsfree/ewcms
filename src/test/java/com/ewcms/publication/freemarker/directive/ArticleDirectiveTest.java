@@ -18,6 +18,7 @@ import com.ewcms.publication.freemarker.FreemarkerTest;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.freemarker.directive.out.DateDirectiveOut;
 import com.ewcms.publication.freemarker.directive.out.DefaultDirectiveOut;
+import com.ewcms.publication.freemarker.directive.out.DirectiveOutable;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

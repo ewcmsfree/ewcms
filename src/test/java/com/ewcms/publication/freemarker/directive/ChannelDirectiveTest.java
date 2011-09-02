@@ -9,6 +9,8 @@ package com.ewcms.publication.freemarker.directive;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.publication.freemarker.directive.out.DirectiveOutable;
+
 /**
  * ChannelDirective单元测试
  * 
