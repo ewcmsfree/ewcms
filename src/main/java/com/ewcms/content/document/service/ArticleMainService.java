@@ -96,7 +96,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 		
 		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, "从回收站恢复。");
 		
-		article.setStatus(ArticleStatus.REEDIT);
 		article.setDeleteFlag(false);
 		articleMain.setArticle(article);
 		articleMainDAO.merge(articleMain);
