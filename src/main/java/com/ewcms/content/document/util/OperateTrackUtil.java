@@ -11,7 +11,9 @@ import java.util.List;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleOperateTrack;
 
-public class ArticleUtil {
+public class OperateTrackUtil {
+	
+	
 	public static void addOperateTrack(Article article, String statusDesc, String userName, String description){
 		ArticleOperateTrack aot = new ArticleOperateTrack();
 		
