@@ -215,8 +215,7 @@
 				        return;
 			        }
 			        if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑'){
-			            var url_param = '?channelId=' + channelId + '&';
-			           	url_param += 'selections=' + rows[0].id;
+			            var url_param = '?channelId=' + channelId + '&selections=' + rows[0].id;
 						window.open('<s:url namespace="/document/article" action="input"/>' + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/2 + ',top=' + (window.screen.height - 700)/2 + ''); 
 			        }else{
 			        	$.messager.alert('提示','文章只能在初稿或重新编辑状态在才能修改','info');
@@ -237,14 +236,14 @@
                 }
 
                 var url = '<s:url namespace="/document/article" action="delete"/>';
-                var parameter = 'channelId=' + channelId + '&';
+                var parameter = 'channelId=' + channelId;
                 for(var i=0;i<rows.length;++i){
-                	parameter = parameter + 'selections=' + rows[i].id +'&';
+                	parameter = parameter + '&selections=' + rows[i].id;
                 }
                 $.messager.confirm("提示","确定要删除所选记录到回收站吗?",function(r){
                     if (r){
                         $.post(url, parameter, function(data){
-                            $.messager.alert('成功','删除文档到回收站成功!');
+                            $.messager.alert('成功','删除文档到回收站成功!','info');
                             $("#tt").datagrid('clearSelections');
                             $("#tt").datagrid('reload');
                         });
@@ -315,10 +314,10 @@
 				
 				var url = "<s:url action='move' namespace='/document/article'/>";
 
-				var parameter = 'channelId=' + channelId + '&';
+				var parameter = 'channelId=' + channelId;
 				var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
-					parameter = parameter + 'selections=' + rows[i].id + '&';
+					parameter = parameter + '&selections=' + rows[i].id;
 				}
 				
 				if (selected.id != rootnode.id){
@@ -345,10 +344,10 @@
 				//var url = "../../document/article/copy.do";
 				var url = "<s:url action='copy' namespace='/document/article'/>";
 
-				var parameter = 'channelId=' + channelId + '&';
+				var parameter = 'channelId=' + channelId;
 				var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
-					parameter = parameter + 'selections=' + rows[i].id + "&";
+					parameter = parameter + '&selections=' + rows[i].id;
 				}
 				
 				for(var i=0;i<checkeds.length;i++){
@@ -377,10 +376,10 @@
 		        	$.messager.alert('提示','请选择提交审核记录','info');
 		            return;
 		        }
-		        var parameter = 'channelId=' + channelId + '&';
+		        var parameter = 'channelId=' + channelId ;
 		        var rows = $("#tt").datagrid('getSelections');
 				for(var i=0;i<rows.length;i++){
-					parameter = parameter + 'selections=' + rows[i].id + "&";
+					parameter = parameter + '&selections=' + rows[i].id ;
 				}
 		        var url = '<s:url namespace="/document/article" action="submitReviews"/>';
 		        $.post(url, parameter, function(data){
@@ -401,7 +400,7 @@
 				var parameter = "channelId=" + channelId + "";
 				$.post(url, parameter, function(data){
 					if (data == 'system-false'){
-						$.messager.alert('提示','系统错误','info');
+						$.messager.alert('提示','系统错误','error');
 						return;
 					}else if (data == 'accessdenied'){
 						$.messager.alert('提示','没有发布权限','info');
@@ -518,12 +517,12 @@
 	                                    	}else if (data=="false"){
 	                                    		$.messager.alert('提示','设置排序号失败','info');
 	                                    	}else if (data=="system-false"){
-	                                    		$.messager.alert('提示','系统错误','info');
+	                                    		$.messager.alert('提示','系统错误','error');
 	                                    	}
 	                                    	return;
 	                                	});
 	                                }else if (data=="system-false"){
-	                                	$.messager.alert('提示','系统错误','info');
+	                                	$.messager.alert('提示','系统错误','error');
 	                                	return;
 	                                }
 	                            });
@@ -546,7 +545,7 @@
                     }else if (data=="false"){
                         $.messager.alert('提示','设置排序号失败','info');
                     }else if (data=="system-false"){
-                        $.messager.alert('提示','系统错误','info');
+                        $.messager.alert('提示','系统错误','error');
                     }
                     return;
                 });
@@ -569,7 +568,7 @@
                         	$("#tt").datagrid('clearSelections');
                             articleReload();
                         }else if (data=="system-false"){
-                            $.messager.alert('提示','系统错误','info');
+                            $.messager.alert('提示','系统错误','error');
                         }
                         return;
                     });
