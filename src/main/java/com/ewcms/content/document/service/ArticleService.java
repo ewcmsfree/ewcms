@@ -26,7 +26,7 @@ import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
-import com.ewcms.content.document.util.ArticleUtil;
+import com.ewcms.content.document.util.OperateTrackUtil;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
@@ -116,7 +116,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
-			ArticleUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, "修改文章");
+			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, "修改文章。");
 			
 			article.setCategories(article_old.getCategories());
 			article.setRelations(article_old.getRelations());
@@ -183,8 +183,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 
 	@Override
 	public List<Article> findReleaseArticlePage(Integer channelId, Integer page, Integer row, Boolean top) {
-		// TODO Auto-generated method stub
-		return null;
+		return articleDAO.findArticleReleasePage(channelId, page, row, top);
 	}
 
 	@Override
@@ -199,7 +198,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	public void updatePreRelease(Integer channelId) {
 		List<Article> articles = articleDAO.findArticleRelease(channelId);
 		for (Article article : articles){
-			ArticleUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "");
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);
 			articleDAO.merge(article);
