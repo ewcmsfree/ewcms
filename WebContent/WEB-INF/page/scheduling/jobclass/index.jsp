@@ -6,37 +6,30 @@
 		<title>作业设置</title>	
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript">
 		$(function(){
-			//基本变量初始
-			setGlobaVariable({
-				inputURL:'<s:url namespace="/scheduling/jobclass" action="input"/>',
-				queryURL:'<s:url namespace="/scheduling/jobclass" action="query"/>',
-				deleteURL:'<s:url namespace="/scheduling/jobclass" action="delete"/>',
-				editwidth:700,
-				editheight:400
+			ewcmsBOBJ = new EwcmsBase();
+			ewcmsBOBJ.setQueryURL('<s:url namespace="/scheduling/jobclass" action="query"/>');
+
+			ewcmsBOBJ.openDataGrid('#tt',{
+                columns:[[
+						{field:'id',title:'编号',width:50,sortable:true},
+		                {field:'className',title:'类名称',width:100},
+		                {field:'classEntity',title:'类实体',width:500},
+		                {field:'description',title:'描述',width:400}
+                  ]]
 			});
-			//数据表格定义 						
-			openDataGrid({
-				columns:[[
-							{field:'id',title:'编号',width:50,sortable:true},
-		                 	{field:'className',title:'类名称',width:100},
-		                 	{field:'classEntity',title:'类实体',width:500},
-		                 	{field:'description',title:'描述',width:400}
-		                 ]],
-				toolbar:[
-							{text:'新增',iconCls:'icon-add',handler:addOperateBack},'-',
-							{text:'修改',iconCls:'icon-edit',handler:updOperateBack},'-',
-							{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
-							{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-							{text:'缺省查询',iconCls:'icon-back', handler:initOperateQueryBack},'-'
-						]
-			});
+
+			ewcmsOOBJ = new EwcmsOperate();
+			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+			ewcmsOOBJ.setInputURL('<s:url namespace="/scheduling/jobclass" action="input"/>');
+			ewcmsOOBJ.setDeleteURL('<s:url namespace="/scheduling/jobclass" action="delete"/>');
 		});
 		</script>		
 	</head>
