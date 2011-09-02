@@ -82,10 +82,10 @@ public class ChannelListDirective implements TemplateDirectiveModel {
                 String name = getNameValue(params);
                 Writer writer = env.getOut();
                 for (int i = 0 ; i < channels.size(); i++) {
+                    body.render(writer);
                     Channel channel = channels.get(i);
                     FreemarkerUtil.setVariable(env, name, channel);
                     FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), i + 1);
-                    body.render(writer);
                     FreemarkerUtil.removeVariable(env, GlobalVariable.INDEX.toString());
                     FreemarkerUtil.removeVariable(env, name);
                 }
