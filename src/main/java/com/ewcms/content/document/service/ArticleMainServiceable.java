@@ -152,4 +152,12 @@ public interface ArticleMainServiceable {
 	 * @param channelId 频道编号
 	 */
 	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
+	
+	/**
+	 * 文章退回到重新编辑状态
+	 * 
+	 * @param articleMianId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void breakArticleMain(Long articleMianId, Integer channelId);
 }

@@ -102,7 +102,6 @@ public interface DocumentFacable {
 	 * @return Boolean true:提交成功,false:提交失败
 	 */
 	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
-	
 
 	/**
 	 * 拷贝文章主体
@@ -176,6 +175,14 @@ public interface DocumentFacable {
 	 * @param channelId 频道编号
 	 */
 	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
+	
+	/**
+	 * 文章退回到重新编辑状态
+	 * 
+	 * @param articleMianId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void breakArticleMain(Long articleMianId, Integer channelId);
 	
 	/**
 	 * 新增文章信息

@@ -214,4 +214,13 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
+	
+	public void breakArticle(){
+		try{
+			documentFac.breakArticleMain(getSelections().get(0), getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
 }

@@ -27,12 +27,12 @@ import com.ewcms.publication.PublishException;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
 /**
- *
+ * 
  * @author 吴智俊
  */
 @Service
 public class DocumentFac implements DocumentFacable {
-	
+
 	@Autowired
 	private ArticleCategoryServiceable articleCategoryService;
 	@Autowired
@@ -45,148 +45,180 @@ public class DocumentFac implements DocumentFacable {
 	private ArticlePublishServiceable articlePublishService;
 	@Autowired
 	private ReviewProcessServiceable reviewProcessService;
-	
+
 	@Override
-	public Integer addArticleCategory(ArticleCategory articleCategory){
+	public Integer addArticleCategory(ArticleCategory articleCategory) {
 		return articleCategoryService.addArticleCategory(articleCategory);
 	}
-	
+
 	@Override
-	public Integer updArticleCategory(ArticleCategory articleCategory){
+	public Integer updArticleCategory(ArticleCategory articleCategory) {
 		return articleCategoryService.updArticleCategory(articleCategory);
 	}
-	
+
 	@Override
-	public void delArticleCategory(Integer articleCategoryId){
+	public void delArticleCategory(Integer articleCategoryId) {
 		articleCategoryService.delArticleCategory(articleCategoryId);
 	}
-	
+
 	@Override
-	public ArticleCategory findArticleCategory(Integer articleCategoryId){
+	public ArticleCategory findArticleCategory(Integer articleCategoryId) {
 		return articleCategoryService.findArticleCategory(articleCategoryId);
 	}
-	
+
 	@Override
-	public List<ArticleCategory> findArticleCategoryAll(){
+	public List<ArticleCategory> findArticleCategoryAll() {
 		return articleCategoryService.findArticleCategoryAll();
 	}
-	
+
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','READ') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId){
+	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId) {
 		return articleMainService.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void delArticleMain(Long articleMainId, Integer channelId){
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void delArticleMain(Long articleMainId, Integer channelId) {
 		articleMainService.delArticleMain(articleMainId, channelId);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName){
-		articleMainService.delArticleMainToRecycleBin(articleMainId, channelId, userName);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
+		articleMainService.delArticleMainToRecycleBin(articleMainId, channelId,	userName);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName){
-		articleMainService.restoreArticleMain(articleMainId, channelId, userName);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName) {
+		articleMainService.restoreArticleMain(articleMainId, channelId,	userName);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId){
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId) {
 		return articleMainService.submitReviewArticleMain(articleMainId, channelId);
 	}
-	
+
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#target_channel,'WRITE') " + "or hasPermission(#target_channel,'PUBLISH') " + "or hasPermission(#chantarget_channelnel,'CREATE') " + "or hasPermission(#target_channel,'UPDATE') " + "or hasPermission(#target_channel,'DELETE') " + "or hasPermission(#target_channel,'ADMIN') ")
-	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId){
-		return articleMainService.copyArticleMainToChannel(articleMainIds, channelIds, source_channelId);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#source_channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#source_channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> target_channels, Integer source_channelId) {
+		return articleMainService.copyArticleMainToChannel(articleMainIds, target_channels, source_channelId);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#target_channel,'WRITE') " + "or hasPermission(#target_channel,'PUBLISH') " + "or hasPermission(#target_channel,'CREATE') " + "or hasPermission(#target_channel,'UPDATE') " + "or hasPermission(#target_channel,'DELETE') " + "or hasPermission(#target_channel,'ADMIN') ")
-	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId){
-		return articleMainService.moveArticleMainToChannel(articleMainIds, channelIds, source_channelId);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#source_channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#source_channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> target_channels, Integer source_channelId) {
+		return articleMainService.moveArticleMainToChannel(articleMainIds, target_channels, source_channelId);
 	}
 
 	@Override
-	public List<ArticleMain> findArticleMainByChannel(Integer channelId){
+	public List<ArticleMain> findArticleMainByChannel(Integer channelId) {
 		return articleMainService.findArticleMainByChannel(channelId);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void pubArticleMainByChannel(Integer channelId) throws PublishException{
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
 		articleMainService.pubArticleMainByChannel(channelId);
 	}
-	
+
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description){
-		articleMainService.reviewArticleMain(articleMainId, channelId, review, description);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description) {
+		articleMainService.reviewArticleMain(articleMainId, channelId, review,
+				description);
 	}
-	
+
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop){
-		articleMainService.moveArticleMainSort(articleMainId, channelId, sort, isInsert, isTop);
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop) {
+		articleMainService.moveArticleMainSort(articleMainId, channelId, sort,
+				isInsert, isTop);
 	}
-	
-	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop){
+
+	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId,	Long sort, Boolean isTop) {
 		return articleMainService.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId){
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void clearArticleMainSort(List<Long> articleMainIds,	Integer channelId) {
 		articleMainService.clearArticleMainSort(articleMainIds, channelId);
-	}
-	
-	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Long addArticle(Article article, Integer channelId, Date published){
-		return articleService.addArticle(article, channelId, published);
-	}
-	
-	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','CREATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','UPDATE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','DELETE') " + "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName){
-		return articleService.updArticle(article, articleMainId, channelId, published, userName);
 	}
 
 	@Override
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId){
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void breakArticleMain(Long articleMianId, Integer channelId) {
+		articleMainService.breakArticleMain(articleMianId, channelId);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public Long addArticle(Article article, Integer channelId, Date published) {
+		return articleService.addArticle(article, channelId, published);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public Long updArticle(Article article, Long articleMainId,	Integer channelId, Date published, String userName) {
+		return articleService.updArticle(article, articleMainId, channelId,
+				published, userName);
+	}
+
+	@Override
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId) {
 		return articleService.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
 	}
 
 	@Override
-	public void saveRelation(Long articleId, Long[] relationArticleIds){
+	public void saveRelation(Long articleId, Long[] relationArticleIds) {
 		relationService.saveRelation(articleId, relationArticleIds);
 	}
-	
+
 	@Override
-	public void deleteRelation(Long articleId, Long[] relationArticleIds){
+	public void deleteRelation(Long articleId, Long[] relationArticleIds) {
 		relationService.deleteRelation(articleId, relationArticleIds);
 	}
-	
+
 	@Override
-	public void upRelation(Long articleId, Long[] relationArticleIds){
+	public void upRelation(Long articleId, Long[] relationArticleIds) {
 		relationService.upRelation(articleId, relationArticleIds);
 	}
 
 	@Override
-	public void downRelation(Long articleId, Long[] relationArticleIds){
+	public void downRelation(Long articleId, Long[] relationArticleIds) {
 		relationService.downRelation(articleId, relationArticleIds);
 	}
-	
+
 	@Override
-	public List<Relation> findRelationByArticle(Long articleId){
+	public List<Relation> findRelationByArticle(Long articleId) {
 		return relationService.findRelationByArticle(articleId);
 	}
 
@@ -196,8 +228,10 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public List<Article> findReleaseArticlePage(Integer channelId,	Integer page, Integer row, Boolean top) {
-		return articlePublishService.findReleaseArticlePage(channelId, page, row, top);
+	public List<Article> findReleaseArticlePage(Integer channelId,
+			Integer page, Integer row, Boolean top) {
+		return articlePublishService.findReleaseArticlePage(channelId, page,
+				row, top);
 	}
 
 	@Override

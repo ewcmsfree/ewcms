@@ -332,4 +332,18 @@ public class ArticleMainService implements ArticleMainServiceable {
 			}
 		}
 	}
+
+	@Override
+	public void breakArticleMain(Long articleMianId, Integer channelId) {
+		ArticleMain articleMain = articleMainDAO.get(articleMianId);
+		Assert.notNull(articleMain);
+		Article article = articleMain.getArticle();
+		Assert.notNull(article);
+		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "文章退回到重新编辑状态");
+			article.setStatus(ArticleStatus.REEDIT);
+			articleMain.setArticle(article);
+			articleMainDAO.merge(articleMain);
+		}
+	}
 }
