@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.publication.freemarker.FreemarkerUtil;
-import com.ewcms.publication.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;

@@ -17,6 +17,7 @@ import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.freemarker.directive.out.DateDirectiveOut;
 import com.ewcms.publication.freemarker.directive.out.DefaultDirectiveOut;
+import com.ewcms.publication.freemarker.directive.out.DirectiveOutable;
 import com.ewcms.publication.freemarker.directive.out.LengthDirectiveOut;
 import com.ewcms.publication.freemarker.directive.out.article.CategoriesDirectiveOut;
 import com.ewcms.publication.freemarker.directive.out.article.ContentDirectiveOut;

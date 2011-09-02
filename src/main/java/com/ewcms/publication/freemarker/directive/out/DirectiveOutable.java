@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.freemarker.directive;
+package com.ewcms.publication.freemarker.directive.out;
 
 import java.util.Map;
 

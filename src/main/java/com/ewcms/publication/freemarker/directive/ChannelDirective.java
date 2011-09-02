@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.freemarker.directive.out.DefaultDirectiveOut;
+import com.ewcms.publication.freemarker.directive.out.DirectiveOutable;
 import com.ewcms.publication.freemarker.directive.out.LengthDirectiveOut;
 
 /**

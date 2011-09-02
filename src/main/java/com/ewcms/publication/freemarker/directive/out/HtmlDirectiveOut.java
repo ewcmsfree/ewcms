@@ -9,7 +9,6 @@ package com.ewcms.publication.freemarker.directive.out;
 import java.util.Map;
 
 import com.ewcms.publication.freemarker.FreemarkerUtil;
-import com.ewcms.publication.freemarker.directive.DirectiveOutable;
 
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;

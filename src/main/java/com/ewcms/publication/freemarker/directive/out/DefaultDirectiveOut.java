@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-import com.ewcms.publication.freemarker.directive.DirectiveOutable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;

@@ -17,7 +17,7 @@ import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.publication.freemarker.FreemarkerUtil;
 import com.ewcms.publication.freemarker.GlobalVariable;
-import com.ewcms.publication.freemarker.directive.DirectiveOutable;
+import com.ewcms.publication.freemarker.directive.out.DirectiveOutable;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
