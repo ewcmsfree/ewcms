@@ -454,7 +454,7 @@
                                         <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/source/</outputDirectory>
                                         <excludes>
                                                 <exclude>**/js/**/jquery.easyui.min.js</exclude>
-                                                <exclude>**/js/**/jquery-1.4.2.min.js</exclude>
+                                                <exclude>**/js/**/jquery.min.js</exclude>
                                                 <exclude>**/date/**/*.js</exclude>
                                                 <exclude>**/date/**/*.css</exclude>
                                                 <exclude>**/tiny_mce/**/tiny_mce_popup.js</exclude>
