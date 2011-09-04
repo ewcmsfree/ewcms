@@ -116,7 +116,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
-			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, "修改文章。");
+			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, "文章已被修改。");
 			
 			article.setCategories(article_old.getCategories());
 			article.setRelations(article_old.getRelations());

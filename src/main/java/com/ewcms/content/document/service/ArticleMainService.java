@@ -113,7 +113,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "发布版。");
 				article.setStatus(ArticleStatus.PRERELEASE);
 			}else{
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已提交到【" + reviewProcess.getName() + "】进行审核");
+				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已提交到【" + reviewProcess.getName() + "】进行审核。");
 				article.setStatus(ArticleStatus.REVIEW);
 				article.setReviewProcessId(reviewProcess.getId());
 			}
@@ -339,7 +339,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "文章退回到重新编辑状态");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已退回到重新编辑状态。");
 			article.setStatus(ArticleStatus.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
