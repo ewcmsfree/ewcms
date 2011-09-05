@@ -139,8 +139,7 @@
 			        	</td>
 			        	<td width="6%">责任编辑：</td>
 			        	<td width="44%">
-			        		<!-- <input style="display: none;" name="articleVo.owner" size="30" readonly="readonly" value="<sec:authentication property='name' />"/> -->
-			        		<s:textfield name="articleVo.author" size="30" readonly="true"></s:textfield>&nbsp;&nbsp;
+			        		<s:textfield name="articleVo.author" size="30" readonly="true"></s:textfield>
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_2" style="display:none">
