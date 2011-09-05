@@ -16,6 +16,7 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
 			var channelId = 0;
+			var currentnode,rootnode;
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
@@ -122,58 +123,53 @@
 					checkbox: false,
 					url: '<s:url namespace="/site/channel" action="tree"/>',
 					onClick:function(node){
+						$("#tt").datagrid('clearSelections');
+						rootnode = $('#tt2').tree('getRoot');
+						currentnode = node;
 						channelId = node.id;
-						if (node.attributes.maxpermission < 1){
-							disableButtons();
-							$('#btnRelease').linkbutton('disable');
-							$('#btnPub').linkbutton('disable');
-							return;
-						}else {
-							if (node.attributes.maxpermission <=1 && node.attributes.maxpermission > 2){
-								$('#btnRelease').linkbutton('disable');
-								$('#btnPub').linkbutton('disable');
-							}else if (node.attributes.maxpermission >=2){
-								$('#btnRelease').linkbutton('enable');
-								$('#btnPub').linkbutton('enable');
-							}
-							
-							enableButtons();
-							$("#tt").datagrid('clearSelections');
-							if (channelId == $('#tt2').tree('getRoot')) return;
-							var url='<s:url namespace="/document/article" action="query"/>';
-							url = url + "?channelId=" + channelId;
-							$("#tt").datagrid({
-				            	pageNumber:1,
-				                url:url
-				            });
-							var rootnode = $('#tt2').tree('getRoot');
-							if (rootnode.id == node.id && node.attributes.maxpermission >=2){
-								$('#btnRelease').linkbutton('disable');
-								$('#btnPub').linkbutton('enable');
-								disableButtons();
-								return;
-							}				            
-						}
-						initSubMenu();
+						articleReload();
 					}
 				});
-				$('#tt3').click(function(){
-					var selected = $('#tt3').tree('getSelected');
-					if(selected == null || typeof(selected) == 'undefined') {
-	    	    		$.messager.alert('提示','请选择要操作的专栏','info');
-	    	    		return;
-	    	    	}
-					if(selected.attributes.maxpermission <= 1){
-	    	    		$('#moveArticle').linkbutton('disable');
-	    	    		$('#copyArticle').linkbutton('disable');
-					}else{
-						$('#moveArticle').linkbutton('enable');
-						$('#copyArticle').linkbutton('enable');
-					}    			
-
-				});
-				
+				//$('#tt3').click(function(){
+				//	var selected = $('#tt3').tree('getSelected');
+				//	if(selected == null || typeof(selected) == 'undefined') {
+	    	    //		$.messager.alert('提示','请选择要操作的专栏','info');
+	    	    //		return;
+	    	    //	}
+				//});
+				initSubMenu();
+				disableButtons();
+				$('#btnSearch').linkbutton('disable');
+				$('#btnBack').linkbutton('disable');
 			});
+
+			function channelPermission(rootnode, currentnode){
+				initSubMenu();
+				if (rootnode.id == currentnode.id){
+					disableButtons();
+					$('#btnSearch').linkbutton('disable');
+					$('#btnBack').linkbutton('disable');
+					if (currentnode.attributes.maxpermission >= 4){
+						$('#btnPub').linkbutton('enable');
+						$('#btnPublishOk').attr('style','display:block;');
+					}
+					return;
+				}
+				if (currentnode.attributes.maxpermission == 1){
+					disableButtons();
+					return;
+				}
+				if (currentnode.attributes.maxpermission == 2){
+					enableButtons();
+					$('#btnPublishOk').attr('style','display:none;');
+					$('#btnBreakArticle').attr('style','display:none;');
+					return;
+				}
+			    if (currentnode.attributes.maxpermission >= 4){
+			    	enableButtons();
+			    	return;
+				}
+			}
 			
 			//重载站点专栏目录树
 			function channelTreeLoad(){
@@ -187,7 +183,7 @@
 	            	pageNumber:1,
 	                url:url
 	            });
-				initSubMenu();
+				channelPermission(rootnode,currentnode);
 			}
 			
 			function addOperate(){
@@ -415,34 +411,34 @@
 			function disableButtons(){
 				$('#btnAdd').linkbutton('disable');
 				$('#btnUpd').linkbutton('disable');
+				$('#btnRemove').linkbutton('disable');
 				$('#btnCopy').linkbutton('disable');
 				$('#btnMove').linkbutton('disable');
-				$('#btnRemove').linkbutton('disable');
-				$('#btnSearch').linkbutton('disable');
-				$('#btnBack').linkbutton('disable');
-				$('#btnCitizen').linkbutton('disable');
-				$('#btnSelf').linkbutton('disable');
-				$('#btnShare').linkbutton('disable');
-				$('#btnReview').linkbutton('disable');
-				$('#btnSubmitReview').linkbutton('disable');
 				$('#btnSort').linkbutton('disable');
-				$('#btnClearSort').linkbutton('disable');				
+				$('#btnReview').linkbutton('disable');
+				$('#btnPub').linkbutton('disable');
+				$('#btnSortSet').attr('style','display:none;');
+				$('#btnSortClear').attr('style','display:none;');
+				$('#btnReviewSubmit').attr('style','display:none;');
+				$('#btnReviewProcess').attr('style','display:none;');		
+				$('#btnPublishOk').attr('style','display:none;');
+				$('#btnBreakArticle').attr('style','display:none;');
 			}
 			function enableButtons(){
 				$('#btnAdd').linkbutton('enable');
 				$('#btnUpd').linkbutton('enable');
+				$('#btnRemove').linkbutton('enable');
 				$('#btnCopy').linkbutton('enable');
 				$('#btnMove').linkbutton('enable');
-				$('#btnRemove').linkbutton('enable');
-				$('#btnSearch').linkbutton('enable');
-				$('#btnBack').linkbutton('enable');
-				$('#btnCitizen').linkbutton('enable');
-				$('#btnSelf').linkbutton('enable');
-				$('#btnShare').linkbutton('enable');
-				$('#btnReview').linkbutton('enable');
-				$('#btnSubmitReview').linkbutton('enable');
 				$('#btnSort').linkbutton('enable');
-				$('#btnClearSort').linkbutton('enable');
+				$('#btnReview').linkbutton('enable');
+				$('#btnPub').linkbutton('enable');
+				$('#btnSortSet').attr('style','display:block;');
+				$('#btnSortClear').attr('style','display:block;');
+				$('#btnReviewSubmit').attr('style','display:block;');
+				$('#btnReviewProcess').attr('style','display:block;');
+				$('#btnPublishOk').attr('style','display:block;');
+				$('#btnBreakArticle').attr('style','display:block;');
 			}
 			function reviewOperate(){
 				var rows = $("#tt").datagrid('getSelections');
@@ -576,9 +572,9 @@
                 return false;				
 			}
 			function initSubMenu(){
-				$('#btnSort .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnSortSub'});
-				$('#btnReview .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnReviewSub'});
-				$('#btnPub .l-btn-left').attr('class','easyui-splitbutton').menubutton({menu:'#btnPubSub'});
+				$('#btnSort .l-btn-left').attr('class','easyui-linkbutton').menubutton({menu:'#btnSortSub'});
+				$('#btnReview .l-btn-left').attr('class','easyui-linkbutton').menubutton({menu:'#btnReviewSub'});
+				$('#btnPub .l-btn-left').attr('class','easyui-linkbutton').menubutton({menu:'#btnPubSub'});
 			}
 			function breakOperate(){
 		    	var rows = $("#tt").datagrid('getSelections');
@@ -741,16 +737,16 @@
             </div>
         </div>
         <div id="btnSortSub" style="width:80px;display:none;">
-	        <div icon="icon-sortset" onclick="sortOperate();">设置</div>
-	        <div icon="icon-sortclear" onclick="clearSortOperate();">清除</div>
+        	<div id="btnSortSet" iconCls="icon-sortset" onclick="sortOperate();">设置</div>
+	        <div id="btnSortClear" iconCls="icon-sortclear" onclick="clearSortOperate();">清除</div>
 	    </div>
 	    <div id="btnReviewSub" style="width:80px;display:none;">
-	        <div icon="icon-reviewsubmit" onclick="submitReviewOperate();">提交</div>
-	        <div icon="icon-reviewprocess" onclick="reviewOperate();">确认</div>
+	    	<div id="btnReviewSubmit" iconCls="icon-reviewsubmit" onclick="submitReviewOperate();">提交</div>
+	        <div id="btnReviewProcess" iconCls="icon-reviewprocess" onclick="reviewOperate();">确认</div>
 	    </div>
 	    <div id="btnPubSub" style="width:80px;display:none;">
-	        <div icon="icon-publishok" onclick="pubOperate();">确认</div>
-	        <div icon="icon-breakarticle" onclick="breakOperate();">退回</div>
+	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate();" >确认</div>
+	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate();">退回</div>
 	    </div>
 	</body>
 </html>
