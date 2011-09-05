@@ -114,6 +114,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			
 			Date modNow = new Date(Calendar.getInstance().getTime().getTime());
 			
+			article.setOwner(article_old.getOwner());
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
