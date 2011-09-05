@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
@@ -153,36 +154,35 @@ public class ArticleMainServiceTest {
 	}
 	
 	@Test
-	public void submitReviewArticleMainIsReturnTrue(){
+	public void submitReviewArticleMainIsReturnTrue() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
 		articleMain.getArticle().setStatus(ArticleStatus.DRAFT);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		Boolean flag = articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
+		articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
-		assertTrue(flag);
 		assertNotNull(argument.getValue().getArticle().getPublished());
 		assertEquals(argument.getValue().getArticle().getStatus(), ArticleStatus.REVIEW);
 	}
 	
 	@Test
-	public void submitReviewArticleMainIsReturnFalse(){
+	public void submitReviewArticleMainIsReturnFalse() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
 		articleMain.getArticle().setStatus(ArticleStatus.RELEASE);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		Boolean flag = articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
-		assertFalse(flag);
+		articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
+		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void submitReviewArticleMainIsNull(){
+	public void submitReviewArticleMainIsNull() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(null);
 		articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void submitReviewArticleMainIsArticleNull(){
+	public void submitReviewArticleMainIsArticleNull() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
 		articleMain.setArticle(null);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
@@ -190,7 +190,7 @@ public class ArticleMainServiceTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void submitReviewArticleMainsIsNull1(){
+	public void submitReviewArticleMainsIsNull1() throws BaseException{
 		articleMainService.submitReviewArticleMain(null, 1);
 	}
 	
