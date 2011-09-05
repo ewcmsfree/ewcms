@@ -21,10 +21,9 @@
 		<action name="keyword" class="com.ewcms.content.document.web.ArticleAction" method="keyword"/>
 		<action name="summary" class="com.ewcms.content.document.web.ArticleAction" method="summary"/>
 		<action name="history" class="com.ewcms.content.document.web.ArticleAction" method="history"/>
-		<action name="submitReview" class="com.ewcms.content.document.web.ArticleAction" method="submitReview"/>
 		<action name="copy" class="com.ewcms.content.document.web.ArticleMainAction" method="copy"/>
 		<action name="move" class="com.ewcms.content.document.web.ArticleMainAction" method="move"/>
-		<action name="submitReviews" class="com.ewcms.content.document.web.ArticleMainAction" method="submitReviews"/>
+		<action name="submitReview" class="com.ewcms.content.document.web.ArticleMainAction" method="submitReview"/>
 		<action name="pubArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="pubArticle"/>
 		<action name="reviewArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewArticle"/>
 		<action name="isSortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="isSortArticle"/>
