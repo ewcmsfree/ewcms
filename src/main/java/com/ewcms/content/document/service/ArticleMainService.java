@@ -112,6 +112,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			if (reviewProcess == null ){
 				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "发布版。");
 				article.setStatus(ArticleStatus.PRERELEASE);
+				article.setReviewProcessId(null);
 			}else{
 				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已提交到【" + reviewProcess.getName() + "】进行审核。");
 				article.setStatus(ArticleStatus.REVIEW);
@@ -245,6 +246,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 						caption += "，已提交到【" + rp.getNextProcess().getName() + "】进行审核。";
 					}else{
 						article.setStatus(ArticleStatus.PRERELEASE);
+						article.setReviewProcessId(null);
 						caption += "，可以进行发布。";
 					}
 					
@@ -265,6 +267,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 						caption += "，已退回到【" + rp.getPrevProcess().getName() + "】进行重新审核。";
 					}else{
 						article.setStatus(ArticleStatus.REEDIT);
+						article.setReviewProcessId(null);
 						caption += "，已退回到重新编辑状态。";
 					}
 					caption += "原因：" + description;
