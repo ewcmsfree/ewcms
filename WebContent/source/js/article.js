@@ -324,6 +324,8 @@ function saveArticle(){
 			$.messager.alert("提示","您没有保存文章的权限","info");
 		}else if (data != ""){
 			$("#state").attr("value", data.state);
+			$('#articleMainId').attr('value',data.articleMainId);
+			$('#articleId').attr('value',data.articleId);
 			$("#keyword").attr("value", data.keyword);
 			$("#summary").attr("value", data.summary);
 			$("#saveTime_general").html("<font color='#FF0000'>" + data.modified + "</font>");
@@ -335,21 +337,21 @@ function saveArticle(){
 }
 //提交审核文章
 function submitReview(url, channelId, articleMainId){
-	$.post(url, {'channelId':channelId,'articleMainId':articleMainId} ,function(data) {
-		if (data == "true"){
-			//$.messager.alert("提示","提交审核成功","info");
+	$.post(url, {'channelId':channelId,'selections':articleMainId} ,function(data) {
+        if (data != 'true'){
+        	if (data == 'system-false'){
+	        	$.messager.alert('提示','文章提交审核失败','info');
+        	}else if ( data == 'accessdenied'){
+        		$.messager.alert('提示','您没有提交审核文章的权限','info');
+        	}else if (data == 'notinstate'){
+	        	$.messager.alert('提示','文章只有在初稿或重新编辑状态下才能提交审核','info');
+        	}
+    		return;
+        }else{
 			window.opener.window.articleReload();
 			window.close();
-			return;
-		}else if (data == "false"){
-			$.messager.alert("提示","提交审核失败，只有在【初稿】或【重新编辑】的文章才能提交审核","info");
-			return;
-		}else if (data == "accessdenied"){
-			$.messager.alert("提示","您没有提交审核文章的权限","info");
-		}else if (data == "system-false"){
-			$.messager.alert("提示","系统错误","info");
-			return;
-		}
+	        return;
+        }
 	});
 }
 var noImage = "../../source/image/article/nopicture.jpg";
@@ -578,6 +580,8 @@ function auto_save() {
 			$.post("save.do" ,params ,function(data){
 				if (data != "false" && data != "system-false" && data != "accessdenied" && data != ""){
 					$("#state").attr("value", data.state);
+					$('#articleMainId').attr('value',data.articleMainId);
+					$('#articleId').attr('value',data.articleId);
 					$("#keyword").attr("value", data.keyword);
 					$("#summary").attr("value", data.summary);
 					$("#saveTime_general").html("<font color='#0000FF'>" + data.modified + "</font>");
