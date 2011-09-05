@@ -66,6 +66,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		if (isNotNull(published)) {
 			article.setPublished(published);
 		}
+		article.setOwner(EwcmsContextUtil.getUserName());
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 		if (article.getType() == ArticleType.TITLE){
