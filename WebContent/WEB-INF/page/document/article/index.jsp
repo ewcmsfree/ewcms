@@ -377,17 +377,23 @@
 				for(var i=0;i<rows.length;i++){
 					parameter = parameter + '&selections=' + rows[i].id ;
 				}
-		        var url = '<s:url namespace="/document/article" action="submitReviews"/>';
+		        var url = '<s:url namespace="/document/article" action="submitReview"/>';
 		        $.post(url, parameter, function(data){
-			        if (data == 'system-false'){
-			        	$.messager.alert('提示','文章提交审核失败','info');
-			        	return;
-			        }else if (data == 'true'){
-				        $("#tt").datagrid('clearSelections');
+		            if (data != 'true'){
+		            	if (data == 'system-false'){
+		    	        	$.messager.alert('提示','文章提交审核失败','info');
+		            	}else if ( data == 'accessdenied'){
+		            		$.messager.alert('提示','您没有提交审核文章的权限','info');
+		            	}else if (data == 'notinstate'){
+		    	        	$.messager.alert('提示','文章只有在初稿或重新编辑状态下才能提交审核','info');
+		            	}
+		        		return;
+		            }else{
+		            	$("#tt").datagrid('clearSelections');
 				        articleReload();
 				        $.messager.alert('提示','文章提交审核成功','info');
 				        return;
-			        }
+		            }
 		        });
 				return false;
 			}
@@ -593,14 +599,21 @@
 		        
 		        var url = '<s:url namespace="/document/article" action="breakArticle"/>';
 		        $.post(url, parameter, function(data){
-			        if (data == 'system-false'){
-			        	$.messager.alert('提示','文章退回失败','info');
-			        }else if (data == 'true'){
+		            if (data != 'true'){
+		            	if (data == 'system-false'){
+		            		$.messager.alert('提示','文章退回失败','info');
+		            	}else if ( data == 'accessdenied'){
+		            		$.messager.alert('提示','没有退回权限','info');
+		            	}else if (data == 'notinstate'){
+		    	        	$.messager.alert('提示','文章只有在发布版或已发布版状态下才能退回','info');
+		            	}
+		        		return;
+		            }else{
 				        $("#tt").datagrid('clearSelections');
 				        articleReload();
 				        $.messager.alert('提示','文章退回成功','info');
-			        }
-			        return;
+				        return;
+		            }
 		        });				
 		        return false;
 			}

@@ -83,7 +83,7 @@
 										<td width="100%" style="border: 0px solid;">
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="createArticle('<s:url action='input' namespace='/document/article'><s:param name='channelId' value='channelId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/create.gif'/>" width="20" height="20" /><b>新建&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="saveArticle();return false;"><img src="<s:url value='/source/image/article/save.gif'/>" width="20" height="20"/><b>保存&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,<s:property value="articleMainId"/>);return false;"><img src="<s:url value='/source/image/article/submitreview.gif'/>" width="20" height="20"/><b>提交审核&nbsp;</b></a>
+											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,$('#articleMainId').val());return false;"><img src="<s:url value='/source/image/article/submitreview.gif'/>" width="20" height="20"/><b>提交审核&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('keyWord','<s:url action="keyword" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/keyword.gif'/>" width="20" height="20" /><b>提取关键字&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('summary','<s:url action="summary" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/summary.gif'/>" width="20" height="20" /><b>提取摘要&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/history.gif'/>" width="20" height="20" /><b>历史内容&nbsp;</b></a>
@@ -137,12 +137,11 @@
 			        	<td width="44%">
 			        		<ewcms:datepicker id="published" name="published" option="inputsimple" format="yyyy-MM-dd HH:mm"/>
 			        	</td>
-			        	<td width="6%">审核人：</td>
+			        	<td width="6%">责任编辑：</td>
 			        	<td width="44%">
-			        		<input style="display: none;" name="articleVo.owner" size="30" readonly="readonly" value="<sec:authentication property='name' />"/>
-			        		<s:textfield name="articleVo.auditReal" size="30" readonly="true"></s:textfield>&nbsp;&nbsp;
+			        		<!-- <input style="display: none;" name="articleVo.owner" size="30" readonly="readonly" value="<sec:authentication property='name' />"/> -->
+			        		<s:textfield name="articleVo.author" size="30" readonly="true"></s:textfield>&nbsp;&nbsp;
 			        	</td>
-			        	
 			        </tr>
 			        <tr id="trShowHide_2" style="display:none">
 			        	<td>文章类型：</td>
