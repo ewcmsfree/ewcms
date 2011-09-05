@@ -4,30 +4,45 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ewcms.content.resource.operator;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+
+import com.ewcms.publication.uri.UriRuleable;
 
 /**
+ * 资源文件操作接口
  *
  * @author wangwei
  */
 public interface ResourceOperatorable {
 
-    public void setFileNameRule(ResourceNameable nameRule);
+    /**
+     * 写入资源文件
+     * 
+     * @param source    源资源输入流
+     * @param uriRule   生成资源地址规则
+     * @return          资源访问地址
+     * @throws IOException
+     */
+    String write(InputStream source,UriRuleable uriRule)throws IOException;
     
-    public ResourceNameable writer(InputStream stream,String root,String fileName)throws IOException;
+    /**
+     * 读资源文件
+     * 
+     * @param stream 输出资源数据流
+     * @param uri    资源访问地址
+     * @throws IOException
+     */
+    void read(OutputStream stream,String uri)throws IOException;
 
-    public ResourceNameable writer(File file,String root,String fileName)throws IOException;
-
-    public void delete(File file)throws IOException;
-
-    public void delete(String fileName)throws IOException;
+    /**
+     * 删除资源文件
+     * 
+     * @param uri 资源路径
+     * @throws IOException
+     */
+    void delete(String uri)throws IOException;
 }
