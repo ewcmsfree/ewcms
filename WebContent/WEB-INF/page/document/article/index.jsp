@@ -452,7 +452,15 @@
 		        	$.messager.alert('提示','请选择审核的文章','info');
 		           	return ;
 		        }
-		        ewcmsBOBJ.openWindow("#review-window",{width:550,height:230,title:"审核"});
+		        if (rows.length > 1){
+                    $.messager.alert('提示','只能选择一个审核','info');
+                    return;
+                }
+                if (rows[0].article.status == 'REVIEW'){
+		        	ewcmsBOBJ.openWindow("#review-window",{width:550,height:230,title:"审核"});
+                }else{
+                    $.messager.alert('提示','文章只能在审核中状态才能审核','info');
+                }
 			}
 			function reviewArticle(){
 		    	var rows = $("#tt").datagrid('getSelections');
