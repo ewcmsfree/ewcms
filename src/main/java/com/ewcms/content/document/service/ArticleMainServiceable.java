@@ -8,6 +8,7 @@ package com.ewcms.content.document.service;
 
 import java.util.List;
 
+import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.publication.PublishException;
 
@@ -58,8 +59,9 @@ public interface ArticleMainServiceable {
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
 	 * @return Boolean true:提交成功,false:提交失败
+	 * @throws BaseException
 	 */
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
+	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
 	
 	/**
 	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
@@ -158,6 +160,7 @@ public interface ArticleMainServiceable {
 	 * 
 	 * @param articleMianId 文章主体编号
 	 * @param channelId 频道编号
+	 * @throws BaseException
 	 */
-	public void breakArticleMain(Long articleMianId, Integer channelId);
+	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException;
 }

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
@@ -102,7 +103,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId) {
+	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
@@ -124,9 +125,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 			}
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
-			return true;
+		}else{
+			throw new BaseException("","文章只有在初稿或重新编辑状态下才能提交审核");
 		}
-		return false;
 	}
 
 //	@Override
@@ -219,7 +220,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
 		if (isNotNull(channelId)) {
-			//TODO 判断频道是否需要审核。如果需要审核，抛出需要审核的提示；如果不需要审核，直接发布。
 			webPublish.publishChannel(channelId, true);
 		}
 	}
@@ -336,7 +336,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void breakArticleMain(Long articleMianId, Integer channelId) {
+	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException {
 		ArticleMain articleMain = articleMainDAO.get(articleMianId);
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
@@ -346,6 +346,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 			article.setStatus(ArticleStatus.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
+		}else{
+			throw new BaseException("","文章只有在发布版或已发布版状态下才能退回");
 		}
 	}
 }

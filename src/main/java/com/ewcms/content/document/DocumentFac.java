@@ -104,8 +104,8 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId) {
-		return articleMainService.submitReviewArticleMain(articleMainId, channelId);
+	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException {
+		articleMainService.submitReviewArticleMain(articleMainId, channelId);
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void breakArticleMain(Long articleMianId, Integer channelId) {
+	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException {
 		articleMainService.breakArticleMain(articleMianId, channelId);
 	}
 

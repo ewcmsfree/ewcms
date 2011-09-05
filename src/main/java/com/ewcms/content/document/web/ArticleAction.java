@@ -245,6 +245,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 				jsonMap.put("state", getState());
 				jsonMap.put("keyword", articleMain.getArticle().getKeyword());
 				jsonMap.put("summary", articleMain.getArticle().getSummary());
+				jsonMap.put("articleId", articleMain.getArticle().getId());
 				if (articleMain.getArticle().getModified() != null) {
 					jsonMap.put("modified", modDataFormat.format(articleMain.getArticle().getModified()));
 				}
@@ -323,17 +324,5 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 			}
 		}
 		return NONE;
-	}
-
-	public void submitReview() {
-		try {
-			if (getArticleMainId()!= null && getChannelId() != null) {
-				Struts2Util.renderText(documentFac.submitReviewArticleMain(getArticleMainId(), getChannelId()).toString());
-			}
-		} catch (AccessDeniedException e) {
-			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
-		} catch (Exception e) {
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
 	}
 }

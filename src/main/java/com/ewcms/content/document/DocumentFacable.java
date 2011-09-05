@@ -100,8 +100,9 @@ public interface DocumentFacable {
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
 	 * @return Boolean true:提交成功,false:提交失败
+	 * @throws BaseExcepiton
 	 */
-	public Boolean submitReviewArticleMain(Long articleMainId, Integer channelId);
+	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
 
 	/**
 	 * 拷贝文章主体
@@ -181,8 +182,9 @@ public interface DocumentFacable {
 	 * 
 	 * @param articleMianId 文章主体编号
 	 * @param channelId 频道编号
+	 * @throws BaseException
 	 */
-	public void breakArticleMain(Long articleMianId, Integer channelId);
+	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException;
 	
 	/**
 	 * 新增文章信息
