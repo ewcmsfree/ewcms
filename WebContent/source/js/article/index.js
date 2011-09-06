@@ -1,4 +1,4 @@
-/**
+/*
  * Article Index JavaScript Library v1.0.0
  * 
  * Licensed under the GPL terms To use it on other terms please contact us
@@ -493,4 +493,57 @@ function enableButtons() {
 function showReason(url){
 	$('#editifr_reason').attr('src',url);
 	ewcmsBOBJ.openWindow('#reason-window',{width:600,height:300,title:'原因'});
+}
+function detailGridData(operateTracks){
+	var htmls = [];
+	if (operateTracks.length == 0) {
+		htmls.push('<div style="padding:5px 0">没有操作记录!</div>');
+	} else {
+		htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
+		htmls.push('<div class="datagrid-header-inner" style="display: block;">');
+		htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
+		htmls.push('<tr style="height: 21px">');
+		htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
+		//htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>姓名</span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
+		htmls.push('</tr>');
+		htmls.push('</table>');
+		htmls.push('</div>');
+		htmls.push('</div>');
+		htmls.push('<div class="datagrid-body">');
+		for ( var i = 0; i < operateTracks.length; i++) {
+			//var userRealName = '';
+			//if (operateTracks[i].userRealName != null) 
+			//	userRealName = operateTracks[i].userRealName;
+			var reason = '';
+			if (operateTracks[i].reason != null && operateTracks[i].reason.length > 0){
+				var url = '<s:url namespace="/document/article" action="reason"/>?trackId=' + operateTracks[i].id;
+				reason = '<a href="#" onclick="showReason(\'' + url + '\');">原因</a>';
+			}
+			htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
+							+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
+							+ (operateTracks.length - i)
+							+ '</span></div></td>'
+							+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
+							+ operateTracks[i].userName
+							+ '</span></div></td>'
+							//+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
+							//+ userRealName
+							//+ '</span></div></td>'
+							+ '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>'
+							+ operateTracks[i].statusDesc
+							+ '</span></div></td>'
+							+ '<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>'
+							+ operateTracks[i].operateTime
+							+ '</span></div></td>'
+							+ '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>'
+							+ operateTracks[i].description + '&nbsp;&nbsp;' + reason
+							+ '</span></div></td></tr></table>');
+		}
+		htmls.push('</div></div>');
+	}
+	return htmls.join("");
 }
