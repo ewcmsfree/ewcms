@@ -227,12 +227,24 @@ function EwcmsOperate(){
 		queryURL = url;
 	}
 	
+	this.getQueryURL = function(){
+		return queryURL;
+	}
+	
 	this.setInputURL = function(url){
 		inputURL = url;
 	}
 	
+	this.getInputURL = function(){
+		return inputURL;
+	}
+	
 	this.setDeleteURL = function(url){
 		deleteURL = url;
+	}
+	
+	this.getDeleteURL = function(){
+		return deleteURL;
 	}
 	
 	this.setEditWinID = function(winID){
