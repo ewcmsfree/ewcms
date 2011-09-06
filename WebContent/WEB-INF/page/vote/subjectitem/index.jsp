@@ -19,6 +19,9 @@
 
 				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate);
 				ewcmsBOBJ.addToolItem('下移','icon-down',downOperate);
+
+				ewcmsBOBJ.setWinWidth(500);
+				ewcmsBOBJ.setWinHeight(200);
 				
 				ewcmsBOBJ.openDataGrid('#tt_item',{
                     columns:[[

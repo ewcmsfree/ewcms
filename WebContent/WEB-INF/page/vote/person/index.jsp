@@ -21,6 +21,9 @@
 				ewcmsBOBJ.delToolItem('修改');
 				ewcmsBOBJ.delToolItem('删除');
 				
+				ewcmsBOBJ.setWinWidth(300);
+				ewcmsBOBJ.setWinHeight(130);
+				
 				ewcmsBOBJ.openDataGrid('#tt',{
                     columns:[[
                               {field:'id',title:'编号',width:60},
@@ -38,7 +41,7 @@
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
 			});
 			function showRecord(id){
-				var url =  '<s:url namespace="/vote/record" action="index"/>?personId=' + id + '&questionnaireId=' + $('#questionnaireId').val() + '';
+				var url =  '<s:url namespace="/vote/record" action="index"/>?personId=' + id + '&questionnaireId=' + $('#questionnaireId').val();
 				$('#editifr_record').attr('src',url);
 				ewcmsBOBJ.openWindow('#record-window',{width:400,height:180,title:'内容'});
 			}
