@@ -30,6 +30,8 @@ import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.content.document.util.OperateTrackUtil;
+import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
 import com.ewcms.security.manage.service.UserServiceable;
@@ -50,6 +52,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private ReviewProcessDAO reviewProcessDAO;
 	@Autowired
 	private ArticleOperateTrackDAO articleOperateTrackDAO;
+	@Autowired
+	private ChannelDAO channelDAO;
 	@Autowired
 	private UserServiceable userService;
 	
@@ -87,7 +91,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
 			
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"删除到回收站。", "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"放入回收站。", "");
 			
 			article.setDeleteFlag(true);
 			articleMain.setArticle(article);
@@ -102,7 +106,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		
-		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"从回收站恢复。", "");
+		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"从回收站还原。", "");
 		
 		article.setDeleteFlag(false);
 		articleMain.setArticle(article);
@@ -149,6 +153,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
 		ArticleMain articleMain = null;
 		Article article = null;
+		Channel channel = channelDAO.get(source_channelId);
+		Assert.notNull(channel);
+		String channel_name = channel.getName();
 		for (Integer target_channelId : channelIds) {
 			for (Long articleMainId : articleMainIds) {
 				articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, source_channelId);
@@ -192,10 +199,15 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setCommentFlag(article.getCommentFlag());
 					target_article.setType(article.getType());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+					target_article.setInside(article.getInside());
+					target_article.setOwner(EwcmsContextUtil.getUserName());
 
+					OperateTrackUtil.addOperateTrack(target_article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"从『" + channel_name + "』栏目复制。", "");
+					
 					ArticleMain articleMain_new = new ArticleMain();
 					articleMain_new.setArticle(target_article);
 					articleMain_new.setChannelId(target_channelId);
+					
 					articleMainDAO.persist(articleMain_new);
 				}
 			}
@@ -206,11 +218,17 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
 		ArticleMain articleMain = null;
+		Channel channel = channelDAO.get(source_channelId);
+		Assert.notNull(channel);
+		String channel_name = channel.getName();
 		for (Integer target_channelId : channelIds) {
 			for (Long articleMainId : articleMainIds) {
 				articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, source_channelId);
 				if (isNull(articleMain)) continue;
 				if (target_channelId != source_channelId) {
+					Article article = articleMain.getArticle();
+					OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"从『" + channel_name + "』栏目移动。", "");
+					articleMain.setArticle(article);
 					articleMain.setChannelId(target_channelId);
 					articleMainDAO.merge(articleMain);
 				}
