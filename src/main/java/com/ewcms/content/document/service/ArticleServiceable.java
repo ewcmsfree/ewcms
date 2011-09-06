@@ -34,11 +34,10 @@ public interface ArticleServiceable {
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
 	 * @param published 发布时间
-	 * @param userName 用户名
 	 * 
 	 * @return Long 文章主体编号
 	 */
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName);
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
 
 	/**
 	 * 文章与文章分类属性是否有关联

@@ -34,7 +34,6 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
-import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -54,8 +53,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private ArticleOperateTrackDAO articleOperateTrackDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
-	@Autowired
-	private UserServiceable userService;
 	
 	public void setWebPublish(WebPublishable webPublish) {
 		this.webPublish = webPublish;
@@ -81,7 +78,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		if (isNotNull(articleMain.getReference()) && articleMain.getReference()){
@@ -91,7 +88,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
 			
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"放入回收站。", "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "放入回收站。", "");
 			
 			article.setDeleteFlag(true);
 			articleMain.setArticle(article);
@@ -100,13 +97,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName) {
+	public void restoreArticleMain(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		
-		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"从回收站还原。", "");
+		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "从回收站还原。", "");
 		
 		article.setDeleteFlag(false);
 		articleMain.setArticle(article);
@@ -122,11 +119,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (article.getStatus() == ArticleStatus.DRAFT || article.getStatus() == ArticleStatus.REEDIT) {
 			ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
 			if (reviewProcess == null ){
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"发布版。", "");
+				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "发布版。", "");
 				article.setStatus(ArticleStatus.PRERELEASE);
 				article.setReviewProcessId(null);
 			}else{
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
+				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "已提交到【" + reviewProcess.getName() + "】进行审核。", "");
 				article.setStatus(ArticleStatus.REVIEW);
 				article.setReviewProcessId(reviewProcess.getId());
 			}
@@ -140,14 +137,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 			throw new BaseException("","文章只有在初稿或重新编辑状态下才能提交审核");
 		}
 	}
-
-//	@Override
-//	public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId) {
-//		Assert.notNull(articleMainIds);
-//		for (Long articleMainId : articleMainIds) {
-//			submitReviewArticleMain(articleMainId, channelId);
-//		}
-//	}
 
 	@Override
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
@@ -200,9 +189,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setType(article.getType());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 					target_article.setInside(article.getInside());
-					target_article.setOwner(EwcmsContextUtil.getUserName());
+					target_article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
 
-					OperateTrackUtil.addOperateTrack(target_article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"从『" + channel_name + "』栏目复制。", "");
+					OperateTrackUtil.addOperateTrack(target_article, article.getStatusDescription(), "从『" + channel_name + "』栏目复制。", "");
 					
 					ArticleMain articleMain_new = new ArticleMain();
 					articleMain_new.setArticle(target_article);
@@ -227,7 +216,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (isNull(articleMain)) continue;
 				if (target_channelId != source_channelId) {
 					Article article = articleMain.getArticle();
-					OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"从『" + channel_name + "』栏目移动。", "");
+					OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "从『" + channel_name + "』栏目移动。", "");
 					articleMain.setArticle(article);
 					articleMain.setChannelId(target_channelId);
 					articleMainDAO.merge(articleMain);
@@ -279,7 +268,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					//TODO 文章处于异常状态
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
-				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), userService.getUserRealName(),caption, "");
+				OperateTrackUtil.addOperateTrack(article, currentStatus, caption, "");
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -299,7 +288,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					//TODO 文章处于异常状态
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
-				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), userService.getUserRealName(),caption,reason);
+				OperateTrackUtil.addOperateTrack(article, currentStatus, caption,reason);
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -366,7 +355,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(), "已退回到重新编辑状态。", "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(),  "已退回到重新编辑状态。", "");
 			article.setStatus(ArticleStatus.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);

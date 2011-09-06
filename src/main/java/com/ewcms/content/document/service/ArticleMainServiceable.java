@@ -40,9 +40,8 @@ public interface ArticleMainServiceable {
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 * @param userName 操作用户
 	 */
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName);
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId);
 
 	/**
 	 * 恢复文章主体
@@ -51,7 +50,7 @@ public interface ArticleMainServiceable {
 	 * @param channelId 频道编号
 	 * @param userName 操作用户
 	 */
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName);
+	public void restoreArticleMain(Long articleMainId, Integer channelId);
 
 	/**
 	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
@@ -63,14 +62,6 @@ public interface ArticleMainServiceable {
 	 */
 	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
 	
-	/**
-	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
-	 * 
-	 * @param articleMainIds 文章主体编号集合
-	 * @param channelId 频道编号
-	 */
-	//public void submitReviewArticleMains(List<Long> articleMainIds, Integer channelId);
-
 	/**
 	 * 拷贝文章主体
 	 * 
@@ -105,16 +96,6 @@ public interface ArticleMainServiceable {
 	 * @throws ReleaseException
 	 */
 	public void pubArticleMainByChannel(Integer channelId) throws PublishException;
-	
-	/**
-	 * 审核文章主体
-	 * 
-	 * @param articleMainIds 文章主体编号集合
-	 * @param review 审核标志(0:通过,1:未通过)
-	 * @param audit 审核人
-	 * @param description 描述
-	 */
-	//public void reviewArticleMain(List<Long> articleMainIds, Integer channelId, Integer review, String audit, String description);
 	
 	/**
 	 * 审核文章

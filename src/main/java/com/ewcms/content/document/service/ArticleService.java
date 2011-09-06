@@ -31,7 +31,6 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
 import com.ewcms.publication.service.ArticlePublishServiceable;
-import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -46,8 +45,6 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
-	@Autowired
-	private UserServiceable userService;
 	
 	public void setArticleDAO(ArticleDAO articleDAO){
 		this.articleDAO = articleDAO;
@@ -69,7 +66,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		if (isNotNull(published)) {
 			article.setPublished(published);
 		}
-		article.setOwner(EwcmsContextUtil.getUserName());
+		article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 		if (article.getType() == ArticleType.TITLE){
@@ -89,7 +86,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 
 	@Override
 	@History(modelObjectIndex = 0)
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName) {
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		
@@ -121,7 +118,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
-			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), userName, userService.getUserRealName(), "文章已被修改。", "");
+			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "文章已被修改。", "");
 			
 			article.setCategories(article_old.getCategories());
 			article.setRelations(article_old.getRelations());
@@ -203,7 +200,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	public void updatePreRelease(Integer channelId) {
 		List<Article> articles = articleDAO.findArticleRelease(channelId);
 		for (Article article : articles){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(), "", "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "", "");
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);
 			articleDAO.merge(article);

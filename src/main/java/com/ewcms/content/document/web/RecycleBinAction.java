@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.web.CrudBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.Struts2Util;
 
 /**
@@ -76,7 +75,7 @@ public class RecycleBinAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public String restore(){
         for (Long pk : operatorPK) {
-        	documentFac.restoreArticleMain(pk, getChannelId(), EwcmsContextUtil.getUserName());
+        	documentFac.restoreArticleMain(pk, getChannelId());
         }
         Struts2Util.renderText(SUCCESS);
         return NONE;

@@ -28,8 +28,4 @@ public class EwcmsContextUtil {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userDetails;
     }
-    
-    public static String getUserName(){
-    	return getUserDetails().getUsername();
-    }
 }

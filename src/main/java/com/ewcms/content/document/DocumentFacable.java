@@ -81,18 +81,16 @@ public interface DocumentFacable {
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 * @param userName 操作用户
 	 */
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName);
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId);
 
 	/**
 	 * 恢复文章主体
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 * @param userName 操作用户
 	 */
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName);
+	public void restoreArticleMain(Long articleMainId, Integer channelId);
 
 	/**
 	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
@@ -213,7 +211,7 @@ public interface DocumentFacable {
 	 * @param published 发布时间
 	 * @return Long 文章主体编号
 	 */
-	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published, String userName);
+	public Long updArticle(Article article, Long articleMainId, Integer channelId, Date published);
 
 	/**
 	 * 文章与文章分类属性是否有关联

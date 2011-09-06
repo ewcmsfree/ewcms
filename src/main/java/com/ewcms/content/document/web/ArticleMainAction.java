@@ -15,7 +15,6 @@ import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.web.CrudBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -63,7 +62,7 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	@Override
 	protected void deleteOperator(Long articleMainId) {
-		documentFac.delArticleMainToRecycleBin(articleMainId, getChannelId(), EwcmsContextUtil.getUserName());
+		documentFac.delArticleMainToRecycleBin(articleMainId, getChannelId());
 	}
 
 	@Override

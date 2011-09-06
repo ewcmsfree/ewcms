@@ -88,16 +88,16 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId, String userName) {
-		articleMainService.delArticleMainToRecycleBin(articleMainId, channelId,	userName);
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId) {
+		articleMainService.delArticleMainToRecycleBin(articleMainId, channelId);
 	}
 
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void restoreArticleMain(Long articleMainId, Integer channelId, String userName) {
-		articleMainService.restoreArticleMain(articleMainId, channelId,	userName);
+	public void restoreArticleMain(Long articleMainId, Integer channelId) {
+		articleMainService.restoreArticleMain(articleMainId, channelId);
 	}
 
 	@Override
@@ -191,9 +191,8 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public Long updArticle(Article article, Long articleMainId,	Integer channelId, Date published, String userName) {
-		return articleService.updArticle(article, articleMainId, channelId,
-				published, userName);
+	public Long updArticle(Article article, Long articleMainId,	Integer channelId, Date published) {
+		return articleService.updArticle(article, articleMainId, channelId, published);
 	}
 
 	@Override

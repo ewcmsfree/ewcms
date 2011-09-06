@@ -34,7 +34,7 @@ public class HistoryModelDAO extends JpaDAO<Long, HistoryModel> {
 		if (endDate != null) {
 			hql += " And h.createDate<=? ";
 		}
-		hql += " Order By h.id ";
+		hql += " Order By h.id DESC";
 
 		List<HistoryModel> list = new ArrayList<HistoryModel>();
 		if (startDate != null && endDate != null) {

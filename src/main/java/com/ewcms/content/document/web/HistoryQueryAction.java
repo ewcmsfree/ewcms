@@ -87,7 +87,7 @@ public class HistoryQueryAction extends QueryBaseAction {
 		
 		List<HistoryModel> historyModels = historyModelFac.findByHistoryModel(className, idName, idValue, getStartDate(), getEndDate());
     	List<Map<String,Object>> listValues = new ArrayList<Map<String,Object>>();
-    	int version = 1;
+    	int version = historyModels.size();
     	for(HistoryModel historyModel : historyModels){
     		Map<String, Object> map = new HashMap<String, Object>();
     		map.put("historyId", historyModel.getId());
@@ -102,7 +102,7 @@ public class HistoryQueryAction extends QueryBaseAction {
     		map.put("historyTime", historyModel.getCreateDate());
     		listValues.add(map);
     		
-    		version++;
+    		version--;
     	}
 		DataGrid data = new DataGrid(listValues.size(), listValues);
 		Struts2Util.renderJson(JSONUtil.toJSON(data,DATE_FORMAT));
