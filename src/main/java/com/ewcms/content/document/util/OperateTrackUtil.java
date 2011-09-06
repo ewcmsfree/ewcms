@@ -14,12 +14,14 @@ import com.ewcms.content.document.model.ArticleOperateTrack;
 public class OperateTrackUtil {
 	
 	
-	public static void addOperateTrack(Article article, String statusDesc, String userName, String description){
+	public static void addOperateTrack(Article article, String statusDesc, String userName, String userRealName, String description, String reason){
 		ArticleOperateTrack aot = new ArticleOperateTrack();
 		
 		aot.setUserName(userName);
+		aot.setUserRealName(userRealName);
 		aot.setStatusDesc(statusDesc);
 		aot.setDescription(description);
+		aot.setReason(reason);
 		
 		List<ArticleOperateTrack> aots = article.getOperateTracks();
 		aots.add(aot);

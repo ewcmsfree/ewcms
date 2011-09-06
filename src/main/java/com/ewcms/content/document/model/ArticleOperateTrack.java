@@ -27,6 +27,7 @@ import javax.persistence.Table;
  * <li>statusDesc:状态描述</li>
  * <li>operateTime:操作时间</li>
  * <li>description:描述</li>
+ * <li>reason:原因</li>
  * </ul>
  * 
  * @author wu_zhijun
@@ -45,12 +46,16 @@ public class ArticleOperateTrack implements Serializable {
 	private Long id;
 	@Column(name = "username")
 	private String userName;
+	@Column(name = "userrealname")
+	private String userRealName;
 	@Column(name= "statusdesc")
 	private String statusDesc;
 	@Column(name = "operatetime")
 	private Date operateTime;
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
+	@Column(name = "reason", columnDefinition = "text")
+	private String reason;
 	
 	public ArticleOperateTrack(){
 		operateTime = new Date(Calendar.getInstance().getTime().getTime());
@@ -70,6 +75,14 @@ public class ArticleOperateTrack implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getUserRealName() {
+		return userRealName;
+	}
+
+	public void setUserRealName(String userRealName) {
+		this.userRealName = userRealName;
 	}
 
 	public String getStatusDesc() {
@@ -94,5 +107,38 @@ public class ArticleOperateTrack implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArticleOperateTrack other = (ArticleOperateTrack) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

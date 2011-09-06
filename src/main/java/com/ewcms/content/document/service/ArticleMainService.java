@@ -20,9 +20,11 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.dao.ArticleMainDAO;
+import com.ewcms.content.document.dao.ArticleOperateTrackDAO;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.ArticleOperateTrack;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
@@ -30,6 +32,7 @@ import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.content.document.util.OperateTrackUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
+import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -45,6 +48,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private ReviewProcessDAO reviewProcessDAO;
+	@Autowired
+	private ArticleOperateTrackDAO articleOperateTrackDAO;
+	@Autowired
+	private UserServiceable userService;
 	
 	public void setWebPublish(WebPublishable webPublish) {
 		this.webPublish = webPublish;
@@ -80,7 +87,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
 			
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, "删除到回收站。");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"删除到回收站。", "");
 			
 			article.setDeleteFlag(true);
 			articleMain.setArticle(article);
@@ -95,7 +102,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		
-		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, "从回收站恢复。");
+		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), userName, userService.getUserRealName(),"从回收站恢复。", "");
 		
 		article.setDeleteFlag(false);
 		articleMain.setArticle(article);
@@ -111,11 +118,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (article.getStatus() == ArticleStatus.DRAFT || article.getStatus() == ArticleStatus.REEDIT) {
 			ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
 			if (reviewProcess == null ){
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "发布版。");
+				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"发布版。", "");
 				article.setStatus(ArticleStatus.PRERELEASE);
 				article.setReviewProcessId(null);
 			}else{
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已提交到【" + reviewProcess.getName() + "】进行审核。");
+				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
 				article.setStatus(ArticleStatus.REVIEW);
 				article.setReviewProcessId(reviewProcess.getId());
 			}
@@ -225,7 +232,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description) {
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String reason) {
 		ArticleMain articleMain = null;
 		Article article = null;
 		Assert.notNull(articleMainId);
@@ -254,7 +261,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					//TODO 文章处于异常状态
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
-				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), caption);
+				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), userService.getUserRealName(),caption, "");
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -270,12 +277,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 						article.setReviewProcessId(null);
 						caption += "，已退回到重新编辑状态。";
 					}
-					caption += "原因：" + description;
 				}else{
 					//TODO 文章处于异常状态
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
-				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), caption);
+				OperateTrackUtil.addOperateTrack(article, currentStatus, EwcmsContextUtil.getUserName(), userService.getUserRealName(),caption,reason);
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -342,12 +348,19 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), "已退回到重新编辑状态。");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), EwcmsContextUtil.getUserName(), userService.getUserRealName(), "已退回到重新编辑状态。", "");
 			article.setStatus(ArticleStatus.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}else{
 			throw new BaseException("","文章只有在发布版或已发布版状态下才能退回");
 		}
+	}
+	
+	@Override
+	public String getArticleOperateTrack(Long trackId){
+		ArticleOperateTrack track = articleOperateTrackDAO.get(trackId);
+		if (track == null) return "";
+		return (track.getReason() == null)? "" : track.getReason();
 	}
 }

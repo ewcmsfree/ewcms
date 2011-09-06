@@ -141,9 +141,8 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description) {
-		articleMainService.reviewArticleMain(articleMainId, channelId, review,
-				description);
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String reason) {
+		articleMainService.reviewArticleMain(articleMainId, channelId, review, reason);
 	}
 
 	@Override
@@ -175,6 +174,11 @@ public class DocumentFac implements DocumentFacable {
 		articleMainService.breakArticleMain(articleMianId, channelId);
 	}
 
+	@Override
+	public String getArticleOperateTrack(Long trackId){
+		return articleMainService.getArticleOperateTrack(trackId);
+	}
+	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "

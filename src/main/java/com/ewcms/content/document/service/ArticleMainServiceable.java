@@ -122,9 +122,9 @@ public interface ArticleMainServiceable {
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
 	 * @param review 审核标志(0:通过,1:未通过)
-	 * @param description 描述
+	 * @param reason 原因
 	 */
-	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String description);
+	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String reason);
 	
 	/**
 	 * 文章主体进行排序
@@ -163,4 +163,12 @@ public interface ArticleMainServiceable {
 	 * @throws BaseException
 	 */
 	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException;
+	
+	/**
+	 * 查询操作轨迹原因
+	 * 
+	 * @param trackId 操作轨迹编号
+	 * @return String 原因
+	 */
+	public String getArticleOperateTrack(Long trackId);
 }

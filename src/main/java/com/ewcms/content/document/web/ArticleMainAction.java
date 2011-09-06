@@ -127,7 +127,7 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	}
 
 	private Integer review;
-	private String description;
+	private String reason;
 
 	public Integer getReview() {
 		return review;
@@ -137,18 +137,18 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 		this.review = review;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getReason() {
+		return reason;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public void reviewArticle() {
 		try {
 			if (getSelections() != null && getSelections().size() == 1 && getChannelId() != null){
-				documentFac.reviewArticleMain(getSelections().get(0), getChannelId(), getReview(), getDescription());
+				documentFac.reviewArticleMain(getSelections().get(0), getChannelId(), getReview(), getReason());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}
 		} catch (AccessDeniedException e) {
