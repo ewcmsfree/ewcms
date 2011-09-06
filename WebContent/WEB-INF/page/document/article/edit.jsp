@@ -21,7 +21,7 @@
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script type="text/javascript" src="<s:url value='/source/js/article.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/source/js/article/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
             $(function() {

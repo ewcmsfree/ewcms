@@ -16,7 +16,7 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/article/index.js"/>'></script>
 		<script type="text/javascript">
-		var treeURL = '<s:url namespace="/site/channel" action="tree"/>'; 
+		var treeURL = '<s:url namespace="/site/channel" action="tree"/>';
 		$(function() {
 			ewcmsBOBJ = new EwcmsBase();
 			ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
@@ -47,16 +47,11 @@
 							{field : 'flags',title : '属性',width : 60,
 								formatter : function(val, rec) {
 									var pro = [];
-									if (rec.article.topFlag)
-										pro.push("<img src='../../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
-									if (rec.article.commentFlag)
-										pro.push("<img src='../../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-									if (rec.article.type == "TITLE")
-										pro.push("<img src='../../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
-									if (rec.reference)
-										pro.push("<img src='../../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
-									if (rec.article.inside)
-										pro.push("<img src='../../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+									if (rec.article.topFlag) pro.push("<img src='<s:url value='/source/image/article/top.gif'/>' width='13px' height='13px' title='有效期限:永久置顶'/>");
+									if (rec.article.commentFlag) pro.push("<img src='<s:url value='/source/image/article/comment.gif'/>' width='13px' height='13px' title='允许评论'/>");
+									if (rec.article.type == "TITLE") pro.push("<img src='<s:url value='/source/image/article/title.gif'/>' width='13px' height='13px' title='标题新闻'/>");
+									if (rec.reference) pro.push("<img src='<s:url value='/source/image/article/reference.gif'/>' width='13px' height='13px' title='引用新闻'/>");
+									if (rec.article.inside) pro.push("<img src='<s:url value='/source/image/article/inside.gif'/>' width='13px' height='13px' title='内部标题'/>");
 									return pro.join("");
 								}
 							},
@@ -91,57 +86,7 @@
 				view : detailview,
 				detailFormatter : function(rowIndex, rowData) {
 					var operateTracks = rowData.article.operateTracks;
-					var htmls = [];
-					if (operateTracks.length == 0) {
-						htmls.push('<div style="padding:5px 0">没有操作记录!</div>');
-					} else {
-						htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
-						htmls.push('<div class="datagrid-header-inner" style="display: block;">');
-						htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
-						htmls.push('<tr style="height: 21px">');
-						htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
-						htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
-						htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>姓名</span></div></td>');
-						htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
-						htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
-						htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
-						htmls.push('</tr>');
-						htmls.push('</table>');
-						htmls.push('</div>');
-						htmls.push('</div>');
-						htmls.push('<div class="datagrid-body">');
-						for ( var i = 0; i < operateTracks.length; i++) {
-							var userRealName = '';
-							if (operateTracks[i].userRealName != null) 
-								userRealName = operateTracks[i].userRealName;
-							var reason = '';
-							if (operateTracks[i].reason != null && operateTracks[i].reason.length > 0){
-								var url = '<s:url namespace="/document/article" action="reason"/>?trackId=' + operateTracks[i].id;
-								reason = '<a href="#" onclick="showReason(\'' + url + '\');">原因</a>';
-							}
-							htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
-											+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
-											+ (operateTracks.length - i)
-											+ '</span></div></td>'
-											+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
-											+ operateTracks[i].userName
-											+ '</span></div></td>'
-											+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
-											+ userRealName
-											+ '</span></div></td>'
-											+ '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>'
-											+ operateTracks[i].statusDesc
-											+ '</span></div></td>'
-											+ '<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>'
-											+ operateTracks[i].operateTime
-											+ '</span></div></td>'
-											+ '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>'
-											+ operateTracks[i].description + '&nbsp;&nbsp;' + reason
-											+ '</span></div></td></tr></table>');
-						}
-						htmls.push('</div></div>');
-					}
-					return htmls.join("");
+					return detailGridData(operateTracks);
 				}
 			});
 			$('#tt2').tree( {
