@@ -95,7 +95,8 @@ public class ArticleMainServiceTest {
 	public void delArticleMainToRecycleBin(){
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		when(userService.getUserRealName()).thenReturn("吴智俊");
+		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
 		assertTrue(argument.getValue().getArticle().getDeleteFlag());
@@ -106,7 +107,7 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain = initArticleMain();
 		articleMain.setReference(true);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).remove(argument.capture());
 	}
@@ -115,7 +116,7 @@ public class ArticleMainServiceTest {
 	public void delArticleMainToRecycleBinIsNull(){
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(null);
-		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -123,7 +124,7 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain = initArticleMain();
 		articleMain.setArticle(null);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 	}
 	
 	@Test
@@ -131,7 +132,7 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain = initArticleMain();
 		articleMain.getArticle().setDeleteFlag(true);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
 		assertFalse(argument.getValue().getArticle().getDeleteFlag());
@@ -142,7 +143,7 @@ public class ArticleMainServiceTest {
 	public void restoreArticleMainIsNull(){
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(null);
-		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -150,7 +151,7 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain = initArticleMain();
 		articleMain.setArticle(null);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId(), "wuzhijun");
+		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId());
 	}
 	
 	@Test
@@ -286,36 +287,11 @@ public class ArticleMainServiceTest {
 		ArticleMain articleMain_1 = initArticleMain();
 		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
 		
-//		ArticleMain articleMain_2 = new ArticleMain();
-//		articleMain_2.setId(2L);
-//		articleMain_2.setChannelId(1);
-//		Article article_2 = new Article();
-//		article_2.setId(3L);
-//		article_2.setStatus(ArticleStatus.REVIEW);
-//		article_2.setTitle("test3");
-//		articleMain_2.setArticle(article_2);
-//		
-//		ArticleMain articleMain_3 = new ArticleMain();
-//		articleMain_3.setId(3L);
-//		articleMain_3.setChannelId(1);
-//		articleMain_3.setArticle(null);
-//		
-//		List<Long> articleMainIds = new ArrayList<Long>();
-//		articleMainIds.add(1L);
-//		articleMainIds.add(2L);
-//		articleMainIds.add(3L);
-		
-		when(articleMainDAO.findArticleMainByArticleMainAndChannel(1L, 1)).thenReturn(articleMain_1);
-//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(2L, 1)).thenReturn(null);
-//		when(articleMainDAO.findArticleMainByArticleMainAndChannel(3L, 1)).thenReturn(articleMain_3);
-//		when(userService.getUserRealName()).thenReturn("wuzhijun");
-		
 		articleMainService.reviewArticleMain(articleMain_1.getId(), 1, 0, "");
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(1)).merge(argument.capture());
 		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), ArticleStatus.PRERELEASE.getDescription());
-		//assertEquals(argument.getValue().getArticle().getAuditReal(), "wuzhijun");
 	}
 	
 	@Test

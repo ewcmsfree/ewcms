@@ -7,6 +7,8 @@
 package com.ewcms.content.document.search;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.io.HtmlStringUtil;
 
@@ -14,6 +16,8 @@ import com.ewcms.common.io.HtmlStringUtil;
  * @author 吴智俊
  */
 public class ExtractKeywordAndSummaryTest {
+	
+	protected static final Logger logger = LoggerFactory.getLogger(ExtractKeywordAndSummaryTest.class);
 
 	private String title = "研究发现银河系中心复杂分子味道似山莓";
 	private String content = "<p>　　新浪科技讯 北京时间4月22日消息，据英国媒体报道，在太空寻找生命&ldquo;构造单元&rdquo;的天文学家日前收获了一个意外惊喜，他们发现隐藏于银河系中心庞大尘云的复杂分子居然有一股山莓的味道。</p>" + "<p>　　天文学家一直在银河系中心周围的尘云寻找生命构造单元。如今，他们得出了这样一个结论，即这些对生命存在至关重要的复杂分子的味道与山莓相近。这些年来，天文学家通过射电望远镜在漫无边际的尘埃和星云中寻找复杂分子的踪迹，没料到竟然获得一个出人意料的发现。</p>" + "<p>　　对天体物理学家而言，在星际空间发现氨基酸证据的重要性不啻于发现&ldquo;圣杯&rdquo;，因为这可能会提高化学分子在其他星球&ldquo;播种&rdquo;以后生成生命的可能性。在最新研究中，天文学家筛选了人马座B2(Sagittarius B2)释放的数以千计的信号。人马座B2是处于银河系中心的巨大尘云。尽管天文学家未能找到氨基酸的证据，但他们的确发现了一种称为甲酸乙酯的物质，这种化学物质使山莓具有了特别的味道。</p>" + "<p>　　德国马克斯普朗克射电天文学研究所的天文学家阿诺德?贝洛奇(Arnaud Belloche)表示：&ldquo;甲酸乙酯碰巧赋予山莓一种特有的味道，但要制成&lsquo;太空山莓&rsquo;还需要其它许多分子。&rdquo;令人好奇的是，甲酸乙酯还具有另外一个与众不同的特性：它还具有朗姆酒的气味。天文学家利用设在西班牙的IRAM射电望远镜，对人马座B2这个炽热和稠密的区域释放的电磁辐射进行了分析。这个区域处于一颗新生恒星的周围。</p>"
@@ -22,11 +26,11 @@ public class ExtractKeywordAndSummaryTest {
 
 	@Test
 	public void getKeyword() {
-		System.out.println(HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + content), " "));
+		logger.info(HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + content), " "));
 	}
 
 	@Test
 	public void getSummary() {
-		System.out.println(ExtractKeywordAndSummary.getTextAbstract(title, content));
+		logger.info(ExtractKeywordAndSummary.getTextAbstract(title, content));
 	}
 }
