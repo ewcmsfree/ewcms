@@ -5,13 +5,106 @@
  * 
  * author wu_zhijun
  */
-var currentnode, rootnode;
+var queryURL,inputURL,deleteURL,treeURL, reasonURL;
+var currentnode, rootnode;//当前所选择的节点，父节点
+var sort = '';//排序值
 
+$(function() {
+	ewcmsBOBJ = new EwcmsBase();
+	ewcmsBOBJ.setQueryURL(queryURL);
+
+	ewcmsBOBJ.delToolItem('新增');
+	ewcmsBOBJ.delToolItem('修改');
+	ewcmsBOBJ.delToolItem('删除');
+	ewcmsBOBJ.delToolItem('查询');
+	ewcmsBOBJ.delToolItem('缺省查询');
+
+	ewcmsBOBJ.addToolItem('新增', 'icon-add', addOperate, 'btnAdd');
+	ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
+	ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
+	ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
+	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
+	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
+	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
+	ewcmsBOBJ.addToolItem('排序', 'icon-sort', initSubMenu, 'btnSort');
+	ewcmsBOBJ.addToolItem('审核', 'icon-review', initSubMenu, 'btnReview');
+	ewcmsBOBJ.addToolItem('发布', 'icon-publish', initSubMenu, 'btnPub');
+
+	ewcmsBOBJ.openDataGrid('#tt',{
+		singleSelect : true,
+		columns : [ [
+					{field : 'id',title : '编号',width : 60},
+					{field : 'topFlag',title : '置顶',width : 60,hidden : true,formatter : function(val, rec) {return rec.article.topFlag;}},
+					{field : 'reference',title : '引用',width : 60,hidden : true},
+					{field : 'flags',title : '属性',width : 60,
+						formatter : function(val, rec) {
+							var pro = [];
+							if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
+							if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+							if (rec.article.type == "TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
+							if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
+							if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+							return pro.join("");
+						}
+					},
+					{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
+						formatter : function(val, rec) {
+							var classPro = [];
+							var categories = rec.article.categories;
+							for ( var i = 0; i < categories.length; i++) {
+								classPro.push(categories[i].categoryName);
+							}
+							var classValue = "";
+							if (classPro.length > 0) {
+								classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+							}
+							return rec.article.title + classValue;
+						}
+					},
+					{field : 'owner',title : '创建者',width : 80,formatter : function(val, rec) {return rec.article.owner;}}, 
+					{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
+					{field : 'published',title : '发布时间',width : 125,formatter : function(val, rec) {return rec.article.published;}}, 
+					{field : 'modified',title : '修改时间',width : 125,formatter : function(val, rec) {return rec.article.modified;}}, 
+					{field : 'sort',title : '排序号',width : 60}
+				  ] ]
+	});
+
+	ewcmsOOBJ = new EwcmsOperate();
+	ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+	//ewcmsOOBJ.setInputURL(inputURL);
+	//ewcmsOOBJ.setDeleteURL(deleteURL);
+
+	$("#tt").datagrid({
+		onSelect : function(rowIndex, rowData){
+			adjustMenu(rowData.article.status);
+		},
+		view : detailview,
+		detailFormatter : function(rowIndex, rowData) {
+			return detailGridData(rowData.article.operateTracks);
+		}
+	});
+	$('#tt2').tree( {
+		checkbox : false,
+		url : treeURL,
+		onClick : function(node) {
+			$("#tt").datagrid('clearSelections');
+			rootnode = $('#tt2').tree('getRoot');
+			currentnode = node;
+			articleReload();
+		}
+	});
+	initSubMenu();
+	disableButtons();
+	$('#btnSearch').linkbutton('disable');
+	$('#btnBack').linkbutton('disable');
+});
+//把子菜单添加到相应的父节点上
 function initSubMenu() {
 	$('#btnSort .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSortSub'});
 	$('#btnReview .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnReviewSub'});
 	$('#btnPub .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnPubSub'});
 }
+//根据权限显示相应的菜单
 function channelPermission(rootnode, currentnode) {
 	initSubMenu();
 	if (rootnode.id == currentnode.id) {
@@ -39,26 +132,26 @@ function channelPermission(rootnode, currentnode) {
 		return;
 	}
 }
-
+//重读选择的栏目中文章
 function articleReload() {
-	var url = ewcmsOOBJ.getQueryURL();
-	url = url + '?channelId=' + currentnode.id;
+	var url = queryURL + '?channelId=' + currentnode.id;
 	$('#tt').datagrid( {
 		pageNumber : 1,
 		url : url
 	});
 	channelPermission(rootnode, currentnode);
 }
-
+//新增文章
 function addOperate() {
 	if (currentnode.id != 0 && currentnode.id != $('#tt2').tree('getRoot').id) {
 		var url_param = '?channelId=' + currentnode.id + '';
-		window.open(ewcmsOOBJ.getInputURL() + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+		window.open(inputURL + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 	} else {
 		$.messager.alert('提示', '请选择栏目', 'info');
 	}
 	return false;
 }
+//修改文章
 function updOperate() {
 	if (currentnode.id != $('#tt2').tree('getRoot').id) {
 		var rows = $('#tt').datagrid('getSelections');
@@ -76,7 +169,7 @@ function updOperate() {
 		}
 		if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑') {
 			var url_param = '?channelId=' + currentnode.id + '&selections='	+ rows[0].id;
-			window.open(ewcmsOOBJ.getInputURL() + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
+			window.open(inputURL + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
 		} else {
 			$.messager.alert('提示', '文章只能在初稿或重新编辑状态在才能修改', 'info');
 			return;
@@ -87,7 +180,7 @@ function updOperate() {
 	}
 	return false;
 }
-
+//删除文章到回收站
 function delOperate() {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -95,14 +188,13 @@ function delOperate() {
 		return;
 	}
 
-	var url = ewcmsOOBJ.getDeleteURL();
 	var parameter = 'channelId=' + currentnode.id;
 	for ( var i = 0; i < rows.length; ++i) {
 		parameter = parameter + '&selections=' + rows[i].id;
 	}
 	$.messager.confirm('提示', '确定要删除所选记录到回收站吗?', function(r) {
 		if (r) {
-			$.post(url, parameter, function(data) {
+			$.post(deleteURL, parameter, function(data) {
 				$.messager.alert('成功', '删除文档到回收站成功!', 'info');
 				$('#tt').datagrid('clearSelections');
 				$('#tt').datagrid('reload');
@@ -110,17 +202,11 @@ function delOperate() {
 		}
 	});
 }
-
+//缺省查询
 function initOperateQuery() {
-	var url = ewcmsOOBJ.getQueryURL();
-	url = url + '?channelId=' + currentnode.id;
-	$('#tt').datagrid( {
-		pageNumber : 1,
-		url : url
-	});
-	initSubMenu();
+	articleReload();
 }
-
+//有条件查询
 function querySearch_Article(url) {
 	var value = $('#queryform').serialize();
 	value = 'parameters[\'' + value;
@@ -134,10 +220,15 @@ function querySearch_Article(url) {
 	});
 
 	$('#query-window').window('close');
-	initSubMenu();
+	channelPermission(rootnode, currentnode);
 }
+//移动文章到其他栏目
 function moveArticle(url) {
 	var selected = $('#tt3').tree('getSelected');
+	if (selected == null || typeof (selected) == 'undefined') {
+		$.messager.alert('提示', '请选择移动到目标的栏目', 'info');
+		return;
+	}
 	var rootnode_tt3 = $('#tt3').tree('getRoot');
 
 	var parameter = 'channelId=' + currentnode.id;
@@ -163,9 +254,13 @@ function moveArticle(url) {
 		$('#moveorcopy-window').window('close');
 	});
 }
-
+//复制文章到其他栏目
 function copyArticle(url) {
 	var checkeds = $('#tt3').tree('getChecked')
+	if (checkeds.length == 0) {
+		$.messager.alert('提示', '请选择复制到目标的栏目', 'info');
+		return;
+	}
 	var rootnode_tt3 = $('#tt3').tree('getRoot');
 
 	var parameter = 'channelId=' + currentnode.id;
@@ -189,11 +284,7 @@ function copyArticle(url) {
 		$('#moveorcopy-window').window('close');
 	});
 }
-
-function closeCannel() {
-	$('#moveorcopy-window').window('close');
-}
-
+//提交文章到审核流程
 function submitReviewOperate(url) {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -224,9 +315,9 @@ function submitReviewOperate(url) {
 	});
 	return false;
 }
+//发布选项栏目的文章
 function pubOperate(url) {
-	var parameter = 'channelId=' + currentnode.id + '';
-	$.post(url, parameter, function(data) {
+	$.post(url, {'channelId' : currentnode.id}, function(data) {
 		if (data == 'system-false') {
 			$.messager.alert('提示', '系统错误', 'error');
 			return;
@@ -240,6 +331,7 @@ function pubOperate(url) {
 	});
 	return false;
 }
+//审核文章
 function reviewArticle(url) {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -270,7 +362,7 @@ function reviewArticle(url) {
 	});
 	return false;
 }
-var sort = '';
+//设置文章排序号
 function sortOperate(isUrl, url) {
 	if (currentnode.id != $('#tt2').tree('getRoot').id) {
 		var rows = $('#tt').datagrid('getSelections');
@@ -287,7 +379,7 @@ function sortOperate(isUrl, url) {
 				var reg = /^\d+$/;
 				if (reg.test(r)) {
 					$.post(isUrl, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].article.topFlag,'sort' : r},function(data) {
-						if (data == 'true') {
+						if (data == 'true') {//用户输入的排序号与系统中的排序号出现重复，显示是插入还是替换选项页面
 							sort = r;
 							ewcmsBOBJ.openWindow('#sort-window',{width : 550,height : 200,title : '排序'});
 							return;
@@ -318,6 +410,7 @@ function sortOperate(isUrl, url) {
 	}
 	return false;
 }
+//排序号出现重复，是插入还是替换
 function sortArticle(url) {
 	$.post(url, {
 		'selections' : $('#tt').datagrid('getSelections')[0].id,
@@ -340,6 +433,7 @@ function sortArticle(url) {
 	});
 	return false;
 }
+//清除文章的排序号
 function clearSortOperate(url) {
 	if (currentnode.id != $('#tt2').tree('getRoot').id) {
 		var rows = $('#tt').datagrid('getSelections');
@@ -364,6 +458,7 @@ function clearSortOperate(url) {
 	}
 	return false;
 }
+//文章退回到重新编辑状态(文章只有处于发布版和已发布两个状态才能退回)
 function breakOperate(url) {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -398,6 +493,7 @@ function breakOperate(url) {
 	});
 	return false;
 }
+//显示审核页面
 function reviewOperate() {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -418,6 +514,7 @@ function reviewOperate() {
 		$.messager.alert('提示', '文章只能在审核中状态才能审核', 'info');
 	}
 }
+//显示移动文章页面
 function moveOperate() {
 	$('#tt3').tree( {
 		checkbox : false,
@@ -436,7 +533,7 @@ function moveOperate() {
 		height : 400
 	});
 }
-
+//显示复制文章页面
 function copyOperate() {
 	$('#tt3').tree( {
 		checkbox : true,
@@ -455,9 +552,11 @@ function copyOperate() {
 		title : '复制文章选择'
 	});
 }
+//重读站点专栏数据
 function channelTreeLoad() {
 	$('#tt2').tree('reload');
 }
+//主菜单/子菜单不可用
 function disableButtons() {
 	$('#btnAdd').linkbutton('disable');
 	$('#btnUpd').linkbutton('disable');
@@ -474,6 +573,7 @@ function disableButtons() {
 	$('#btnPublishOk').attr('style', 'display:none;');
 	$('#btnBreakArticle').attr('style', 'display:none;');
 }
+//主菜单/子菜单可用
 function enableButtons() {
 	$('#btnAdd').linkbutton('enable');
 	$('#btnUpd').linkbutton('enable');
@@ -490,10 +590,12 @@ function enableButtons() {
 	$('#btnPublishOk').attr('style', 'display:block;');
 	$('#btnBreakArticle').attr('style', 'display:block;');
 }
+//显示文章操作过程中用户输入的原因页面
 function showReason(url){
 	$('#editifr_reason').attr('src',url);
 	ewcmsBOBJ.openWindow('#reason-window',{width:600,height:300,title:'原因'});
 }
+//文章操作过程数据
 function detailGridData(operateTracks){
 	var htmls = [];
 	if (operateTracks.length == 0) {
@@ -505,7 +607,7 @@ function detailGridData(operateTracks){
 		htmls.push('<tr style="height: 21px">');
 		htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
-		//htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>姓名</span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>姓名</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
@@ -515,12 +617,12 @@ function detailGridData(operateTracks){
 		htmls.push('</div>');
 		htmls.push('<div class="datagrid-body">');
 		for ( var i = 0; i < operateTracks.length; i++) {
-			//var userRealName = '';
-			//if (operateTracks[i].userRealName != null) 
-			//	userRealName = operateTracks[i].userRealName;
+			var userRealName = '';
+			if (operateTracks[i].userRealName != null) 
+				userRealName = operateTracks[i].userRealName;
 			var reason = '';
 			if (operateTracks[i].reason != null && operateTracks[i].reason.length > 0){
-				var url = '<s:url namespace="/document/article" action="reason"/>?trackId=' + operateTracks[i].id;
+				var url = reasonURL + '?trackId=' + operateTracks[i].id;
 				reason = '<a href="#" onclick="showReason(\'' + url + '\');">原因</a>';
 			}
 			htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
@@ -530,9 +632,9 @@ function detailGridData(operateTracks){
 							+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
 							+ operateTracks[i].userName
 							+ '</span></div></td>'
-							//+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
-							//+ userRealName
-							//+ '</span></div></td>'
+							+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
+							+ userRealName
+							+ '</span></div></td>'
 							+ '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>'
 							+ operateTracks[i].statusDesc
 							+ '</span></div></td>'
@@ -546,4 +648,20 @@ function detailGridData(operateTracks){
 		htmls.push('</div></div>');
 	}
 	return htmls.join("");
+}
+//根据文章不同的状态,调整子菜单的显示
+function adjustMenu(status){
+	if (status == 'REVIEW'){
+		$('#btnReviewSubmit').attr('style', 'display:none;');
+		$('#btnReviewProcess').attr('style', 'display:block;');
+		$('#btnBreakArticle').attr('style', 'display:none;');
+	}else if (status == 'DRAFT' || status == 'REEDIT'){
+		$('#btnReviewSubmit').attr('style', 'display:block;');
+		$('#btnReviewProcess').attr('style', 'display:none;');
+		$('#btnBreakArticle').attr('style', 'display:none;');
+	}else if (status == 'PRERELEASE' || status == 'RELEASE'){
+		$('#btnReviewSubmit').attr('style', 'display:none;');
+		$('#btnReviewProcess').attr('style', 'display:none;');
+		$('#btnBreakArticle').attr('style', 'display:block;');
+	}
 }

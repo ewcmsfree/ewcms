@@ -1,36 +1,46 @@
+/*
+ * Article Edit JavaScript Library v1.0.0
+ * 
+ * Licensed under the GPL terms To use it on other terms please contact us
+ * 
+ * author wu_zhijun
+ */
+var categoryURL, imageUploadURL, imageBrowseURL, annexUploadURL, annexBrowseURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
+var noImage = "../../source/image/article/nopicture.jpg";
+var userName;
 
 $(function() {
+	//设置自动保存的时长
 	setInterval("auto_save()",600000);
-	
 	changeType();
-	
+	//初始化页数显示
 	for ( var i = 1; i < pages; i++) {
 		$("#pageList").append(getLi_Html(i+1));
 	}
-	
+	//短标题不为空，设置短标题选项选中并显示短标题内容
 	if ($.trim($("#articleShortTitle").val()) != ""){
-		$("#ShowShortTitle").attr("checked",true);
+		$("#ShowShortTitle").attr("checked", true);
 		$("#trShortTitle").show();
 	}
-	
+	//副标题不为空，设置副标题选项选中并显示副标题内容
 	if ($.trim($("#articleSubTitle").val()) != ""){
-		$("#ShowSubTitle").attr("checked",true);
+		$("#ShowSubTitle").attr("checked", true);
 		$("#trSubTitle").show();
 	}
-
+	//设置短标题选项点击事件
 	$("#ShowShortTitle").click(function() {
-		if ($("#ShowShortTitle").attr("checked") == true) {
+		if ($("#ShowShortTitle").attr("checked") == 'checked') {
 			$("#trShortTitle").show();
 		} else {
 			$("#trShortTitle").hide();
 		}
 		window_resize();
 	});
-	
+	//设置副标题选项点击事件
 	$("#ShowSubTitle").click(function() {
-		if ($("#ShowSubTitle").attr("checked") == true) {
+		if ($("#ShowSubTitle").attr("checked") == 'checked') {
 			$("#trSubTitle").show();
 		} else {
 			$("#trSubTitle").hide();
@@ -38,8 +48,9 @@ $(function() {
 		window_resize();
 	});
 	
+	//读取cookies操作
 	for (var i=1;i<=5;i++){
-		var ewcms_cookies = $.cookie("ewcms_" + i + "_<sec:authentication property='name'/>");
+		var ewcms_cookies = $.cookie("ewcms_" + i + "_" + userName);
 		if (ewcms_cookies != null){
 			$('#ewcms_' + i).attr('checked',true);
 			$('#trShowHide_' + i).show();
@@ -48,13 +59,50 @@ $(function() {
 			$('#trShowHide_' + i).hide();
 		}
 	}
+	document.title = '文档编辑：' + $('#articleTitle').val();
 	
-	document.title="文档编辑：" + $('#articleTitle').val();
+	$('#cc_categories').combobox({
+		url: categoryURL,
+		valueField:'id',
+        textField:'text',
+		editable:false,
+		multiple:true,
+		cascadeCheck:false,
+		panelWidth:200
+	});
+	$('#systemtab_image').tabs({
+        onSelect:function(title){
+            var multi = $('#image_multi_id').val();
+            if(title == '本地图片'){
+                var src = imageUploadURL + '?multi='+multi;
+                $("#uploadifr_image_id").attr('src',src);
+            }else{
+                var src = imageBrowseURL + '?multi='+multi;
+                $("#queryifr_image_id").attr('src',src);
+            }
+        }
+    });
+    $('#systemtab_annex').tabs({
+        onSelect:function(title){
+            if(title == '本地附件'){
+                var src = annexUploadURL + '?multi=true';
+                $("#uploadifr_annex_id").attr('src',src);
+            }else{
+                var src = annexBrowseURL + '?multi=true';
+                $("#queryifr_annex_id").attr('src',src);
+            }
+        }
+    });
+    
+	ewcmsCookiesInit(userName);
+	
 	window_resize();
 });
+//绑定窗体改变大小事件
 $(window).bind("resize", function () {
 	window_resize();
 });
+//页面自适应窗体大小
 function window_resize(){
 	var height = $(window).height() - $("#buttonBarTable").height() - $("#inputBarTable").height() - $("#pageBarDiv").height() - 10;
 	var width = $(window).width() - 30*2;
@@ -69,6 +117,7 @@ function window_resize(){
 	}catch(errRes){
 	}
 }
+//新增一页
 function addPage() {
 	pages = pages + 1;
 	$("#pageList").append(getLi_Html(pages));
@@ -80,6 +129,7 @@ function addPage() {
 	}
 	setActivePage(pages);
 }
+//删除一页(从后向前)，当只剩下最后一页时不再删除
 function delPage() {
 	if (pages == 1) {return;}
 	
@@ -101,6 +151,7 @@ function delPage() {
 	setActivePage(currentPage);
 
 }
+//页面编辑HTML代码，并写入前台显示页面
 function getTrContent_Html(page) {
 	var tr_content_html = "<tr id='trContent_" + page + "' >" 
 			+ "	 <td>"
@@ -110,6 +161,7 @@ function getTrContent_Html(page) {
 			+ "</tr>";
 	return tr_content_html;
 }
+//页码HTML代码，并写入前台显示页面
 function getLi_Html(page){
 	var li_html = "<li onclick=\"changePage('p" + page + "')\" " 
 				+ "onmouseover=\"onOverPage('p" + page + "')\" " 
@@ -119,6 +171,7 @@ function getLi_Html(page){
 				+ "</li>"
 	return li_html;
 }
+//设置选中页码与页面
 function setActivePage(page) {
 	var currentTab = $("#p" + page);
 	if (currentPage == page && currentTab.attr("class") == "current") {
@@ -142,23 +195,27 @@ function setActivePage(page) {
 	
 	window_resize();
 }
+//改变页码与页面
 function changePage(id){
 	var pageNum = id.substr(1);
 	pageNum = parseInt(pageNum);
 	setActivePage(pageNum);
 }
+//鼠标进入页码选项显示效果
 function onOverPage(id){
 	var li_object = $("#" + id);
 	if (li_object.attr("class")==""){
 		li_object.attr("class","pagetabOver");
 	}
 }
+//鼠标离开页码选项显示效果
 function onOutPage(id){
 	var li_object = $("#" + id);
 	if (li_object.attr("class")=="pagetabOver"){
 		li_object.attr("class","");
 	}
 }
+//插入选择的文章到当前内容编辑页面
 function insertFileToCkeditorOperator(){
 	editifr_pop.insert(function(data){
 		$.each(data, function(index,value){
@@ -181,6 +238,7 @@ function insertFileToCkeditorOperator(){
     });
 	$("#pop-window").window("close");
 }
+//选择内容编辑页面的历史记录
 function selectHistoryOperator(url){
 	var operator_type = editifr_pop.selectOperator();
 	var maxPage = operator_type[0];
@@ -279,7 +337,7 @@ function getKeywordOrSummary(type,url){
 		});
 	}
 }
-//保存文章
+//保存文章(手动)
 function saveArticle(){
 	if ($.trim($("#articleTitle").val())==""){
 		$.messager.alert("提示","文章标题不能为空","info");
@@ -354,7 +412,7 @@ function submitReview(url, channelId, articleMainId){
         }
 	});
 }
-var noImage = "../../source/image/article/nopicture.jpg";
+
 //清除引用图片
 function clearImage(){
 	$("#referenceImage").attr("src",noImage);
@@ -369,7 +427,7 @@ function closeArticle(){
 		}
 	});
 }
-//选择历史内容
+//显示内容编辑的历史内容页面
 function selectHistory(url){
 	if ($('#articleVo_type').val() == "TITLE"){
 		$.messager.alert("提示","标题新闻没有历史记录","info");
@@ -386,7 +444,7 @@ function selectHistory(url){
 	$("#editifr_pop").attr("src",url);
 	openWindow("#pop-window",{width:800,height:600,title:"历史内容选择"});
 }
-//选择相关文章
+//选择相关联文章页面
 function selectRelation(url){
 	if ($('#articleVo_type').val() == "TITLE"){
 		$.messager.alert("提示","标题新闻没有相关文章","info");
@@ -402,7 +460,8 @@ function selectRelation(url){
 	$("#editifr_pop").attr("src",url);
 	openWindow("#pop-window",{width:800,height:600,title:"相关文章选择"});
 }
-function showHide(username){
+//展开与收缩
+function showHide(){
     var showHideLabel_value = $('#showHideLabel').text();
     if ($.trim(showHideLabel_value) == '展开'){
         $('#trShowHide_1').show();
@@ -414,7 +473,7 @@ function showHide(username){
     	$('#showHideLabel').text('收缩');
     }else{
     	for (var i=1;i<=5;i++){
-    		var ewcms_cookies = $.cookie('ewcms_' + i + '_' + username);
+    		var ewcms_cookies = $.cookie('ewcms_' + i + '_' + userName);
     		if (ewcms_cookies != null){
     			$('#ewcms_' + i).attr('checked',true);
     			$('#trShowHide_' + i).show();
@@ -428,6 +487,7 @@ function showHide(username){
     }
     window_resize();
 }
+//根据文章类型显示不同的页面
 function changeType(){
     var articleType = $('#articleVo_type').val();
     if (articleType == "TITLE"){
@@ -448,11 +508,13 @@ function changeType(){
     }
     window_resize();
 }
+//打开附件页面
 function openAnnexWindow(url){
 	$('#systemtab_annex').tabs('select','本地附件');
     $('#uploadifr_annex_id').attr('src',url);
     openWindow("#annex-window",{width:600,height:500,title:"本地附件"});
 }
+//插入附件到内容编辑页面
 function insertAnnexOperator(){
     var tab = $('#systemtab_annex').tabs('getSelected');
     var title = tab.panel('options').title;
@@ -479,10 +541,11 @@ function insertAnnexOperator(){
     }
 	$("#annex-window").window("close");
 }
-//选择引用图片
+//选择引用图片页面
 function selectImage(url){
 	openImageWindow(false, false, url);
 }
+//打开图片页面
 function openImageWindow(multi,content_image,url){
 	$('#systemtab_image').tabs('select','本地图片');
     $('#image_multi_id').val(multi);
@@ -494,6 +557,7 @@ function openImageWindow(multi,content_image,url){
     }
     openWindow("#image-window",{width:600,height:500,title:"图片选择"});
 }
+//插入图片到内容编辑页面
 function insertImageOperator(){
     var tab = $('#systemtab_image').tabs('getSelected');
     var title = tab.panel('options').title;
@@ -531,10 +595,12 @@ function insertImageOperator(){
     }
 	$("#image-window").window("close");
 }
+//打开问卷调查页面
 function openVoteWidnow(url){
 	$('#editifr_vote').attr('src',url);
 	openWindow("#vote-window",{width:600,height:500,title:"问卷调查选择"});
 }
+//插入问卷调查到内容编辑页面
 function insertVote(){
 	var rows = editifr_vote.getVoteRows();
 	var urlAndContextName = editifr_vote.$('#urlAndContextName').val();
@@ -546,6 +612,7 @@ function insertVote(){
 	}
 	$("#vote-window").window("close");
 }
+//文章自动保存
 function auto_save() {
 	if ($.trim($("#articleTitle").val())==""){
 		return;
@@ -592,16 +659,15 @@ function auto_save() {
 		}
 	}
 }
+//打开Cookies页面设置
 function ewcmsCookies(){
 	openWindow("#ewcms-cookies",{width:300,height:215,title:"设置常用项"});
 }
-function ewcmsCookiesOk(){
-	$("#ewcms-cookies").window("close");
-}
-function ewcmsCookiesSet(obj,trId,username){
+//Cookies设置
+function ewcmsCookiesSet(obj,trId){
 	var id = obj.id;
-	if ($('#' + id).attr('checked') == true){
-		$.cookie(id + '_' + username,'true',{expires:14});
+	if ($('#' + id).attr('checked') == 'checked'){
+		$.cookie(id + '_' + userName,'true',{expires:14});
 		if (id == 'ewcms_toolbar'){
 			$("div[id='DivToolbar']").each(function(){
 				$(this).show();
@@ -611,7 +677,7 @@ function ewcmsCookiesSet(obj,trId,username){
 			$('#' + trId).show();
 		}
 	}else{
-		$.cookie(id + '_' + username, null);
+		$.cookie(id + '_' + userName, null);
 		if (id == 'ewcms_toolbar'){
 			$("div[id='DivToolbar']").each(function(){
 				$(this).hide();
@@ -624,8 +690,9 @@ function ewcmsCookiesSet(obj,trId,username){
 	
 	window_resize();
 }
-function ewcmsCookiesInit(username){
-	var ewcms_toolbar_cookies = $.cookie("ewcms_toolbar_" + username);
+//Cookies的初始化
+function ewcmsCookiesInit(){
+	var ewcms_toolbar_cookies = $.cookie("ewcms_toolbar_" + userName);
 	if (ewcms_toolbar_cookies != null){
 		$('#ewcms_toolbar').attr('checked', true);
 		$("div[id='DivToolbar']").each(function(){
@@ -639,7 +706,7 @@ function ewcmsCookiesInit(username){
 
 	}
 	for (var i=1;i<=5;i++){
-		var ewcms_cookies = $.cookie("ewcms_" + i + "_" + username);
+		var ewcms_cookies = $.cookie("ewcms_" + i + "_" + userName);
 		if (ewcms_cookies != null){
 			$('#ewcms_' + i).attr('checked',true);
 			$('#trShowHide_' + i).show();
