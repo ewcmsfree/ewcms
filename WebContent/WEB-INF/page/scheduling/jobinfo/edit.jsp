@@ -37,7 +37,7 @@
             		$('#weekDaysAll').attr('checked',false);
             	}
             	$('#monthsAll').click(function(){
-                	if ($('#monthsAll').attr('checked') == true){
+                	if ($('#monthsAll').attr('checked') == 'checked'){
                 		$("input[name='pageDisplayVo.months']").attr('checked',true);
                 	}else{
                 		$("input[name='pageDisplayVo.months']").attr('checked',false);
@@ -45,7 +45,7 @@
             	});
             	$('#weekDaysAll').click(function(){
             		$("input[name='pageDisplayVo.days']").get(1).checked = true;
-                	if ($('#weekDaysAll').attr('checked') == true){
+                	if ($('#weekDaysAll').attr('checked') == 'checked'){
                 		$("input[name='pageDisplayVo.weekDays']").attr('checked',true);
                 	}else{
                 		$("input[name='pageDisplayVo.weekDays']").attr('checked',false);

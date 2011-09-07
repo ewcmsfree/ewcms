@@ -17,6 +17,9 @@
 			ewcmsBOBJ = new EwcmsBase();
 			ewcmsBOBJ.setQueryURL('<s:url namespace="/scheduling/jobclass" action="query"/>');
 
+			ewcmsBOBJ.setWinWidth(700);
+			ewcmsBOBJ.setWinHeight(200);
+			
 			ewcmsBOBJ.openDataGrid('#tt',{
                 columns:[[
 						{field:'id',title:'编号',width:50,sortable:true},
