@@ -24,42 +24,12 @@
 		<script type="text/javascript" src="<s:url value='/source/js/article/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
-            $(function() {
-				$('#cc_categories').combobox({
-					url:'<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>',
-					valueField:'id',
-                    textField:'text',
-					editable:false,
-					multiple:true,
-					cascadeCheck:false,
-					panelWidth:200
-				});
-            	$('#systemtab_image').tabs({
-                    onSelect:function(title){
-                        var multi = $('#image_multi_id').val();
-                        if(title == '本地图片'){
-                            var src = '<s:url action="upload" namespace="/resource/image"/>?multi='+multi;
-                            $("#uploadifr_image_id").attr('src',src);
-                        }else{
-                            var src = '<s:url action="browse" namespace="/resource/image"/>?multi='+multi;
-                            $("#queryifr_image_id").attr('src',src);
-                        }
-                    }
-                });
-                $('#systemtab_annex').tabs({
-                    onSelect:function(title){
-                        if(title == '本地附件'){
-                            var src = '<s:url action="upload" namespace="/resource/annex"/>?multi=true';
-                            $("#uploadifr_annex_id").attr('src',src);
-                        }else{
-                            var src = '<s:url action="browse" namespace="/resource/annex"/>?multi=true';
-                            $("#queryifr_annex_id").attr('src',src);
-                        }
-                    }
-                });
-    			ewcmsCookiesInit("<sec:authentication property='name'/>");
-    			window_resize();
-			});
+	    	categoryURL = '<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
+	    	imageUploadURL = '<s:url action="upload" namespace="/resource/image"/>';
+	    	imageBrowseURL = '<s:url action="browse" namespace="/resource/image"/>';
+	    	annexUploadURL = '<s:url action="upload" namespace="/resource/annex"/>';
+	    	annexBrowseURL = '<s:url action="browse" namespace="/resource/annex"/>';
+	    	userName = '<sec:authentication property="name"/>';
 	    	<s:property value="javaScript"/>
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
@@ -90,7 +60,7 @@
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRelation('<s:url action='relation' namespace='/document/relation'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/relation.gif'/>" width="20" height="20" /><b>相关文章&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="return false;"><img src="<s:url value='/source/image/article/preview.gif'/>" width="20" height="20" /><b>预览&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="ewcmsCookies();return false;" ><img id="imgCookies" src="<s:url value='/source/image/article/cookies.gif'/>" width="20" height="20" /><b><s:label id="cookiesLabel" value="常用项"></s:label>&nbsp;</b></a>
-					           	 			<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="showHide('<sec:authentication property='name' />');return false;" ><img id="imgShowHide" src="<s:url value='/source/image/article/show.gif'/>" width="20" height="20" /><b><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
+					           	 			<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="showHide();return false;" ><img id="imgShowHide" src="<s:url value='/source/image/article/show.gif'/>" width="20" height="20" /><b><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
 											<a href="javascript:void(0);" class="ewcmsBtn_right" tabindex="-1" id="" onclick="closeArticle();return false;"><img src="<s:url value='/source/image/article/close.gif'/>" width="20" height="20" /><b>关闭</b></a>
 										</td>
 									</tr>
@@ -139,7 +109,7 @@
 			        	</td>
 			        	<td width="6%">责任编辑：</td>
 			        	<td width="44%">
-			        		<s:textfield name="articleVo.author" size="30" readonly="true"></s:textfield>
+			        		<s:textfield name="articleVo.author" size="30"></s:textfield>
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_2" style="display:none">
@@ -342,19 +312,19 @@
 		        			<td>可以在这里设置常用项，选择后可保存2个星期</td>
 		        		</tr>
 		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_1" onclick="ewcmsCookiesSet(this,'trShowHide_1','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_1">&nbsp;第二行显示——<font color='red'>【发布日期、作者、审核人】</font></label></td>
+		        			<td><input type="checkbox" value="checkbox" id="ewcms_1" onclick="ewcmsCookiesSet(this,'trShowHide_1');" style="vertical-align: middle;"/><label for="ewcms_1">&nbsp;第二行显示——<font color='red'>【发布日期、作者、审核人】</font></label></td>
 		        		</tr>
 		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_2" onclick="ewcmsCookiesSet(this,'trShowHide_2','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_2">&nbsp;第三行显示——<font color='red'>【文章类型、来源】</font></label></td>
+		        			<td><input type="checkbox" value="checkbox" id="ewcms_2" onclick="ewcmsCookiesSet(this,'trShowHide_2');" style="vertical-align: middle;"/><label for="ewcms_2">&nbsp;第三行显示——<font color='red'>【文章类型、来源】</font></label></td>
 		        		</tr>
 		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_3" onclick="ewcmsCookiesSet(this,'trShowHide_3','<sec:authentication property='name' />');"  style="vertical-align: middle;"/><label for="ewcms_3">&nbsp;第四行显示——<font color='red'>【关键了、Tag】</font></label></td>
+		        			<td><input type="checkbox" value="checkbox" id="ewcms_3" onclick="ewcmsCookiesSet(this,'trShowHide_3');" style="vertical-align: middle;"/><label for="ewcms_3">&nbsp;第四行显示——<font color='red'>【关键了、Tag】</font></label></td>
 		        		</tr>
 		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_4"  onclick="ewcmsCookiesSet(this,'trShowHide_4','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_4">&nbsp;第四行显示——<font color='red'>【文章选项、分类属性】</font></label></td>
+		        			<td><input type="checkbox" value="checkbox" id="ewcms_4" onclick="ewcmsCookiesSet(this,'trShowHide_4');" style="vertical-align: middle;"/><label for="ewcms_4">&nbsp;第四行显示——<font color='red'>【文章选项、分类属性】</font></label></td>
 		        		</tr>
 		        		<tr>
-		        			<td><input type="checkbox" value="checkbox" id="ewcms_5"  onclick="ewcmsCookiesSet(this,'trShowHide_5','<sec:authentication property='name' />');" style="vertical-align: middle;"/><label for="ewcms_5">&nbsp;第五行显示——<font color='red'>【引用图片、摘要】</font></label></td>
+		        			<td><input type="checkbox" value="checkbox" id="ewcms_5" onclick="ewcmsCookiesSet(this,'trShowHide_5');" style="vertical-align: middle;"/><label for="ewcms_5">&nbsp;第五行显示——<font color='red'>【引用图片、摘要】</font></label></td>
 		        		</tr>
 		        		<tr>
 		        			<td>&nbsp;</td>
@@ -362,7 +332,6 @@
 		        	</table>
 	        	</div>
                  <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <!--<span id="span_ok"><a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="ewcmsCookiesOk();return false;">确定</a></span>-->
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="$('#ewcms-cookies').window('close');return false;">关闭</a>
                 </div>
         	</div>

@@ -15,104 +15,15 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/article/index.js"/>'></script>
-		<script type="text/javascript">
-		var treeURL = '<s:url namespace="/site/channel" action="tree"/>';
-		$(function() {
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
-
-			ewcmsBOBJ.delToolItem('新增');
-			ewcmsBOBJ.delToolItem('修改');
-			ewcmsBOBJ.delToolItem('删除');
-			ewcmsBOBJ.delToolItem('查询');
-			ewcmsBOBJ.delToolItem('缺省查询');
-
-			ewcmsBOBJ.addToolItem('新增', 'icon-add', addOperate, 'btnAdd');
-			ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
-			ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
-			ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
-			ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
-			ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
-			ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
-			ewcmsBOBJ.addToolItem('排序', 'icon-sort', initSubMenu, 'btnSort');
-			ewcmsBOBJ.addToolItem('审核', 'icon-review', initSubMenu, 'btnReview');
-			ewcmsBOBJ.addToolItem('发布', 'icon-publish', initSubMenu, 'btnPub');
-
-			ewcmsBOBJ.openDataGrid('#tt',{
-				singleSelect : true,
-				columns : [ [
-							{field : 'id',title : '编号',width : 60},
-							{field : 'topFlag',title : '置顶',width : 60,hidden : true,formatter : function(val, rec) {return rec.article.topFlag;}},
-							{field : 'reference',title : '引用',width : 60,hidden : true},
-							{field : 'flags',title : '属性',width : 60,
-								formatter : function(val, rec) {
-									var pro = [];
-									if (rec.article.topFlag) pro.push("<img src='<s:url value='/source/image/article/top.gif'/>' width='13px' height='13px' title='有效期限:永久置顶'/>");
-									if (rec.article.commentFlag) pro.push("<img src='<s:url value='/source/image/article/comment.gif'/>' width='13px' height='13px' title='允许评论'/>");
-									if (rec.article.type == "TITLE") pro.push("<img src='<s:url value='/source/image/article/title.gif'/>' width='13px' height='13px' title='标题新闻'/>");
-									if (rec.reference) pro.push("<img src='<s:url value='/source/image/article/reference.gif'/>' width='13px' height='13px' title='引用新闻'/>");
-									if (rec.article.inside) pro.push("<img src='<s:url value='/source/image/article/inside.gif'/>' width='13px' height='13px' title='内部标题'/>");
-									return pro.join("");
-								}
-							},
-							{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
-								formatter : function(val, rec) {
-									var classPro = [];
-									var categories = rec.article.categories;
-									for ( var i = 0; i < categories.length; i++) {
-										classPro.push(categories[i].categoryName);
-									}
-									var classValue = "";
-									if (classPro.length > 0) {
-										classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
-									}
-									return rec.article.title + classValue;
-								}
-							},
-							{field : 'owner',title : '创建者',width : 80,formatter : function(val, rec) {return rec.article.owner;}}, 
-							{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
-							{field : 'published',title : '发布时间',width : 125,formatter : function(val, rec) {return rec.article.published;}}, 
-							{field : 'modified',title : '修改时间',width : 125,formatter : function(val, rec) {return rec.article.modified;}}, 
-							{field : 'sort',title : '排序号',width : 60}
-						  ] ]
-			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/document/article" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/article" action="delete"/>');
-
-			$("#tt").datagrid({
-				view : detailview,
-				detailFormatter : function(rowIndex, rowData) {
-					var operateTracks = rowData.article.operateTracks;
-					return detailGridData(operateTracks);
-				}
-			});
-			$('#tt2').tree( {
-				checkbox : false,
-				url : '<s:url namespace="/site/channel" action="tree"/>',
-				onClick : function(node) {
-					$("#tt").datagrid('clearSelections');
-					rootnode = $('#tt2').tree('getRoot');
-					currentnode = node;
-					articleReload();
-				}
-			});
-			$('#tt3').click(function() {
-				var selected = $('#tt3').tree('getSelected');
-				if (selected == null || typeof (selected) == 'undefined') {
-					$.messager.alert('提示', '请选择要操作的专栏', 'info');
-					return;
-				}
-			});
-			initSubMenu();
-			disableButtons();
-			$('#btnSearch').linkbutton('disable');
-			$('#btnBack').linkbutton('disable');
-		});
-		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
+		<script type="text/javascript">
+			queryURL = '<s:url namespace="/document/article" action="query"/>';
+			inputURL = '<s:url namespace="/document/article" action="input"/>';
+			deleteURL = '<s:url namespace="/document/article" action="delete"/>';
+			treeURL = '<s:url namespace="/site/channel" action="tree"/>';
+			reasonURL = '<s:url namespace="/document/article" action="reason"/>';
+		</script>
+		
 	</head>
 	<body class="easyui-layout">
 		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
@@ -180,7 +91,7 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <span id="span_move" style="display:none"><a id="moveArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="moveArticle('<s:url namespace='/document/article' action='move'/>');">确定</a></span>
                     <span id="span_copy" style="display:none"><a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="copyArticle('<s:url namespace='/document/article' action='copy'/>');">确定</a></span>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:closeCannel();">取消</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#moveorcopy-window').window('close');">取消</a>
                 </div>
             </div>
         </div>
