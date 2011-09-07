@@ -31,6 +31,7 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
 import com.ewcms.publication.service.ArticlePublishServiceable;
+import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -45,6 +46,8 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private UserServiceable userService;
 	
 	public void setArticleDAO(ArticleDAO articleDAO){
 		this.articleDAO = articleDAO;
@@ -118,7 +121,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
-			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "文章已被修改。", "");
+			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "文章已被修改。", "", userService.getUserRealName());
 			
 			article.setCategories(article_old.getCategories());
 			article.setRelations(article_old.getRelations());
@@ -200,7 +203,7 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	public void updatePreRelease(Integer channelId) {
 		List<Article> articles = articleDAO.findArticleRelease(channelId);
 		for (Article article : articles){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "", "");
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "", "", userService.getUserRealName());
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);
 			articleDAO.merge(article);

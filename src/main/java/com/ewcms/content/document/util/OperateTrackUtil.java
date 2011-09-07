@@ -18,11 +18,11 @@ import com.ewcms.web.util.EwcmsContextUtil;
  */
 public class OperateTrackUtil {
 
-	public static void addOperateTrack(Article article, String statusDesc, String description, String reason){
+	public static void addOperateTrack(Article article, String statusDesc, String description, String reason, String userRealName){
 		ArticleOperateTrack aot = new ArticleOperateTrack();
 		
 		aot.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
-		//aot.setUserRealName(userService.getUserRealName());
+		aot.setUserRealName(userRealName);
 		aot.setStatusDesc(statusDesc);
 		aot.setDescription(description);
 		aot.setReason(reason);
