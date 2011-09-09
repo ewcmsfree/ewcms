@@ -134,7 +134,7 @@ public class MemorandaService implements MemorandaServiceable {
 		List<Memoranda> memos = findMemorandaByDate(selYear, selMonth, dayValue);
 		StringBuffer memoSb = new StringBuffer();
 		for (Memoranda memo : memos){
-			memoSb.append("<a oncontextmenu='showMenu(event," + memo.getId() + ");' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='#;'>" + memo.getTitle() + "</a><br>\n");
+			memoSb.append("<a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='#;'><span id='title_" + memo.getId() + "'>" + memo.getTitle() + "</span></a><br>\n");
 		}
 		
 		sb.append("  <td id='notes_td" + notesTd + "'>\n");
