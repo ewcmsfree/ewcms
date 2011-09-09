@@ -60,9 +60,12 @@
     	function save(){
     		window.frames['editifr'].document.forms[0].submit();
     		$('#edit-window').window('close');
+    		$.messager.alert('提示','保存成功','info');
     		var id = $(window.frames['editifr'].document).find('#memorandaId').val()
-    		var value = $(window.frames['editifr'].document).find('#title').val();
-    		$('#title_' + id).text(value);
+    		if (id != ''){
+	    		var value = $(window.frames['editifr'].document).find('#title').val();
+	    		$('#title_' + id).text(value);
+    		}
 	   }
     </script>
   </head>
