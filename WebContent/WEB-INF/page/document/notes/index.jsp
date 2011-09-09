@@ -60,11 +60,10 @@
     	function save(){
     		window.frames['editifr'].document.forms[0].submit();
     		$('#edit-window').window('close');
-            $.post('<s:url namespace="/document/notes" action="changeDate"/>',{'year':$('#year').val(),'month':$('#month').val()},function(data) {
-            	$('tr').remove('.notes_tr');
-            	$('#result').append(data);
-            });
-    	}
+    		var id = $(window.frames['editifr'].document).find('#memorandaId').val()
+    		var value = $(window.frames['editifr'].document).find('#title').val();
+    		$('#title_' + id).text(value);
+	   }
     </script>
   </head>
   <body class="easyui-layout">
@@ -102,17 +101,17 @@
         </tr>
       </table>
     </div>
-         <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;备忘录" style="display:none;">
-            <div class="easyui-layout" fit="true">
-                <div region="center" border="false">
-                   <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="save();">保存</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
-                </div>
-            </div>
-        </div>	
+    <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;备忘录" style="display:none;">
+      <div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+          <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
+        </div>
+        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+          <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="save();">保存</a>
+          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
+        </div>
+      </div>
+    </div>	
     <s:hidden id="currentYear" name="currentYear"/>
     <s:hidden id="currentMonth" name="currentMonth"/>
   </body>

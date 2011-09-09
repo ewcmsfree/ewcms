@@ -37,7 +37,7 @@
 					</td>
 				</tr>
 			</table>
-			<s:hidden id="memorandaVo.id" name="memorandaVo.id"/>
+			<s:hidden id="memorandaId" name="memorandaVo.id"/>
 			<s:hidden id="memorandaVo.noteTime" name="memorandaVo.noteTime"/>
 			<s:hidden id="memorandaVo.userName" name="memorandaVo.userName"/>
 			<s:hidden id="year" name="year"/>
