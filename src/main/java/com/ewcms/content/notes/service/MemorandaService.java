@@ -134,7 +134,11 @@ public class MemorandaService implements MemorandaServiceable {
 		List<Memoranda> memos = findMemorandaByDate(selYear, selMonth, dayValue);
 		StringBuffer memoSb = new StringBuffer();
 		for (Memoranda memo : memos){
-			memoSb.append("<a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='#;'><span id='title_" + memo.getId() + "'>" + memo.getTitle() + "</span></a><br>\n");
+			String title = memo.getTitle();
+			if (title.length() > 12){
+				title = title.substring(0,11) + "..."; 
+			}
+			memoSb.append("<a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='#;' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a><br>\n");
 		}
 		
 		sb.append("  <td id='notes_td" + notesTd + "'>\n");
@@ -149,7 +153,7 @@ public class MemorandaService implements MemorandaServiceable {
 		}else{
 			sb.append("        <td height='85' bgcolor='#FFFFCC' onmouseout=this.bgColor='#FFFFCC' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}
-		sb.append("          <div style='width:auto;height:85px; overflow:auto; border:0px solid;'>");
+		sb.append("          <div style='width:auto;height:85px; overflow-y:auto; border:0px solid;'>");
 		sb.append(memoSb.toString());
 		sb.append("          </div>");
 		sb.append("        </td>\n");
