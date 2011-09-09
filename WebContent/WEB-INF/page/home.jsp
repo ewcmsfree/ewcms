@@ -207,6 +207,12 @@
                             <span>问卷调查</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a href="javascript:addTab('个人备忘','document/notes/index.do')">
+                            <img src="source/image/notes.png" style="border:0"/><br/>
+                            <span>个人备忘</span>
+                        </a>
+                    </div>
                     </sec:authorize>
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
                     <div class="nav-item">
