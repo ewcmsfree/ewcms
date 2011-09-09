@@ -145,11 +145,13 @@ public class MemorandaService implements MemorandaServiceable {
 		sb.append("      </tr>\n");
 		sb.append("      <tr valign='top'>\n");
 		if (currentDay != dayValue){
-			sb.append("        <td height='65' onmouseout=this.bgColor='' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
+			sb.append("        <td height='85' onmouseout=this.bgColor='' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}else{
-			sb.append("        <td height='65' bgcolor='#FFFFCC' onmouseout=this.bgColor='#FFFFCC' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
+			sb.append("        <td height='85' bgcolor='#FFFFCC' onmouseout=this.bgColor='#FFFFCC' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}
+		sb.append("          <div style='width:auto;height:85px; overflow:auto; border:0px solid;'>");
 		sb.append(memoSb.toString());
+		sb.append("          </div>");
 		sb.append("        </td>\n");
 	    sb.append("      </tr>\n");
 	    sb.append("    </table>\n");
