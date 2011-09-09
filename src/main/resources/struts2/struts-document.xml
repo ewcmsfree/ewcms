@@ -94,4 +94,21 @@
 		<action name="up" class="com.ewcms.content.document.web.ReviewProcessAction" method="up"/>
 		<action name="down" class="com.ewcms.content.document.web.ReviewProcessAction" method="down"/>
 	</package>
+	<package name="document.notes" extends="struts-default" namespace="/document/notes">
+		<action name="index" class="com.ewcms.content.notes.web.MemorandaAction" method="index">
+			<result>/WEB-INF/page/document/notes/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.notes.web.MemorandaAction" method="delete"/>
+		<action name="input" class="com.ewcms.content.notes.web.MemorandaAction" method="input">
+			<result name="input">/WEB-INF/page/document/notes/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.notes.web.MemorandaAction" method="save">
+			<result>/WEB-INF/page/document/notes/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/notes/edit.jsp</result>
+		</action>
+		<action name="changeDate" class="com.ewcms.content.notes.web.MemorandaAction" method="changeDate">
+			<result>/WEB-INF/page/document/notes/index.jsp</result>
+		</action>
+		<action name="toDay" class="com.ewcms.content.notes.web.MemorandaAction" method="toDay"/>
+	</package>
 </struts>	
