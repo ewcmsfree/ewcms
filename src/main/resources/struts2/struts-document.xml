@@ -110,5 +110,6 @@
 			<result>/WEB-INF/page/document/notes/index.jsp</result>
 		</action>
 		<action name="toDay" class="com.ewcms.content.notes.web.MemorandaAction" method="toDay"/>
+		<action name="drop" class="com.ewcms.content.notes.web.MemorandaAction" method="drop"/>
 	</package>
 </struts>	
