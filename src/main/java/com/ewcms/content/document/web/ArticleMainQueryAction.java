@@ -71,18 +71,18 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		}
 		String publishedEnd = getParameterValue(String.class, "publishedEnd","");
 		if (isStringNotEmpty(publishedEnd)){
-			hql += " And r.published<=:publishedEnd";
-			countHql += " And r.published<=:publishedEnd";
+			hql += " And r.published<:publishedEnd";
+			countHql += " And r.published<:publishedEnd";
 		}
 		String modifiedStart = getParameterValue(String.class, "modifiedStart","");
 		if (isStringNotEmpty(modifiedStart)){
 			hql += " And r.modified>=:modifiedStart";
-			countHql += " And r.modified>=modifiedStart";
+			countHql += " And r.modified>=:modifiedStart";
 		}
 		String modifiedEnd = getParameterValue(String.class, "modifiedEnd","");
 		if (isStringNotEmpty(modifiedEnd)){
-			hql += " And r.modified<=:modifiedEnd";
-			countHql += " And r.modified<=:modifiedEnd";
+			hql += " And r.modified<:modifiedEnd";
+			countHql += " And r.modified<:modifiedEnd";
 		}
 		String articleStatus = getParameterValue(String.class, "articleStatus","");
 		if (isStringNotEmpty(articleStatus) && !articleStatus.equals("-1")){
