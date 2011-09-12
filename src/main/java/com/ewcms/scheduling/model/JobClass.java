@@ -32,7 +32,7 @@ public class JobClass implements Serializable {
 	private Integer id;
 	@Column(name = "classname", nullable = false)
 	private String className;
-	@Column(name = "classentity", nullable = false)
+	@Column(name = "classentity", nullable = false, unique = true)
 	private String classEntity;
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
