@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
 <html>
 	<head>
 		<title>备忘录</title>
@@ -9,7 +10,21 @@
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>							
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>	
+		<ewcms:datepickerhead></ewcms:datepickerhead>
         <script type="text/javascript">
+            $(function(){
+                initWarn();
+                $('#warn').click(function() {
+                    initWarn();
+                });
+            });
+            function initWarn(){
+                if ($('#warn').attr('checked') == 'checked') {
+                    $('#tr_warn').show();
+                } else {
+                    $('#tr_warn').hide();
+                }
+            }
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
@@ -21,13 +36,13 @@
         </script>		
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="save" namespace="/document/notes">
-			<table class="formtable" >
+		<s:form id="notesForm" action="save" namespace="/document/notes">
+			<table class="formtable">
 				<tr>
-					<td>标题：</td>
+					<td width="60">标题：</td>
 					<td class="formFieldError">
-						<s:textfield id="title" cssClass="inputtext" name="memorandaVo.title"/>
-						<s:fielderror ><s:param value="%{'memorandaVo.title'}" /></s:fielderror>
+						<s:textfield id="title" cssClass="inputtext" name="memorandaVo.title" size="25" maxlength="25"/>
+						<s:fielderror ><s:param value="%{'memorandaVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -36,9 +51,40 @@
 						<s:textarea id="content" name="memorandaVo.content" cols="50"></s:textarea>
 					</td>
 				</tr>
+				<tr>
+				    <td>提醒：</td>
+				    <td>
+				        <s:checkbox id="warn" name="memorandaVo.warn" cssStyle="vertical-align: top;"/><label for="warn"></label>
+				    </td>
+				</tr>
+				<tr id="tr_warn" >
+				    <td>&nbsp;</td>
+				    <td>
+				        <table class="formtable">
+				            <tr>
+				                <td>时间：</td>
+				                <td>
+				                    <ewcms:datepicker id="warnTime" name="warnTime" option="inputsimple" format="H:mm:ss"/>
+				                </td>
+				            </tr>
+                            <tr>
+                                <td>重复频率：</td>
+                                <td>
+                                    <s:select list="@com.ewcms.content.notes.model.FrequencyStatus@values()" listValue="description" name="memorandaVo.frequency" id="frequencyStatus" headerKey="-1" headerValue="------请选择------"></s:select>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>提前：</td>
+                                <td>
+                                    <s:select list="@com.ewcms.content.notes.model.RemindStatus@values()" listValue="description" name="memorandaVo.remind" id="remindStatus" headerKey="-1" headerValue="------请选择------"></s:select>  
+                                </td>
+                            </tr>
+				        </table>
+				    </td>
+				</tr>
 			</table>
 			<s:hidden id="memorandaId" name="memorandaVo.id"/>
-			<s:hidden id="memorandaVo.noteTime" name="memorandaVo.noteTime"/>
+			<s:hidden id="memorandaVo.noteDate" name="memorandaVo.noteDate"/>
 			<s:hidden id="memorandaVo.userName" name="memorandaVo.userName"/>
 			<s:hidden id="year" name="year"/>
 			<s:hidden id="month" name="month"/>

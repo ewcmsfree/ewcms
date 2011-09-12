@@ -16,12 +16,13 @@
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
     <style type="text/css">
       a {background-color: transparent;border: 0 none;color: #0088DD;text-decoration: none;}
-      a:hover{color:#FF8800;text-decoration:underline;}
+      a:hover{border: 0px solid;color:#FF8800;text-decoration:underline;}
     </style>
     <script>
+       var dropURL = '<s:url namespace="/document/notes" action="drop"/>';
        $(function(){
 		  ewcmsBOBJ = new EwcmsBase();
-		  ewcmsOOBJ = new EwcmsOperate();
+		  ewcmsOOBJ = new EwcmsOperate();  
        });
        function ChangeDate(year,month,weight){
             var monthValue = parseInt(month) + weight;
@@ -30,7 +31,7 @@
                 monthValue = monthValue - 12;
             }else if (monthValue <= 0){
                 year = parseInt(year) - 1;
-                monthValue = monthValue + 12
+                monthValue = monthValue + 12;
             }
             $('#year').attr('value',year);
             $('#month').attr('value',monthValue);
@@ -50,22 +51,52 @@
     	function add(i){
         	var url = '<s:url namespace="/document/notes" action="input"/>?year=' + $('#year').val() + '&month=' + $('#month').val() + '&day=' + i;
         	$('#editifr').attr('src',url);
-        	openWindow('#edit-window');
+        	var title = '新增备忘(' + $('#year').val() + '年' + $('#month').val() + '月' + i + '日)';
+        	$('#bntRemove').linkbutton('disable');
+        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:300,title:title});
     	}
     	function edit(i){
     		var url = '<s:url namespace="/document/notes" action="input"/>?selections=' + i;
     		$('#editifr').attr('src',url);
-        	openWindow('#edit-window');
+    		$('#bntRemove').linkbutton('enable');
+        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:300,title:'修改备忘'});
     	}
-    	function save(){
-    		window.frames['editifr'].document.forms[0].submit();
-    		$('#edit-window').window('close');
-    		$.messager.alert('提示','保存成功','info');
-    		var id = $(window.frames['editifr'].document).find('#memorandaId').val()
+    	function remove(){
+    		var id = $(window.frames['editifr'].document).find('#memorandaId').val();
     		if (id != ''){
-	    		var value = $(window.frames['editifr'].document).find('#title').val();
-	    		$('#title_' + id).text(value);
+        		$.messager.confirm("提示","确定要删除记录吗?",function(r){
+            		if (r){
+		        		$.post('<s:url namespace="/document/notes" action="delete"/>',{'selections':id},function(data){
+		            		if (data == 'success'){
+		                		$('#div_notes_memo_' + id).remove();
+		            			$('#edit-window').window('close');
+		            		}else{
+		                		$.messager.alert('错误','删除失败','error');
+		            		}
+		        		});
+            		}
+        		});
     		}
+    	}
+    	function saveBack(){
+    		var params = $(window.frames['editifr'].document).find('#notesForm').serialize();
+    		$.post('<s:url action="save" namespace="/document/notes"/>',params,function(data){
+        		if (data == 'true'){
+                    var id = $(window.frames['editifr'].document).find('#memorandaId').val()
+                    if (id != ''){
+                        var value = $(window.frames['editifr'].document).find('#title').val();
+                        $('#a_title_' + id).attr('title', value);
+                        if (value.length > 10) value = value.substring(0,11) + '...';
+                        $('#title_' + id).text(value);
+                    }else{
+                    	ChangeDate($('#year').val(), $('#month').val(), 0);
+                    }
+                    $('#edit-window').window('close');
+        		}else{
+            		$.messager.alert('错误','保存失败','error');
+        		}
+    		});
+    		return false;
 	   }
     </script>
   </head>
@@ -110,8 +141,9 @@
           <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
         </div>
         <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-          <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="save();">保存</a>
-          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
+          <a id='bntRemove' class="easyui-linkbutton" icon="icon-remove" href="javascript:void(0);" onclick="javascript:remove();">删除</a>
+          <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0);" onclick="javascript:saveBack();">保存</a>
+          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#edit-window').window('close');">取消</a>
         </div>
       </div>
     </div>	
