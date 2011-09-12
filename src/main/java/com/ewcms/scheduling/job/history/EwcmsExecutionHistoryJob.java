@@ -46,5 +46,4 @@ public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
     protected HistoryModelFacable getHistoryModelFac() {
         return (HistoryModelFacable) applicationContext.getBean(SCHEDULER_FACTORY);
     }
-
 }
