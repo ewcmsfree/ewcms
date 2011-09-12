@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="memorandaVo.title">
+        <field-validator type="requiredstring">
+        	<param name="trim">true</param>
+            <message>主题不能为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">25</param>
+        	<message>标题长度必须小于${maxLength}个字符</message>
+        </field-validator>
+    </field>
+</validators>
+
+
