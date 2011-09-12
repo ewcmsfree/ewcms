@@ -23,7 +23,7 @@ public class NotesFac implements NotesFacable {
 	private MemorandaServiceable memorandaService;
 	
 	@Override
-	public StringBuffer getInitCalendarToHtml(int year, int month) {
+	public StringBuffer getInitCalendarToHtml(final int year, final int month) {
 		return memorandaService.getInitCalendarToHtml(year, month);
 	}
 
@@ -45,6 +45,11 @@ public class NotesFac implements NotesFacable {
 	@Override
 	public Long updMemoranda(Memoranda memoranda) {
 		return memorandaService.updMemoranda(memoranda);
+	}
+
+	@Override
+	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day) {
+		memorandaService.updMemoranda(memorandaId, year, month, day);
 	}
 
 }

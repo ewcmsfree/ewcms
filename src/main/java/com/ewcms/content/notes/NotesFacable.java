@@ -17,4 +17,6 @@ public interface NotesFacable {
 	public Memoranda findMemoranda(Long memorandaId);
 	
 	public void delMemoranda(Long memorandaId);
+	
+	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
 }

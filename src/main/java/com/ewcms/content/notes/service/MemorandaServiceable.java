@@ -26,4 +26,8 @@ public interface MemorandaServiceable {
 	public void delMemoranda(Long memorandaId);
 	
 	public List<Memoranda> findMemorandaByDate(Integer year, Integer month, Integer day);
+	
+	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
+	
+	public List<Memoranda> findMemorandaByWarn(String userName);
 }

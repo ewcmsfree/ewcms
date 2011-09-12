@@ -10,6 +10,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
+ * 备忘录
  * 
+ * <ul>
+ * <li>id:编号</li>
+ * <li>title:标题</li>
+ * <li>content:内容</li>
+ * <li>noteDate:日期</li>
+ * <li>userName:用户名</li>
+ * <li>warn:是否提醒</li>
+ * <li>warnTIme:提醒时间</li>
+ * <li>frequency:提醒频道</li>
+ * <li>before:提前时间</li>
+ * </ul>
  * 
  * @author wu_zhijun
  * 
@@ -40,11 +54,29 @@ public class Memoranda implements Serializable {
 	@Column(name = "content", columnDefinition = "text")
 	private String content;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "notetime", nullable = false)
-	private Date noteTime;
+	@Column(name = "notedate", nullable = false)
+	private Date noteDate;
 	@Column(name = "username", nullable = false)
 	private String userName;
+	@Column(name = "warn", nullable = false)
+	private Boolean warn;
+	@Temporal(TemporalType.TIME)
+	@Column(name = "warntime")
+	private Date warnTime;
+	@Column(name = "frequency")
+	@Enumerated(EnumType.STRING)
+	private FrequencyStatus frequency;
+	@Column(name = "remind")
+	@Enumerated(EnumType.STRING)
+	private BeforeStatus before;
+	@Temporal(TemporalType.TIME)
+	@Column(name = "remindtime")
+	private Date remindTime;
 
+	public Memoranda(){
+		warn = false;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,12 +101,12 @@ public class Memoranda implements Serializable {
 		this.content = content;
 	}
 
-	public Date getNoteTime() {
-		return noteTime;
+	public Date getNoteDate() {
+		return noteDate;
 	}
 
-	public void setNoteTime(Date noteTime) {
-		this.noteTime = noteTime;
+	public void setNoteDate(Date noteDate) {
+		this.noteDate = noteDate;
 	}
 
 	public String getUserName() {
@@ -83,6 +115,46 @@ public class Memoranda implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Boolean getWarn() {
+		return warn;
+	}
+
+	public void setWarn(Boolean warn) {
+		this.warn = warn;
+	}
+
+	public Date getWarnTime() {
+		return warnTime;
+	}
+
+	public void setWarnTime(Date warnTime) {
+		this.warnTime = warnTime;
+	}
+
+	public FrequencyStatus getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(FrequencyStatus frequency) {
+		this.frequency = frequency;
+	}
+
+	public BeforeStatus getBefore() {
+		return before;
+	}
+
+	public void setBefore(BeforeStatus before) {
+		this.before = before;
+	}
+
+	public Date getRemindTime() {
+		return remindTime;
+	}
+
+	public void setRemindTime(Date remindTime) {
+		this.remindTime = remindTime;
 	}
 
 	@Override

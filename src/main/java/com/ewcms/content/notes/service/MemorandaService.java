@@ -63,12 +63,42 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		dayCount = 1;
 		
-		sb.append(getTitleHtml());
+		sb.append(getTitleHtml().toString());
 		sb.append(generatorFirstWeekHtml(firstDayOfMonth).toString());
 		sb.append(generatorMiddleWeekHtml(week).toString());
 		sb.append(generatorLastWeekHtml(week,days,firstDayOfMonth).toString());
+		sb.append(generatorJs().toString());
 		
 		return sb;
+	}
+	
+	private StringBuffer generatorJs(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("<script type='text/javascript'>");
+		sb.append("    $('.a_notes_value').draggable({revert:true});");
+        sb.append("    $('.div_notes').droppable({");
+        sb.append("       onDragEnter:function(e, source){");
+        sb.append("       $(this).addClass('over');");
+        sb.append("     },");
+        sb.append("     onDragLeave:function(e, source){");
+        sb.append("       $(this).removeClass('over');");
+        sb.append("     },");
+        sb.append("     onDrop:function(e, source){");
+        sb.append("       $(this).removeClass('over');");
+        sb.append("       $(this).append(source);");
+        sb.append("       var divMemoId = $(source).attr('id');");    
+        sb.append("       var targetDivId = $(source).parents('div:first').attr('id');");
+        sb.append("       var memoId = divMemoId.split('_')[3];");
+        sb.append("       var dropDay = targetDivId.split('_')[2];");
+        sb.append("       $.post(dropURL,{'memoId':memoId,'year':$('#year').val(),'month':$('#month').val(),'dropDay':dropDay},function(data){");
+        sb.append("         if (data != 'true'){");
+        sb.append("         }");
+        sb.append("       });");
+        sb.append("     }");
+        sb.append("    });");
+        sb.append("</script>");
+          
+        return sb;
 	}
 
 	private StringBuffer generatorFirstWeekHtml(final int firstDayOfMonth) {
@@ -79,7 +109,7 @@ public class MemorandaService implements MemorandaServiceable {
 			if (i < firstDayOfMonth){
 				sb.append("  <td>&nbsp;</td>\n");
 			}else{
-				sb.append(getContentHtml(i, dayCount).toString());
+				sb.append(getContentHtml(dayCount).toString());
 				dayCount++;
 			}
 		}
@@ -96,7 +126,7 @@ public class MemorandaService implements MemorandaServiceable {
 		for (int j = 1; j < middleWeek; j++){
 			sb.append("<tr class='notes_tr' valign='top'>\n");
 			for (int i = 1; i <= 7; i++){
-				sb.append(getContentHtml((j * 7 + i), dayCount).toString());
+				sb.append(getContentHtml(dayCount).toString());
 				dayCount++;
 			}
 			sb.append("</tr>\n");
@@ -111,7 +141,7 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		sb.append("<tr class='notes_tr' valign='top'>\n");
 		for (int i = 1; i <= lastDays; i++){
-			sb.append(getContentHtml(((week - 1) * 7 + i), dayCount).toString());
+			sb.append(getContentHtml(dayCount).toString());
 			dayCount++;
 		}
 		
@@ -125,7 +155,7 @@ public class MemorandaService implements MemorandaServiceable {
 		return sb;
 	}
 	
-	private StringBuffer getContentHtml(int notesTd, int dayValue){
+	private StringBuffer getContentHtml(int dayValue){
 		StringBuffer sb = new StringBuffer();
 		
 		String lunarValue= getLunarDay(dayValue);
@@ -136,15 +166,15 @@ public class MemorandaService implements MemorandaServiceable {
 		for (Memoranda memo : memos){
 			String title = memo.getTitle();
 			if (title.length() > 12){
-				title = title.substring(0,11) + "..."; 
+				title = title.substring(0, 9) + "..."; 
 			}
-			memoSb.append("<a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='#;' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a><br>\n");
+			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='javascript:void(0);' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a></div>\n");
 		}
 		
-		sb.append("  <td id='notes_td" + notesTd + "'>\n");
+		sb.append("  <td id='td_notes_" + dayValue + "'>\n");
 		sb.append("    <table width='100%' cellspacing='0' cellpadding='0' border='0' ondblclick='add(" + dayValue + ");'>\n");
 		sb.append("      <tr>\n");
-		sb.append("        <td width='60' valign='middle' height='20' align='center' style='border-bottom: #aaccee 1px solid; border-right: #aaccee 1px solid; background-color: #DCF0FB' id='notes_td" + notesTd + "'>" + dayValue + " " + lunarValue + "<br></td>\n");
+		sb.append("        <td width='60' valign='middle' height='20' align='center' style='border-bottom: #aaccee 1px solid; border-right: #aaccee 1px solid; background-color: #DCF0FB' id='td_table_notes_" + dayValue + "'>" + dayValue + " " + lunarValue + "<br></td>\n");
 		sb.append("        <td bgcolor='#E9F0F8'></td>\n");
 		sb.append("      </tr>\n");
 		sb.append("      <tr valign='top'>\n");
@@ -153,7 +183,7 @@ public class MemorandaService implements MemorandaServiceable {
 		}else{
 			sb.append("        <td height='65' bgcolor='#FFFFCC' onmouseout=this.bgColor='#FFFFCC' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}
-		sb.append("          <div style='width:auto;height:65px; overflow-y:auto; border:0px solid;'>");
+		sb.append("          <div id='div_notes_" + dayValue + "' class='div_notes' style='width:auto;height:65px; overflow-y:auto; border:0px solid;'>");
 		sb.append(memoSb.toString());
 		sb.append("          </div>");
 		sb.append("        </td>\n");
@@ -192,7 +222,7 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day);
-		memoranda.setNoteTime(calendar.getTime());
+		memoranda.setNoteDate(calendar.getTime());
 		
 		memorandaDAO.persist(memoranda);
 		
@@ -226,5 +256,21 @@ public class MemorandaService implements MemorandaServiceable {
 		Date endDate = calendar.getTime();
 		
 		return memorandaDAO.findMemorandaByDate(beginDate, endDate, EwcmsContextUtil.getUserDetails().getUsername());
+	}
+
+	@Override
+	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+		
+		Memoranda memoranda = memorandaDAO.get(memorandaId);
+		memoranda.setNoteDate(calendar.getTime());
+		
+		memorandaDAO.merge(memoranda);
+	}
+
+	@Override
+	public List<Memoranda> findMemorandaByWarn(String userName) {
+		return memorandaDAO.findMemorandaByWarn(userName);
 	}
 }
