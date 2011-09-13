@@ -5,43 +5,21 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>	
+
     <package name="resource"  extends="struts-default" namespace="/resource">
-        <action name="test" class="com.ewcms.web.action.resource.TestAction">
-            <result type="dispatcher">/WEB-INF/page/resource/test.jsp</result>
+        <action name="index" >
+            <result type="dispatcher">/WEB-INF/page/resource/index.jsp</result>
         </action>
-        <action name="updInfo" class="com.ewcms.web.action.resource.UpdInfoAction" method="save"/>
-        <action name="manage">
-            <result type="dispatcher">/WEB-INF/page/resource/manage.jsp</result>
+        <action name="manage" class="com.ewcms.content.resource.web.ManageAction">
+            <result>/WEB-INF/page/resource/manage.jsp</result>
         </action>
-        <action name = "delete" class="com.ewcms.web.action.resource.ResourceManageAction" method="delete"/>
-        <action name = "release" class="com.ewcms.web.action.resource.ResourceManageAction" method="release"/>
-    </package>
-
-    <package name="resource.image"  extends="struts-default" namespace="/resource/image">
-        <action name="manage" class="com.ewcms.web.action.resource.image.ImageAction">
-            <result type="dispatcher">/WEB-INF/page/resource/image/manage.jsp</result>
+        <action name="upload" class="com.ewcms.content.resource.web.UploadAction" method="input">
+            <result>/WEB-INF/page/resource/upload.jsp</result>
         </action>
-        <action name="upload" class="com.ewcms.web.action.resource.image.ImageAction">
-            <result>/WEB-INF/page/resource/image/upload.jsp</result>
-        </action>
-        <action name="browse" class="com.ewcms.web.action.resource.image.ImageAction">
-            <result>/WEB-INF/page/resource/image/browse.jsp</result>
-        </action>
-        <action name="query" class="com.ewcms.web.action.resource.image.ImageQueryAction"/>
-        <action name="receive" class="com.ewcms.web.action.resource.image.ImageReceiveAction" method="receive"/>
-    </package>
-
-    <package name="resource.annex"  extends="struts-default" namespace="/resource/annex">
-        <action name="upload" class="com.ewcms.web.action.resource.annex.AnnexAction">
-            <result>/WEB-INF/page/resource/annex/upload.jsp</result>
-        </action>
-        <action name="browse" class="com.ewcms.web.action.resource.annex.AnnexAction">
-            <result>/WEB-INF/page/resource/annex/browse.jsp</result>
-        </action>
-        <action name="manage" class="com.ewcms.web.action.resource.annex.AnnexAction">
-            <result type="dispatcher">/WEB-INF/page/resource/annex/manage.jsp</result>
-        </action>
-        <action name="query" class="com.ewcms.web.action.resource.annex.AnnexQueryAction"/>
-        <action name="receive" class="com.ewcms.web.action.resource.annex.AnnexReceiveAction" method="receive"/>
+        <action name="receive" class="com.ewcms.content.resource.web.UploadAction" method="receive"/>
+        <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbUploadAction" method="receive"/>
+        <action name = "delete" class="com.ewcms.content.resource.web.OperatorAction" method="delete"/>
+        <action name = "publish" class="com.ewcms.content.resource.web.OperatorAction" method="publish"/>
+        <action name = "save" class="com.ewcms.content.resource.web.OperatorAction" method="save"/>
     </package>
 </struts>
