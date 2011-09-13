@@ -10,6 +10,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,8 @@ public class SftpOutput extends OutputBase {
     
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager)throws FileSystemException{
+        
+        SftpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, false);
         
         StringBuilder builder = new StringBuilder();
         builder.append("sftp://");

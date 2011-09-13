@@ -10,6 +10,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +28,12 @@ public class FtpOutput extends OutputBase{
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
         
+        FtpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, false);
+        
         StringBuilder builder = new StringBuilder();
         builder.append("ftp://");
         builder.append(server.getHostName()).append(":").append(server.getPort());
-        builder.append(server.getPath());
+        builder.append(":").append(server.getPath());
         
         String address = builder.toString();
         logger.debug("uri is  {}",address);

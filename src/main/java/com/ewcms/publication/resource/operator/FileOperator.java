@@ -4,18 +4,19 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.content.resource.operator;
+package com.ewcms.publication.resource.operator;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.common.io.FileUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.uri.UriRuleable;
 
@@ -38,12 +39,24 @@ public class FileOperator implements ResourceOperatorable{
     
     @Override
     public String write(InputStream source,UriRuleable uriRule) throws IOException {
-        
+        return write(source,uriRule,null);
+    }
+    
+    @Override
+    public String write(InputStream source,UriRuleable uriRule,String suffix) throws IOException {
+                
         try {
             String uri = uriRule.getUri();
-            
-            String targetPath = getPath(uri);
-            FileUtil.writerFile(source, targetPath);
+            if(suffix != null && !suffix.equals("")){
+                uri = uri + "." + suffix;
+            }
+            OutputStream target = FileUtils.openOutputStream(getLocalFile(uri));
+            byte[] buff = new byte[1024 * 10];
+            while(source.read(buff) > 0){
+                target.write(buff);
+            }
+            target.flush();
+            target.close();
             source.close();
             
             return uri;
@@ -55,10 +68,9 @@ public class FileOperator implements ResourceOperatorable{
     
     @Override
     public void read(OutputStream output,String uri)throws IOException{
-        String path = getPath(uri);
         
         byte[] buff = new byte[1024 * 10];
-        InputStream input = new FileInputStream(path);
+        InputStream input = new FileInputStream(getLocalFile(uri));
         while(input.read(buff) > 0){
             output.write(buff);
         }
@@ -70,22 +82,21 @@ public class FileOperator implements ResourceOperatorable{
 
     @Override
     public void delete(String uri) throws IOException {
-        String path = getPath(uri);
-        FileUtil.delete(path);
+        FileUtils.forceDeleteOnExit(getLocalFile(uri));
     }
     
     /**
-     * 得到资源完整路径
+     * 得到资源文件
      * 
      * @param uri 访问地址
      * @return
      */
-    private String getPath(String uri){
+    private File getLocalFile(String uri){
         String root = rootDirPath;
         root = StringUtils.removeStart(root, "/");
         root = StringUtils.removeEnd(root,"/");
-        String path =   "/" + root + uri;
+        String path = StringUtils.isBlank(root) ? uri : ("/"+root+uri); 
         logger.debug("Resource path is {}",path);
-        return path;
+        return new File(path);
     }
 }

@@ -4,7 +4,9 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication;
+package com.ewcms.publication.resource;
+
+import com.ewcms.publication.PublishException;
 
 
 /**
@@ -12,7 +14,7 @@ package com.ewcms.publication;
  * 
  * @author wangwei
  */
-interface ResourcePublishable {
+public interface ResourcePublishable {
     /**
      * 发布站点资源
      * <br>

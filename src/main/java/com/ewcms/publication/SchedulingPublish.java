@@ -24,6 +24,8 @@ import com.ewcms.publication.freemarker.html.HomeGenerator;
 import com.ewcms.publication.freemarker.html.ListGenerator;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
+import com.ewcms.publication.resource.ResourcePublish;
+import com.ewcms.publication.resource.ResourcePublishable;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.publication.service.ResourcePublishServiceable;

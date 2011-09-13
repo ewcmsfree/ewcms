@@ -139,7 +139,7 @@ public abstract class GeneratorBase implements Generatorable {
              fileRule.setParameters(parameters);
              String uri = fileRule.getUri();
              write(template,parameters,pageRule,new FileWriter(temp));
-             return new OutputResource(temp.getPath(), uri);
+             return new OutputResource(temp.getPath(), uri,true);
          } catch (IOException e) {
              logger.error("Writer tempfile error {}", e);
              throw new PublishException(e);

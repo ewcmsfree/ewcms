@@ -49,28 +49,17 @@ import freemarker.template.TemplateException;
  */
 public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory implements ResourceLoaderAware  {
 
-    private Configuration config;
-    
     private Map<String, Object> freemarkerVariables = new HashMap<String,Object>();
     
     private List<TemplateLoader> postTemplateLoaders = new ArrayList<TemplateLoader>();;
     
     protected ChannelPublishServiceable channelService;
     protected ArticlePublishServiceable articleService;
-    private TemplatePublishServiceable templateService;
+    protected TemplatePublishServiceable templateService;
     
     private CacheStorage cacheStorage =new MruCacheStorage(30,500);
     private boolean localizedLookup = false;
-    
-    @Override
-    public Configuration createConfiguration()throws IOException,TemplateException{
-        
-        initFreemarkerVariables();
-        
-        initTemplateLoader();
-        
-        return super.createConfiguration();
-    }
+    private int delay = 24 * 60 * 60 ;
     
     /**
      * 初始化模板加载
@@ -104,13 +93,19 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
         super.setFreemarkerVariables(freemarkerVariables);
     }
     
-    public Configuration getConfiguration() throws IOException, TemplateException{
-        config = (config == null ? this.createConfiguration() : config);
-        
+    @Override
+    protected void postProcessConfiguration(Configuration config) throws IOException, TemplateException {
+        config.setTemplateUpdateDelay(delay);
         config.setLocalizedLookup(localizedLookup);
         config.setCacheStorage(cacheStorage);
+    }
+    
+    @Override
+    public Configuration createConfiguration()throws IOException,TemplateException{
+        initFreemarkerVariables();
+        initTemplateLoader();
         
-        return config;
+        return super.createConfiguration();
     }
 
     @Override
@@ -141,5 +136,9 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     
     public void setLocalizedLookup(boolean localizedLookup){
         this.localizedLookup = localizedLookup;
+    }
+    
+    public void setDelay(int delay){
+        this.delay = delay;
     }
 }

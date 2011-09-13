@@ -6,6 +6,11 @@
 
 package com.ewcms.web.util;
 
+/**
+ * @deprecated
+ * @author wangwei
+ *
+ */
 public enum GlobaPath {
     
 	ResourceDir("/pub_res"),

@@ -7,99 +7,179 @@
 package com.ewcms.content.resource.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.common.io.ImageZipUtil;
+import com.ewcms.common.io.ImageUtil;
 import com.ewcms.content.resource.dao.ResourceDAO;
+import com.ewcms.content.resource.dao.ResourceDAOable;
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.content.resource.model.ResourceType;
-import com.ewcms.content.resource.operator.ResourceNameable;
-import com.ewcms.content.resource.operator.ResourceOperator;
-import com.ewcms.content.resource.operator.ResourceOperatorable;
+import com.ewcms.content.resource.model.Resource.State;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.resource.operator.FileOperator;
+import com.ewcms.publication.resource.operator.ResourceOperatorable;
+import com.ewcms.publication.uri.ResourceUriRule;
+import com.ewcms.publication.uri.ThumbResourceUriRule;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
+ * 实现资源管理
  *
- * @author 吴智俊
+ * @author 吴智俊 王伟
  */
 @Service
 public class ResourceService implements ResourceServiceable {
 
-    private static final ResourceOperatorable operator = new ResourceOperator();
-    
     private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
     
     @Autowired
-    private ResourceDAO resourceDao;
-
-    public void setResourceDao(ResourceDAO dao) {
-        this.resourceDao = dao;
+    private ResourceDAOable resourceDao;
+    
+    private Site getCurrentSite() {
+        Site site = EwcmsContextUtil.getCurrentSite();
+        logger.debug("Current site is {}",site);
+        return site;
     }
-
-    @Override
-    public Resource addResource(final File file, final String fileName, final ResourceType type) throws IOException {
-        String root = getCurrentRootDir();
-        ResourceNameable rule = operator.writer(file, root, fileName);
-        Resource resource = new Resource();
-        resource.setNewName(rule.getNewName());
-        resource.setPath(rule.getFileNewName());
-        resource.setSize(file.length());
-        Integer siteId = getCurrentSiteId();
-        resource.setSiteId(siteId);
-        resource.setName(getSingleName(fileName));
-        String title = removeFileNameSuffix(fileName);
-        resource.setTitle(title);
-        resource.setDescription(title);
-        resource.setType(type);
-        resource.setReleasePath(rule.getReleaseaPath());
-
-        if (type == ResourceType.IMAGE) {
-            Boolean isZip = ImageZipUtil.compression(rule.getFileNewName(), rule.getFileNewNameZip(), 128, 128);
-            if (isZip) {
-                resource.setPathZip(rule.getFileNewNameZip());
-                resource.setReleasePathZip(rule.getReleasePathZip());
-            } else {
-                resource.setPathZip(rule.getFileNewName());
-                resource.setReleasePathZip(rule.getReleaseaPath());
-            }
+    
+    private String getName(String fullName) {
+        String[] names = fullName.split("/");
+        return names[names.length - 1];
+    }
+    
+    /**
+     * 得到引导图Uri
+     * 
+     * @param uri 统一资源资源地址
+     * @return
+     */
+    private String getThumbUri(String uri){
+        if(StringUtils.contains(uri, '.')){
+            return StringUtils.substringBeforeLast(uri,".") + "_thumb." +StringUtils.substringAfterLast(uri,".");
+        }else{
+            return uri+"_thumb";
         }
-
+    }
+    
+    /**
+     * 上传图片压缩
+     * 
+     * @param site 站点
+     * @param uri  图片地址
+     * @return     压缩图片地址
+     */
+    private String imageCompression(Site site,String uri){
+        String thumbUri = getThumbUri(uri);
+        String path = Resource.resourcePath(site, uri);
+        String imagePath = Resource.resourcePath(site, thumbUri);
+        boolean success = ImageUtil.compression(path, imagePath, 128, 128);
+        return success ? thumbUri : uri;
+    }
+    
+    /**
+     * 得到文件后缀名
+     * 
+     * @param name 文件名
+     * @return
+     */
+    private String getSuffix(String name) {
+        if (StringUtils.contains(name, ".")) {
+            return StringUtils.substringAfterLast(name, ".");
+        }else{
+            return "";
+        }
+    }
+    
+    @Override
+    public Resource uplaod(File file, String fullName, Resource.Type type) throws IOException {
+        Site site = getCurrentSite();
+        ResourceOperatorable operator = new FileOperator(site.getResourceDir());
+        //TODO Context
+        String name = getName(fullName);
+        String uri = operator.write(new FileInputStream(file), new ResourceUriRule("pub_res"),getSuffix(name));
+        Resource resource = new Resource();
+        resource.setUri(uri);
+        resource.setSize(file.length());
+        resource.setName(name);
+        resource.setDescription(name);
+        resource.setType(type);
+        resource.setSite(site);
+        if (type == Resource.Type.IMAGE) {
+            resource.setThumbUri(imageCompression(site,uri));
+        }
         resourceDao.persist(resource);
 
         return resource;
     }
-
-    private String removeFileNameSuffix(final String fileName) {
-        int index = fileName.lastIndexOf(".");
-        if (index == -1) {
-            return fileName;
+    
+    @Override
+    public Resource updateThumb(Integer id,File file, String fullName) throws IOException {
+        Resource resource = resourceDao.get(id);
+        
+        if(resource == null){
+            //TODO throw not exist
+            return new Resource();
         }
-        return fileName.substring(0, index);
+
+        String oldThumbPath = resource.getThumbPath();
+        Site site = getCurrentSite();
+        ResourceOperatorable operator = new FileOperator(site.getResourceDir());
+        //TODO Context
+        String name = getName(fullName);
+        String uri = operator.write(new FileInputStream(file), new ThumbResourceUriRule("pub_res"),getSuffix(name));
+        resource.setThumbUri(uri);
+        resourceDao.persist(resource);
+        
+        if(!StringUtils.isBlank(oldThumbPath)){
+            FileUtils.forceDeleteOnExit(new File(oldThumbPath));    
+        }
+        
+        return resource;
     }
 
     @Override
-    public void delResource(Integer id) {
-        Resource resource = getResource(id);
-        if (resource == null) {
-            return;
-        }
-        try {
-            String dir = getCurrentReleaseDir();
-            if(dir.endsWith("/")){
-                dir = dir.substring(0, dir.length()-1);
+    public List<Resource> save(Map<Integer, String> descriptions) {
+        List<Resource> resources = new ArrayList<Resource>();
+        for (Integer id : descriptions.keySet()) {
+            Resource resource = resourceDao.get(id);
+            if(resource == null || resource.getState() != State.INIT){
+                continue;
             }
-            operator.delete(dir + resource.getReleasePath());
-        } catch (IOException e) {
-            logger.error(e.toString());
+            String desc = descriptions.get(id);
+            resource.setState(State.NORMAL);
+            resource.setDescription(desc);
+            resourceDao.persist(resource);
+            resources.add(resource);
         }
+        return resources;
+    }
+    
+    @Override
+    public void delete(Integer id) {
+        
+        Resource resource = getResource(id);
+        
+        File f = new File(resource.getPath());
+        f.deleteOnExit();
+        if(resource.getType() == Resource.Type.IMAGE){
+            f = new File(resource.getThumbPath());
+            f.deleteOnExit();
+        }
+        
         resourceDao.remove(resource);
+        
+        if(resource.getState() == Resource.State.RELEASED){
+          //TODO 写入删除日志，下架该资源
+        }
     }
 
     @Override
@@ -108,34 +188,31 @@ public class ResourceService implements ResourceServiceable {
     }
 
     @Override
-    public Resource updResourceInfo(Integer id, String title, String description) {
+    public Resource updateDescription(Integer id, String description) {
         Resource resource = getResource(id);
-        resource.setTitle(title);
         resource.setDescription(description);
-
+        
         resourceDao.persist(resource);
-
         return resource;
     }
-
-    private String getSingleName(final String name) {
-        String[] names = name.split("/");
-        return names[names.length - 1];
+    
+    @Override
+    public void softDelete(Integer id) {
+        Resource resource = getResource(id);
+        resource.setState(Resource.State.DELETE);
+        
+        resourceDao.persist(resource);
     }
 
-    private String getCurrentRootDir() {
-        Site site = EwcmsContextUtil.getCurrentSite();
-        return site.getResourceDir();
-    }
-
-    private Integer getCurrentSiteId() {
-        Site site = EwcmsContextUtil.getCurrentSite();
-        return site.getId();
-    }
-
-    private String getCurrentReleaseDir(){
-         Site site = EwcmsContextUtil.getCurrentSite();
-        return site.getSiteServer().getPath();
+    @Override
+    public void revert(Integer id) {
+        
+        Resource resource = getResource(id);
+        if(resource.getState() == Resource.State.DELETE){
+            resource.setState(Resource.State.NORMAL);    
+        }
+        
+        resourceDao.persist(resource);
     }
     
     @Override
@@ -146,7 +223,7 @@ public class ResourceService implements ResourceServiceable {
     @Override
     public void publishResource(Integer id) {
         Resource resource = resourceDao.get(id);
-        resource.setRelease(Boolean.TRUE);
+        resource.setState(Resource.State.RELEASED);
         resourceDao.persist(resource);
     }
 
@@ -154,4 +231,9 @@ public class ResourceService implements ResourceServiceable {
     public void updateNotRelease(Integer siteId) {
         resourceDao.updateNotRelease(siteId);
     }
+    
+    public void setResourceDao(ResourceDAO dao) {
+        this.resourceDao = dao;
+    }
+   
 }

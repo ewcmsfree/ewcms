@@ -8,47 +8,84 @@ package com.ewcms.content.resource.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.content.resource.model.ResourceType;
+import com.ewcms.content.resource.model.Resource.Type;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 
 /**
- * 上传文件操作接口
+ * 资源管理接口
  * 
- * @author 吴智俊
+ * @author 吴智俊 王伟
  */
 public interface ResourceServiceable extends ResourcePublishServiceable {
-
+    
     /**
-     * 新增上传文件
-     *
-     * @param uploadFile
-     * @return
-     */
-    public Resource addResource(File file,String fileName,ResourceType type)throws IOException;
-
-    /**
-     * 删除上传文件
-     *
-     * @param uploadFileId
-     */
-    public void delResource(Integer id);
-
-    /**
-     * 查询上传文件
-     *
-     * @param uploadFileId
-     * @return
-     */
-    public Resource getResource(Integer id);
-
-    /**
-     * 更新资源信息
+     * 上传资源
      * 
-     * @param id
-     * @param title
-     * @param description
+     * @param file      资源文件
+     * @param fullName  文件名（可以是路径）
+     * @param type      资源类型
+     * @return          资源对象
+     * @throws IOException
      */
-    public Resource updResourceInfo(Integer id,String title,String description);
+    Resource uplaod(File file,String fullName,Type type)throws IOException;
+    
+    /**
+     * 更新引导图
+     * 
+     * @param id 资源编号
+     * @param file 引导图文件
+     * @param fullName 引导图文件名
+     * @return
+     * @throws IOException
+     */
+    Resource updateThumb(Integer id,File file,String fullName)throws IOException;
+    
+    /**
+     * 保存资源
+     * <br>
+     * 保存后的资源状态为正常状态（state = NORMAL）
+     * 
+     * @param descriptions 资源描述集合(key:资源编号,value:描述)
+     * @return
+     */
+    List<Resource> save(Map<Integer,String> descriptions);
+
+    /**
+     * 删除资源
+     * 
+     * @param id 资源编号
+     */
+    void delete(Integer id);
+
+    /**
+     * 软删除资源
+     * <br>
+     * 资源并没有真正删除，只是标识为删除
+     *
+     * @param id 资源编号
+     */
+    void softDelete(Integer id);
+    
+    /**
+     * 恢复删除资源
+     * <br>
+     * 只有软删除资源才能恢复
+     * 
+     * @param id 资源编号
+     */
+    void revert(Integer id);
+
+    /**
+     * 更新资源描述信息
+     * 
+     * @param id 
+     *         资源编号
+     * @param description
+     *         资源描述信息
+     */
+    Resource updateDescription(Integer id,String description);
 }

@@ -310,7 +310,7 @@ public class FileUtil {
 
     private static File createFile(final String fileName) throws IOException {
         File file = new File(fileName);
-
+        
         if (!file.exists()) {
             if (file.createNewFile() == false) {
                 throw new IOException("create file '" + fileName + "' failure.");

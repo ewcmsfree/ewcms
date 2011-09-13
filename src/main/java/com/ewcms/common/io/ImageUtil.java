@@ -18,33 +18,39 @@ import java.io.IOException;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 图象压缩工具
+ * 图象工具
  *
  * @author 吴智俊
  */
-public class ImageZipUtil {
+public class ImageUtil {
 	
+    private static final Logger logger = LoggerFactory.getLogger(ImageUtil.class);
+    
 	/**
 	 * 图象压缩 
-	 * @param sourceFileName 源文件名
-	 * @param targetFileName 目标文件名
+	 * 
+	 * @param sourcePath 源文件名
+	 * @param targetPath 目标文件名
 	 * @param width 压缩宽度
 	 * @param hight 压缩高度
 	 * @return 压缩是否成功
 	 */
-	public static Boolean compression(String sourceFileName, String targetFileName, int width, int hight) {
+	public static Boolean compression(String sourcePath, String targetPath, int width, int hight) {
 		BufferedImage srcImage;
 		String imgType = "JPEG";
-		if (sourceFileName.toLowerCase().endsWith("png")) {
+		if (sourcePath.toLowerCase().endsWith("png")) {
 			imgType = "PNG";
-		}else if (sourceFileName.toLowerCase().endsWith("bmp")){
+		}else if (sourcePath.toLowerCase().endsWith("bmp")){
 			imgType = "BMP";
-		}else if (sourceFileName.toLowerCase().endsWith("gif")){
+		}else if (sourcePath.toLowerCase().endsWith("gif")){
 			imgType = "GIF";
 		}
-		File sourceFile = new File(sourceFileName);
-		File targetFile = new File(targetFileName);
+		File sourceFile = new File(sourcePath);
+		File targetFile = new File(targetPath);
 		try{
 			srcImage = ImageIO.read(sourceFile);
 			if (width > 0 || hight > 0) {
@@ -52,8 +58,10 @@ public class ImageZipUtil {
 			}
 			ImageIO.write(srcImage, imgType, targetFile);
 		}catch(IIOException e){
+		    logger.error("Image IIOException:{}",e);
 			return false;
 		}catch(IOException e){
+		    logger.error("Image file IOException:{}",e);
 			return false;
 		}
 		return true;

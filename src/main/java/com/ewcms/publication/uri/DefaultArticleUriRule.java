@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.ewcms.publication.PublishException;
 
 /**
- * 缺省文章页 uri生成规则
+ * 默认文章页 uri生成规则
  * 
  * @author wangwei
  */
@@ -26,6 +26,7 @@ public class DefaultArticleUriRule extends UriRule{
             super.parse(patter);
         } catch (PublishException e) {
             logger.error("Patter parse error:{}",e.toString());
+            throw new IllegalStateException("DefaultArticleUriRule patter parse error");
         }
     }
     

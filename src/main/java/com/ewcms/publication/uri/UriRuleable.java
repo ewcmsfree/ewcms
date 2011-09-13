@@ -38,8 +38,8 @@ public interface UriRuleable {
      * @param parameter 参数名
      * @param value 参数值
      */
-     void putParameter(String parameter,Object value);
-    
+    void putParameter(String parameter,Object value);
+         
     /**
      * 得到通一资源地址
      * 

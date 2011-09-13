@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.content.resource.operator;
+package com.ewcms.publication.resource.operator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +28,17 @@ public interface ResourceOperatorable {
      * @throws IOException
      */
     String write(InputStream source,UriRuleable uriRule)throws IOException;
+    
+    /**
+     * 写入资源文件
+     * 
+     * @param source    源资源输入流
+     * @param uriRule   生成资源地址规则
+     * @param suffix    资源后缀名
+     * @return          资源访问地址
+     * @throws IOException
+     */
+    String write(InputStream source,UriRuleable uriRule,String suffix)throws IOException;
     
     /**
      * 读资源文件

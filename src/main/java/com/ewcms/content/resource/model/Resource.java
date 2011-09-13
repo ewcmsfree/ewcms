@@ -9,77 +9,121 @@ package com.ewcms.content.resource.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Index;
+import org.apache.commons.lang.StringUtils;
+
+import com.ewcms.core.site.model.Site;
 
 /**
+ * 资源信息
  *
- *
- * @author 吴智俊
+ * id:编号
+ * name:名称
+ * size:大小
+ * path:文件地址
+ * imagePath:引导图地址
+ * uri:访问地址
+ * imageUri:引导图访问地址
+ * type：资源类型
+ * description：描述
+ * site：所属站点
+ * state：资源状态
+ * createTime：创建实际
+ * updateTime：修改时间
+ * 
+ * @author 吴智俊 王伟
  */
 @Entity
-@Table(name = "res_resource")
+@Table(name = "content_resource")
 @SequenceGenerator(name = "seq_res_resource", sequenceName = "seq_res_resource_id", allocationSize = 1)
 public class Resource implements Serializable {
 
-    private static final long serialVersionUID = 6161189420453947686L;
+    /**
+     * 资源状态
+     * 
+     * @author wangwei
+     */
+    public enum State {
+        INIT,DELETE,NORMAL,RELEASED;
+    }
+    
+    /**
+     * 资源类型
+     * 
+     * @author wangwei
+     */
+    public enum Type {
+        ANNEX("*","*.*"),
+        IMAGE("jpg/gif/jpeg/png/bmp","*.jpg;*.gif;*.jpeg;*.png;*.bmp"), 
+        FLASH("*","*.*"),
+        VIDEO("*","*.*");
+
+        private String fileDesc;
+        private String fileExt;
+
+        private Type(String fileDesc,String fileExt) {
+            this.fileDesc = fileDesc;
+            this.fileExt = fileExt;
+        }
+        
+        public String getFileDesc(){
+            return fileDesc;
+        }
+        
+        public String getFileExt(){
+            return fileExt;
+        }
+    }
+    
     @Id
     @GeneratedValue(generator = "seq_res_resource", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
     private Integer id;
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
-    @Column(name = "new_name", length = 100, nullable = false)
-    private String newName;
-    @Column(name = "title", length = 100)
-    private String title;
-    @Column(name = "resource_size", nullable = false)
+    @Column(nullable = false)
     private Long size;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "upload_time")
-    private Date uploadTime = new Date(System.currentTimeMillis());
-    @Column(name = "resource_path", nullable = false)
+    @Column(nullable = false,unique=true)
     private String path;
-    @Column(name = "resource_pathzip")
-    private String pathZip;
-    @Column(name = "resource_releasePath", nullable = false)
-    private String releasePath;
-    @Column(name = "resource_releasePathZip")
-    private String releasePathZip;
+    @Column(name = "thumb_path",length = 300)
+    private String thumbPath;
+    @Column(name = "uri", nullable = false)
+    private String uri;
+    @Column(name = "thumb_uri")
+    private String thumbUri;
     @Column(name = "resource_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ResourceType type;
-    @Column(name = "description", length = 200)
+    private Type type;
+    @Column(length = 200)
     private String description;
-    @Column(name = "user_id")
-    private Integer userId;
-    @Column(name = "site_id")
-    @Index(name = "site_id_index")
-    private Integer siteId;
-    @Column(name = "release")
-    private boolean release = false;
-    @Column(name = "delete_flag")
-    private boolean deleteFlag = false;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, targetEntity = Site.class)
+    @JoinColumn(name = "site_id")
+    private Site site;
+    @Enumerated(EnumType.STRING)
+    private State state = State.INIT;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time",nullable = false)
+    private Date createTime ;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time",nullable = false)
+    private Date updateTime ;
+        
     public Integer getId() {
         return id;
     }
@@ -96,12 +140,12 @@ public class Resource implements Serializable {
         this.name = name;
     }
 
-    public String getNewName() {
-        return newName;
+    public Long getSize() {
+        return size;
     }
 
-    public void setNewName(String newName) {
-        this.newName = newName;
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public String getPath() {
@@ -112,94 +156,101 @@ public class Resource implements Serializable {
         this.path = path;
     }
 
-    public String getPathZip() {
-        return pathZip;
+    public String getThumbPath() {
+        return thumbPath;
     }
 
-    public void setPathZip(String pathZip) {
-        this.pathZip = pathZip;
+    public void setThumbPath(String thumbPath) {
+        this.thumbPath = thumbPath;
     }
 
-    public boolean isRelease() {
-        return release;
+    public String getUri() {
+        return uri;
     }
 
-    public void setRelease(boolean release) {
-        this.release = release;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    public String getReleasePath() {
-        return releasePath;
+    public String getThumbUri() {
+        return thumbUri;
     }
 
-    public void setReleasePath(String releasePath) {
-        this.releasePath = releasePath;
+    public void setThumbUri(String thumbUri) {
+        this.thumbUri = thumbUri;
     }
 
-    public String getReleasePathZip() {
-        return releasePathZip;
-    }
-
-    public void setReleasePathZip(String releasePathZip) {
-        this.releasePathZip = releasePathZip;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public ResourceType getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(ResourceType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public Date getUploadTime() {
-        return uploadTime;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUploadTime(Date uploadTime) {
-        this.uploadTime = uploadTime;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public Site getSite() {
+        return site;
     }
 
-    public Integer getSiteId() {
-        return siteId;
+    public void setSite(Site site) {
+        this.site = site;
     }
 
-    public void setSiteId(Integer siteId) {
-        this.siteId = siteId;
+    public State getState() {
+        return state;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public void setState(State state) {
+        this.state = state;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public boolean isDeleteFlag() {
-        return deleteFlag;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createTime = new Date(System.currentTimeMillis());
+        updateTime = new Date(System.currentTimeMillis());
+        path = resourcePath(site,uri);
+        if(StringUtils.isNotBlank(thumbUri)){
+            thumbPath = resourcePath(site,thumbUri);
+        }
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        updateTime = new Date(System.currentTimeMillis());
+        if(StringUtils.isNotBlank(thumbUri)){
+            thumbPath = resourcePath(site,thumbUri);
+        }
+    }
+    
+    public static String resourcePath(Site site,String uri){
+        String path =  site.getResourceDir() + "/" + uri;
+        return "/" + StringUtils.join(StringUtils.split(path, "/"),"/");
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

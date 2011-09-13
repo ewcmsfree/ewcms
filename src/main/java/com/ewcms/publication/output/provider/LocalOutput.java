@@ -25,6 +25,7 @@ public class LocalOutput extends OutputBase {
     
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
+        
         StringBuilder builder = new StringBuilder();
         builder.append("file://");
         builder.append(server.getPath());

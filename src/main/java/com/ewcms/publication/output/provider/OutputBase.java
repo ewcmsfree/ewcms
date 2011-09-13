@@ -16,6 +16,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
@@ -140,6 +141,7 @@ public abstract class OutputBase implements Outputable {
 
             try {
                 FileObject target = getTargetFileObject(root, targetPath);
+                logger.debug("Server's is root dir {} ",target.getContent().getFile().getName());
                 FileContent content = target.getContent();
                 resource.write(content.getOutputStream());
                 content.close();
@@ -198,7 +200,7 @@ public abstract class OutputBase implements Outputable {
      * @throws FileSystemException
      */
     protected FileObject getTargetFileObject(FileObject root, String path)throws FileSystemException {
-        FileObject out = root.resolveFile(path);
+        FileObject out = root.resolveFile(path,NameScope.DESCENDENT);
         if (!out.exists()) {
             out.createFile();
         }

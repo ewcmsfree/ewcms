@@ -31,12 +31,13 @@ public class OutputResource {
     
     private static final Logger logger = LoggerFactory.getLogger(OutputResource.class);
     
-    private String path;
-    private byte[] content;
+    protected String path;
+    protected byte[] content;
     private String uri;
     private long size = -1L;
     private List<OutputResource> children;
     private OutputEventable event =new DefaultOutputEvent();
+    private boolean temp = false;
     
     public OutputResource(){
         //创建不用发布的资源对象，关联需要发布的子资源对象。
@@ -47,10 +48,11 @@ public class OutputResource {
      * 创建基于本地资源文件的发布资源对象
      * 
      * @param path 文件路径
+     * @param temp 临时输出资源
      * @param uri 发布路径
      */
-    public OutputResource(String path,String uri){
-        this(path,uri,-1l);
+    public OutputResource(String path,String uri,boolean temp){
+        this(path,uri,temp,-1L);
     }
     
     /**
@@ -60,11 +62,12 @@ public class OutputResource {
      * @param uri 发布路径
      * @param size 文件大小
      */
-    public OutputResource(String path,String uri,long size){
+    public OutputResource(String path,String uri,boolean temp,long size){
         Assert.notNull(path);
         Assert.notNull(uri);
         this.path = path;
         this.uri = uri;
+        this.temp = temp;
         this.size = size;
     }
     
@@ -80,6 +83,7 @@ public class OutputResource {
         this.content = content;
         this.uri = uri;
         this.size = content.length;
+        this.temp = true;
     }
     
     /**
@@ -202,11 +206,12 @@ public class OutputResource {
      */
     public void close(){
         content = null;
-        if(!StringUtils.isBlank(path)){
+        size = 0L;
+        if(temp && !StringUtils.isBlank(path)){
             File file = new File(path);
             file.deleteOnExit();
-            path = null;
             logger.debug("Delete {}",path);
+            path = null;
         }
     }
 

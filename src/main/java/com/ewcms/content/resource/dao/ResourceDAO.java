@@ -4,10 +4,6 @@
  * http://www.ewcms.com
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ewcms.content.resource.dao;
 
 import java.util.List;
@@ -23,45 +19,31 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.resource.model.Resource;
 
 /**
- *
+ * 实现资源操作数据接口
+ * 
  * @author wangwei
  */
 @Repository
-public class ResourceDAO extends JpaDAO<Integer, Resource> {
+public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDAOable {
 
+    /**
+     * only remove "state=true"
+     */
     @Override
-    public void remove(Resource resource) {
-        resource.setDeleteFlag(true);
-        this.persist(resource);
-    }
-
-    @Override
-    public void removeByPK(Integer pk) {
-        Resource resource = this.get(pk);
-        remove(resource);
-    }
-
-    public void clear(Integer pk){
-        Resource resource = this.get(pk);
-        if(resource.isDeleteFlag()){
-            this.getJpaTemplate().remove(resource);
+    public void remove(Resource resource){
+        if(resource.getState() == Resource.State.DELETE){
+            super.remove(resource);
         }
     }
 
-    public void revert(Integer pk) {
-        Resource resource = this.get(pk);
-        resource.setDeleteFlag(false);
-        this.persist(resource);
-    }
-    
     public List<Resource> findNotReleaseResources(final Integer siteId) {
         return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
             public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Resource o Where o.siteId= ? And o.release = ?";
+                String hql = "From Resource o Where o.site.id= ? And o.state = ?";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
-                query.setParameter(2, Boolean.FALSE);
+                query.setParameter(2, Resource.State.NORMAL);
                 return query.getResultList();
             }
         });
@@ -71,11 +53,11 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> {
         getJpaTemplate().execute(new JpaCallback<Object>() {
             @Override
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "Update Resource o Set o.release=? Where o.siteId= ? And o.release = ?";
+                String hql = "Update Resource o Set o.state=? Where o.site.id= ? And o.state = ?";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
-                query.setParameter(1, Boolean.FALSE);
+                query.setParameter(1, Resource.State.NORMAL);
                 query.setParameter(2, siteId);
-                query.setParameter(3, Boolean.TRUE);
+                query.setParameter(3, Resource.State.RELEASED);
                 query.executeUpdate();
                 return null;
             }

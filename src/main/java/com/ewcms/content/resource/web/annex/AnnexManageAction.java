@@ -67,7 +67,7 @@ public class AnnexManageAction {
 
     private void delete(int[] ids){
         for(int id : ids){
-            resourceFac.delResource(id);
+            resourceFac.deleteResource(id);
         }
     }
 

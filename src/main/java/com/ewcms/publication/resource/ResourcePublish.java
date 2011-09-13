@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication;
+package com.ewcms.publication.resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +19,7 @@ import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.publication.PublishException;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.output.event.ResourceOutputEvent;
@@ -32,7 +33,7 @@ import com.ewcms.publication.service.TemplateSourcePublishServiceable;
  * 
  * @author wangwei
  */
-class ResourcePublish implements ResourcePublishable{
+public class ResourcePublish implements ResourcePublishable{
     
     private static final Logger logger = LoggerFactory.getLogger(ResourcePublish.class);
     
@@ -91,14 +92,10 @@ class ResourcePublish implements ResourcePublishable{
      * @return
      */
     private OutputResource createOutputResource(Resource resource){
-        OutputResource outputResource ;
-        if(StringUtils.isBlank(resource.getPathZip()) || StringUtils.isBlank(resource.getReleasePathZip())){
-            outputResource = new OutputResource();
-            outputResource.addChild(new OutputResource(resource.getPath(),resource.getReleasePath()));
-            outputResource.addChild(new OutputResource(resource.getPath(),resource.getReleasePath()));
-            
-        }else{
-            outputResource = new OutputResource(resource.getPath(),resource.getReleasePath());
+        OutputResource outputResource = new OutputResource();
+        outputResource.addChild(new OutputResource(resource.getPath(),resource.getUri(),false));
+        if(StringUtils.isBlank(resource.getThumbPath()) && StringUtils.isBlank(resource.getThumbUri())){
+            outputResource.addChild(new OutputResource(resource.getThumbPath(),resource.getThumbUri(),false));
         }
         outputResource.registerEvent(new ResourceOutputEvent(resource.getId(), resourceService));
         return outputResource;
@@ -153,7 +150,7 @@ class ResourcePublish implements ResourcePublishable{
                 logger.debug("Resource id = {} is not exist",id);
                 throw new PublishException("Resource is not exits");
             }
-            Site site = siteService.getSite(resource.getSiteId());
+            Site site = resource.getSite();
             SiteServer server = site.getSiteServer();
             OutputFactory.factory(server.getOutputType()).out(server, Arrays.asList(createOutputResource(resource)));
         }
