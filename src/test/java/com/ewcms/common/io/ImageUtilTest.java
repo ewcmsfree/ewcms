@@ -15,16 +15,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * ImageUtil单元测试
  * 
  * @author 吴智俊
  */
-public class ImageZipUtilTest {
+public class ImageUtilTest {
 
     private static String outDir  ;
     
     @BeforeClass
     public static void beforeClass(){
-        outDir = ImageZipUtilTest.class.getResource(".").getPath();
+        outDir = ImageUtilTest.class.getResource(".").getPath();
     }
     
     @AfterClass
@@ -42,41 +43,41 @@ public class ImageZipUtilTest {
     
     @Test
     public void testBmpZip(){
-        String source = ImageZipUtilTest.class.getResource("1.bmp").getPath();
+        String source = ImageUtilTest.class.getResource("1.bmp").getPath();
         String target = outDir + "1_zip.bmp";
-        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Boolean isZip = ImageUtil.compression(source, target, 64, 64);
         Assert.assertEquals(Boolean.TRUE,isZip);
     }
     
     @Test
     public void testPngZip(){
-        String source = ImageZipUtilTest.class.getResource("1.png").getPath();
+        String source = ImageUtilTest.class.getResource("1.png").getPath();
         String target = outDir + "2_zip.png";
-        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Boolean isZip = ImageUtil.compression(source, target, 64, 64);
         Assert.assertTrue(isZip);
     }
     
     @Test
     public void testJpg1Zip(){
-        String source = ImageZipUtilTest.class.getResource("1_0.jpg").getPath();
+        String source = ImageUtilTest.class.getResource("1_0.jpg").getPath();
         String target = outDir + "1_0_zip.jpg";
-        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Boolean isZip = ImageUtil.compression(source, target, 64, 64);
         Assert.assertTrue(isZip);
     }
     
     @Test
     public void testJpg1_1Zip(){
-        String source = ImageZipUtilTest.class.getResource("1_1.jpg").getPath();
+        String source = ImageUtilTest.class.getResource("1_1.jpg").getPath();
         String target = outDir + "1_1_zip.jpg";
-        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Boolean isZip = ImageUtil.compression(source, target, 64, 64);
         Assert.assertFalse(isZip);
     }
     
     @Test
     public void testGifZip(){
-        String source = ImageZipUtilTest.class.getResource("1.gif").getPath();
+        String source = ImageUtilTest.class.getResource("1.gif").getPath();
         String target = outDir + "1_zip.gif";
-        Boolean isZip = ImageZipUtil.compression(source, target, 64, 64);
+        Boolean isZip = ImageUtil.compression(source, target, 64, 64);
         Assert.assertTrue(isZip);
     }
 }
