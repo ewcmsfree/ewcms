@@ -79,6 +79,12 @@
                                     <s:select list="@com.ewcms.content.notes.model.BeforeStatus@values()" listValue="description" name="memorandaVo.before" id="beforeStatus"></s:select>  
                                 </td>
                             </tr>
+                            <tr>
+                            	<td>错过也提醒：</td>
+                            	<td>
+                            		<s:checkbox id="missRemind" name="memorandaVo.missRemind" cssStyle="vertical-align: top;"/><label for="missRemind"></label>
+                            	</td>
+                            </tr>
 				        </table>
 				    </td>
 				</tr>

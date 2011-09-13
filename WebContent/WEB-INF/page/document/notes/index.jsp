@@ -53,13 +53,13 @@
         	$('#editifr').attr('src',url);
         	var title = '新增备忘(' + $('#year').val() + '年' + $('#month').val() + '月' + i + '日)';
         	$('#bntRemove').linkbutton('disable');
-        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:300,title:title});
+        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:330,title:title});
     	}
     	function edit(i){
     		var url = '<s:url namespace="/document/notes" action="input"/>?selections=' + i;
     		$('#editifr').attr('src',url);
     		$('#bntRemove').linkbutton('enable');
-        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:300,title:'修改备忘'});
+        	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:330,title:'修改备忘'});
     	}
     	function remove(){
     		var id = $(window.frames['editifr'].document).find('#memorandaId').val();
