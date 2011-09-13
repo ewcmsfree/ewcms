@@ -176,11 +176,11 @@ public class OutputBaseTest {
         }
 
         public NullCloseOutputResource(String path, String uri, long size) {
-            super(path, uri, size);
+            super(path, uri, false,size);
         }
 
         public NullCloseOutputResource(String path, String uri) {
-            super(path, uri);
+            super(path, uri,false);
         }
 
         @Override

@@ -60,12 +60,7 @@ public class FtpOutputTest {
     private List<OutputResource> initResources(){
         List<OutputResource> list = new ArrayList<OutputResource>();
         String source = OutputBaseTest.class.getResource("write.jpg").getPath();
-        OutputResource resource = new OutputResource(source,"/home/wangwei/test/ftp/write.jpg"){
-            @Override
-            public void close(){
-                //Don't remove source file
-            }
-        };
+        OutputResource resource = new OutputResource(source,"test/ftp/write.jpg",false);
         list.add(resource);
         
         return list;
