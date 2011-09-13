@@ -6,7 +6,6 @@
 package com.ewcms.content.notes.dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +31,8 @@ public class MemorandaDAO extends JpaDAO<Long, Memoranda>  {
 	
 	@SuppressWarnings("unchecked")
 	public List<Memoranda> findMemorandaByWarn(String userName){
-		Calendar calendar = Calendar.getInstance();
-		Date now = calendar.getTime();
-		String hql = "From Memoranda As m Where m.userName=? And m.warn=? And m.remindTime>=? And m.warnTime Is Not Null And m.remindTime Is Not Null";
-		List<Memoranda> list = this.getJpaTemplate().find(hql, userName, true, now);
+		String hql = "From Memoranda As m Where m.userName=? And m.warn=? And m.warnTime Is Not Null And m.noteDate Is Not Null";
+		List<Memoranda> list = this.getJpaTemplate().find(hql, userName, true);
 		if (list.isEmpty()) return new ArrayList<Memoranda>();
 		return list;
 	}

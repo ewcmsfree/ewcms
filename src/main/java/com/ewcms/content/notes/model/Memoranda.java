@@ -33,6 +33,8 @@ import javax.persistence.TemporalType;
  * <li>warnTIme:提醒时间</li>
  * <li>frequency:提醒频道</li>
  * <li>before:提前时间</li>
+ * <li>fireTime:触发时间</li>
+ * <li>missRemind:错过是否提醒(true:是,false:否)</li>
  * </ul>
  * 
  * @author wu_zhijun
@@ -69,12 +71,15 @@ public class Memoranda implements Serializable {
 	@Column(name = "remind")
 	@Enumerated(EnumType.STRING)
 	private BeforeStatus before;
-	@Temporal(TemporalType.TIME)
-	@Column(name = "remindtime")
-	private Date remindTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "firetime")
+	private Date fireTime;
+	@Column(name = "missremind")
+	private Boolean missRemind;
 
 	public Memoranda(){
 		warn = false;
+		missRemind = false;
 	}
 	
 	public Long getId() {
@@ -149,12 +154,20 @@ public class Memoranda implements Serializable {
 		this.before = before;
 	}
 
-	public Date getRemindTime() {
-		return remindTime;
+	public Date getFireTime() {
+		return fireTime;
 	}
 
-	public void setRemindTime(Date remindTime) {
-		this.remindTime = remindTime;
+	public void setFireTime(Date fireTime) {
+		this.fireTime = fireTime;
+	}
+
+	public Boolean getMissRemind() {
+		return missRemind;
+	}
+
+	public void setMissRemind(Boolean missRemind) {
+		this.missRemind = missRemind;
 	}
 
 	@Override

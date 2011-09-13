@@ -6,7 +6,7 @@
 package com.ewcms.content.notes.model;
 
 /**
- * 出现频道枚举
+ * 出现频率枚举
  * 
  * @author 吴智俊
  */

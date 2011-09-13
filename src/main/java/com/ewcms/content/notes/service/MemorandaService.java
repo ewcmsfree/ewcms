@@ -5,6 +5,9 @@
  */
 package com.ewcms.content.notes.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.notes.dao.MemorandaDAO;
+import com.ewcms.content.notes.model.BeforeStatus;
+import com.ewcms.content.notes.model.FrequencyStatus;
 import com.ewcms.content.notes.model.Memoranda;
 import com.ewcms.content.notes.util.Lunar;
 import com.ewcms.content.notes.util.SolarTerm;
@@ -224,6 +229,10 @@ public class MemorandaService implements MemorandaServiceable {
 		calendar.set(year, month - 1, day);
 		memoranda.setNoteDate(calendar.getTime());
 		
+		if (memoranda.getWarn() && memoranda.getWarnTime() != null){
+			setBefore(memoranda);
+		}
+		
 		memorandaDAO.persist(memoranda);
 		
 		return memoranda.getId();
@@ -241,6 +250,9 @@ public class MemorandaService implements MemorandaServiceable {
 
 	@Override
 	public Long updMemoranda(Memoranda memoranda) {
+		if (memoranda.getWarn() && memoranda.getWarnTime() != null){
+			setBefore(memoranda);
+		}
 		memorandaDAO.merge(memoranda);
 		return memoranda.getId();
 	}
@@ -272,5 +284,181 @@ public class MemorandaService implements MemorandaServiceable {
 	@Override
 	public List<Memoranda> findMemorandaByWarn(String userName) {
 		return memorandaDAO.findMemorandaByWarn(userName);
+	}
+	
+	@Override
+	public List<Memoranda> getMemorandaFireTime(String clientTime){
+		SimpleDateFormat clientDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
+		
+		Calendar c_before = Calendar.getInstance();
+		Calendar c_after = Calendar.getInstance();
+		
+		try {
+			c_before.setTime(clientDateFormat.parse(clientTime));
+			c_after.setTime(clientDateFormat.parse(clientTime));
+		} catch (ParseException e) {
+		}
+		
+		c_before.add(Calendar.MINUTE, -1);
+		c_after.add(Calendar.MINUTE, 1);
+		
+		Long beforeTime = c_before.getTime().getTime();
+		Long afterTime = c_after.getTime().getTime();
+		
+		List<Memoranda> memorandaMsg = new ArrayList<Memoranda>();
+		
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
+		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(userName);
+		for (Memoranda memoranda : memorandas){
+			Date fireTime = memoranda.getFireTime();
+			if (fireTime == null){
+				setBefore(memoranda);
+				memorandaDAO.merge(memoranda);
+			}
+			Long fireTimeValue = memoranda.getFireTime().getTime();
+			if (fireTimeValue.longValue() >= beforeTime && fireTimeValue.longValue() <= afterTime){
+				memorandaMsg.add(memoranda);
+				updMemorandaNextFireTime(memoranda.getId());
+			}else if (fireTimeValue.longValue() < beforeTime ){
+				if (memoranda.getMissRemind())
+					memorandaMsg.add(memoranda);
+				updMemorandaNextFireTime(memoranda.getId());
+			}
+		}
+		return memorandaMsg;
+	}
+	
+	@Override
+	public void updMemorandaNextFireTime(Long memorandaId){
+		Memoranda memoranda = memorandaDAO.get(memorandaId);
+		setFrequency(memoranda);
+		memorandaDAO.merge(memoranda);
+	}
+	
+	private void setFrequency(Memoranda memoranda){
+		Calendar calendar = Calendar.getInstance();
+
+		Date fireTime = memoranda.getFireTime();
+		if (fireTime == null){
+			SimpleDateFormat notesDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String notesDateValue = notesDateFormat.format(memoranda.getNoteDate());
+			SimpleDateFormat warnDateFormat = new SimpleDateFormat("HH:mm:00");
+			String warnDateValue = warnDateFormat.format(memoranda.getWarnTime());
+			
+			String fireTimeValue = notesDateValue + " " + warnDateValue;
+			SimpleDateFormat fireDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
+			
+			try {
+				fireTime = fireDateFormat.parse(fireTimeValue);
+			} catch (ParseException e) {
+				fireTime = calendar.getTime();
+			}
+		}
+		calendar.setTime(fireTime);
+		
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DATE);
+		
+		FrequencyStatus status = memoranda.getFrequency();
+		switch(status){
+			case SINGLE://单次
+				memoranda.setWarn(false);
+				break;
+			case EVERYDAY://每天
+				calendar.set(year, month, day + 1);
+				break;
+			case EVERYWEEK://每周
+				calendar.set(year, month, day + 7);
+				break;
+			case EVERYMONTHWEEK://每月(星期)
+				calendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
+				break;
+			case EVERYMONTH://每月(日)
+				calendar.set(year, month + 1, day);
+				break;
+			case EVERYYEAR://每年
+				calendar.set(year + 1, month , day);
+				break;
+			default:
+				break;
+		}
+		memoranda.setFireTime(calendar.getTime());
+	}
+	
+	private void setBefore(Memoranda memoranda){
+		Calendar calendar = Calendar.getInstance();
+		
+		Date fireTime = memoranda.getFireTime();
+		if (fireTime == null){
+			SimpleDateFormat notesDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String notesDateValue = notesDateFormat.format(memoranda.getNoteDate());
+			SimpleDateFormat warnDateFormat = new SimpleDateFormat("HH:mm:00");
+			String warnDateValue = warnDateFormat.format(memoranda.getWarnTime());
+			
+			String fireTimeValue = notesDateValue + " " + warnDateValue;
+			SimpleDateFormat fireDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
+			
+			try {
+				fireTime = fireDateFormat.parse(fireTimeValue);
+			} catch (ParseException e) {
+				fireTime = calendar.getTime();
+			}
+		}
+		calendar.setTime(fireTime);
+		
+		BeforeStatus status = memoranda.getBefore();
+		switch(status){
+			case NONE://正点
+				break;
+			case ONE://1分钟
+				calendar.add(Calendar.MINUTE, -1);
+				break;
+			case FIVE://5分钟
+				calendar.add(Calendar.MINUTE, -5);
+				break;
+			case TEN://10分钟
+				calendar.add(Calendar.MINUTE, -10);
+				break;
+			case FIFTEEN://15分钟
+				calendar.add(Calendar.MINUTE, -15);
+				break;
+			case TWENTY://20分钟
+				calendar.add(Calendar.MINUTE, -20);
+				break;
+			case TWENTYFIVE://25分钟
+				calendar.add(Calendar.MINUTE, -25);
+				break;
+			case THIRTY://30分钟
+				calendar.add(Calendar.MINUTE, -30);
+				break;
+			case FORTYFIVE://45分钟
+				calendar.add(Calendar.MINUTE, -45);
+				break;
+			case ONEHOUR://1小时
+				calendar.add(Calendar.HOUR, -1);
+				break;
+			case TWOHOUR://2小时
+				calendar.add(Calendar.MINUTE, -2);
+				break;
+			case THREEHOUR://3小时
+				calendar.add(Calendar.MINUTE, -3);
+				break;
+			case TWELVEHOUR://12小时
+				calendar.add(Calendar.MINUTE, -12);
+				break;
+			case TWENTYFOUR://24小时
+				calendar.add(Calendar.MINUTE, -24);
+				break;
+			case TWODAY://2天
+				calendar.add(Calendar.DATE, -2);
+				break;
+			case ONEWEEK://1周
+				calendar.add(Calendar.DATE, -7);
+				break;
+			default:
+				break;
+		}
+		memoranda.setFireTime(calendar.getTime());
 	}
 }

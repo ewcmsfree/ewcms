@@ -5,6 +5,8 @@
  */
 package com.ewcms.content.notes;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +52,11 @@ public class NotesFac implements NotesFacable {
 	@Override
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day) {
 		memorandaService.updMemoranda(memorandaId, year, month, day);
+	}
+
+	@Override
+	public  List<Memoranda> getMemorandaFireTime(String clientTime) {
+		return memorandaService.getMemorandaFireTime(clientTime);
 	}
 
 }

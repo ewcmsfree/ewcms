@@ -5,6 +5,8 @@
  */
 package com.ewcms.content.notes;
 
+import java.util.List;
+
 import com.ewcms.content.notes.model.Memoranda;
 
 public interface NotesFacable {
@@ -19,4 +21,6 @@ public interface NotesFacable {
 	public void delMemoranda(Long memorandaId);
 	
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
+	
+	public List<Memoranda> getMemorandaFireTime(String clientTime);
 }

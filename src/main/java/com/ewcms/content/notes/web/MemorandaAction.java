@@ -225,4 +225,23 @@ public class MemorandaAction extends CrudBaseAction<Memoranda, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		}
 	}
+	
+	private String clientTime;
+	
+	public String getClientTime() {
+		return clientTime;
+	}
+
+	public void setClientTime(String clientTime) {
+		this.clientTime = clientTime;
+	}
+
+	public void notesRemind(){
+		List<Memoranda> memorandas = notesFac.getMemorandaFireTime(getClientTime());
+		if (!memorandas.isEmpty()){
+			Struts2Util.renderJson(JSONUtil.toJSON(memorandas));
+		}else{
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
 }
