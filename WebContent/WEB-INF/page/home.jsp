@@ -48,9 +48,31 @@
                         $('#editifr').attr('src',"about:blank");
                     }
                 });
-                
+                getmessage();
             });
-            
+            function getmessage() {
+            	$.ajax({
+            		type:'post',
+            		datatype:'json',
+            		cache:false,
+            		url:'<s:url namespace="/document/notes" action="notesRemind"/>?clientTime=' + new Date(),
+            		data: '',
+            		success:function(message){
+                		if (message != 'false'){
+                    		for (var i=0;i<message.length;i++){
+                				$.messager.show({title:message[i].title,msg:message[i].content,timeout:0,showType:'fade'});
+                    		}
+                		}
+            		},
+            		beforeSend:function (){
+            		},
+            		complete:function(){
+            			setTimeout("getmessage()",30000); //定时器
+            		},
+            		error:function(){
+            		}
+            	})
+            }
             function openEdit(url,width,height,title){
                 $('#editifr').attr('src',url);
                 openWindow('#edit-window',{width:width,height:height,title:title});
@@ -246,5 +268,6 @@
                 </div>
             </div>
         </div>
+        
     </body>
 </html>
