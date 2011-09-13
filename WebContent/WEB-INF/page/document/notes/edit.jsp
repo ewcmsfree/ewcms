@@ -70,13 +70,13 @@
                             <tr>
                                 <td>重复频率：</td>
                                 <td>
-                                    <s:select list="@com.ewcms.content.notes.model.FrequencyStatus@values()" listValue="description" name="memorandaVo.frequency" id="frequencyStatus" headerKey="-1" headerValue="------请选择------"></s:select>  
+                                    <s:select list="@com.ewcms.content.notes.model.FrequencyStatus@values()" listValue="description" name="memorandaVo.frequency" id="frequencyStatus"></s:select>  
                                 </td>
                             </tr>
                             <tr>
                                 <td>提前：</td>
                                 <td>
-                                    <s:select list="@com.ewcms.content.notes.model.RemindStatus@values()" listValue="description" name="memorandaVo.remind" id="remindStatus" headerKey="-1" headerValue="------请选择------"></s:select>  
+                                    <s:select list="@com.ewcms.content.notes.model.BeforeStatus@values()" listValue="description" name="memorandaVo.before" id="beforeStatus"></s:select>  
                                 </td>
                             </tr>
 				        </table>
