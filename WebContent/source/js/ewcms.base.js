@@ -155,6 +155,10 @@ function EwcmsBase(){
 		});
 		if(options.iframeID){
 			$(options.iframeID).attr('src',options.url);
+		}else{
+		    if(options.url){
+		        $("iframe").attr('src',options.url);
+		    }
 		}
 		$(windowID).window('open');
 	}
