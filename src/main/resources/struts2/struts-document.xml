@@ -112,5 +112,9 @@
 		<action name="toDay" class="com.ewcms.content.notes.web.MemorandaAction" method="toDay"/>
 		<action name="drop" class="com.ewcms.content.notes.web.MemorandaAction" method="drop"/>
 		<action name="notesRemind" class="com.ewcms.content.notes.web.MemorandaAction" method="notesRemind"/>
+		<action name="list">
+			<result>/WEB-INF/page/document/notes/list.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.content.notes.web.MemorandaQueryAction" method="query"/>
 	</package>
 </struts>	
