@@ -9,7 +9,6 @@
     <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
     <script type="text/javascript">
         var permissions = [
             {id:1,name:'读文章'},
@@ -207,7 +206,7 @@
                             return true;
                         }
                         if(insertToForm(1) && insertToForm(2) &&  insertToForm(3)){
-                            alert("dsfsdfsdfsdfsdf");
+                           // alert("dsfsdfsdfsdfsdf");
                             $('form').submit();
                         }
                     }
