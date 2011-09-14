@@ -436,7 +436,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public void previewTemplate() {
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("utf-8");
 		try {
 			templatePreview.view(response.getOutputStream(), getCurrentSite(),
 					siteFac.getChannel(getTemplateVo().getChannelId()), siteFac.getTemplate(getTemplateVo().getId()),
