@@ -14,10 +14,6 @@
     <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-    <style type="text/css">
-      a {background-color: transparent;border: 0 none;color: #0088DD;text-decoration: none;}
-      a:hover{border: 0px solid;color:#FF8800;text-decoration:underline;}
-    </style>
     <script>
        var dropURL = '<s:url namespace="/document/notes" action="drop"/>';
        $(function(){
@@ -98,6 +94,11 @@
     		});
     		return false;
 	   }
+ 	   function notesDetail(){
+ 		  	var url =  '<s:url namespace="/document/notes" action="list"/>';
+			$('#editifr_notes').attr('src',url);
+			ewcmsBOBJ.openWindow('#notes-window',{width:1300,height:600,title:'备访录列表'});
+ 	   }
     </script>
   </head>
   <body class="easyui-layout">
@@ -117,11 +118,16 @@
 		        <td><s:text name="toDayLunar"/></td>
 		      </tr>
 		    </table>
+		    <table align="left" width="100" cellspacing="0" cellpadding="0" border="0">
+		    	<tr>
+		    		<td width="100%"><a onclick="notesDetail();return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes.gif'/>"><b>备忘录列表</b></a></td>
+		    	</tr>
+		    </table>
 		    <table align="right" width="260" cellspacing="0" cellpadding="0" border="0">
 		      <tr>
-		        <td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),-1);;return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_prev.gif'/>"><b>上一个月&nbsp;</b></a></td>
+		        <td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),-1);return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_prev.gif'/>"><b>上一个月&nbsp;</b></a></td>
 				<td width="75" align="center"><s:textfield id="year" name="year" size="3" cssStyle="background-color:transparent;border:0;" readonly="true"/>年 <s:textfield id="month" name="month" size="1" cssStyle="background-color:transparent;border:0;" readonly="true"/>月&nbsp;</td>
-				<td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),1);;return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" 	href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_next.gif'/>"><b>下一个月&nbsp;</b></a></td>
+				<td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),1);return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" 	href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_next.gif'/>"><b>下一个月&nbsp;</b></a></td>
 			  </tr>
 			</table>
 		  </td>
@@ -146,7 +152,14 @@
           <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#edit-window').window('close');">取消</a>
         </div>
       </div>
-    </div>	
+    </div>
+	<div id="notes-window" class="easyui-window" icon="icon-votedetail" closed="true" style="display:none;">
+      <div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+          <iframe id="editifr_notes"  name="editifr_notes" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+        </div>
+      </div>
+    </div>
     <s:hidden id="currentYear" name="currentYear"/>
     <s:hidden id="currentMonth" name="currentMonth"/>
   </body>

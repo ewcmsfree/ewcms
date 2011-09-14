@@ -64,7 +64,7 @@
 				            <tr>
 				                <td>时间：</td>
 				                <td>
-				                    <ewcms:datepicker id="warnTime" name="warnTime" option="inputsimple" format="H:mm:ss"/>
+				                    <ewcms:datepicker id="warnTime" name="warnTime" option="inputsimple" format="HH:mm:00"/>
 				                </td>
 				            </tr>
                             <tr>
@@ -80,7 +80,7 @@
                                 </td>
                             </tr>
                             <tr>
-                            	<td>错过也提醒：</td>
+                            	<td>错过提醒：</td>
                             	<td>
                             		<s:checkbox id="missRemind" name="memorandaVo.missRemind" cssStyle="vertical-align: top;"/><label for="missRemind"></label>
                             	</td>
