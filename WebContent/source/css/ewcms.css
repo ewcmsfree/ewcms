@@ -151,3 +151,15 @@ table.cellspacing { border-collapse: separate; }
 .icon-table-refresh{
 	background:url('icons/table_refresh.png') no-repeat;
 }
+.icon-notes-list{
+	background:url('icons/notes_list.png') no-repeat;
+}
+.icon-notes-next{
+	background:url('icons/notes_next.png') no-repeat;
+}
+.icon-notes-prev{
+	background:url('icons/notes_previous.png') no-repeat;
+}
+.icon-notes-today{
+	background:url('icons/notes_today.png') no-repeat;
+}
