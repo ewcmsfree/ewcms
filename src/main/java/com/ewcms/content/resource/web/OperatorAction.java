@@ -6,10 +6,14 @@
 
 package com.ewcms.content.resource.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -17,17 +21,18 @@ import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
-import com.ewcms.web.util.JSONUtil;
-import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.JsonBaseAction;
 
 /**
- * 资源操作
+ * 资源操作Action
  *
  * @author wangwei
  */
 @Controller("resource.operator.action")
-public class OperatorAction {
+public class OperatorAction extends JsonBaseAction{
 
+    private static final Logger logger = LoggerFactory.getLogger(OperatorAction.class);
+    
     private int[] selections;
     
     private Map<Integer,String> descriptions = new HashMap<Integer,String>();
@@ -38,27 +43,46 @@ public class OperatorAction {
     @Autowired
     private ResourceFacable resourceFac;
 
+    /**
+     * 删除资源，只是标识资源为删除状态
+     */
     public void delete() {
         for (int id : selections) {
-            resourceFac.deleteResource(id);
+            resourceFac.softDeleteResource(id);
         }
-        Struts2Util.renderJson("{\"info\":\"删除成功\"}");
+        renderSuccess();
     }
 
+    /**
+     * 发布资源
+     */
     public void publish() {
+        
+        List<Integer> errors = new ArrayList<Integer>();
+        
         for(int id : selections){
             try{
             	webpublish.publishResourceAgain(id, true);
             }catch(PublishException e){
-               //TODO 错误处理
+                logger.error("resource publish fail {}",e);
+                errors.add(id);
             }
         }
-        Struts2Util.renderJson("{\"info\":\"重新发布成功\"}");
+        
+        if(errors.isEmpty()){
+            renderSuccess();
+        }else{
+            String message =String.format("资源编号[%s]发布失败!", StringUtils.join(errors, ","));
+            renderError(message);
+        }
     }
 
+    /**
+     * 保存已经上传的资源
+     */
     public void save() {
         List<Resource> resources = resourceFac.saveResource(descriptions);
-        Struts2Util.renderJson(JSONUtil.toJSON(resources));
+        renderSuccess(resources);
     }
     
     public void setSelections(int[] selects) {

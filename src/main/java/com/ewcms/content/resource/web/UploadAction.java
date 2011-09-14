@@ -18,8 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.web.util.JSONUtil;
-import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.JsonBaseAction;
 import com.opensymphony.xwork2.Action;
 
 /**
@@ -27,8 +26,8 @@ import com.opensymphony.xwork2.Action;
  * 
  * @author wangwei
  */
-@Controller
-public class UploadAction {
+@Controller("resource.upload.action")
+public class UploadAction extends JsonBaseAction {
     
     private static final Logger logger = LoggerFactory.getLogger(UploadAction.class);
     
@@ -55,16 +54,15 @@ public class UploadAction {
     
     public void receive() {
         
-        logger.debug("Upload file name is {},and type is {}",myUploadFileName,type);
+        logger.debug("Resource name is {} and type is {}",myUploadFileName,type);
         
         try {
             Resource.Type resType = Resource.Type.valueOf(StringUtils.upperCase(type));
-            Resource resource = resourceFac.uploadResource(myUpload, myUploadFileName, resType);
-            
-            Struts2Util.renderJson(JSONUtil.toJSON(resource));
+            Resource resource = resourceFac.uploadResource(myUpload, myUploadFileName, resType);            
+            renderSuccess(resource);
         } catch (IOException e) {
-            //TODO ajx 报错处理
-            logger.error("Upload action is error:{}",e);
+            logger.error("Upload resource is error:{}",e);
+            renderError(e.toString());
         }
     }
     

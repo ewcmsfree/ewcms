@@ -16,16 +16,15 @@ import org.springframework.stereotype.Controller;
 
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.web.util.JSONUtil;
-import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.JsonBaseAction;
 
 /**
  * 上传引导图
  * 
  * @author wangwei
  */
-@Controller
-public class ThumbUploadAction {
+@Controller("resource.thumbupload.action")
+public class ThumbUploadAction extends JsonBaseAction{
     
     private static final Logger logger = LoggerFactory.getLogger(ThumbUploadAction.class);
     
@@ -38,14 +37,14 @@ public class ThumbUploadAction {
     
     public void receive() {
         
-        logger.debug("Upload file name is {}",myUploadFileName);
+        logger.debug("Thumb name is {}",myUploadFileName);
         
         try {
             Resource resource = resourceFac.updateThumbResource(id, myUpload, myUploadFileName);
-            Struts2Util.renderJson(JSONUtil.toJSON(resource));
+            renderSuccess(resource);
         } catch (IOException e) {
-            //TODO ajx 报错处理
-            logger.error("Thumb upload action is error:{}",e);
+            logger.error("Upload thumb is error:{}",e);
+            renderError(e.toString());
         }
     }
   
