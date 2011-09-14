@@ -84,9 +84,9 @@ public class MemorandaService implements MemorandaServiceable {
 	private StringBuffer generatorJs(){
 		StringBuffer sb = new StringBuffer();
 		sb.append("<script type='text/javascript'>");
-		sb.append("    $('.a_notes_value').draggable({revert:true});");
-        sb.append("    $('.div_notes').droppable({");
-        sb.append("       onDragEnter:function(e, source){");
+		sb.append("    $('.a_notes_value').not('.a_title').draggable({revert:true});");
+        sb.append("    $('.div_notes').not('.a_title').droppable({");
+        sb.append("     onDragEnter:function(e, source){");
         sb.append("       $(this).addClass('over');");
         sb.append("     },");
         sb.append("     onDragLeave:function(e, source){");
