@@ -68,7 +68,7 @@
 	
     <servlet>
         <servlet-name>resourceServlet</servlet-name>
-        <servlet-class>com.ewcms.web.action.resource.ResourceServlet</servlet-class>
+        <servlet-class>com.ewcms.web.servlet.ResourceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>resourceServlet</servlet-name>
