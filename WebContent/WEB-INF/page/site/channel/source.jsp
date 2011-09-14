@@ -38,6 +38,7 @@
 			function editTPL(idValue){
 				top.addTab('资源编辑','<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
 			}
+			
 		</script>
 	</head>
 	<body class="easyui-layout">
@@ -80,7 +81,6 @@
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
                 </div>
             </div>
-            
         </div>
 	</body>
 </html>
