@@ -128,6 +128,16 @@
                                 <s:select list="@com.ewcms.content.notes.model.BeforeStatus@values()" listValue="description" name="beforeStatus" id="beforeStatus" headerKey="-1" headerValue="------请选择------"></s:select>
                             </td>
                         </tr>
+                        <tr>
+                        	<td class="tdtitle">是否提醒：</td>
+                        	<td class="tdinput">
+                        		<s:select list="#{true:'是',false:'否'}" name="warn" id="warn" headerKey="-1" headerValue="------请选择------"></s:select>
+                        	</td>
+                        	<td class="tdtitle">错过提醒：</td>
+                        	<td class="tdinput">
+                        		<s:select list="#{true:'是',false:'否'}" name="missRemind" id="missRemind" headerKey="-1" headerValue="------请选择------"></s:select>
+                        	</td>
+                        </tr>
                		</table>
                	</form>
                 </div>
