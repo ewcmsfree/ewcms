@@ -174,10 +174,14 @@ public class MemorandaService implements MemorandaServiceable {
 		StringBuffer memoSb = new StringBuffer();
 		for (Memoranda memo : memos){
 			String title = memo.getTitle();
+			String clock = "";
+			if (memo.getWarn()){
+				clock = "<img id='img_clock_" + memo.getId() + "' src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+			}
 			if (title.length() > 12){
 				title = title.substring(0, 9) + "..."; 
 			}
-			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><a class='a_title' id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='javascript:void(0);' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a></div>\n");
+			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><a class='a_title' id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='javascript:void(0);' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a>" + clock + "</div>\n");
 		}
 		
 		sb.append("  <td id='td_notes_" + dayValue + "'>\n");
