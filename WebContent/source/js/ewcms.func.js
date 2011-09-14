@@ -12,8 +12,8 @@ function iframeFitHeight(oIframe){
      oIframe.height = newHeight;
 }
 
-function openWindow(winID){
-	ewcmsBOBJ.openWindow(winID);
+function openWindow(winID,options){
+	ewcmsBOBJ.openWindow(winID,options);
 }
 
 function querySearch(formID){
