@@ -20,7 +20,7 @@ import com.ewcms.publication.PublishException;
  */
 public class ResourceUriRule extends UriRule{
 
-    private static final Logger logger = LoggerFactory.getLogger(ResourceUriRuleTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResourceUriRule.class);
     private static final UriRuleable RESOURCE_URI_RULE = createUriRule();
     
     private UriRuleable uriRule = RESOURCE_URI_RULE;
