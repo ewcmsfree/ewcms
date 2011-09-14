@@ -28,7 +28,7 @@ public class MemorandaAction extends CrudBaseAction<Memoranda, Long> {
 
 	private static final long serialVersionUID = 7925268963440319845L;
 	
-	private SimpleDateFormat warnDateFormat = new SimpleDateFormat("HH:mm:ss");
+	private SimpleDateFormat warnDateFormat = new SimpleDateFormat("HH:mm:00");
 
 	@Autowired
 	private NotesFacable notesFac;

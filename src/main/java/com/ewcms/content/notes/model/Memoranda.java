@@ -30,8 +30,8 @@ import javax.persistence.TemporalType;
  * <li>noteDate:日期</li>
  * <li>userName:用户名</li>
  * <li>warn:是否提醒</li>
- * <li>warnTIme:提醒时间</li>
- * <li>frequency:提醒频道</li>
+ * <li>warnTime:提醒时间</li>
+ * <li>frequency:提醒频率</li>
  * <li>before:提前时间</li>
  * <li>fireTime:触发时间</li>
  * <li>missRemind:错过是否提醒(true:是,false:否)</li>
@@ -146,6 +146,14 @@ public class Memoranda implements Serializable {
 		this.frequency = frequency;
 	}
 
+	public String getFrequencyDescription(){
+		if (frequency != null){
+			return frequency.getDescription();
+		}else{
+			return FrequencyStatus.SINGLE.getDescription();
+		}
+	}
+	
 	public BeforeStatus getBefore() {
 		return before;
 	}
@@ -154,6 +162,14 @@ public class Memoranda implements Serializable {
 		this.before = before;
 	}
 
+	public String getBeforeDescription(){
+		if (before != null){
+			return before.getDescription();
+		}else{
+			return BeforeStatus.NONE.getDescription();
+		}
+	}
+	
 	public Date getFireTime() {
 		return fireTime;
 	}

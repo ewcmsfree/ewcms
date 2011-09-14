@@ -23,7 +23,10 @@ import com.ewcms.content.notes.model.Memoranda;
 public class MemorandaDAO extends JpaDAO<Long, Memoranda>  {
 	@SuppressWarnings("unchecked")
 	public List<Memoranda> findMemorandaByDate(Date beginDate, Date endDate, String userName){
-		String hql = "From Memoranda As m Where m.noteDate>=? And m.noteDate<? And m.userName=? Order By m.id Desc";
+		if (beginDate == null && endDate == null){
+			return new ArrayList<Memoranda>();
+		}
+		String hql = "From Memoranda As m Where m.noteDate>=? And m.noteDate<? And m.userName=? Order By m.warnTime Desc, m.noteDate Desc, m.id Desc";
 		List<Memoranda> list = this.getJpaTemplate().find(hql, beginDate, endDate, userName);
 		if (list.isEmpty()) return new ArrayList<Memoranda>();
 		return list;
@@ -32,6 +35,14 @@ public class MemorandaDAO extends JpaDAO<Long, Memoranda>  {
 	@SuppressWarnings("unchecked")
 	public List<Memoranda> findMemorandaByWarn(String userName){
 		String hql = "From Memoranda As m Where m.userName=? And m.warn=? And m.warnTime Is Not Null And m.noteDate Is Not Null";
+		List<Memoranda> list = this.getJpaTemplate().find(hql, userName, true);
+		if (list.isEmpty()) return new ArrayList<Memoranda>();
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Memoranda> findMemorandaByUserName(String userName){
+		String hql = "From Memoranda As m Where m.userName=? Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
 		List<Memoranda> list = this.getJpaTemplate().find(hql, userName, true);
 		if (list.isEmpty()) return new ArrayList<Memoranda>();
 		return list;

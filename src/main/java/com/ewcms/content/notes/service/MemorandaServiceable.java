@@ -29,9 +29,11 @@ public interface MemorandaServiceable {
 	
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
 	
-	public List<Memoranda> findMemorandaByWarn(String userName);
+	public List<Memoranda> findMemorandaByWarn();
 	
 	public void updMemorandaNextFireTime(Long memorandaId);
 	
 	public List<Memoranda> getMemorandaFireTime(String clientTime);
+	
+	public List<Memoranda> findMemorandaByUserName();
 }

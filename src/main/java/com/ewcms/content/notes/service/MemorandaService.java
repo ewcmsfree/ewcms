@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ import com.ewcms.web.util.EwcmsContextUtil;
 @Service
 public class MemorandaService implements MemorandaServiceable {
 
+	protected static final Logger logger = LoggerFactory.getLogger(MemorandaService.class);
+	
 	@Autowired
 	private MemorandaDAO memorandaDAO;
 	
@@ -173,7 +177,7 @@ public class MemorandaService implements MemorandaServiceable {
 			if (title.length() > 12){
 				title = title.substring(0, 9) + "..."; 
 			}
-			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><a id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='javascript:void(0);' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a></div>\n");
+			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><a class='a_title' id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' herf='javascript:void(0);' title='" + memo.getTitle() + "'><span id='title_" + memo.getId() + "'>" + title + "</span></a></div>\n");
 		}
 		
 		sb.append("  <td id='td_notes_" + dayValue + "'>\n");
@@ -259,14 +263,20 @@ public class MemorandaService implements MemorandaServiceable {
 
 	@Override
 	public List<Memoranda> findMemorandaByDate(Integer year, Integer month, Integer day) {
+		SimpleDateFormat noteDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
 		Calendar calendar = Calendar.getInstance();
-		
-		calendar.set(year, month - 1, day - 1);
-		Date beginDate = calendar.getTime();
-		
 		calendar.set(year, month - 1, day);
+		Date beginDate = calendar.getTime();
+		calendar.add(Calendar.DATE, 1);
 		Date endDate = calendar.getTime();
 		
+		try {
+			beginDate = noteDateFormat.parse(noteDateFormat.format(beginDate));
+			endDate = noteDateFormat.parse(noteDateFormat.format(endDate));
+		} catch (ParseException e) {
+			logger.error(e.toString());
+		}
 		return memorandaDAO.findMemorandaByDate(beginDate, endDate, EwcmsContextUtil.getUserDetails().getUsername());
 	}
 
@@ -282,8 +292,8 @@ public class MemorandaService implements MemorandaServiceable {
 	}
 
 	@Override
-	public List<Memoranda> findMemorandaByWarn(String userName) {
-		return memorandaDAO.findMemorandaByWarn(userName);
+	public List<Memoranda> findMemorandaByWarn() {
+		return memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserDetails().getUsername());
 	}
 	
 	@Override
@@ -307,8 +317,7 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		List<Memoranda> memorandaMsg = new ArrayList<Memoranda>();
 		
-		String userName = EwcmsContextUtil.getUserDetails().getUsername();
-		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(userName);
+		List<Memoranda> memorandas = findMemorandaByWarn();
 		for (Memoranda memoranda : memorandas){
 			Date fireTime = memoranda.getFireTime();
 			if (fireTime == null){
@@ -460,5 +469,10 @@ public class MemorandaService implements MemorandaServiceable {
 				break;
 		}
 		memoranda.setFireTime(calendar.getTime());
+	}
+
+	@Override
+	public List<Memoranda> findMemorandaByUserName() {
+		return memorandaDAO.findMemorandaByUserName(EwcmsContextUtil.getUserDetails().getUsername());
 	}
 }

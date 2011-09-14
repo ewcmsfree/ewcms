@@ -23,4 +23,6 @@ public interface NotesFacable {
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
 	
 	public List<Memoranda> getMemorandaFireTime(String clientTime);
+	
+	public List<Memoranda> findMemorandaByUserName();
 }
