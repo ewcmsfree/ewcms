@@ -11,10 +11,13 @@
         <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <ewcms:datepickerhead></ewcms:datepickerhead>
         <script type="text/javascript">
             $(function(){
+                ewcmsBOBJ = new EwcmsBase();
+                
                 $('#tt').datagrid({
                     url: 'datagrid_data2.json',
                     width: 700,
