@@ -60,14 +60,14 @@
             		success:function(message){
                 		if (message != 'false'){
                     		for (var i=0;i<message.length;i++){
-                				$.messager.show({title:message[i].title,msg:message[i].content,timeout:0,showType:'fade'});
+                				$.messager.show({title:message[i].title,msg:message[i].content,width:350,height:200,timeout:0,showType:'fade'});
                     		}
                 		}
             		},
             		beforeSend:function (){
             		},
             		complete:function(){
-            			setTimeout("getmessage()",30000); //定时器
+            			setTimeout("getmessage()",60000); //定时器
             		},
             		error:function(){
             		}
