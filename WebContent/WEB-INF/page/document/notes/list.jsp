@@ -36,7 +36,7 @@
                     columns:[[
                               {field:'id',title:'编号',width:60},
                               {field:'title',title:'标题',width:200},
-                              {field:'noteDate',title:'日期',width:125},
+                              {field:'noteDate',title:'日期',width:67},
                               {field:'warn',title:'提醒',width:33,
                                 formatter:function(val,rec){
                             	  	var flag = '&nbsp;否';
@@ -82,8 +82,8 @@
 			                for (var i=0;i<rows.length;++i){ 
 			                	$(window.parent.document).find('#div_notes_memo_' + rows[i].id).remove();             	
 			                }
-			            	$(datagridID).datagrid('clearSelections');
-			                $(datagridID).datagrid('reload');
+			            	$('#tt').datagrid('clearSelections');
+			                $('#tt').datagrid('reload');
 			            });
 			        }
 			    });

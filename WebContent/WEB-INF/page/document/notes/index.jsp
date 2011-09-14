@@ -8,33 +8,36 @@
     <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
     <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
     <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>" />
-	<link rel="stylesheet" type="text/css" href="<s:url value='/source/css/notes.css'/>" />
+    <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/notes.css"/>" />
     <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-    <script>
+    <script type="text/javascript">
        var dropURL = '<s:url namespace="/document/notes" action="drop"/>';
        $(function(){
+    	  
 		  ewcmsBOBJ = new EwcmsBase();
-		  ewcmsOOBJ = new EwcmsOperate();  
+		  ewcmsOOBJ = new EwcmsOperate(); 
        });
        function ChangeDate(year,month,weight){
-            var monthValue = parseInt(month) + weight;
-            if (monthValue >= 13){
-                year = parseInt(year) + 1;
-                monthValue = monthValue - 12;
-            }else if (monthValue <= 0){
-                year = parseInt(year) - 1;
-                monthValue = monthValue + 12;
-            }
-            $('#year').attr('value',year);
-            $('#month').attr('value',monthValue);
-            $.post('<s:url namespace="/document/notes" action="changeDate"/>',{'year':$('#year').val(),'month':$('#month').val()},function(data) {
-            	$('tr').remove('.notes_tr');
-            	$('#result').append(data);
-            });
+    	   loadingEnable();
+           var monthValue = parseInt(month) + weight;
+           if (monthValue >= 13){
+               year = parseInt(year) + 1;
+               monthValue = monthValue - 12;
+           }else if (monthValue <= 0){
+               year = parseInt(year) - 1;
+               monthValue = monthValue + 12;
+           }
+           $('#year').attr('value',year);
+           $('#month').attr('value',monthValue);
+           $.post('<s:url namespace="/document/notes" action="changeDate"/>',{'year':$('#year').val(),'month':$('#month').val()},function(data) {
+               $('tr').remove('.notes_tr');
+               $('#result').append(data);
+               loadingDisable();
+           });
         }
         function toDay(){
             $('#year').attr('value',$('#currentYear').val());
@@ -82,8 +85,13 @@
                     if (id != ''){
                         var value = $(window.frames['editifr'].document).find('#title').val();
                         $('#a_title_' + id).attr('title', value);
-                        if (value.length > 10) value = value.substring(0,11) + '...';
-                        $('#title_' + id).text(value);
+                        if (value.length > 10) value = value.substring(0, 9) + '...';
+                        if ($(window.frames['editifr'].document).find('#warn').attr('checked') == 'checked'){
+                            value = value + "<img id='img_clock_" + id + "'  src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+                        }else{
+                            $('#img_clock_' + id).remove();
+                        }
+                        $('#title_' + id).html(value);
                     }else{
                     	ChangeDate($('#year').val(), $('#month').val(), 0);
                     }
@@ -99,35 +107,49 @@
 			$('#editifr_notes').attr('src',url);
 			ewcmsBOBJ.openWindow('#notes-window',{width:1300,height:600,title:'备访录列表'});
  	   }
+ 	   function loadingEnable(){
+    	   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
+    	   $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+ 	   }
+ 	   function loadingDisable(){
+           $('.datagrid-mask-msg').remove();
+           $('.datagrid-mask').remove();
+ 	   }
     </script>
   </head>
   <body class="easyui-layout">
     <div region="center" style="padding: 2px;" border="false">
       <table width="100%" cellspacing="0" cellpadding="6" border="0" >
         <tr>
-		  <td valign="middle" style="padding-bottom:0;">
-		    &nbsp;<!-- <img width="20" height="20" src="<s:url value='/source/image/notes/notes.gif'/>">个人备忘列表-->
-		  </td>
+		  <td valign="middle" style="padding-bottom:0;">&nbsp;</td>
         </tr>
  		<tr>
 		  <td style="padding:0;">
 		    <table align="left" width="400" cellspacing="0" cellpadding="0" border="0">
 		      <tr>
 		        <td>&nbsp;</td>
-		        <td valign="middle" style="padding-bottom:0;"><a onclick="toDay();;return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><b>&nbsp;今&nbsp;天&nbsp;</b></a></td>
-		        <td><s:text name="toDayLunar"/></td>
+		        <td valign="middle" style="padding-bottom:0;">
+		        	<a href="javascript:void(0);" iconCls="icon-notes-today" class="easyui-linkbutton" onclick="toDay();return false;">今天</a>
+		        </td>
+		        <td>
+		        	<s:text name="toDayLunar"/>
+		        </td>
 		      </tr>
 		    </table>
-		    <table align="left" width="100" cellspacing="0" cellpadding="0" border="0">
+		    <table align="left" width="120" cellspacing="0" cellpadding="0" border="0">
 		    	<tr>
-		    		<td width="100%"><a onclick="notesDetail();return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes.gif'/>"><b>备忘录列表</b></a></td>
+		    		<td width="100%">
+		    		  <a href="javascript:void(0);" iconCls="icon-notes-list" class="easyui-linkbutton" onclick="notesDetail();return false;">备忘录列表</a>
+		    		</td>
 		    	</tr>
 		    </table>
-		    <table align="right" width="260" cellspacing="0" cellpadding="0" border="0">
+		    <table align="right" width="310" cellspacing="0" cellpadding="0" border="0">
 		      <tr>
-		        <td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),-1);return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_prev.gif'/>"><b>上一个月&nbsp;</b></a></td>
-				<td width="75" align="center"><s:textfield id="year" name="year" size="3" cssStyle="background-color:transparent;border:0;" readonly="true"/>年 <s:textfield id="month" name="month" size="1" cssStyle="background-color:transparent;border:0;" readonly="true"/>月&nbsp;</td>
-				<td width="90"><a onclick="ChangeDate($('#year').val(),$('#month').val(),1);return false;" id="" onselectstart="return false" tabindex="-1" hidefocus="true" class="ewcmsBtn" 	href="javascript:void(0);"><img src="<s:url value='/source/image/notes/notes_next.gif'/>"><b>下一个月&nbsp;</b></a></td>
+		        <td width="100%">
+		        	<a id="prevMonth" href="javascript:void(0);" iconCls="icon-notes-prev" class="easyui-linkbutton" onclick="ChangeDate($('#year').val(),$('#month').val(),-1);return false;">上一个月</a>&nbsp;
+					<s:textfield id="year" name="year" size="3" cssStyle="background-color:transparent;border:0;" readonly="true"/>年 <s:textfield id="month" name="month" size="1" cssStyle="background-color:transparent;border:0;" readonly="true"/>月&nbsp;
+					<a id="nextMonth" href="javascript:void(0);" iconCls="icon-notes-next" class="easyui-linkbutton" onclick="ChangeDate($('#year').val(),$('#month').val(),1);return false;">下一个月</a>
+		        </td>
 			  </tr>
 			</table>
 		  </td>
@@ -153,10 +175,13 @@
         </div>
       </div>
     </div>
-	<div id="notes-window" class="easyui-window" icon="icon-votedetail" closed="true" style="display:none;">
+	<div id="notes-window" class="easyui-window" closed="true" title="&nbsp;备忘录列表" style="display:none;">
       <div class="easyui-layout" fit="true">
         <div region="center" border="false">
           <iframe id="editifr_notes"  name="editifr_notes" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+        </div>
+        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#editifr_notes').attr('src','');$('#notes-window').window('close');">关闭</a>
         </div>
       </div>
     </div>
