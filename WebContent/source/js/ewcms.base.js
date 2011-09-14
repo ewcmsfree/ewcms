@@ -94,6 +94,7 @@ function isExistID(elementID){
 	}
 	return true;
 }
+
 /**
   * ewcms基础对象
   */
@@ -152,6 +153,9 @@ function EwcmsBase(){
 		   maximizable:(options.maximizable ? options.maximizable : false),
 		   minimizable:(options.minimizable ? options.minimizable : false)
 		});
+		if(options.iframeID){
+			$(options.iframeID).attr('src',options.url);
+		}
 		$(windowID).window('open');
 	}
 
@@ -318,9 +322,8 @@ function EwcmsOperate(){
 		if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = '#editifr';
 		if(!isExistVAR('inputURL','编辑操作页面地址未指定'))return;
 		if(!isExistID(iframeID))return;
-	    $(iframeID).attr('src',inputURL);
 	    if(!isExistID(editWinID))return;
-	    openWindow(editWinID);
+	    openWindow(editWinID,{url:inputURL,iframeID:iframeID});
 	}
 		    	
 	/*修改操作*/ 
@@ -353,8 +356,7 @@ function EwcmsOperate(){
 	    for(var i=0;i<rows.length;++i){
 	        url += 'selections=' + callBackId(rows[i]) +'&';
 	    }
-	    $(iframeID).attr('src',url);
-	    openWindow(editWinID);
+	    openWindow(editWinID,{url:url,iframeID:iframeID});
 	}
 		    	
 	/*删除操作*/ 
