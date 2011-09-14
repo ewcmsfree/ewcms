@@ -66,6 +66,16 @@ public class MemorandaQueryAction extends QueryBaseAction {
 			hql += " And m.before=:beforeStatus";
 			countHql += " And m.before=:beforeStatus";
 		}
+		String warn = getParameterValue(String.class, "warn", "");
+		if (isStringNotEmpty(warn) && !warn.equals("-1")){
+			hql += " And m.warn=:warn";
+			countHql += " And m.warn=:warn";
+		}
+		String missRemind = getParameterValue(String.class, "missRemind", "");
+		if (isStringNotEmpty(missRemind) && !missRemind.equals("-1")){
+			hql += " And m.missRemind=:missRemind";
+			countHql += " And m.missRemind=:missRemind";
+		}
 		
 		hql += " Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
 		
@@ -95,6 +105,12 @@ public class MemorandaQueryAction extends QueryBaseAction {
 		}
 		if (isStringNotEmpty(beforeStatus) && !beforeStatus.equals("-1")){
 			query.setParameter("beforeStatus", BeforeStatus.valueOf(beforeStatus));
+		}
+		if (isStringNotEmpty(warn) && !warn.equals("-1")){
+			query.setParameter("warn", Boolean.parseBoolean(warn));
+		}
+		if (isStringNotEmpty(missRemind) && !missRemind.equals("-1")){
+			query.setParameter("missRemind", Boolean.parseBoolean(missRemind));
 		}
 		
 		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
