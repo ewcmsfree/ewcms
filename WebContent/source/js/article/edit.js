@@ -74,10 +74,10 @@ $(function() {
         onSelect:function(title){
             var multi = $('#image_multi_id').val();
             if(title == '本地图片'){
-                var src = imageUploadURL + '?multi='+multi;
+                var src = imageUploadURL + '&multi='+multi;
                 $("#uploadifr_image_id").attr('src',src);
             }else{
-                var src = imageBrowseURL + '?multi='+multi;
+                var src = imageBrowseURL + '&multi='+multi;
                 $("#queryifr_image_id").attr('src',src);
             }
         }
@@ -85,10 +85,10 @@ $(function() {
     $('#systemtab_annex').tabs({
         onSelect:function(title){
             if(title == '本地附件'){
-                var src = annexUploadURL + '?multi=true';
+                var src = annexUploadURL + '&multi=true';
                 $("#uploadifr_annex_id").attr('src',src);
             }else{
-                var src = annexBrowseURL + '?multi=true';
+                var src = annexBrowseURL + '&multi=true';
                 $("#queryifr_annex_id").attr('src',src);
             }
         }
@@ -217,24 +217,28 @@ function onOutPage(id){
 }
 //插入选择的文章到当前内容编辑页面
 function insertFileToCkeditorOperator(){
-	editifr_pop.insert(function(data){
-		$.each(data, function(index,value){
-			var html_obj="";
-			var type = value.type;
-			if (type=="ANNEX"){
-				html_obj="<a href='../../" + value.releasePath + "'>" + value.title + "</a>";
-			}else if (type=="IMAGE"){
-				html_obj="<p style='text-align: center;'><img border='0' src='../../" + value.releasePath + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
-			}else if (type=="FLASH"){
-				html_obj="";
-			}else if (type=="VIDEO"){
-				html_obj="";
-			}
-			if (tinyMCE.getInstanceById('_Content_' + pages) != null){
-				tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
-				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-			}
-	   });
+	editifr_pop.insert(function(data,success){
+		if (success){
+			$.each(data, function(index,value){
+				var html_obj="";
+				var type = value.type;
+				if (type=="ANNEX"){
+					html_obj="<a href='../../" + value.uri + "'>" + value.title + "</a>";
+				}else if (type=="IMAGE"){
+					html_obj="<p style='text-align: center;'><img border='0' src='../../" + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
+				}else if (type=="FLASH"){
+					html_obj="";
+				}else if (type=="VIDEO"){
+					html_obj="";
+				}
+				if (tinyMCE.getInstanceById('_Content_' + pages) != null){
+					tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
+					//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+				}
+		   });
+		}else{
+			$.messager.alert('错误', '插入失败', 'error');
+		}
     });
 	$("#pop-window").window("close");
 }
@@ -519,24 +523,32 @@ function insertAnnexOperator(){
     var tab = $('#systemtab_annex').tabs('getSelected');
     var title = tab.panel('options').title;
     if(title == '本地附件'){
-        uploadifr_annex.insert(function(data){
-            $.each(data,function(index,value){
-                var html_obj="<a href='../.." + value.releasePath + "'>" + value.title + "</a>";
-                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-    			}
-            });
+        uploadifr_annex.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                var html_obj="<a href='../.." + value.uri + "'>" + value.title + "</a>";
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入附件失败', 'error');
+        	}
         });
     }else{
-        queryifr_annex.insert(function(data){
-            $.each(data,function(index,value){
-                var html_obj="<a href='../.." + value.releasePath + "'>" + value.title + "</a>";
-                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-    			}
-            });
+        queryifr_annex.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                var html_obj="<a href='../.." + value.uri + "'>" + value.title + "</a>";
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入附件失败', 'error');
+        	}
         });
     }
 	$("#annex-window").window("close");
@@ -551,9 +563,9 @@ function openImageWindow(multi,content_image,url){
     $('#image_multi_id').val(multi);
     $('#content_image_id').val(content_image);
     if(multi){
-        $('#uploadifr_image_id').attr('src',url + '?multi=true');
+        $('#uploadifr_image_id').attr('src',url + '&multi=true');
     }else{
-        $('#uploadifr_image_id').attr('src',url + '?multi=false');
+        $('#uploadifr_image_id').attr('src',url + '&multi=false');
     }
     openWindow("#image-window",{width:600,height:500,title:"图片选择"});
 }
@@ -563,34 +575,42 @@ function insertImageOperator(){
     var title = tab.panel('options').title;
     var content_image = $('#content_image_id').val();
     if(title == '本地图片'){
-        uploadifr_image.insert(function(data){
-            $.each(data,function(index,value){
-                if (content_image=="true"){
-                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.releasePath + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
-                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-        			}
-                }else{
-    				$("#referenceImage").attr("src", "../.." + value.releasePath);
-    				$("#article_image").attr("value", value.releasePath);
-                }
-            });
+        uploadifr_image.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                if (content_image=="true"){
+	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
+	                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	        			}
+	                }else{
+	    				$("#referenceImage").attr("src", "../.." + value.uri);
+	    				$("#article_image").attr("value", value.uri);
+	                }
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入图片失败', 'error');
+        	}
         });
     }else{
-        queryifr_image.insert(function(data){
-            $.each(data,function(index,value){
-                if (content_image=="true"){
-                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.releasePath + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
-                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-        			}
-                }else{
-    				$("#referenceImage").attr("src", "../.." + value.releasePath);
-    				$("#article_image").attr("value", value.releasePath);
-                }
-            });
+        queryifr_image.insert(function(data, success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                if (content_image=="true"){
+	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
+	                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	        			}
+	                }else{
+	    				$("#referenceImage").attr("src", "../.." + value.uri);
+	    				$("#article_image").attr("value", value.uri);
+	                }
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入图片失败', 'error');
+        	}
         });
     }
 	$("#image-window").window("close");
