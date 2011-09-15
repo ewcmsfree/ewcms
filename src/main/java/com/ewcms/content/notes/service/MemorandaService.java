@@ -82,7 +82,7 @@ public class MemorandaService implements MemorandaServiceable {
 		sb.append(getTitleHtml().toString());
 		sb.append(generatorFirstWeekHtml(firstDayOfMonth).toString());
 		sb.append(generatorMiddleWeekHtml(week).toString());
-		sb.append(generatorLastWeekHtml(week,days,firstDayOfMonth).toString());
+		sb.append(generatorLastWeekHtml(days,firstDayOfMonth).toString());
 		sb.append(generatorJs().toString());
 		
 		return sb;
@@ -132,7 +132,7 @@ public class MemorandaService implements MemorandaServiceable {
 		StringBuffer sb = new StringBuffer();
 		
 		String lunarValue= getLunarDay(year, month, day);
-		if (!getSolarTerms(year, month, day).equals("")) lunarValue = getSolarTerms(selYear, month, day);
+		if (!getSolarTerms(year, month, day).equals("")) lunarValue = getSolarTerms(year, month, day);
 		
 		List<Memoranda> memos = findMemorandaByDate(year, month, day);
 		StringBuffer memoSb = new StringBuffer();
@@ -176,7 +176,6 @@ public class MemorandaService implements MemorandaServiceable {
 	    sb.append("    </table>\n");
 		sb.append("  </td>\n");
 		
-
 		return sb;
 	}
 
@@ -186,11 +185,16 @@ public class MemorandaService implements MemorandaServiceable {
 		sb.append("<tr class='notes_tr' valign='top'>\n");
 	
 		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, selYear);
+		if (prevMonth == 0){
+			calendar.set(Calendar.YEAR, selYear - 1);
+			prevMonth = 12;
+		}
 		calendar.set(Calendar.MONTH, prevMonth - 1);
 		int prevMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		int beginDay = prevMonthMaxDay - firstDayOfMonth + 2;
 		for (int i = 1; i < firstDayOfMonth; i++){
-			sb.append(generatorContentHtml(selYear, prevMonth, beginDay, POSITION_PREV).toString());
+			sb.append(generatorContentHtml(calendar.get(Calendar.YEAR), prevMonth, beginDay, POSITION_PREV).toString());
 			beginDay++;
 		}
 		for (int i = firstDayOfMonth; i<=7;i++){
@@ -218,7 +222,7 @@ public class MemorandaService implements MemorandaServiceable {
 		return sb;
 	}
 	
-	private StringBuffer generatorLastWeekHtml(final int week, final int days, final int firstDayOfMonth){
+	private StringBuffer generatorLastWeekHtml(final int days, final int firstDayOfMonth){
 		StringBuffer sb = new StringBuffer();
 		
 		int lastDays = days - dayCount + 1;
@@ -231,8 +235,15 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		int blankDay = 7 - lastDays;
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, selYear);
+		if (nextMonth == 13){
+			calendar.set(Calendar.YEAR, selYear + 1);
+			nextMonth = 1;
+		}
+
 		for (int i = 1; i <= blankDay; i++){
-			sb.append(generatorContentHtml(selYear, nextMonth, i, POSITION_NEXT).toString());
+			sb.append(generatorContentHtml(calendar.get(Calendar.YEAR), nextMonth, i, POSITION_NEXT).toString());
 		}
 		sb.append("</tr>\n");
 		
