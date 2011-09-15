@@ -47,7 +47,7 @@ UploadUtils = {
     }
 }
 
-var Upload = function(context,opts,saveaction){
+var Upload = function(context,saveaction,opts){
     this._context = context;
     this._opts = opts;
     this._saveaction = saveaction;
