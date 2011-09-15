@@ -37,7 +37,7 @@
 					singleSelect : true,
                     columns:[[
                               {field:'id',title:'编号',width:60},
-                              {field:'title',title:'标题',width:200},
+                              {field:'title',title:'标题',width:400},
                               {field:'noteDate',title:'日期',width:67},
                               {field:'warn',title:'提醒',width:33,
                                 formatter:function(val,rec){
