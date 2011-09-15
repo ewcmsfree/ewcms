@@ -25,9 +25,11 @@
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
-	    	imageUploadURL = '<s:url action="upload" namespace="/resource/image"/>';
+	    	imageUploadURL = '<s:url action="upload" namespace="/resource"/>?type=image';
+	    	annexUploadURL = '<s:url action="upload" namespace="/resource"/>?type=annex';
+	    	//未定义
 	    	imageBrowseURL = '<s:url action="browse" namespace="/resource/image"/>';
-	    	annexUploadURL = '<s:url action="upload" namespace="/resource/annex"/>';
+	    	//未定义
 	    	annexBrowseURL = '<s:url action="browse" namespace="/resource/annex"/>';
 	    	userName = '<sec:authentication property="name"/>';
 	    	<s:property value="javaScript"/>
