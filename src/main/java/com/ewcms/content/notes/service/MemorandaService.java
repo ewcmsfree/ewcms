@@ -42,6 +42,8 @@ public class MemorandaService implements MemorandaServiceable {
 	private int currentDay;
 	private int selYear;
 	private int selMonth;
+	private int prevMonth;
+	private int nextMonth;
 	
 	@Override
 	public StringBuffer getInitCalendarToHtml(final int year, final int month) {
@@ -63,6 +65,8 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		selYear = year;
 		selMonth = month;
+		prevMonth = month - 1;
+		nextMonth = month + 1;
 		
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		int firstDayOfMonth = calendar.get(Calendar.DAY_OF_WEEK);
@@ -96,10 +100,21 @@ public class MemorandaService implements MemorandaServiceable {
         //sb.append("       $(this).removeClass('over');\n");
         sb.append("       $(this).append(source);\n");
         sb.append("       var divMemoId = $(source).attr('id');\n");    
-        sb.append("       var targetDivId = $(source).parents('div:first').attr('id');\n");
         sb.append("       var memoId = divMemoId.split('_')[3];\n");
-        sb.append("       var dropDay = targetDivId.split('_')[2];\n");
-        sb.append("       $.post(dropURL,{'memoId':memoId,'year':$('#year').val(),'month':$('#month').val(),'dropDay':dropDay},function(data){\n");
+        sb.append("       var targetDivId = $(source).parents('div:first').attr('id');\n");
+        sb.append("       var dropDays = targetDivId.split('_');\n");
+        sb.append("       var dropDay;\n");
+        sb.append("       var month=$('#month').val();\n");
+        sb.append("       if (dropDays[2]=='prev'){\n");
+        sb.append("         month = parseInt(month) - 1;\n");
+        sb.append("         dropDay = dropDays[3];\n");
+        sb.append("       }else if (dropDays[2]=='next'){\n");
+        sb.append("         month = parseInt(month) + 1;\n");
+        sb.append("         dropDay = dropDays[3];\n");
+        sb.append("       }else{\n");
+        sb.append("         dropDay = dropDay[2];\n");
+        sb.append("       }\n");
+        sb.append("       $.post(dropURL,{'memoId':memoId,'year':$('#year').val(),'month':month,'dropDay':dropDay},function(data){\n");
         sb.append("         if (data != 'true'){\n");
         sb.append("         }\n");
         sb.append("       });\n");
@@ -110,18 +125,110 @@ public class MemorandaService implements MemorandaServiceable {
         return sb;
 	}
 
+	private StringBuffer generatorPrevMonthHtml(int dayValue){
+		StringBuffer sb = new StringBuffer();
+		
+		String lunarValue= getLunarDay(selYear, prevMonth, dayValue);
+		if (!getSolarTerms(selYear, prevMonth, dayValue).equals("")) lunarValue = getSolarTerms(selYear, prevMonth, dayValue);
+		
+		List<Memoranda> memos = findMemorandaByDate(selYear, prevMonth, dayValue);
+		StringBuffer memoSb = new StringBuffer();
+		for (Memoranda memo : memos){
+			String title = memo.getTitle();
+			String clock = "";
+			if (memo.getWarn()){
+				clock = "<img id='img_clock_" + memo.getId() + "' src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+			}
+			if (title.length() > 12){
+				title = title.substring(0, 9) + "..."; 
+			}
+			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><span id='title_" + memo.getId() + "' class='span_title'><a class='a_title' id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' href='javascript:void(0);' title='" + memo.getTitle() + "'>" + title + "</a></span>" + clock + "<div></div></div>\n");
+		}
+		
+		sb.append("  <td>\n");
+		sb.append("    <table width='100%' cellspacing='0' cellpadding='0' border='0'>\n");
+		sb.append("      <tr>\n");
+		sb.append("        <td width='33%' valign='middle' height='20' align='center' style='border-bottom: #aaccee 1px solid; border-right: #aaccee 1px solid; background-color: #DCF0FB;color:#AAAAAA'>" + dayValue + " " + lunarValue + "<br></td>\n");
+		sb.append("        <td width='67%' bgcolor='#E9F0F8'></td>\n");
+		sb.append("      </tr>\n");
+		sb.append("      <tr valign='top'>\n");
+		sb.append("        <td height='65' onmouseout=this.bgColor='' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
+		sb.append("          <div id='div_notes_prev_" + dayValue + "'  class='div_notes' style='cursor:pointer;width:auto;height:65px; overflow-y:auto; border:0px solid;'>\n");
+		sb.append(memoSb.toString());
+		sb.append("          </div>\n");
+		sb.append("        </td>\n");
+	    sb.append("      </tr>\n");
+	    sb.append("    </table>\n");
+		sb.append("  </td>\n");
+		
+		return sb;
+	}
+
+	private StringBuffer generatorNextMonthHtml(int dayValue){
+		StringBuffer sb = new StringBuffer();
+		
+		String lunarValue= getLunarDay(selYear, nextMonth, dayValue);
+		if (!getSolarTerms(selYear, nextMonth, dayValue).equals("")) lunarValue = getSolarTerms(selYear, nextMonth, dayValue);
+		
+		List<Memoranda> memos = findMemorandaByDate(selYear, nextMonth, dayValue);
+		StringBuffer memoSb = new StringBuffer();
+		for (Memoranda memo : memos){
+			String title = memo.getTitle();
+			String clock = "";
+			if (memo.getWarn()){
+				clock = "<img id='img_clock_" + memo.getId() + "' src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+			}
+			if (title.length() > 12){
+				title = title.substring(0, 9) + "..."; 
+			}
+			memoSb.append("<div id='div_notes_memo_" + memo.getId() + "' class='a_notes_value'><span id='title_" + memo.getId() + "' class='span_title'><a class='a_title' id='a_title_" + memo.getId() + "' onclick='edit(" + memo.getId() + ");' style='cursor:pointer;' href='javascript:void(0);' title='" + memo.getTitle() + "'>" + title + "</a></span>" + clock + "<div></div></div>\n");
+		}
+		
+		sb.append("  <td>\n");
+		sb.append("    <table width='100%' cellspacing='0' cellpadding='0' border='0'>\n");
+		sb.append("      <tr>\n");
+		sb.append("        <td width='33%' valign='middle' height='20' align='center' style='border-bottom: #aaccee 1px solid; border-right: #aaccee 1px solid; background-color: #DCF0FB;color:#AAAAAA' >" + dayValue + " " + lunarValue + "<br></td>\n");
+		sb.append("        <td width='67%' bgcolor='#E9F0F8'></td>\n");
+		sb.append("      </tr>\n");
+		sb.append("      <tr valign='top'>\n");
+		sb.append("        <td height='65' onmouseout=this.bgColor='' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
+		sb.append("          <div id='div_notes_next_" + dayValue + "'  class='div_notes' style='cursor:pointer;width:auto;height:65px; overflow-y:auto; border:0px solid;'>\n");
+		sb.append(memoSb.toString());
+		sb.append("          </div>\n");
+		sb.append("        </td>\n");
+	    sb.append("      </tr>\n");
+	    sb.append("    </table>\n");
+		sb.append("  </td>\n");
+		
+		return sb;
+	}
+	
+	
 	private StringBuffer generatorFirstWeekHtml(final int firstDayOfMonth) {
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("<tr class='notes_tr' valign='top'>\n");
-		for (int i = 1; i <= 7; i++) {
-			if (i < firstDayOfMonth){
-				sb.append("  <td>&nbsp;</td>\n");
-			}else{
-				sb.append(getContentHtml(dayCount).toString());
-				dayCount++;
-			}
+	
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.MONTH, prevMonth - 1);
+		int prevMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int beginDay = prevMonthMaxDay - firstDayOfMonth + 2;
+		for (int i = 1; i < firstDayOfMonth; i++){
+			sb.append(generatorPrevMonthHtml(beginDay).toString());
+			beginDay++;
 		}
+		for (int i = firstDayOfMonth; i<=7;i++){
+			sb.append(getContentHtml(dayCount).toString());
+			dayCount++;
+		}
+//		for (int i = 1; i <= 7; i++) {
+//			if (i < firstDayOfMonth){
+//				sb.append("  <td>&nbsp;</td>\n");
+//			}else{
+//				sb.append(getContentHtml(dayCount).toString());
+//				dayCount++;
+//			}
+//		}
 		sb.append("</tr>\n");
 
 		return sb;
@@ -157,7 +264,8 @@ public class MemorandaService implements MemorandaServiceable {
 		int blankDay = 7 - lastDays;
 		
 		for (int i = 1; i <= blankDay; i++){
-			sb.append("  <td>&nbsp;</td>\n");
+			sb.append(generatorNextMonthHtml(i).toString());
+			//sb.append("  <td>&nbsp;</td>\n");
 		}
 		sb.append("</tr>\n");
 		
@@ -167,8 +275,8 @@ public class MemorandaService implements MemorandaServiceable {
 	private StringBuffer getContentHtml(int dayValue){
 		StringBuffer sb = new StringBuffer();
 		
-		String lunarValue= getLunarDay(dayValue);
-		if (!getSolarTerms(dayValue).equals("")) lunarValue = getSolarTerms(dayValue);
+		String lunarValue= getLunarDay(selYear, selMonth, dayValue);
+		if (!getSolarTerms(selYear, selMonth, dayValue).equals("")) lunarValue = getSolarTerms(selYear, selMonth, dayValue);
 		
 		List<Memoranda> memos = findMemorandaByDate(selYear, selMonth, dayValue);
 		StringBuffer memoSb = new StringBuffer();
@@ -221,12 +329,12 @@ public class MemorandaService implements MemorandaServiceable {
 		return sb;
 	}
 	
-	private String getLunarDay(int day){
-		return Lunar.getLunarDay(selYear, selMonth, day);
+	private String getLunarDay(int year, int month, int day){
+		return Lunar.getLunarDay(year, month, day);
 	}
 	
-	private String getSolarTerms(int day){
-		return SolarTerm.getSoralTerm(selYear, selMonth, day);
+	private String getSolarTerms(int year, int month, int day){
+		return SolarTerm.getSoralTerm(year, month, day);
 	}
 
 	@Override
