@@ -17,9 +17,29 @@
     <script type="text/javascript">
        var dropURL = '<s:url namespace="/document/notes" action="drop"/>';
        $(function(){
-    	  
-		  ewcmsBOBJ = new EwcmsBase();
-		  ewcmsOOBJ = new EwcmsOperate(); 
+           ewcmsBOBJ = new EwcmsBase();
+           ewcmsOOBJ = new EwcmsOperate(); 
+           $('.a_notes_value').not('span.span_title').draggable({
+			   revert:true,
+			   proxy:'clone'
+		   });
+		   $('.div_notes').not('span.span_title').droppable({
+			   onDragEnter:function(e, source){
+		       },
+		       onDragLeave:function(e, source){
+		       },
+		       onDrop:function(e, source){
+			       $(this).append(source);
+			       var divMemoId = $(source).attr('id');    
+			       var targetDivId = $(source).parents('div:first').attr('id');
+			       var memoId = divMemoId.split('_')[3];
+			       var dropDay = targetDivId.split('_')[2];
+			       $.post(dropURL,{'memoId':memoId,'year':$('#year').val(),'month':$('#month').val(),'dropDay':dropDay},function(data){
+			         if (data != 'true'){
+			         }
+			       });
+		       }
+		   });
        });
        function ChangeDate(year,month,weight){
     	   loadingEnable();
