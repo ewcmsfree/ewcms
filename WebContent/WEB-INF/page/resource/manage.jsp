@@ -15,9 +15,8 @@
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <ewcms:datepickerhead></ewcms:datepickerhead>
         <script type="text/javascript">
+            var ewcms = new EwcmsBase();
             $(function(){
-                ewcmsBOBJ = new EwcmsBase();
-                
                 $('#tt').datagrid({
                     url: 'datagrid_data2.json',
                     width: 700,

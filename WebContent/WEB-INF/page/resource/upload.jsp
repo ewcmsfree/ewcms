@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="<s:url value='/source/css/ewcms.css'/>" />
         
         <script type="text/javascript">
-            var upload = new Upload('<s:property  value="context"/>',{
+            var upload = new Upload('<s:property  value="context"/>','<s:url action="save"/>',{
                 uploader:'<s:url value="/source/uploadify/medium/uploadify.allglyphs.swf"/>',
                 expressInstall:'<s:url value="/source/uploadify/medium/expressInstall.swf"/>',
                 cancelImg: '<s:url value="/source/uploadify/image/cancel.png"/>',
@@ -24,8 +24,7 @@
                 type: '<s:property value="type"/>',
                 multi:  <s:property value="multi"/>,
                 fileDesc: '<s:property value="fileDesc"/>',
-                fileExt: '<s:property value="fileExt"/>'},
-                '<s:url action="save"/>');
+                fileExt: '<s:property value="fileExt"/>'});
             
             $(function() {
                 upload.init();
