@@ -55,7 +55,7 @@
             		type:'post',
             		datatype:'json',
             		cache:false,
-            		url:'<s:url namespace="/document/notes" action="notesRemind"/>?clientTime=' + new Date(),
+            		url:'<s:url namespace="/notes" action="notesRemind"/>?clientTime=' + new Date(),
             		data: '',
             		success:function(message){
                 		if (message != 'false'){
@@ -230,7 +230,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('个人备忘','document/notes/index.do')">
+                        <a href="javascript:addTab('个人备忘','notes/index.do')">
                             <img src="source/image/notes.png" style="border:0"/><br/>
                             <span>个人备忘</span>
                         </a>
