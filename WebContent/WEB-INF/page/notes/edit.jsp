@@ -36,7 +36,7 @@
         </script>		
 	</head>
 	<body onload="tipMessage();">
-		<s:form id="notesForm" action="save" namespace="/document/notes">
+		<s:form id="notesForm" action="save" namespace="/notes">
 			<table class="formtable">
 				<tr>
 					<td width="60">标题：</td>

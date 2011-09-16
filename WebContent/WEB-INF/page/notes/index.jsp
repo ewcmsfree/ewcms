@@ -15,7 +15,7 @@
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
     <script type="text/javascript">
-       var dropURL = '<s:url namespace="/document/notes" action="drop"/>';
+       var dropURL = '<s:url namespace="/notes" action="drop"/>';
        $(function(){
            ewcmsBOBJ = new EwcmsBase();
            ewcmsOOBJ = new EwcmsOperate(); 
@@ -53,7 +53,7 @@
            }
            $('#year').attr('value',year);
            $('#month').attr('value',monthValue);
-           $.post('<s:url namespace="/document/notes" action="changeDate"/>',{'year':$('#year').val(),'month':$('#month').val()},function(data) {
+           $.post('<s:url namespace="/notes" action="changeDate"/>',{'year':$('#year').val(),'month':$('#month').val()},function(data) {
                $('tr').remove('.notes_tr');
                $('#result').append(data);
                loadingDisable();
@@ -62,20 +62,20 @@
         function toDay(){
             $('#year').attr('value',$('#currentYear').val());
             $('#month').attr('value',$('#currentMonth').val());
-        	$.post('<s:url namespace="/document/notes" action="toDay"/>',{},function(data) {
+        	$.post('<s:url namespace="/notes" action="toDay"/>',{},function(data) {
             	$('tr').remove('.notes_tr');
             	$('#result').append(data);
             });
         }
     	function add(i){
-        	var url = '<s:url namespace="/document/notes" action="input"/>?year=' + $('#year').val() + '&month=' + $('#month').val() + '&day=' + i;
+        	var url = '<s:url namespace="/notes" action="input"/>?year=' + $('#year').val() + '&month=' + $('#month').val() + '&day=' + i;
         	$('#editifr').attr('src',url);
         	var title = '新增备忘(' + $('#year').val() + '年' + $('#month').val() + '月' + i + '日)';
         	$('#bntRemove').linkbutton('disable');
         	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:330,title:title});
     	}
     	function edit(i){
-    		var url = '<s:url namespace="/document/notes" action="input"/>?selections=' + i;
+    		var url = '<s:url namespace="/notes" action="input"/>?selections=' + i;
     		$('#editifr').attr('src',url);
     		$('#bntRemove').linkbutton('enable');
         	ewcmsBOBJ.openWindow('#edit-window',{width:420,height:330,title:'修改备忘'});
@@ -85,7 +85,7 @@
     		if (id != ''){
         		$.messager.confirm("提示","确定要删除记录吗?",function(r){
             		if (r){
-		        		$.post('<s:url namespace="/document/notes" action="delete"/>',{'selections':id},function(data){
+		        		$.post('<s:url namespace="/notes" action="delete"/>',{'selections':id},function(data){
 		            		if (data == 'success'){
 		                		$('#div_notes_memo_' + id).remove();
 		            			$('#edit-window').window('close');
@@ -99,7 +99,7 @@
     	}
     	function saveBack(){
     		var params = $(window.frames['editifr'].document).find('#notesForm').serialize();
-    		$.post('<s:url action="save" namespace="/document/notes"/>',params,function(data){
+    		$.post('<s:url action="save" namespace="/notes"/>',params,function(data){
         		if (data == 'true'){
                     var id = $(window.frames['editifr'].document).find('#memorandaId').val()
                     if (id != ''){
@@ -123,7 +123,7 @@
     		return false;
 	   }
  	   function notesDetail(){
- 		  	var url =  '<s:url namespace="/document/notes" action="list"/>';
+ 		  	var url =  '<s:url namespace="/notes" action="list"/>';
 			$('#editifr_notes').attr('src',url);
 			ewcmsBOBJ.openWindow('#notes-window',{width:1300,height:600,title:'备访录列表'});
  	   }

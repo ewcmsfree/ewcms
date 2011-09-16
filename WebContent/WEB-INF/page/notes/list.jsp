@@ -17,7 +17,7 @@
 		<script type="text/javascript">
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/notes" action="query"/>');
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/notes" action="query"/>');
 
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
@@ -66,7 +66,7 @@
 
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setInputURL('<s:url namespace="/document/notes" action="input"/>');
+				ewcmsOOBJ.setInputURL('<s:url namespace="/notes" action="input"/>');
 			});
 			function deleteOperate(){
 			    var rows = $('#tt').datagrid('getSelections');
@@ -80,7 +80,7 @@
 			    }
 			    $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
 			        if (r){
-			            $.post('<s:url namespace="/document/notes" action="delete"/>',ids,function(data){          	
+			            $.post('<s:url namespace="/notes" action="delete"/>',ids,function(data){          	
 			            	$.messager.alert('成功','删除成功','info');
 			                for (var i=0;i<rows.length;++i){ 
 			                	$(window.parent.document).find('#div_notes_memo_' + rows[i].id).remove();             	
@@ -94,7 +94,7 @@
 			}
 			function saveOperate(){
 				var params = $(window.frames['editifr'].document).find('#notesForm').serialize();
-	    		$.post('<s:url action="save" namespace="/document/notes"/>',params,function(data){
+	    		$.post('<s:url action="save" namespace="/notes"/>',params,function(data){
 	        		if (data == 'true'){
 	        			$('#tt').datagrid('clearSelections');
 		                $('#tt').datagrid('reload');
