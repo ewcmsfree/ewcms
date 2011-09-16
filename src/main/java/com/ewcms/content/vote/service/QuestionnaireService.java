@@ -93,8 +93,8 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			StringBuffer view = new StringBuffer();
 			
 			view.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
-			view.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/vote.css'/>\n");
-			view.append("<script language='javascript' src='/" + servletContentName + "/source/js/vote.js'></script>\n");
+			view.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/page/vote/vote.css'/>\n");
+			view.append("<script language='javascript' src='/" + servletContentName + "/source/page/vote/vote.js'></script>\n");
 			
 			if (questionnaire.getVoteFlag() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
 				view.append("<p>对不起，此调查已结束，不再接受投票</p>");
@@ -212,7 +212,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			StringBuffer result = new StringBuffer();
 			
 			result.append("<div id='voteresult' style='height:100%;overflow-y:auto;text-align:left;'>\n");
-			result.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/css/voteresult.css'/>\n");
+			result.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/page/vote/voteresult.css'/>\n");
 			result.append("  <div style='padding:10px;overflow:hidden;_overflow:visible;_height:1%;'>\n");
 			result.append("    <h2 style='float:left;'>" + questionnaire.getTitle() + "：调查结果</h2>\n");
 			//result.append("    <h2 style='float:right;'>投票人数：" + questionnaire.getNumber() + "</h2>\n");
