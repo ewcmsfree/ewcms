@@ -14,7 +14,7 @@
 		<script type="text/javascript" src='<s:url value="/source/js/datagrid-detailview.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/article/index.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/page/document/index.js"/>'></script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 		<script type="text/javascript">
 			queryURL = '<s:url namespace="/document/article" action="query"/>';

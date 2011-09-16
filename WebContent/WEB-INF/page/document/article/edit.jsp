@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="<s:url value='/source/theme/default/easyui.css'/>"/>
 		<link rel="stylesheet" type="text/css" href="<s:url value='/source/theme/icon.css'/>"/>
 		<link rel="stylesheet" type="text/css" href="<s:url value='/source/css/ewcms.css'/>" />
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/css/article.css'/>" />
+		<link rel="stylesheet" type="text/css" href="<s:url value='/source/page/document/article.css'/>" />
 		<script type="text/javascript" src="<s:url value='/source/js/jquery.min.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/js/jquery.cookies.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
@@ -21,7 +21,7 @@
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script type="text/javascript" src="<s:url value='/source/js/article/edit.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/source/page/document/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
