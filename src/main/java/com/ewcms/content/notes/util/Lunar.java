@@ -11,6 +11,11 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 计算农历
+ * 
+ * @author wu_zhijun
+ */
 public class Lunar {
 	protected static final Logger logger = LoggerFactory.getLogger(Lunar.class);
 
@@ -66,7 +71,7 @@ public class Lunar {
 	public Lunar() {
 	}
 
-	// ====================================== 传回农历 y年的总天数
+	// 农历 y年的总天数
 	private static int lYearDays(int y) {
 		int i;
 		int sum = 348; // 29*12
@@ -77,7 +82,7 @@ public class Lunar {
 		return (sum + leapDays(y)); // +闰月的天数
 	}
 
-	// ====================================== 传回农历 y年闰月的天数
+	// 农历 y年闰月的天数
 	private static int leapDays(int y) {
 		if (leapMonth(y) != 0)
 			return ((lunarInfo[y - 1900] & 0x10000) == 0 ? 29 : 30);
@@ -85,18 +90,18 @@ public class Lunar {
 			return (0);
 	}
 
-	// ====================================== 传回农历 y年闰哪个月 1-12 , 没闰传回 0
+	// 农历 y年闰哪个月 1-12 , 没闰传回 0
 	private static int leapMonth(int y) {
 		return (lunarInfo[y - 1900] & 0xf);
 	}
 
-	// ====================================== 传回农历 y年m月的总天数
+	// 农历 y年m月的总天数
 	private static int monthDays(int y, int m) {
 		return ((lunarInfo[y - 1900] & (0x10000 >> m)) == 0 ? 29 : 30);
 	}
 
-	// ====================================== 算出农历, 传入日期物件, 传回农历日期物件
-	// 该物件属性有 .year .month .day .isLeap .yearCyl .dayCyl .monCyl
+	// 算出农历, 传入日期物件, 返回农历日期物件
+	// 属性有 .year .month .day .isLeap .yearCyl .dayCyl .monCyl
 	private static void Lunar1(Date objDate) {
 		int i, leap = 0, temp = 0;
 		// int monCyl,dayCyl,yearCyl;
@@ -186,12 +191,12 @@ public class Lunar {
 		return (isLeap);
 	}
 
-	// ============================== 传入 offset 传回干支, 0=甲子
+	// 传入 offset 返回干支, 0=甲子
 	private static String cyclical(int num) {
 		return (Gan[num % 10] + Zhi[num % 12]);
 	}
 
-	// ====================== 中文日期
+	// 中文日期
 	public static String cDay(int d) {
 		String s;
 		switch (d) {
@@ -246,7 +251,6 @@ public class Lunar {
 		s += cDay(getDay()) + " ";
 		s += cyclical(getYearCyl()) + "年" + cyclical(getMonCyl()) + "月"
 				+ cyclical(getDayCyl()) + "日";
-		// System.out.println(s);
 		return s;
 	}
 

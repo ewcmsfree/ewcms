@@ -8,6 +8,11 @@ package com.ewcms.content.notes.util;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ *  计算二十四节气
+ * 
+ * @author wu_zhijun
+ */
 public class SolarTerm {
 
 	final static long[] STermInfo = new long[] { 0, 21208, 42467, 63836, 85337,
