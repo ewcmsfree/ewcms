@@ -1,0 +1,168 @@
+#voteresult {
+	width: 850px;
+	margin: 0 auto;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+#voteresult h2 {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+	padding-left: 5px;
+}
+
+.voteresultb {
+	padding: 10px;
+	border: 1px solid #D5D9D8;
+	background: #FFFFFF;
+}
+
+.voteresultb h3 {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 30px;
+	padding: 0;
+	padding-left: 10px;
+	margin: 0;
+}
+
+.voteresultb table {
+	width: 100%;
+	font-size: 12px;
+	border-collapse: collapse;
+}
+
+.voteresultb th {
+	background-color: #F6F6F6;
+	border-top: medium none;
+	color: #666666;
+	font-weight: normal;
+	line-height: 24px;
+	padding: 0;
+	text-align: center;
+}
+
+.voteresultb td.col1 {
+	line-height: normal;
+	padding: 6px 10px;
+	text-indent: 0;
+}
+
+.col1 span {
+	background: url(../image/voterow.gif) no-repeat;
+	color: #FFFFFF;
+	display: block;
+	float: left;
+	height: 12px;
+	line-height: 12px;
+	margin: 0 6px 0 0;
+	padding: 0 2px 2px 0;
+	text-align: center;
+	width: 18px;
+}
+
+.col1 p {
+	font-size: 14px;
+	margin: -1px 0 0 28px;
+}
+
+.percent_bg {
+	background-color: #D9E4F8;
+	position: absolute;
+	right: 20px;
+	top: 12px;
+	width: 67px;
+}
+
+.percent_bg,.percent {
+	display: block;
+	height: 8px;
+	overflow: hidden;
+	text-align: left;
+	text-indent: -999em;
+}
+
+.voteresultb td {
+	color: #363636;
+	line-height: 33px;
+}
+
+.percent {
+	background: url(../image/votepercent.gif) no-repeat scroll 0 0;
+}
+
+.percent_bg,.percent {
+	display: block;
+	height: 8px;
+	overflow: hidden;
+	text-align: left;
+	text-indent: -999em;
+}
+
+th.col2,th.col3,td.col2,td.col3 {
+	border-left-width: 1px;
+}
+
+.voteresultb td {
+	background-color: #FFFFFF;
+	color: #363636;
+	line-height: 33px;
+}
+
+.voteresultb td,.voteresultb th {
+	border-collapse: collapse;
+	border-color: #D5D9D8;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.col2 {
+	table-layout: fixed;
+	width: 200px !important;
+}
+
+.col2 div {
+	height: 33px;
+	padding-left: 10px;
+	position: relative;
+	text-align: left;
+	width: 45px;
+}
+
+.tabButtons {
+	float: right
+}
+
+.tabButtons a,.tabButtons a b {
+	display: inline-block; *
+	zoom: 1; *
+	display: inline;
+	background: url(../image/rectangle_gray.gif) no-repeat;
+	line-height: 20px;
+	color: #fff;
+	font-weight: normal;
+	font-size: 13px;
+	font-family: SIMSUN;
+	cursor: pointer;
+}
+
+.tabButtons a {
+	background-position: 0 0;
+	padding-left: 20px;
+}
+
+.tabButtons a b {
+	background-position: right 0;
+	padding-right: 20px;
+	line-height: 13px;
+	padding-top: 2px;
+	height: 18px;
+}
+
+.tabButtons a.current,.tabButtons a.current b,.tabButtons a:hover,.tabButtons a:hover b
+	{
+	text-decoration: none;
+	background-image: url(../image/rectangle_green.gif);
+}
