@@ -163,3 +163,60 @@ table.cellspacing { border-collapse: separate; }
 .icon-notes-today{
 	background:url('icons/notes_today.png') no-repeat;
 }
+.icon-sort{
+    background:url('icons/sort.png') no-repeat;
+}
+.icon-winedit{
+	background:url('icons/wintop.png') no-repeat;
+}
+.icon-down{
+	background:url('icons/icon_down.gif') no-repeat;
+}
+.icon-up{
+	background:url('icons/icon_up.gif') no-repeat;
+}
+.icon-copy{
+	background:url('icons/copy.png') no-repeat;
+}
+.icon-move{
+	background:url('icons/move.png') no-repeat;
+}
+.icon-review{
+	background:url('icons/review.png') no-repeat;
+}
+.icon-reviewsubmit{
+	background:url('icons/review_submit.png') no-repeat;
+}
+.icon-reviewprocess{
+	background:url('icons/review_process.png') no-repeat;
+}
+.icon-publish{
+	background:url('icons/publish.png') no-repeat;
+}
+.icon-publishok{
+	background:url('icons/publish_ok.png') no-repeat;
+}
+.icon-breakarticle{
+	background:url('icons/breakarticle.png') no-repeat;
+}
+.icon-share{
+	background:url('icons/share.png') no-repeat;
+}
+.icon-shareself{
+	background:url('icons/shareself.png') no-repeat;
+}
+.icon-sortset{
+    background:url('icons/sort_set.png') no-repeat;
+}
+.icon-sortclear{
+	background:url('icons/sort_clear.png') no-repeat;
+}
+.icon-voteprivew{
+	background:url('icons/voteprivew.png') no-repeat;
+}
+.icon-voteresult{
+	background:url('icons/voteresult.png') no-repeat;
+}
+.icon-votedetail{
+	background:url('icons/votedetail.png') no-repeat;
+}
