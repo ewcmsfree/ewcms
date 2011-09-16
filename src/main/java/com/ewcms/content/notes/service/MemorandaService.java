@@ -140,7 +140,7 @@ public class MemorandaService implements MemorandaServiceable {
 			String title = memo.getTitle();
 			String clock = "";
 			if (memo.getWarn()){
-				clock = "<img id='img_clock_" + memo.getId() + "' src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+				clock = "<img id='img_clock_" + memo.getId() + "' src='../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
 			}
 			if (title.length() > 12){
 				title = title.substring(0, 9) + "..."; 
