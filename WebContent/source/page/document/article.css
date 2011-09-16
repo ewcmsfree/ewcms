@@ -35,14 +35,14 @@ iframe { margin: 0; padding: 0;border-style: solid; border-color: #778899; borde
 /*小标签*/
 ul.tabSwitch { clear:both; width:100%; display:table;*display:inline-block;border-bottom:1px #99a7b1 solid; font-size:0; height:24px; margin-bottom:10px;}
 ul.tabSwitch li {float:left; margin:0 0 0 5px; _display:inline;}
-ul.tabSwitch li a,ul.tabSwitch li a b{display:inline-block; +zoom: 1; +display: inline; height:22px; line-height:22px;background: url(../image/article/tabBtnBg.gif) no-repeat 0 0; cursor:pointer; font-size:12px;}
+ul.tabSwitch li a,ul.tabSwitch li a b{display:inline-block; +zoom: 1; +display: inline; height:22px; line-height:22px;background: url(../../image/article/tabBtnBg.gif) no-repeat 0 0; cursor:pointer; font-size:12px;}
 ul.tabSwitch li a{height:24px; padding-left:6px; -moz-border-radius: 2.4px 2.5px 1px 1px; background-position:0 0;}
 ul.tabSwitch li a b{ font-weight:normal; color:#666;min-width:48px;  text-align:center; padding:2px 15px 0 10px; background-position:right 0;}
-ul.tabSwitch li a:hover,ul.tabSwitch li a:hover b{ text-decoration:none;background-image:url(../image/article/tabBtnBg_cur.gif); }
-ul.tabSwitch li a.current {position:relative; height:25px; margin-bottom:-1px; background-image:url(../image/article/tabBtnBg_cur.gif);}
-ul.tabSwitch li a.current b{ font-weight: bold; color:#246; background-image:url(../image/article/tabBtnBg_cur.gif);}
+ul.tabSwitch li a:hover,ul.tabSwitch li a:hover b{ text-decoration:none;background-image:url(../../image/article/tabBtnBg_cur.gif); }
+ul.tabSwitch li a.current {position:relative; height:25px; margin-bottom:-1px; background-image:url(../../image/article/tabBtnBg_cur.gif);}
+ul.tabSwitch li a.current b{ font-weight: bold; color:#246; background-image:url(../../image/article/tabBtnBg_cur.gif);}
 
-textarea { color: #336699; border: 1px solid #667788; border-color: #667788 #AABBCC #AABBCC #778899; line-height: 19px; padding: 1px 1px 1px 4px; background: #F7FAFC url(../image/article/textarea_bg.gif); height: 80px; margin: 0; -moz-border-radius: 2px; -webkit-border-radius: 2px; *overflow:scroll; *overflow-x: hidden;}
+textarea { color: #336699; border: 1px solid #667788; border-color: #667788 #AABBCC #AABBCC #778899; line-height: 19px; padding: 1px 1px 1px 4px; background: #F7FAFC url(../../image/article/textarea_bg.gif); height: 80px; margin: 0; -moz-border-radius: 2px; -webkit-border-radius: 2px; *overflow:scroll; *overflow-x: hidden;}
 textarea:hover { border-color: #00AAEE; }
 textarea:focus { border-color: #FF8800; }
 textarea.disabled,
@@ -70,7 +70,7 @@ a.ewcmsBtn {
 	text-decoration: none;
 	height: 24px;
 	margin: 0 5px 0 0;
-	background: url(../image/article/btnout_bg_left.gif) no-repeat left center;
+	background: url(../../image/article/btnout_bg_left.gif) no-repeat left center;
 	float: left;
 	_display: inline;
 	-moz-user-select:none;
@@ -80,7 +80,7 @@ a.ewcmsBtn_right {
 	text-decoration: none;
 	height: 24px;
 	margin: 0 5px 0 0;
-	background: url(../image/article/btnout_bg_left.gif) no-repeat left center;
+	background: url(../../image/article/btnout_bg_left.gif) no-repeat left center;
 	float: right;
 	_display: inline;
 	-moz-user-select:none;
@@ -106,7 +106,7 @@ a.ewcmsBtn b {
 	height: 24px;
 	line-height: 24px;
 	padding: 0 4px 0 3px;
-	background: url(../image/article/btnout_bg_right.gif) no-repeat right center;
+	background: url(../../image/article/btnout_bg_right.gif) no-repeat right center;
 	display:inline-block;
 	+zoom: 1;
 	+display: inline;
@@ -120,7 +120,7 @@ a.ewcmsBtn_right b {
 	height: 24px;
 	line-height: 24px;
 	padding: 0 4px 0 3px;
-	background: url(../image/article/btnout_bg_right.gif) no-repeat right center;
+	background: url(../../image/article/btnout_bg_right.gif) no-repeat right center;
 	display:inline-block;
 	+zoom: 1;
 	+display: inline;
@@ -129,29 +129,29 @@ a.ewcmsBtn_right b {
 
 a.ewcmsBtn:hover {
 	text-decoration: none;
-	background: url(../image/article/btnover_bg_left.gif) no-repeat left center;
+	background: url(../../image/article/btnover_bg_left.gif) no-repeat left center;
 }
 
 a.ewcmsBtn:hover b {
 	color: #147;
-	background: url(../image/article/btnover_bg_right.gif) no-repeat right center;
+	background: url(../../image/article/btnover_bg_right.gif) no-repeat right center;
 }
 
 a.ewcmsBtn_right:hover {
 	text-decoration: none;
-	background: url(../image/article/btnover_bg_left.gif) no-repeat left center;
+	background: url(../../image/article/btnover_bg_left.gif) no-repeat left center;
 }
 
 a.ewcmsBtn_right:hover b {
 	color: #147;
-	background: url(../image/article/btnover_bg_right.gif) no-repeat right center;
+	background: url(../../image/article/btnover_bg_right.gif) no-repeat right center;
 }
 
 
 a.ewcmsBtnDisabled,
 a.ewcmsBtnDisabled:hover{
 	cursor: not-allowed;
-	background: url(../image/btnDsb_bg_left.gif) no-repeat left center;
+	background: url(../../image/btnDsb_bg_left.gif) no-repeat left center;
 }
 
 a.ewcmsBtnDisabled img,
@@ -164,11 +164,11 @@ a.ewcmsBtnDisabled b,
 a.ewcmsBtnDisabled:hover b {
 	cursor: not-allowed;
 	color: #999;
-	background: url(../image/article/btnDsb_bg_right.gif) no-repeat right center;
+	background: url(../../image/article/btnDsb_bg_right.gif) no-repeat right center;
 }
 
 .pagetab {
-	background: #F7F8FD url(../image/article/pagetab_bg.gif) repeat-x left top;
+	background: #F7F8FD url(../../image/article/pagetab_bg.gif) repeat-x left top;
 	padding-top: 0;
 	vertical-align: top;
 }
@@ -180,7 +180,7 @@ a.ewcmsBtnDisabled:hover b {
 	float: left;
 	margin-left: -12px;
 	_display: inline;
-	background: url(../image/article/pagetab_left.gif) no-repeat left top;
+	background: url(../../image/article/pagetab_left.gif) no-repeat left top;
 	padding: 0 0 0 15px;
 	height: 20px;
 	-moz-user-select: none;
@@ -194,19 +194,19 @@ a.ewcmsBtnDisabled:hover b {
 	color: #888;
 	display: block;
 	float: left;
-	background: url(../image/article/pagetab_right.gif) no-repeat right top;
+	background: url(../../image/article/pagetab_right.gif) no-repeat right top;
 	padding: 0px 15px 0 0;
 	line-height: 17px;
 	height: 20px;
 }
 .pagetab a.current,
 .pagetab li.current {
-	background: url(../image/article/pagetab_left_active.gif) no-repeat scroll left top transparent;
+	background: url(../../image/article/pagetab_left_active.gif) no-repeat scroll left top transparent;
 	z-index: 777;
 }
 .pagetab a.current b,
 .pagetab li.current b {
-	background: url(../image/article/pagetab_right_active.gif) no-repeat right top;
+	background: url(../../image/article/pagetab_right_active.gif) no-repeat right top;
 	font-weight: bold;
 	color: #123;
 	line-height: 16px;
@@ -233,5 +233,5 @@ a.ewcmsBtnDisabled:hover b {
 }
 
 .themleft {
-	background: url(../image/article/themtitleft.gif) no-repeat left top;
+	background: url(../../image/article/themtitleft.gif) no-repeat left top;
 }

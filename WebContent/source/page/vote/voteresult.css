@@ -51,7 +51,7 @@
 }
 
 .col1 span {
-	background: url(../image/voterow.gif) no-repeat;
+	background: url(../../image/voterow.gif) no-repeat;
 	color: #FFFFFF;
 	display: block;
 	float: left;
@@ -90,7 +90,7 @@
 }
 
 .percent {
-	background: url(../image/votepercent.gif) no-repeat scroll 0 0;
+	background: url(../../image/votepercent.gif) no-repeat scroll 0 0;
 }
 
 .percent_bg,.percent {
@@ -139,7 +139,7 @@ th.col2,th.col3,td.col2,td.col3 {
 	display: inline-block; *
 	zoom: 1; *
 	display: inline;
-	background: url(../image/rectangle_gray.gif) no-repeat;
+	background: url(../../image/rectangle_gray.gif) no-repeat;
 	line-height: 20px;
 	color: #fff;
 	font-weight: normal;
@@ -164,5 +164,5 @@ th.col2,th.col3,td.col2,td.col3 {
 .tabButtons a.current,.tabButtons a.current b,.tabButtons a:hover,.tabButtons a:hover b
 	{
 	text-decoration: none;
-	background-image: url(../image/rectangle_green.gif);
+	background-image: url(../../image/rectangle_green.gif);
 }
