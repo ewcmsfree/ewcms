@@ -393,7 +393,7 @@
                                 <groupId>org.apache.myfaces.tobago</groupId>
                                 <artifactId>maven-apt-plugin</artifactId>
                                 <configuration>
-                                        <A>uri=/ewcms-tags,tlibVersion=2.2.3,jspVersion=2.0,shortName=s,displayName="Ewcms
+                                        <A>uri=/ewcms-tags,tlibVersion=2.2,jspVersion=2.0,shortName=s,displayName="Ewcms
                                                 Tags",
                                                 outFile=${basedir}/target/classes/META-INF/ewcms-tags.tld,
                                                 description="To make it easier to access dynamic
@@ -442,6 +442,7 @@
                                                 </goals>
                                         </execution>
                                 </executions>
+                                
                                 <configuration>
                                         <nosuffix>true</nosuffix>
                                         <jswarn>false</jswarn>
@@ -450,6 +451,7 @@
                                         <encoding>UTF-8</encoding>
                                         <linebreakpos>-1</linebreakpos>
                                         <failOnWarning>false</failOnWarning>
+                                        
                                         <sourceDirectory>${basedir}/WebContent/source/</sourceDirectory>
                                         <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/source/</outputDirectory>
                                         <excludes>
@@ -478,6 +480,7 @@
                                 <header>${basedir}/src/etc/header.txt</header>
                                 <failIfMissing>true</failIfMissing>
                                 <aggregate>true</aggregate>
+                                <strictCheck>true</strictCheck>
                                 <includes>
                                         <include>**/*.java</include>
                                 </includes>
