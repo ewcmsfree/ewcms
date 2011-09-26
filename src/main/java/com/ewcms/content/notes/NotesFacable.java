@@ -68,7 +68,7 @@ public interface NotesFacable {
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
 	
 	/**
-	 * 获取备忘录的提醒时间
+	 * 根据客户端时间显示备忘录对象集合
 	 * 
 	 * @param clientTime 客户端时间
 	 * @return List 备忘录对象集合
