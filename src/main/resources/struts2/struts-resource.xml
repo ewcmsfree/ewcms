@@ -7,19 +7,27 @@
 <struts>	
 
     <package name="resource"  extends="struts-default" namespace="/resource">
+    
         <action name="index" >
             <result type="dispatcher">/WEB-INF/page/resource/index.jsp</result>
         </action>
         <action name="manage" class="com.ewcms.content.resource.web.ManageAction">
             <result>/WEB-INF/page/resource/manage.jsp</result>
         </action>
-        <action name="upload" class="com.ewcms.content.resource.web.UploadAction" method="input">
-            <result>/WEB-INF/page/resource/upload.jsp</result>
+        
+        <action name="resource" class="com.ewcms.content.resource.web.ResourceAction" method="input">
+            <result>/WEB-INF/page/resource/resource.jsp</result>
         </action>
-        <action name="receive" class="com.ewcms.content.resource.web.UploadAction" method="receive"/>
-        <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbUploadAction" method="receive"/>
-        <action name = "delete" class="com.ewcms.content.resource.web.OperatorAction" method="delete"/>
-        <action name = "publish" class="com.ewcms.content.resource.web.OperatorAction" method="publish"/>
-        <action name = "save" class="com.ewcms.content.resource.web.OperatorAction" method="save"/>
+        <action name="receive" class="com.ewcms.content.resource.web.ResourceAction" method="receive"/>
+        <action name = "delete" class="com.ewcms.content.resource.web.ResourceAction" method="delete"/>
+        <action name = "publish" class="com.ewcms.content.resource.web.ResourceAction" method="publish"/>
+        <action name = "save" class="com.ewcms.content.resource.web.ResourceAction" method="save"/>
+        
+        <action name="thumb" class="com.ewcms.content.resource.web.ThumbAction" method="input">
+            <result>/WEB-INF/page/resource/thumb.jsp</result>
+        </action>
+        <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbAction" method="receive"/>
+      
+        <action name = "query" class="com.ewcms.content.resource.web.QueryAction" method="query"/>
     </package>
 </struts>
