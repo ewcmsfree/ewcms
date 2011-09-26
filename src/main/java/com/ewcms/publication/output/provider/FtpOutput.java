@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.output.provider;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -24,15 +25,18 @@ import com.ewcms.core.site.model.SiteServer;
 public class FtpOutput extends OutputBase{
 
     private static final Logger logger = LoggerFactory.getLogger(FtpOutput.class);
+    private static final String DEFAULT_PORT = "21";
     
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager) throws FileSystemException {
         
         FtpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, false);
         
+        String port = StringUtils.isBlank(server.getPort()) ? DEFAULT_PORT :server.getPort();
+        
         StringBuilder builder = new StringBuilder();
         builder.append("ftp://");
-        builder.append(server.getHostName()).append(":").append(server.getPort());
+        builder.append(server.getHostName()).append(":").append(port);
         builder.append(":").append(server.getPath());
         
         String address = builder.toString();

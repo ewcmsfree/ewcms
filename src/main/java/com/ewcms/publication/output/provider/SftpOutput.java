@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.output.provider;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -24,15 +25,18 @@ import com.ewcms.core.site.model.SiteServer;
 public class SftpOutput extends OutputBase {
 
     private static final Logger logger = LoggerFactory.getLogger(SftpOutput.class);
+    private static final String DEFAULT_PORT = "22";
     
     @Override
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager)throws FileSystemException{
         
         SftpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, false);
         
+        String port = StringUtils.isBlank(server.getPort()) ? DEFAULT_PORT :server.getPort();
+        
         StringBuilder builder = new StringBuilder();
         builder.append("sftp://");
-        builder.append(server.getHostName()).append(":").append(server.getPort());
+        builder.append(server.getHostName()).append(":").append(port);
         builder.append(server.getPath());
         
         String address = builder.toString();
