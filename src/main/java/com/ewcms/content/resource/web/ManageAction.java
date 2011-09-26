@@ -6,18 +6,22 @@
 
 package com.ewcms.content.resource.web;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- *
+ * 资源管理页面Action
+ * 
  * @author wangwei
  */
-@Controller
+@Controller("resource.manage.action")
 public class ManageAction extends ActionSupport {
 
     private String type;
+    private String context;
 
     public String getType() {
         return type;
@@ -25,5 +29,17 @@ public class ManageAction extends ActionSupport {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    @Override
+    public String execute(){
+        context = ServletActionContext.getRequest().getContextPath();
+        context = StringUtils.removeEnd(context, "/");
+        
+        return SUCCESS;
+    }
+    
+    public String getContext(){
+        return context;
     }
 }

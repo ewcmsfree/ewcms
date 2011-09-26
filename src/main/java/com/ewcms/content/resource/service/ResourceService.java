@@ -9,6 +9,7 @@ package com.ewcms.content.resource.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +123,38 @@ public class ResourceService implements ResourceServiceable {
     }
     
     @Override
+    public Resource update(Integer id, File file, String fullName, Resource.Type type)throws IOException {
+        
+        Resource resource = resourceDao.get(id);
+        if(resource == null){
+            //TODO 错误资源不存在
+            return null;
+        }
+        
+        FileUtils.copyFile(file, new File(resource.getPath()));
+        
+        if (type == Resource.Type.IMAGE) {
+            if(resource.getPath().equals(resource.getThumbPath())){
+                String thumbUri = getThumbUri(resource.getUri());
+                String thumbPath = Resource.resourcePath(resource.getSite(), thumbUri);
+                if(ImageUtil.compression(resource.getPath(), thumbPath, 128, 128)){
+                    resource.setThumbUri(thumbUri);
+                }
+            }else{
+                if(!ImageUtil.compression(resource.getPath(), resource.getThumbPath(), 128, 128)){
+                    FileUtils.forceDeleteOnExit(new File(resource.getThumbPath()));
+                    resource.setThumbUri(resource.getUri());
+                }
+            }
+        }
+        
+        resource.setState(State.NORMAL);
+        resource.setUpdateTime(new Date(System.currentTimeMillis()));
+        resourceDao.persist(resource);
+        return resource;
+    }
+    
+    @Override
     public Resource updateThumb(Integer id,File file, String fullName) throws IOException {
         Resource resource = resourceDao.get(id);
         
@@ -151,7 +184,7 @@ public class ResourceService implements ResourceServiceable {
         List<Resource> resources = new ArrayList<Resource>();
         for (Integer id : descriptions.keySet()) {
             Resource resource = resourceDao.get(id);
-            if(resource == null || resource.getState() != State.INIT){
+            if(resource == null || resource.getState() == State.DELETE){
                 continue;
             }
             String desc = descriptions.get(id);

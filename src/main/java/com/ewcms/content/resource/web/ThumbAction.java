@@ -17,16 +17,17 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.web.JsonBaseAction;
+import com.opensymphony.xwork2.Action;
 
 /**
- * 上传引导图
+ * 缩略导图操作Action
  * 
  * @author wangwei
  */
-@Controller("resource.thumbupload.action")
-public class ThumbUploadAction extends JsonBaseAction{
+@Controller("resource.thumb.action")
+public class ThumbAction extends JsonBaseAction{
     
-    private static final Logger logger = LoggerFactory.getLogger(ThumbUploadAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ThumbAction.class);
     
     private Integer id;
     private File myUpload;
@@ -34,6 +35,10 @@ public class ThumbUploadAction extends JsonBaseAction{
 
     @Autowired
     private ResourceFacable resourceFac;
+    
+    public String input(){
+        return Action.SUCCESS;
+    }
     
     public void receive() {
         
@@ -50,6 +55,10 @@ public class ThumbUploadAction extends JsonBaseAction{
   
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public Integer getId(){
+        return this.id;
     }
     
     public void setMyUpload(File myUpload) {

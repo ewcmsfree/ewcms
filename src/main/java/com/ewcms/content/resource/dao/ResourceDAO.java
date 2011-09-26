@@ -27,7 +27,7 @@ import com.ewcms.content.resource.model.Resource;
 public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDAOable {
 
     /**
-     * only remove "state=true"
+     * only remove "state=DELETE"
      */
     @Override
     public void remove(Resource resource){

@@ -32,6 +32,18 @@ public interface ResourceFacable {
     Resource uploadResource(File file,String fullName,Resource.Type type)throws IOException;
 
     /**
+     * 更新资源
+     * 
+     * @param id        资源编号
+     * @param file      资源文件
+     * @param fullName  文件名（可以是路径）
+     * @param type      资源类型
+     * @return          资源对象
+     * @throws IOException
+     */
+    Resource updateResource(Integer id,File file,String fullName,Resource.Type type)throws IOException;
+    
+    /**
      * 更新资源的引导图
      * 
      * @param id 资源编号

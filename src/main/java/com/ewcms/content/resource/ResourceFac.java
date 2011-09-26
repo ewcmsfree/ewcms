@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.Resource.Type;
 import com.ewcms.content.resource.service.ResourceServiceable;
 
 /**
@@ -28,16 +29,17 @@ public class ResourceFac implements ResourceFacable {
     @Autowired
     private ResourceServiceable resourceService;
 
-    public void setResourceService(ResourceServiceable service) {
-        this.resourceService = service;
-    }
-
     @Override
     
     public Resource uploadResource(File file, String fullName, Resource.Type type) throws IOException {
         return resourceService.uplaod(file, fullName, type);
     }
 
+    @Override
+    public Resource updateResource(Integer id, File file, String fullName,Type type) throws IOException {
+        return resourceService.update(id, file, fullName, type);
+    }
+    
     @Override
     public Resource updateThumbResource(Integer id, File file, String fullName)throws IOException {
         return resourceService.updateThumb(id, file, fullName);
@@ -71,5 +73,9 @@ public class ResourceFac implements ResourceFacable {
     @Override
     public Resource updateDescriptionOfResource(Integer id, String description) {
         return resourceService.updateDescription(id, description);
+    }
+    
+    public void setResourceService(ResourceServiceable service) {
+        this.resourceService = service;
     }
 }
