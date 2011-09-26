@@ -17,7 +17,6 @@ import com.ewcms.content.notes.model.Memoranda;
 /**
  * 
  * @author wu_zhijun
- *
  */
 @Repository
 public class MemorandaDAO extends JpaDAO<Long, Memoranda>  {

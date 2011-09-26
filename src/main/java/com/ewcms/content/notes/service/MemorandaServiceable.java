@@ -10,30 +10,76 @@ import java.util.List;
 import com.ewcms.content.notes.model.Memoranda;
 
 /**
+ * 备忘录操作Service
  * 
  * @author wu_zhijun
- *
  */
 public interface MemorandaServiceable {
+	/**
+	 * 初始化日历并生成HTML页面
+	 * 
+	 * @param year 年
+	 * @param month 月
+	 * @return StringBuffer HTML页面
+	 */
 	public StringBuffer getInitCalendarToHtml(final int year, final int month);
 	
+	/**
+	 * 新增备忘 录
+	 * 
+	 * @param memoranda 备忘录对象
+	 * @param year 年
+	 * @param month 月
+	 * @param day 天
+	 * @return Long 备忘录编号
+	 */
 	public Long addMemoranda(Memoranda memoranda, Integer year, Integer month, Integer day);
 	
+	/**
+	 * 修改备忘录
+	 * 
+	 * @param memoranda 备忘录对象
+	 * @return Long 备忘录编号
+	 */
 	public Long updMemoranda(Memoranda memoranda);
 	
+	/**
+	 * 查询备忘录
+	 * 
+	 * @param memorandaId 备忘录编号
+	 * @return Memoranda 备忘录对象
+	 */
 	public Memoranda findMemoranda(Long memorandaId);
 	
+	/**
+	 * 删除备忘录
+	 * 
+	 * @param memorandaId 备忘录编号
+	 */
 	public void delMemoranda(Long memorandaId);
 	
-	public List<Memoranda> findMemorandaByDate(Integer year, Integer month, Integer day);
-	
+	/**
+	 * 更新备忘录
+	 * 
+	 * @param memorandaId 备忘录编号
+	 * @param year 年
+	 * @param month 月
+	 * @param day 日
+	 */
 	public void updMemoranda(Long memorandaId, Integer year, Integer month, Integer day);
 	
-	public List<Memoranda> findMemorandaByWarn();
-	
-	public void updMemorandaNextFireTime(Long memorandaId);
-	
+	/**
+	 * 获取备忘录的提醒时间
+	 * 
+	 * @param clientTime 客户端时间
+	 * @return List 备忘录对象集合
+	 */
 	public List<Memoranda> getMemorandaFireTime(String clientTime);
 	
+	/**
+	 * 根据登录的用户查询备忘录对象集合
+	 * 
+	 * @return List 备忘录对象集合
+	 */
 	public List<Memoranda> findMemorandaByUserName();
 }

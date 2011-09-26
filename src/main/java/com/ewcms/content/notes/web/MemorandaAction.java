@@ -22,7 +22,6 @@ import com.ewcms.web.util.Struts2Util;
 /**
  * 
  * @author wu_zhijun
- * 
  */
 public class MemorandaAction extends CrudBaseAction<Memoranda, Long> {
 

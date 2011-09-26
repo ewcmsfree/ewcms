@@ -28,7 +28,6 @@ import com.ewcms.web.util.EwcmsContextUtil;
 /**
  * 
  * @author wu_zhijun
- * 
  */
 @Service
 public class MemorandaService implements MemorandaServiceable {
@@ -308,8 +307,7 @@ public class MemorandaService implements MemorandaServiceable {
 		return memoranda.getId();
 	}
 
-	@Override
-	public List<Memoranda> findMemorandaByDate(Integer year, Integer month, Integer day) {
+	private List<Memoranda> findMemorandaByDate(Integer year, Integer month, Integer day) {
 		SimpleDateFormat noteDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Calendar calendar = Calendar.getInstance();
@@ -339,11 +337,6 @@ public class MemorandaService implements MemorandaServiceable {
 	}
 
 	@Override
-	public List<Memoranda> findMemorandaByWarn() {
-		return memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserDetails().getUsername());
-	}
-	
-	@Override
 	public List<Memoranda> getMemorandaFireTime(String clientTime){
 		SimpleDateFormat clientDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
 		
@@ -364,7 +357,7 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		List<Memoranda> memorandaMsg = new ArrayList<Memoranda>();
 		
-		List<Memoranda> memorandas = findMemorandaByWarn();
+		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserDetails().getUsername());
 		for (Memoranda memoranda : memorandas){
 			Date fireTime = memoranda.getFireTime();
 			if (fireTime == null){
@@ -384,8 +377,7 @@ public class MemorandaService implements MemorandaServiceable {
 		return memorandaMsg;
 	}
 	
-	@Override
-	public void updMemorandaNextFireTime(Long memorandaId){
+	private void updMemorandaNextFireTime(Long memorandaId){
 		Memoranda memoranda = memorandaDAO.get(memorandaId);
 		setFrequency(memoranda);
 		memorandaDAO.merge(memoranda);
@@ -495,16 +487,16 @@ public class MemorandaService implements MemorandaServiceable {
 				calendar.add(Calendar.HOUR, -1);
 				break;
 			case TWOHOUR://2小时
-				calendar.add(Calendar.MINUTE, -2);
+				calendar.add(Calendar.HOUR, -2);
 				break;
 			case THREEHOUR://3小时
-				calendar.add(Calendar.MINUTE, -3);
+				calendar.add(Calendar.HOUR, -3);
 				break;
 			case TWELVEHOUR://12小时
-				calendar.add(Calendar.MINUTE, -12);
+				calendar.add(Calendar.HOUR, -12);
 				break;
 			case TWENTYFOUR://24小时
-				calendar.add(Calendar.MINUTE, -24);
+				calendar.add(Calendar.HOUR, -24);
 				break;
 			case TWODAY://2天
 				calendar.add(Calendar.DATE, -2);

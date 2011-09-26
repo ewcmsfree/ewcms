@@ -38,7 +38,6 @@ import javax.persistence.TemporalType;
  * </ul>
  * 
  * @author wu_zhijun
- * 
  */
 @Entity
 @Table(name = "doc_memoranda")

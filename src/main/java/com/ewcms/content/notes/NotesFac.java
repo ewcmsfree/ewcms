@@ -16,7 +16,6 @@ import com.ewcms.content.notes.service.MemorandaServiceable;
 /**
  * 
  * @author wu_zhijun
- *
  */
 @Service
 public class NotesFac implements NotesFacable {
