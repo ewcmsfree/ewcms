@@ -9,6 +9,7 @@ package com.ewcms.publication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
@@ -62,7 +63,7 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
      * @return
      */
     private boolean isCurrentSite(Integer siteId)throws PublishException{
-        return siteId == getCurrentSiteId();
+        return siteId.intValue() == getCurrentSiteId().intValue();
     }
     
     /**
@@ -143,10 +144,35 @@ public class WebPublish extends SchedulingPublish implements WebPublishable {
         }
     }
     
+    /**
+     * 验证资源发布是否有效
+     * <br>
+     * 防止恶意发布
+     * 
+     * @param resource 
+     *            资源
+     * @throws PublishException
+     */
+    private void publishResourceEnable(Resource resource)throws PublishException{
+        if(resource == null){
+            logger.error("Resource is null");
+            throw new PublishException("Resource is not exits");
+        }
+        if(!isCurrentSite(resource.getSite().getId())){
+            logger.error("Resource do not current site's it");
+            throw new PublishException("Resource do not current site's it");
+        }
+    }
     @Override
     public void publishResourceAgain(Integer id, Boolean templateSource)throws PublishException {
-        TemplateSource source = templateSourceService.getTemplateSource(id);
-        publishTemplateSourceEnable(source);
+        if(templateSource){
+            TemplateSource source = templateSourceService.getTemplateSource(id);
+            publishTemplateSourceEnable(source);    
+        }else{
+            Resource resource = resourceService.getResource(id);
+            publishResourceEnable(resource);
+        }
+        
         resourcePublish.publishAgain(id, templateSource);
     }
     
