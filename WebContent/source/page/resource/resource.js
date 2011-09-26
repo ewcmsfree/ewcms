@@ -37,8 +37,8 @@ UploadUtils = {
             onComplete: function (event, queueID, fileObj, response, data) {
                 var res = (new Function( "return " + response ))();
                 if(res.success){
-                    var uri = context + res.value.thumbUri;
-                    $("#"+utils.getImageElementId(newRow)).attr("src",uri);    
+                    var uri = context + res.value.thumbUri ;
+                    $("#"+utils.getImageElementId(row)).attr("src",uri);    
                 }else{
                     $.messager.alert('提示',fileObj['name']+'上传错误');
                 }
@@ -97,7 +97,7 @@ Upload.prototype.init=function(){
         'script': opts.script,
         'queueID': 'upload_queue',
         'fileDataName': 'myUpload',
-        'scriptData': {'type':opts.type},
+        'scriptData': {'id':opts.resourceId,'type':opts.type},
         //'buttonImg': opts.buttonImg,
         'percentage':'speed',
         'auto': true,
