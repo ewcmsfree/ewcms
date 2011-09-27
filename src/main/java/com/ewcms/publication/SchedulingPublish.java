@@ -187,8 +187,9 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      * 判断频道是否正在发布
      * 
      * @param channel 频道
+     * @return true:正在发布
      */
-    protected boolean isPublishingNow(Channel channel){
+    protected synchronized boolean isPublishingNow(Channel channel){
         
         Integer id = channel.getId();
         if(taskRegistry.alreadyExistTask(id)){
@@ -198,29 +199,35 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         return false;
     }
     
+    
+    /**
+     * 发布完成
+     * <br>
+     * 删除频道发布任务
+     */
+    protected synchronized void publishFinish(Channel channel){
+        Integer id = channel.getId();
+        taskRegistry.removeTask(id);
+    }
+    
     /**
      * 注册正在发布任务
      * 
      * @param channel 频道
+     * @return true 已经注册成功
      */
-    private void registerNewTask(Channel channel){
+    private synchronized boolean registerNewTask(Channel channel){
+        
+        if(isPublishingNow(channel)){
+            return true;
+        }
         
         Integer id = channel.getId();
-        
         Site site = channel.getSite();
         Taskable task = new ChannelPublishTask(site,channel);
         taskRegistry.registerNewTask(id, task);
+        return false;
     }
-    
-	/**
-	 * 发布完成
-	 * <br>
-	 * 删除频道发布任务
-	 */
-	protected void publishFinish(Channel channel){
-	    Integer id = channel.getId();
-	    taskRegistry.removeTask(id);
-	}
 	
     /**
      * 发布频道
@@ -231,10 +238,8 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      */
     protected void publishChannel(Channel channel,boolean again)throws PublishException{
         
-        if(isPublishingNow(channel)){
+        if(registerNewTask(channel)){
             return ;
-        }else{
-            registerNewTask(channel);
         }
         
         try{
@@ -248,16 +253,15 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             publishDetail(site,channel,templates);
             publishList(site,channel,templates);
             publishHome(site,channel,templates);
-            
-            publishFinish(channel);    
         }catch(PublishException e){
-            publishFinish(channel);
             logger.error("Channel publish is error:{}",e);
             throw e;
         }catch(Exception e){
-        	publishFinish(channel);
+            publishFinish(channel);
             logger.error("Channel publish is error:{}",e);
             throw new PublishException(e);
+        }finally{
+            publishFinish(channel);
         }
     }
     
