@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -20,17 +20,20 @@ import freemarker.template.TemplateException;
  *
  * @author wangwei
  */
-public class EwcmsConfigurationFactoryBean extends EwcmsConfigurationFactory implements FactoryBean<Configuration>, InitializingBean {
+public class EwcmsConfigurationFactoryBean implements FactoryBean<Configuration>, InitializingBean {
 
+    @Autowired
+    private EwcmsConfigurationFactory factory;
+
+    public void setFactory(EwcmsConfigurationFactory factory){
+        this.factory = factory;
+    }
+    
     private Configuration configuration;
 
     @Override
     public void afterPropertiesSet() throws IOException, TemplateException {
-//        Assert.notNull(channelService,"channelService must setting");
-//        Assert.notNull(articleService,"articleService must setting");
-//        Assert.notNull(templateService,"templateService must setting");
-        
-        this.configuration = createConfiguration();
+        this.configuration = factory.getConfiguration();
     }
 
     @Override
