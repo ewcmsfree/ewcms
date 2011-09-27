@@ -236,16 +236,23 @@
                         </a>
                     </div>
                     </sec:authorize>
-                    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
+                </div>
+                <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
+                <div title="站点资源" style="overflow:auto;">
                     <div class="nav-item">
-                        <a href="javascript:addTab('资源库','resource/manage.do')">
+                        <a href="javascript:addTab('资源管理','resource/index.do')">
                             <img src="source/image/kontact.png" style="border:0"/><br/>
-                            <span>资源库</span>
+                            <span>资源管理</span>
                         </a>
                     </div>
-                    </sec:authorize>
-                    
+                    <div class="nav-item">
+                        <a href="javascript:addTab('资源回收站','document/recyclebin/index.do')">
+                            <img src="source/image/recyclebin.png" style="border:0"/><br/>
+                            <span>回收站</span>
+                        </a>
+                    </div>
                 </div>
+                </sec:authorize>
             </div>
         </div>
         <div region="center" style="overflow:hidden;">
