@@ -100,9 +100,7 @@ public class ResourcePublish implements ResourcePublishable{
         outputResource.registerEvent(new ResourceOutputEvent(resource.getId(), resourceService));
         return outputResource;
     }
-    
-   
-    
+        
     private void publishSiteTemplateSource(Integer id,SiteServer server)throws PublishException{
         List<TemplateSource> sources = templateSourceService.findNotReleaseTemplateSources(id);
         List<OutputResource> outputResources = new ArrayList<OutputResource>();
