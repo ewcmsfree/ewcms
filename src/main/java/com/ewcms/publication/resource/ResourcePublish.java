@@ -94,7 +94,7 @@ public class ResourcePublish implements ResourcePublishable{
     private OutputResource createOutputResource(Resource resource){
         OutputResource outputResource = new OutputResource();
         outputResource.addChild(new OutputResource(resource.getPath(),resource.getUri(),false));
-        if(StringUtils.isBlank(resource.getThumbPath()) && StringUtils.isBlank(resource.getThumbUri())){
+        if(StringUtils.isNotBlank(resource.getThumbPath()) && StringUtils.isNotBlank(resource.getThumbUri())){
             outputResource.addChild(new OutputResource(resource.getThumbPath(),resource.getThumbUri(),false));
         }
         outputResource.registerEvent(new ResourceOutputEvent(resource.getId(), resourceService));
