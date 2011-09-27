@@ -89,7 +89,7 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             return;
         }
         
-        resourcePublish.publishSite(id);
+        resourcePublish.publishSite(channel.getSite().getId());
         
         if(all){
             publishChannelAll(channel,false);
