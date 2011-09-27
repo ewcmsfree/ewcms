@@ -31,6 +31,7 @@ public class SftpOutput extends OutputBase {
     protected FileObject getTargetRoot(FileSystemOptions opts,SiteServer server,FileSystemManager manager)throws FileSystemException{
         
         SftpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, false);
+        SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(opts, "no");
         
         String port = StringUtils.isBlank(server.getPort()) ? DEFAULT_PORT :server.getPort();
         
