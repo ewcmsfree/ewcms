@@ -145,6 +145,6 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
                 return query.getResultList();
             }
         });
-	    return res.isEmpty() ? null : res;
+	    return res;
 	}	
 }
