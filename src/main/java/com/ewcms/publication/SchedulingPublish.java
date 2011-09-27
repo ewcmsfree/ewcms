@@ -224,18 +224,24 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             return ;
         }
         
-        if(again){
-            articleService.updatePreRelease(channel.getId());
+        try{
+            if(again){
+                articleService.updatePreRelease(channel.getId());
+            }
+            
+            List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
+            Site site = channel.getSite();
+        
+            publishDetail(site,channel,templates);
+            publishList(site,channel,templates);
+            publishHome(site,channel,templates);
+            
+            publishFinish(channel);    
+        }catch(PublishException e){
+            publishFinish(channel);
+            logger.error("Channel publish is error:{}",e);
+            throw e;
         }
-        
-        List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
-        Site site = channel.getSite();
-        
-        publishDetail(site,channel,templates);
-        publishList(site,channel,templates);
-        publishHome(site,channel,templates);
-        
-        publishFinish(channel);
     }
     
     /**
