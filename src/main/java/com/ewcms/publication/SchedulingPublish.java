@@ -216,17 +216,12 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      * @param channel 频道
      * @return true 已经注册成功
      */
-    private synchronized boolean registerNewTask(Channel channel){
-        
-        if(isPublishingNow(channel)){
-            return true;
-        }
+    private synchronized void registerNewTask(Channel channel){
         
         Integer id = channel.getId();
         Site site = channel.getSite();
         Taskable task = new ChannelPublishTask(site,channel);
         taskRegistry.registerNewTask(id, task);
-        return false;
     }
 	
     /**
@@ -238,8 +233,10 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      */
     protected void publishChannel(Channel channel,boolean again)throws PublishException{
         
-        if(registerNewTask(channel)){
+        if(isPublishingNow(channel)){
             return ;
+        }else{
+            registerNewTask(channel);
         }
         
         try{
