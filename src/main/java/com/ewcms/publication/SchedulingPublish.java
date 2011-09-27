@@ -98,26 +98,7 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         }
     }
     
-    /**
-     * 判断频道是否正在发布
-     * 
-     * @param channel 频道
-     */
-    protected synchronized boolean isPublishingNow(Channel channel){
-        
-        Integer id = channel.getId();
-        if(taskRegistry.alreadyExistTask(id)){
-            return true;
-        }
-        
-        Site site = channel.getSite();
-        Taskable task = new ChannelPublishTask(site,channel);
-        taskRegistry.registerNewTask(id, task);
-        
-        return false;
-    }
-    
-    
+   
     
     /**
      * 发布生成页面到指定位置 
@@ -201,6 +182,35 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 		}
 	}
     
+	 /**
+     * 判断频道是否正在发布
+     * 
+     * @param channel 频道
+     */
+    protected boolean isPublishingNow(Channel channel){
+        
+        Integer id = channel.getId();
+        if(taskRegistry.alreadyExistTask(id)){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 注册正在发布任务
+     * 
+     * @param channel 频道
+     */
+    private void registerNewTask(Channel channel){
+        
+        Integer id = channel.getId();
+        
+        Site site = channel.getSite();
+        Taskable task = new ChannelPublishTask(site,channel);
+        taskRegistry.registerNewTask(id, task);
+    }
+    
 	/**
 	 * 发布完成
 	 * <br>
@@ -222,6 +232,8 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         
         if(isPublishingNow(channel)){
             return ;
+        }else{
+            registerNewTask(channel);
         }
         
         try{
