@@ -47,6 +47,7 @@ import com.ewcms.core.site.model.Site;
  * state：资源状态
  * createTime：创建实际
  * updateTime：修改时间
+ * publishTime：发布时间
  * 
  * @author 吴智俊 王伟
  */
@@ -123,6 +124,8 @@ public class Resource implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time",nullable = false)
     private Date updateTime ;
+    @Column(name = "publish_time")
+    private Date publishTime;
         
     public Integer getId() {
         return id;
@@ -226,6 +229,14 @@ public class Resource implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
     @PrePersist

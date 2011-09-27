@@ -257,6 +257,7 @@ public class ResourceService implements ResourceServiceable {
     public void publishResource(Integer id) {
         Resource resource = resourceDao.get(id);
         resource.setState(Resource.State.RELEASED);
+        resource.setPublishTime(new Date(System.currentTimeMillis()));
         resourceDao.persist(resource);
     }
 

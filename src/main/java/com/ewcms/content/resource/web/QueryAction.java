@@ -65,7 +65,7 @@ public class QueryAction extends QueryBaseAction {
                 .createEntityQuery(Resource.class)
                 .setPage(page)
                 .setRow(rows)
-                .orderDesc("updateTime");
+                .orderDesc("createTime");
 
         query.eq("site", getSite());
         query.eq("type", Type.valueOf(StringUtils.upperCase(type)));
@@ -86,7 +86,7 @@ public class QueryAction extends QueryBaseAction {
         if(isNotNull(fromDate) || isNotNull(toDate)){
             fromDate = (fromDate == null ? MINI_DATE : fromDate);
             toDate = (toDate == null ? new Date(System.currentTimeMillis()) : toDate);
-            query.between("updateTime", fromDate,toDate);
+            query.between("createTime", fromDate,toDate);
         }
         
         return query.queryCacheResult(cacheKey);
