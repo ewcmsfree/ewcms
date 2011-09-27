@@ -70,6 +70,7 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         Assert.notNull(siteService,"siteService must setting");
         Assert.notNull(resourceService,"resourceService must setting");
         Assert.notNull(templateSourceService,"templateSourceService must setting");
+        Assert.notNull(cfg,"Templcat must setting");
         
         resourcePublish = new ResourcePublish(siteService,resourceService,templateSourceService);
     }
@@ -253,6 +254,10 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
             publishFinish(channel);
             logger.error("Channel publish is error:{}",e);
             throw e;
+        }catch(Exception e){
+        	publishFinish(channel);
+            logger.error("Channel publish is error:{}",e);
+            throw new PublishException(e);
         }
     }
     
@@ -300,4 +305,7 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
         this.taskRegistry = taskRegistry;
     }
     
+    public void setConfiguration(Configuration cfg){
+    	this.cfg = cfg;
+    }
 }
