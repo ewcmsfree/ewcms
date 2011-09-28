@@ -36,14 +36,15 @@ public class QueryAction extends QueryBaseAction {
 
     private static final Date MINI_DATE ;
     
+    private String type;
+    private Boolean removeEvent = Boolean.FALSE;
+    
     static {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -50);
         MINI_DATE = new Date(calendar.getTime().getTime());
     }
-    
-    private String type;
-    
+
     public QueryAction(){
         setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
     }
@@ -68,8 +69,12 @@ public class QueryAction extends QueryBaseAction {
                 .orderDesc("createTime");
 
         query.eq("site", getSite());
-        query.eq("type", Type.valueOf(StringUtils.upperCase(type)));
-        query.in("state", new State[]{State.NORMAL,State.RELEASED});
+        if(removeEvent){
+            query.eq("state", State.DELETE);    
+        }else{
+            query.eq("type", Type.valueOf(StringUtils.upperCase(type)));
+            query.in("state", new State[]{State.NORMAL,State.RELEASED});    
+        }
         
         String name = getParameterValue(String.class, "name");
         if (isStringNotEmpty(name)) {
@@ -102,5 +107,9 @@ public class QueryAction extends QueryBaseAction {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public void setRemoveEvent(Boolean event){
+        this.removeEvent = event;
     }
 }

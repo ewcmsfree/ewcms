@@ -19,6 +19,14 @@ import com.ewcms.content.resource.model.Resource;
 public interface ResourceDAOable extends JpaDAOable<Integer,Resource> {
 
     /**
+     * 查询状态为DELETE的资源
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    List<Resource> findSoftDeleteResources(Integer siteId);
+    
+    /**
      * 查询所属站点未发布资源
      * 
      * @param siteId 站点编号
@@ -32,4 +40,5 @@ public interface ResourceDAOable extends JpaDAOable<Integer,Resource> {
      * @param siteId 站点编号
      */
     void updateNotRelease(Integer siteId);
+    
 }

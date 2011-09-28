@@ -196,22 +196,30 @@ public class ResourceService implements ResourceServiceable {
         return resources;
     }
     
-    @Override
-    public void delete(Integer id) {
-        
-        Resource resource = getResource(id);
-        
+    /**
+     * 删除属与资源的文件
+     * 
+     * @param resource
+     */
+    private void deleteResourceFile(Resource resource){
         File f = new File(resource.getPath());
         f.deleteOnExit();
-        if(resource.getType() == Resource.Type.IMAGE){
+        if(StringUtils.isNotBlank(resource.getThumbPath())){
             f = new File(resource.getThumbPath());
             f.deleteOnExit();
         }
-        
-        resourceDao.remove(resource);
-        
-        if(resource.getState() == Resource.State.RELEASED){
-          //TODO 写入删除日志，下架该资源
+    }
+    
+    @Override
+    public void delete(int[] ids) {
+        for(int id : ids){
+            Resource resource = getResource(id);
+            deleteResourceFile(resource);
+            resourceDao.remove(resource);
+            
+            if(resource.getState() == Resource.State.RELEASED){
+              //TODO 写入删除日志，下架该资源
+            }    
         }
     }
 
@@ -230,22 +238,34 @@ public class ResourceService implements ResourceServiceable {
     }
     
     @Override
-    public void softDelete(Integer id) {
-        Resource resource = getResource(id);
-        resource.setState(Resource.State.DELETE);
-        
-        resourceDao.persist(resource);
+    public void softDelete(int[] ids) {
+        for(int id : ids){
+            Resource resource = getResource(id);
+            resource.setState(Resource.State.DELETE);
+            
+            resourceDao.persist(resource);
+        }
     }
 
     @Override
-    public void revert(Integer id) {
-        
-        Resource resource = getResource(id);
-        if(resource.getState() == Resource.State.DELETE){
-            resource.setState(Resource.State.NORMAL);    
+    public void clearSoftDelete() {
+        Integer siteId = getCurrentSite().getId();
+        List<Resource> resources = resourceDao.findSoftDeleteResources(siteId);
+        for(Resource res : resources){
+            deleteResourceFile(res);
+            resourceDao.remove(res);
         }
-        
-        resourceDao.persist(resource);
+    }
+    
+    @Override
+    public void revert(int[] ids) {
+        for(int id : ids){
+            Resource resource = getResource(id);
+            if(resource.getState() == Resource.State.DELETE){
+                resource.setState(Resource.State.NORMAL);
+                resourceDao.persist(resource);
+            }
+        }
     }
     
     @Override
@@ -269,5 +289,4 @@ public class ResourceService implements ResourceServiceable {
     public void setResourceDao(ResourceDAO dao) {
         this.resourceDao = dao;
     }
-   
 }

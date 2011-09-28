@@ -51,8 +51,8 @@ public class ResourceFac implements ResourceFacable {
     }
     
     @Override
-    public void deleteResource(Integer id) {
-        resourceService.delete(id);
+    public void deleteResource(int[] ids) {
+        resourceService.delete(ids);
     }
 
     @Override
@@ -61,13 +61,18 @@ public class ResourceFac implements ResourceFacable {
     }
 
     @Override
-    public void softDeleteResource(Integer id) {
-        resourceService.softDelete(id);
+    public void softDeleteResource(int[] ids) {
+        resourceService.softDelete(ids);
     }
 
     @Override
-    public void revertResource(Integer id) {
-        resourceService.revert(id);
+    public void clearSoftDeleteResource() {
+        resourceService.clearSoftDelete();
+    }
+    
+    @Override
+    public void revertResource(int[] ids) {
+        resourceService.revert(ids);
     }
 
     @Override

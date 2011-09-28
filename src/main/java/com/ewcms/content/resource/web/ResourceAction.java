@@ -92,9 +92,7 @@ public class ResourceAction extends JsonBaseAction {
      * 删除资源，只是标识资源为删除状态
      */
     public void delete() {
-        for (int id : selections) {
-            resourceFac.softDeleteResource(id);
-        }
+        resourceFac.softDeleteResource(selections);
         renderSuccess();
     }
 

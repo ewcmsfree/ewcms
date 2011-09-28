@@ -67,9 +67,9 @@ public interface ResourceFacable {
     /**
      * 删除资源
      * 
-     * @param id 资源编号
+     * @param ids 资源编号数组
      */
-    void deleteResource(Integer id);
+    void deleteResource(int[] ids);
 
     /**
      * 得到资源
@@ -84,18 +84,23 @@ public interface ResourceFacable {
      * <br>
      * 资源并没有真正删除，只是标识为删除
      *
-     * @param id 资源编号
+     * @param ids 资源编号数组
      */
-    void softDeleteResource(Integer id);
+    void softDeleteResource(int[] ids);
+    
+    /**
+     * 清空状态为DELETE的记录
+     */
+    void clearSoftDeleteResource();
     
     /**
      * 恢复删除资源
      * <br>
      * 只有软删除资源才能恢复
      * 
-     * @param id 资源编号
+     * @param ids 资源编号数组
      */
-    void revertResource(Integer id);
+    void revertResource(int[] ids);
 
     /**
      * 更新资源描述信息

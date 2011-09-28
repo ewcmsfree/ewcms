@@ -69,27 +69,32 @@ public interface ResourceServiceable extends ResourcePublishServiceable {
     /**
      * 删除资源
      * 
-     * @param id 资源编号
+     * @param ids 资源编号
      */
-    void delete(Integer id);
+    void delete(int[] ids);
 
     /**
      * 软删除资源
      * <br>
      * 资源并没有真正删除，只是标识为删除
      *
-     * @param id 资源编号
+     * @param ids 资源编号
      */
-    void softDelete(Integer id);
+    void softDelete(int[] ids);
     
     /**
      * 恢复删除资源
      * <br>
      * 只有软删除资源才能恢复
      * 
-     * @param id 资源编号
+     * @param ids 资源编号
      */
-    void revert(Integer id);
+    void revert(int[] ids);
+    
+    /**
+     * 清空状态为DELETE的记录
+     */
+    void clearSoftDelete();
 
     /**
      * 更新资源描述信息

@@ -73,8 +73,9 @@ public class Resource implements Serializable {
     public enum Type {
         ANNEX("*","*.*"),
         IMAGE("jpg/gif/jpeg/png/bmp","*.jpg;*.gif;*.jpeg;*.png;*.bmp"), 
-        FLASH("swf/flv","*.swf;*.flv;"),
-        VIDEO("mid/mp2/mp3/mp4/wav/avi/mov/mpeg/ram/m4v/rm/rmvb/smil/wmv/wma","*.mid;*.mp2;*.mp3;*.mp4;*.wav;*.avi;*.mov;*.mpeg;*.ram;*.m4v;*.rm;*.rmvb;*.smil;*.wmv;*.wma");
+        FLASH("swf/flv","*.swf;*.flv"),
+        VIDEO("mid/mp2/mp3/mp4/wav/avi/mov/mpeg/ram/m4v/rm/rmvb/smil/wmv/wma",
+                "*.mid;*.mp2;*.mp3;*.mp4;*.wav;*.avi;*.mov;*.mpeg;*.ram;*.m4v;*.rm;*.rmvb;*.smil;*.wmv;*.wma");
 
         private String fileDesc;
         private String fileExt;

@@ -27,7 +27,7 @@ import com.ewcms.content.resource.model.Resource;
 public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDAOable {
 
     /**
-     * only remove "state=DELETE"
+     * 只删除状态为DELETE的记录
      */
     @Override
     public void remove(Resource resource){
@@ -36,6 +36,20 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         }
     }
 
+    @Override
+    public List<Resource> findSoftDeleteResources(final Integer siteId) {
+        return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
+            @Override
+            public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
+                String hql = "From Resource o Where o.site.id= ? And o.state = ?";
+                TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
+                query.setParameter(1, siteId);
+                query.setParameter(2, Resource.State.DELETE);
+                return query.getResultList();
+            }
+        });
+    }
+    
     public List<Resource> findNotReleaseResources(final Integer siteId) {
         return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
