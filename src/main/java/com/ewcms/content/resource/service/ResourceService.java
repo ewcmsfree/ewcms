@@ -150,6 +150,7 @@ public class ResourceService implements ResourceServiceable {
         
         resource.setState(State.NORMAL);
         resource.setUpdateTime(new Date(System.currentTimeMillis()));
+        resource.setName(getName(fullName));
         resourceDao.persist(resource);
         return resource;
     }
