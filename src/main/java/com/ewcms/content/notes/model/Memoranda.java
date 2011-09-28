@@ -41,8 +41,8 @@ import javax.persistence.TemporalType;
  * @author wu_zhijun
  */
 @Entity
-@Table(name = "doc_memoranda")
-@SequenceGenerator(name = "seq_doc_memoranda", sequenceName = "seq_doc_memoranda_id", allocationSize = 1)
+@Table(name = "notes_memoranda")
+@SequenceGenerator(name = "seq_notes_memoranda", sequenceName = "seq_notes_memoranda_id", allocationSize = 1)
 public class Memoranda implements Serializable {
 
 	private static final long serialVersionUID = -6072138684705920059L;
