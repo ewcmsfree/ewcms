@@ -196,6 +196,9 @@ table.cellspacing { border-collapse: separate; }
 .icon-publishok{
 	background:url('icons/publish_ok.png') no-repeat;
 }
+.icon-publishrec{
+	background:url('icons/publish_rec.png') no-repeat;
+}
 .icon-breakarticle{
 	background:url('icons/breakarticle.png') no-repeat;
 }
