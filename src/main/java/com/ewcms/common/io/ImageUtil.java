@@ -14,9 +14,12 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,23 +43,19 @@ public class ImageUtil {
 	 * @return 压缩是否成功
 	 */
 	public static Boolean compression(String sourcePath, String targetPath, int width, int hight) {
-		BufferedImage srcImage;
-		String imgType = "JPEG";
-		if (sourcePath.toLowerCase().endsWith("png")) {
-			imgType = "PNG";
-		}else if (sourcePath.toLowerCase().endsWith("bmp")){
-			imgType = "BMP";
-		}else if (sourcePath.toLowerCase().endsWith("gif")){
-			imgType = "GIF";
-		}
-		File sourceFile = new File(sourcePath);
-		File targetFile = new File(targetPath);
+		
 		try{
-			srcImage = ImageIO.read(sourceFile);
+		    File sourceFile = new File(sourcePath);
+	        File targetFile = new File(targetPath);
+	        
+		    String format = getFormatName(new File(sourcePath));
+		    logger.info("Image Format is {}",format);
+		    
+		    BufferedImage srcImage = ImageIO.read(sourceFile);
 			if (width > 0 || hight > 0) {
 				srcImage = resize(srcImage, width, hight);
 			}
-			ImageIO.write(srcImage, imgType, targetFile);
+			ImageIO.write(srcImage, format, targetFile);
 		}catch(IIOException e){
 		    logger.error("Image IIOException:{}",e);
 			return false;
@@ -100,5 +99,23 @@ public class ImageUtil {
 		g.dispose();
 		return target;
 	}
+	
+	/**
+	 * 盘读图片格式
+	 * 
+	 * @param file 图片文件
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getFormatName(File file) throws IOException {
+	    ImageInputStream iis = ImageIO.createImageInputStream(file);
+	    Iterator<ImageReader> iterator = ImageIO.getImageReaders(iis);
+	    while (iterator.hasNext()) {
+	       ImageReader reader = (ImageReader)iterator.next();
+	       return reader.getFormatName();
+	    }
+	    
+	    throw new IOException("It is not image");
+    }
 
 }
