@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.content.notes.service;
 
 import java.text.ParseException;
@@ -255,13 +256,13 @@ public class MemorandaService implements MemorandaServiceable {
 	private StringBuffer getTitleHtml(){
 		StringBuffer sb = new StringBuffer();
 		sb.append("<tr class='notes_tr' bgcolor='#DCF0FB' align='center'>");
-		sb.append("  <td width='15%' height='30'><font color='#14AD00'>星期日</font></td>");
-		sb.append("  <td width='14%'>星期一</td>");
-		sb.append("  <td width='14%'>星期二</td>");
-		sb.append("  <td width='14%'>星期三</td>");
-		sb.append("  <td width='14%'>星期四</td>");
-		sb.append("  <td width='14%'>星期五</td>");
-		sb.append("  <td width='15%'><font color='#14AD00'>星期六</font></td>");
+		sb.append("  <td width='15%' height='30'><font color='#14AD00'>星期�?/font></td>");
+		sb.append("  <td width='14%'>星期�?/td>");
+		sb.append("  <td width='14%'>星期�?/td>");
+		sb.append("  <td width='14%'>星期�?/td>");
+		sb.append("  <td width='14%'>星期�?/td>");
+		sb.append("  <td width='14%'>星期�?/td>");
+		sb.append("  <td width='15%'><font color='#14AD00'>星期�?/font></td>");
 		sb.append("</tr>");
 		return sb;
 	}
@@ -425,7 +426,7 @@ public class MemorandaService implements MemorandaServiceable {
 			case EVERYMONTHWEEK://每月(星期)
 				calendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
 				break;
-			case EVERYMONTH://每月(日)
+			case EVERYMONTH://每月(�?
 				calendar.set(year, month + 1, day);
 				break;
 			case EVERYYEAR://每年
@@ -501,10 +502,10 @@ public class MemorandaService implements MemorandaServiceable {
 			case TWENTYFOUR://24小时
 				calendar.add(Calendar.HOUR, -24);
 				break;
-			case TWODAY://2天
+			case TWODAY://2�?
 				calendar.add(Calendar.DATE, -2);
 				break;
-			case ONEWEEK://1周
+			case ONEWEEK://1�?
 				calendar.add(Calendar.DATE, -7);
 				break;
 			default:

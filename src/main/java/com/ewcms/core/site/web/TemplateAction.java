@@ -426,6 +426,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			tplEntityVo.setTplEntity(getTemplateContent().getBytes("UTF-8"));
 			vo.setTemplateEntity(tplEntityVo);
 			siteFac.updTemplate(vo);
+			
 			addActionMessage("模板内容保存成功！");
 		} catch (Exception e) {
 			addActionMessage("模板内容保存失败！");

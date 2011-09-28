@@ -3,13 +3,14 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.content.notes.util;
 
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- *  计算二十四节气
+ *  计算二十四节�?
  * 
  * @author wu_zhijun
  */
@@ -39,7 +40,7 @@ public class SolarTerm {
 		return getSoralTerm(y, m, d);
 	}
 
-	/** 核心方法 根据日期(y年m月d日)得到节气 */
+	/** 核心方法 根据日期(y年m月d�?得到节气 */
 	public static String getSoralTerm(int y, int m, int d) {
 		String solarTerms;
 		if (d == sTerm(y, (m - 1) * 2))
@@ -53,7 +54,7 @@ public class SolarTerm {
 		return solarTerms;
 	}
 
-	// ===== y年的第n个节气为几日(从0小寒起算)
+	// ===== y年的第n个节气为几日(�?小寒起算)
 	private static int sTerm(int y, int n) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(1900, 0, 6, 2, 5, 0);

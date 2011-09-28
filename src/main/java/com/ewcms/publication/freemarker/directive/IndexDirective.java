@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.publication.freemarker.directive;
 
 import java.io.IOException;
@@ -22,8 +23,7 @@ import freemarker.template.TemplateModel;
 /**
  * 序号标签
  * <br>
- * 显示文章列表序号或频道列表序号
- * 
+ * 显示文章列表序号或频道列表序�? * 
  * @author wangwei
  */
 public class IndexDirective implements TemplateDirectiveModel {

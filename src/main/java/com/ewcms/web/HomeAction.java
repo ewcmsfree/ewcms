@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.web;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
 /**
- * @author 周冬初
+ * @author 周冬�?
  * 
  */
 public class HomeAction extends EwcmsBaseAction {
