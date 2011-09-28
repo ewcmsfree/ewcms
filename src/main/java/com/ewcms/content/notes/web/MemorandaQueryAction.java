@@ -23,7 +23,7 @@ import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  *
- * @author 吴智俊
+ * @author wu_zhijun
  */
 public class MemorandaQueryAction extends QueryBaseAction {
 	

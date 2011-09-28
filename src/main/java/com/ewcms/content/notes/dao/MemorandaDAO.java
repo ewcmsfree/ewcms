@@ -16,6 +16,7 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.notes.model.Memoranda;
 
 /**
+ * 备忘录DAO
  * 
  * @author wu_zhijun
  */

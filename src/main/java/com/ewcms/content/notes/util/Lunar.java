@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 计算农历
+ * 计算农历时间
  * 
  * @author wu_zhijun
  */

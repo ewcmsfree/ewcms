@@ -22,20 +22,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * 备忘�?
+ * 备忘录
  * 
  * <ul>
  * <li>id:编号</li>
  * <li>title:标题</li>
  * <li>content:内容</li>
  * <li>noteDate:日期</li>
- * <li>userName:用户�?/li>
+ * <li>userName:用户名</li>
  * <li>warn:是否提醒</li>
  * <li>warnTime:提醒时间</li>
  * <li>frequency:提醒频率</li>
  * <li>before:提前时间</li>
  * <li>fireTime:触发时间</li>
- * <li>missRemind:错过是否提醒(true:�?false:�?</li>
+ * <li>missRemind:错过是否提醒(true:是,false:否)</li>
  * </ul>
  * 
  * @author wu_zhijun
