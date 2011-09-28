@@ -22,7 +22,7 @@
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
 				ewcmsBOBJ.delToolItem('删除');
-				ewcmsBOBJ.addToolItem('恢复文档','icon-edit',restoreOperate);
+				ewcmsBOBJ.addToolItem('恢复文档','icon-resume',restoreOperate);
 				ewcmsBOBJ.addToolItem('彻底删除','icon-remove',delOperate);
 
 				ewcmsBOBJ.openDataGrid('#tt',{
