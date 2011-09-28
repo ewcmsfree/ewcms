@@ -42,7 +42,6 @@ public class MemorandaService implements MemorandaServiceable {
 	private MemorandaDAO memorandaDAO;
 	
 	private int dayCount;
-	private int currentMonth;
 	private int currentDay;
 	private int selYear;
 	private int selMonth;
@@ -56,7 +55,7 @@ public class MemorandaService implements MemorandaServiceable {
 		Calendar calendar = Calendar.getInstance();
 		
 		int currentYear = calendar.get(Calendar.YEAR);
-		currentMonth = calendar.get(Calendar.MONTH);
+		int currentMonth = calendar.get(Calendar.MONTH);
 		
 		if (currentYear == year && currentMonth == month - 1){
 			currentDay = calendar.get(Calendar.DATE);
@@ -164,13 +163,11 @@ public class MemorandaService implements MemorandaServiceable {
 		sb.append("        <td width='67%' bgcolor='#E9F0F8'></td>\n");
 		sb.append("      </tr>\n");
 		sb.append("      <tr valign='top'>\n");
-		sb.append("        <td height='65' onmouseover=this.bgColor='#EDFBD2' colspan='2' ");
-		if (currentMonth == (month -1) && currentDay == day){
-			sb.append(" onmouseout=this.bgColor='#FFFFCC' bgcolor='#FFFFCC' ");
+		if (currentDay != day){
+			sb.append("        <td height='65' onmouseout=this.bgColor='' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}else{
-			sb.append(" onmouseout=this.bgColor='' ");
+			sb.append("        <td height='65' bgcolor='#FFFFCC' onmouseout=this.bgColor='#FFFFCC' onmouseover=this.bgColor='#EDFBD2' colspan='2'>\n");
 		}
-		sb.append(" >\n");
 		sb.append("          <div id='div_notes_" + position + day + "' class='div_notes' style='cursor:pointer;width:auto;height:65px; overflow-y:auto; border:0px solid;'>\n");
 		sb.append(memoSb.toString());
 		sb.append("          </div>\n");
