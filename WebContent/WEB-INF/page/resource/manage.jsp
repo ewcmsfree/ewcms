@@ -19,14 +19,14 @@
         
         <script type="text/javascript">
             var _m = new manage('<s:property value="context"/>','<s:property value="type"/>');
-        
+            
             $(function(){
                 _m.init({
                     query:'<s:url action="query"/>',
                     resource:'<s:url action="resource"/>',
                     thumb:'<s:url action="thumb"/>',
                     publish:'<s:url action="publish"/>',
-                    remove:'<s:url action="delete"/>'
+                    remove:'<s:url action="softDelete"/>'
                 });
             });
         </script>
@@ -53,7 +53,7 @@
             <div id="menu-item-title"><b>操作</b></div>
             <div class="menu-sep"></div>   
             <div iconCls="icon-save">更新资源</div>  
-            <div iconCls="icon-image-upload">更新引导图</div>  
+            <div iconCls="icon-image-add">更新引导图</div>  
             <div class="menu-sep"></div>
             <div iconCls="icon-publish">发布</div>
             <div iconCls="icon-remove">删除</div>  
