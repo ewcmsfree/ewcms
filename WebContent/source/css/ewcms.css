@@ -223,3 +223,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-votedetail{
 	background:url('icons/votedetail.png') no-repeat;
 }
+.icon-clear{
+	background:url('icons/clear.png') no-repeat;
+}
