@@ -19,7 +19,7 @@
             <result>/WEB-INF/page/resource/resource.jsp</result>
         </action>
         <action name="receive" class="com.ewcms.content.resource.web.ResourceAction" method="receive"/>
-        <action name = "delete" class="com.ewcms.content.resource.web.ResourceAction" method="delete"/>
+        <action name = "softDelete" class="com.ewcms.content.resource.web.ResourceAction" method="delete"/>
         <action name = "publish" class="com.ewcms.content.resource.web.ResourceAction" method="publish"/>
         <action name = "save" class="com.ewcms.content.resource.web.ResourceAction" method="save"/>
         
@@ -29,5 +29,12 @@
         <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbAction" method="receive"/>
       
         <action name = "query" class="com.ewcms.content.resource.web.QueryAction" method="query"/>
+        
+        <action name="recycle" class="com.ewcms.content.resource.web.RecycleAction" method="input">
+            <result>/WEB-INF/page/resource/recycle.jsp</result>
+        </action>
+        <action name="revert" class="com.ewcms.content.resource.web.RecycleAction" method="revert"/>
+        <action name="delete" class="com.ewcms.content.resource.web.RecycleAction" method="delete"/>
+        <action name="clear" class="com.ewcms.content.resource.web.RecycleAction" method="clear"/>
     </package>
 </struts>
