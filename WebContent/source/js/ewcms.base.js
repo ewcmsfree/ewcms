@@ -282,7 +282,7 @@ function EwcmsOperate(){
 	        pageNumber:1,
 	        url:url
 	    });
-	    if(!isExistID(queryWinID))return;
+	    //if(!isExistID(queryWinID))return;
 	    $(queryWinID).window('close');
 	}
 	
