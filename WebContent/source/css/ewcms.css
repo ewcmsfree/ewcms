@@ -224,10 +224,10 @@ table.cellspacing { border-collapse: separate; }
     background:url('icons/votedetail.png') no-repeat;
 }
 .icon-upload{
-    background:url('icons/arrow_up.png') no-repeat;
+    background:url('icons/upload.png') no-repeat;
 }
 .icon-download{
-    background:url('icons/arrow_down.png') no-repeat;
+    background:url('icons/download.png') no-repeat;
 }
 .icon-image-add{
     background:url('icons/image_add.png') no-repeat;
