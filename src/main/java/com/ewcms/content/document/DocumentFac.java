@@ -133,8 +133,8 @@ public class DocumentFac implements DocumentFacable {
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
-	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
-		articleMainService.pubArticleMainByChannel(channelId);
+	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
+		articleMainService.pubArticleMainByChannel(channelId, recursion);
 	}
 
 	@Override

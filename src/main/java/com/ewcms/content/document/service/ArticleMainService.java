@@ -235,9 +235,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void pubArticleMainByChannel(Integer channelId) throws PublishException {
+	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
 		if (isNotNull(channelId)) {
-			webPublish.publishChannel(channelId, true);
+			webPublish.publishChannel(channelId, recursion);
 		}
 	}
 

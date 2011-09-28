@@ -132,9 +132,10 @@ public interface DocumentFacable {
 	 * 发布文章主体
 	 * 
 	 * @param channelId 频道编号
-	 * @throws ReleaseException
+	 * @param recursion 是否递归发布
+	 * @throws PublishException
 	 */
-	public void pubArticleMainByChannel(Integer channelId) throws PublishException;
+	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException;
 	
 	/**
 	 * 审核文章主体

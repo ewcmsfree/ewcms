@@ -90,9 +90,19 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 		}
 	}
 
+	public Boolean recursion;
+	
+	public Boolean getRecursion() {
+		return recursion;
+	}
+
+	public void setRecursion(Boolean recursion) {
+		this.recursion = recursion;
+	}
+
 	public void pubArticle() {
 		try {
-			documentFac.pubArticleMainByChannel(getChannelId());
+			documentFac.pubArticleMainByChannel(getChannelId(), getRecursion());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
