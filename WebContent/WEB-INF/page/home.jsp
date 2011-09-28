@@ -12,6 +12,7 @@
         <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
+            var interval;
             function addTab(title,src){
                 var tabob = $('#systemtab');
                 if(tabob.tabs('exists',title))
@@ -48,38 +49,28 @@
                         $('#editifr').attr('src',"about:blank");
                     }
                 });
-                getmessage();
+                interval = setInterval("getNotesMessage()",60000); //定时器
             });
-            function getmessage() {
-            	var t;
-            	var currentAjax = null; 
-            	currentAjax = $.ajax({
+            function getNotesMessage() {
+            	var currentAjax = $.ajax({
             		type:'post',
             		datatype:'json',
             		cache:false,
             		url:'<s:url namespace="/notes" action="notesRemind"/>?clientTime=' + new Date(),
             		data: '',
-            		timeout:120000,
-            		statusCode:{
-            			404:function(){
-            				clearTimeout(t);
-            				if(currentAjax) {currentAjax.abort();}
-            			}
-            		},
-            		success:function(message){
+            		success:function(message, textStatus){
                 		if (message != 'false'){
                     		for (var i=0;i<message.length;i++){
                 				$.messager.show({title:message[i].title,msg:message[i].content,width:350,height:200,timeout:0,showType:'fade'});
                     		}
                 		}
             		},
-            		beforeSend:function(){
+            		beforeSend:function(XMLHttpRequest){
             		},
-            		complete:function(){
-            			t = setTimeout("getmessage()",60000); //定时器
+            		complete:function(XMLHttpRequest, textStatus){
             		},
             		error:function(XMLHttpRequest, textStatus, errorThrown){
-            			clearTimeout(t);
+            			clearInterval(interval);
             			if(currentAjax) {currentAjax.abort();}
             		}
             	})
