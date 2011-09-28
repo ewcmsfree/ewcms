@@ -138,16 +138,8 @@ recycle.prototype.init = function(urls){
             if(item.iconCls == 'icon-download'){
                 window.open(context + row.uri);
             }
-            if(item.iconCls == 'icon-save'){
-                openWindow(opts.resourceUpdateWindowId,
-                        {width:600,height:400,title:"更新资源",url : urls.resource + "?type="+type+"&multi=false&id="+row.id });
-            }
-            if(item.iconCls == 'icon-image-upload'){
-                openWindow(opts.thumbUpdateWindowId,
-                        {width:450,height:200,title:"更新引导图",url: urls.thumb + "?id=" + row.id});
-            }
-            if(item.iconCls == 'icon-publish'){
-                operators.publish(opts.datagridId,urls.publish);
+            if(item.iconCls == 'icon-resume'){
+                operators.revert(opts.datagridId,urls.revert);
             }
             if(item.iconCls == 'icon-remove'){
                 operators.remove(opts.datagridId,urls.remove);
