@@ -51,12 +51,21 @@
                 getmessage();
             });
             function getmessage() {
-            	$.ajax({
+            	var t;
+            	var currentAjax = null; 
+            	currentAjax = $.ajax({
             		type:'post',
             		datatype:'json',
             		cache:false,
             		url:'<s:url namespace="/notes" action="notesRemind"/>?clientTime=' + new Date(),
             		data: '',
+            		timeout:120000,
+            		statusCode:{
+            			404:function(){
+            				clearTimeout(t);
+            				if(currentAjax) {currentAjax.abort();}
+            			}
+            		},
             		success:function(message){
                 		if (message != 'false'){
                     		for (var i=0;i<message.length;i++){
@@ -64,12 +73,14 @@
                     		}
                 		}
             		},
-            		beforeSend:function (){
+            		beforeSend:function(){
             		},
             		complete:function(){
-            			setTimeout("getmessage()",60000); //定时器
+            			t = setTimeout("getmessage()",60000); //定时器
             		},
-            		error:function(){
+            		error:function(XMLHttpRequest, textStatus, errorThrown){
+            			clearTimeout(t);
+            			if(currentAjax) {currentAjax.abort();}
             		}
             	})
             }
