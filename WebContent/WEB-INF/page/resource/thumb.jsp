@@ -7,7 +7,7 @@
         <script type='text/javascript' src='<s:url value="/source/js/jquery.min.js" />'></script>
         <script type='text/javascript' src='<s:url value="/source/uploadify/jquery.uploadify.min.js"/>'></script>
         <script type='text/javascript' src='<s:url value="/source/uploadify/swfobject.js"/>'></script>
-        <script type='text/javascript' src='<s:url value="/source/page/resource/thumb.js"/>' charset="utf-8"></script>
+        <script type='text/javascript' src='<s:url value="/source/page/resource/thumb.js"/>'></script>
         <link rel="stylesheet" type="text/css" href="<s:url value="/source/uploadify/uploadify.css"/>"/>
         <script type="text/javascript">
             var _t = new thumb('<s:property  value="id"/>',
