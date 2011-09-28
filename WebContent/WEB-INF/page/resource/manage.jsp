@@ -10,7 +10,7 @@
         <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/page/resource/manage.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/source/page/resource/manage.js"/>' charset="utf-8"></script>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
         <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
