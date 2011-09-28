@@ -48,7 +48,7 @@ public class Memoranda implements Serializable {
 	private static final long serialVersionUID = -6072138684705920059L;
 
 	@Id
-    @GeneratedValue(generator = "seq_doc_memoranda",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_notes_memoranda",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "title", nullable = false, length = 50)
