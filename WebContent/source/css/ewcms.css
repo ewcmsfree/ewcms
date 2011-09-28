@@ -226,3 +226,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-clear{
 	background:url('icons/clear.png') no-repeat;
 }
+.icon-resume{
+	background:url('icons/resume.png') no-repeat;
+}
