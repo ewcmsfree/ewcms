@@ -114,6 +114,7 @@ function channelPermission(rootnode, currentnode) {
 		if (currentnode.attributes.maxpermission >= 4) {
 			$('#btnPub').linkbutton('enable');
 			$('#btnPublishOk').attr('style', 'display:block;');
+			$('#btnPublishRec').attr('style','display:block;');
 		}
 		return;
 	}
@@ -124,6 +125,7 @@ function channelPermission(rootnode, currentnode) {
 	if (currentnode.attributes.maxpermission == 2) {
 		enableButtons();
 		$('#btnPublishOk').attr('style', 'display:none;');
+		$('#btnPublishRec').attr('style','display:none;');
 		$('#btnBreakArticle').attr('style', 'display:none;');
 		return;
 	}
@@ -571,6 +573,7 @@ function disableButtons() {
 	$('#btnReviewSubmit').attr('style', 'display:none;');
 	$('#btnReviewProcess').attr('style', 'display:none;');
 	$('#btnPublishOk').attr('style', 'display:none;');
+	$('#btnPublishRec').attr('style','display:none;');
 	$('#btnBreakArticle').attr('style', 'display:none;');
 }
 //主菜单/子菜单可用
@@ -588,6 +591,7 @@ function enableButtons() {
 	$('#btnReviewSubmit').attr('style', 'display:block;');
 	$('#btnReviewProcess').attr('style', 'display:block;');
 	$('#btnPublishOk').attr('style', 'display:block;');
+	$('#btnPublishRec').attr('style','display:block;');
 	$('#btnBreakArticle').attr('style', 'display:block;');
 }
 //显示文章操作过程中用户输入的原因页面
