@@ -13,7 +13,7 @@ var userName;
 
 $(function() {
 	//设置自动保存的时长
-	setTimeout("auto_save()",600000);
+	setInterval("auto_save()",600000);
 	changeType();
 	//初始化页数显示
 	for ( var i = 1; i < pages; i++) {
