@@ -10,7 +10,7 @@
     
     <bean id="cacheStorageTemplate" class="freemarker.cache.MruCacheStorage">
         <constructor-arg index="0" type="int" value="30"/>
-        <constructor-arg index="1" type="int" value="50"/>
+        <constructor-arg index="1" type="int" value="500"/>
     </bean>
     
     <bean id="templatePreview" class="com.ewcms.publication.preview.TemplatePreview" autowire="byType"/>
