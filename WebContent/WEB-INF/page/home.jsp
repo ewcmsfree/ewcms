@@ -49,7 +49,7 @@
                         $('#editifr').attr('src',"about:blank");
                     }
                 });
-                interval = setInterval("getNotesMessage()",60000); //定时器
+                interval = setInterval("getNotesMessage()",60000);
             });
             function getNotesMessage() {
             	var currentAjax = $.ajax({
