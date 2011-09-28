@@ -73,7 +73,7 @@ public class Resource implements Serializable {
     public enum Type {
         ANNEX("*","*.*"),
         IMAGE("jpg/gif/jpeg/png/bmp","*.jpg;*.gif;*.jpeg;*.png;*.bmp"), 
-        FLASH("*","*.*"),
+        FLASH("swf/flv","*.swf;*.flv;"),
         VIDEO("*","*.*");
 
         private String fileDesc;
@@ -254,6 +254,9 @@ public class Resource implements Serializable {
         updateTime = new Date(System.currentTimeMillis());
         if(StringUtils.isNotBlank(thumbUri)){
             thumbPath = resourcePath(site,thumbUri);
+        }
+        if(state != State.RELEASED){
+            publishTime = null;
         }
     }
     
