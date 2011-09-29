@@ -647,7 +647,8 @@ function detailGridData(operateTracks){
 							+ '</span></div></td>'
 							+ '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>'
 							+ operateTracks[i].description + '&nbsp;&nbsp;' + reason
-							+ '</span></div></td></tr></table>');
+							+ '</span></div></td>' 
+							+ '</tr></table>');
 		}
 		htmls.push('</div></div>');
 	}
