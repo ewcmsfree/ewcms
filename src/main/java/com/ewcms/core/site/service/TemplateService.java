@@ -10,7 +10,7 @@
 package com.ewcms.core.site.service;
 import java.util.ArrayList;
 import java.util.List;
-import freemarker.cache.CacheStorage;
+import freemarker.template.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +31,8 @@ public class TemplateService implements TemplateServiceable{
 	private TemplateDAO templateDao;
 	
 	@Autowired
-	private CacheStorage cacheStorageTemplate;
+	private Configuration cfg;
     
-	private void removeCacheTemplate(String path){
-		cacheStorageTemplate.remove(path);
-	}
-	
 	public Template getTemplate(Integer id){
 		return templateDao.get(id);
 	}
@@ -45,11 +41,16 @@ public class TemplateService implements TemplateServiceable{
 		templateDao.persist(vo);
 		return vo.getId();
 	}
+	
+	private void clearCacheTemplate(){
+		cfg.clearTemplateCache();
+	}
+	
 	@History(modelObjectIndex = 0)	
 	public Integer updTemplate(Template vo){
 		templateDao.merge(vo);	
 		updPubPath(vo);
-		removeCacheTemplate(vo.getUniquePath());
+		clearCacheTemplate();
 		return vo.getId();
 	}
 	/**
@@ -75,9 +76,8 @@ public class TemplateService implements TemplateServiceable{
 	}
 	
 	public void delTemplate(Integer id){
-		String uniquerPath = getTemplate(id).getUniquePath();
 		templateDao.removeByPK(id);
-		removeCacheTemplate(uniquerPath);
+		clearCacheTemplate();
 	}
 	
 	public List<Template> getTemplateList(){
