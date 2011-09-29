@@ -26,9 +26,9 @@ $(function() {
 	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
 	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
 	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
-	ewcmsBOBJ.addToolItem('排序', 'icon-sort', initSubMenu, 'btnSort');
-	ewcmsBOBJ.addToolItem('审核', 'icon-review', initSubMenu, 'btnReview');
-	ewcmsBOBJ.addToolItem('发布', 'icon-publish', initSubMenu, 'btnPub');
+	ewcmsBOBJ.addToolItem('排序', 'icon-sort', null, 'btnSort');
+	ewcmsBOBJ.addToolItem('审核', 'icon-review', null, 'btnReview');
+	ewcmsBOBJ.addToolItem('发布', 'icon-publish', null, 'btnPub');
 
 	ewcmsBOBJ.openDataGrid('#tt',{
 		singleSelect : true,
