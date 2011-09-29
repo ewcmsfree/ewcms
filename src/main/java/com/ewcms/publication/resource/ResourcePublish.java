@@ -19,6 +19,7 @@ import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.output.OutputFactory;
 import com.ewcms.publication.output.OutputResource;
@@ -105,7 +106,11 @@ public class ResourcePublish implements ResourcePublishable{
         List<TemplateSource> sources = templateSourceService.findNotReleaseTemplateSources(id);
         List<OutputResource> outputResources = new ArrayList<OutputResource>();
         for(TemplateSource source  : sources){
-            outputResources.add(createOutputResource(source));
+        	 if(source.getSourceEntity() == null){
+             	logger.debug("TemplateSource Entity is null");
+             	return ;
+             }
+        	 outputResources.add(createOutputResource(source));	
         }
         OutputFactory.factory(server.getOutputType()).out(server, outputResources);
     }
@@ -117,8 +122,9 @@ public class ResourcePublish implements ResourcePublishable{
      * @return
      */
     private OutputResource createOutputResource(TemplateSource source){
-        byte[] entity = source.getSourceEntity().getSrcEntity();
-        OutputResource outputResource = new OutputResource(entity,source.getUniquePath());
+    	TemplatesrcEntity entity = source.getSourceEntity();
+        byte[] content = entity.getSrcEntity();
+        OutputResource outputResource = new OutputResource(content,source.getPath());
         outputResource.registerEvent(new TemplateSourceOutputEvent(source.getId(), templateSourceService));
         return outputResource;
     }
@@ -140,8 +146,18 @@ public class ResourcePublish implements ResourcePublishable{
                 logger.debug("TemplateSource id = {} is not exist",id);
                 throw new PublishException("TemplateSource is not exits");
             }
-            outputs.add(createOutputResource(source));
+            
+            if(source.getSourceEntity() == null){
+            	logger.debug("TemplateSource Entity is null");
+            	return ;
+            }
+            
+           	outputs.add(createOutputResource(source));	
             createOutputsByTemplateSourceChildren(outputs,id);
+            Site site = source.getSite();
+            SiteServer server = site.getSiteServer();
+            OutputFactory.factory(server.getOutputType()).out(server, outputs);
+
         }else{
             Resource resource = resourceService.getResource(id);
             if(resource == null){
@@ -160,7 +176,11 @@ public class ResourcePublish implements ResourcePublishable{
             return ;
         }
         for(TemplateSource child : children){
-            outputResources.add(createOutputResource(child));
+        	if(child.getSourceEntity() == null){
+            	logger.debug("TemplateSource Entity is null");
+            	return ;
+            }
+            outputResources.add(createOutputResource(child));	
             createOutputsByTemplateSourceChildren(outputResources,child.getId());
         }
     }
