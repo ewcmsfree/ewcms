@@ -18,12 +18,14 @@ import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
 /**
- * @author 周冬�?
- * 
+ * 首页Action
+ *
+ * @author 周冬初
  */
 public class HomeAction extends EwcmsBaseAction {
     
     private Integer siteId;
+    private String siteName;
     private String realName;
     
 	@Autowired
@@ -41,6 +43,7 @@ public class HomeAction extends EwcmsBaseAction {
 		} else {
 			site = siteFac.getSite(siteId);
 		}
+		setSiteName(site.getSiteName());
 		EwcmsContextHolder.getContext().setSite(site);
 		realName = userService.getUserRealName();
 		return SUCCESS;
@@ -65,4 +68,12 @@ public class HomeAction extends EwcmsBaseAction {
 	public void siteLoad(){
 		Struts2Util.renderJson(JSONUtil.toJSON(getSiteList()));		
 	}
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
 }
