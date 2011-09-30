@@ -28,18 +28,6 @@
                 var messageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
                 var interval = setInterval("_home.getMessage('" + messageUrl + "')",60000);
                 _home.setInterval(interval);
-                
-                $('#cc').combobox({
-                    url:'<s:url action="siteload"/>',
-                    valueField:'id',
-                    textField:'siteName',
-                    onSelect:function(data){
-                        siteLoad(data.id);
-                    },onLoadSuccess:function(){
-                        $('#cc').combobox('setValue','<s:property value="siteId"/>');
-                    }
-                });
-                
             });
           
             function siteLoad(siteId){
@@ -60,9 +48,17 @@
         <div region="north" split="true" class="head">
              <div style="padding: 10px;">
                   <div style="float:left;width:120px;"><img src="<s:url value="/source/image/ewcms.png"/>" alt="ewcms.png"/></div>
-                  <div id="button-exit" style="float:right;width:40px;padding:8px;height: 50px;">
-                     您好 <s:property value="realName"/>!
-                     <a href="#" style="border:0;padding:2;"><img src="<s:url value="/source/image/exit.png"/>" width="24"/></a>
+                  <div  style="float:right;width:400px;padding-top:20px;height: 60px;">
+                     <div style="float:left;width:355px;padding-top: 8px;text-align: right;">
+                         <div style="width:100%;">
+                               <span style="color:yellow;font-size:13px;font-weight: bold;"><s:property value="realName"/> <s:property value="siteName"/>欢迎你</span>
+                         </div>
+                     </div>
+                     <div style="float:right;width:30px">
+                         <a id="button-main"  href="#" style="border:0;padding:2;">
+                            <img src='<s:url value="/source/image/exit.png"/>' width="24"/>
+                         </a>
+                     </div>
                   </div>
              </div>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
