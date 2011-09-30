@@ -7,10 +7,12 @@
         <title>EWCMS 站群内容管理平台</title>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/portal.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/home.css"/>'>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
+        <script type="text/javascript" src="<s:url value="/source/js/jquery.portal.js"/>"></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/page/home.js"/>'></script>
@@ -26,10 +28,34 @@
                     exit:'<s:url value="/logout.do"/>'
                 });
                 
-                var messageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
-                var interval = setInterval("_home.getMessage('" + messageUrl + "')",60000);
-                _home.setInterval(interval);
+                $('#pp').portal({
+    				border:false,
+    				fit:true
+    			});
+                
+                var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
+                var popInterval = setInterval("_home.getPopMessage('" + popMessageUrl + "')",60000);
+                _home.setPopInterval(popInterval);
+                
+                var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
+                _home.getNotice(noticeUrl);
+                var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "')",60000);
+                _home.setNoticeInterval(noticeInterval);
+                
+                var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
+                _home.getSubscription(subscriptionUrl);
+                var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl + "')",60000);
+                _home.setSubscriptionInterval(subscriptionInterval);
+                
+                var tipMessageUrl = '<s:url namespace="/message/receive" action="unRead"/>';
+                _home.getTipMessage(tipMessageUrl);
+                var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
+                _home.setTipInterval(tipInterval);
             });
+          
+            function siteLoad(siteId){
+                window.location = '<s:url action="index"/>?siteId='+siteId;
+            }
         </script>
     </head>
     <body class="easyui-layout">
@@ -41,7 +67,8 @@
                   <div  style="float:right;width:680px;padding-top:20px;height: 60px;">
                      <div style="float:left;width:646px;padding-top: 8px;text-align: right;">
                          <div style="width:100%;">
-                               <span style="color:yellow;font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span>
+                            <span style="color:yellow;font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span>
+                            <span id="tipMessage" style="color:red;font-size:13px;"></span>
                          </div>
                      </div>
                      <div style="float:right;width:30px">
@@ -161,6 +188,12 @@
                             <span>个人备忘</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a href="javascript:addTab('个人消息','message/index.do')">
+                            <img src="source/image/message.png" style="border:0"/><br/>
+                            <span>个人消息</span>
+                        </a>
+                    </div>
                     </sec:authorize>
                 </div>
                 <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
@@ -187,6 +220,21 @@
                     <div style="margin-top:20px;">
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
+                    <div id="pp" style="position:relative">  
+        				<div style="width:33%">
+        					<div id='notice' title="公告栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
+			    			</div>
+        				</div>  
+                        <div style="width:33%">
+        					<div id='subscription' title="订阅栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
+			    			</div>
+                        </div>  
+			            <div style="width:33%">
+        					<div id='other' title="其它栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
+			    			</div>
+			           </div>  
+			    	</div>  
+                </div>
                 </div>
             </div>
         </div>
