@@ -44,7 +44,7 @@ public class MemorandaDAO extends JpaDAO<Long, Memoranda>  {
 	@SuppressWarnings("unchecked")
 	public List<Memoranda> findMemorandaByUserName(String userName){
 		String hql = "From Memoranda As m Where m.userName=? Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
-		List<Memoranda> list = this.getJpaTemplate().find(hql, userName, true);
+		List<Memoranda> list = this.getJpaTemplate().find(hql, userName);
 		if (list.isEmpty()) return new ArrayList<Memoranda>();
 		return list;
 	}
