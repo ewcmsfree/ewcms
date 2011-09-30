@@ -95,6 +95,7 @@ public class MsgDetailAction extends ActionSupport {
 			setTitle(msgReceive.getMsgContent().getTitle());
 			setDetail(msgReceive.getMsgContent().getDetail());
 			setResults(null);
+			messageFac.readMsgReceive(getId());
 		}
 		return SUCCESS;
 	}

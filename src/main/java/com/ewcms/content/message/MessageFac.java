@@ -98,4 +98,9 @@ public class MessageFac implements MessageFacable {
 	public List<MsgReceive> findMsgReceiveByUnRead() {
 		return msgReceiveService.findMsgReceiveByUnRead();
 	}
+
+	@Override
+	public void readMsgReceive(Long msgReceiveId) {
+		msgReceiveService.readMsgReceive(msgReceiveId);
+	}
 }

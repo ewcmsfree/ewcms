@@ -63,4 +63,13 @@ public class MsgReceiveService implements MsgReceiveServiceable {
 	public List<MsgReceive> findMsgReceiveByUnRead() {
 		return msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(EwcmsContextUtil.getUserDetails().getUsername());
 	}
+
+	@Override
+	public void readMsgReceive(Long msgReceiveId) {
+		MsgReceive msgReceive = findMsgReceive(msgReceiveId);
+		Assert.notNull(msgReceive);
+		msgReceive.setRead(true);
+		msgReceive.setReadTime(new Date(Calendar.getInstance().getTime().getTime()));
+		msgReceiveDAO.merge(msgReceive);
+	}
 }

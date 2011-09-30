@@ -41,4 +41,6 @@ public interface MessageFacable {
 	public List<MsgSend> findMsgSendBySubscription();
 	
 	public List<MsgReceive> findMsgReceiveByUnRead();
+	
+	public void readMsgReceive(Long msgReceiveId);
 }

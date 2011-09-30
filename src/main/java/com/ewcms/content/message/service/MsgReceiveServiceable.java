@@ -20,4 +20,6 @@ public interface MsgReceiveServiceable {
 	public void markReadMsgReceive(Long msgReceiveId, Boolean read);
 	
 	public List<MsgReceive> findMsgReceiveByUnRead();
+	
+	public void readMsgReceive(Long msgReceiveId);
 }
