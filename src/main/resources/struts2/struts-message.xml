@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="message" extends="struts-default" namespace="/message">
+		<action name="index">
+			<result>/WEB-INF/page/message/index.jsp</result>
+		</action>
+	</package>
+	<package name="message.send" extends="struts-default" namespace="/message/send">
+		<action name="index">
+			<result>/WEB-INF/page/message/send.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.message.web.MsgSendAction" method="delete"/>
+		<action name="input" class="com.ewcms.content.message.web.MsgSendAction" method="input">
+			<result name="input">/WEB-INF/page/message/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.message.web.MsgSendAction" method="save">
+			<result>/WEB-INF/page/message/edit.jsp</result>
+			<result name="input">/WEB-INF/page/message/edit.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.content.message.web.MsgSendQueryAction" method="query"/>
+		<action name="notice" class="com.ewcms.content.message.web.MsgSendAction" method="notice"/>
+		<action name="subscription" class="com.ewcms.content.message.web.MsgSendAction" method="subscription"/>
+	</package>
+	<package name="message.receive" extends="struts-default" namespace="/message/receive">
+		<action name="index">
+			<result>/WEB-INF/page/message/receive.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.message.web.MsgReceiveAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.message.web.MsgReceiveQueryAction" method="query"/>
+		<action name="markRead" class="com.ewcms.content.message.web.MsgReceiveAction" method="markRead"/>
+		<action name="unRead" class="com.ewcms.content.message.web.MsgReceiveAction" method="unRead"/>
+	</package>
+	<package name="message.content" extends="struts-default" namespace="/message/content">
+		<action name="delete" class="com.ewcms.content.message.web.MsgContentAction" method="delete"/>
+		<action name="input" class="com.ewcms.content.message.web.MsgContentAction" method="input">
+			<result name="input">/WEB-INF/page/message/edit_subscription.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.message.web.MsgContentAction" method="save">
+			<result>/WEB-INF/page/message/edit_subscription.jsp</result>
+			<result name="input">/WEB-INF/page/message/edit_subscription.jsp</result>
+		</action>
+	</package>
+</struts>	
