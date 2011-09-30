@@ -35,7 +35,7 @@
                 columns:[[
 						 {field:'id',title:'编号',width:60},
 						 {field:'userName',title:'用户',hidden:true},
-						 {field:'title',title:'标题',width:400},
+						 {field:'title',title:'标题',width:800},
 		                 {field:'sendTime',title:'发送时间',width:125},
 		                 {field:'statusDescription',title:'状态',width:100},
 		                 {field:'typeDescription',title:'类型',width:100}

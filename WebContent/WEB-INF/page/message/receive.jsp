@@ -42,14 +42,9 @@
 			                	}
 		                	 }
 		                 },
-						 {field:'title',title:'标题',width:400,
+						 {field:'title',title:'标题',width:800,
 		                	 formatter : function(val, rec){
-		                		 return rec.msgContent.title;
-		                	 }
-		                 },
-		                 {field:'detail',title:'内容',width:400,
-		                	 formatter : function(val, rec){
-		                		 return rec.msgContent.detail;
+		                		 return '<a href="javascript:void(0);" onclick="parent.showRecord(' + rec.id + ')" onfocus="this.blur();">' + rec.msgContent.title + '</a>';
 		                	 }
 		                 },
 		                 {field:'readTime',title:'读取时间',width:125},

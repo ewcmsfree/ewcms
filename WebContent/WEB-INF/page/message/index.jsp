@@ -15,6 +15,7 @@
 		<script>
 		  var sendload=false,receiveload=false,allload=false;
 		  $(function(){
+			ewcmsBOBJ = new EwcmsBase();
 			$('#msgboxtab').tabs({
 				onSelect:function(title){
 					var sendUrl = '<s:url namespace="/message/send" action="index"/>';
@@ -32,6 +33,12 @@
 				}
 			});
 		  });
+		  function showRecord(id){
+			url = '<s:url namespace="/message/detail" action="index"/>?msgType=message&id=' + id;
+			$('#editifr_detail').attr('src',url);
+			ewcmsBOBJ.openWindow('#detail-window',{width:700,height:400,title:'内容'});
+			receiveifr.initOperateQuery();
+		  }
 		</script>		
 	</head>
 	<body>
@@ -43,5 +50,12 @@
 		  <iframe id="sendifr" name="sendifr" class="editifr" scrolling="no"></iframe>
 		</div>
 	  </div>	
+	  <div id="detail-window" class="easyui-window" icon="" closed="true" style="display:none;">
+        <div class="easyui-layout" fit="true">
+          <div region="center" border="false">
+            <iframe id="editifr_detail"  name="editifr_detail" frameborder="0" width="100%" height="100%" scrolling="auto" style="width:100%;height:100%;"></iframe>
+          </div>
+        </div>
+      </div>
 	</body>
 </html>
