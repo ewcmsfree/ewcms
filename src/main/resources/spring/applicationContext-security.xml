@@ -33,6 +33,9 @@
         <sec:intercept-url pattern="/scheduling/jobchannel/*.do" access="authenticated"/>
         
         <sec:intercept-url pattern="/document/**/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/vote/**/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/notes/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/message/**/*.do" access="authenticated"/>
         
         <sec:intercept-url pattern="/site/template/delete.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/template/query.do" access="authenticated"/>
