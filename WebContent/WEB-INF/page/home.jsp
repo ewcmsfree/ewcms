@@ -52,10 +52,6 @@
                 var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
                 _home.setTipInterval(tipInterval);
             });
-          
-            function siteLoad(siteId){
-                window.location = '<s:url action="index"/>?siteId='+siteId;
-            }
         </script>
     </head>
     <body class="easyui-layout">
