@@ -30,4 +30,6 @@ public interface MsgSendServiceable {
 	public List<MsgSend> findMsgSendByNotice();
 	
 	public List<MsgSend> findMsgSendBySubscription();
+	
+	public String subscribeMsg(Long msgSendId);
 }

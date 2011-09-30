@@ -103,4 +103,9 @@ public class MessageFac implements MessageFacable {
 	public void readMsgReceive(Long msgReceiveId) {
 		msgReceiveService.readMsgReceive(msgReceiveId);
 	}
+
+	@Override
+	public String subscribeMsg(Long msgSendId) {
+		return msgSendService.subscribeMsg(msgSendId);
+	}
 }

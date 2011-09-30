@@ -66,7 +66,7 @@ public class MsgSend implements Serializable {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private MsgStatus status;
-	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY, targetEntity = MsgContent.class)
+	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = MsgContent.class)
 	@JoinColumn(name = "send_id")
 	@OrderBy(value = "id Desc")
 	private List<MsgContent> msgContents = new ArrayList<MsgContent>();

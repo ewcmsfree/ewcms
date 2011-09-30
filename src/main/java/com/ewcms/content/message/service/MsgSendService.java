@@ -84,7 +84,7 @@ public class MsgSendService implements MsgSendServiceable {
 
 	@Override
 	public MsgSend findMsgSend(Long msgSendId) {
-		return msgSendDAO.findMsgSendByUserNameAndId(EwcmsContextUtil.getUserDetails().getUsername(), msgSendId);
+		return msgSendDAO.get(msgSendId);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class MsgSendService implements MsgSendServiceable {
 
 	@Override
 	public Long addSubscription(Long msgSendId, String title, String detail) {
-		MsgSend msgSend = findMsgSend(msgSendId);
+		MsgSend msgSend = msgSendDAO.findMsgSendByUserNameAndId(EwcmsContextUtil.getUserDetails().getUsername(), msgSendId);
 		Assert.notNull(msgSend);
 		if (msgSend.getType() == MsgType.SUBSCRIPTION){
 			List<MsgContent> msgContents = msgSend.getMsgContents();
@@ -146,4 +146,26 @@ public class MsgSendService implements MsgSendServiceable {
 		return msgSendDAO.findMsgSendByType(MsgType.SUBSCRIPTION);
 	}
 
+	@Override
+	public String subscribeMsg(Long msgSendId) {
+		MsgSend msgSend = msgSendDAO.get(msgSendId);
+		if (msgSend.getType() == MsgType.SUBSCRIPTION){
+			String receiveUserName = EwcmsContextUtil.getUserDetails().getUsername();
+			String sendUserName = msgSend.getUserName();
+			if (receiveUserName.equals(sendUserName)){
+				return "own";
+			}
+			String receiveUserNames = msgSend.getReceiveUserNames();
+			if (receiveUserNames == null || receiveUserNames.indexOf(receiveUserName) <= 0){
+				receiveUserNames += "," + receiveUserName;
+				msgSend.setReceiveUserNames(receiveUserNames);
+				msgSendDAO.merge(msgSend);
+				return "true";
+			}else{
+				return "exist";
+			}
+		}else{
+			return "false";
+		}
+	}
 }

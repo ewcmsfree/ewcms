@@ -15,6 +15,8 @@ import com.ewcms.content.message.MessageFacable;
 import com.ewcms.content.message.model.MsgContent;
 import com.ewcms.content.message.model.MsgReceive;
 import com.ewcms.content.message.model.MsgSend;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class MsgDetailAction extends ActionSupport {
@@ -98,5 +100,9 @@ public class MsgDetailAction extends ActionSupport {
 			messageFac.readMsgReceive(getId());
 		}
 		return SUCCESS;
+	}
+	
+	public void subscribe(){
+		Struts2Util.renderJson(JSONUtil.toJSON(messageFac.subscribeMsg(getId())));
 	}
 }
