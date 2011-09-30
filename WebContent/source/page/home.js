@@ -174,7 +174,7 @@ home.prototype.getTipMessage=function(url){
         data: '',
         success:function(message, textStatus){
         	$('#tipMessage').empty();
-        	var html = '<span>';
+        	var html = '<span id="messageFlash">';
             if (message != 'false'){
             	var tiplength = message.length;
             	html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【新消息(' + tiplength + ')】</a>';
