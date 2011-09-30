@@ -4,7 +4,28 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
-<struts>	
+<struts>
+	
+    <package name="security.account"  extends="struts-default" namespace="/account">
+        <action name="password" class="com.ewcms.security.manage.web.account.PasswordAction" method="input">
+            <result name="input">/WEB-INF/page/security/account/password.jsp</result>
+        </action>
+        <action name="savePassword" class="com.ewcms.security.manage.web.account.PasswordAction">
+            <result name="input">/WEB-INF/page/security/account/password.jsp</result>
+            <result name="error">/WEB-INF/page/security/account/password.jsp</result>
+            <result>/WEB-INF/page/security/account/password.jsp</result>
+        </action>
+        <action name="user" class="com.ewcms.security.manage.web.account.UserAction" method="input">
+            <result name="input">/WEB-INF/page/security/account/user.jsp</result>
+        </action>
+        <action name="saveUser" class="com.ewcms.security.manage.web.account.UserAction">
+            <result name="input">/WEB-INF/page/security/account/user.jsp</result>
+            <result name="error">/WEB-INF/page/security/account/user.jsp</result>
+            <result>/WEB-INF/page/security/account/user.jsp</result>
+        </action>
+    </package>
+    
+    <!-- 
     <package name="security.authority"  extends="struts-default" namespace="/security/authority">
         <action name="index">
             <result type="dispatcher">/WEB-INF/page/security/authority/index.jsp</result>
@@ -41,7 +62,6 @@
         </action>
     </package>
     
-    <!-- 
     <package name="security.group"  extends="struts-default" namespace="/security/group">
       <action name="query" class="com.ewcms.web.action.security.group.QueryAction" method="query"/>
       <action name="queryTreeGrid" class="com.ewcms.web.action.security.group.QueryAction" method="queryTreeGrid"/>
@@ -66,28 +86,4 @@
       <action name="deleteUser" class="com.ewcms.web.action.security.group.GroupAction" method="deleteUser"/>
     </package>
      -->
-     
-    <!-- 
-    <package name="security.account"  extends="struts-default" namespace="/account">
-        <action name="password" class="com.ewcms.web.action.security.account.PasswordAction" method="input">
-            <result name="input">/WEB-INF/page/security/account/password.jsp</result>
-            <result>/WEB-INF/page/security/account/password.jsp</result>
-        </action>
-        <action name="savePassword" class="com.ewcms.web.action.security.account.PasswordAction">
-            <result name="input">/WEB-INF/page/security/account/password.jsp</result>
-            <result name="error">/WEB-INF/page/security/account/password.jsp</result>
-            <result>/WEB-INF/page/security/account/password.jsp</result>
-        </action>
-        <action name="userInfo" class="com.ewcms.web.action.security.account.UserInfoAction" method="input">
-            <result name="input">/WEB-INF/page/security/account/userinfo.jsp</result>
-            <result>/WEB-INF/page/security/account/userinfo.jsp</result>
-        </action>
-        <action name="saveUserInfo" class="com.ewcms.web.action.security.account.UserInfoAction">
-            <result name="input">/WEB-INF/page/security/account/userinfo.jsp</result>
-            <result name="error">/WEB-INF/page/security/account/userinfo.jsp</result>
-            <result>/WEB-INF/page/security/account/userinfo.jsp</result>
-        </action>
-    </package>
-     -->
-     
 </struts>
