@@ -7,22 +7,24 @@
     <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'/>
     <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
     <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-    <script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
     <ewcms:datepickerhead/>
     <script type="text/javascript">
         $(function(){
-            <s:if test="closeWindow">
-            parent.closeWindow();
-            </s:if>
-            <s:else>
             <s:if test="hasActionErrors()">
-            <s:iterator value="actionErrors">  
-            $.messager.alert('错误','<s:property escape="false"/>\n');
-            </s:iterator>  
+                <s:iterator value="actionErrors">  
+                $.messager.alert('错误','<s:property escape="false"/>');
+                </s:iterator>  
             </s:if>
-            </s:else>
+            <s:if test="hasActionMessages()">
+                <s:iterator value="actionMessages">  
+                $.messager.alert('提示','<s:property escape="false"/>');
+                </s:iterator>  
+           </s:if>
+           
+           parent.updateUsername('<s:property value="userInfo.name"/>');
         });
        
        function pageSubmit(){
