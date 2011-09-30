@@ -38,13 +38,15 @@
                 _home.setPopInterval(popInterval);
                 
                 var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
-                _home.getNotice(noticeUrl);
-                var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "')",60000);
+                var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=notice'
+                _home.getNotice(noticeUrl, noticeDetailUrl);
+                var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "','" + noticeDetailUrl + "')",60000);
                 _home.setNoticeInterval(noticeInterval);
                 
                 var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
-                _home.getSubscription(subscriptionUrl);
-                var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl + "')",60000);
+                var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=subscription'
+                _home.getSubscription(subscriptionUrl, subscriptionDetailUrl);
+                var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl  + "','" + subscriptionDetailUrl +  "')",60000);
                 _home.setSubscriptionInterval(subscriptionInterval);
                 
                 var tipMessageUrl = '<s:url namespace="/message/receive" action="unRead"/>';
@@ -185,7 +187,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:addTab('个人消息','message/index.do')">
+                        <a href="javascript:_home.addTab('个人消息','message/index.do')">
                             <img src="source/image/message.png" style="border:0"/><br/>
                             <span>个人消息</span>
                         </a>
@@ -245,6 +247,12 @@
                 </div>
             </div>
         </div>
-        
+		<div id="detail-window" class="easyui-window" icon="" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_detail"  name="editifr_detail" frameborder="0" width="100%" height="100%" scrolling="auto" style="width:100%;height:100%;"></iframe>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
