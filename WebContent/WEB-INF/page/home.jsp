@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/home.css"/>'>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
@@ -30,22 +31,15 @@
                 _home.setInterval(interval);
             });
         </script>
-        <style>
-            .nav-item{text-align:center; background:#fff; height:80px;}
-            .nav-item img{border:0;}
-            a:link {text-decoration: none;color: #1B5978;}
-            a:visited {text-decoration: none;color: #1B5978;}
-            a:hover {text-decoration: underline;color: red;}
-            p{line-height:200%;}
-            .head{height:65px;padding:0px;overflow:hidden;background:url('./source/image/vistaBlue.jpg') #1E4176}
-        </style>
     </head>
     <body class="easyui-layout">
         <div region="north" split="true" class="head">
              <div style="padding: 10px;">
-                  <div style="float:left;width:120px;"><img src="<s:url value="/source/image/ewcms.png"/>" alt="ewcms.png"/></div>
-                  <div  style="float:right;width:400px;padding-top:20px;height: 60px;">
-                     <div style="float:left;width:355px;padding-top: 8px;text-align: right;">
+                  <div style="float:left;width:120px;">
+                      <img src="<s:url value="/source/image/ewcms.png"/>" alt="ewcms.png"/>
+                  </div>
+                  <div  style="float:right;width:680px;padding-top:20px;height: 60px;">
+                     <div style="float:left;width:646px;padding-top: 8px;text-align: right;">
                          <div style="width:100%;">
                                <span style="color:yellow;font-size:13px;font-weight: bold;"><s:property value="realName"/> <s:property value="siteName"/>欢迎你</span>
                          </div>
