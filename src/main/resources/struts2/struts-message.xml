@@ -45,4 +45,9 @@
 			<result name="input">/WEB-INF/page/message/edit_subscription.jsp</result>
 		</action>
 	</package>
+	<package name="message.detail" extends="struts-default" namespace="/message/detail">
+		<action name="index" class="com.ewcms.content.message.web.MsgDetailAction">
+			<result>/WEB-INF/page/message/detail.jsp</result>
+		</action>
+	</package>
 </struts>	
