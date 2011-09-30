@@ -50,7 +50,7 @@
 			$("#tt").datagrid({
 				view : detailview,
 				detailFormatter : function(rowIndex, rowData) {
-					return detailGridData(rowData.msgContents);
+					return detailGridData(rowData);
 				}
 			});
 			initSubMenu();
@@ -59,9 +59,9 @@
 			$('#btnAdd .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSubAdd'});
 		}
 		//内容数据
-		function detailGridData(msgContents){
+		function detailGridData(rowData){
 			var htmls = [];
-			if (msgContents.length == 0) {
+			if (rowData.msgContents.length == 0) {
 				htmls.push('<div style="padding:5px 0">没有内容记录!</div>');
 			} else {
 				htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
@@ -69,21 +69,29 @@
 				htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
 				htmls.push('<tr style="height: 21px">');
 				htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
-				htmls.push('<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>内容</span></div></td>');
+				htmls.push('<td><div class="datagrid-cell" style="width: 1000px; text-align: left;"><span>内容</span></div></td>');
+				if (rowData.type == 'SUBSCRIPTION'){
+					htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span></span></div></td>');
+				}
 				htmls.push('</tr>');
 				htmls.push('</table>');
 				htmls.push('</div>');
 				htmls.push('</div>');
 				htmls.push('<div class="datagrid-body">');
-				for ( var i = 0; i < msgContents.length; i++) {
+				for ( var i = 0; i < rowData.msgContents.length; i++) {
 					htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
 									+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
-									+ (msgContents.length - i)
+									+ (rowData.msgContents.length - i)
 									+ '</span></div></td>'
-									+ '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>'
-									+ msgContents[i].detail
-									+ '</span></div></td>'
-									+ '</tr></table>');
+									+ '<td><div class="datagrid-cell" style="width: 1000px; text-align: left;"><span>'
+									+ rowData.msgContents[i].detail
+									+ '</span></div></td>');
+					if (rowData.type == 'SUBSCRIPTION'){
+						htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span>'
+									+ '<a href="javascript:void(0);" onclick="delSubscription(' + rowData.msgContents[i].id + ')" style="text-decoration:none;">删除</a>'
+									+ '</span></div></td>');
+					}
+					htmls.push('</tr></table>');
 				}
 				htmls.push('</div></div>');
 			}
@@ -111,6 +119,13 @@
 				$.messager.alert('提示','只能是订阅的记录才能再新增订阅内容','info');
 				return;
 			}
+		}
+		function delSubscription(id){
+			var url = '<s:url namespace="/message/content" action="delete"/>';
+			$.post(url, {'selections':id}, function(data){
+				$("#tt").datagrid('reload');
+			});
+            return false;
 		}
 		</script>		
 	</head>

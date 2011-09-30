@@ -36,12 +36,12 @@
 	<body>
 		<table class="formtable" width="100%">
 		  <tr>
-		    <td width="15%">标题：</td>
-		    <td width="85%"><s:label name="title"/><s:if test="results!=null">&nbsp;&nbsp;<a href="javascript:void(0);" onclick="subscribe();return false;" onfocus="this.blur();">订阅</a></s:if></td>
+		    <td width="10%">标题：</td>
+		    <td width="90%"><s:label name="title"/><s:if test="results!=null">&nbsp;&nbsp;<a href="javascript:void(0);" onclick="subscribe();return false;" onfocus="this.blur();">订阅</a></s:if></td>
 		  </tr>
 		  <tr>
-		    <td width="15%">内容：</td>
-		    <td width="85%">
+		    <td width="10%">内容：</td>
+		    <td width="90%">
 		    <s:if test="results!=null">
 		    <table class="formatable" width="100%">
 			<s:iterator value="results" status="rowstatus">
