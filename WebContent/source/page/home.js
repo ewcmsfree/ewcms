@@ -3,6 +3,11 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
+var updateUsername = function(name){
+    $('#user-name').html(name);
+}
+
 var home = function(refurbish,windowId){
     
     this._refurbish = refurbish || true;
