@@ -31,7 +31,7 @@
     </script>
 </head>
 <body>
-    <s:form action="saveUserInfo" method="post">
+    <s:form action="saveUser" method="post">
         <table class="formtable">
             <tr>
                 <td width="120px">姓名：</td>
