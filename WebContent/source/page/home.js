@@ -86,3 +86,7 @@ home.prototype.getMessage=function(url){
 home.prototype.setInterval=function(interval){
     this._interval = interval;
 }
+
+home.prototype.siteLoad = function(id,url){
+    window.location = url + '?siteId=' + siteId;
+}
