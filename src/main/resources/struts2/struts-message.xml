@@ -49,5 +49,6 @@
 		<action name="index" class="com.ewcms.content.message.web.MsgDetailAction">
 			<result>/WEB-INF/page/message/detail.jsp</result>
 		</action>
+		<action name="subscribe" class="com.ewcms.content.message.web.MsgDetailAction" method="subscribe"/>
 	</package>
 </struts>	
