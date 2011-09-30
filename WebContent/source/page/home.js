@@ -92,7 +92,7 @@ home.prototype.setPopInterval=function(popInterval){
     this._popInterval = popInterval;
 }
 
-home.prototype.getNotice = function(url){
+home.prototype.getNotice = function(url,detailUrl){
 	var noticeInterval = this._noticeInterval;
 	var currentAjax = $.ajax({
 		type:'post',
@@ -106,7 +106,7 @@ home.prototype.getNotice = function(url){
     			var noticesHtml = '<div class="t-list"><table width="100%">';
     			var pro = [];
         		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="77%"><a href="#"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
+        			pro.push('<tr><td width="77%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
         		}
         		var html = pro.join("");
         		noticesHtml += html + '</table></div>'
@@ -128,7 +128,7 @@ home.prototype.setNoticeInterval = function(noticeInterval){
 	this._noticeInterval = noticeInterval;
 }
 
-home.prototype.getSubscription = function(url){
+home.prototype.getSubscription = function(url, detailUrl){
 	var subscriptionInterval = this._subscriptionInterval;
 	var currentAjax = $.ajax({
 		type:'post',
@@ -142,7 +142,7 @@ home.prototype.getSubscription = function(url){
     			var subscriptionHtml = '<div class="t-list"><table width="100%">';
     			var pro = [];
         		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="77%"><a href="#"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
+        			pro.push('<tr><td width="77%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
         		}
         		var html = pro.join("");
         		subscriptionHtml += html + '</table></div>'
@@ -177,7 +177,7 @@ home.prototype.getTipMessage=function(url){
         	var html = '<span>';
             if (message != 'false'){
             	var tiplength = message.length;
-            	html += '【新消息(' + tiplength + ')】';
+            	html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【新消息(' + tiplength + ')】</a>';
             }
             html += '</span>';
             $(html).appendTo('#tipMessage');
@@ -199,4 +199,10 @@ home.prototype.setTipInterval=function(tipInterval){
 
 home.prototype.siteLoad = function(id,url){
     window.location = url + '?siteId=' + siteId;
+}
+
+function showRecord(url, id){
+	url = url + '&id=' + id;
+	$('#editifr_detail').attr('src',url);
+	ewcmsBOBJ.openWindow('#detail-window',{width:700,height:400,title:'内容'});
 }
