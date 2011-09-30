@@ -152,8 +152,8 @@
 	        <div id="btnReviewProcess" iconCls="icon-reviewprocess" onclick="reviewOperate();">确认</div>
 	    </div>
 	    <div id="btnPubSub" style="width:80px;display:none;">
-	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=false');" >单独</div>
-	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=true');" >递归</div>
+	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=false');" >独立</div>
+	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=true');" >关联</div>
 	    	<div class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'/>');">退回</div>
 	    </div>
