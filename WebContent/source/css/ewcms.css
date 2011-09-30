@@ -238,3 +238,12 @@ table.cellspacing { border-collapse: separate; }
 .icon-resume{
     background:url('icons/resume.png') no-repeat;
 }
+.icon-exit{
+	background:url('icons/exit.png') no-repeat;
+}
+.icon-password{
+	background:url('icons/key.png') no-repeat;
+}
+.icon-switch{
+    background:url('icons/arrow_switch.png') no-repeat;
+}
