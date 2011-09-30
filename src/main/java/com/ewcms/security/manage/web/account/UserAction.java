@@ -13,8 +13,13 @@ import com.ewcms.security.manage.model.UserInfo;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.opensymphony.xwork2.ActionSupport;
 
-@Controller
-public class UserInfoAction extends ActionSupport{
+/**
+ * 修改用户信息Action
+ * 
+ * @author wangwei
+ */
+@Controller("security.account.user.action")
+public class UserAction extends ActionSupport{
 
     private boolean closeWindow = false;
     private UserInfo userInfo;

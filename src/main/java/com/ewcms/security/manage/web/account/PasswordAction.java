@@ -14,7 +14,12 @@ import org.springframework.stereotype.Controller;
 
 import com.ewcms.security.manage.service.UserServiceable;
 
-@Controller("security.account.password")
+/**
+ * 用户修改密码Action
+ * 
+ * @author wangwei
+ */
+@Controller("security.account.password.action")
 public class PasswordAction extends ActionSupport{
 
     private String password;
