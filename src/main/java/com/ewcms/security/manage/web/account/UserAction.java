@@ -21,7 +21,6 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.account.user.action")
 public class UserAction extends ActionSupport{
 
-    private boolean closeWindow = false;
     private UserInfo userInfo;
     
     @Autowired
@@ -30,7 +29,6 @@ public class UserAction extends ActionSupport{
     @Override
     public String input(){
         userInfo = userService.getCurrentUserInfo();
-        closeWindow = false;
         return INPUT;
     }
     
@@ -38,18 +36,14 @@ public class UserAction extends ActionSupport{
     public String execute(){
         try{
             userService.updateUserInfo(userInfo);
-            closeWindow = true;
+            this.addActionMessage("修改用户信息成功");
             return SUCCESS;
         }catch(Exception e){
-            this.addActionError("修改用户信息错误");
+            addActionError("修改用户信息失败");
             return ERROR;
         }
     }
     
-    public boolean isCloseWindow() {
-        return closeWindow;
-    }
-     
     public UserInfo getUserInfo() {
         return userInfo;
     }
