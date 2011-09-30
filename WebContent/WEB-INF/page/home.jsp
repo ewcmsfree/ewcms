@@ -17,9 +17,7 @@
         <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/page/home.js"/>'></script>
         <script type="text/javascript">
-            
             var _home = new home();
-            
             $(function(){
                 ewcmsBOBJ = new EwcmsBase();
                 _home.init({
