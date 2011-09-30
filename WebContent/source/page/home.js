@@ -34,16 +34,16 @@ home.prototype.addTab=function(title,src){
 home.prototype.init = function(urls){
     var windowId = this._windowId;
  
-    $('#button-exit').bind('click',function(){
+    $('#button-main').bind('click',function(){
         $('#mm').menu('show',{
             left:$(this).offset().left - 80,
             top:$(this).offset().top + 35
         });
        
     }).hover(function(){
-        $(this).children().filter('a').addClass('l-btn l-btn-plain m-btn-plain-active');
+        $(this).addClass('l-btn l-btn-plain m-btn-plain-active');
     },function(){
-        $(this).children().filter('a').removeClass('l-btn l-btn-plain m-btn-plain-active');
+        $(this).removeClass('l-btn l-btn-plain m-btn-plain-active');
     });
     
     $('#user-menu').bind('click',function(){
