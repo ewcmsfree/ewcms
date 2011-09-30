@@ -33,7 +33,7 @@
                 columns:[[
 						 {field:'id',title:'编号',width:60},
 						 {field:'userName',title:'用户',hidden:true},
-						 {field:'read',title:'标志',width:32,
+						 {field:'read',title:'标记 ',width:32,
 		                	 formatter : function(val, rec) {
 			                	if (val){
 			                	  return "&nbsp;<img src='../../source/image/msg/msg_read.gif' width='13px' height='13px' title='接收消息，已读'/>";
