@@ -29,10 +29,6 @@
                 var interval = setInterval("_home.getMessage('" + messageUrl + "')",60000);
                 _home.setInterval(interval);
             });
-          
-            function siteLoad(siteId){
-                window.location = '<s:url action="index"/>?siteId='+siteId;
-            }
         </script>
         <style>
             .nav-item{text-align:center; background:#fff; height:80px;}
