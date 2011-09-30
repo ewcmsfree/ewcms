@@ -32,9 +32,6 @@ public class UsernamePasswordCheckcodeAuthenticationFilter extends UsernamePassw
 
     private static final Logger logger = LoggerFactory.getLogger(UsernamePasswordCheckcodeAuthenticationFilter.class);
     
-    /**
-     * 
-     */
     public static final String FORM_CODECHECK_KEY = "j_checkcode";
     
     private String checkcodeParameter = FORM_CODECHECK_KEY;
