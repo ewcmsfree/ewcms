@@ -125,7 +125,7 @@
  	   function notesDetail(){
  		  	var url =  '<s:url namespace="/notes" action="list"/>';
 			$('#editifr_notes').attr('src',url);
-			ewcmsBOBJ.openWindow('#notes-window',{width:1300,height:600,title:'备访录列表'});
+			ewcmsBOBJ.openWindow('#notes-window',{width:900,height:500,title:'备访录列表'});
  	   }
  	   function loadingEnable(){
     	   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
@@ -145,31 +145,32 @@
         </tr>
  		<tr>
 		  <td style="padding:0;">
-		    <table align="left" width="400" cellspacing="0" cellpadding="0" border="0">
-		      <tr>
+		    <table align="left" width="40%" cellspacing="0" cellpadding="0" border="0">
+		      <tr align="left">
 		        <td>&nbsp;</td>
-		        <td valign="middle" style="padding-bottom:0;">
+		        <td valign="middle">
 		        	<a href="javascript:void(0);" iconCls="icon-notes-today" class="easyui-linkbutton" onclick="toDay();return false;">今天</a>
 		        </td>
-		        <td>
+		        <td  align="left">
 		        	<s:text name="toDayLunar"/>
 		        </td>
 		      </tr>
 		    </table>
-		    <table align="left" width="120" cellspacing="0" cellpadding="0" border="0">
+		    <table align="left" width="30%" cellspacing="0" cellpadding="0" border="0">
 		    	<tr>
-		    		<td width="100%">
+		    		<td align="left" width="100%">
 		    		  <a href="javascript:void(0);" iconCls="icon-notes-list" class="easyui-linkbutton" onclick="notesDetail();return false;">备忘录列表</a>
 		    		</td>
 		    	</tr>
 		    </table>
-		    <table align="right" width="310" cellspacing="0" cellpadding="0" border="0">
+		    <table aligh="right" width="30%" cellspacing="0" cellpadding="0" border="0">
 		      <tr>
-		        <td width="100%">
+		        <td align="right" width="100%">
 		        	<a id="prevMonth" href="javascript:void(0);" iconCls="icon-notes-prev" class="easyui-linkbutton" onclick="ChangeDate($('#year').val(),$('#month').val(),-1);return false;">上一个月</a>&nbsp;
 					<s:textfield id="year" name="year" size="3" cssStyle="background-color:transparent;border:0;" readonly="true"/>年 <s:textfield id="month" name="month" size="1" cssStyle="background-color:transparent;border:0;" readonly="true"/>月&nbsp;
 					<a id="nextMonth" href="javascript:void(0);" iconCls="icon-notes-next" class="easyui-linkbutton" onclick="ChangeDate($('#year').val(),$('#month').val(),1);return false;">下一个月</a>
 		        </td>
+		        <td>&nbsp;&nbsp;</td>
 			  </tr>
 			</table>
 		  </td>
