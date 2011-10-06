@@ -152,7 +152,8 @@
 		        	<a href="javascript:void(0);" iconCls="icon-notes-today" class="easyui-linkbutton" onclick="toDay();return false;">今天</a>
 		        </td>
 		        <td  align="left">
-		        	<s:text name="toDayLunar"/>
+		        	<!--<s:text name="toDayLunar"/>-->
+		        	<s:property name="toDayLunar" escape="false"/>
 		        </td>
 		      </tr>
 		    </table>
@@ -178,7 +179,8 @@
         <tr>
           <td>
             <table id="result" width="100%" cellspacing="0" cellpadding="0" bordercolor="#aaccee" border="1">
-			  <s:text name="result"/>
+			  <!--<s:text name="result"/>-->
+			  <s:property value="result" escape="false"/>
 	        </table>
 	      </td>
         </tr>

@@ -188,7 +188,10 @@
 															<tr id="trContent_<s:property value='#contentsStatus.index+1'/>" style="display:none">
 														</s:else>
 														<td>
-															<textarea id="_Content_<s:property value='#contentsStatus.index+1'/>" class="mceEditor"><s:text name="detail"/></textarea>
+															<textarea id="_Content_<s:property value='#contentsStatus.index+1'/>" class="mceEditor">
+															    <!--<s:text name="detail"/>-->
+															    <s:property value="detail" escape="false"/>
+															</textarea>
 															<input type="hidden" id="textAreaContent_<s:property value='#contentsStatus.index+1'/>" name="textAreaContent"/>
 														</td>
 													</tr>
