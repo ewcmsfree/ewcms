@@ -179,9 +179,9 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('个人备忘','notes/index.do')">
+                        <a href="javascript:_home.addTab('备忘录','notes/index.do')">
                             <img src="source/image/notes.png" style="border:0"/><br/>
-                            <span>个人备忘</span>
+                            <span>备忘录</span>
                         </a>
                     </div>
                     <div class="nav-item">
