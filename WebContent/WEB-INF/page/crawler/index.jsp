@@ -13,40 +13,87 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler" action="query"/>');
-			
-			ewcmsBOBJ.setWinWidth(800);
-			ewcmsBOBJ.setWinHeight(500);
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-						{field:'id',title:'编号',width:50,sortable:true},
-		                {field:'name',title:'名称',width:100},
-		                {field:'description',title:'描述',width:300},
-		                {field:'status',title:'状态',width:40,
-		                	formatter : function(val, rec) {
-		                		if (val){
-		                			return '启用';
-		                		}else{
-		                			return '停用';
-		                		}
-		                	}
-		                },
-		                {field:'maxContent',title:'内容页最大采集数',width:110},
-		                {field:'depth',title:'采集深度',width:80},
-		                {field:'threadCount',title:'线程数',width:70},
-		                {field:'thimeOutWait',title:'超时等待时间',width:90},
-		                {field:'errorCount',title:'发生错误时重试次数',width:120}
-                  ]]
+			$(function(){
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler" action="query"/>');
+				
+				ewcmsBOBJ.addToolItem('URL层级','icon-urllevel',urlLevelOperate,'btnUrlLevel');
+				ewcmsBOBJ.addToolItem('匹配','icon-match',matchOperate,'btnMatch');
+				ewcmsBOBJ.addToolItem('过滤','icon-filter',filterOperate,'btnFilter');
+				
+				ewcmsBOBJ.setWinWidth(800);
+				ewcmsBOBJ.setWinHeight(500);
+				
+				ewcmsBOBJ.openDataGrid('#tt',{
+					singleSelect : true,
+	                columns:[[
+							{field:'id',title:'编号',width:50,sortable:true},
+			                {field:'name',title:'名称',width:100},
+			                {field:'description',title:'描述',width:300},
+			                {field:'status',title:'状态',width:40,
+			                	formatter : function(val, rec) {
+			                		if (val){
+			                			return '启用';
+			                		}else{
+			                			return '停用';
+			                		}
+			                	}
+			                },
+			                {field:'maxContent',title:'最大采集数',width:100},
+			                {field:'depth',title:'采集深度',width:80},
+			                {field:'threadCount',title:'线程数',width:70},
+			                {field:'thimeOutWait',title:'超时等待时间',width:90},
+			                {field:'errorCount',title:'错误时重试次数',width:110}
+	                  ]]
+				});
+	
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler" action="input"/>');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler" action="delete"/>');
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/crawler" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler" action="delete"/>');
-		});
+			function matchOperate(){
+				var rows = $('#tt').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('提示', '请选择记录', 'info');
+					return;
+				}
+				if (rows.length > 1) {
+					$.messager.alert('提示', '只能选择一条记录', 'info');
+					return;
+				}
+				var url =  '<s:url namespace="/crawler/match" action="index"/>?gatherId=' + rows[0].id;
+				$('#editifr_block').attr('src',url);
+				ewcmsBOBJ.openWindow('#block-window',{width:900,height:500,title:'匹配块'});
+			}
+			function filterOperate(){
+				var rows = $('#tt').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('提示', '请选择记录', 'info');
+					return;
+				}
+				if (rows.length > 1) {
+					$.messager.alert('提示', '只能选择一条记录', 'info');
+					return;
+				}
+				var url =  '<s:url namespace="/crawler/filter" action="index"/>?gatherId=' + rows[0].id;
+				$('#editifr_block').attr('src',url);
+				ewcmsBOBJ.openWindow('#block-window',{width:900,height:500,title:'过滤块'});
+			}
+			function urlLevelOperate(){
+				var rows = $('#tt').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('提示', '请选择记录', 'info');
+					return;
+				}
+				if (rows.length > 1) {
+					$.messager.alert('提示', '只能选择一条记录', 'info');
+					return;
+				}
+				var url =  '<s:url namespace="/crawler/url" action="index"/>?gatherId=' + rows[0].id;
+				$('#editifr_block').attr('src',url);
+				ewcmsBOBJ.openWindow('#block-window',{width:900,height:500,title:'URL层级'});
+			}
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -90,5 +137,15 @@
                 </div>
             </div>
         </div>      	
+		<div id="block-window" class="easyui-window" closed="true" title="&nbsp;区块" style="display:none;">
+	      <div class="easyui-layout" fit="true">
+	        <div region="center" border="false">
+	          <iframe id="editifr_block"  name="editifr_block" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+	        </div>
+	        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+	          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#editifr_block').attr('src','');$('#block-window').window('close');">关闭</a>
+	        </div>
+	      </div>
+	    </div>
 	</body>
 </html>
