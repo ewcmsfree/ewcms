@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="gatherVo.name">
+        <field-validator type="requiredstring">
+        	<param name="trim">true</param>
+            <message>名称不能为空</message>
+        </field-validator>
+    </field>
+    <field name="gatherVo.maxContent">
+    	<field-validator type="required">
+    		<message>最大采集数不能为空</message>
+    	</field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^-?\d+$)]]></param>
+            <message>最大采集数必须是整数</message>
+        </field-validator>  
+    </field>
+    <field name="gatherVo.depth">
+    	<field-validator type="required">
+    		<message>采集深度不能为空</message>
+    	</field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^-?\d+$)]]></param>
+            <message>采集深度必须是整数</message>
+        </field-validator>  
+    </field>    
+    <field name="gatherVo.threadCount">
+    	<field-validator type="required">
+    		<message>采集线程数不能为空</message>
+    	</field-validator>
+    	<field-validator type="long">
+    		<param name="min">1</param>
+    		<param name="max">10</param>
+    		<message>采集线程必须在${min}与${max}之间</message>
+    	</field-validator>
+    </field>    
+    <field name="gatherVo.timeOutWait">
+    	<field-validator type="required">
+    		<message>超时等待时间不能为空</message>
+    	</field-validator>
+    	<field-validator type="long">
+    		<param name="min">1</param>
+    		<param name="max">600</param>
+    		<message>超时等待时间必须在${min}与${max}之间</message>
+    	</field-validator>
+    </field>    
+    <field name="gatherVo.errorCount">
+    	<field-validator type="required">
+    		<message>错误时重试次数不能为空</message>
+    	</field-validator>
+    	<field-validator type="long">
+    		<param name="min">1</param>
+    		<param name="max">10</param>
+    		<message>错误时重试次数必须在${min}与${max}之间</message>
+    	</field-validator>
+    </field>    
+</validators>
+
+
