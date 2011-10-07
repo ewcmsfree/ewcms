@@ -12,5 +12,8 @@ package com.ewcms.scheduling.job;
  * @author 吴智俊
  */
 public class JobClassEntity {
+	//频道执行JOB
 	public static final String JOB_CHANNEL = "com.ewcms.scheduling.job.channel.EwcmsExecutionChannelJob";
+	//采集器执行JOB
+	public static final String JOB_CRAWLER = "com.ewcms.scheduling.job.crawler.EwcmsExecutionCrawlerJob";
 }

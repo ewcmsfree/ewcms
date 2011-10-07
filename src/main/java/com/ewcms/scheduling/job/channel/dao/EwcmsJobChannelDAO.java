@@ -24,7 +24,7 @@ import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
  * 
  * @author 吴智俊
  */
-@Repository()
+@Repository
 public class EwcmsJobChannelDAO extends JpaDAO<Integer, EwcmsJobChannel> {
 	@SuppressWarnings("unchecked")
 	public EwcmsJobChannel findJobChannelByChannelId(Integer channelId) {

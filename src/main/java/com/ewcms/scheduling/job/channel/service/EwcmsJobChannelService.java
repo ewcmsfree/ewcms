@@ -30,7 +30,7 @@ import com.ewcms.scheduling.model.JobClass;
  * 
  * @author 吴智俊
  */
-@Service()
+@Service
 public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	@Autowired
 	private EwcmsJobChannelDAO ewcmsJobChannelDAO;

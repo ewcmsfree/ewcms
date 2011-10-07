@@ -22,7 +22,7 @@ import com.ewcms.scheduling.manage.vo.PageDisplayVO;
  * 
  * @author 吴智俊
  */
-@Service()
+@Service
 public class EwcmsJobChannelFac implements EwcmsJobChannelFacable {
 	@Autowired
 	private EwcmsJobChannelServiceable ewcmsJobChannelService;
