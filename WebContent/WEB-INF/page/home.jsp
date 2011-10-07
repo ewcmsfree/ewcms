@@ -190,6 +190,12 @@
                             <span>个人消息</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a href="javascript:_home.addTab('采集器','crawler/index.do')">
+                            <img src="source/image/message.png" style="border:0"/><br/>
+                            <span>采集器</span>
+                        </a>
+                    </div>
                     </sec:authorize>
                 </div>
                 <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
