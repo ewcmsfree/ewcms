@@ -18,4 +18,5 @@
     <context:component-scan base-package="com.ewcms.security"/>
     <context:component-scan base-package="com.ewcms.scheduling"/>
     <context:component-scan base-package="com.ewcms.history"/>
+    <context:component-scan base-package="com.ewcms.crawler"/>
 </beans>
