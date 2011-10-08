@@ -32,6 +32,8 @@
 			<result name="input">/WEB-INF/page/crawler/url/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.crawler.web.UrlLevelQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.crawler.web.UrlLevelAction" method="up"/>
+		<action name="down" class="com.ewcms.crawler.web.UrlLevelAction" method="down"/>
 	</package>
 	<package name="crawler.match" extends="struts-default" namespace="/crawler/match">
 		<action name="index" class="com.ewcms.crawler.web.MatchBlockAction">
@@ -46,6 +48,8 @@
 			<result name="input">/WEB-INF/page/crawler/match/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.crawler.web.MatchBlockQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.crawler.web.MatchBlockAction" method="up"/>
+		<action name="down" class="com.ewcms.crawler.web.MatchBlockAction" method="down"/>
 	</package>
 	<package name="crawler.filter" extends="struts-default" namespace="/crawler/filter">
 		<action name="index" class="com.ewcms.crawler.web.FilterBlockAction">
@@ -60,5 +64,7 @@
 			<result name="input">/WEB-INF/page/filter/match/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.crawler.web.FilterBlockQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.crawler.web.FilterBlockAction" method="up"/>
+		<action name="down" class="com.ewcms.crawler.web.FilterBlockAction" method="down"/>
 	</package>
 </struts>	
