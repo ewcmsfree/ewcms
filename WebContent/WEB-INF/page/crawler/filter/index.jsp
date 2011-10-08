@@ -77,9 +77,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="tdtitle">名称：</td>
+                                <td class="tdtitle">表达式：</td>
                                 <td class="tdinput">
-                                    <input type="text" id="name" name="name" class="inputtext"/>
+                                    <input type="text" id="regex" name="regex" class="inputtext"/>
                                 </td>
                             </tr>
                		</table>
