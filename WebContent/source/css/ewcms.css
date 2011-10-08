@@ -123,6 +123,10 @@ table.cellspacing { border-collapse: separate; }
 .icon-cookies{
     background: url('icons/cookies.png') no-repeat;
 }
+
+.icon-folder{
+    background:url('icons/tree_folder.gif') no-repeat;
+}
 .icon-note-add{
     background:url('icons/note_add.png') no-repeat;
 }
