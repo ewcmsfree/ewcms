@@ -14,35 +14,40 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
 			$(function(){
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/match" action="query"/>?gatherId=' + $('#gatherId').val());
+				
 				$('#tt').treegrid({
 					pagination:true,
 					animate:true,
 					collapsible:true,
-					url : '<s:url namespace="/crawler/match" action="query"/>?gatherId=' + $('#gatherId').val(),
+					nowrap:true,
+					rownumbers:true,
+					url : ewcmsBOBJ.getQueryURL(),
 					idField:'id',
 					treeField:'regex',
 					columns:[[
-						{field:'id', title:'编号', width:60, hidden:true},
+						{field:'id', title:'编号', width:60},
 						{field:'regex', title:'表达式', width:600}
 					]],
 					toolbar:[
-						{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addOperate},'-',
-						{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
-						{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delOperate},'-',
+						{id:'btnAdd',text:'新增',iconCls:'icon-add',handler:addCallBack},'-',
+						{id:'btnUpd',text:'修改',iconCls:'icon-edit',handler:updCallBack},'-',
+						{id:'btnRemove',text:'删除',iconCls:'icon-remove', handler:delCallBack},'-',
 						{id:'btnUp',text:'上移',iconCls:'icon-up',handler:upOperate},'-',
 						{id:'btnDown',text:'下移',iconCls:'icon-down',handler:downOperate},'-',
-						{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-						{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-',
+						{id:'btnSearch',text:'查询',iconCls:'icon-search', handler:queryCallBack},'-',
+						{id:'btnBack',text:'缺省查询',iconCls:'icon-back', handler:defQueryCallBack},'-',
 					]
 				});
+				
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/match" action="input"/>?gatherId=' + $('#gatherId').val());
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/match" action="delete"/>?gatherId=' + $('#gatherId').val());
 			});
-			function addOperate(){}
-			function updOperate(){}
-			function delOperate(){}
 			function upOperate(){}
 			function downOperate(){}
-			function queryOperateBack(){}
-			function initOperateQuery(){}
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -72,9 +77,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="tdtitle">名称：</td>
+                                <td class="tdtitle">表达式：</td>
                                 <td class="tdinput">
-                                    <input type="text" id="name" name="name" class="inputtext"/>
+                                    <input type="text" id="regex" name="regex" class="inputtext"/>
                                 </td>
                             </tr>
                		</table>

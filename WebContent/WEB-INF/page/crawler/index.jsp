@@ -42,7 +42,7 @@
 			                {field:'maxContent',title:'最大采集数',width:100},
 			                {field:'depth',title:'采集深度',width:80},
 			                {field:'threadCount',title:'线程数',width:70},
-			                {field:'thimeOutWait',title:'超时等待时间',width:90},
+			                {field:'timeOutWait',title:'超时等待时间',width:90},
 			                {field:'errorCount',title:'错误时重试次数',width:110}
 	                  ]]
 				});
