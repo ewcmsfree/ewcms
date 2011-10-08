@@ -82,7 +82,7 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 			jobCrawler.setTrigger(alqcJob.getTrigger());
 			jobCrawler.setUserName(alqcJob.getUserName());
 			jobCrawler.setVersion(alqcJob.getVersion());
-			jobCrawler.setBasicInfo(gather);
+			jobCrawler.setGather(gather);
 			if (jobCrawler.getId() == null) {
 				return schedulingFac.saveScheduleJob(jobCrawler);
 			} else {

@@ -50,7 +50,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
 
     protected void excuteCrawler() throws Exception {
         jobDetails = getJobDetails();
-        Gather basicInfo = jobDetails.getBasicInfo();
+        Gather basicInfo = jobDetails.getGather();
         String basicInfoName = "【" + basicInfo.getName() + "】";
         
     	EwcmsJobCrawlerFacable ewcmsSchedulingFac = getEwcmsSchedulingFac();

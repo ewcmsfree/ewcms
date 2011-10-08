@@ -17,21 +17,21 @@ import com.ewcms.scheduling.model.JobInfo;
  *
  */
 @Entity
-@Table(name = "job_info_crawler")
+@Table(name = "job_crawler_gather")
 @PrimaryKeyJoinColumn(name = "info_id")
 public class EwcmsJobCrawler extends JobInfo {
 
 	private static final long serialVersionUID = 5330778673168838760L;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "basicinfo_id")
-	private Gather basicInfo;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "gather_id")
+	private Gather gather;
 
-	public Gather getBasicInfo() {
-		return basicInfo;
+	public Gather getGather() {
+		return gather;
 	}
 
-	public void setBasicInfo(Gather basicInfo) {
-		this.basicInfo = basicInfo;
+	public void setGather(Gather gather) {
+		this.gather = gather;
 	}
 }
