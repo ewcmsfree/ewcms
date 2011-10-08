@@ -17,8 +17,8 @@
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/url" action="query"/>?gatherId=' + $('#gatherId').val());
 				
-				ewcmsBOBJ.setWinWidth(800);
-				ewcmsBOBJ.setWinHeight(500);
+				ewcmsBOBJ.setWinWidth(650);
+				ewcmsBOBJ.setWinHeight(150);
 				
 				ewcmsBOBJ.openDataGrid('#tt',{
 					singleSelect : true,
@@ -33,6 +33,44 @@
 				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/url" action="input"/>?gatherId=' + $('#gatherId').val());
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/url" action="delete"/>?gatherId=' + $('#gatherId').val());
 			});
+			function upOperate(){
+			    var rows = $('#tt').treegrid('getSelections');
+			    if(rows.length == 0){
+			        $.messager.alert('提示','请选择上移的记录','info');
+			        return ;
+			    }
+			    if (rows.length > 1){
+					$.messager.alert("提示","只能选择一个记录进行上移","info");
+					return;
+				}
+			    var upURL = '<s:url namespace="/crawler/url" action="up"/>';
+				$.post(upURL,{'gatherId':$('#gatherId').val(),'selections':rows[0].id},function(data) {
+					if (data == "false"){
+						$.messager.alert("提示","上移失败","info");
+						return;
+					}
+					$("#tt").treegrid('reload');
+				})
+			}
+			function downOperate(){
+			    var rows = $('#tt').treegrid('getSelections');
+			    if(rows.length == 0){
+			        $.messager.alert('提示','请选择下移的记录','info');
+			        return ;
+			    }
+			    if (rows.length > 1){
+					$.messager.alert("提示","只能选择一个记录进行下移","info");
+					return;
+				}
+			    var downURL = '<s:url namespace="/crawler/url" action="down"/>';
+				$.post(downURL,{'gatherId':$('#gatherId').val(),'selections':rows[0].id},function(data) {
+					if (data == "false"){
+						$.messager.alert("提示","下移失败","info");
+						return;
+					}
+					$("#tt").treegrid('reload');
+				});
+			}
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -55,12 +93,6 @@
                 <div region="center" border="false" >
                 <form id="queryform">
                 	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
                             <tr>
                                 <td class="tdtitle">URL：</td>
                                 <td class="tdinput">

@@ -28,13 +28,14 @@
 				<tr>
 					<td>表达式：</td>
 					<td class="formFieldError">
-						<s:textfield id="regex" cssClass="inputtext" name="matchBlockVo.regex" maxlength="50"/><font color="red">*</font>
+						<s:textarea id="description" name="matchBlockVo.regex" cols="50"/><font color="red">*</font>
 						<s:fielderror><s:param value="%{'matchBlockVo.regex'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
 			<s:hidden name="matchBlockVo.id"/>
 			<s:hidden name="parentId" id="parentId"/>
+			<s:hidden name="gatherId" id="gatherId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

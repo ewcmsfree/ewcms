@@ -35,6 +35,7 @@
 			</table>
 			<s:hidden name="filterBlockVo.id"/>
 			<s:hidden name="parentId" id="parentId"/>
+			<s:hidden name="gatherId" id="gatherId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

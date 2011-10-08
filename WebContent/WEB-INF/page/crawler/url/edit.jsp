@@ -28,12 +28,13 @@
 				<tr>
 					<td>URL：</td>
 					<td class="formFieldError">
-						<s:textfield id="regex" cssClass="inputtext" name="urlLevelVo.regex" maxlength="50"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'urlLevelVo.regex'}" /></s:fielderror>
+						<s:textfield id="regex" cssClass="inputtext" name="urlLevelVo.url" maxlength="50"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'urlLevelVo.url'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
 			<s:hidden name="urlLevelVo.id"/>
+			<s:hidden name="gatherId" name="gatherId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			
