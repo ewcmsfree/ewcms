@@ -234,9 +234,8 @@
 			            <div style="width:33%">
         					<div id='other' title="其它栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
 			    			</div>
-			           </div>  
+			            </div>  
 			    	</div>  
-                </div>
                 </div>
             </div>
         </div>
