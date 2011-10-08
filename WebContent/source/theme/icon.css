@@ -52,3 +52,12 @@
 .icon-tip{
 	background:url('icons/tip.png') no-repeat;
 }
+.icon-file{
+	background:url('icons/tree_file.gif') no-repeat;
+}
+.icon-folder{
+	background:url('icons/tree_folder.gif') no-repeat;
+}
+.icon-folder-open{
+	background:url('icons/tree_folder_open.gif') no-repeat;
+}
