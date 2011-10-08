@@ -8,6 +8,10 @@
         	<param name="trim">true</param>
             <message>地址不能为空</message>
         </field-validator>
+       <field-validator type="regex">
+            <param name="expression"><![CDATA[([a-zA-z]+://[^\s]*)]]></param>
+            <message>URL格式错误!</message>
+        </field-validator>        
     </field>
 </validators>
 
