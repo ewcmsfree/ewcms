@@ -45,16 +45,16 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 	
 	@SuppressWarnings("unchecked")
 	public List<MatchBlock> findParentMatchBlockByGatherId(Long gatherId){
-		String hql = "Select m From Gather As g Left Join g.matchBlocks As m Where m.parent Is Null And g.id=? Order By m.sort";
+		String hql = "Select m From Gather As g Right Join g.matchBlocks As m Where m.parent Is Null And g.id=? Order By m.sort";
 		List<MatchBlock> list = this.getJpaTemplate().find(hql, gatherId);
 		if (list.isEmpty()) return new ArrayList<MatchBlock>();
 		return list;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<MatchBlock> findChildMatchBlockByParentId(Long parentId){
-		String hql = "From MatchBlock As m Where m.parent.id=? Order By m.sort";
-		List<MatchBlock> list = this.getJpaTemplate().find(hql, parentId);
+	public List<MatchBlock> findChildMatchBlockByParentId(Long gatherId, Long parentId){
+		String hql = "Select m From Gather As g Right Join g.matchBlocks As m Where g.id=? And m.parent.id=? Order By m.sort";
+		List<MatchBlock> list = this.getJpaTemplate().find(hql, gatherId, parentId);
 		if (list.isEmpty()) return new ArrayList<MatchBlock>();
 		return list;
 	}
@@ -98,16 +98,16 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 	
 	@SuppressWarnings("unchecked")
 	public List<FilterBlock> findParentFilterBlockByGatherId(Long gatherId){
-		String hql = "Select f From Gather As g Left Join g.filterBlocks As f Where f.parent Is Null And g.id=? Order By f.sort";
+		String hql = "Select f From Gather As g Right Join g.filterBlocks As f Where f.parent Is Null And g.id=? Order By f.sort";
 		List<FilterBlock> list = this.getJpaTemplate().find(hql, gatherId);
 		if (list.isEmpty()) return new ArrayList<FilterBlock>();
 		return list;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<FilterBlock> findChildFilterBlockByParentId(Long parentId){
-		String hql = "From FilterBlock As f Where f.parent.id=? Order By f.sort";
-		List<FilterBlock> list = this.getJpaTemplate().find(hql, parentId);
+	public List<FilterBlock> findChildFilterBlockByParentId(Long gatherId, Long parentId){
+		String hql = "Select f From Gather As g Right Join g.filterBlocks As f Where g.id=? And f.parent.id=? Order By f.sort";
+		List<FilterBlock> list = this.getJpaTemplate().find(hql, gatherId, parentId);
 		if (list.isEmpty()) return new ArrayList<FilterBlock>();
 		return list;
 	}

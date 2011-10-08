@@ -210,7 +210,7 @@ public class GatherService implements GatherServiceable {
 		MatchBlock parent = matchBlock.getParent();
 		if (parent != null){
 			Long parentId = parent.getId();
-			List<MatchBlock> childs = gatherDAO.findChildMatchBlockByParentId(parentId);
+			List<MatchBlock> childs = gatherDAO.findChildMatchBlockByParentId(gatherId, parentId);
 			Assert.notEmpty(childs);
 			
 			int index = childs.indexOf(matchBlock);
@@ -235,7 +235,7 @@ public class GatherService implements GatherServiceable {
 		MatchBlock parent = matchBlock.getParent();
 		if (parent != null){
 			Long parentId = parent.getId();
-			List<MatchBlock> childs = gatherDAO.findChildMatchBlockByParentId(parentId);
+			List<MatchBlock> childs = gatherDAO.findChildMatchBlockByParentId(gatherId, parentId);
 			Assert.notEmpty(childs);
 			
 			int index = childs.indexOf(matchBlock);
@@ -307,7 +307,7 @@ public class GatherService implements GatherServiceable {
 		FilterBlock parent = filterBlock.getParent();
 		if (parent != null){
 			Long parentId = parent.getId();
-			List<FilterBlock> childs = gatherDAO.findChildFilterBlockByParentId(parentId);
+			List<FilterBlock> childs = gatherDAO.findChildFilterBlockByParentId(gatherId, parentId);
 			Assert.notEmpty(childs);
 			
 			int index = childs.indexOf(filterBlock);
@@ -332,7 +332,7 @@ public class GatherService implements GatherServiceable {
 		FilterBlock parent = filterBlock.getParent();
 		if (parent != null){
 			Long parentId = parent.getId();
-			List<FilterBlock> childs = gatherDAO.findChildFilterBlockByParentId(parentId);
+			List<FilterBlock> childs = gatherDAO.findChildFilterBlockByParentId(gatherId, parentId);
 			Assert.notEmpty(childs);
 			
 			int index = childs.indexOf(filterBlock);
@@ -353,11 +353,11 @@ public class GatherService implements GatherServiceable {
 		Assert.notEmpty(parents);
 		
 		List<BlockTreeGridNode> treeGridNodes = new ArrayList<BlockTreeGridNode>();		
-		childrenMatchBlock(treeGridNodes, parents);
+		childrenMatchBlock(gatherId, treeGridNodes, parents);
 		return treeGridNodes;
 	}
 	
-	private void childrenMatchBlock(List<BlockTreeGridNode> treeGridNodes, List<MatchBlock> matchBlocks){
+	private void childrenMatchBlock(Long gatherId, List<BlockTreeGridNode> treeGridNodes, List<MatchBlock> matchBlocks){
 		BlockTreeGridNode node;
 		for (MatchBlock matchBlock : matchBlocks){
 			node = new BlockTreeGridNode();
@@ -366,11 +366,11 @@ public class GatherService implements GatherServiceable {
 			node.setRegex(matchBlock.getRegex());
 			node.setState("open");
 			
-			List<MatchBlock> childrens = gatherDAO.findChildMatchBlockByParentId(matchBlock.getId());
+			List<MatchBlock> childrens = gatherDAO.findChildMatchBlockByParentId(gatherId, matchBlock.getId());
 			if (!childrens.isEmpty()){
 				node.setState("closed");
 				List<BlockTreeGridNode> childrenNodes = new ArrayList<BlockTreeGridNode>();
-				childrenMatchBlock(childrenNodes, childrens);
+				childrenMatchBlock(gatherId, childrenNodes, childrens);
 				node.setChildren(childrenNodes);
 			}
 			treeGridNodes.add(node);
@@ -383,11 +383,11 @@ public class GatherService implements GatherServiceable {
 		Assert.notEmpty(parents);
 		
 		List<BlockTreeGridNode> treeGridNodes = new ArrayList<BlockTreeGridNode>();
-		childrenFilterBlock(treeGridNodes, parents);
+		childrenFilterBlock(gatherId, treeGridNodes, parents);
 		return treeGridNodes;
 	}
 	
-	private void childrenFilterBlock(List<BlockTreeGridNode> treeGridNodes, List<FilterBlock> filterBlocks){
+	private void childrenFilterBlock(Long gatherId, List<BlockTreeGridNode> treeGridNodes, List<FilterBlock> filterBlocks){
 		BlockTreeGridNode node;
 		for (FilterBlock filterBlock : filterBlocks){
 			node = new BlockTreeGridNode();
@@ -396,11 +396,11 @@ public class GatherService implements GatherServiceable {
 			node.setRegex(filterBlock.getRegex());
 			node.setState("open");
 			
-			List<FilterBlock> childrens = gatherDAO.findChildFilterBlockByParentId(filterBlock.getId());
+			List<FilterBlock> childrens = gatherDAO.findChildFilterBlockByParentId(gatherId, filterBlock.getId());
 			if (!childrens.isEmpty()){
 				node.setState("closed");
 				List<BlockTreeGridNode> childrenNodes = new ArrayList<BlockTreeGridNode>();
-				childrenFilterBlock(childrenNodes, childrens);
+				childrenFilterBlock(gatherId, childrenNodes, childrens);
 				node.setChildren(childrenNodes);
 			}
 			treeGridNodes.add(node);

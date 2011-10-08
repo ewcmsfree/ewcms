@@ -21,7 +21,7 @@ public class BlockTreeGridNode implements Serializable {
 	private Long id;
 	private String regex;
 	private String state = "closed";
-	private String iconCls = "icon-folder";
+	private String iconCls = "";
 	private List<BlockTreeGridNode> children;
 
 	public Long getId() {

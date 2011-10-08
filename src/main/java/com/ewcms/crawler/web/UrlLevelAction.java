@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.model.UrlLevel;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 
 /**
  * 
@@ -75,5 +77,31 @@ public class UrlLevelAction extends CrudBaseAction<UrlLevel, Long> {
 	@Override
 	protected UrlLevel createEmptyVo() {
 		return new UrlLevel();
+	}
+	
+	public void up(){
+		try{
+			if (getGatherId() != null && getSelections() != null && getSelections().size() == 1){
+				crawlerFac.upUrlLevel(getGatherId(), getSelections().get(0));
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void down(){
+		try{
+			if (getGatherId() != null && getSelections() != null && getSelections().size() == 1){
+				crawlerFac.downUrlLevel(getGatherId(), getSelections().get(0));
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
 	}
 }
