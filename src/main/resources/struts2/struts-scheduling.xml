@@ -51,4 +51,13 @@
 			<result name="input">/WEB-INF/page/scheduling/jobinfo/edit_channel.jsp</result>
 		</action>
 	</package>
+	<package name="scheduling.jobcrawler" extends="struts-default" namespace="/scheduling/jobcrawler">
+		<action name="index" class="com.ewcms.scheduling.web.JobCrawlerAction" method="getJobCrawler">
+			<result name="input">/WEB-INF/page/scheduling/jobinfo/edit_crawler.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.scheduling.web.JobCrawlerAction" method="saveJobCrawler">
+			<result>/WEB-INF/page/scheduling/jobinfo/edit_crawler.jsp</result>
+			<result name="input">/WEB-INF/page/scheduling/jobinfo/edit_crawler.jsp</result>
+		</action>
+	</package>
 </struts>	
