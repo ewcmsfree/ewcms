@@ -250,3 +250,18 @@ table.cellspacing { border-collapse: separate; }
 .icon-switch{
     background:url('icons/arrow_switch.png') no-repeat;
 }
+.icon-scheduler-set{
+	background:url('icons/scheduler_set.png') no-repeat;
+}
+.icon-run{
+	background:url('icons/run.png') no-repeat;
+}
+.icon-filter{
+	background:url('icons/filter.png') no-repeat;
+}
+.icon-match{
+	background:url('icons/match.png') no-repeat;
+}
+.icon-levels{
+	background:url('icons/levels.png') no-repeat;
+}
