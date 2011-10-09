@@ -4,11 +4,11 @@ $(function() {
 	ewcmsBOBJ = new EwcmsBase();
 	ewcmsBOBJ.setQueryURL(queryURL);
 
-	ewcmsBOBJ.addToolItem('URL层级', 'icon-urllevel', urlLevelOperate,'btnUrlLevel');
+	ewcmsBOBJ.addToolItem('URL层级', 'icon-levels', urlLevelOperate,'btnUrlLevel');
 	ewcmsBOBJ.addToolItem('匹配', 'icon-match', matchOperate, 'btnMatch');
 	ewcmsBOBJ.addToolItem('过滤', 'icon-filter', filterOperate, 'btnFilter');
-	ewcmsBOBJ.addToolItem('立刻执行', 'icon-crawl-run', runCrawlOperate, 'btnCrawlRun');
-	ewcmsBOBJ.addToolItem('定时设置', 'icon-crawl-time', timeCrawlOperate, 'btnCrawlTime');
+	ewcmsBOBJ.addToolItem('立刻执行', 'icon-run', runCrawlOperate, 'btnCrawlRun');
+	ewcmsBOBJ.addToolItem('定时设置', 'icon-scheduler-set', timeCrawlOperate, 'btnCrawlTime');
 	
 	ewcmsBOBJ.setWinWidth(800);
 	ewcmsBOBJ.setWinHeight(500);
