@@ -18,6 +18,7 @@
 			<result name="input">/WEB-INF/page/crawler/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.crawler.web.GatherQueryAction" method="query"/>
+		<action name="crawlRun" class="com.ewcms.crawler.web.GatherAction" method="crawlRun"/>
 	</package>
 	<package name="crawler.url" extends="struts-default" namespace="/crawler/url">
 		<action name="index" class="com.ewcms.crawler.web.UrlLevelAction">
