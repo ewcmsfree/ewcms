@@ -36,12 +36,16 @@ public interface CrawlerFacable {
 	public MatchBlock findMatchBlock(Long matchBlockId);
 	public void upMatchBlock(Long gatherId, Long matchBlockId);
 	public void downMatchBlock(Long gatherId, Long matchBlockId);
+	public List<MatchBlock> findParentMatchBlockByGatherId(Long gatherId);
+	public List<MatchBlock> findChildMatchBlockByParentId(Long gatherId, Long parentId);
 	
 	public Long addAndUpdFilterBlock(Long gatherId, Long parentId, FilterBlock filterBlock);
 	public void delFilterBlock(Long gatherId, Long filterBlockId);
 	public FilterBlock findFilterBlock(Long filterBlockId);
 	public void upFilterBlock(Long gatherId, Long filterBlockId);
 	public void downFilterBlock(Long gatherId, Long filterBlockId);
+	public List<FilterBlock> findParentFilterBlockByGatherId(Long gatherId);
+	public List<FilterBlock> findChildFilterBlockByParentId(Long gatherId, Long parentId);
 	
 	public List<BlockTreeGridNode> findMatchBlockTransformTreeGrid(Long gatherId);
 	public List<BlockTreeGridNode> findFilterBlockTransformTreeGrid(Long gatherId);

@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
+import com.ewcms.crawler.crawl.EwcmsCrawlable;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 
 /**
  * 
@@ -29,6 +33,8 @@ public class GatherAction extends CrudBaseAction<Gather, Long> {
 	private CrawlerFacable crawlerFac;
 	@Autowired
 	private SiteFac siteFac;
+	@Autowired
+	private EwcmsCrawlable ewcmsCrawl;
 	
 	public List<Long> getSelections() {
         return super.getOperatorPK();
@@ -91,4 +97,14 @@ public class GatherAction extends CrudBaseAction<Gather, Long> {
 		return new Gather();
 	}
 
+	public void crawlRun(){
+		if (getSelections() != null && getSelections().size() == 1){
+			try {
+				ewcmsCrawl.crawl(getSelections().get(0));
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			} catch (BaseException e) {
+				Struts2Util.renderJson(JSONUtil.toJSON(e.getPageMessage()));
+			}
+		}
+	}
 }

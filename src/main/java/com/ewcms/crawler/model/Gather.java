@@ -36,7 +36,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>name:名称</li>
  * <li>description:描述</li>
  * <li>status:状态(true:启用,false:停用)</li>
- * <li>maxContent:内容页最大采集数</li>
+ * <li>maxCount:内容页最大采集数</li>
  * <li>depth:采集深度</li>
  * <li>threadCount:采集线程数</li>
  * <li>timeOutWait:超时等待时间</li>
@@ -44,6 +44,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>dateFormat:发布日期格式</li>
  * <li>option:采集选项</li>
  * <li>channelId:采集到此频道</li>
+ * <li>htmlType:页面类型</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -66,8 +67,8 @@ public class Gather implements Serializable {
 	private String description;
 	@Column(name = "status")
 	private Boolean status;
-	@Column(name = "maxcontent")
-	private Long maxContent;
+	@Column(name = "max_count")
+	private Long maxCount;
 	@Column(name = "depth")
 	private Long depth;
 	@Column(name = "threadcount")
@@ -93,14 +94,17 @@ public class Gather implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = FilterBlock.class)
 	@JoinColumn(name = "gather_id")
 	private List<FilterBlock> filterBlocks = new ArrayList<FilterBlock>();
+	@Column(name = "html_type")
+	private String htmlType;
 
 	public Gather(){
-		maxContent = -1L;
+		maxCount = -1L;
 		depth = -1L;
 		threadCount = 1L;
 		timeOutWait = 30L;
 		errorCount = 2L;
 		dateFormat = "yyyy-MM-dd";
+		htmlType = "html";
 	}
 	
 	public Long getId() {
@@ -135,12 +139,12 @@ public class Gather implements Serializable {
 		this.status = status;
 	}
 
-	public Long getMaxContent() {
-		return maxContent;
+	public Long getMaxCount() {
+		return maxCount;
 	}
 
-	public void setMaxContent(Long maxContent) {
-		this.maxContent = maxContent;
+	public void setMaxCount(Long maxCount) {
+		this.maxCount = maxCount;
 	}
 
 	public Long getDepth() {
@@ -224,6 +228,14 @@ public class Gather implements Serializable {
 
 	public void setFilterBlocks(List<FilterBlock> filterBlocks) {
 		this.filterBlocks = filterBlocks;
+	}
+
+	public String getHtmlType() {
+		return htmlType;
+	}
+
+	public void setHtmlType(String htmlType) {
+		this.htmlType = htmlType;
 	}
 
 	@Override

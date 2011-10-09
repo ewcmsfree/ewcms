@@ -136,4 +136,26 @@ public class CrawlerFac implements CrawlerFacable {
 		return gatherService.findFilterBlockTransformTreeGrid(gatherId);
 	}
 
+	@Override
+	public List<MatchBlock> findParentMatchBlockByGatherId(Long gatherId) {
+		return gatherService.findParentMatchBlockByGatherId(gatherId);
+	}
+
+	@Override
+	public List<MatchBlock> findChildMatchBlockByParentId(Long gatherId,
+			Long parentId) {
+		return gatherService.findChildMatchBlockByParentId(gatherId, parentId);
+	}
+
+	@Override
+	public List<FilterBlock> findParentFilterBlockByGatherId(Long gatherId) {
+		return gatherService.findParentFilterBlockByGatherId(gatherId);
+	}
+
+	@Override
+	public List<FilterBlock> findChildFilterBlockByParentId(Long gatherId,
+			Long parentId) {
+		return gatherService.findChildFilterBlockByParentId(gatherId, parentId);
+	}
+
 }

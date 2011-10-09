@@ -39,6 +39,10 @@ public class GatherService implements GatherServiceable {
 
 	@Override
 	public Long updGather(Gather gather) {
+		Gather oldGather = gatherDAO.get(gather.getId());
+		gather.setUrlLevels(oldGather.getUrlLevels());
+		gather.setMatchBlocks(oldGather.getMatchBlocks());
+		gather.setFilterBlocks(oldGather.getFilterBlocks());
 		gatherDAO.merge(gather);
 		return gather.getId();
 	}
@@ -405,5 +409,27 @@ public class GatherService implements GatherServiceable {
 			}
 			treeGridNodes.add(node);
 		}
+	}
+
+	@Override
+	public List<MatchBlock> findParentMatchBlockByGatherId(Long gatherId) {
+		return gatherDAO.findParentMatchBlockByGatherId(gatherId);
+	}
+
+	@Override
+	public List<MatchBlock> findChildMatchBlockByParentId(Long gatherId,
+			Long parentId) {
+		return gatherDAO.findChildMatchBlockByParentId(gatherId, parentId);
+	}
+
+	@Override
+	public List<FilterBlock> findParentFilterBlockByGatherId(Long gatherId) {
+		return gatherDAO.findParentFilterBlockByGatherId(gatherId);
+	}
+
+	@Override
+	public List<FilterBlock> findChildFilterBlockByParentId(Long gatherId,
+			Long parentId) {
+		return gatherDAO.findChildFilterBlockByParentId(gatherId, parentId);
 	}
 }
