@@ -156,7 +156,7 @@
 					<td colspan="4" align="left"><font color="#0066FF"><b>任务信息</b></font></td>
 				</tr>
 				<tr>
-					<td width="10%">名称：</td>
+					<td width="10%">采集器名称：</td>
 					<td>
 						<s:textfield name="pageDisplayVo.label"	maxlength="50" readonly="true"></s:textfield>
 					</td>
