@@ -1,4 +1,4 @@
-var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,urlLevelIndexURL;
+var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,urlLevelIndexURL,crawlRunURL;
 
 $(function() {
 	ewcmsBOBJ = new EwcmsBase();
@@ -97,5 +97,48 @@ function urlLevelOperate() {
 		title : 'URL层级'
 	});
 }
-function runCrawlOperate(){}
+function runCrawlOperate(){
+	var rows = $('#tt').datagrid('getSelections');
+	if (rows.length == 0) {
+		$.messager.alert('提示', '请选择记录', 'info');
+		return;
+	}
+	if (rows.length > 1) {
+		$.messager.alert('提示', '只能选择一条记录', 'info');
+		return;
+	}
+	var url = crawlRunURL + '?selections=' + rows[0].id;
+	$.ajax({
+        type:'post',
+        async:false,
+        datatype:'json',
+        cache:false,
+        url:url,
+        data: '',
+        success:function(message, textStatus){
+        	loadingDisable();
+        	if (message=='true'){
+        		$.messager.alert('提示', '手动采集成功', 'info');
+        	}else{
+        		$.messager.alert('错误', message, 'error');
+        	}
+        },
+        beforeSend:function(XMLHttpRequest){
+        	loadingEnable();
+        },
+        complete:function(XMLHttpRequest, textStatus){
+        	loadingDisable();
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+        }
+    });
+}
 function timeCrawlOperate(){}
+function loadingEnable(){
+   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
+   $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+}
+function loadingDisable(){
+   $('.datagrid-mask-msg').remove();
+   $('.datagrid-mask').remove();
+}
