@@ -85,7 +85,7 @@
 	          <iframe id="editifr_scheduling"  name="editifr_scheduling" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
 	        </div>
 	        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-	          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:saveScheduling();">保存</a>
+	          <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0);" onclick="javascript:saveScheduling();">保存</a>
 	          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#editifr_scheduling').attr('src','');$('#scheduling-window').window('close');">关闭</a>
 	        </div>
 	      </div>
