@@ -8,7 +8,7 @@ $(function() {
 	ewcmsBOBJ.addToolItem('匹配', 'icon-match', matchOperate, 'btnMatch');
 	ewcmsBOBJ.addToolItem('过滤', 'icon-filter', filterOperate, 'btnFilter');
 	ewcmsBOBJ.addToolItem('立刻执行', 'icon-crawl-run', runCrawlOperate, 'btnCrawlRun');
-	ewcmsBOBJ.addToolItem('定时执行', 'icon-crawl-time', timeCrawlOperate, 'btnCrawlTime');
+	ewcmsBOBJ.addToolItem('定时设置', 'icon-crawl-time', timeCrawlOperate, 'btnCrawlTime');
 	
 	ewcmsBOBJ.setWinWidth(800);
 	ewcmsBOBJ.setWinHeight(500);
