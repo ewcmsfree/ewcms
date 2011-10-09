@@ -9,7 +9,13 @@
             <message>名称不能为空</message>
         </field-validator>
     </field>
-    <field name="gatherVo.maxContent">
+    <field name="gatherVo.htmlType">
+        <field-validator type="requiredstring">
+        	<param name="trim">true</param>
+            <message>网页类型不能为空</message>
+        </field-validator>
+    </field>
+    <field name="gatherVo.maxCount">
     	<field-validator type="required">
     		<message>最大采集数不能为空</message>
     	</field-validator>
