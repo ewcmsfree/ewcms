@@ -62,6 +62,13 @@
 					</td>
 				</tr>
 				<tr>
+					<td>网页类型：</td>
+					<td class="formFieldError">
+						<s:textfield id="name" cssClass="inputtext" name="gatherVo.htmlType" maxlength="50"/><font color="red">*</font>(例如:html,shtml,htm，如有多个类型之间用逗号分隔)
+						<s:fielderror><s:param value="%{'gatherVo.htmlType'}" /></s:fielderror>
+					</td>
+				</tr>
+				<tr>
 					<td>状态：</td>
 					<td>
 						<s:radio id="status" name="gatherVo.status" list='#{true:"&nbsp;启用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}' cssStyle="vertical-align: middle;" value="true"></s:radio>
@@ -71,8 +78,8 @@
 				<tr>
 					<td>最大采集数：</td>
 					<td class="formFieldError">
-						<s:textfield id="maxContent" name="gatherVo.maxContent" maxlength="8"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'gatherVo.maxContent'}" /></s:fielderror>(-1表示不限制)
+						<s:textfield id="maxContent" name="gatherVo.maxCount" maxlength="8"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'gatherVo.maxCount'}" /></s:fielderror>(-1表示不限制)
 					</td>
 				</tr>
 				<tr>

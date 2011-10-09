@@ -20,6 +20,7 @@
 			matchIndexURL = '<s:url namespace="/crawler/match" action="index"/>';
 			filterIndexURL = '<s:url namespace="/crawler/filter" action="index"/>';
 			urlLevelIndexURL = '<s:url namespace="/crawler/url" action="index"/>';
+			crawlRunURL = '<s:url namespace="/crawler" action="crawlRun"/>';
 		</script>		
 	</head>
 	<body class="easyui-layout">
