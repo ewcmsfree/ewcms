@@ -24,8 +24,8 @@
 		<s:form action="saveopt" namespace="/vote/subjectitem">
 			<table class="formtable" >
 				<tr>
-					<td width="15%" height="21px">选项方式：</td>
-					<td width="85%" height="21px">
+					<td width="17%" height="21px">选项方式：</td>
+					<td width="83%" height="21px">
 						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
 						<s:radio list="#{'MULTITEXT':'多行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
 					</td>

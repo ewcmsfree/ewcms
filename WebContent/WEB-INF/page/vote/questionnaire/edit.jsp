@@ -26,9 +26,9 @@
 		<s:form action="save" namespace="/vote/questionnaire">
 			<table class="formtable" align="center">
 				<tr>
-					<td width="15%" height="21px">问卷名称：</td>
-					<td width="85%" height="21px" class="formFieldError">
-						<s:textfield id="title" cssClass="inputtext" name="questionnaireVo.title" size="50"/>
+					<td width="17%" height="21px">问卷名称：</td>
+					<td width="83%" height="21px" class="formFieldError">
+						<s:textfield id="title" cssClass="inputtext" name="questionnaireVo.title"/>
 						<s:fielderror ><s:param value="%{'questionnaireVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>

@@ -24,9 +24,9 @@
 		<s:form action="save" namespace="/vote/subjectitem">
 			<table class="formtable" >
 				<tr>
-					<td width="15%" height="21px;">选项名称：</td>
-					<td width="85%" height="21px" class="formFieldError">
-						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.title" size="50"/>
+					<td width="17%" height="21px;">选项名称：</td>
+					<td width="83%" height="21px" class="formFieldError">
+						<s:textfield id="title" cssClass="inputtext" name="subjectItemVo.title"/>
 						<s:fielderror ><s:param value="%{'subjectItemVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
