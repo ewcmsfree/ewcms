@@ -6,7 +6,6 @@
 
 package com.ewcms.crawler.crawl;
 
-
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,22 +21,21 @@ import net.vidageek.crawler.Url;
 /**
  * 
  * @author wu_zhijun
- *
+ * 
  */
 @Service
 public class EwcmsPageVisitor implements PageVisitor {
-	
+
 	Pattern filters = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
-			+ "|png|tiff?|mid|mp2|mp3|mp4"
-			+ "|wav|avi|mov|mpeg|ram|m4v|pdf"
+			+ "|png|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
 			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
-	
+
 	@Autowired
 	private EwcmsJsoupable ewcmsJsoup;
-	
+
 	private Gather gather;
 	private String urlLevel;
-	
+
 	public Gather getGather() {
 		return gather;
 	}
@@ -56,7 +54,8 @@ public class EwcmsPageVisitor implements PageVisitor {
 
 	@Override
 	public void visit(Page page) {
-		ewcmsJsoup.parse(gather.getId(), gather.getChannelId(), page.getUrl(), gather.getTimeOutWait().intValue());
+		ewcmsJsoup.parse(gather.getId(), gather.getChannelId(), page.getUrl(),
+				gather.getTimeOutWait().intValue());
 	}
 
 	@Override
@@ -67,13 +66,12 @@ public class EwcmsPageVisitor implements PageVisitor {
 	@Override
 	public boolean followUrl(Url url) {
 		String href = url.link();
+		int depth = gather.getDepth().intValue();
 		if (filters.matcher(href).matches()) {
 			return false;
 		}
-		if (gather.getDepth().intValue() <= -1){
-			
-		}
-		if (url.link().startsWith(href) && url.depth() <= gather.getDepth().intValue()) {
+		if (href.startsWith(urlLevel)
+				&& (depth <= -1 || url.depth() <= depth)) {
 			return true;
 		}
 		return false;
