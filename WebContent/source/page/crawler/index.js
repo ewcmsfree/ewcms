@@ -148,7 +148,7 @@ function timeCrawlOperate(){
 	ewcmsBOBJ.openWindow('#scheduling-window', {
 		width : 900,
 		height : 500,
-		title : '定时器(<font color="red">采集器名称：' + rows[0].name + '</font>)'
+		title : '定时器设置'
 	});
 }
 function loadingEnable(){
