@@ -27,6 +27,8 @@ public interface ArticleServiceable {
 	 */
 	public Long addArticle(Article article, Integer channelId, Date published);
 	
+	public Long addArticleByCrawler(Article article, String userName, Integer channelId);
+	
 	/**
 	 * 修改文章信息
 	 * 

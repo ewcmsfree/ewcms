@@ -7,6 +7,7 @@
 package com.ewcms.content.document.service;
 
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+import static com.ewcms.common.lang.EmptyUtil.isNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,7 +70,9 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		if (isNotNull(published)) {
 			article.setPublished(published);
 		}
-		article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
+		if (isNull(article.getOwner())){
+			article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
+		}
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 		if (article.getType() == ArticleType.TITLE){
@@ -77,6 +80,23 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		}else{
 			keywordAndSummary(article);
 		}
+
+		ArticleMain articleMain = new ArticleMain();
+		articleMain.setArticle(article);
+		articleMain.setChannelId(channelId);
+		
+		articleMainDAO.persist(articleMain);
+
+		return articleMain.getId();
+	}
+	
+	@Override
+	public Long addArticleByCrawler(Article article, String userName, Integer channelId){
+		Assert.notNull(article);
+		
+		article.setOwner(userName);
+		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+		//keywordAndSummary(article);
 
 		ArticleMain articleMain = new ArticleMain();
 		articleMain.setArticle(article);
