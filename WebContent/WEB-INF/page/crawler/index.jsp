@@ -21,6 +21,7 @@
 			filterIndexURL = '<s:url namespace="/crawler/filter" action="index"/>';
 			urlLevelIndexURL = '<s:url namespace="/crawler/url" action="index"/>';
 			crawlRunURL = '<s:url namespace="/crawler" action="crawlRun"/>';
+			schedulingURL = '<s:url namespace="/scheduling/jobcrawler" action="index"/>';
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -77,6 +78,17 @@
         <div id="btnCrawlSub" style="width:80px;display:none;">
         	<div id="btnExe" iconCls="icon-sortset" onclick="sortOperate('<s:url namespace='/document/article' action='isSortArticle'/>','<s:url namespace='/document/article' action='sortArticle'/>');">立刻</div>
 	        <div id="btnSchedul" iconCls="icon-sortclear" onclick="clearSortOperate('<s:url namespace='/document/article' action='clearSortArticle'/>');">定时</div>
+	    </div>
+		<div id="scheduling-window" class="easyui-window" closed="true" title="&nbsp;区块" style="display:none;">
+	      <div class="easyui-layout" fit="true">
+	        <div region="center" border="false">
+	          <iframe id="editifr_scheduling"  name="editifr_scheduling" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+	        </div>
+	        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+	          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:saveScheduling();">保存</a>
+	          <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#editifr_scheduling').attr('src','');$('#scheduling-window').window('close');">关闭</a>
+	        </div>
+	      </div>
 	    </div>
 	</body>
 </html>
