@@ -14,19 +14,19 @@
 				var url = '<s:url namespace="/message/detail" action="subscribe"/>';
 				$.post(url, {'id':$('#id').val()}, function(data) {
 					if (data == 'own'){
-						$.messager.alert('提示','您订阅的信息是自已发布的','info');
+						$.messager.alert('提示','您不能订阅自已发布的信息！','info');
 						return;
 					}
 					if (data == 'exist'){
-						$.messager.alert('提示','您已订阅了此信息，不需要再订阅了','info');
+						$.messager.alert('提示','您已订阅了此信息，不需要再订阅！','info');
 						return;
 					}
 					if (data == 'false'){
-						$.messager.alert('提示','订阅信息失败','info');
+						$.messager.alert('提示','订阅信息失败！','info');
 						return;
 					}
 					if (data == 'true'){
-						$.messager.alert('提示','订阅成功','info');
+						$.messager.alert('提示','订阅成功！','info');
 						return;
 					}
 				});
