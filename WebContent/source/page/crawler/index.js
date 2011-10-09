@@ -1,4 +1,4 @@
-var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,urlLevelIndexURL,crawlRunURL;
+var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,urlLevelIndexURL,crawlRunURL,schedulingURL;
 
 $(function() {
 	ewcmsBOBJ = new EwcmsBase();
@@ -133,7 +133,24 @@ function runCrawlOperate(){
         }
     });
 }
-function timeCrawlOperate(){}
+function timeCrawlOperate(){
+	var rows = $('#tt').datagrid('getSelections');
+	if (rows.length == 0) {
+		$.messager.alert('提示', '请选择记录', 'info');
+		return;
+	}
+	if (rows.length > 1) {
+		$.messager.alert('提示', '只能选择一条记录', 'info');
+		return;
+	}
+	var url = schedulingURL + '?gatherId=' + rows[0].id;
+	$('#editifr_scheduling').attr('src', url);
+	ewcmsBOBJ.openWindow('#scheduling-window', {
+		width : 900,
+		height : 500,
+		title : '定时器(<font color="red">采集器名称：' + rows[0].name + '</font>)'
+	});
+}
 function loadingEnable(){
    $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
    $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
@@ -141,4 +158,7 @@ function loadingEnable(){
 function loadingDisable(){
    $('.datagrid-mask-msg').remove();
    $('.datagrid-mask').remove();
+}
+function saveScheduling(){
+	window.frames['editifr_scheduling'].document.forms[0].submit();
 }
