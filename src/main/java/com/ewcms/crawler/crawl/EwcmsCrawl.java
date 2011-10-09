@@ -58,11 +58,6 @@ public class EwcmsCrawl implements EwcmsCrawlable {
 			throw new BaseException("收集的频道未设定","收集的频道未设定");
 		}
 		
-//		String htmlType = gather.getHtmlType();
-//		if (isNull(htmlType) || htmlType.length() == 0){
-//			htmlType = "html";
-//		}
-		
 		ewcmsPageVisitor.setGather(gather);
 		
 		for (UrlLevel urlLevel : urlLevels){
