@@ -33,4 +33,9 @@ public class EwcmsJobCrawlerFac implements EwcmsJobCrawlerFacable {
 	public Integer saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException {
 		return ewcmsJobCrawlerService.saveOrUpdateJobCrawler(gatherId, vo);
 	}
+
+	@Override
+	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId) {
+		return ewcmsJobCrawlerService.findJobCrawlerByGatherId(gatherId);
+	}
 }

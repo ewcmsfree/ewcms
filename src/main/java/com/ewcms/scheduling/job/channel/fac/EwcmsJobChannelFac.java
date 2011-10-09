@@ -6,12 +6,9 @@
 
 package com.ewcms.scheduling.job.channel.fac;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
 import com.ewcms.scheduling.job.channel.service.EwcmsJobChannelServiceable;
@@ -40,10 +37,5 @@ public class EwcmsJobChannelFac implements EwcmsJobChannelFacable {
 	@Override
 	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException {
 		return ewcmsJobChannelService.saveOrUpdateJobChannel(channelId, vo, isAppChildenChannel);
-	}
-	
-	@Override
-	public List<Channel> findChildenChannelByParentChannelId(Integer parentChannelId){
-		return ewcmsJobChannelService.findChildenChannelByParentChannelId(parentChannelId);
 	}
 }

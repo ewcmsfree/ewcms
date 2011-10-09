@@ -96,4 +96,10 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 	public EwcmsJobCrawler getScheduledJobCrawler(Integer jobId) {
 		return (EwcmsJobCrawler)ewcmsJobCrawlerDAO.get(jobId);
 	}
+
+	@Override
+	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId) {
+		return (EwcmsJobCrawler)ewcmsJobCrawlerDAO.findJobCrawlerByGatherId(gatherId);
+	}
+	
 }

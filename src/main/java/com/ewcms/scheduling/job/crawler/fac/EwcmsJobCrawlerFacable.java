@@ -24,7 +24,6 @@ public interface EwcmsJobCrawlerFacable {
 	 */
 	public EwcmsJobCrawler getScheduledJobCrawler(Integer jobId);
 	
-	
 	/**
 	 * 新增或修改采集器定时任务
 	 * 
@@ -34,4 +33,12 @@ public interface EwcmsJobCrawlerFacable {
 	 * @throws BaseException
 	 */
 	public Integer saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException;
+	
+	/**
+	 * 通过采集器编号查询定时任务对象
+	 * 
+	 * @param gatherId 采集器编号
+	 * @return 采集器定时任务对象
+	 */
+	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId);
 }

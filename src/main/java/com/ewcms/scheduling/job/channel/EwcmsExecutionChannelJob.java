@@ -60,10 +60,6 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
     	EwcmsJobChannelFacable ewcmsSchedulingFac = getEwcmsSchedulingFac();
     	EwcmsJobChannel jobChannel = ewcmsSchedulingFac.findJobChannelByChannelId(channel.getId());
     	if (jobChannel != null && jobChannel.getId().intValue() > 0){
-//			List<Channel> childens = ewcmsSchedulingFac.findChildenChannelByParentChannelId(channel.getId());
-//			if (subChannel && childens != null){
-//				subPublic(childens);
-//			}
     		if (channel.getPublicenable()){
 				logger.info("定时发布 " + channelName + " 频道开始...");
 				try{
@@ -76,31 +72,6 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
     	}
     }
        
-//    private void subPublic(List<Channel> channels) throws Exception {
-//    	EwcmsJobChannelFacable ewcmsSchedulingFac = getEwcmsSchedulingFac();
-//    	for (Channel channel : channels){
-//    		if (channel != null && channel.getId().intValue() > 0){
-//		    	List<Channel> childens = ewcmsSchedulingFac.findChildenChannelByParentChannelId(channel.getId());
-//		    	if (childens != null){
-//			    	subPublic(childens);
-//		    	}
-//    			if (channel.getPublicenable()){
-//			    	EwcmsJobChannel jobChannel = ewcmsSchedulingFac.findJobChannelByChannelId(channel.getId());
-//			    	if (jobChannel == null){
-//			    		String channelName = "【" + channel.getName() + "】";
-//			    		logger.info("定时发布 " + channelName + " 频道开始...");
-//						try{
-//							getSchedulingPublishable().publishChannel(channel.getId(), subChannel);
-//						}catch (PublishException e){
-//							logger.error("定时发布 " + channelName + " 频道发布异常");
-//						}
-//			    		logger.info("定时发布 " + channelName + " 频道结束.");
-//			    	}
-//    			}
-//    		}
-//    	}
-//    }
-
     protected void jobClear() {
         jobDetails = null;
     }

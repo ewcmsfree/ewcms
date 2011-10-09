@@ -6,8 +6,6 @@
 
 package com.ewcms.scheduling.job.channel.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -102,11 +100,6 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	@Override
 	public EwcmsJobChannel findJobChannelByChannelId(Integer channelId) {
 		return ewcmsJobChannelDAO.findJobChannelByChannelId(channelId);
-	}
-	
-	@Override
-	public List<Channel> findChildenChannelByParentChannelId(Integer parentChannelId){
-		return ewcmsJobChannelDAO.getChannelChildren(parentChannelId);
 	}
 	
 	@Override

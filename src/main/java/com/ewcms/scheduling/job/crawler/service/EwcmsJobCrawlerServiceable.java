@@ -33,4 +33,12 @@ public interface EwcmsJobCrawlerServiceable {
 	 * @return 采集器定时任务对象
 	 */
 	public EwcmsJobCrawler getScheduledJobCrawler(Integer jobId);
+	
+	/**
+	 * 通过采集器编号查询定时任务对象
+	 * 
+	 * @param gatherId 采集器编号
+	 * @return 采集器定时任务对象
+	 */
+	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId);
 }

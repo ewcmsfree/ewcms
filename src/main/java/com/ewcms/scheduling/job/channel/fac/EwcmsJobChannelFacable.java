@@ -6,9 +6,6 @@
 
 package com.ewcms.scheduling.job.channel.fac;
 
-import java.util.List;
-
-import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
@@ -34,14 +31,6 @@ public interface EwcmsJobChannelFacable {
 	 * @return 频道定时任务对象
 	 */
 	public EwcmsJobChannel findJobChannelByChannelId(Integer channelId);
-	
-	/**
-	 * 通过频道父节点编号查询频道子节点对象集合
-	 * 
-	 * @param parentChannelId 频道父节点编号
-	 * @return 频道子节点对象集合
-	 */
-	public List<Channel> findChildenChannelByParentChannelId(Integer parentChannelId);
 	
 	/**
 	 * 新增或修改频道定时任务

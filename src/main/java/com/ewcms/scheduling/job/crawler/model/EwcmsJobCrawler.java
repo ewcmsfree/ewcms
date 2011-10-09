@@ -23,7 +23,7 @@ public class EwcmsJobCrawler extends JobInfo {
 
 	private static final long serialVersionUID = 5330778673168838760L;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "gather_id")
 	private Gather gather;
 

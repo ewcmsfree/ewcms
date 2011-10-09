@@ -13,6 +13,7 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.crawler.crawl.EwcmsCrawlable;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.job.crawler.fac.EwcmsJobCrawlerFacable;
@@ -28,6 +29,8 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionCrawlerJob.class);
     
     private static final String SCHEDULER_FACTORY = "ewcmsJobCrawlerFac";
+    
+    private static final String CRAWL_FACTORY = "ewcmsCrawl";
 
     protected EwcmsJobCrawler jobDetails;
     
@@ -50,14 +53,15 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
 
     protected void excuteCrawler() throws Exception {
         jobDetails = getJobDetails();
-        Gather basicInfo = jobDetails.getGather();
-        String basicInfoName = "【" + basicInfo.getName() + "】";
+        Gather gather = jobDetails.getGather();
+        String gather_name = "【" + gather.getName() + "】";
         
     	EwcmsJobCrawlerFacable ewcmsSchedulingFac = getEwcmsSchedulingFac();
-    	
-    	if (basicInfo.getStatus()){
-    		logger.info("定时采集 " + basicInfoName + " 地址开始...");
-    		logger.info("定时采集 " + basicInfoName + " 地址结束.");
+    	ewcmsSchedulingFac.findJobCrawlerByGatherId(gather.getId());
+    	if (gather.getStatus()){
+    		logger.info("定时采集 " + gather_name + " 地址开始...");
+    		getEwcmsCrawl().crawl(gather.getId());
+    		logger.info("定时采集 " + gather_name + " 地址结束.");
     	}
     }
        
@@ -76,5 +80,9 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
 
     protected EwcmsJobCrawlerFacable getEwcmsSchedulingFac() {
         return (EwcmsJobCrawlerFacable) applicationContext.getBean(SCHEDULER_FACTORY);
+    }
+    
+    protected EwcmsCrawlable getEwcmsCrawl(){
+    	return (EwcmsCrawlable) applicationContext.getBean(CRAWL_FACTORY); 
     }
 }

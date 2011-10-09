@@ -8,15 +8,9 @@ package com.ewcms.scheduling.job.channel.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
-import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.job.channel.model.EwcmsJobChannel;
 
 /**
@@ -34,23 +28,4 @@ public class EwcmsJobChannelDAO extends JpaDAO<Integer, EwcmsJobChannel> {
 			return null;
 		return list.get(0);
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<Channel> getChannelChildren(final Integer parentId) {
-		Object res = this.getJpaTemplate().execute(new JpaCallback<Object>() {
-			@Override
-			public Object doInJpa(EntityManager em) throws PersistenceException {
-				if (parentId == null)
-					return null;
-
-				String hql = "From Channel o Where o.parent.id=? Order By o.id";
-				Query query = em.createQuery(hql);
-				query.setParameter(1, parentId);
-				return query.getResultList();
-
-			}
-		});
-		return (List<Channel>) res;
-	}
-
 }
