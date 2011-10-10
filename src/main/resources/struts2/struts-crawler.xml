@@ -20,21 +20,21 @@
 		<action name="query" class="com.ewcms.crawler.web.GatherQueryAction" method="query"/>
 		<action name="crawlRun" class="com.ewcms.crawler.web.GatherAction" method="crawlRun"/>
 	</package>
-	<package name="crawler.url" extends="struts-default" namespace="/crawler/url">
-		<action name="index" class="com.ewcms.crawler.web.UrlLevelAction">
-			<result>/WEB-INF/page/crawler/url/index.jsp</result>
+	<package name="crawler.domain" extends="struts-default" namespace="/crawler/domain">
+		<action name="index" class="com.ewcms.crawler.web.DomainAction">
+			<result>/WEB-INF/page/crawler/domain/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.crawler.web.UrlLevelAction" method="delete"/>
-		<action name="input" class="com.ewcms.crawler.web.UrlLevelAction" method="input">
-			<result name="input">/WEB-INF/page/crawler/url/edit.jsp</result>
+		<action name="delete" class="com.ewcms.crawler.web.DomainAction" method="delete"/>
+		<action name="input" class="com.ewcms.crawler.web.DomainAction" method="input">
+			<result name="input">/WEB-INF/page/crawler/domain/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.crawler.web.UrlLevelAction" method="save">
-			<result>/WEB-INF/page/crawler/url/edit.jsp</result>
-			<result name="input">/WEB-INF/page/crawler/url/edit.jsp</result>
+		<action name="save" class="com.ewcms.crawler.web.DomainAction" method="save">
+			<result>/WEB-INF/page/crawler/domain/edit.jsp</result>
+			<result name="input">/WEB-INF/page/crawler/domain/edit.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.crawler.web.UrlLevelQueryAction" method="query"/>
-		<action name="up" class="com.ewcms.crawler.web.UrlLevelAction" method="up"/>
-		<action name="down" class="com.ewcms.crawler.web.UrlLevelAction" method="down"/>
+		<action name="query" class="com.ewcms.crawler.web.DomainQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.crawler.web.DomainAction" method="up"/>
+		<action name="down" class="com.ewcms.crawler.web.DomainAction" method="down"/>
 	</package>
 	<package name="crawler.match" extends="struts-default" namespace="/crawler/match">
 		<action name="index" class="com.ewcms.crawler.web.MatchBlockAction">
