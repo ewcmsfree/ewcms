@@ -15,7 +15,7 @@
             <message>网页类型不能为空</message>
         </field-validator>
     </field>
-    <field name="gatherVo.maxCount">
+    <field name="gatherVo.maxPage">
     	<field-validator type="required">
     		<message>最大采集数不能为空</message>
     	</field-validator>
@@ -39,7 +39,7 @@
     	</field-validator>
     	<field-validator type="long">
     		<param name="min">1</param>
-    		<param name="max">10</param>
+    		<param name="max">30</param>
     		<message>采集线程必须在${min}与${max}之间</message>
     	</field-validator>
     </field>    

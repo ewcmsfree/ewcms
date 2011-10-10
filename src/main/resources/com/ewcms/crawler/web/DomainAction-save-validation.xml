@@ -3,7 +3,7 @@
 "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
 
 <validators>
-    <field name="urlLevelVo.url">
+    <field name="domainVo.url">
         <field-validator type="requiredstring">
         	<param name="trim">true</param>
             <message>地址不能为空</message>
