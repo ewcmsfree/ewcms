@@ -22,7 +22,6 @@ import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
-import com.ewcms.crawler.crawl.crawler4j.crawler.PageFetcher;
 import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
