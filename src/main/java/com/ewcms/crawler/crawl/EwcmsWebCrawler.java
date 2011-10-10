@@ -23,13 +23,13 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.CrawlerFacable;
+import com.ewcms.crawler.crawl.crawler4j.crawler.Page;
+import com.ewcms.crawler.crawl.crawler4j.crawler.WebCrawler;
+import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
 
-import edu.uci.ics.crawler4j.crawler.Page;
-import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
  * 

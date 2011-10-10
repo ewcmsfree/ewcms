@@ -20,10 +20,10 @@ import com.ewcms.common.io.FileUtil;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
+import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
 
-import edu.uci.ics.crawler4j.crawler.CrawlController;
 
 /**
  * 
