@@ -30,14 +30,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "cwl_urllevel")
-@SequenceGenerator(name = "seq_cwl_urllevel", sequenceName = "seq_cwl_urllevel_id", allocationSize = 1)
-public class UrlLevel implements Serializable {
+@Table(name = "cwl_domain")
+@SequenceGenerator(name = "seq_cwl_domain", sequenceName = "seq_cwl_domain_id", allocationSize = 1)
+public class Domain implements Serializable {
 
 	private static final long serialVersionUID = 464355707059434413L;
 
 	@Id
-	@GeneratedValue(generator = "seq_cwl_urllevel", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_cwl_domain", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "url")
@@ -85,7 +85,7 @@ public class UrlLevel implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UrlLevel other = (UrlLevel) obj;
+		Domain other = (Domain) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

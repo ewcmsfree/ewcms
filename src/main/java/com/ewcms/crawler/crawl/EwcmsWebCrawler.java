@@ -6,44 +6,81 @@
 
 package com.ewcms.crawler.crawl;
 
+import static com.ewcms.common.lang.EmptyUtil.isCollectionNotEmpty;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ewcms.common.lang.EmptyUtil.*;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.model.FilterBlock;
+import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
+
+import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
  * 
- * 解析HTML表达式
- * 
  * @author wu_zhijun
- *
+ * 
  */
-@Service
-public class EwcmsJsoup implements EwcmsJsoupable{
+public class EwcmsWebCrawler extends WebCrawler {
 
-	@Autowired
-	private CrawlerFacable crawlerFac;
-	@Autowired
-	private ArticleServiceable articleService;
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsWebCrawler.class);
 	
+	Pattern filters = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
+			+ "|png|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
+			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+
+	private static Gather gather;
+	private static String[] crawlDomains;
+	private static CrawlerFacable crawlerFac;
+	private static ArticleServiceable articleService;
+	private static Long gatherId;
+
+	public static void configure(Gather gather, String[] crawlDomains, CrawlerFacable crawlerFac, ArticleServiceable articleService){
+		EwcmsWebCrawler.gather = gather;
+		EwcmsWebCrawler.crawlDomains = crawlDomains;
+		EwcmsWebCrawler.crawlerFac = crawlerFac;
+		EwcmsWebCrawler.articleService = articleService;
+		gatherId = gather.getId();
+	}
+	
+	/**
+	 * 根据url进行网页的解析，对返回为TRUE的网页进行抓取
+	 */
 	@Override
-	public void parse(Long gatherId, Integer channelId, String url, int timeOut) {
+	public boolean shouldVisit(WebURL url) {
+		if (url == null) return false;
+		String href = url.getURL();
+		if (filters.matcher(href).matches()) return false;
+		for (String domain : crawlDomains) {
+			if (href.startsWith(domain)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 解析网页内容，page类包含了丰富的方法，可以利用这些方法得到网页的内容和属性。
+	 */
+	@Override
+	public void visit(Page page) {
 		try {
-			Document doc = Jsoup.connect(url).timeout(timeOut).get();
+			Document doc = Jsoup.connect(page.getWebURL().getURL()).timeout(gather.getTimeOutWait().intValue() * 1000).get();
 			String title = doc.title();
 			
 			List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gatherId);
@@ -72,10 +109,30 @@ public class EwcmsJsoup implements EwcmsJsoupable{
 			article.setTitle(title);
 			article.setContents(contents);
 				
-			articleService.addArticleByCrawler(article, "gather", channelId);
+			articleService.addArticleByCrawler(article, "gather", gather.getChannelId());
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.warn(e.getLocalizedMessage());
 		}
+	}
+
+	/**
+	 * 当作业完成时，由控制器调用获得此crawler本地数据
+	 */
+	@Override
+	public Object getMyLocalData() {
+		return null;
+	}
+	
+	/**
+	 * 控制器调用之前
+	 */
+	@Override
+	public void onBeforeExit() {
+		gather = null;
+		crawlDomains = null;
+		crawlerFac = null;
+		articleService = null;
+		gatherId = null;
 	}
 	
 	private void childrenMatchBlock(Long gatherId, Document doc, List<MatchBlock> matchBlocks, StringBuffer sbHtml){

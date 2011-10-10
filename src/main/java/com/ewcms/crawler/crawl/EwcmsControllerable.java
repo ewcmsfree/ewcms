@@ -13,6 +13,6 @@ import com.ewcms.crawler.BaseException;
  * @author wu_zhijun
  *
  */
-public interface EwcmsCrawlable {
+public interface EwcmsControllerable {
 	public void crawl(Long gatherId) throws BaseException;
 }

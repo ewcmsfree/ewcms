@@ -19,7 +19,7 @@ import com.ewcms.web.QueryBaseAction;
  * @author wuzhijun
  *
  */
-public class UrlLevelQueryAction extends QueryBaseAction {
+public class DomainQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = -6105582233144966796L;
 	
@@ -35,8 +35,8 @@ public class UrlLevelQueryAction extends QueryBaseAction {
 
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,	String cacheKey, int rows, int page, Order order) {
-		String hql = "Select u From Gather As g Left Join g.urlLevels As u Where g.id=:gatherId ";
-		String countHql = "Select Count(u.id) From Gather As g Left Join g.urlLevels As u Where g.id=:gatherId ";
+		String hql = "Select u From Gather As g Left Join g.domains As u Where g.id=:gatherId ";
+		String countHql = "Select Count(u.id) From Gather As g Left Join g.domains As u Where g.id=:gatherId ";
 		
 		Long id = getParameterValue(Long.class, "id", "查询编号错误，应该是整型");
 		if (isNotNull(id)){
@@ -67,8 +67,8 @@ public class UrlLevelQueryAction extends QueryBaseAction {
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "Select u From Gather As g Left Join g.urlLevels As u Where g.id=:gatherId Order By u.level";
-		String countHql = "Select Count(u.id) From Gather As g Left Join g.urlLevels As u Where g.id=:gatherId ";
+		String hql = "Select u From Gather As g Left Join g.domains As u Where g.id=:gatherId Order By u.level";
+		String countHql = "Select Count(u.id) From Gather As g Left Join g.domains As u Where g.id=:gatherId ";
 
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

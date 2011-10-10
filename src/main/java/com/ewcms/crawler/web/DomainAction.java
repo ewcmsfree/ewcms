@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.crawler.CrawlerFacable;
-import com.ewcms.crawler.model.UrlLevel;
+import com.ewcms.crawler.model.Domain;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -21,7 +21,7 @@ import com.ewcms.web.util.Struts2Util;
  * @author wuzhijun
  *
  */
-public class UrlLevelAction extends CrudBaseAction<UrlLevel, Long> {
+public class DomainAction extends CrudBaseAction<Domain, Long> {
 	
 	private static final long serialVersionUID = -7991291404500643405L;
 
@@ -46,43 +46,43 @@ public class UrlLevelAction extends CrudBaseAction<UrlLevel, Long> {
         super.setOperatorPK(selections);
     }
 	
-	public UrlLevel getUrlLevelVo(){
+	public Domain getDomainVo(){
 		return super.getVo();
 	}
 	
-	public void setUrlLevelVo(UrlLevel urlLevelVo){
-		super.setVo(urlLevelVo);
+	public void setDomainVo(Domain domainVo){
+		super.setVo(domainVo);
 	}
 	
 	@Override
-	protected Long getPK(UrlLevel vo) {
+	protected Long getPK(Domain vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected UrlLevel getOperator(Long pk) {
-		return crawlerFac.findUrlLevel(pk);
+	protected Domain getOperator(Long pk) {
+		return crawlerFac.findDomain(pk);
 	}
 
 	@Override
 	protected void deleteOperator(Long pk) {
-		crawlerFac.delUrlLevel(getGatherId(), pk);
+		crawlerFac.delDomain(getGatherId(), pk);
 	}
 
 	@Override
-	protected Long saveOperator(UrlLevel vo, boolean isUpdate) {
-		return crawlerFac.addAndUpdUrlLevel(getGatherId(), vo);
+	protected Long saveOperator(Domain vo, boolean isUpdate) {
+		return crawlerFac.addAndUpdDomain(getGatherId(), vo);
 	}
 
 	@Override
-	protected UrlLevel createEmptyVo() {
-		return new UrlLevel();
+	protected Domain createEmptyVo() {
+		return new Domain();
 	}
 	
 	public void up(){
 		try{
 			if (getGatherId() != null && getSelections() != null && getSelections().size() == 1){
-				crawlerFac.upUrlLevel(getGatherId(), getSelections().get(0));
+				crawlerFac.upDomain(getGatherId(), getSelections().get(0));
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -95,7 +95,7 @@ public class UrlLevelAction extends CrudBaseAction<UrlLevel, Long> {
 	public void down(){
 		try{
 			if (getGatherId() != null && getSelections() != null && getSelections().size() == 1){
-				crawlerFac.downUrlLevel(getGatherId(), getSelections().get(0));
+				crawlerFac.downDomain(getGatherId(), getSelections().get(0));
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));

@@ -67,8 +67,8 @@ public class Gather implements Serializable {
 	private String description;
 	@Column(name = "status")
 	private Boolean status;
-	@Column(name = "max_count")
-	private Long maxCount;
+	@Column(name = "max_page")
+	private Integer maxPage;
 	@Column(name = "depth")
 	private Long depth;
 	@Column(name = "threadcount")
@@ -84,10 +84,10 @@ public class Gather implements Serializable {
 	private CaptureOptions option;
 	@Column(name = "channel_id")
 	private Integer channelId;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = UrlLevel.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Domain.class)
 	@JoinColumn(name = "gather_id")
 	@OrderBy(value = "level")
-	private List<UrlLevel> urlLevels = new ArrayList<UrlLevel>();
+	private List<Domain> domains = new ArrayList<Domain>();
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MatchBlock.class)
 	@JoinColumn(name = "gather_id")
 	private List<MatchBlock> matchBlocks = new ArrayList<MatchBlock>();
@@ -98,10 +98,10 @@ public class Gather implements Serializable {
 	private String htmlType;
 
 	public Gather(){
-		maxCount = -1L;
+		maxPage = -1;
 		depth = -1L;
-		threadCount = 1L;
-		timeOutWait = 30L;
+		threadCount = 30L;
+		timeOutWait = 1L;
 		errorCount = 2L;
 		dateFormat = "yyyy-MM-dd";
 		htmlType = "html";
@@ -139,12 +139,12 @@ public class Gather implements Serializable {
 		this.status = status;
 	}
 
-	public Long getMaxCount() {
-		return maxCount;
+	public Integer getMaxPage() {
+		return maxPage;
 	}
 
-	public void setMaxCount(Long maxCount) {
-		this.maxCount = maxCount;
+	public void setMaxPage(Integer maxPage) {
+		this.maxPage = maxPage;
 	}
 
 	public Long getDepth() {
@@ -204,12 +204,12 @@ public class Gather implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<UrlLevel> getUrlLevels() {
-		return urlLevels;
+	public List<Domain> getDomains() {
+		return domains;
 	}
 
-	public void setUrlLevels(List<UrlLevel> urlLevels) {
-		this.urlLevels = urlLevels;
+	public void setDomains(List<Domain> domains) {
+		this.domains = domains;
 	}
 	
 	@JsonIgnore

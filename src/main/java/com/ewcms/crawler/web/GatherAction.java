@@ -14,7 +14,7 @@ import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
-import com.ewcms.crawler.crawl.EwcmsCrawlable;
+import com.ewcms.crawler.crawl.EwcmsControllerable;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -34,7 +34,7 @@ public class GatherAction extends CrudBaseAction<Gather, Long> {
 	@Autowired
 	private SiteFac siteFac;
 	@Autowired
-	private EwcmsCrawlable ewcmsCrawl;
+	private EwcmsControllerable ewcmsCrawl;
 	
 	public List<Long> getSelections() {
         return super.getOperatorPK();

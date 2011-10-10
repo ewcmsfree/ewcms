@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
-import com.ewcms.crawler.model.UrlLevel;
+import com.ewcms.crawler.model.Domain;
 import com.ewcms.crawler.service.GatherServiceable;
 import com.ewcms.crawler.web.BlockTreeGridNode;
 
@@ -50,28 +50,28 @@ public class CrawlerFac implements CrawlerFacable {
 	}
 
 	@Override
-	public Long addAndUpdUrlLevel(Long gatherId, UrlLevel urlLevel) {
-		return gatherService.addAndUpdUrlLevel(gatherId, urlLevel);
+	public Long addAndUpdDomain(Long gatherId, Domain urlLevel) {
+		return gatherService.addAndUpdDomain(gatherId, urlLevel);
 	}
 
 	@Override
-	public void delUrlLevel(Long gatherId, Long urlLevelId) {
-		gatherService.delUrlLevel(gatherId, urlLevelId);
+	public void delDomain(Long gatherId, Long urlLevelId) {
+		gatherService.delDomain(gatherId, urlLevelId);
 	}
 
 	@Override
-	public UrlLevel findUrlLevel(Long urlLevelId) {
-		return gatherService.findUrlLevel(urlLevelId);
+	public Domain findDomain(Long urlLevelId) {
+		return gatherService.findDomain(urlLevelId);
 	}
 
 	@Override
-	public void upUrlLevel(Long gatherId, Long urlLevelId) {
-		gatherService.upUrlLevel(gatherId, urlLevelId);
+	public void upDomain(Long gatherId, Long urlLevelId) {
+		gatherService.upDomain(gatherId, urlLevelId);
 	}
 
 	@Override
-	public void downUrlLevel(Long gatherId, Long urlLevelId) {
-		gatherService.downUrlLevel(gatherId, urlLevelId);
+	public void downDomain(Long gatherId, Long urlLevelId) {
+		gatherService.downDomain(gatherId, urlLevelId);
 	}
 
 	@Override

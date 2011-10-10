@@ -1,0 +1,96 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+package com.ewcms.crawler.crawl;
+
+import static com.ewcms.common.lang.EmptyUtil.*;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ewcms.common.io.FileUtil;
+import com.ewcms.content.document.service.ArticleServiceable;
+import com.ewcms.crawler.BaseException;
+import com.ewcms.crawler.CrawlerFacable;
+import com.ewcms.crawler.model.Gather;
+import com.ewcms.crawler.model.Domain;
+
+import edu.uci.ics.crawler4j.crawler.CrawlController;
+
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
+@Service
+public class EwcmsController implements EwcmsControllerable {
+
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
+	
+	@Autowired
+	private CrawlerFacable crawlerFac;
+	@Autowired
+	private ArticleServiceable articleService;
+	
+	@Override
+	public void crawl(Long gatherId) throws BaseException{
+		Gather gather = crawlerFac.findGather(gatherId);
+		
+		if (isNull(gather)){
+			logger.error("采集的记录不存在");
+			throw new BaseException("采集的记录不存在","采集的记录不存在");
+		}
+		
+		List<Domain> urlLevels = gather.getDomains();
+		if (isCollectionEmpty(urlLevels)){
+			logger.error("采集的URL地址未设定");
+			throw new BaseException("采集的URL地址未设定","采集的URL地址未设定");
+		}
+		
+		if (isNull(gather.getChannelId())){
+			logger.error("收集的频道未设定");
+			throw new BaseException("收集的频道未设定","收集的频道未设定");
+		}
+		
+		String rootFolder = "/data/crawler/" + gather.getId() + "/";
+		try {
+			FileUtil.deleteDir(rootFolder);
+		} catch (IOException e) {
+			logger.warn(e.getLocalizedMessage());
+		}
+		
+		try{
+			CrawlController controller = new CrawlController(rootFolder);
+			String[] crawlDomains = new String[urlLevels.size()];
+			for (int index = 0; index < urlLevels.size(); index++){
+				crawlDomains[index] = urlLevels.get(index).getUrl();
+				controller.addSeed(crawlDomains[index]);
+			}
+			EwcmsWebCrawler.configure(gather, crawlDomains, crawlerFac, articleService);
+			
+			controller.setPolitenessDelay(200);
+			//设置最大爬行深度，默认值是-1无限深度
+			controller.setMaximumCrawlDepth(gather.getDepth().intValue());
+			//设置抓取的页面的最大数量，默认值是-1无限深度
+			controller.setMaximumPagesToFetch(gather.getMaxPage().intValue());
+			//并发线程数
+			int numberOfCrawlers = gather.getThreadCount().intValue();
+			//代理
+			//controller.setProxy("proxyserver.example.com", 8080, username, password);
+			
+			controller.start(EwcmsWebCrawler.class, numberOfCrawlers);
+		}catch(IOException e){
+			logger.error(e.getLocalizedMessage());
+		}catch(Exception e){
+			
+		}
+	}
+}

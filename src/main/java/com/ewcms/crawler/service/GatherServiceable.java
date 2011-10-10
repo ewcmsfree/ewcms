@@ -11,7 +11,7 @@ import java.util.List;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
-import com.ewcms.crawler.model.UrlLevel;
+import com.ewcms.crawler.model.Domain;
 import com.ewcms.crawler.web.BlockTreeGridNode;
 
 /**
@@ -25,11 +25,11 @@ public interface GatherServiceable {
 	public void delGather(Long gatherId);
 	public Gather findGather(Long gatherId);
 	
-	public Long addAndUpdUrlLevel(Long gatherId, UrlLevel urlLevel);
-	public void delUrlLevel(Long gatherId, Long urlLevelId);
-	public UrlLevel findUrlLevel(Long urlLevelId);
-	public void upUrlLevel(Long gatherId, Long urlLevelId);
-	public void downUrlLevel(Long gatherId, Long urlLevelId);
+	public Long addAndUpdDomain(Long gatherId, Domain domain);
+	public void delDomain(Long gatherId, Long domainId);
+	public Domain findDomain(Long domainId);
+	public void upDomain(Long gatherId, Long domainId);
+	public void downDomain(Long gatherId, Long domainId);
 	
 	public Long addAndUpdMatchBlock(Long gatherId, Long parentId, MatchBlock matchBlock);
 	public void delMatchBlock(Long gatherId, Long matchBlockId);

@@ -14,22 +14,22 @@ import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
-import com.ewcms.crawler.model.UrlLevel;
+import com.ewcms.crawler.model.Domain;
 
 @Repository
 public class GatherDAO extends JpaDAO<Long, Gather> {
 	
 	@SuppressWarnings("unchecked")
-	public UrlLevel findUrlLevelById(Long urlLevelId){
-		String hql = "From UrlLevel As u Where u.id=?";
-		List<UrlLevel> list = this.getJpaTemplate().find(hql, urlLevelId);
+	public Domain findDomainById(Long domainId){
+		String hql = "From Domain As d Where d.id=?";
+		List<Domain> list = this.getJpaTemplate().find(hql, domainId);
 		if (list.isEmpty()) return null;
 		return list.get(0);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Long findMaxUrlLevel(Long gatherId){
-		String hql = "Select Max(u.level) From Gather As g Left Join g.urlLevels As u Where g.id=?";
+	public Long findMaxDomain(Long gatherId){
+		String hql = "Select Max(u.level) From Gather As g Left Join g.domains As u Where g.id=?";
     	List<Long> list = this.getJpaTemplate().find(hql, gatherId);
     	if (list.isEmpty()) return 0L;
     	return list.get(0) == null ? 0L : list.get(0);

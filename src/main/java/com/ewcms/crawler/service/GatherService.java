@@ -17,7 +17,7 @@ import com.ewcms.crawler.dao.GatherDAO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
-import com.ewcms.crawler.model.UrlLevel;
+import com.ewcms.crawler.model.Domain;
 import com.ewcms.crawler.web.BlockTreeGridNode;
 
 /**
@@ -40,7 +40,7 @@ public class GatherService implements GatherServiceable {
 	@Override
 	public Long updGather(Gather gather) {
 		Gather oldGather = gatherDAO.get(gather.getId());
-		gather.setUrlLevels(oldGather.getUrlLevels());
+		gather.setDomains(oldGather.getDomains());
 		gather.setMatchBlocks(oldGather.getMatchBlocks());
 		gather.setFilterBlocks(oldGather.getFilterBlocks());
 		gatherDAO.merge(gather);
@@ -58,17 +58,17 @@ public class GatherService implements GatherServiceable {
 	}
 
 	@Override
-	public Long addAndUpdUrlLevel(Long gatherId, UrlLevel urlLevel) {
+	public Long addAndUpdDomain(Long gatherId, Domain urlLevel) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Long maxLevel = gatherDAO.findMaxUrlLevel(gatherId);
+		Long maxLevel = gatherDAO.findMaxDomain(gatherId);
 		maxLevel++;
 		urlLevel.setLevel(maxLevel);
 		
-		List<UrlLevel> urlLevels = gather.getUrlLevels();
+		List<Domain> urlLevels = gather.getDomains();
 		urlLevels.add(urlLevel);
-		gather.setUrlLevels(urlLevels);
+		gather.setDomains(urlLevels);
 		
 		gatherDAO.merge(gather);
 		gatherDAO.flush(gather);
@@ -77,42 +77,42 @@ public class GatherService implements GatherServiceable {
 	}
 
 	@Override
-	public void delUrlLevel(Long gatherId, Long urlLevelId) {
+	public void delDomain(Long gatherId, Long urlLevelId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		UrlLevel urlLevel = gatherDAO.findUrlLevelById(urlLevelId);
+		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
 		Assert.notNull(urlLevel);
 		
-		List<UrlLevel> urlLevels = gather.getUrlLevels();
+		List<Domain> urlLevels = gather.getDomains();
 		Assert.notEmpty(urlLevels);
 		
 		urlLevels.remove(urlLevel);
-		gather.setUrlLevels(urlLevels);
+		gather.setDomains(urlLevels);
 		
 		gatherDAO.merge(gather);
 	}
 
 	@Override
-	public UrlLevel findUrlLevel(Long urlLevelId) {
-		return gatherDAO.findUrlLevelById(urlLevelId);
+	public Domain findDomain(Long urlLevelId) {
+		return gatherDAO.findDomainById(urlLevelId);
 	}
 
 	@Override
-	public void upUrlLevel(Long gatherId, Long urlLevelId) {
+	public void upDomain(Long gatherId, Long urlLevelId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		UrlLevel urlLevel = gatherDAO.findUrlLevelById(urlLevelId);
+		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
 		Assert.notNull(urlLevel);
 		
-		List<UrlLevel> urlLevels = gather.getUrlLevels();
+		List<Domain> urlLevels = gather.getDomains();
 		Assert.notEmpty(urlLevels);
 		
 		int index = urlLevels.indexOf(urlLevel);
 		if (index > 0 && index <= urlLevels.size() - 1){
 			int targetIndex = index - 1;
-			UrlLevel targetVo = urlLevels.get(targetIndex);
+			Domain targetVo = urlLevels.get(targetIndex);
 			Long tempLevel = urlLevel.getLevel();
 			
 			urlLevel.setLevel(targetVo.getLevel());
@@ -121,27 +121,27 @@ public class GatherService implements GatherServiceable {
 			urlLevels.add(urlLevel);
 			urlLevels.add(targetVo);
 			
-			gather.setUrlLevels(urlLevels);
+			gather.setDomains(urlLevels);
 			
 			gatherDAO.merge(gather);
 		}
 	}
 
 	@Override
-	public void downUrlLevel(Long gatherId, Long urlLevelId) {
+	public void downDomain(Long gatherId, Long urlLevelId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		UrlLevel urlLevel = gatherDAO.findUrlLevelById(urlLevelId);
+		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
 		Assert.notNull(urlLevel);
 		
-		List<UrlLevel> urlLevels = gather.getUrlLevels();
+		List<Domain> urlLevels = gather.getDomains();
 		Assert.notEmpty(urlLevels);
 		
 		int index = urlLevels.indexOf(urlLevel);
 		if (index >= 0 && index < urlLevels.size() - 1){
 			int targetIndex = index + 1;
-			UrlLevel targetVo = urlLevels.get(targetIndex);
+			Domain targetVo = urlLevels.get(targetIndex);
 			Long tempLevel = urlLevel.getLevel();
 			
 			urlLevel.setLevel(targetVo.getLevel());
@@ -150,7 +150,7 @@ public class GatherService implements GatherServiceable {
 			urlLevels.add(urlLevel);
 			urlLevels.add(targetVo);
 			
-			gather.setUrlLevels(urlLevels);
+			gather.setDomains(urlLevels);
 			
 			gatherDAO.merge(gather);
 		}
