@@ -27,6 +27,8 @@ import com.ewcms.crawler.model.MatchBlock;
 
 /**
  * 
+ * 解析HTML表达式
+ * 
  * @author wu_zhijun
  *
  */
