@@ -8,19 +8,22 @@ package com.ewcms.crawler.crawl;
 
 import static com.ewcms.common.lang.EmptyUtil.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.common.io.FileUtil;
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
+import com.ewcms.crawler.crawl.crawler4j.crawler.PageFetcher;
+import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
 
@@ -31,6 +34,7 @@ import com.ewcms.crawler.model.Domain;
  *
  */
 @Service
+@Scope(value="prototype")
 public class EwcmsController implements EwcmsControllerable {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
@@ -60,15 +64,12 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("收集的频道未设定","收集的频道未设定");
 		}
 		
-		String rootFolder = "/tmp/crawler/" + gather.getId() + "/";
-		try {
-			FileUtil.deleteDir(rootFolder);
-		} catch (IOException e) {
-			logger.warn(e.getLocalizedMessage());
-		}
+		String gatherFolderPath = EwcmsWebCrawler.ROOT_FOLDER + gather.getId();
+		File gatherFolder = new File(gatherFolderPath);
+		if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
 		
 		try{
-			CrawlController controller = new CrawlController(rootFolder);
+			CrawlController controller = new CrawlController(gatherFolderPath);
 			String[] crawlDomains = new String[urlLevels.size()];
 			for (int index = 0; index < urlLevels.size(); index++){
 				crawlDomains[index] = urlLevels.get(index).getUrl();
@@ -90,7 +91,8 @@ public class EwcmsController implements EwcmsControllerable {
 		}catch(IOException e){
 			logger.error(e.getLocalizedMessage());
 		}catch(Exception e){
-			
+			e.printStackTrace();
+		}finally{
 		}
 	}
 }

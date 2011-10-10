@@ -44,6 +44,8 @@ public class EwcmsWebCrawler extends WebCrawler {
 			+ "|png|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
 			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
+	public static final String ROOT_FOLDER = "/tmp/crawler/";
+	
 	private static Gather gather;
 	private static String[] crawlDomains;
 	private static CrawlerFacable crawlerFac;
@@ -82,6 +84,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 		try {
 			Document doc = Jsoup.connect(page.getWebURL().getURL()).timeout(gather.getTimeOutWait().intValue() * 1000).get();
 			String title = doc.title();
+			logger.info("title:" + title);
 			
 			List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gatherId);
 			if (isCollectionNotEmpty(parents)){
