@@ -64,6 +64,11 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>paxle.net</id>
+			<name>Paxle</name>
+			<url>http://maven.repository.paxle.net/</url>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -328,13 +333,8 @@
 		</dependency>
 		<dependency>
 			<groupId>it.unimi.dsi</groupId>
-			<artifactId>dsiutils</artifactId>
-			<version>1.0.10</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
 			<artifactId>fastutil</artifactId>
-			<version>5.1.5</version>
+			<version>6.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sleepycat</groupId>
@@ -342,27 +342,9 @@
 			<version>4.0.92</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>mail</artifactId>
-					<groupId>javax.mail</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jms</artifactId>
-					<groupId>javax.jms</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jmxtools</artifactId>
-					<groupId>com.sun.jdmk</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jmxri</artifactId>
-					<groupId>com.sun.jmx</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>it.unimi.dsi</groupId>
+			<artifactId>dsiutils</artifactId>
+			<version>1.0.5</version>
 		</dependency>
 	</dependencies>
 	<build>
