@@ -15,7 +15,7 @@
 		<script type="text/javascript">
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/url" action="query"/>?gatherId=' + $('#gatherId').val());
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/domain" action="query"/>?gatherId=' + $('#gatherId').val());
 				
 				ewcmsBOBJ.setWinWidth(650);
 				ewcmsBOBJ.setWinHeight(150);
@@ -30,8 +30,8 @@
 	
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/url" action="input"/>?gatherId=' + $('#gatherId').val());
-				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/url" action="delete"/>?gatherId=' + $('#gatherId').val());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/domain" action="input"/>?gatherId=' + $('#gatherId').val());
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/domain" action="delete"/>?gatherId=' + $('#gatherId').val());
 			});
 			function upOperate(){
 			    var rows = $('#tt').treegrid('getSelections');
@@ -43,7 +43,7 @@
 					$.messager.alert("提示","只能选择一个记录进行上移","info");
 					return;
 				}
-			    var upURL = '<s:url namespace="/crawler/url" action="up"/>';
+			    var upURL = '<s:url namespace="/crawler/domain" action="up"/>';
 				$.post(upURL,{'gatherId':$('#gatherId').val(),'selections':rows[0].id},function(data) {
 					if (data == "false"){
 						$.messager.alert("提示","上移失败","info");
@@ -62,7 +62,7 @@
 					$.messager.alert("提示","只能选择一个记录进行下移","info");
 					return;
 				}
-			    var downURL = '<s:url namespace="/crawler/url" action="down"/>';
+			    var downURL = '<s:url namespace="/crawler/domain" action="down"/>';
 				$.post(downURL,{'gatherId':$('#gatherId').val(),'selections':rows[0].id},function(data) {
 					if (data == "false"){
 						$.messager.alert("提示","下移失败","info");

@@ -19,7 +19,7 @@
 			deleteURL = '<s:url namespace="/crawler" action="delete"/>';
 			matchIndexURL = '<s:url namespace="/crawler/match" action="index"/>';
 			filterIndexURL = '<s:url namespace="/crawler/filter" action="index"/>';
-			urlLevelIndexURL = '<s:url namespace="/crawler/url" action="index"/>';
+			domainIndexURL = '<s:url namespace="/crawler/domain" action="index"/>';
 			crawlRunURL = '<s:url namespace="/crawler" action="crawlRun"/>';
 			schedulingURL = '<s:url namespace="/scheduling/jobcrawler" action="index"/>';
 		</script>		

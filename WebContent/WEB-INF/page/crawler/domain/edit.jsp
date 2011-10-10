@@ -23,17 +23,17 @@
         </script>		
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="save" namespace="/crawler/url">
+		<s:form action="save" namespace="/crawler/domain">
 			<table class="formtable" >
 				<tr>
-					<td>URL：</td>
-					<td class="formFieldError">
-						<s:textfield id="regex" cssClass="inputtext" name="urlLevelVo.url" maxlength="50"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'urlLevelVo.url'}" /></s:fielderror>
+					<td width="10%">URL：</td>
+					<td width="90%" class="formFieldError">
+						<s:textfield id="regex" cssClass="inputtext" name="domainVo.url" size="60" maxlength="50"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'domainVo.url'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="urlLevelVo.id"/>
+			<s:hidden name="domainVo.id"/>
 			<s:hidden name="gatherId" name="gatherId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

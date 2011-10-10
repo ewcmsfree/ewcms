@@ -78,8 +78,8 @@
 				<tr>
 					<td>最大采集数：</td>
 					<td class="formFieldError">
-						<s:textfield id="maxContent" name="gatherVo.maxCount" maxlength="8"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'gatherVo.maxCount'}" /></s:fielderror>(-1表示不限制)
+						<s:textfield id="maxContent" name="gatherVo.maxPage" maxlength="8"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'gatherVo.maxPage'}" /></s:fielderror>(-1表示不限制)
 					</td>
 				</tr>
 				<tr>
@@ -93,7 +93,7 @@
 					<td>采集线程数：</td>
 					<td class="formFieldError">
 						<s:textfield id="threadCount" name="gatherVo.threadCount" maxlength="2"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'gatherVo.threadCount'}"/></s:fielderror>(1-10)
+						<s:fielderror><s:param value="%{'gatherVo.threadCount'}"/></s:fielderror>(1-30)
 					</td>
 				</tr>
 				<tr>
@@ -107,7 +107,7 @@
 					<td>错误时重试次数：</td>
 					<td>
 						<s:textfield id="errorCount" name="gatherVo.errorCount" maxlength="2"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'gatherVo.errorCount}"/></s:fielderror>(1-10)
+						<s:fielderror><s:param value="%{'gatherVo.errorCount'}"/></s:fielderror>(1-10)
 					</td>
 				</tr>
 				<tr>
