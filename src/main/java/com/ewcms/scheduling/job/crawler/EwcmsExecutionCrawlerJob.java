@@ -13,7 +13,7 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.crawler.crawl.EwcmsCrawlable;
+import com.ewcms.crawler.crawl.EwcmsControllerable;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.scheduling.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.job.crawler.fac.EwcmsJobCrawlerFacable;
@@ -82,7 +82,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
         return (EwcmsJobCrawlerFacable) applicationContext.getBean(SCHEDULER_FACTORY);
     }
     
-    protected EwcmsCrawlable getEwcmsCrawl(){
-    	return (EwcmsCrawlable) applicationContext.getBean(CRAWL_FACTORY); 
+    protected EwcmsControllerable getEwcmsCrawl(){
+    	return (EwcmsControllerable) applicationContext.getBean(CRAWL_FACTORY); 
     }
 }
