@@ -60,7 +60,7 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("收集的频道未设定","收集的频道未设定");
 		}
 		
-		String rootFolder = "/data/crawler/" + gather.getId() + "/";
+		String rootFolder = "/tmp/crawler/" + gather.getId() + "/";
 		try {
 			FileUtil.deleteDir(rootFolder);
 		} catch (IOException e) {
