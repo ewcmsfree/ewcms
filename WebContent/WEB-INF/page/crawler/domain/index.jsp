@@ -15,11 +15,14 @@
 		<script type="text/javascript">
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/domain" action="query"/>?gatherId=' + $('#gatherId').val());
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/crawler/domain" action="query"><s:param name="gatherId" value="%{gatherId}"/></s:url>');
 				
-				ewcmsBOBJ.setWinWidth(650);
-				ewcmsBOBJ.setWinHeight(150);
+				ewcmsBOBJ.setWinWidth(550);
+				ewcmsBOBJ.setWinHeight(250);
 				
+				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate);
+				ewcmsBOBJ.addToolItem('下移','icon-down',downOperate);
+
 				ewcmsBOBJ.openDataGrid('#tt',{
 					singleSelect : true,
 	                columns:[[
@@ -30,11 +33,11 @@
 	
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/domain" action="input"/>?gatherId=' + $('#gatherId').val());
-				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/domain" action="delete"/>?gatherId=' + $('#gatherId').val());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/crawler/domain" action="input"><s:param name="gatherId" value="%{gatherId}"/></s:url>');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/crawler/domain" action="delete"><s:param name="gatherId" value="%{gatherId}"/></s:url>');
 			});
 			function upOperate(){
-			    var rows = $('#tt').treegrid('getSelections');
+			    var rows = $('#tt').datagrid('getSelections');
 			    if(rows.length == 0){
 			        $.messager.alert('提示','请选择上移的记录','info');
 			        return ;
@@ -49,11 +52,11 @@
 						$.messager.alert("提示","上移失败","info");
 						return;
 					}
-					$("#tt").treegrid('reload');
+					$("#tt").datagrid('reload');
 				})
 			}
 			function downOperate(){
-			    var rows = $('#tt').treegrid('getSelections');
+			    var rows = $('#tt').datagrid('getSelections');
 			    if(rows.length == 0){
 			        $.messager.alert('提示','请选择下移的记录','info');
 			        return ;
@@ -68,7 +71,7 @@
 						$.messager.alert("提示","下移失败","info");
 						return;
 					}
-					$("#tt").treegrid('reload');
+					$("#tt").datagrid('reload');
 				});
 			}
 		</script>		

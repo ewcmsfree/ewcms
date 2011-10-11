@@ -14,11 +14,11 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/page/crawler/block.js"/>'></script>
 		<script type="text/javascript">
-		queryURL = '<s:url namespace="/crawler/filter" action="query"><s:param name="gatherId" value="%{gatherId}" /></s:url>';
-		inputURL = '<s:url namespace="/crawler/filter" action="input"><s:param name="gatherId" value="%{gatherId}" /></s:url>';
-		deleteURL = '<s:url namespace="/crawler/filter" action="delete"><s:param name="gatherId" value="%{gatherId}" /></s:url>';
-		upURL = '<s:url namespace="/crawler/filter" action="up"><s:param name="gatherId" value="%{gatherId}" /></s:url>';
-		downURL = '<s:url namespace="/crawler/filter" action="down"><s:param name="gatherId" value="%{gatherId}" /></s:url>';
+			queryURL = '<s:url namespace="/crawler/filter" action="query"><s:param name="gatherId" value="%{gatherId}"/></s:url>';
+			inputURL = '<s:url namespace="/crawler/filter" action="input"><s:param name="gatherId" value="%{gatherId}"/></s:url>';
+			deleteURL = '<s:url namespace="/crawler/filter" action="delete"><s:param name="gatherId" value="%{gatherId}"/></s:url>';
+			upURL = '<s:url namespace="/crawler/filter" action="up"><s:param name="gatherId" value="%{gatherId}"/></s:url>';
+			downURL = '<s:url namespace="/crawler/filter" action="down"><s:param name="gatherId" value="%{gatherId}"/></s:url>';
 		</script>		
 	</head>
 	<body class="easyui-layout">

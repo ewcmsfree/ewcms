@@ -12,6 +12,20 @@
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
+        	$(function() {
+        		if ($("#proxy").attr("checked") == 'checked') {
+    				$("#trProxy").show();
+    			} else {
+    				$("#trProxy").hide();
+    			}
+        		$("#proxy").click(function() {
+        			if ($("#proxy").attr("checked") == 'checked') {
+        				$("#trProxy").show();
+        			} else {
+        				$("#trProxy").hide();
+        			}
+        		});
+        	})
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
@@ -49,8 +63,8 @@
 		<s:form action="save" namespace="/crawler">
 			<table class="formtable" >
 				<tr>
-					<td>名称：</td>
-					<td class="formFieldError">
+					<td width="20%">名称：</td>
+					<td width="80%" class="formFieldError">
 						<s:textfield id="name" cssClass="inputtext" name="gatherVo.name" maxlength="50"/><font color="red">*</font>
 						<s:fielderror><s:param value="%{'gatherVo.name'}" /></s:fielderror>
 					</td>
@@ -119,7 +133,9 @@
 				<tr>
 					<td>采集选项：</td>
 					<td>
-						<s:checkboxlist list="@com.ewcms.crawler.model.CaptureOptions@values()" listValue="description" name="gatherVo.option" id="option" cssStyle="vertical-align: middle;"></s:checkboxlist>
+						<s:checkbox id="downloadFile" name="gatherVo.downloadFile" cssStyle="vertical-align: top;"/><label for="downloadFile">下载内容中的文件&nbsp;&nbsp;</label>
+						<s:checkbox id="removeHref" name="gatherVo.removeHref" cssStyle="vertical-align: top;"/><label for="removeHref">移除内容中的链接&nbsp;&nbsp;</label>
+						<s:checkbox id="removeHtmlTag" name="gatherVo.removeHtmlTag" cssStyle="vertical-align: top;"/><label for="removeHtmlTag">移除内容中的HTML标签&nbsp;&nbsp;</label>
 					</td>
 				</tr>
 				<tr>
@@ -127,6 +143,43 @@
 					<td>
 						<s:textfield id="channelName" name="channelName" readonly="true"/><input type="button" name="btnChannel" value="选择..." onclick="selectOperate();return false;"/>
 						<s:hidden id="channelId" name="gatherVo.channelId"/>
+					</td>
+				</tr>
+				<tr>
+					<td>使用代理服务器：</td>
+					<td>
+						<s:checkbox id="proxy" name="gatherVo.proxy" cssStyle="vertical-align: top;"/><label for="proxy">&nbsp;&nbsp;</label>
+					</td>
+				</tr>
+				<tr id="trProxy" style="display: none;">
+					<td>&nbsp;</td>
+					<td colspan="2" style="padding: 1px 1px;">
+						<table class="formtable">
+							<tr>
+								<td width="20%">服务器地址：</td>
+								<td width="80%">
+									<s:textfield id="proxyHost" name="gatherVo.proxyHost" size="40"></s:textfield>
+								</td>
+							</tr>
+							<tr>
+								<td>端口：</td>
+								<td>
+									<s:textfield id="proxyPort" name="gatherVo.proxyPort"></s:textfield>
+								</td>
+							</tr>
+							<tr>
+								<td>用户名：</td>
+								<td>
+									<s:textfield id="proxyUserName" name="gatherVo.proxyUserName"></s:textfield>
+								</td>
+							</tr>
+							<tr>
+								<td>密码：</td>
+								<td>
+									<s:textfield id="proxyPassWord" name="gatherVo.proxyPassWord"></s:textfield>
+								</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 			</table>
