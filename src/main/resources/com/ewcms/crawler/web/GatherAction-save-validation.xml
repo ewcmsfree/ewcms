@@ -62,6 +62,12 @@
     		<param name="max">10</param>
     		<message>错误时重试次数必须在${min}与${max}之间</message>
     	</field-validator>
+    </field>
+    <field name="gatherVo.proxyPort">
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>端口号必须是正整数</message>
+        </field-validator>  
     </field>    
 </validators>
 
