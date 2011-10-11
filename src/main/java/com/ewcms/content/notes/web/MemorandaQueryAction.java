@@ -122,10 +122,8 @@ public class MemorandaQueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "From Memoranda As m Where m.userName=:userName  ";
-		String countHql = "Select count(m.id) From Memoranda As m Where m.userName=:userName ";
-		
-		hql += " Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
+		String hql = "From Memoranda As m Where m.userName=:userName And m.id In (:id) Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
+		String countHql = "Select count(m.id) From Memoranda As m Where m.userName=:userName And m.id In (:id) ";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

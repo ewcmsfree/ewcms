@@ -13,8 +13,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,9 +40,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>timeOutWait:超时等待时间</li>
  * <li>errorCount:发生错误时重试次数</li>
  * <li>dateFormat:发布日期格式</li>
- * <li>option:采集选项</li>
+ * <li>downloadFile:下载内容中的文件</li>
+ * <li>removeHref:移除内容中的链接</li>
+ * <li>removeHtmlTag:移除内容中的HTML标签</li>
  * <li>channelId:采集到此频道</li>
+ * <li>domains:URL层级对象集合</li>
+ * <li>matchBlocks:匹配块对象集合</li>
+ * <li>filterBlocks:过滤块对象集合</li>
  * <li>htmlType:页面类型</li>
+ * <li>proxy:代理服务器</li>
+ * <li>proxyHost:服务器地址</li>
+ * <li>proxyPort:端口</li>
+ * <li>proxyUserName:用户名</li>
+ * <li>proxyPassWord:密码</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -70,18 +78,21 @@ public class Gather implements Serializable {
 	@Column(name = "max_page")
 	private Integer maxPage;
 	@Column(name = "depth")
-	private Long depth;
+	private Integer depth;
 	@Column(name = "threadcount")
-	private Long threadCount;
+	private Integer threadCount;
 	@Column(name = "timeoutwait")
-	private Long timeOutWait;
+	private Integer timeOutWait;
 	@Column(name = "errorcount")
-	private Long errorCount;
+	private Integer errorCount;
 	@Column(name = "dateformat")
 	private String dateFormat;
-	@Column(name = "option")
-	@Enumerated(EnumType.STRING)
-	private CaptureOptions option;
+	@Column(name = "downloadFile")
+	private Boolean downloadFile;
+	@Column(name = "removeHref")
+	private Boolean removeHref;
+	@Column(name = "removeHtmlTag")
+	private Boolean removeHtmlTag;
 	@Column(name = "channel_id")
 	private Integer channelId;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Domain.class)
@@ -96,15 +107,29 @@ public class Gather implements Serializable {
 	private List<FilterBlock> filterBlocks = new ArrayList<FilterBlock>();
 	@Column(name = "html_type")
 	private String htmlType;
+	@Column(name = "proxy")
+	private Boolean proxy;
+	@Column(name = "proxy_host")
+	private String proxyHost;
+	@Column(name = "proxy_port")
+	private Integer proxyPort;
+	@Column(name = "proxy_username")
+	private String proxyUserName;
+	@Column(name = "proxy_password")
+	private String proxyPassWord;
 
 	public Gather(){
 		maxPage = -1;
-		depth = -1L;
-		threadCount = 30L;
-		timeOutWait = 1L;
-		errorCount = 2L;
+		depth = -1;
+		threadCount = 30;
+		timeOutWait = 1;
+		errorCount = 2;
 		dateFormat = "yyyy-MM-dd";
 		htmlType = "html";
+		proxy = false;
+		downloadFile = false;
+		removeHref = false;
+		removeHtmlTag = false;
 	}
 	
 	public Long getId() {
@@ -147,35 +172,35 @@ public class Gather implements Serializable {
 		this.maxPage = maxPage;
 	}
 
-	public Long getDepth() {
+	public Integer getDepth() {
 		return depth;
 	}
 
-	public void setDepth(Long depth) {
+	public void setDepth(Integer depth) {
 		this.depth = depth;
 	}
 
-	public Long getThreadCount() {
+	public Integer getThreadCount() {
 		return threadCount;
 	}
 
-	public void setThreadCount(Long threadCount) {
+	public void setThreadCount(Integer threadCount) {
 		this.threadCount = threadCount;
 	}
 
-	public Long getTimeOutWait() {
+	public Integer getTimeOutWait() {
 		return timeOutWait;
 	}
 
-	public void setTimeOutWait(Long timeOutWait) {
+	public void setTimeOutWait(Integer timeOutWait) {
 		this.timeOutWait = timeOutWait;
 	}
 
-	public Long getErrorCount() {
+	public Integer getErrorCount() {
 		return errorCount;
 	}
 
-	public void setErrorCount(Long errorCount) {
+	public void setErrorCount(Integer errorCount) {
 		this.errorCount = errorCount;
 	}
 
@@ -186,13 +211,29 @@ public class Gather implements Serializable {
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
 	}
-
-	public CaptureOptions getOption() {
-		return option;
+	
+	public Boolean getDownloadFile() {
+		return downloadFile;
 	}
 
-	public void setOption(CaptureOptions option) {
-		this.option = option;
+	public void setDownloadFile(Boolean downloadFile) {
+		this.downloadFile = downloadFile;
+	}
+
+	public Boolean getRemoveHref() {
+		return removeHref;
+	}
+
+	public void setRemoveHref(Boolean removeHref) {
+		this.removeHref = removeHref;
+	}
+
+	public Boolean getRemoveHtmlTag() {
+		return removeHtmlTag;
+	}
+
+	public void setRemoveHtmlTag(Boolean removeHtmlTag) {
+		this.removeHtmlTag = removeHtmlTag;
 	}
 
 	public Integer getChannelId() {
@@ -236,6 +277,46 @@ public class Gather implements Serializable {
 
 	public void setHtmlType(String htmlType) {
 		this.htmlType = htmlType;
+	}
+
+	public Boolean getProxy() {
+		return proxy;
+	}
+
+	public void setProxy(Boolean proxy) {
+		this.proxy = proxy;
+	}
+
+	public String getProxyHost() {
+		return proxyHost;
+	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
+	}
+
+	public Integer getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(Integer proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	public String getProxyUserName() {
+		return proxyUserName;
+	}
+
+	public void setProxyUserName(String proxyUserName) {
+		this.proxyUserName = proxyUserName;
+	}
+
+	public String getProxyPassWord() {
+		return proxyPassWord;
+	}
+
+	public void setProxyPassWord(String proxyPassWord) {
+		this.proxyPassWord = proxyPassWord;
 	}
 
 	@Override

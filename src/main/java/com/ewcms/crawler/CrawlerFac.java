@@ -50,7 +50,7 @@ public class CrawlerFac implements CrawlerFacable {
 	}
 
 	@Override
-	public Long addAndUpdDomain(Long gatherId, Domain urlLevel) {
+	public Long addAndUpdDomain(Long gatherId, Domain urlLevel) throws BaseException{
 		return gatherService.addAndUpdDomain(gatherId, urlLevel);
 	}
 

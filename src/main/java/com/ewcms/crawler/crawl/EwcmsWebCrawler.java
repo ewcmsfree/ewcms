@@ -100,8 +100,18 @@ public class EwcmsWebCrawler extends WebCrawler {
 				doc = Jsoup.parse(sbHtml.toString());
 			}
 			
-			String contentText = doc.text();
-				
+			String contentText = doc.html();
+			if (gather.getDownloadFile()){
+				//TODO 下载远程文件未完成
+			}
+			if (gather.getRemoveHref()){
+				Document moveDoc = Jsoup.parse(contentText);
+				Elements moveEles = moveDoc.select("*").not("a");
+				contentText = moveEles.html();
+			}
+			if (gather.getRemoveHtmlTag())
+				contentText = doc.text();
+			
 			Content content = new Content();
 			content.setDetail(contentText);
 			content.setPage(1);

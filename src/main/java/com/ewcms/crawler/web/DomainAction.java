@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.model.Domain;
 import com.ewcms.web.CrudBaseAction;
@@ -70,8 +71,13 @@ public class DomainAction extends CrudBaseAction<Domain, Long> {
 	}
 
 	@Override
-	protected Long saveOperator(Domain vo, boolean isUpdate) {
-		return crawlerFac.addAndUpdDomain(getGatherId(), vo);
+	protected Long saveOperator(Domain vo, boolean isUpdate){
+		try {
+			return crawlerFac.addAndUpdDomain(getGatherId(), vo);
+		} catch (BaseException e) {
+			addActionMessage(e.getPageMessage());
+			return null;
+		}
 	}
 
 	@Override

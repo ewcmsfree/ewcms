@@ -61,14 +61,13 @@ public class DomainQueryAction extends QueryBaseAction {
 
 		query.setParameter("gatherId", getGatherId());
 		
-		
 		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
 	}
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "Select u From Gather As g Left Join g.domains As u Where g.id=:gatherId Order By u.level";
-		String countHql = "Select Count(u.id) From Gather As g Left Join g.domains As u Where g.id=:gatherId ";
+		String hql = "Select u From Gather As g Left Join g.domains As u Where g.id=:gatherId And u.id In (:id) Order By u.level";
+		String countHql = "Select Count(u.id) From Gather As g Left Join g.domains As u Where g.id=:gatherId And u.id In (:id)";
 
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

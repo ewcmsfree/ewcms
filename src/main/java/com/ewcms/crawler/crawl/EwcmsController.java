@@ -14,9 +14,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.BaseException;
@@ -26,41 +23,49 @@ import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
 
-
 /**
  * 
  * @author wu_zhijun
  *
  */
-@Service
-@Scope(value="prototype")
 public class EwcmsController implements EwcmsControllerable {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
 	
-	@Autowired
 	private CrawlerFacable crawlerFac;
-	@Autowired
 	private ArticleServiceable articleService;
 	
+	public void setCrawlerFac(CrawlerFacable crawlerFac) {
+		this.crawlerFac = crawlerFac;
+	}
+
+	public void setArticleService(ArticleServiceable articleService) {
+		this.articleService = articleService;
+	}
+
 	@Override
 	public void crawl(Long gatherId) throws BaseException{
 		Gather gather = crawlerFac.findGather(gatherId);
 		
 		if (isNull(gather)){
-			logger.error("采集的记录不存在");
-			throw new BaseException("采集的记录不存在","采集的记录不存在");
+			logger.error("采集的记录不存在！");
+			throw new BaseException("采集的记录不存在！","采集的记录不存在！");
+		}
+		
+		if (!gather.getStatus()){
+			logger.warn("采集的为停用状态，不能执行！");
+			throw new BaseException("采集的为停用状态，不能执行！","采集的为停用状态，不能执行！");
 		}
 		
 		List<Domain> urlLevels = gather.getDomains();
 		if (isCollectionEmpty(urlLevels)){
-			logger.error("采集的URL地址未设定");
-			throw new BaseException("采集的URL地址未设定","采集的URL地址未设定");
+			logger.error("采集的URL地址未设定！");
+			throw new BaseException("采集的URL地址未设定！","采集的URL地址未设定！");
 		}
 		
 		if (isNull(gather.getChannelId())){
-			logger.error("收集的频道未设定");
-			throw new BaseException("收集的频道未设定","收集的频道未设定");
+			logger.error("收集的频道未设定！");
+			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		
 		String gatherFolderPath = EwcmsWebCrawler.ROOT_FOLDER + gather.getId();
@@ -78,13 +83,15 @@ public class EwcmsController implements EwcmsControllerable {
 			
 			controller.setPolitenessDelay(200);
 			//设置最大爬行深度，默认值是-1无限深度
-			controller.setMaximumCrawlDepth(gather.getDepth().intValue());
+			controller.setMaximumCrawlDepth(gather.getDepth());
 			//设置抓取的页面的最大数量，默认值是-1无限深度
-			controller.setMaximumPagesToFetch(gather.getMaxPage().intValue());
+			controller.setMaximumPagesToFetch(gather.getMaxPage());
 			//并发线程数
-			int numberOfCrawlers = gather.getThreadCount().intValue();
+			int numberOfCrawlers = gather.getThreadCount();
 			//代理
-			//controller.setProxy("proxyserver.example.com", 8080, username, password);
+			if (gather.getProxy()){
+				CrawlController.setProxy(gather.getProxyHost(), gather.getProxyPort(), gather.getProxyUserName(), gather.getProxyPassWord());
+			}
 			
 			controller.start(EwcmsWebCrawler.class, numberOfCrawlers);
 		}catch(IOException e){

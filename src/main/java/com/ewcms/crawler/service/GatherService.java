@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.dao.GatherDAO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
@@ -58,99 +59,106 @@ public class GatherService implements GatherServiceable {
 	}
 
 	@Override
-	public Long addAndUpdDomain(Long gatherId, Domain urlLevel) {
+	public Long addAndUpdDomain(Long gatherId, Domain domain) throws BaseException{
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Long maxLevel = gatherDAO.findMaxDomain(gatherId);
-		maxLevel++;
-		urlLevel.setLevel(maxLevel);
+		if (domain.getId() == null){
+			Boolean unique = gatherDAO.findDomainUniqueUrlByGatherId(gatherId, domain.getUrl());
+			if (!unique){
+				throw new BaseException("不能设置相同的URL地址","不能设置相同的URL地址");
+			}
+		}
 		
-		List<Domain> urlLevels = gather.getDomains();
-		urlLevels.add(urlLevel);
-		gather.setDomains(urlLevels);
+		Long maxLevel = gatherDAO.findMaxDomainByGatherId(gatherId);
+		maxLevel++;
+		domain.setLevel(maxLevel);
+		
+		List<Domain> domains = gather.getDomains();
+		domains.add(domain);
+		gather.setDomains(domains);
 		
 		gatherDAO.merge(gather);
 		gatherDAO.flush(gather);
 		
-		return urlLevel.getId();
+		return domain.getId();
 	}
 
 	@Override
-	public void delDomain(Long gatherId, Long urlLevelId) {
+	public void delDomain(Long gatherId, Long domainId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
-		Assert.notNull(urlLevel);
+		Domain domain = gatherDAO.findDomainById(domainId);
+		Assert.notNull(domain);
 		
-		List<Domain> urlLevels = gather.getDomains();
-		Assert.notEmpty(urlLevels);
+		List<Domain> domains = gather.getDomains();
+		Assert.notEmpty(domains);
 		
-		urlLevels.remove(urlLevel);
-		gather.setDomains(urlLevels);
+		domains.remove(domain);
+		gather.setDomains(domains);
 		
 		gatherDAO.merge(gather);
 	}
 
 	@Override
-	public Domain findDomain(Long urlLevelId) {
-		return gatherDAO.findDomainById(urlLevelId);
+	public Domain findDomain(Long domainId) {
+		return gatherDAO.findDomainById(domainId);
 	}
 
 	@Override
-	public void upDomain(Long gatherId, Long urlLevelId) {
+	public void upDomain(Long gatherId, Long domainId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
-		Assert.notNull(urlLevel);
+		Domain domain = gatherDAO.findDomainById(domainId);
+		Assert.notNull(domain);
 		
-		List<Domain> urlLevels = gather.getDomains();
-		Assert.notEmpty(urlLevels);
+		List<Domain> domains = gather.getDomains();
+		Assert.notEmpty(domains);
 		
-		int index = urlLevels.indexOf(urlLevel);
-		if (index > 0 && index <= urlLevels.size() - 1){
+		int index = domains.indexOf(domain);
+		if (index > 0 && index <= domains.size() - 1){
 			int targetIndex = index - 1;
-			Domain targetVo = urlLevels.get(targetIndex);
-			Long tempLevel = urlLevel.getLevel();
+			Domain targetVo = domains.get(targetIndex);
+			Long tempLevel = domain.getLevel();
 			
-			urlLevel.setLevel(targetVo.getLevel());
+			domain.setLevel(targetVo.getLevel());
 			targetVo.setLevel(tempLevel);
 			
-			urlLevels.add(urlLevel);
-			urlLevels.add(targetVo);
+			domains.add(domain);
+			domains.add(targetVo);
 			
-			gather.setDomains(urlLevels);
+			gather.setDomains(domains);
 			
 			gatherDAO.merge(gather);
 		}
 	}
 
 	@Override
-	public void downDomain(Long gatherId, Long urlLevelId) {
+	public void downDomain(Long gatherId, Long domainId) {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain urlLevel = gatherDAO.findDomainById(urlLevelId);
-		Assert.notNull(urlLevel);
+		Domain domain = gatherDAO.findDomainById(domainId);
+		Assert.notNull(domain);
 		
-		List<Domain> urlLevels = gather.getDomains();
-		Assert.notEmpty(urlLevels);
+		List<Domain> domains = gather.getDomains();
+		Assert.notEmpty(domains);
 		
-		int index = urlLevels.indexOf(urlLevel);
-		if (index >= 0 && index < urlLevels.size() - 1){
+		int index = domains.indexOf(domain);
+		if (index >= 0 && index < domains.size() - 1){
 			int targetIndex = index + 1;
-			Domain targetVo = urlLevels.get(targetIndex);
-			Long tempLevel = urlLevel.getLevel();
+			Domain targetVo = domains.get(targetIndex);
+			Long tempLevel = domain.getLevel();
 			
-			urlLevel.setLevel(targetVo.getLevel());
+			domain.setLevel(targetVo.getLevel());
 			targetVo.setLevel(tempLevel);
 			
-			urlLevels.add(urlLevel);
-			urlLevels.add(targetVo);
+			domains.add(domain);
+			domains.add(targetVo);
 			
-			gather.setDomains(urlLevels);
+			gather.setDomains(domains);
 			
 			gatherDAO.merge(gather);
 		}

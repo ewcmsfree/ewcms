@@ -28,11 +28,19 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Long findMaxDomain(Long gatherId){
+	public Long findMaxDomainByGatherId(Long gatherId){
 		String hql = "Select Max(u.level) From Gather As g Left Join g.domains As u Where g.id=?";
     	List<Long> list = this.getJpaTemplate().find(hql, gatherId);
     	if (list.isEmpty()) return 0L;
     	return list.get(0) == null ? 0L : list.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Boolean findDomainUniqueUrlByGatherId(Long gatherId, String url){
+		String hql = "Select u From Gather As g Right Join g.domains As u Where g.id=? And u.url=?";
+		List<Domain> list = this.getJpaTemplate().find(hql, gatherId, url);
+		if (list.isEmpty()) return true;
+		return false;
 	}
 	
 	@SuppressWarnings("unchecked")

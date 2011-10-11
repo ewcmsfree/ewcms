@@ -90,10 +90,8 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "From MsgReceive As m Where m.userName=:userName  ";
-		String countHql = "Select count(m.id) From MsgReceive As m Where m.userName=:userName ";
-		
-		hql += " Order By m.read, m.readTime Desc, m.id Desc";
+		String hql = "From MsgReceive As m Where m.userName=:userName And m.id In (:id) Order By m.read, m.readTime Desc, m.id Desc";
+		String countHql = "Select count(m.id) From MsgReceive As m Where m.userName=:userName And m.id In (:id) ";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

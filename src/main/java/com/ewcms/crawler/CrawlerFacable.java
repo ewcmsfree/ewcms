@@ -25,7 +25,7 @@ public interface CrawlerFacable {
 	public void delGather(Long gatherId);
 	public Gather findGather(Long gatherId);
 	
-	public Long addAndUpdDomain(Long gatherId, Domain domain);
+	public Long addAndUpdDomain(Long gatherId, Domain domain) throws BaseException;
 	public void delDomain(Long gatherId, Long domainId);
 	public Domain findDomain(Long domainId);
 	public void upDomain(Long gatherId, Long domainId);
