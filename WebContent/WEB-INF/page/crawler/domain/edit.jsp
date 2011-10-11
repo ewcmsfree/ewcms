@@ -28,7 +28,7 @@
 				<tr>
 					<td width="10%">URL：</td>
 					<td width="90%" class="formFieldError">
-						<s:textfield id="regex" cssClass="inputtext" name="domainVo.url" size="60" maxlength="50"/><font color="red">*</font>
+						<s:textfield id="regex" cssClass="inputtext" name="domainVo.url" size="40" maxlength="50"/><font color="red">*</font>
 						<s:fielderror><s:param value="%{'domainVo.url'}" /></s:fielderror>
 					</td>
 				</tr>
