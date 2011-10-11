@@ -10,8 +10,8 @@ $(function() {
 	ewcmsBOBJ.addToolItem('立刻执行', 'icon-run', runCrawlOperate, 'btnCrawlRun');
 	ewcmsBOBJ.addToolItem('定时设置', 'icon-scheduler-set', timeCrawlOperate, 'btnCrawlTime');
 	
-	ewcmsBOBJ.setWinWidth(800);
-	ewcmsBOBJ.setWinHeight(500);
+	ewcmsBOBJ.setWinWidth(900);
+	ewcmsBOBJ.setWinHeight(600);
 
 	ewcmsBOBJ.openDataGrid('#tt', {
 		singleSelect : true,
@@ -102,6 +102,10 @@ function runCrawlOperate(){
 		$.messager.alert('提示', '只能选择一条记录', 'info');
 		return;
 	}
+	if (!rows[0].status){
+		$.messager.alert('提示', '选择的记录为停用状态，不能手动执行', 'info');
+		return;
+	}
 	var url = crawlRunURL + '?selections=' + rows[0].id;
 	$.ajax({
         type:'post',
@@ -136,6 +140,10 @@ function timeCrawlOperate(){
 	}
 	if (rows.length > 1) {
 		$.messager.alert('提示', '只能选择一条记录', 'info');
+		return;
+	}
+	if (!rows[0].status){
+		$.messager.alert('提示', '选择的记录为停用状态，不能定时设置', 'info');
 		return;
 	}
 	var url = schedulingURL + '?gatherId=' + rows[0].id;
