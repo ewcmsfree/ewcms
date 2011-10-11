@@ -51,17 +51,18 @@ import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
 
 /**
  * @author Yasser Ganjisaffar <yganjisa at uci dot edu>
+ * @author wuzhijun
  */
 
-public final class PageFetcher {
+public class PageFetcher {
 
 	private static final Logger logger = LoggerFactory.getLogger(PageFetcher.class.getName());
 
-	private static ThreadSafeClientConnManager connectionManager;
+	private ThreadSafeClientConnManager connectionManager;
 
-	private static DefaultHttpClient httpclient;
+	private DefaultHttpClient httpclient;
 
-	private static Object mutex = PageFetcher.class.toString() + "_MUTEX";
+	private Object mutex = PageFetcher.class.toString() + "_MUTEX";
 
 	private static int processedCount = 0;
 	private static long startOfPeriod = 0;
@@ -73,7 +74,7 @@ public final class PageFetcher {
 
 	private static final boolean show404Pages = Configurations.getBooleanProperty("logging.show_404_pages", true);
 
-	private static IdleConnectionMonitorThread connectionMonitorThread = null;
+	private IdleConnectionMonitorThread connectionMonitorThread = null;
 
 	public static long getPolitenessDelay() {
 		return politenessDelay;
@@ -118,7 +119,7 @@ public final class PageFetcher {
 //		httpclient = new DefaultHttpClient(connectionManager, params);
 	}
 	
-	private synchronized static void initConnectionManager(){
+	private synchronized void initConnectionManager(){
 		HttpParams params = new BasicHttpParams();
 		HttpProtocolParamBean paramsBean = new HttpProtocolParamBean(params);
 		paramsBean.setVersion(HttpVersion.HTTP_1_1);
@@ -153,7 +154,7 @@ public final class PageFetcher {
 		httpclient = new DefaultHttpClient(connectionManager, params);
 	}
 
-	public synchronized static void startConnectionMonitorThread() {
+	public synchronized void startConnectionMonitorThread() {
 		if (connectionMonitorThread == null) {
 			initConnectionManager();
 			connectionMonitorThread = new IdleConnectionMonitorThread(connectionManager);
@@ -161,7 +162,7 @@ public final class PageFetcher {
 		connectionMonitorThread.start();
 	}
 
-	public synchronized static void stopConnectionMonitorThread() {
+	public synchronized void stopConnectionMonitorThread() {
 		try{
 			if (connectionMonitorThread != null) {
 				connectionManager.shutdown();
@@ -173,7 +174,7 @@ public final class PageFetcher {
 		}
 	}
 
-	public static int fetch(Page page, boolean ignoreIfBinary) {
+	public int fetch(Page page, boolean ignoreIfBinary) {
 		String toFetchURL = page.getWebURL().getURL();
 		HttpGet get = null;
 		HttpEntity entity = null;
@@ -300,12 +301,12 @@ public final class PageFetcher {
 		return PageFetchStatus.UnknownError;
 	}
 
-	public static void setProxy(String proxyHost, int proxyPort) {
+	public void setProxy(String proxyHost, int proxyPort) {
 		HttpHost proxy = new HttpHost(proxyHost, proxyPort);
 		httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 	}
 
-	public static void setProxy(String proxyHost, int proxyPort, String username, String password) {
+	public void setProxy(String proxyHost, int proxyPort, String username, String password) {
 		httpclient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort),
 				new UsernamePasswordCredentials(username, password));
 		setProxy(proxyHost, proxyPort);

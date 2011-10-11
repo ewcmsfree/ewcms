@@ -10,15 +10,20 @@ import static com.ewcms.common.lang.EmptyUtil.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
+import com.ewcms.crawler.crawl.crawler4j.crawler.PageFetcher;
 import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
@@ -28,21 +33,19 @@ import com.ewcms.crawler.model.Domain;
  * @author wu_zhijun
  *
  */
+@Service
+@Scope("prototype")
 public class EwcmsController implements EwcmsControllerable {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
 	
+	public static final String ROOT_FOLDER = "/tmp/crawler/";
+	
+	@Autowired
 	private CrawlerFacable crawlerFac;
+	@Autowired
 	private ArticleServiceable articleService;
 	
-	public void setCrawlerFac(CrawlerFacable crawlerFac) {
-		this.crawlerFac = crawlerFac;
-	}
-
-	public void setArticleService(ArticleServiceable articleService) {
-		this.articleService = articleService;
-	}
-
 	@Override
 	public void crawl(Long gatherId) throws BaseException{
 		Gather gather = crawlerFac.findGather(gatherId);
@@ -68,18 +71,25 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		
-		String gatherFolderPath = EwcmsWebCrawler.ROOT_FOLDER + gather.getId();
+		Long timestamp = Calendar.getInstance().getTime().getTime();
+		String gatherFolderPath = ROOT_FOLDER + "/" + timestamp;
+		
 		File gatherFolder = new File(gatherFolderPath);
 		if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
-		
+
+		PageFetcher pageFetcher;
+		CrawlController controller;
+		EwcmsWebCrawler ewcmsWebCrawler;
 		try{
-			CrawlController controller = new CrawlController(gatherFolderPath);
+			pageFetcher = new PageFetcher();
+			
+			controller = new CrawlController(gatherFolderPath, pageFetcher);
+			
 			String[] crawlDomains = new String[urlLevels.size()];
 			for (int index = 0; index < urlLevels.size(); index++){
 				crawlDomains[index] = urlLevels.get(index).getUrl();
 				controller.addSeed(crawlDomains[index]);
 			}
-			EwcmsWebCrawler.configure(gather, crawlDomains, crawlerFac, articleService);
 			
 			controller.setPolitenessDelay(200);
 			//设置最大爬行深度，默认值是-1无限深度
@@ -90,15 +100,24 @@ public class EwcmsController implements EwcmsControllerable {
 			int numberOfCrawlers = gather.getThreadCount();
 			//代理
 			if (gather.getProxy()){
-				CrawlController.setProxy(gather.getProxyHost(), gather.getProxyPort(), gather.getProxyUserName(), gather.getProxyPassWord());
+				controller.setProxy(gather.getProxyHost(), gather.getProxyPort(), gather.getProxyUserName(), gather.getProxyPassWord());
 			}
 			
-			controller.start(EwcmsWebCrawler.class, numberOfCrawlers);
+			ewcmsWebCrawler = new EwcmsWebCrawler();
+			ewcmsWebCrawler.setArticleService(articleService);
+			ewcmsWebCrawler.setCrawlDomains(crawlDomains);
+			ewcmsWebCrawler.setCrawlerFac(crawlerFac);
+			ewcmsWebCrawler.setGather(gather);
+			
+			controller.start(ewcmsWebCrawler, numberOfCrawlers);
 		}catch(IOException e){
 			logger.error(e.getLocalizedMessage());
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
+			ewcmsWebCrawler = null;
+			pageFetcher = null;
+			controller = null;
 		}
 	}
 }

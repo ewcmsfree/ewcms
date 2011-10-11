@@ -64,8 +64,7 @@ public final class Configurations {
 
 	static {
 		try {
-			prop.load(Configurations.class.getClassLoader()
-					.getResourceAsStream("crawler4j.properties"));
+			prop.load(Configurations.class.getClassLoader().getResourceAsStream("crawler4j.properties"));
 		} catch (Exception e) {
 			prop = null;
 			System.err.println("WARNING: Could not find crawler4j.properties file in class path. I will use the default values.");

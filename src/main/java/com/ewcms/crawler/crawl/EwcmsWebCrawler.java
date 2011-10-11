@@ -30,7 +30,6 @@ import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
 
-
 /**
  * 
  * @author wu_zhijun
@@ -44,20 +43,30 @@ public class EwcmsWebCrawler extends WebCrawler {
 			+ "|png|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
 			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
-	public static final String ROOT_FOLDER = "/tmp/crawler/";
-	
-	private static Gather gather;
-	private static String[] crawlDomains;
-	private static CrawlerFacable crawlerFac;
-	private static ArticleServiceable articleService;
-	private static Long gatherId;
+	private Gather gather;
+	private String[] crawlDomains;
+	private CrawlerFacable crawlerFac;
+	private ArticleServiceable articleService;
 
-	public static void configure(Gather gather, String[] crawlDomains, CrawlerFacable crawlerFac, ArticleServiceable articleService){
-		EwcmsWebCrawler.gather = gather;
-		EwcmsWebCrawler.crawlDomains = crawlDomains;
-		EwcmsWebCrawler.crawlerFac = crawlerFac;
-		EwcmsWebCrawler.articleService = articleService;
-		gatherId = gather.getId();
+	public void setGather(Gather gather) {
+		this.gather = gather;
+	}
+
+	public void setCrawlDomains(String[] crawlDomains) {
+		this.crawlDomains = crawlDomains;
+	}
+
+	public void setCrawlerFac(CrawlerFacable crawlerFac) {
+		this.crawlerFac = crawlerFac;
+	}
+
+	public void setArticleService(ArticleServiceable articleService) {
+		this.articleService = articleService;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 	}
 	
 	/**
@@ -86,17 +95,17 @@ public class EwcmsWebCrawler extends WebCrawler {
 			String title = doc.title();
 			logger.info("title:" + title);
 			
-			List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gatherId);
+			List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gather.getId());
 			if (isCollectionNotEmpty(parents)){
 				StringBuffer sbHtml = new StringBuffer();
-				childrenMatchBlock(gatherId, doc, parents, sbHtml);
+				childrenMatchBlock(gather.getId(), doc, parents, sbHtml);
 				doc = Jsoup.parse(sbHtml.toString());
 			}
 			
-			List<FilterBlock> filterParents = crawlerFac.findParentFilterBlockByGatherId(gatherId);
+			List<FilterBlock> filterParents = crawlerFac.findParentFilterBlockByGatherId(gather.getId());
 			if (isCollectionNotEmpty(filterParents)){
 				StringBuffer sbHtml = new StringBuffer();
-				childrenFilterBlock(gatherId, doc, filterParents, sbHtml);
+				childrenFilterBlock(gather.getId(), doc, filterParents, sbHtml);
 				doc = Jsoup.parse(sbHtml.toString());
 			}
 			
@@ -133,6 +142,11 @@ public class EwcmsWebCrawler extends WebCrawler {
 	 */
 	@Override
 	public Object getMyLocalData() {
+		gather = null;
+		crawlDomains = null;
+		crawlerFac = null;
+		articleService = null;
+		
 		return null;
 	}
 	
@@ -141,11 +155,6 @@ public class EwcmsWebCrawler extends WebCrawler {
 	 */
 	@Override
 	public void onBeforeExit() {
-		gather = null;
-		crawlDomains = null;
-		crawlerFac = null;
-		articleService = null;
-		gatherId = null;
 	}
 	
 	private void childrenMatchBlock(Long gatherId, Document doc, List<MatchBlock> matchBlocks, StringBuffer sbHtml){

@@ -32,6 +32,7 @@ import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
 
 /**
  * @author Yasser Ganjisaffar <yganjisa at uci dot edu>
+ * @author wuzhijun
  */
 
 
@@ -44,7 +45,7 @@ public class RobotstxtServer {
 	private static boolean active = Configurations.getBooleanProperty("crawler.obey_robotstxt", false);
 	private static final Object mutex = RobotstxtServer.class.toString() + "_MUTEX"; 
 	
-	public static boolean allows(WebURL webURL) {
+	public static boolean allows(WebURL webURL, PageFetcher pageFetcher) {
 		if (!active) {
 			return true;
 		}
@@ -55,7 +56,7 @@ public class RobotstxtServer {
 			
 			HostDirectives directives = host2directives.get(host);
 			if (directives == null) {
-				directives = fetchDirectives(host);
+				directives = fetchDirectives(host, pageFetcher);
 			} 
 			return directives.allows(path);			
 		} catch (MalformedURLException e) {			
@@ -68,11 +69,11 @@ public class RobotstxtServer {
 		RobotstxtServer.active = active;
 	}
 	
-	private static HostDirectives fetchDirectives(String host) {
+	private static HostDirectives fetchDirectives(String host, PageFetcher pageFetcher) {
 		WebURL robotsTxt = new WebURL();
 		robotsTxt.setURL("http://" + host + "/robots.txt");
 		Page page = new Page(robotsTxt);
-		int statusCode = PageFetcher.fetch(page, true);
+		int statusCode = pageFetcher.fetch(page, true);
 		HostDirectives directives = null;
 		if (statusCode == PageFetchStatus.OK) {
 			directives = RobotstxtParser.parse(page.getHTML(), USER_AGENT_NAME);			

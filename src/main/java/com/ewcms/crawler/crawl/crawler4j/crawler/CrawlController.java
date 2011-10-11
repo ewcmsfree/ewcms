@@ -38,26 +38,33 @@ import com.sleepycat.je.EnvironmentConfig;
 
 /**
  * @author Yasser Ganjisaffar <yganjisa at uci dot edu>
+ * @author wuzhijun
  */
-
-public final class CrawlController {
+public class CrawlController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CrawlController.class.getName());
 
 	private Environment env;
+	private PageFetcher pageFetcher;
 	private List<Object> crawlersLocalData = new ArrayList<Object>();
 
 	public List<Object> getCrawlersLocalData() {
 		return crawlersLocalData;
 	}
 
-	List<Thread> threads;
-
-	public CrawlController(String storageFolder) throws Exception {
-		this(storageFolder, Configurations.getBooleanProperty("crawler.enable_resume", true));
+	public PageFetcher getPageFetcher(){
+		return pageFetcher;
 	}
 	
-	public CrawlController(String storageFolder, boolean resumable) throws Exception {
+	List<Thread> threads;
+
+	public CrawlController(String storageFolder,PageFetcher pageFetcher) throws Exception {
+		this(storageFolder, Configurations.getBooleanProperty("crawler.enable_resume", true), pageFetcher);
+	}
+	
+	public CrawlController(String storageFolder, boolean resumable, PageFetcher pageFetcher) throws Exception {
+		this.pageFetcher = pageFetcher;
+		
 		File folder = new File(storageFolder);
 		if (!folder.exists()) {
 			folder.mkdirs();
@@ -80,17 +87,17 @@ public final class CrawlController {
 		Frontier.init(env, resumable);
 		DocIDServer.init(env, resumable);
 
-		PageFetcher.startConnectionMonitorThread();
+		pageFetcher.startConnectionMonitorThread();
 	}
 
-	public <T extends WebCrawler> void start(Class<T> _c, int numberOfCrawlers) {
+	public <T extends WebCrawler> void start(T _c, int numberOfCrawlers) {
 		try {
 			crawlersLocalData.clear();
 			threads = new ArrayList<Thread>();
 			List<T> crawlers = new ArrayList<T>();
 			int numberofCrawlers = numberOfCrawlers;
 			for (int i = 1; i <= numberofCrawlers; i++) {
-				T crawler = _c.newInstance();
+				T crawler = _c;
 				Thread thread = new Thread(crawler, "Crawler " + i);
 				crawler.setThread(thread);
 				crawler.setMyId(i);
@@ -107,7 +114,7 @@ public final class CrawlController {
 					Thread thread = threads.get(i);
 					if (!thread.isAlive()) {
 						logger.info("Thread " + i + " was dead, I'll recreate it.");
-						T crawler = _c.newInstance();
+						T crawler = _c;
 						thread = new Thread(crawler, "Crawler " + (i + 1));
 						threads.remove(i);
 						threads.add(i, thread);
@@ -150,14 +157,18 @@ public final class CrawlController {
 						sleep(10);
 
 						Frontier.close();
-						PageFetcher.stopConnectionMonitorThread();
+						pageFetcher.stopConnectionMonitorThread();
 						return;
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
 		}
+	}
+	
+	public void stop(){
 	}
 
 	private void sleep(int seconds) {
@@ -195,7 +206,7 @@ public final class CrawlController {
 		docid = DocIDServer.getNewDocID(canonicalUrl);
 		webUrl.setDocid(docid);
 		webUrl.setDepth((short) 0);
-		if (!RobotstxtServer.allows(webUrl)) {
+		if (!RobotstxtServer.allows(webUrl, pageFetcher)) {
 			logger.info("Robots.txt does not allow this seed: " + pageUrl);
 		} else {
 			Frontier.schedule(webUrl);
@@ -227,10 +238,10 @@ public final class CrawlController {
 	}
 
 	public void setProxy(String proxyHost, int proxyPort) {
-		PageFetcher.setProxy(proxyHost, proxyPort);
+		pageFetcher.setProxy(proxyHost, proxyPort);
 	}
 
-	public static void setProxy(String proxyHost, int proxyPort, String username, String password) {
-		PageFetcher.setProxy(proxyHost, proxyPort, username, password);
+	public void setProxy(String proxyHost, int proxyPort, String username, String password) {
+		pageFetcher.setProxy(proxyHost, proxyPort, username, password);
 	}
 }

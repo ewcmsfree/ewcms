@@ -31,6 +31,7 @@ import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
 
 /**
  * @author Yasser Ganjisaffar <yganjisa at uci dot edu>
+ * @author wuzhijun
  */
 
 public class WebCrawler implements Runnable {
@@ -128,7 +129,8 @@ public class WebCrawler implements Runnable {
 			return -1;
 		}
 		Page page = new Page(curURL);
-		int statusCode = PageFetcher.fetch(page, IGNORE_BINARY_CONTENT);
+		PageFetcher pageFetcher = myController.getPageFetcher();
+		int statusCode = pageFetcher.fetch(page, IGNORE_BINARY_CONTENT);
 		// The page might have been redirected. So we have to refresh curURL
 		curURL = page.getWebURL();
 		int docid = curURL.getDocid();
@@ -149,7 +151,7 @@ public class WebCrawler implements Runnable {
 						webURL.setParentDocid(curURL.getParentDocid());
 						webURL.setDepth((short) (curURL.getDepth()));
 						webURL.setDocid(-1);
-						if (shouldVisit(webURL) && RobotstxtServer.allows(webURL)) {
+						if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher)) {
 							webURL.setDocid(DocIDServer.getNewDocID(movedToUrl));	
 							Frontier.schedule(webURL);
 						}
@@ -192,7 +194,7 @@ public class WebCrawler implements Runnable {
 							webURL.setDocid(-1);
 							webURL.setParentDocid(docid);
 							webURL.setDepth((short) (curURL.getDepth() + 1));							
-							if (shouldVisit(webURL) && RobotstxtServer.allows(webURL)) {
+							if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher)) {
 								if (MAX_CRAWL_DEPTH == -1 || curURL.getDepth() < MAX_CRAWL_DEPTH) {
 									webURL.setDocid(DocIDServer.getNewDocID(url));
 									toSchedule.add(webURL);
