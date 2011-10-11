@@ -45,7 +45,7 @@
 		<repository>
 			<id>jboss</id>
 			<name>Maven Jboss</name>
-			<url>http://repository.jboss.org/maven2/</url>
+			<url>http://repository.jboss.org/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -65,9 +65,9 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>paxle.net</id>
-			<name>Paxle</name>
-			<url>http://maven.repository.paxle.net/</url>
+			<id>dsiutils</id>
+			<name>Maven DSI Utils</name>
+			<url>http://ir.dcs.gla.ac.uk/~bpiwowar/maven/</url>
 		</repository>
 	</repositories>
 
@@ -333,6 +333,11 @@
 		</dependency>
 		<dependency>
 			<groupId>it.unimi.dsi</groupId>
+			<artifactId>dsiutils</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>it.unimi.dsi</groupId>
 			<artifactId>fastutil</artifactId>
 			<version>6.4.1</version>
 		</dependency>
@@ -340,11 +345,6 @@
 			<groupId>com.sleepycat</groupId>
 			<artifactId>je</artifactId>
 			<version>4.0.92</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>dsiutils</artifactId>
-			<version>1.0.5</version>
 		</dependency>
 	</dependencies>
 	<build>
