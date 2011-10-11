@@ -37,7 +37,7 @@
     	<field-validator type="required">
     		<message>采集线程数不能为空</message>
     	</field-validator>
-    	<field-validator type="long">
+    	<field-validator type="int">
     		<param name="min">1</param>
     		<param name="max">30</param>
     		<message>采集线程必须在${min}与${max}之间</message>
@@ -47,7 +47,7 @@
     	<field-validator type="required">
     		<message>超时等待时间不能为空</message>
     	</field-validator>
-    	<field-validator type="long">
+    	<field-validator type="int">
     		<param name="min">1</param>
     		<param name="max">600</param>
     		<message>超时等待时间必须在${min}与${max}之间</message>
@@ -57,7 +57,7 @@
     	<field-validator type="required">
     		<message>错误时重试次数不能为空</message>
     	</field-validator>
-    	<field-validator type="long">
+    	<field-validator type="int">
     		<param name="min">1</param>
     		<param name="max">10</param>
     		<message>错误时重试次数必须在${min}与${max}之间</message>
