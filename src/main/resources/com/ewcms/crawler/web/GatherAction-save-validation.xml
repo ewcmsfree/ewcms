@@ -53,22 +53,18 @@
     		<message>超时等待时间必须在${min}与${max}之间</message>
     	</field-validator>
     </field>    
-    <field name="gatherVo.errorCount">
-    	<field-validator type="required">
-    		<message>错误时重试次数不能为空</message>
-    	</field-validator>
-    	<field-validator type="int">
-    		<param name="min">1</param>
-    		<param name="max">10</param>
-    		<message>错误时重试次数必须在${min}与${max}之间</message>
-    	</field-validator>
-    </field>
     <field name="gatherVo.proxyPort">
         <field-validator type="regex">
             <param name="expression"><![CDATA[(^\d+$)]]></param>
             <message>端口号必须是正整数</message>
         </field-validator>  
-    </field>    
+    </field>
+    <field name="gatherVo.encoding">
+    	<field-validator type="requiredstring">
+    		<message>页面编码格式不能为空</message>
+    	</field-validator>
+    </field>
+        
 </validators>
 
 
