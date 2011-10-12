@@ -32,6 +32,10 @@ public class GatherService implements GatherServiceable {
 	@Autowired
 	private GatherDAO gatherDAO;
 	
+	public void setGatherDAO(GatherDAO gatherDAO){
+		this.gatherDAO = gatherDAO;
+	}
+	
 	@Override
 	public Long addGather(Gather gather) {
 		gatherDAO.persist(gather);
