@@ -53,4 +53,12 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
 		if (list.isEmpty()) return new ArrayList<ArticleMain>();
 		return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ArticleMain> findArticleMainByChannelIdAndUserName(Integer channelId, String userName){
+		String hql = "Select m From ArticleMain As m Left Join m.article As a Where m.channelId=? And a.owner=?";
+		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, userName);
+		if (list.isEmpty()) return new ArrayList<ArticleMain>();
+		return list;
+	}
 }

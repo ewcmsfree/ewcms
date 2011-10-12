@@ -373,4 +373,12 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (track == null) return "";
 		return (track.getReason() == null)? "" : track.getReason();
 	}
+
+	@Override
+	public void delCrawlerData(Integer channelId, String userName) {
+		List<ArticleMain> articleMains = articleMainDAO.findArticleMainByChannelIdAndUserName(channelId, userName);
+		for (ArticleMain articleMain : articleMains){
+			articleMainDAO.remove(articleMain);
+		}
+	}
 }

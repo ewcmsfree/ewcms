@@ -152,4 +152,12 @@ public interface ArticleMainServiceable {
 	 * @return String 原因
 	 */
 	public String getArticleOperateTrack(Long trackId);
+	
+	/**
+	 * 删除网络爬虫采集的数据
+	 * 
+	 * @param channelId 频道编号
+	 * @param userName 采集者
+	 */
+	public void delCrawlerData(Integer channelId, String userName);
 }
