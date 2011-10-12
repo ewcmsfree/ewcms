@@ -103,8 +103,8 @@
 				</tr>
 				<tr>
 					<td>使用其他标题：</td>
-					<td class="vertical-align: top;">
-						<s:checkbox id="titleExternal" name="gatherVo.titleExternal" cssStyle="vertical-align: top;"/>&nbsp;&nbsp;表达式：<s:textfield id="titleRegex" name="gatherVo.titleRegex" readonly="true" size="30"></s:textfield>
+					<td>
+						<s:checkbox id="titleExternal" name="gatherVo.titleExternal" cssStyle="vertical-align:middle;"/>&nbsp;&nbsp;表达式：<s:textfield id="titleRegex" name="gatherVo.titleRegex" readonly="true" size="30"></s:textfield><a href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a>
 					</td>
 				</tr>
 				<tr>
@@ -145,9 +145,9 @@
 				<tr>
 					<td>采集选项：</td>
 					<td>
-						<s:checkbox id="downloadFile" name="gatherVo.downloadFile" cssStyle="vertical-align: top;"/><label for="downloadFile">下载内容中的文件&nbsp;&nbsp;</label>
-						<s:checkbox id="removeHref" name="gatherVo.removeHref" cssStyle="vertical-align: top;"/><label for="removeHref">移除内容中的链接&nbsp;&nbsp;</label>
-						<s:checkbox id="removeHtmlTag" name="gatherVo.removeHtmlTag" cssStyle="vertical-align: top;"/><label for="removeHtmlTag">移除内容中的HTML标签&nbsp;&nbsp;</label>
+						<s:checkbox id="downloadFile" name="gatherVo.downloadFile" cssStyle="vertical-align: middle;"/><label for="downloadFile">下载内容中的文件&nbsp;&nbsp;</label>
+						<s:checkbox id="removeHref" name="gatherVo.removeHref" cssStyle="vertical-align: middle;"/><label for="removeHref">移除内容中的链接&nbsp;&nbsp;</label>
+						<s:checkbox id="removeHtmlTag" name="gatherVo.removeHtmlTag" cssStyle="vertical-align: middle;"/><label for="removeHtmlTag">移除内容中的HTML标签&nbsp;&nbsp;</label>
 					</td>
 				</tr>
 				<tr>
@@ -160,7 +160,7 @@
 				<tr>
 					<td>使用代理服务器：</td>
 					<td>
-						<s:checkbox id="proxy" name="gatherVo.proxy" cssStyle="vertical-align: top;"/><label for="proxy">&nbsp;&nbsp;</label>
+						<s:checkbox id="proxy" name="gatherVo.proxy" cssStyle="vertical-align: middle;"/><label for="proxy">&nbsp;&nbsp;</label>
 					</td>
 				</tr>
 				<tr id="trProxy" style="display: none;">

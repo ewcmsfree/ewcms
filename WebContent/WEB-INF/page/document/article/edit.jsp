@@ -82,9 +82,9 @@
 							<table width="100%" style="border: 0px solid;">
 			        			<tr>
 				        			<td width="100%" style="border: 0px solid;">
-				        				<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: top;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
-					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: top;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
-					           	 		<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: top;"/><label for="inside">&nbsp;使用内部标题</label>
+				        				<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: middle;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
+					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: middle;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					           	 		<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;使用内部标题</label>
 					           	 	</td>
 				           	 	</tr>
 				           	 </table>

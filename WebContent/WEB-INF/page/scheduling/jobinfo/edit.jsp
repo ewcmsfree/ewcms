@@ -240,7 +240,7 @@
 								<td>每隔：</td>
 								<td colspan="3">
 									<s:textfield name="pageDisplayVo.recurrenceInterval" onkeyup="this.value=this.value.replace(/\D/g,'');"></s:textfield>
-									<s:select id="pageDisplayVo.recurrenceIntervalUnit"	name="pageDisplayVo.recurrenceIntervalUnit"	list='#{1:"分钟",2:"小时",3:"天",4:"星期"}' cssStyle="vertical-align:top;"></s:select>执行一次&nbsp;&nbsp;<font color="red" style="vertical-align: middle;">*</font>
+									<s:select id="pageDisplayVo.recurrenceIntervalUnit"	name="pageDisplayVo.recurrenceIntervalUnit"	list='#{1:"分钟",2:"小时",3:"天",4:"星期"}' cssStyle="vertical-align:middle;"></s:select>执行一次&nbsp;&nbsp;<font color="red" style="vertical-align: middle;">*</font>
 								</td>
 							</tr>
 						</table>

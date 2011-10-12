@@ -54,7 +54,7 @@
 				<tr>
 				    <td>提醒：</td>
 				    <td>
-				        <s:checkbox id="warn" name="memorandaVo.warn" cssStyle="vertical-align: top;"/><label for="warn"></label>
+				        <s:checkbox id="warn" name="memorandaVo.warn" cssStyle="vertical-align: middle;"/><label for="warn"></label>
 				    </td>
 				</tr>
 				<tr id="tr_warn" >
@@ -82,7 +82,7 @@
                             <tr>
                             	<td>错过提醒：</td>
                             	<td>
-                            		<s:checkbox id="missRemind" name="memorandaVo.missRemind" cssStyle="vertical-align: top;"/><label for="missRemind"></label>
+                            		<s:checkbox id="missRemind" name="memorandaVo.missRemind" cssStyle="vertical-align: middle;"/><label for="missRemind"></label>
                             	</td>
                             </tr>
 				        </table>
