@@ -265,3 +265,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-levels{
 	background:url('icons/levels.png') no-repeat;
 }
+.icon-delgatherdata{
+	background:url('icons/delgatherdata.png') no-repeat;
+}
