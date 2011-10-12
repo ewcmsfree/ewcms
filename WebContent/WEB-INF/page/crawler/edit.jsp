@@ -18,12 +18,24 @@
     			} else {
     				$("#trProxy").hide();
     			}
+        		if ($('#titleExternal').attr('checked') == 'checked'){
+        			$('#titleRegex').attr('readonly',false);
+        		}else{
+        			$('#titleRegex').attr('readonly',true);
+        		}
         		$("#proxy").click(function() {
         			if ($("#proxy").attr("checked") == 'checked') {
         				$("#trProxy").show();
         			} else {
         				$("#trProxy").hide();
         			}
+        		});
+        		$('#titleExternal').click(function(){
+            		if ($('#titleExternal').attr('checked') == 'checked'){
+            			$('#titleRegex').attr('readonly',false);
+            		}else{
+            			$('#titleRegex').attr('readonly',true);
+            		}
         		});
         	})
 			function tipMessage(){
@@ -78,8 +90,21 @@
 				<tr>
 					<td>网页类型：</td>
 					<td class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="gatherVo.htmlType" maxlength="50"/><font color="red">*</font>(例如:html,shtml,htm，如有多个类型之间用逗号分隔)
-						<s:fielderror><s:param value="%{'gatherVo.htmlType'}" /></s:fielderror>
+						<s:textfield id="name" cssClass="inputtext" name="gatherVo.htmlType" maxlength="50"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'gatherVo.htmlType'}" /></s:fielderror>(包括:html,shtml,htm等等,如有多个类型之间用逗号分隔)
+					</td>
+				</tr>
+				<tr>
+					<td>页面编码格式：</td>
+					<td class="formFieldError">
+						<s:textfield id="encoding" name="gatherVo.encoding" maxlength="50"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'gatherVo.encoding'}" /></s:fielderror>(包括:UTF-8,GBK,GB2312,ISO8859-1等等)
+					</td>
+				</tr>
+				<tr>
+					<td>使用其他标题：</td>
+					<td class="vertical-align: top;">
+						<s:checkbox id="titleExternal" name="gatherVo.titleExternal" cssStyle="vertical-align: top;"/>&nbsp;&nbsp;表达式：<s:textfield id="titleRegex" name="gatherVo.titleRegex" readonly="true" size="30"></s:textfield>
 					</td>
 				</tr>
 				<tr>
@@ -115,19 +140,6 @@
 					<td>
 						<s:textfield id="timeOutWait" name="gatherVo.timeOutWait" maxlength="3"/><font color="red">*</font>秒
 						<s:fielderror><s:param value="%{'gatherVo.timeOutWait'}"/></s:fielderror>(1-600)
-					</td>
-				</tr>
-				<tr>
-					<td>错误时重试次数：</td>
-					<td>
-						<s:textfield id="errorCount" name="gatherVo.errorCount" maxlength="2"/><font color="red">*</font>
-						<s:fielderror><s:param value="%{'gatherVo.errorCount'}"/></s:fielderror>(1-10)
-					</td>
-				</tr>
-				<tr>
-					<td>发布日期格式：</td>
-					<td>
-						<s:textfield id="dateFormat" name="gatherVo.dateFormat"></s:textfield>
 					</td>
 				</tr>
 				<tr>
