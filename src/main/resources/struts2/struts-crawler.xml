@@ -19,6 +19,7 @@
 		</action>
 		<action name="query" class="com.ewcms.crawler.web.GatherQueryAction" method="query"/>
 		<action name="crawlRun" class="com.ewcms.crawler.web.GatherAction" method="crawlRun"/>
+		<action name="delGatherData" class="com.ewcms.crawler.web.GatherAction" method="delGatherData"/>
 	</package>
 	<package name="crawler.domain" extends="struts-default" namespace="/crawler/domain">
 		<action name="index" class="com.ewcms.crawler.web.DomainAction">
