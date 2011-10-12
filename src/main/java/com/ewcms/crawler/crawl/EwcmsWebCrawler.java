@@ -171,7 +171,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 	}
 
 	/**
-	 * 控制器调用之前
+	 * 控制器退出之前调用
 	 */
 	@Override
 	public void onBeforeExit() {
