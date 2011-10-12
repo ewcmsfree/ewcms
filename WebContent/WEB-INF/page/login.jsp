@@ -3,7 +3,7 @@
 <%@page import="org.springframework.security.core.AuthenticationException"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
 <html>
-    <!-- skip exit iframe -->
+    <!-- 跳出Iframe，显示登录界面 -->
     <script type="text/javascript">
         if(parent != self) {
             top.location='<s:url value="/login.do"/>';
@@ -12,55 +12,13 @@
     <head>
         <title>Ewcms用户登录</title>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/login.css"/>'>
+        <script type="text/javascript" src='<s:url value="/source/page/login.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/login.css"/>'>
         <script type="text/javascript">
-        function isEmpty(input) {
-                if ($.trim(input.val()) == "") {
-                        input.focus();
-                        return true;
-                } else {
-                        return false;
-                }
-        }
-        
-        function errorMsg(msg) {
-                $('#id_error_msg').html(msg);
-        }
-
-        function submitForm() {
-                if (isEmpty($('input[name=j_username]'))) {
-                        errorMsg('用户名不能为空。');
-                        return;
-                }
-                if (isEmpty($('input[name=j_password]'))) {
-                        errorMsg('密码不能为空。');
-                        return;
-                }
-                if (isEmpty($('input[name=j_checkcode]'))) {
-                        errorMsg('验证码不能为空。');
-                        return;
-                }
-                $('form')[0].submit();
-        }
-
-        $(function() {
-                $('#id_login_btn').click(function() {
-                        submitForm();
-                });
-                $('input[name=j_checkcode]').keypress(function(event) {
-                        if (event.which == '13') {
-                                submitForm();
-                        }
-                });
-                $('#id_checkcode').click(function() {
-                        var url = '<s:url value = "/checkcode.jpg"/>?nocache=' + Math.random();
-                        this.src = url;
-                        var checkcodeInput = $('input[name=j_checkcode]');
-                        checkcodeInput.val("");
-                        checkcodeInput.focus();
-                });
-                $('input [name=j_username]').focus();
-        });
+            $(function() {
+                var _login = new login('<s:url value = "/checkcode.jpg"/>');
+                _login.init();
+            });
         </script>
     </head>
     <body>
