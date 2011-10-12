@@ -1,4 +1,4 @@
-var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,domainIndexURL,crawlRunURL,schedulingURL;
+var queryURL,inputURL,deleteURL,matchIndexURL,filterIndexURL,domainIndexURL,crawlRunURL,schedulingURL, helpURL;
 
 $(function() {
 	ewcmsBOBJ = new EwcmsBase();
@@ -9,6 +9,7 @@ $(function() {
 	ewcmsBOBJ.addToolItem('过滤', 'icon-filter', filterOperate, 'btnFilter');
 	ewcmsBOBJ.addToolItem('立刻执行', 'icon-run', runCrawlOperate, 'btnCrawlRun');
 	ewcmsBOBJ.addToolItem('定时设置', 'icon-scheduler-set', timeCrawlOperate, 'btnCrawlTime');
+	ewcmsBOBJ.addToolItem('帮助', 'icon-help', helpOperate,'btnHelp');
 	
 	ewcmsBOBJ.setWinWidth(900);
 	ewcmsBOBJ.setWinHeight(600);
@@ -169,4 +170,12 @@ function loadingDisable(){
 }
 function saveScheduling(){
 	window.frames['editifr_scheduling'].document.forms[0].submit();
+}
+function helpOperate(){
+	$('#editifr_help').attr('src', helpURL);
+	ewcmsBOBJ.openWindow('#help-window', {
+		width : 900,
+		height : 500,
+		title : '表达式帮助'
+	});
 }
