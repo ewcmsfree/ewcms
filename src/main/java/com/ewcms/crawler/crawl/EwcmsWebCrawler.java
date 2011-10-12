@@ -167,6 +167,14 @@ public class EwcmsWebCrawler extends WebCrawler {
 	 */
 	@Override
 	public Object getMyLocalData() {
+		return null;
+	}
+
+	/**
+	 * 控制器调用之前
+	 */
+	@Override
+	public void onBeforeExit() {
 		try{
 			File gatherFolder = new File(gatherFolderPath);
 			if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
@@ -177,14 +185,6 @@ public class EwcmsWebCrawler extends WebCrawler {
 			crawlerFac = null;
 			articleService = null;
 		}
-		return null;
-	}
-
-	/**
-	 * 控制器调用之前
-	 */
-	@Override
-	public void onBeforeExit() {
 	}
 
 	private void childrenMatchBlock(Long gatherId, Document doc,
