@@ -28,7 +28,7 @@
 				<tr>
 					<td>表达式：</td>
 					<td class="formFieldError">
-						<s:textfield id="regex" cssClass="inputtext" name="filterBlockVo.regex" maxlength="50"/><a href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.parent.helpOperate();"></a><font color="red">*</font>
+						<s:textarea id="regex" name="filterBlockVo.regex" cols="50"/><a href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.parent.helpOperate();"></a><font color="red">*</font>
 						<s:fielderror><s:param value="%{'filterBlockVo.regex'}" /></s:fielderror>
 					</td>
 				</tr>
