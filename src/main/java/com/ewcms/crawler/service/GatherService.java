@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.dao.GatherDAO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
 import com.ewcms.crawler.model.Domain;
+import com.ewcms.crawler.util.CrawlerUserName;
 import com.ewcms.crawler.web.BlockTreeGridNode;
 
 /**
@@ -31,6 +33,8 @@ public class GatherService implements GatherServiceable {
 
 	@Autowired
 	private GatherDAO gatherDAO;
+	@Autowired
+	private ArticleMainServiceable articleMainService;
 	
 	public void setGatherDAO(GatherDAO gatherDAO){
 		this.gatherDAO = gatherDAO;
@@ -443,5 +447,14 @@ public class GatherService implements GatherServiceable {
 	public List<FilterBlock> findChildFilterBlockByParentId(Long gatherId,
 			Long parentId) {
 		return gatherDAO.findChildFilterBlockByParentId(gatherId, parentId);
+	}
+
+	@Override
+	public void delGatherData(Long gatherId) {
+		Gather gather = gatherDAO.get(gatherId);
+		Assert.notNull(gather);
+		
+		Integer channelId = gather.getChannelId();
+		articleMainService.delCrawlerData(channelId, CrawlerUserName.USER_NAME);
 	}
 }

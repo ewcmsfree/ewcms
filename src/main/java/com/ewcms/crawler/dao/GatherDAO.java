@@ -67,9 +67,8 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 		return list;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updMatchBlockByIdSetSort(final Long matchBlockId, final Long sort){
-        this.getJpaTemplate().execute(new JpaCallback() {
+        this.getJpaTemplate().execute(new JpaCallback<Object>() {
             @Override
             public Object doInJpa(EntityManager em) throws PersistenceException {
             	String hql = "Update MatchBlock As m Set m.sort=? Where m.id=?";
@@ -120,9 +119,8 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 		return list;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updFilterBlockByIdSetSort(final Long filterBlockId, final Long sort){
-        this.getJpaTemplate().execute(new JpaCallback() {
+        this.getJpaTemplate().execute(new JpaCallback<Object>() {
             @Override
             public Object doInJpa(EntityManager em) throws PersistenceException {
             	String hql = "Update FilterBlock As m Set m.sort=? Where m.id=?";

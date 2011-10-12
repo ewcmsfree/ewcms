@@ -49,4 +49,6 @@ public interface CrawlerFacable {
 	
 	public List<BlockTreeGridNode> findMatchBlockTransformTreeGrid(Long gatherId);
 	public List<BlockTreeGridNode> findFilterBlockTransformTreeGrid(Long gatherId);
+	
+	public void delGatherData(Long gatherId);
 }

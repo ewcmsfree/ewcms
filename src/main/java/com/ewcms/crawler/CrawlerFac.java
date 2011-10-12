@@ -158,4 +158,8 @@ public class CrawlerFac implements CrawlerFacable {
 		return gatherService.findChildFilterBlockByParentId(gatherId, parentId);
 	}
 
+	@Override
+	public void delGatherData(Long gatherId) {
+		gatherService.delGatherData(gatherId);
+	}
 }

@@ -29,6 +29,7 @@ import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
+import com.ewcms.crawler.util.CrawlerUserName;
 
 /**
  * 
@@ -145,7 +146,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 			article.setTitle(title);
 			article.setContents(contents);
 
-			articleService.addArticleByCrawler(article, "gather", gather.getChannelId());
+			articleService.addArticleByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
 		} catch (IOException e) {
 			logger.warn(e.getLocalizedMessage());
 		}

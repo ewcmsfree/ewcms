@@ -107,4 +107,15 @@ public class GatherAction extends CrudBaseAction<Gather, Long> {
 			}
 		}
 	}
+	
+	public void delGatherData(){
+		if (getSelections() != null && getSelections().size() == 1){
+			try {
+				crawlerFac.delGatherData(getSelections().get(0));
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			} catch (Exception e) {
+				Struts2Util.renderJson(JSONUtil.toJSON(e.getLocalizedMessage()));
+			}
+		}
+	}
 }
