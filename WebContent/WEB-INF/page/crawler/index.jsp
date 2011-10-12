@@ -17,6 +17,7 @@
 			queryURL = '<s:url namespace="/crawler" action="query"/>';
 			inputURL = '<s:url namespace="/crawler" action="input"/>';
 			deleteURL = '<s:url namespace="/crawler" action="delete"/>';
+			delGatherDataURL = '<s:url namespace="/crawler" action="delGatherData"/>';
 			matchIndexURL = '<s:url namespace="/crawler/match" action="index"/>';
 			filterIndexURL = '<s:url namespace="/crawler/filter" action="index"/>';
 			domainIndexURL = '<s:url namespace="/crawler/domain" action="index"/>';
