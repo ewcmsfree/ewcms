@@ -68,4 +68,9 @@
 		<action name="up" class="com.ewcms.crawler.web.FilterBlockAction" method="up"/>
 		<action name="down" class="com.ewcms.crawler.web.FilterBlockAction" method="down"/>
 	</package>
+	<package name="crawler.help" extends="struts-default" namespace="/crawler/help">
+		<action name="index">
+			<result>/WEB-INF/page/crawler/regex_help.jsp</result>
+		</action>
+	</package>
 </struts>	
