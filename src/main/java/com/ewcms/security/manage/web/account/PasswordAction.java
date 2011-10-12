@@ -22,53 +22,51 @@ import com.ewcms.security.manage.service.UserServiceable;
 @Controller("security.account.password.action")
 public class PasswordAction extends ActionSupport{
 
+    private String oldPassword;
     private String password;
-    private String newPassword;
     private String againPassword;
-    private boolean closeWindow = false;
     
     @Autowired
     private UserServiceable userService;
     
     @Override
     public String input(){
+        oldPassword = null;
         password = null;
-        newPassword = null;
         againPassword = null;
-        closeWindow=false;
         return INPUT;
     }
     
     @Override
     public String execute(){
-        if(!againPassword.equals(newPassword)){
-            this.addFieldError("passwordAgain", "密码不一致");
+        if(!againPassword.equals(password)){
+            addActionError("密码输入不一致");
             return ERROR;
         }
         try{
-            userService.changePassword(password, newPassword);
-            closeWindow =true;
+            userService.changePassword(oldPassword, password);
+            addActionMessage("修改密码成功");
             return SUCCESS;
         }catch(AuthenticationException e){
-            addActionError(e.toString());
+            addActionError(e.getMessage());
             return ERROR;
         }
     }
     
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
     public String getPassword() {
         return password;
     }
-    
-    public void setPassword(String oldPassword) {
-        this.password = oldPassword;
-    }
-    
-    public String getNewPassword() {
-        return newPassword;
-    }
-    
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAgainPassword() {
@@ -77,10 +75,6 @@ public class PasswordAction extends ActionSupport{
 
     public void setAgainPassword(String againPassword) {
         this.againPassword = againPassword;
-    }
-    
-    public boolean isCloseWindow() {
-        return closeWindow;
     }
 
     public void setUserService(UserServiceable userService) {
