@@ -24,6 +24,8 @@ import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
 import com.ewcms.crawler.crawl.crawler4j.crawler.PageFetcher;
+import com.ewcms.crawler.crawl.crawler4j.frontier.DocIDServer;
+import com.ewcms.crawler.crawl.crawler4j.frontier.Frontier;
 import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
@@ -78,12 +80,16 @@ public class EwcmsController implements EwcmsControllerable {
 		if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
 
 		PageFetcher pageFetcher;
+		DocIDServer docIDServer;
+		Frontier frontier;
 		CrawlController controller;
 		EwcmsWebCrawler ewcmsWebCrawler;
 		try{
 			pageFetcher = new PageFetcher();
+			docIDServer = new DocIDServer();
+			frontier = new Frontier();
 			
-			controller = new CrawlController(gatherFolderPath, pageFetcher);
+			controller = new CrawlController(gatherFolderPath, pageFetcher, docIDServer, frontier);
 			
 			String[] crawlDomains = new String[urlLevels.size()];
 			for (int index = 0; index < urlLevels.size(); index++){
@@ -92,8 +98,7 @@ public class EwcmsController implements EwcmsControllerable {
 			}
 			
 			controller.setPolitenessDelay(200);
-			//设置最大爬行深度，默认值是-1无限深度
-			controller.setMaximumCrawlDepth(gather.getDepth());
+			
 			//设置抓取的页面的最大数量，默认值是-1无限深度
 			controller.setMaximumPagesToFetch(gather.getMaxPage());
 			//并发线程数
@@ -104,6 +109,11 @@ public class EwcmsController implements EwcmsControllerable {
 			}
 			
 			ewcmsWebCrawler = new EwcmsWebCrawler();
+			//设置最大爬行深度，默认值是-1无限深度
+			ewcmsWebCrawler.setMaximumCrawlDepth(gather.getDepth().shortValue());
+			//是否包含二进制文件
+			ewcmsWebCrawler.setIncludeBinaryContent(gather.getDownloadFile());
+			
 			ewcmsWebCrawler.setArticleService(articleService);
 			ewcmsWebCrawler.setCrawlDomains(crawlDomains);
 			ewcmsWebCrawler.setCrawlerFac(crawlerFac);
@@ -116,6 +126,8 @@ public class EwcmsController implements EwcmsControllerable {
 			e.printStackTrace();
 		}finally{
 			ewcmsWebCrawler = null;
+			docIDServer = null;
+			frontier = null;
 			pageFetcher = null;
 			controller = null;
 		}

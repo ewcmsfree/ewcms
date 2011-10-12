@@ -64,11 +64,11 @@ public class PageFetcher {
 
 	private Object mutex = PageFetcher.class.toString() + "_MUTEX";
 
-	private static int processedCount = 0;
-	private static long startOfPeriod = 0;
-	private static long lastFetchTime = 0;
+	private int processedCount = 0;
+	private long startOfPeriod = 0;
+	private long lastFetchTime = 0;
 
-	private static long politenessDelay = Configurations.getIntProperty("fetcher.default_politeness_delay", 200);
+	private long politenessDelay = Configurations.getIntProperty("fetcher.default_politeness_delay", 200);
 
 	public static final int MAX_DOWNLOAD_SIZE = Configurations.getIntProperty("fetcher.max_download_size", 1048576);
 
@@ -76,12 +76,12 @@ public class PageFetcher {
 
 	private IdleConnectionMonitorThread connectionMonitorThread = null;
 
-	public static long getPolitenessDelay() {
+	public long getPolitenessDelay() {
 		return politenessDelay;
 	}
 
-	public static void setPolitenessDelay(long politenessDelay) {
-		PageFetcher.politenessDelay = politenessDelay;
+	public void setPolitenessDelay(long politenessDelay) {
+		this.politenessDelay = politenessDelay;
 	}
 
 	static {
@@ -174,7 +174,7 @@ public class PageFetcher {
 		}
 	}
 
-	public int fetch(Page page, boolean ignoreIfBinary) {
+	public int fetch(Page page, boolean ignoreIfBinary, DocIDServer docIDServer) {
 		String toFetchURL = page.getWebURL().getURL();
 		HttpGet get = null;
 		HttpEntity entity = null;
@@ -222,14 +222,14 @@ public class PageFetcher {
 			String uri = get.getURI().toString();
 			if (!uri.equals(toFetchURL)) {
 				if (!URLCanonicalizer.getCanonicalURL(uri).equals(toFetchURL)) {
-					int newdocid = DocIDServer.getDocID(uri);
+					int newdocid = docIDServer.getDocID(uri);
 					if (newdocid != -1) {
 						if (newdocid > 0) {
 							return PageFetchStatus.RedirectedPageIsSeen;
 						}
 						WebURL webURL = new WebURL();
 						webURL.setURL(uri);
-						webURL.setDocid(DocIDServer.getNewDocID(uri));
+						webURL.setDocid(docIDServer.getNewDocID(uri));
 						page.setWebURL(webURL);
 					}
 				}

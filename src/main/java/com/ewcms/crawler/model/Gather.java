@@ -38,7 +38,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>depth:采集深度</li>
  * <li>threadCount:采集线程数</li>
  * <li>timeOutWait:超时等待时间</li>
- * <li>errorCount:发生错误时重试次数</li>
  * <li>dateFormat:发布日期格式</li>
  * <li>downloadFile:下载内容中的文件</li>
  * <li>removeHref:移除内容中的链接</li>
@@ -53,6 +52,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>proxyPort:端口</li>
  * <li>proxyUserName:用户名</li>
  * <li>proxyPassWord:密码</li>
+ * <li>encoding:页面编码格式</li>
+ * <li>titleExternal:外部标题(true:自定义内容标题,false:使用html内容中的title标题)</li>
+ * <li>titleRegex:标题表达式</li>
+ * <li>
  * </ul>
  * 
  * @author wuzhijun
@@ -83,10 +86,6 @@ public class Gather implements Serializable {
 	private Integer threadCount;
 	@Column(name = "timeoutwait")
 	private Integer timeOutWait;
-	@Column(name = "errorcount")
-	private Integer errorCount;
-	@Column(name = "dateformat")
-	private String dateFormat;
 	@Column(name = "downloadFile")
 	private Boolean downloadFile;
 	@Column(name = "removeHref")
@@ -117,19 +116,25 @@ public class Gather implements Serializable {
 	private String proxyUserName;
 	@Column(name = "proxy_password")
 	private String proxyPassWord;
+	@Column(name = "encoding")
+	private String encoding;
+	@Column(name = "title_external")
+	private Boolean titleExternal;
+	@Column(name = "title_regex")
+	private String titleRegex;
 
 	public Gather(){
 		maxPage = -1;
 		depth = -1;
 		threadCount = 30;
 		timeOutWait = 1;
-		errorCount = 2;
-		dateFormat = "yyyy-MM-dd";
 		htmlType = "html";
 		proxy = false;
 		downloadFile = false;
 		removeHref = false;
 		removeHtmlTag = false;
+		encoding = "UTF-8";
+		titleExternal = false;
 	}
 	
 	public Long getId() {
@@ -196,22 +201,6 @@ public class Gather implements Serializable {
 		this.timeOutWait = timeOutWait;
 	}
 
-	public Integer getErrorCount() {
-		return errorCount;
-	}
-
-	public void setErrorCount(Integer errorCount) {
-		this.errorCount = errorCount;
-	}
-
-	public String getDateFormat() {
-		return dateFormat;
-	}
-
-	public void setDateFormat(String dateFormat) {
-		this.dateFormat = dateFormat;
-	}
-	
 	public Boolean getDownloadFile() {
 		return downloadFile;
 	}
@@ -317,6 +306,30 @@ public class Gather implements Serializable {
 
 	public void setProxyPassWord(String proxyPassWord) {
 		this.proxyPassWord = proxyPassWord;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
+	public Boolean getTitleExternal() {
+		return titleExternal;
+	}
+
+	public void setTitleExternal(Boolean titleExternal) {
+		this.titleExternal = titleExternal;
+	}
+
+	public String getTitleRegex() {
+		return titleRegex;
+	}
+
+	public void setTitleRegex(String titleRegex) {
+		this.titleRegex = titleRegex;
 	}
 
 	@Override

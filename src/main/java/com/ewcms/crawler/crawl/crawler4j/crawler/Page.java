@@ -48,8 +48,7 @@ public class Page {
 
 	private ByteBuffer bBuf;
 
-	private final static String defaultEncoding = Configurations
-			.getStringProperty("crawler.default_encoding", "UTF-8");
+	private String defaultEncoding = Configurations.getStringProperty("crawler.default_encoding", "UTF-8");
 
 	public boolean load(final InputStream in, final int totalsize,
 			final boolean isBinary) {
@@ -90,6 +89,14 @@ public class Page {
 			}
 		}
 		return true;
+	}
+
+	public String getDefaultEncoding() {
+		return defaultEncoding;
+	}
+
+	public void setDefaultEncoding(String defaultEncoding) {
+		this.defaultEncoding = defaultEncoding;
 	}
 
 	public Page(WebURL url) {

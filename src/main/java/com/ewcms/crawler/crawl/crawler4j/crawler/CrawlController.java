@@ -46,6 +46,8 @@ public class CrawlController {
 
 	private Environment env;
 	private PageFetcher pageFetcher;
+	private DocIDServer docIDServer;
+	private Frontier frontier;
 	private List<Object> crawlersLocalData = new ArrayList<Object>();
 
 	public List<Object> getCrawlersLocalData() {
@@ -56,14 +58,24 @@ public class CrawlController {
 		return pageFetcher;
 	}
 	
-	List<Thread> threads;
-
-	public CrawlController(String storageFolder,PageFetcher pageFetcher) throws Exception {
-		this(storageFolder, Configurations.getBooleanProperty("crawler.enable_resume", true), pageFetcher);
+	public DocIDServer getDocIDServer(){
+		return docIDServer;
 	}
 	
-	public CrawlController(String storageFolder, boolean resumable, PageFetcher pageFetcher) throws Exception {
+	public Frontier getFrontier(){
+		return frontier;
+	}
+	
+	List<Thread> threads;
+
+	public CrawlController(String storageFolder,PageFetcher pageFetcher, DocIDServer docIDServer, Frontier frontier) throws Exception {
+		this(storageFolder, Configurations.getBooleanProperty("crawler.enable_resume", true), pageFetcher, docIDServer, frontier);
+	}
+	
+	public CrawlController(String storageFolder, boolean resumable, PageFetcher pageFetcher, DocIDServer docIDServer, Frontier frontier) throws Exception {
 		this.pageFetcher = pageFetcher;
+		this.frontier = frontier;
+		this.docIDServer = docIDServer;
 		
 		File folder = new File(storageFolder);
 		if (!folder.exists()) {
@@ -84,8 +96,10 @@ public class CrawlController {
 		}
 
 		env = new Environment(envHome, envConfig);
-		Frontier.init(env, resumable);
-		DocIDServer.init(env, resumable);
+		
+		frontier.init(env, resumable);
+		docIDServer.init(env, resumable);
+		frontier.setDocIDServer(docIDServer);
 
 		pageFetcher.startConnectionMonitorThread();
 	}
@@ -134,13 +148,13 @@ public class CrawlController {
 					sleep(40);
 
 					if (!isAnyThreadWorking()) {
-						long queueLength = Frontier.getQueueLength();
+						long queueLength = frontier.getQueueLength();
 						if (queueLength > 0) {
 							continue;
 						}
 						logger.info("No thread is working and no more URLs are in queue waiting for another 60 seconds to make sure...");
 						sleep(60);
-						queueLength = Frontier.getQueueLength();
+						queueLength = frontier.getQueueLength();
 						if (queueLength > 0) {
 							continue;
 						}
@@ -152,11 +166,11 @@ public class CrawlController {
 
 						// At this step, frontier notifies the threads that were waiting for new URLs and they should stop
 						// We will wait a few seconds for them and then return.
-						Frontier.finish();
+						frontier.finish();
 						logger.info("Waiting for 10 seconds before final clean up...");
 						sleep(10);
 
-						Frontier.close();
+						frontier.close();
 						pageFetcher.stopConnectionMonitorThread();
 						return;
 					}
@@ -195,7 +209,7 @@ public class CrawlController {
 			logger.error("Invalid seed URL: " + pageUrl);
 			return;
 		}
-		int docid = DocIDServer.getDocID(canonicalUrl);
+		int docid = docIDServer.getDocID(canonicalUrl);
 		if (docid > 0) {
 			// This URL is already seen.
 			return;
@@ -203,13 +217,13 @@ public class CrawlController {
 
 		WebURL webUrl = new WebURL();
 		webUrl.setURL(canonicalUrl);
-		docid = DocIDServer.getNewDocID(canonicalUrl);
+		docid = docIDServer.getNewDocID(canonicalUrl);
 		webUrl.setDocid(docid);
 		webUrl.setDepth((short) 0);
-		if (!RobotstxtServer.allows(webUrl, pageFetcher)) {
+		if (!RobotstxtServer.allows(webUrl, pageFetcher, docIDServer)) {
 			logger.info("Robots.txt does not allow this seed: " + pageUrl);
 		} else {
-			Frontier.schedule(webUrl);
+			frontier.schedule(webUrl);
 		}
 	}
 
@@ -220,21 +234,21 @@ public class CrawlController {
 		if (milliseconds > 10000) {
 			milliseconds = 10000;
 		}
-		PageFetcher.setPolitenessDelay(milliseconds);
+		pageFetcher.setPolitenessDelay(milliseconds);
 	}
 
-	public void setMaximumCrawlDepth(int depth) throws Exception {
-		if (depth < -1) {
-			throw new Exception("Maximum crawl depth should be either a positive number or -1 for unlimited depth.");
-		}
-		if (depth > Short.MAX_VALUE) {
-			throw new Exception("Maximum value for crawl depth is " + Short.MAX_VALUE);
-		}
-		WebCrawler.setMaximumCrawlDepth((short) depth);
-	}
+//	public void setMaximumCrawlDepth(int depth) throws Exception {
+//		if (depth < -1) {
+//			throw new Exception("Maximum crawl depth should be either a positive number or -1 for unlimited depth.");
+//		}
+//		if (depth > Short.MAX_VALUE) {
+//			throw new Exception("Maximum value for crawl depth is " + Short.MAX_VALUE);
+//		}
+//		webCrawler.setMaximumCrawlDepth((short) depth);
+//	}
 
 	public void setMaximumPagesToFetch(int max) {
-		Frontier.setMaximumPagesToFetch(max);
+		frontier.setMaximumPagesToFetch(max);
 	}
 
 	public void setProxy(String proxyHost, int proxyPort) {

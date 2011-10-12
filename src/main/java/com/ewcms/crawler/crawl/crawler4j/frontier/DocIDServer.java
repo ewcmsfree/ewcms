@@ -28,17 +28,17 @@ import com.sleepycat.je.*;
  * @author Yasser Ganjisaffar <yganjisa at uci dot edu>
  */
 
-public final class DocIDServer {
+public class DocIDServer {
 
-	private static Database docIDsDB = null;
+	private Database docIDsDB = null;
 
 	private static final Logger logger = LoggerFactory.getLogger(DocIDServer.class.getName());
-	private static Object mutex = "DocIDServer_Mutex";
+	private Object mutex = "DocIDServer_Mutex";
 
 	private static int lastDocID;
 	private static boolean resumable;
 
-	public static void init(Environment env, boolean resumable) throws DatabaseException {
+	public void init(Environment env, boolean resumable) throws DatabaseException {
 		DocIDServer.resumable = resumable;
 		DatabaseConfig dbConfig = new DatabaseConfig();
 		dbConfig.setAllowCreate(true);
@@ -60,7 +60,7 @@ public final class DocIDServer {
 	 * Returns the docid of an already seen url.
 	 * If url is not seen before, it will return -1
 	 */
-	public static int getDocID(String url) {
+	public int getDocID(String url) {
 		synchronized (mutex) {
 			if (docIDsDB == null) {
 				return -1;
@@ -81,7 +81,7 @@ public final class DocIDServer {
 		}
 	}
 
-	public static int getNewDocID(String url) {
+	public int getNewDocID(String url) {
 		synchronized (mutex) {
 			try {
 				// Make sure that we have not already assigned a docid for this URL
@@ -100,7 +100,7 @@ public final class DocIDServer {
 		}
 	}
 
-	public static int getDocCount() {
+	public int getDocCount() {
 		try {
 			return (int) docIDsDB.count();
 		} catch (DatabaseException e) {
@@ -109,7 +109,7 @@ public final class DocIDServer {
 		return -1;
 	}
 
-	public static void sync() {
+	public void sync() {
 		if (resumable) {
 			return;
 		}
@@ -123,7 +123,7 @@ public final class DocIDServer {
 		}
 	}
 
-	public static void close() {
+	public void close() {
 		try {
 			docIDsDB.close();
 		} catch (DatabaseException e) {

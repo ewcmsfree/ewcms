@@ -48,9 +48,9 @@ public class WebCrawler implements Runnable {
 
 	private CrawlController myController;
 
-	private static short MAX_CRAWL_DEPTH = Configurations.getShortProperty("crawler.max_depth", (short) -1);
-	private static boolean IGNORE_BINARY_CONTENT = !Configurations.getBooleanProperty("crawler.include_binary_content", false);
-	private static final boolean FOLLOW_REDIRECTS = Configurations.getBooleanProperty("fetcher.follow_redirects", true);
+	private short maxCrawlDepth = Configurations.getShortProperty("crawler.max_depth", (short) -1);
+	private boolean includeBinaryContent = !Configurations.getBooleanProperty("crawler.include_binary_content", false);
+	private final boolean followRedirects = Configurations.getBooleanProperty("fetcher.follow_redirects", true);
 
 	public CrawlController getMyController() {
 		return myController;
@@ -58,6 +58,36 @@ public class WebCrawler implements Runnable {
 
 	public void setMyController(CrawlController myController) {
 		this.myController = myController;
+	}
+
+	public short getMaxCrawlDepth() {
+		return maxCrawlDepth;
+	}
+
+	private void setMaxCrawlDepth(short maxCrawlDepth) {
+		this.maxCrawlDepth = maxCrawlDepth;
+	}
+
+	public void setMaximumCrawlDepth(short depth) throws Exception {
+		if (depth < -1) {
+			throw new Exception("Maximum crawl depth should be either a positive number or -1 for unlimited depth.");
+		}
+		if (depth > Short.MAX_VALUE) {
+			throw new Exception("Maximum value for crawl depth is " + Short.MAX_VALUE);
+		}
+		setMaxCrawlDepth(depth);
+	}
+	
+	public boolean isIncludeBinaryContent() {
+		return includeBinaryContent;
+	}
+
+	public void setIncludeBinaryContent(boolean includeBinaryContent) {
+		this.includeBinaryContent = includeBinaryContent;
+	}
+
+	public boolean isFollowRedirects() {
+		return followRedirects;
 	}
 
 	public WebCrawler() {
@@ -91,10 +121,11 @@ public class WebCrawler implements Runnable {
 	public void run() {
 		onStart();
 		while (true) {
+			Frontier frontier = myController.getFrontier();
 			List<WebURL> assignedURLs = new ArrayList<WebURL>(50);
-			Frontier.getNextURLs(50, assignedURLs);
+			frontier.getNextURLs(50, assignedURLs);
 			if (assignedURLs.size() == 0) {
-				if (Frontier.isFinished()) {
+				if (frontier.isFinished()) {
 					return;
 				}
 				try {
@@ -109,7 +140,7 @@ public class WebCrawler implements Runnable {
 							System.out.println();
 						}
 						processPage(curURL);
-						Frontier.setProcessed(curURL);
+						frontier.setProcessed(curURL);
 					}
 				}
 			}
@@ -130,19 +161,21 @@ public class WebCrawler implements Runnable {
 		}
 		Page page = new Page(curURL);
 		PageFetcher pageFetcher = myController.getPageFetcher();
-		int statusCode = pageFetcher.fetch(page, IGNORE_BINARY_CONTENT);
+		Frontier frontier = myController.getFrontier();
+		DocIDServer docIDServer = myController.getDocIDServer();
+		int statusCode = pageFetcher.fetch(page, includeBinaryContent, docIDServer);
 		// The page might have been redirected. So we have to refresh curURL
 		curURL = page.getWebURL();
 		int docid = curURL.getDocid();
 		if (statusCode != PageFetchStatus.OK) {
 			if (statusCode == PageFetchStatus.Moved) {
-				if (FOLLOW_REDIRECTS) {
+				if (followRedirects) {
 					String movedToUrl = curURL.getURL();
 					if (movedToUrl == null) {
 						return PageFetchStatus.MovedToUnknownLocation;
 					}
 					movedToUrl = URLCanonicalizer.getCanonicalURL(movedToUrl);
-					int newdocid = DocIDServer.getDocID(movedToUrl);
+					int newdocid = docIDServer.getDocID(movedToUrl);
 					if (newdocid > 0) {
 						return PageFetchStatus.RedirectedPageIsSeen;
 					} else {
@@ -151,9 +184,9 @@ public class WebCrawler implements Runnable {
 						webURL.setParentDocid(curURL.getParentDocid());
 						webURL.setDepth((short) (curURL.getDepth()));
 						webURL.setDocid(-1);
-						if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher)) {
-							webURL.setDocid(DocIDServer.getNewDocID(movedToUrl));	
-							Frontier.schedule(webURL);
+						if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher, docIDServer)) {
+							webURL.setDocid(docIDServer.getNewDocID(movedToUrl));	
+							frontier.schedule(webURL);
 						}
 					}
 				}
@@ -180,7 +213,7 @@ public class WebCrawler implements Runnable {
 				while (it.hasNext()) {
 					String url = it.next();
 					if (url != null) {
-						int newdocid = DocIDServer.getDocID(url);
+						int newdocid = docIDServer.getDocID(url);
 						if (newdocid > 0) {
 							if (newdocid != docid) {
 								WebURL webURL = new WebURL();
@@ -194,9 +227,9 @@ public class WebCrawler implements Runnable {
 							webURL.setDocid(-1);
 							webURL.setParentDocid(docid);
 							webURL.setDepth((short) (curURL.getDepth() + 1));							
-							if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher)) {
-								if (MAX_CRAWL_DEPTH == -1 || curURL.getDepth() < MAX_CRAWL_DEPTH) {
-									webURL.setDocid(DocIDServer.getNewDocID(url));
+							if (shouldVisit(webURL) && RobotstxtServer.allows(webURL, pageFetcher, docIDServer)) {
+								if (maxCrawlDepth == -1 || curURL.getDepth() < maxCrawlDepth) {
+									webURL.setDocid(docIDServer.getNewDocID(url));
 									toSchedule.add(webURL);
 									toList.add(webURL);
 								}
@@ -204,7 +237,7 @@ public class WebCrawler implements Runnable {
 						}
 					}
 				}
-				Frontier.scheduleAll(toSchedule);
+				frontier.scheduleAll(toSchedule);
 				page.setURLs(toList);
 			}
 			visit(page);
@@ -223,7 +256,4 @@ public class WebCrawler implements Runnable {
 		this.myThread = myThread;
 	}
 
-	public static void setMaximumCrawlDepth(short depth) {
-		MAX_CRAWL_DEPTH = depth;
-	}
 }
