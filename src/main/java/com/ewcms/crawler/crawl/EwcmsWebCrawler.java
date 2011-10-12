@@ -8,7 +8,6 @@ package com.ewcms.crawler.crawl;
 
 import static com.ewcms.common.lang.EmptyUtil.isCollectionNotEmpty;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,6 @@ import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.Page;
 import com.ewcms.crawler.crawl.crawler4j.crawler.WebCrawler;
 import com.ewcms.crawler.crawl.crawler4j.url.WebURL;
-import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.MatchBlock;
@@ -50,7 +48,6 @@ public class EwcmsWebCrawler extends WebCrawler {
 	private String[] crawlDomains;
 	private CrawlerFacable crawlerFac;
 	private ArticleServiceable articleService;
-	private String gatherFolderPath;
 
 	public void setGather(Gather gather) {
 		this.gather = gather;
@@ -66,14 +63,6 @@ public class EwcmsWebCrawler extends WebCrawler {
 
 	public void setArticleService(ArticleServiceable articleService) {
 		this.articleService = articleService;
-	}
-
-	public String getGatherFolderPath() {
-		return gatherFolderPath;
-	}
-
-	public void setGatherFolderPath(String gatherFolderPath) {
-		this.gatherFolderPath = gatherFolderPath;
 	}
 
 	@Override
@@ -175,16 +164,10 @@ public class EwcmsWebCrawler extends WebCrawler {
 	 */
 	@Override
 	public void onBeforeExit() {
-		try{
-			File gatherFolder = new File(gatherFolderPath);
-			if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
-		}catch(Exception e){
-		}finally{
-			gather = null;
-			crawlDomains = null;
-			crawlerFac = null;
-			articleService = null;
-		}
+		gather = null;
+		crawlDomains = null;
+		crawlerFac = null;
+		articleService = null;
 	}
 
 	private void childrenMatchBlock(Long gatherId, Document doc,

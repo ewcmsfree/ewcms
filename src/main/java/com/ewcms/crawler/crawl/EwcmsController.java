@@ -8,6 +8,7 @@ package com.ewcms.crawler.crawl;
 
 import static com.ewcms.common.lang.EmptyUtil.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
 import com.ewcms.crawler.crawl.crawler4j.crawler.PageFetcher;
 import com.ewcms.crawler.crawl.crawler4j.frontier.DocIDServer;
 import com.ewcms.crawler.crawl.crawler4j.frontier.Frontier;
+import com.ewcms.crawler.crawl.crawler4j.util.IO;
 import com.ewcms.crawler.model.Gather;
 import com.ewcms.crawler.model.Domain;
 
@@ -113,7 +115,6 @@ public class EwcmsController implements EwcmsControllerable {
 			ewcmsWebCrawler.setCrawlDomains(crawlDomains);
 			ewcmsWebCrawler.setCrawlerFac(crawlerFac);
 			ewcmsWebCrawler.setGather(gather);
-			ewcmsWebCrawler.setGatherFolderPath(gatherFolderPath);
 			
 			controller.start(ewcmsWebCrawler, numberOfCrawlers);
 		}catch(IOException e){
@@ -121,6 +122,13 @@ public class EwcmsController implements EwcmsControllerable {
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
+			try{
+				File gatherFolder = new File(gatherFolderPath);
+				if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
+			}catch(Exception e){
+				
+			}
+			
 			ewcmsWebCrawler = null;
 			docIDServer = null;
 			frontier = null;
