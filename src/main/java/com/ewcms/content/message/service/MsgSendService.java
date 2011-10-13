@@ -17,10 +17,13 @@ import com.ewcms.content.message.dao.MsgContentDAO;
 import com.ewcms.content.message.dao.MsgReceiveDAO;
 import com.ewcms.content.message.dao.MsgSendDAO;
 import com.ewcms.content.message.model.MsgContent;
+import com.ewcms.content.message.model.MsgReceiveUser;
 import com.ewcms.content.message.model.MsgStatus;
 import com.ewcms.content.message.model.MsgType;
 import com.ewcms.content.message.model.MsgReceive;
 import com.ewcms.content.message.model.MsgSend;
+import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -37,29 +40,13 @@ public class MsgSendService implements MsgSendServiceable {
 	private MsgReceiveDAO msgReceiveDAO;
 	@Autowired
 	private MsgContentDAO msgContentDAO;
+	@Autowired
+	private UserServiceable userService;
 
 	@Override
 	public Long addMsgSend(MsgSend msgSend, String content, List<String> userNames) {
 		msgSend.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
 		msgSend.setStatus(MsgStatus.FAVORITE);
-		
-		if (msgSend.getType() == MsgType.GENERAL){
-			String receiveUserNames = "";
-			for (String userName : userNames){
-				MsgReceive msgReceive = new MsgReceive();
-				msgReceive.setUserName(userName);
-				msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
-				msgReceive.setStatus(MsgStatus.FAVORITE);
-				msgReceiveDAO.persist(msgReceive);
-				
-				receiveUserNames += userName + ",";
-			}
-			msgSend.setReceiveUserNames(receiveUserNames);
-		}else if (msgSend.getType() == MsgType.NOTICE){
-			msgSend.setReceiveUserNames(null);
-		}else if (msgSend.getType() == MsgType.SUBSCRIPTION){
-			msgSend.setReceiveUserNames(null);
-		}
 		MsgContent msgContent = new MsgContent();
 		msgContent.setTitle(msgSend.getTitle());
 		msgContent.setDetail(content);
@@ -67,7 +54,37 @@ public class MsgSendService implements MsgSendServiceable {
 		msgContents.add(msgContent);
 		msgSend.setMsgContents(msgContents);
 		
+		if (msgSend.getType() == MsgType.GENERAL){
+			List<MsgReceiveUser> msgReceiveUsers = new ArrayList<MsgReceiveUser>();
+			MsgReceiveUser msgReceiveUser;
+			for (String userName : userNames){
+				if (userName.equals(msgSend.getUserName())) continue;
+				msgReceiveUser = new MsgReceiveUser();
+				msgReceiveUser.setUserName(userName);
+				msgReceiveUser.setRealName(findUserRealNameByUserName(userName));
+				msgReceiveUsers.add(msgReceiveUser);
+			}
+			msgSend.setMsgReceiveUsers(msgReceiveUsers);
+		}else if (msgSend.getType() == MsgType.NOTICE){
+			msgSend.setMsgReceiveUsers(null);
+		}else if (msgSend.getType() == MsgType.SUBSCRIPTION){
+			msgSend.setMsgReceiveUsers(null);
+		}
+		
 		msgSendDAO.persist(msgSend);
+		msgSendDAO.flush(msgSend);
+		
+		if (msgSend.getType() == MsgType.GENERAL){
+			for (String userName : userNames){
+				if (userName.equals(msgSend.getUserName())) continue;
+				MsgReceive msgReceive = new MsgReceive();
+				msgReceive.setUserName(userName);
+				msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
+				msgReceive.setStatus(MsgStatus.FAVORITE);
+				msgReceive.setMsgContent(msgContent);
+				msgReceiveDAO.persist(msgReceive);
+			}		
+		}
 		
 		return msgSend.getId();
 	}
@@ -108,18 +125,15 @@ public class MsgSendService implements MsgSendServiceable {
 			
 			msgSendDAO.merge(msgSend);
 			
-			String receiveUserNames = msgSend.getReceiveUserNames();
-			String[] userNames = receiveUserNames.split(",");
-			for (String userName : userNames){
-				if (!userName.equals("")){
-					MsgReceive msgReceive = new MsgReceive();
-					msgReceive.setMsgContent(msgContent);
-					msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
-					msgReceive.setSubscription(true);
-					msgReceive.setUserName(userName);
-					msgReceive.setStatus(MsgStatus.FAVORITE);
-					msgReceiveDAO.merge(msgReceive);
-				}
+			List<MsgReceiveUser> msgReceiveUsers = msgSend.getMsgReceiveUsers();
+			for (MsgReceiveUser msgReceiveUser : msgReceiveUsers){
+				MsgReceive msgReceive = new MsgReceive();
+				msgReceive.setMsgContent(msgContent);
+				msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
+				msgReceive.setSubscription(true);
+				msgReceive.setUserName(msgReceiveUser.getUserName());
+				msgReceive.setStatus(MsgStatus.FAVORITE);
+				msgReceiveDAO.merge(msgReceive);
 			}
 			return msgSend.getId();
 		}
@@ -151,14 +165,18 @@ public class MsgSendService implements MsgSendServiceable {
 		MsgSend msgSend = msgSendDAO.get(msgSendId);
 		if (msgSend.getType() == MsgType.SUBSCRIPTION){
 			String receiveUserName = EwcmsContextUtil.getUserDetails().getUsername();
+			String realName = userService.getUserRealName();
 			String sendUserName = msgSend.getUserName();
 			if (receiveUserName.equals(sendUserName)){
 				return "own";
 			}
-			String receiveUserNames = msgSend.getReceiveUserNames();
-			if (receiveUserNames == null || receiveUserNames.indexOf(receiveUserName) <= 0){
-				receiveUserNames += "," + receiveUserName;
-				msgSend.setReceiveUserNames(receiveUserNames);
+			if (!msgSendDAO.findUserHaveSubscribedByUserName(receiveUserName)){
+				List<MsgReceiveUser> msgReceiveUsers = msgSend.getMsgReceiveUsers();
+				MsgReceiveUser msgReceiveUser = new MsgReceiveUser();
+				msgReceiveUser.setUserName(receiveUserName);
+				msgReceiveUser.setRealName(realName);
+				msgReceiveUsers.add(msgReceiveUser);
+				msgSend.setMsgReceiveUsers(msgReceiveUsers);
 				msgSendDAO.merge(msgSend);
 				return "true";
 			}else{
@@ -167,5 +185,10 @@ public class MsgSendService implements MsgSendServiceable {
 		}else{
 			return "false";
 		}
+	}
+	
+	public String findUserRealNameByUserName(String userName){
+		User user = userService.getUser(userName);
+		return user.getUserInfo().getName();
 	}
 }

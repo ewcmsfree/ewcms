@@ -32,4 +32,6 @@ public interface MsgSendServiceable {
 	public List<MsgSend> findMsgSendBySubscription();
 	
 	public String subscribeMsg(Long msgSendId);
+	
+	public String findUserRealNameByUserName(String userName);
 }

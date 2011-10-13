@@ -12,7 +12,7 @@ package com.ewcms.content.message.model;
  *
  */
 public enum MsgType {
-	GENERAL("普通"),	NOTICE("公告"),SUBSCRIPTION("订阅");
+	GENERAL("消息"),	NOTICE("公告"),SUBSCRIPTION("订阅");
 	
 	private String description;
 

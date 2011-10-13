@@ -108,4 +108,9 @@ public class MessageFac implements MessageFacable {
 	public String subscribeMsg(Long msgSendId) {
 		return msgSendService.subscribeMsg(msgSendId);
 	}
+
+	@Override
+	public String findUserRealNameByUserName(String userName) {
+		return msgSendService.findUserRealNameByUserName(userName);
+	}
 }

@@ -27,6 +27,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * 消息发送
  * 
@@ -70,8 +72,10 @@ public class MsgSend implements Serializable {
 	@JoinColumn(name = "send_id")
 	@OrderBy(value = "id Desc")
 	private List<MsgContent> msgContents = new ArrayList<MsgContent>();
-	@Column(name = "receive_username")
-	private String receiveUserNames;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MsgReceiveUser.class, orphanRemoval = true)
+	@JoinColumn(name = "send_id")
+	@OrderBy(value = "id")
+	private List<MsgReceiveUser> msgReceiveUsers = new ArrayList<MsgReceiveUser>();
 
 	public MsgSend(){
 		sendTime = new Date(Calendar.getInstance().getTime().getTime());
@@ -141,12 +145,12 @@ public class MsgSend implements Serializable {
 		this.msgContents = msgContents;
 	}
 
-	public String getReceiveUserNames() {
-		return receiveUserNames;
+	public List<MsgReceiveUser> getMsgReceiveUsers() {
+		return msgReceiveUsers;
 	}
 
-	public void setReceiveUserNames(String receiveUserNames) {
-		this.receiveUserNames = receiveUserNames;
+	public void setMsgReceiveUsers(List<MsgReceiveUser> msgReceiveUsers) {
+		this.msgReceiveUsers = msgReceiveUsers;
 	}
 
 	@Override

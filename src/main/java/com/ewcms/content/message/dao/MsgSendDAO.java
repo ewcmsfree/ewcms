@@ -25,7 +25,7 @@ public class MsgSendDAO extends JpaDAO<Long, MsgSend> {
 	
 	@SuppressWarnings("unchecked")
 	public List<MsgSend> findMsgSendByUserName(String userName){
-		String hql = "From MsgSend As s Where s.userName=?";
+		String hql = "From MsgSend As s Left Join s.msgReceiveUsers As u Where u.userName=?";
     	List<MsgSend> list = this.getJpaTemplate().find(hql, userName);
     	if (list.isEmpty()) return new ArrayList<MsgSend>();
     	return list;
@@ -33,7 +33,7 @@ public class MsgSendDAO extends JpaDAO<Long, MsgSend> {
 	
 	@SuppressWarnings("unchecked")
 	public MsgSend findMsgSendByUserNameAndId(String userName, Long msgSendId){
-		String hql = "From MsgSend As s Where s.userName=? And s.id=?";
+		String hql = "From MsgSend As s Left Join s.msgReceiveUsers Where u.userName=? And s.id=?";
     	List<MsgSend> list = this.getJpaTemplate().find(hql, userName, msgSendId);
     	if (list.isEmpty()) return new MsgSend();
     	return list.get(0);
@@ -45,5 +45,13 @@ public class MsgSendDAO extends JpaDAO<Long, MsgSend> {
 		List<MsgSend> list = this.getJpaTemplate().find(hql, msgType);
     	if (list.isEmpty()) return new ArrayList<MsgSend>();
     	return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Boolean findUserHaveSubscribedByUserName(String userName){
+		String hql = "From MsgSend As s Left Join s.msgReceiveUsers As u Where u.userName=?";
+		List<MsgSend> list = this.getJpaTemplate().find(hql, userName);
+    	if (list.isEmpty()) return false;
+    	return true;
 	}
 }

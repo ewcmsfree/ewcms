@@ -11,8 +11,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.common.query.jpa.EntityQueryable;
+import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.message.MessageFacable;
+import com.ewcms.content.message.model.ComboBox;
+import com.ewcms.content.message.model.MsgReceiveUser;
 import com.ewcms.content.message.model.MsgSend;
+import com.ewcms.content.message.model.MsgType;
+import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -28,6 +34,8 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 
 	@Autowired
 	private MessageFacable messageFac;
+	@Autowired
+	private QueryFactory queryFactory;
 	
 	private String content;
 	
@@ -63,7 +71,12 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	@Override
 	protected MsgSend getOperator(Long pk) {
 		MsgSend msgSend = messageFac.findMsgSend(pk);
-		//setContent(msgSend.getMsgContent().getDetail());
+		List<MsgReceiveUser> msgReceiveUsers = msgSend.getMsgReceiveUsers();
+		String[] receiveUserNames = new String[msgReceiveUsers.size()];
+		for (int i = 0; i < msgReceiveUsers.size(); i++){
+			receiveUserNames[i] = msgReceiveUsers.get(0).getUserName();
+		}
+		this.setReceiveUserNames(receiveUserNames);
 		return msgSend;
 	}
 
@@ -74,10 +87,18 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 
 	@Override
 	protected Long saveOperator(MsgSend vo, boolean isUpdate) {
+		List<String> userNames = new ArrayList<String>();
+		if (vo.getType() == MsgType.GENERAL){
+			for (int i = 0; i< receiveUserNames.length; i++){
+				String userName = new String();
+				userName = receiveUserNames[i];
+				userNames.add(userName);
+			}
+		}
 		if (isUpdate) {
 			return messageFac.updMsgSend(vo);
 		} else {
-			return messageFac.addMsgSend(vo, getContent(), new ArrayList<String>());
+			return messageFac.addMsgSend(vo, getContent(), userNames);
 		}
 	}
 
@@ -102,5 +123,33 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 		}else{
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
+	}
+	
+	private String[] receiveUserNames;
+	
+	public String[] getReceiveUserNames() {
+		return receiveUserNames;
+	}
+
+	public void setReceiveUserNames(String[] receiveUserNames) {
+		this.receiveUserNames = receiveUserNames;
+	}
+
+	public void userInfo(){
+		EntityQueryable query = queryFactory.createEntityQuery(User.class);
+		List<Object> resultList = query.queryResult().getResultList();
+		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
+		ComboBox comboBox = null;
+		for (Object object : resultList){
+			comboBox = new ComboBox();
+			User user = (User)object;
+			comboBox.setId(user.getUsername());
+			comboBox.setText(user.getUserInfo().getName());
+			if (getReceiveUserNames() != null && getReceiveUserNames().length > 0){
+					comboBox.setSelected(true);
+			}
+			comboBoxs.add(comboBox);
+		}
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxs.toArray(new ComboBox[0])));
 	}
 }
