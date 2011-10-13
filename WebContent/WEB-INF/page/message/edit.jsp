@@ -62,7 +62,7 @@
 				    </td>
 				</tr>
 				<tr id="trUserName">
-				    <td>用户名</td>
+				    <td>用户名：</td>
 				    <td>
 				        <input id="userInfo" name="receiveUserNames"></input>
 				    </td>
