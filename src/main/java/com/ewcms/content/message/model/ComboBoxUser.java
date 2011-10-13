@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author 吴智俊
  */
-public class ComboBox implements Serializable {
+public class ComboBoxUser implements Serializable {
 
 	private static final long serialVersionUID = -5293494898730788029L;
 	private String id;
