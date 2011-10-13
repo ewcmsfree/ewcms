@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.message.MessageFacable;
-import com.ewcms.content.message.model.ComboBox;
 import com.ewcms.content.message.model.MsgReceiveUser;
 import com.ewcms.content.message.model.MsgSend;
 import com.ewcms.content.message.model.MsgType;
@@ -22,6 +21,7 @@ import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.vo.ComboBoxUser;
 
 /**
  * 
@@ -138,18 +138,18 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	public void userInfo(){
 		EntityQueryable query = queryFactory.createEntityQuery(User.class);
 		List<Object> resultList = query.queryResult().getResultList();
-		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
-		ComboBox comboBox = null;
+		List<ComboBoxUser> comboBoxUsers = new ArrayList<ComboBoxUser>();
+		ComboBoxUser comboBoxUser = null;
 		for (Object object : resultList){
-			comboBox = new ComboBox();
+			comboBoxUser = new ComboBoxUser();
 			User user = (User)object;
-			comboBox.setId(user.getUsername());
-			comboBox.setText(user.getUserInfo().getName());
+			comboBoxUser.setId(user.getUsername());
+			comboBoxUser.setText(user.getUserInfo().getName());
 			if (getReceiveUserNames() != null && getReceiveUserNames().length > 0){
-					comboBox.setSelected(true);
+					comboBoxUser.setSelected(true);
 			}
-			comboBoxs.add(comboBox);
+			comboBoxUsers.add(comboBoxUser);
 		}
-		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxs.toArray(new ComboBox[0])));
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUser[0])));
 	}
 }
