@@ -32,6 +32,7 @@
 			
 			ewcmsBOBJ.openDataGrid('#tt',{
 				singleSelect : true,
+				nowrap: false,
                 columns:[[
 						 {field:'id',title:'编号',width:60},
 						 {field:'userName',title:'用户',hidden:true},
@@ -60,6 +61,9 @@
 				view : detailview,
 				detailFormatter : function(rowIndex, rowData) {
 					return detailGridData(rowData);
+				},
+				onExpandRow: function(index,row){  
+					$('#tt').datagrid('fixDetailRowHeight',index);  
 				}
 			});
 			initSubMenu();
@@ -89,12 +93,12 @@
 				htmls.push('<div class="datagrid-body">');
 				for ( var i = 0; i < rowData.msgContents.length; i++) {
 					htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
-									+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
+									+ '<td style="padding-left:6px; width: 20px; text-align: center;">'
 									+ (rowData.msgContents.length - i)
-									+ '</span></div></td>'
-									+ '<td><div class="datagrid-cell" style="width: 1000px; text-align: left;"><span>'
+									+ '</td>'
+									+ '<td style="padding-left:6px; width: 1000px; text-align: left;">'
 									+ rowData.msgContents[i].detail
-									+ '</span></div></td>');
+									+ '</td>');
 					if (rowData.type == 'SUBSCRIPTION'){
 						htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span>'
 									+ '<a href="javascript:void(0);" onclick="delSubscription(' + rowData.msgContents[i].id + ')" style="text-decoration:none;">删除</a>'
