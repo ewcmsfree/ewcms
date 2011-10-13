@@ -10,16 +10,7 @@
         <script type="text/javascript" src='<s:url value="/source/js/digitialspaghetti.password.min.js"/>'></script>
         <script type="text/javascript">
             $(function(){
-            <s:if test="hasActionErrors()">
-                <s:iterator value="actionErrors">  
-                $.messager.alert('错误','<s:property escape="false"/>');
-                </s:iterator>  
-            </s:if>
-            <s:if test="hasActionMessages()">
-                <s:iterator value="actionMessages">  
-                $.messager.alert('提示','<s:property escape="false"/>');
-                </s:iterator>  
-           </s:if>
+                <s:include value="../../alertMessage.jsp"/>
                 $('input[name=password]').pstrength({
                     'displayMinChar': false,
                     'minChar': 6,

@@ -13,18 +13,8 @@
     <ewcms:datepickerhead/>
     <script type="text/javascript">
         $(function(){
-            <s:if test="hasActionErrors()">
-                <s:iterator value="actionErrors">  
-                $.messager.alert('错误','<s:property escape="false"/>');
-                </s:iterator>  
-            </s:if>
-            <s:if test="hasActionMessages()">
-                <s:iterator value="actionMessages">  
-                $.messager.alert('提示','<s:property escape="false"/>');
-                </s:iterator>  
-           </s:if>
-           
-           parent.updateUsername('<s:property value="userInfo.name"/>');
+            <s:include value="../../alertMessage.jsp"/>
+            parent.updateUsername('<s:property value="userInfo.name"/>');
         });
        
        function pageSubmit(){
