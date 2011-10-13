@@ -93,5 +93,7 @@
 		</action>
 		<action name="up" class="com.ewcms.content.document.web.ReviewProcessAction" method="up"/>
 		<action name="down" class="com.ewcms.content.document.web.ReviewProcessAction" method="down"/>
+		<action name="userInfo" class="com.ewcms.content.document.web.ReviewProcessAction" method="userInfo"/>
+		<action name="groupInfo" class="com.ewcms.content.document.web.ReviewProcessAction" method="groupInfo"/>
 	</package>
 </struts>	
