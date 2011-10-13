@@ -48,7 +48,6 @@
 		                	 }
 		                 },
 		                 {field:'readTime',title:'读取时间',width:125},
-		                 {field:'statusDescription',title:'状态',width:60},
 		                 {field:'subscription',title:'订阅',width:32,
 		                	 formatter : function(val, rec) {
 				                if (val){
@@ -57,7 +56,8 @@
 				                  return "";
 				                }
 			                }
-		                 }
+		                 },
+		                 {field:'sendUserName',title:'发送用户',width:80}
                   ]]
 			});
 

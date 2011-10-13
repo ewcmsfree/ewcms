@@ -37,8 +37,17 @@
 						 {field:'userName',title:'用户',hidden:true},
 						 {field:'title',title:'标题',width:800},
 		                 {field:'sendTime',title:'发送时间',width:125},
-		                 {field:'statusDescription',title:'状态',width:100},
-		                 {field:'typeDescription',title:'类型',width:100}
+		                 {field:'typeDescription',title:'类型',width:40},
+		                 {field:'realName',title:'接收用户',width:300,
+		                	 formatter : function(val, rec) {
+		                		 var userPro = [];
+		                		 var users = rec.msgReceiveUsers
+		                		 for ( var i = 0; i < users.length; i++) {
+		                			 userPro.push(users[i].realName)
+		                		 }
+		                		 return userPro.join(",");
+		                	 }
+		                 }
                   ]]
 			});
 
@@ -172,7 +181,7 @@
         </div>
         <div id="btnSubAdd" style="width:80px;display:none;">
         	<div id="btnMsg" iconCls="" onclick="addCallBack();">消息</div>
-	        <div id="btnRec" iconCls="" onclick="addSubscription();">订阅</div>
+	        <div id="btnRec" iconCls="" onclick="addSubscription();">订阅内容</div>
 	    </div>
 	</body>
 </html>

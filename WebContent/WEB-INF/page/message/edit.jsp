@@ -10,6 +10,18 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>	
         <script type="text/javascript">
+        	$(function() {
+        		$('#userInfo').combobox({
+        			url: '<s:url namespace="/message/send" action="userInfo"/>',
+        			valueField:'id',
+        	        textField:'text',
+        			editable:false,
+        			multiple:true,
+        			cascadeCheck:false,
+        			panelWidth:200,
+        			panelHeight:60
+        		});
+        	})
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
@@ -47,8 +59,8 @@
 				    <td>
 				        <table class="formtable">
 				            <tr>
-				                <td>&nbsp;</td>
-				                <td>&nbsp;</td>
+				                <td width="15%">用户名：</td>
+				                <td width="85%"><input id="userInfo" name="receiveUserNames"></input></td>
 				            </tr>
 				        </table>
 				    </td>
