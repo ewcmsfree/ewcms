@@ -27,8 +27,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
  * 消息发送
  * 

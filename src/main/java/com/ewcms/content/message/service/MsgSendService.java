@@ -170,7 +170,7 @@ public class MsgSendService implements MsgSendServiceable {
 			if (receiveUserName.equals(sendUserName)){
 				return "own";
 			}
-			if (!msgSendDAO.findUserHaveSubscribedByUserName(receiveUserName)){
+			if (!msgSendDAO.findUserHaveSubscribedByUserName(msgSendId, receiveUserName)){
 				List<MsgReceiveUser> msgReceiveUsers = msgSend.getMsgReceiveUsers();
 				MsgReceiveUser msgReceiveUser = new MsgReceiveUser();
 				msgReceiveUser.setUserName(receiveUserName);
