@@ -25,6 +25,7 @@
 		<action name="query" class="com.ewcms.content.message.web.MsgSendQueryAction" method="query"/>
 		<action name="notice" class="com.ewcms.content.message.web.MsgSendAction" method="notice"/>
 		<action name="subscription" class="com.ewcms.content.message.web.MsgSendAction" method="subscription"/>
+		<action name="userInfo" class="com.ewcms.content.message.web.MsgSendAction" method="userInfo"/>
 	</package>
 	<package name="message.receive" extends="struts-default" namespace="/message/receive">
 		<action name="index">
