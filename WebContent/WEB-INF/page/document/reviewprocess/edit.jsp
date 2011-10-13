@@ -10,6 +10,28 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>	
         <script type="text/javascript">
+    	$(function() {
+    		$('#userInfo').combobox({
+    			url: '<s:url namespace="/document/reviewprocess" action="userInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
+    			valueField:'id',
+    	        textField:'text',
+    			editable:false,
+    			multiple:true,
+    			cascadeCheck:false,
+    			panelWidth:200,
+    			panelHeight:100
+    		});
+    		$('#groupInfo').combobox({
+    			url: '<s:url namespace="/document/reviewprocess" action="groupInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
+    			valueField:'id',
+    	        textField:'text',
+    			editable:false,
+    			multiple:true,
+    			cascadeCheck:false,
+    			panelWidth:200,
+    			panelHeight:100
+    		});
+    	})
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
@@ -30,8 +52,20 @@
 						<s:fielderror ><s:param value="%{'reviewProcessVo.name'}" /></s:fielderror>
 					</td>
 				</tr>
+				<tr>
+					<td>用户名：</td>
+					<td>
+						<input id="userInfo" name="reviewUserNames"></input>
+					</td>
+				</tr>
+				<tr>
+					<td>用户组：</td>
+					<td>
+						<input id="groupInfo" name="reviewGroupNames"></input>
+					</td>
+				</tr>
 			</table>
-			<s:hidden name="reviewProcessVo.id"/>
+			<s:hidden id="processId" name="reviewProcessVo.id"/>
 			<s:hidden name="reviewProcessVo.channelId"/>
 			<s:hidden name="channelId"/>
             <s:iterator value="selections" var="id">

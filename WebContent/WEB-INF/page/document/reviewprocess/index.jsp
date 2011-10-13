@@ -34,10 +34,28 @@
 			ewcmsBOBJ.openDataGrid('#tt',{
 				singleSelect:true,
                 columns:[[
-						{field:'id',title:'编号',width:50,sortable:true},
+						 {field:'id',title:'编号',width:50,sortable:true},
 		                 {field:'name',title:'名称',width:200},
-		                 {field:'userName',title:'用户',width:100},
-		                 {field:'userGroup',title:'用户组',width:100}
+		                 {field:'realName',title:'用户',width:300,
+		                	 formatter : function(val, rec) {
+		                		 var userPro = [];
+		                		 var reviewUsers = rec.reviewUsers;
+		                		 for (var i = 0; i < reviewUsers.length; i++) {
+		                			 userPro.push(reviewUsers[i].realName)
+		                		 }
+		                		 return userPro.join(",");
+		                	 }
+		               	 },
+		                 {field:'groupNames',title:'用户组',width:300,
+		               		 formatter : function(val, rec){
+		                		 var groupPro = [];
+		                		 var reviewGroups = rec.reviewGroups;
+		                		 for ( var i = 0; i < reviewGroups.length; i++) {
+		                			 groupPro.push(reviewGroups[i].groupName)
+		                		 }
+		                		 return groupPro.join(",");
+		               		 }
+		                 }
                   ]]
 			});
 
