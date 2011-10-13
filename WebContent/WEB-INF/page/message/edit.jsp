@@ -30,6 +30,13 @@
 		     	</s:if>  
 			}
             <s:property value="javaScript"/>
+            function selType(obj){
+            	if (obj.value != 'GENERAL'){
+            		$('#trUserName').hide();
+            	}else{
+            		$('#trUserName').show();
+            	}
+            }
         </script>		
 	</head>
 	<body onload="tipMessage();">
@@ -51,18 +58,13 @@
 				<tr>
 				    <td>类型：</td>
 				    <td>
-				        <s:select list="@com.ewcms.content.message.model.MsgType@values()" listValue="description" name="msgSendVo.type" id="type"></s:select>  
+				        <s:select list="@com.ewcms.content.message.model.MsgType@values()" listValue="description" name="msgSendVo.type" id="type" onchange="selType(this);"></s:select>  
 				    </td>
 				</tr>
 				<tr id="trUserName">
-				    <td>&nbsp;</td>
+				    <td>用户名</td>
 				    <td>
-				        <table class="formtable">
-				            <tr>
-				                <td width="15%">用户名：</td>
-				                <td width="85%"><input id="userInfo" name="receiveUserNames"></input></td>
-				            </tr>
-				        </table>
+				        <input id="userInfo" name="receiveUserNames"></input>
 				    </td>
 				</tr>
 			</table>

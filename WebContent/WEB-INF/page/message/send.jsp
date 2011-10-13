@@ -128,6 +128,7 @@
 				$.messager.alert('提示','只能是订阅的记录才能再新增订阅内容','info');
 				return;
 			}
+			initSubMenu();
 		}
 		function delSubscription(id){
 			var url = '<s:url namespace="/message/content" action="delete"/>';
