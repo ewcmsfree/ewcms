@@ -61,4 +61,21 @@ public class ReviewProcessDAO extends JpaDAO<Long, ReviewProcess> {
 		if (list.isEmpty()) return null;
 		return list.get(0);
 	}
+	
+    @SuppressWarnings("unchecked")
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName){
+    	String hql = "Select p From ReviewProcess As p Left Join p.reviewUsers As u Where p.id=? And u.userName=?";
+    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, reviewProcessId, userName);
+    	if (list.isEmpty()) return false;
+    	return true;
+    }
+
+    @SuppressWarnings("unchecked")
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName){
+    	String hql = "Select p From ReviewProcess As p Left Join p.reviewGroups As g Where p.id=? And g.groupName=?";
+    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, reviewProcessId, goupName);
+    	if (list.isEmpty()) return false;
+    	return true;
+    }
+
 }

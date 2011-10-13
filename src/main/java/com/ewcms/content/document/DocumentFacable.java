@@ -280,17 +280,21 @@ public interface DocumentFacable {
 	 * 
 	 * @param channelId 频道编号
 	 * @param reviewProcess 审核流程对象
+	 * @param userNames 用户名集合
+	 * @param groupNames 用户组集合
 	 * @return Long 审核流程编号
 	 */
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess);
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames);
 	
 	/**
 	 * 修改审核流程
 	 * 
 	 * @param reviewProcess 审核流程对象
+	 * @param userNames 用户名集合
+	 * @param groupNames 用户组集合
 	 * @return Long 审核流程编号
 	 */
-	public Long updReviewProcess(ReviewProcess reviewProcess);
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames);
 	
 	/**
 	 * 删除审核流程
@@ -346,4 +350,8 @@ public interface DocumentFacable {
 	 * @return Long 个数
 	 */
 	public Long findReviewProcessCountByChannel(Integer channelId);
+	
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName);
+
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName);
 }

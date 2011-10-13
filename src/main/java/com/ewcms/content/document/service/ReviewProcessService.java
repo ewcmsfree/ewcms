@@ -6,24 +6,35 @@
 
 package com.ewcms.content.document.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.dao.ReviewProcessDAO;
+import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
+import com.ewcms.content.document.model.ReviewUser;
+import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.service.UserServiceable;
 
 @Service
 public class ReviewProcessService implements ReviewProcessServiceable {
 
 	@Autowired
 	private ReviewProcessDAO reviewProcessDAO;
+	@Autowired
+	private UserServiceable userService;
+	
 	
 	@Override
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess) {
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
 		List<ReviewProcess> vos = reviewProcessDAO.findReviewProcessByChannel(channelId);
 		reviewProcess.setChannelId(channelId);
+		
+		setUpReviewUserAndGroup(reviewProcess, userNames, groupNames);
+		
 		if (vos == null){
 			reviewProcess.setPrevProcess(null);
 			reviewProcessDAO.persist(reviewProcess);
@@ -125,7 +136,8 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	}
 
 	@Override
-	public Long updReviewProcess(ReviewProcess reviewProcess) {
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+		setUpReviewUserAndGroup(reviewProcess, userNames, groupNames);
 		reviewProcessDAO.merge(reviewProcess);
 		return reviewProcess.getId();
 	}
@@ -150,4 +162,42 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 		return reviewProcessDAO.findReviewProcessCountByChannel(channelId);
 	}
 
+	private void setUpReviewUserAndGroup(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames){
+		
+		List<ReviewGroup> reviewGroups = new ArrayList<ReviewGroup>();
+		ReviewGroup reviewGroup;
+		for (String groupName : groupNames){
+			reviewGroup = new ReviewGroup();
+			reviewGroup.setGroupName(groupName);
+			reviewGroups.add(reviewGroup);
+		}
+		reviewProcess.setReviewGroups(reviewGroups);
+		
+		List<ReviewUser> reviewUsers = new ArrayList<ReviewUser>();
+		ReviewUser reviewUser;
+		for (String userName : userNames){
+			reviewUser = new ReviewUser();
+			reviewUser.setUserName(userName);
+			reviewUser.setRealName(findUserRealNameByUserName(userName));
+			reviewUsers.add(reviewUser);
+		}
+		reviewProcess.setReviewUsers(reviewUsers);
+	}
+	
+	private String findUserRealNameByUserName(String userName){
+		User user = userService.getUser(userName);
+		return user.getUserInfo().getName();
+	}
+
+	@Override
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(
+			Long reviewProcessId, String userName) {
+		return reviewProcessDAO.findReviewUserIsEntityByProcessIdAndUserName(reviewProcessId, userName);
+	}
+
+	@Override
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(
+			Long reviewProcessId, String goupName) {
+		return reviewProcessDAO.findReviewGroupIsEntityByProcessIdAndUserName(reviewProcessId, goupName);
+	}
 }

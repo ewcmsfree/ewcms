@@ -187,7 +187,7 @@ public class MsgSendService implements MsgSendServiceable {
 		}
 	}
 	
-	public String findUserRealNameByUserName(String userName){
+	private String findUserRealNameByUserName(String userName){
 		User user = userService.getUser(userName);
 		return user.getUserInfo().getName();
 	}

@@ -7,6 +7,8 @@
 package com.ewcms.content.document.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -51,10 +55,14 @@ public class ReviewProcess implements Serializable {
 	private Integer channelId;
 	@Column(name = "name", nullable = false)
 	private String name;
-	@Column(name = "username")
-	private String userName;
-	@Column(name = "usergroup")
-	private String userGroup;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ReviewUser.class, orphanRemoval = true)
+	@JoinColumn(name = "process_id")
+	@OrderBy(value = "id")
+	private List<ReviewUser> reviewUsers = new ArrayList<ReviewUser>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ReviewGroup.class, orphanRemoval = true)
+	@JoinColumn(name = "process_id")
+	@OrderBy(value = "id")
+	private List<ReviewGroup> reviewGroups = new ArrayList<ReviewGroup>();
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = ReviewProcess.class)
 	@JoinColumn(name = "next_id")
 	private ReviewProcess nextProcess;
@@ -86,20 +94,20 @@ public class ReviewProcess implements Serializable {
 		this.name = name;
 	}
 
-	public String getUserName() {
-		return userName;
+	public List<ReviewUser> getReviewUsers() {
+		return reviewUsers;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setReviewUsers(List<ReviewUser> reviewUsers) {
+		this.reviewUsers = reviewUsers;
 	}
 
-	public String getUserGroup() {
-		return userGroup;
+	public List<ReviewGroup> getReviewGroups() {
+		return reviewGroups;
 	}
 
-	public void setUserGroup(String userGroup) {
-		this.userGroup = userGroup;
+	public void setReviewGroups(List<ReviewGroup> reviewGroups) {
+		this.reviewGroups = reviewGroups;
 	}
 
 	public ReviewProcess getNextProcess() {

@@ -258,8 +258,8 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess) {
-		return reviewProcessService.addReviewProcess(channelId, reviewProcess);
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+		return reviewProcessService.addReviewProcess(channelId, reviewProcess, userNames, groupNames);
 	}
 
 	@Override
@@ -278,8 +278,8 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Long updReviewProcess(ReviewProcess reviewProcess) {
-		return reviewProcessService.updReviewProcess(reviewProcess);
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+		return reviewProcessService.updReviewProcess(reviewProcess, userNames, groupNames);
 	}
 
 	@Override
@@ -300,5 +300,15 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public Long findReviewProcessCountByChannel(Integer channelId) {
 		return reviewProcessService.findReviewProcessCountByChannel(channelId);
+	}
+
+	@Override
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName) {
+		return reviewProcessService.findReviewUserIsEntityByProcessIdAndUserName(reviewProcessId, userName);
+	}
+
+	@Override
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName) {
+		return reviewProcessService.findReviewGroupIsEntityByProcessIdAndUserName(reviewProcessId, goupName);
 	}
 }

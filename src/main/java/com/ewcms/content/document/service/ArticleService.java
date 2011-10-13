@@ -143,7 +143,6 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			
 			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "文章已被修改。", "", userService.getUserRealName());
 			
-			article.setCategories(article_old.getCategories());
 			article.setRelations(article_old.getRelations());
 			article.setOperateTracks(article_old.getOperateTracks());
 			

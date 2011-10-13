@@ -58,7 +58,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 	private Date modified;
 	private String published;
 	private Integer[] categories;
-	private List<Integer> selCategories = new ArrayList<Integer>();
+//	private List<Integer> selCategories = new ArrayList<Integer>();
 
 	public Long getArticleMainId() {
 		return articleMainId;
@@ -108,13 +108,13 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 		this.categories = categories;
 	}
 
-	public List<Integer> getSelCategories() {
-		return selCategories;
-	}
-
-	public void setSelCategories(List<Integer> selCategories) {
-		this.selCategories = selCategories;
-	}
+//	public List<Integer> getSelCategories() {
+//		return selCategories;
+//	}
+//
+//	public void setSelCategories(List<Integer> selCategories) {
+//		this.selCategories = selCategories;
+//	}
 
 	public Article getArticleVo() {
 		return super.getVo();

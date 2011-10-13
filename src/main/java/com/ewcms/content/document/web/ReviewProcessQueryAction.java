@@ -62,8 +62,8 @@ public class ReviewProcessQueryAction extends QueryBaseAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("id", reviewProcess.getId());
 			map.put("name", reviewProcess.getName());
-			map.put("userGroup", reviewProcess.getUserGroup());
-			map.put("userName", reviewProcess.getUserName());
+			map.put("reviewGroups", reviewProcess.getReviewGroups());
+			map.put("reviewUsers", reviewProcess.getReviewUsers());
 			listValues.add(map);
 			reviewProcess = reviewProcess.getNextProcess();
 		}

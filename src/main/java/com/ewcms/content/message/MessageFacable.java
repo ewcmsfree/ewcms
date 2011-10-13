@@ -45,6 +45,4 @@ public interface MessageFacable {
 	public void readMsgReceive(Long msgReceiveId);
 	
 	public String subscribeMsg(Long msgSendId);
-	
-	public String findUserRealNameByUserName(String userName);
 }

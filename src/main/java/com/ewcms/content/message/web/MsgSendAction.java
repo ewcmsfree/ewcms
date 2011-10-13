@@ -21,7 +21,7 @@ import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
-import com.ewcms.web.vo.ComboBoxUser;
+import com.ewcms.web.vo.ComboBoxUserAndGroup;
 
 /**
  * 
@@ -74,7 +74,7 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 		List<MsgReceiveUser> msgReceiveUsers = msgSend.getMsgReceiveUsers();
 		String[] receiveUserNames = new String[msgReceiveUsers.size()];
 		for (int i = 0; i < msgReceiveUsers.size(); i++){
-			receiveUserNames[i] = msgReceiveUsers.get(0).getUserName();
+			receiveUserNames[i] = msgReceiveUsers.get(i).getUserName();
 		}
 		this.setReceiveUserNames(receiveUserNames);
 		return msgSend;
@@ -90,8 +90,7 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 		List<String> userNames = new ArrayList<String>();
 		if (vo.getType() == MsgType.GENERAL){
 			for (int i = 0; i< receiveUserNames.length; i++){
-				String userName = new String();
-				userName = receiveUserNames[i];
+				String userName = receiveUserNames[i];
 				userNames.add(userName);
 			}
 		}
@@ -138,10 +137,10 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	public void userInfo(){
 		EntityQueryable query = queryFactory.createEntityQuery(User.class);
 		List<Object> resultList = query.queryResult().getResultList();
-		List<ComboBoxUser> comboBoxUsers = new ArrayList<ComboBoxUser>();
-		ComboBoxUser comboBoxUser = null;
+		List<ComboBoxUserAndGroup> comboBoxUsers = new ArrayList<ComboBoxUserAndGroup>();
+		ComboBoxUserAndGroup comboBoxUser = null;
 		for (Object object : resultList){
-			comboBoxUser = new ComboBoxUser();
+			comboBoxUser = new ComboBoxUserAndGroup();
 			User user = (User)object;
 			comboBoxUser.setId(user.getUsername());
 			comboBoxUser.setText(user.getUserInfo().getName());
@@ -150,6 +149,6 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 			}
 			comboBoxUsers.add(comboBoxUser);
 		}
-		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUser[0])));
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUserAndGroup[0])));
 	}
 }
