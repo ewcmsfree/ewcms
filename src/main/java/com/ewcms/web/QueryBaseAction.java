@@ -31,7 +31,7 @@ import com.ewcms.web.vo.DataGrid;
 /**
  * 查询显示
  *
- * <p>用于页面查询显示，查询结果�?过JSON数据格式返回，数据格式针对Jquery easyUI DataGrid</p>
+ * <p>用于页面查询显示，查询结果�?过JSON数据格式返回，数据格式针对Jquery easyUI DataGrid</p>
  *
  * @author wangwei
  */
@@ -89,8 +89,9 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     protected abstract Resultable queryResult(QueryFactory queryFactory,String cacheKey,int rows,int page,Order order);
 
     /**
-     * 查询选定的记�?     * 
-     * <p>通过用户编号(PK)查询选定的记录，�?��用于添加、修改查询显示，不应使用Cache查询�?/p>
+     * 查询选定的记录
+     * 
+     * <p>通过用户编号(PK)查询选定的记录，一般用于添加、修改查询显示，不应使用Cache查询。</p>
      * 
      * @param queryFactory 数据查询工厂
      * @param rows 行数
@@ -104,7 +105,7 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     /**
      * 创建DataGrid VO
      * 
-     * <p>生成前台显示数据值对�?/p>
+     * <p>生成前台显示数据值对象</p>
      * 
      * @param result 查询结果
      * @return DataGrid
@@ -134,20 +135,24 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 得到指定参数值，构�?查询使用�?     *
+     * 得到指定参数值，构造查询使用。
+     *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
-     * @param name 参数名（parameters中的名称�?     * @return
+     * @param type 类型类（如:Integer.class,Date.class)
+     * @param name 参数名（parameters中的名称）
+     * @return
      */
     protected <I> I getParameterValue(final Class<I> type, final String name) {
         return getParameterValue(type, name, null, null);
     }
 
     /**
-     * 得到指定参数值，构�?查询使用�?     *
+     * 得到指定参数值，构造查询使用。
+     *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
-     * @param name 参数名（parameters中的名称�?     * @param msg  错误提示信息
+     * @param type 类型类（如:Integer.class,Date.class)
+     * @param name 参数名（parameters中的名称）
+     * @param msg  错误提示信息
      * @return
      */
     protected <I> I getParameterValue(final Class<I> type, final String name, final String msg) {
@@ -155,11 +160,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 得到指定参数值，参数不存在返回缺省�?，构造查询使用�?
+     * 得到指定参数值，参数不存在返回缺省值，构造查询使用。
      *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
-     * @param name 参数名（parameters中的名称�?     * @param defaultValue 缺省�?     * @param msg 错误提示信息
+     * @param type 类型类（如:Integer.class,Date.class)
+     * @param name 参数名（parameters中的名称）
+     * @param defaultValue 缺省值
+     * @param msg 错误提示信息
      * @return
      */
     protected <I> I getParameterValue(final Class<I> type, final String name, final I defaultValue, final String msg) {
@@ -184,12 +191,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 得到指定参数集合，构造查询使用�?<br/>
-     * 使用缺省的分割符�?,"
+     * 得到指定参数集合，构造查询使用。<br/>
+     * 使用缺省的分割符号","
      * 
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
-     * @param name 参数名（parameters中的名称�?     * @param msg 错误提示信息
+     * @param type 类型类（如:Integer.class,Date.class)
+     * @param name 参数名（parameters中的名称）
+     * @param msg 错误提示信息
      * @return
      */
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String name, final String msg) {
@@ -197,11 +205,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 指定字符分割符号，得到指定参数集合，构�?查询使用�?     *
+     * 指定字符分割符号，得到指定参数集合，构造查询使用。
+     *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
+     * @param type 类型类（如:Integer.class,Date.class)
      * @param regex 分割符号
-     * @param name 参数名（parameters中的名称�?     * @param msg 错误提示信息
+     * @param name 参数名（parameters中的名称）
+     * @param msg 错误提示信息
      * @return
      */
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String regex, final String name, final String msg) {
@@ -209,10 +219,13 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 得到指定参数集合，参数不存在返回缺省值，构�?查询使用�?     *
+     * 得到指定参数集合，参数不存在返回缺省值，构造查询使用。
+     *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
-     * @param name 参数名（parameters中的名称�?     * @param defaultValue 缺省�?     * @param msg 错误提示信息
+     * @param type 类型类（如:Integer.class,Date.class)
+     * @param name 参数名（parameters中的名称）
+     * @param defaultValue 缺省值
+     * @param msg 错误提示信息
      * @return
      */
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String name, final List<I> defaultValue, final String msg) {
@@ -220,12 +233,14 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 指定字符分割符号，得到指定参数集合，参数不存在返回缺省�?，构造查询使用�?
+     * 指定字符分割符号，得到指定参数集合，参数不存在返回缺省值，构造查询使用。
      *
      * @param <I>  类型
-     * @param type 类型类（�?Integer.class,Date.class)
+     * @param type 类型类（如:Integer.class,Date.class)
      * @param regex 分割符号
-     * @param name 参数名（parameters中的名称�?     * @param defaultValue 缺省�?     * @param msg 错误提示信息
+     * @param name 参数名（parameters中的名称）
+     * @param defaultValue 缺省值
+     * @param msg 错误提示信息
      * @return
      */
     protected <I> List<I> getParameterArrayValue(final Class<I> type, final String regex, final String name, final List<I> defaultValue, final String msg) {
@@ -246,9 +261,12 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 字符串数组转换成指定类型的集�?     * 
+     * 字符串数组转换成指定类型的集合
+     * 
      * @param <I>  类型
-     * @param type 类型�?     * @param values 转换字符串数�?     * @return
+     * @param type 类型类
+     * @param values 转换字符串数组
+     * @return
      * @throws ConvertException
      */
     protected <I> List<I> convertArray(final Class<I> type, final String[] values) throws ConvertException {
@@ -270,9 +288,11 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
 
     /**
-     * 得到查询编号（PK）集�?     * 
+     * 得到查询编号（PK）集合
+     * 
      * @param <I> 编号类型
-     * @param type 编号类型类（如：Integer.class,Date.class�?     * @return
+     * @param type 编号类型类（如：Integer.class,Date.class）
+     * @return
      */
     protected <I> List<I> getIds(final Class<I> type) {
         try {
@@ -317,7 +337,8 @@ public abstract class QueryBaseAction extends EwcmsBaseAction {
     }
     
     /**
-     * 选择显示的记�?     *
+     * 选择显示的记录
+     *
      * @param selections 记录PK集合
      */
     public void setSelections(final String[] selections) {

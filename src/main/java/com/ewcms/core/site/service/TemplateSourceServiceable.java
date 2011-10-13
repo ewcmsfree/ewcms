@@ -39,7 +39,7 @@ public interface TemplateSourceServiceable extends TemplateSourcePublishServicea
 	
 
 	/**
-	 * 获取站点专栏资源根目�?
+	 * 获取站点专栏资源根目录
 	 * 
 	 */    
     public TemplateSource channelSRCRoot();

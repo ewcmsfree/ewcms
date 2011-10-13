@@ -32,7 +32,7 @@ import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
- * @author 周冬�?
+ * @author 周冬初
  * 
  */
 @Service
@@ -75,8 +75,8 @@ public class ChannelService implements ChannelServiceable{
      * TODO 说明原因
      * 
      * @param id 频道编号 
-     * @param publicenable 是否发布(true:只显示发布的子频�?false:显示�?��子频道）
-     * @return 子频道集�?
+     * @param publicenable 是否发布(true:只显示发布的子频道,false:显示所有子频道）
+     * @return 子频道集合
      */
     public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable) {
         List<ChannelNode> nodes = new ArrayList<ChannelNode>();
@@ -96,7 +96,7 @@ public class ChannelService implements ChannelServiceable{
      * 
      * @param channel 站点专栏
      * @param createCommon 创建通用权限(true:创建通用权限)
-     * @param inherit 继承父站点专栏权�?
+     * @param inherit 继承父站点专栏权限
      */
     private void initAclOfChannel(final Channel channel,final boolean createCommon,final boolean inherit){
         Map<Sid,Permission> sidPermissions = new LinkedHashMap<Sid,Permission>();
@@ -122,9 +122,9 @@ public class ChannelService implements ChannelServiceable{
     }
     
     /**
-     * 得到顶级站点专栏（根站点专栏�?
+     * 得到顶级站点专栏（根站点专栏）
      * 
-     * 顶级站点专栏不存在，则创建顶级站点专栏�?
+     * 顶级站点专栏不存在，则创建顶级站点专栏。
      * 
      * @return channel
      */
@@ -151,7 +151,7 @@ public class ChannelService implements ChannelServiceable{
     /**
      * 创建站点专栏.
      * 
-     * @param parentId 父栏目编�?
+     * @param parentId 父栏目编号.
      * @param name 栏目名称.
      * 
      * @return 频道编号
@@ -168,7 +168,7 @@ public class ChannelService implements ChannelServiceable{
     }
 
     /**
-     * 重命名站点专�?
+     * 重命名站点专栏.
      */
     public void renameChannel(Integer id, String name) {
         Channel vo = getChannel(id);
@@ -188,7 +188,7 @@ public class ChannelService implements ChannelServiceable{
     /**
      * 更新子站点专栏AbsUrl和PubPath
      * 
-     * 当前站点专栏的目�?dir)�?url)发生改变,则子站点专栏的absUrl和pubPath也要发生改变�?
+     * 当前站点专栏的目录(dir)和(url)发生改变,则子站点专栏的absUrl和pubPath也要发生改变。
      * 
      * @param channel 站点专栏
      */

@@ -23,7 +23,7 @@ import freemarker.template.TemplateModel;
 /**
  * 序号标签
  * <br>
- * 显示文章列表序号或频道列表序�? * 
+ * 显示文章列表序号或频道列表序号
  * @author wangwei
  */
 public class IndexDirective implements TemplateDirectiveModel {

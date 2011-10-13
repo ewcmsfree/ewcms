@@ -58,7 +58,7 @@ public interface SiteServiceable extends SitePublishServiceable {
 	public List<TreeNode> getCustomerSiteTreeList(Integer parentId);	
 	
 	/**
-	 * 获取子站�?
+	 * 获取子站点.
 	 */
 	public List<TreeNode> getSiteChildren(Integer parentId, Integer organId);
 }

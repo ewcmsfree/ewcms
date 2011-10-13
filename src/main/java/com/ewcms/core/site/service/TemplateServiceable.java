@@ -44,7 +44,7 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
 	 */ 	
 	public List<Template> getTemplaeTreeList(Integer parentId,String channelName);
 	/**
-	 * 获取站点专栏模板根目�?
+	 * 获取站点专栏模板根目录
 	 * 
 	 */    
     public Template channelTPLRoot();

@@ -35,16 +35,16 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	     * TODO 说明原因
 	     * 
 	     * @param id 频道编号 
-	     * @param publicenable 是否发布(true:只显示发布的子频�?false:显示�?��子频道）
-	     * @return 子频道集�?
+	     * @param publicenable 是否发布(true:只显示发布的子频道,false:显示所有子频道）
+	     * @return 子频道集合
 	     */
 	    public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable);
 	  
 	    
 	    /**
-	     * 得到顶级站点专栏（根站点专栏�?
+	     * 得到顶级站点专栏（根站点专栏）
 	     * 
-	     * 顶级站点专栏不存在，则创建顶级站点专栏�?
+	     * 顶级站点专栏不存在，则创建顶级站点专栏。
 	     * 
 	     * @return channel
 	     */
@@ -54,7 +54,7 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	    /**
 	     * 创建站点专栏.
 	     * 
-	     * @param parentId 父栏目编�?
+	     * @param parentId 父栏目编号.
 	     * @param name 栏目名称.
 	     * 
 	     * @return 频道编号
@@ -62,7 +62,7 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	    public Integer addChannel(Integer parentId, String name);
 
 	    /**
-	     * 重命名站点专�?
+	     * 重命名站点专栏.
 	     */
 	    public void renameChannel(Integer id, String name);
 
