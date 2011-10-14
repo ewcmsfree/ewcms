@@ -3,7 +3,6 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-
 package com.ewcms.content.notes.util;
 
 import java.util.Calendar;
@@ -49,38 +48,38 @@ public class Lunar {
 			0x0d250, 0x0d520, 0x0dd45, 0x0b5a0, 0x056d0, 0x055b2, 0x049b0,
 			0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0 };
 
-	private static String[] Gan = { "�?, "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�? };
+	private static String[] Gan = { "甲", "乙", "丙", "丁", "戊", "己", "庚", "辛",
+			"壬", "癸" };
 
-	private static String[] Zhi = { "�?, "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�?, "�?, "�? };
+	private static String[] Zhi = { "子", "丑", "寅", "卯", "辰", "巳", "午", "未",
+			"申", "酉", "戌", "亥" };
 
-	private static String[] Animals = { "�?, "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�?, "�?, "�? };
+	private static String[] Animals = { "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊",
+			"猴", "鸡", "狗", "猪" };
 
-	private static String[] nStr1 = { "�?, "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�?, "�? };
+	private static String[] nStr1 = { "日", "一", "二", "三", "四", "五", "六", "七",
+			"八", "九", "十" };
 
-	private static String[] nStr2 = { "�?, "�?, "�?, "�?, "�? };
+	private static String[] nStr2 = { "初", "十", "廿", "卅", "　" };
 
-	private static String[] monthNong = { "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�?, "�?, "�?, "十一", "十二" };
+	private static String[] monthNong = { "正", "正", "二", "三", "四", "五", "六",
+			"七", "八", "九", "十", "十一", "十二" };
 
-	private static String[] yearName = { "�?, "�?, "�?, "�?, "�?, "�?, "�?,
-			"�?, "�?, "�? };
+	private static String[] yearName = { "零", "壹", "贰", "叁", "肆", "伍", "陆",
+			"柒", "捌", "玖" };
 
 	public Lunar() {
 	}
 
-	// 农历 y年的总天�?
+	// 农历 y年的总天数
 	private static int lYearDays(int y) {
 		int i;
 		int sum = 348; // 29*12
 		for (i = 0x8000; i > 0x8; i >>= 1) {
 			// OurLog.debug("i="+i);
-			sum += (lunarInfo[y - 1900] & i) == 0 ? 0 : 1; // 大月+1�?
+			sum += (lunarInfo[y - 1900] & i) == 0 ? 0 : 1; // 大月+1天
 		}
-		return (sum + leapDays(y)); // +闰月的天�?
+		return (sum + leapDays(y)); // +闰月的天数
 	}
 
 	// 农历 y年闰月的天数
@@ -91,30 +90,30 @@ public class Lunar {
 			return (0);
 	}
 
-	// 农历 y年闰哪个�?1-12 , 没闰传回 0
+	// 农历 y年闰哪个月 1-12 , 没闰传回 0
 	private static int leapMonth(int y) {
 		return (lunarInfo[y - 1900] & 0xf);
 	}
 
-	// 农历 y年m月的总天�?
+	// 农历 y年m月的总天数
 	private static int monthDays(int y, int m) {
 		return ((lunarInfo[y - 1900] & (0x10000 >> m)) == 0 ? 29 : 30);
 	}
 
 	// 算出农历, 传入日期物件, 返回农历日期物件
-	// 属�?�?.year .month .day .isLeap .yearCyl .dayCyl .monCyl
+	// 属性有 .year .month .day .isLeap .yearCyl .dayCyl .monCyl
 	private static void Lunar1(Date objDate) {
 		int i, leap = 0, temp = 0;
 		// int monCyl,dayCyl,yearCyl;
 		// int year,month,day;
 		// boolean isLeap;
 		Calendar cl = Calendar.getInstance();
-		cl.set(1900, 0, 31); // 1900-01-31是农�?900年正月初�?
+		cl.set(1900, 0, 31); // 1900-01-31是农历1900年正月初一
 		Date baseDate = cl.getTime();
-		// 1900-01-31是农�?900年正月初�?
+		// 1900-01-31是农历1900年正月初一
 		int offset = (int) ((objDate.getTime() - baseDate.getTime()) / 86400000); // 天数(86400000=24*60*60*1000)
 		// System.out.println(offset);
-		dayCyl = offset + 40; // 1899-12-21是农�?899年腊月甲子日
+		dayCyl = offset + 40; // 1899-12-21是农历1899年腊月甲子日
 		monCyl = 14; // 1898-10-01是农历甲子月
 		// 得到年数
 		for (i = 1900; i < 2050 && offset > 0; i++) {
@@ -128,7 +127,7 @@ public class Lunar {
 			monCyl -= 12;
 		}
 		year = i; // 农历年份
-		yearCyl = i - 1864; // 1864年是甲子�?
+		yearCyl = i - 1864; // 1864年是甲子年
 		leap = leapMonth(i); // 闰哪个月
 		isLeap = false;
 		for (i = 1; i < 13 && offset > 0; i++) {
@@ -245,13 +244,13 @@ public class Lunar {
 
 		// 日期
 		Lunar1(sDObj); // 农历
-		s = "农历 " + "�? + Animals[sy] + "�? + cYear(getYear()) + "�? + " ";
+		s = "农历 " + "【" + Animals[sy] + "】" + cYear(getYear()) + "年" + " ";
 
-		s += (getIsLeap() ? "�? : "") + monthNong[getMonth()] + "�?
-				+ (monthDays(getYear(), getMonth()) == 29 ? "�? : "�?);
+		s += (getIsLeap() ? "闰" : "") + monthNong[getMonth()] + "月"
+				+ (monthDays(getYear(), getMonth()) == 29 ? "小" : "大");
 		s += cDay(getDay()) + " ";
-		s += cyclical(getYearCyl()) + "�? + cyclical(getMonCyl()) + "�?
-				+ cyclical(getDayCyl()) + "�?;
+		s += cyclical(getYearCyl()) + "年" + cyclical(getMonCyl()) + "月"
+				+ cyclical(getDayCyl()) + "日";
 		return s;
 	}
 
@@ -262,7 +261,7 @@ public class Lunar {
 		Lunar1(sDObj);
 		String dayValue = cDay(getDay());
 		if (dayValue.equals("初一"))
-			return monthNong[getMonth()] + "�?;
+			return monthNong[getMonth()] + "月";
 		return dayValue;
 	}
 }
