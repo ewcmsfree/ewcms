@@ -67,7 +67,7 @@
 				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template"/>');
 			});			
 			function editTPL(idValue){
-				top.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
+				top._home.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
 			}	
 
 			function previewTPL(idValue){
