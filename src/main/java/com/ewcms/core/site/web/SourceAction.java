@@ -245,10 +245,13 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 						byte[] buffer = new byte[Integer.parseInt(String
 								.valueOf(ze.getSize()))];
 						in.read(buffer);
+						
 						TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
 						tplEntityVo.setSrcEntity(buffer);
 						vo.setSourceEntity(tplEntityVo);
 						siteFac.addTemplateSource(vo);
+						buffer=null;
+						in.close();
 					}
 					zfile.close();
 				} else {

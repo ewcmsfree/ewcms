@@ -11,7 +11,7 @@
 
  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
      <property name="driverClass" value="org.postgresql.Driver" />
-     <property name="jdbcUrl" value="jdbc:postgresql://192.168.18.1/ewcms1" />
+     <property name="jdbcUrl" value="jdbc:postgresql://192.168.18.1/ewcmstest" />
      <property name="user" value="postgres" />
      <property name="password" value="" />
      <property name="initialPoolSize" value="5" />

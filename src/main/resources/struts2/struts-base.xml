@@ -10,7 +10,10 @@
             <result>/WEB-INF/page/home.jsp</result>
         </action>
         <action name="siteload" class="com.ewcms.web.HomeAction" method="siteLoad"/>
-        	
+        <action name="siteswitch">
+            <result>/WEB-INF/page/siteswitch.jsp</result>
+        </action>
+                	
         <action name="login">
             <result>/WEB-INF/page/login.jsp</result>
         </action>
