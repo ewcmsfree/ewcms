@@ -38,10 +38,14 @@ public class SubjectItemService implements SubjectItemServiceable {
 		Assert.notNull(subject);
 		List<SubjectItem> subjectItems = subject.getSubjectItems();
 		subjectItem.setSort(maxSort + 1);
+		
+		subjectItemDAO.persist(subjectItem);
+		subjectItemDAO.flush(subjectItem);
+		
 		subjectItems.add(subjectItem);
 		subject.setSubjectItems(subjectItems);
+		
 		subjectDAO.merge(subject);
-		subjectDAO.flush(subject);
 		return subjectItem.getId();
 	}
 
@@ -55,7 +59,6 @@ public class SubjectItemService implements SubjectItemServiceable {
 		subjectItems.remove(subjectItem);
 		subject.setSubjectItems(subjectItems);
 		subjectDAO.merge(subject);
-		
 	}
 
 	@Override

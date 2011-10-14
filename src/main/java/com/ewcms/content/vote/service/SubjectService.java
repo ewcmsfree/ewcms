@@ -39,10 +39,15 @@ public class SubjectService implements SubjectServiceable {
 		Assert.notNull(questionnaire);
 		List<Subject> subjects = questionnaire.getSubjects();
 		subject.setSort(maxSort + 1);
+		
+		subjectDAO.persist(subject);
+		subjectDAO.flush(subject);
+		
 		subjects.add(subject);
 		questionnaire.setSubjects(subjects);
+		
 		questionnaireDAO.merge(questionnaire);
-		questionnaireDAO.flush(questionnaire);
+		
 		return subject.getId();
 	}
 
