@@ -23,7 +23,8 @@
                 _home.init({
                     user:'<s:url action="user" namespace="/account"/>',
                     password:'<s:url action="password" namespace="/account"/>',
-                    exit:'<s:url value="/logout.do"/>'
+                    exit:'<s:url value="/logout.do"/>',
+                    siteswitch:'<s:url action="siteswitch"/>'
                 });
                 
                 $('#pp').portal({
@@ -75,7 +76,7 @@
                   </div>
              </div>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
-                <div  iconCls="icon-switch">站点切换...</div>
+                <div  id="switch-menu" iconCls="icon-switch">站点切换</div>
                 <div class="menu-sep"></div>
                 <div id="user-menu" iconCls="icon-edit">修改用户信息</div>
                 <div id="password-menu" iconCls="icon-password">修改密码</div>
@@ -242,10 +243,10 @@
         <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false" style="padding: 10px;">
-                    <iframe name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
+                    <iframe id="editifr" name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
-                <div region="south" border="false" style="padding-right:20px;text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['editifr'].pageSubmit();">保存</a>
+                <div region="south" border="false" style="padding-right:20px;text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['editifr'].pageSubmit();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#edit-window').window('close');">取消</a>
                 </div>
             </div>
