@@ -57,6 +57,9 @@ home.prototype.init = function(urls){
     $('#password-menu').bind('click',function(){
         openWindow(windowId,{width:550,height:230,title:'修改密码',url:urls.password}); 
     });
+    $('#switch-menu').bind('click',function(){
+        openWindow(windowId,{width:550,height:230,title:'站点切换',url:urls.siteswitch,iframeID:'#editifr'}); 
+    });      
     $('#exit-menu').bind('click',function(){
         window.location = urls.exit;
     });
@@ -195,10 +198,6 @@ home.prototype.getTipMessage=function(url){
 
 home.prototype.setTipInterval=function(tipInterval){
     this._tipInterval = tipInterval;
-}
-
-home.prototype.siteLoad = function(id,url){
-    window.location = url + '?siteId=' + siteId;
 }
 
 function showRecord(url, id){
