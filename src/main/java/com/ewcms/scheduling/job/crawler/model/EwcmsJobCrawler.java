@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.scheduling.job.crawler.model;
 
 import javax.persistence.CascadeType;
