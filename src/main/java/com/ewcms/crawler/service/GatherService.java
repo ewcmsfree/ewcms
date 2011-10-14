@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.crawler.BaseException;
+import com.ewcms.crawler.dao.DomainDAO;
 import com.ewcms.crawler.dao.GatherDAO;
 import com.ewcms.crawler.model.FilterBlock;
 import com.ewcms.crawler.model.Gather;
@@ -33,6 +34,8 @@ public class GatherService implements GatherServiceable {
 
 	@Autowired
 	private GatherDAO gatherDAO;
+	@Autowired
+	private DomainDAO domainDAO;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
 	
@@ -72,22 +75,24 @@ public class GatherService implements GatherServiceable {
 		Assert.notNull(gather);
 		
 		if (domain.getId() == null){
-			Boolean unique = gatherDAO.findDomainUniqueUrlByGatherId(gatherId, domain.getUrl());
+			Boolean unique = domainDAO.findDomainUniqueUrlByGatherId(gatherId, domain.getUrl());
 			if (!unique){
 				throw new BaseException("不能设置相同的URL地址","不能设置相同的URL地址");
 			}
 		}
 		
-		Long maxLevel = gatherDAO.findMaxDomainByGatherId(gatherId);
+		Long maxLevel = domainDAO.findMaxDomainByGatherId(gatherId);
 		maxLevel++;
 		domain.setLevel(maxLevel);
+		
+		domainDAO.persist(domain);
+		domainDAO.flush(domain);
 		
 		List<Domain> domains = gather.getDomains();
 		domains.add(domain);
 		gather.setDomains(domains);
 		
 		gatherDAO.merge(gather);
-		gatherDAO.flush(gather);
 		
 		return domain.getId();
 	}
@@ -97,7 +102,7 @@ public class GatherService implements GatherServiceable {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain domain = gatherDAO.findDomainById(domainId);
+		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
 		List<Domain> domains = gather.getDomains();
@@ -111,7 +116,7 @@ public class GatherService implements GatherServiceable {
 
 	@Override
 	public Domain findDomain(Long domainId) {
-		return gatherDAO.findDomainById(domainId);
+		return domainDAO.findDomainById(domainId);
 	}
 
 	@Override
@@ -119,7 +124,7 @@ public class GatherService implements GatherServiceable {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain domain = gatherDAO.findDomainById(domainId);
+		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
 		List<Domain> domains = gather.getDomains();
@@ -148,7 +153,7 @@ public class GatherService implements GatherServiceable {
 		Gather gather = gatherDAO.get(gatherId);
 		Assert.notNull(gather);
 		
-		Domain domain = gatherDAO.findDomainById(domainId);
+		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
 		List<Domain> domains = gather.getDomains();
