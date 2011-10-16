@@ -109,7 +109,7 @@ home.prototype.getNotice = function(url,detailUrl){
     			var noticesHtml = '<div class="t-list"><table width="100%">';
     			var pro = [];
         		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="77%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
+        			pro.push('<tr><td width="70%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;" alt="' + message[i].title + '"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="10%">[' + message[i].userName + ']' + '</td><td width="20%" align="right">' + message[i].sendTime + '</td></tr>');
         		}
         		var html = pro.join("");
         		noticesHtml += html + '</table></div>'
@@ -145,7 +145,7 @@ home.prototype.getSubscription = function(url, detailUrl){
     			var subscriptionHtml = '<div class="t-list"><table width="100%">';
     			var pro = [];
         		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="77%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="7%">[' + message[i].userName + ']' + '</td><td width="16%" align="right">' + message[i].sendTime + '</td></tr>');
+        			pro.push('<tr><td width="70%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="10%">[' + message[i].userName + ']' + '</td><td width="20%" align="right">' + message[i].sendTime + '</td></tr>');
         		}
         		var html = pro.join("");
         		subscriptionHtml += html + '</table></div>'
