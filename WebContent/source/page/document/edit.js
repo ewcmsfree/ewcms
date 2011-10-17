@@ -376,6 +376,7 @@ function saveArticle(){
 		$("#articleSubTitle").attr("value","");
 		$("#articleSubTitleStyle").attr("value","");
 	}
+	loadingEnable();
 	var params=$('#articleSave').serialize();
 	$.post("save.do" ,params ,function(data){
 		if (data == "false"){
@@ -396,6 +397,7 @@ function saveArticle(){
 			$.messager.alert('提示','文章保存成功','info');
 		}
 	});
+	loadingDisable();
 }
 //提交审核文章
 function submitReview(url, channelId, articleMainId){
@@ -735,4 +737,12 @@ function ewcmsCookiesInit(){
 			$('#trShowHide_' + i).hide();
 		}
 	}
+}
+function loadingEnable(){
+   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
+   $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+}
+function loadingDisable(){
+   $('.datagrid-mask-msg').remove();
+   $('.datagrid-mask').remove();
 }

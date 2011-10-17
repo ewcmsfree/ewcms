@@ -61,7 +61,7 @@ $(function() {
 							return rec.article.title + classValue;
 						}
 					},
-					{field : 'owner',title : '创建者',width : 80,formatter : function(val, rec) {return rec.article.owner;}}, 
+					//{field : 'owner',title : '创建者',width : 80,formatter : function(val, rec) {return rec.article.owner;}}, 
 					{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
 					{field : 'published',title : '发布时间',width : 125,formatter : function(val, rec) {return rec.article.published;}}, 
 					{field : 'modified',title : '修改时间',width : 125,formatter : function(val, rec) {return rec.article.modified;}}, 
@@ -605,13 +605,13 @@ function detailGridData(operateTracks){
 	if (operateTracks.length == 0) {
 		htmls.push('<div style="padding:5px 0">没有操作记录!</div>');
 	} else {
-		htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
-		htmls.push('<div class="datagrid-header-inner" style="display: block;">');
-		htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
-		htmls.push('<tr style="height: 21px">');
+		htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:21px;">');
+		htmls.push('<div style="float:left;display: block;">');
+		htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 22px;">');
+		htmls.push('<tr>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>姓名</span></div></td>');
+		//htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
+		htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>操作员</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
 		htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
@@ -633,9 +633,9 @@ function detailGridData(operateTracks){
 							+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
 							+ (operateTracks.length - i)
 							+ '</span></div></td>'
-							+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
-							+ operateTracks[i].userName
-							+ '</span></div></td>'
+							//+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
+							//+ operateTracks[i].userName
+							//+ '</span></div></td>'
 							+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
 							+ userRealName
 							+ '</span></div></td>'
