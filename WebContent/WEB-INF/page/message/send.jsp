@@ -4,13 +4,13 @@
 <html>
 	<head>
 		<title>发件箱</title>	
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/datagrid-detailview.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/ext/datagrid-detailview.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script>
@@ -78,13 +78,13 @@
 				htmls.push('<div style="padding:5px 0">没有内容记录!</div>');
 			} else {
 				htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:22px;">');
-				htmls.push('<div class="datagrid-header-inner" style="display: block;">');
+				htmls.push('<div style="float:left;display: block;">');
 				htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 23px;">');
 				htmls.push('<tr style="height: 21px">');
-				htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
-				htmls.push('<td><div class="datagrid-cell" style="width: 1000px; text-align: left;"><span>内容</span></div></td>');
+				htmls.push('<td><div style="margin: 0;overflow: hidden; padding: 3px 4px; word-wrap: normal; width: 20px; text-align: center;"><span></span><span class="datagrid-sort-icon">&nbsp;</span></div></td>');
+				htmls.push('<td><div style="margin: 0;overflow: hidden; padding: 3px 4px; word-wrap: normal; width: 1000px; text-align: left;"><span>内容</span><span class="datagrid-sort-icon">&nbsp;</span></div></td>');
 				if (rowData.type == 'SUBSCRIPTION'){
-					htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span></span></div></td>');
+					htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span></span><span class="datagrid-sort-icon">&nbsp;</span></div></td>');
 				}
 				htmls.push('</tr>');
 				htmls.push('</table>');
@@ -93,11 +93,15 @@
 				htmls.push('<div class="datagrid-body">');
 				for ( var i = 0; i < rowData.msgContents.length; i++) {
 					htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
-									+ '<td style="padding-left:6px; width: 20px; text-align: center;">'
+									+ '<td>'
+									+ '<div style="margin: 0;overflow: hidden; padding: 3px 4px; word-wrap: normal; width: 20px; text-align: center;">'
 									+ (rowData.msgContents.length - i)
 									+ '</td>'
-									+ '<td style="padding-left:6px; width: 1000px; text-align: left;">'
+									+ '</div>'
+									+ '<td>'
+									+ '<div style="margin: 0;overflow: hidden; padding: 3px 4px; word-wrap: normal; width: 1000px; text-align: left;">'
 									+ rowData.msgContents[i].detail
+									+ '</div>'
 									+ '</td>');
 					if (rowData.type == 'SUBSCRIPTION'){
 						htmls.push('<td><div class="datagrid-cell" style="width: 24px; text-align: center;"><span>'

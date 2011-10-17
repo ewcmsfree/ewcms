@@ -9,14 +9,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>文档编辑：</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/theme/default/easyui.css'/>"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/theme/icon.css'/>"/>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/source/easyui/themes/default/easyui.css'/>"/>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/source/easyui/themes/icon.css'/>"/>
 		<link rel="stylesheet" type="text/css" href="<s:url value='/source/css/ewcms.css'/>" />
 		<link rel="stylesheet" type="text/css" href="<s:url value='/source/page/document/article.css'/>" />
 		<script type="text/javascript" src="<s:url value='/source/js/jquery.min.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/js/jquery.cookies.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/tiny_mce_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config.js'/>"></script>
