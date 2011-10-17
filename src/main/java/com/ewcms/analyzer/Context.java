@@ -20,6 +20,7 @@ import com.ewcms.analyzer.seg.ISegmenter;
  * @author 吴智俊
  */
 public class Context{
+	
 	//是否使用最大词长切分（粗粒度）
 	private boolean isMaxWordLength = false;	
     //记录Reader内已分析的字串总长度
@@ -291,8 +292,9 @@ public class Context{
 				Lexeme another = one.getNext();
 				do{
 					if(one.isOverlap(another) 
-							&& Lexeme.TYPE_CJK_NORMAL == one.getLexemeType()
-							&& Lexeme.TYPE_CJK_NORMAL == another.getLexemeType()){
+							//&& Lexeme.TYPE_CJK_NORMAL == one.getLexemeType()
+							//&& Lexeme.TYPE_CJK_NORMAL == another.getLexemeType()
+							){
 						//邻近的两个词元完全交叠,且均为词典内的词语
 						another = another.getNext();
 						//从链表中断开交叠的词元

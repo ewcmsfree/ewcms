@@ -30,15 +30,15 @@ import com.ewcms.analyzer.help.CharacterHelper;
 public class QuantifierSegmenter implements ISegmenter {
 
 	//阿拉伯数词前缀（货币符号）
-	public static String Arabic_Num_Pre = "-+$￥";//Apre
-	private static Set<Character> ArabicNumPreChars = new HashSet<Character>();
-	static{
-		char[] ca = Arabic_Num_Pre.toCharArray();
-		for(char nChar : ca){
-			ArabicNumPreChars.add(nChar);
-		}
-	}
-	public static final int NC_ANP = 01;	
+//	public static String Arabic_Num_Pre = "-+$￥";//Apre
+//	private static Set<Character> ArabicNumPreChars = new HashSet<Character>();
+//	static{
+//		char[] ca = Arabic_Num_Pre.toCharArray();
+//		for(char nChar : ca){
+//			ArabicNumPreChars.add(nChar);
+//		}
+//	}
+//	public static final int NC_ANP = 01;	
 	//阿拉伯数字0-9
 	public static final int NC_ARABIC = 02;
 	//阿拉伯数词链接符号
@@ -51,13 +51,13 @@ public class QuantifierSegmenter implements ISegmenter {
 		}
 	}
 	public static final int NC_ANM = 03;
-	//阿拉伯数词后缀
-	public static String Arabic_Num_End = "%‰";//Aend
-	public static final int NC_ANE = 04;
+//	//阿拉伯数词后缀
+//	public static String Arabic_Num_End = "%‰";//Aend
+//	public static final int NC_ANE = 04;
 	
-	//中文序数词（数词前缀）
-	public static String Chn_Num_Pre = "第";//Cpre
-	public static final int NC_CNP = 11;
+	//序数词（数词前缀）
+	public static String Num_Pre = "第";//Cpre
+	public static final int NC_NP = 11;
 	//中文数词
 	public static String Chn_Num = "○一二两三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千万亿拾佰仟萬億兆卅廿";//Cnum
 	private static Set<Character> ChnNumberChars = new HashSet<Character>();
@@ -71,27 +71,28 @@ public class QuantifierSegmenter implements ISegmenter {
 	//中文数词连接符
 	public static String Chn_Num_Mid = "点";//Cmid
 	public static final int NC_CNM = 13;
-	//中文约数词（数词结尾）
-	public static String Chn_Num_End = "几多余半";//Cend
-	private static Set<Character> ChnNumEndChars = new HashSet<Character>();
-	static{
-		char[] ca = Chn_Num_End.toCharArray();
-		for(char nChar : ca){
-			ChnNumEndChars.add(nChar);
-		}
-	}
-	public static final int NC_CNE = 14;
 	
-	//GB库中的罗马字符(起始、中间、结束)
-	public static String Rome_Num = "ⅠⅡⅢⅣⅤⅥⅧⅨⅩⅪ"; //Rnum
-	private static Set<Character> RomeNumChars = new HashSet<Character>();
+	//约数词（数词结尾）
+	public static String Num_End = "几多余半";//Cend
+	private static Set<Character> NumEndChars = new HashSet<Character>();
 	static{
-		char[] ca = Rome_Num.toCharArray();
+		char[] ca = Num_End.toCharArray();
 		for(char nChar : ca){
-			RomeNumChars.add(nChar);
+			NumEndChars.add(nChar);
 		}
 	}
-	public static final int NC_ROME = 22;
+	public static final int NC_NE = 14;
+	
+//	//GB库中的罗马字符(起始、中间、结束)
+//	public static String Rome_Num = "ⅠⅡⅢⅣⅤⅥⅧⅨⅩⅪ"; //Rnum
+//	private static Set<Character> RomeNumChars = new HashSet<Character>();
+//	static{
+//		char[] ca = Rome_Num.toCharArray();
+//		for(char nChar : ca){
+//			RomeNumChars.add(nChar);
+//		}
+//	}
+//	public static final int NC_ROME = 22;
 
 	//非数词字符
 	public static final int NaN = -99;
@@ -101,20 +102,20 @@ public class QuantifierSegmenter implements ISegmenter {
 	static{
 		char[] ca = null;
 		
-		AllNumberChars.addAll(ArabicNumPreChars);
-		
+//		AllNumberChars.addAll(ArabicNumPreChars);
+
 		for(char nChar = '0' ; nChar <='9' ; nChar++ ){
 			AllNumberChars.add(nChar);
 		}
 		
 		AllNumberChars.addAll(ArabicNumMidChars);
 		
-		ca = Arabic_Num_End.toCharArray();
-		for(char nChar : ca){
-			AllNumberChars.add(nChar);
-		}
+//		ca = Arabic_Num_End.toCharArray();
+//		for(char nChar : ca){
+//			AllNumberChars.add(nChar);
+//		}
 		
-		ca = Chn_Num_Pre.toCharArray();
+		ca = Num_Pre.toCharArray();
 		for(char nChar : ca){
 			AllNumberChars.add(nChar);
 		}
@@ -126,9 +127,9 @@ public class QuantifierSegmenter implements ISegmenter {
 			AllNumberChars.add(nChar);
 		}
 
-		AllNumberChars.addAll(ChnNumEndChars);
+		AllNumberChars.addAll(NumEndChars);
 		
-		AllNumberChars.addAll(RomeNumChars);
+//		AllNumberChars.addAll(RomeNumChars);
 		
 	}
 	
@@ -195,7 +196,7 @@ public class QuantifierSegmenter implements ISegmenter {
 			//量词处理
 			processCount(segmentBuff , context);
 		}
-		
+
 		//判断是否锁定缓冲区
 		if(this.nStart == -1 && this.nEnd == -1 && NaN == this.nStatus
 				&& this.countStart == -1 && this.countEnd == -1){
@@ -219,9 +220,9 @@ public class QuantifierSegmenter implements ISegmenter {
 			//当前的分词器尚未开始处理字符
 			onNaNStatus(inputStatus , context);
 			
-		}else if(NC_ANP == nStatus){ 
-			//当前为阿拉伯数字前缀	
-			onANPStatus(inputStatus , context);
+//		}else if(NC_ANP == nStatus){ 
+//			//当前为阿拉伯数字前缀	
+//			onANPStatus(inputStatus , context);
 			
 		}else if(NC_ARABIC == nStatus){
 			//当前为阿拉伯数字
@@ -231,13 +232,13 @@ public class QuantifierSegmenter implements ISegmenter {
 			//当前为阿拉伯数字链接符
 			onANMStatus(inputStatus , context);
 			
-		}else if(NC_ANE == nStatus){
-			//当前为阿拉伯数字结束符
-			onANEStatus(inputStatus , context);
+//		}else if(NC_ANE == nStatus){
+//			//当前为阿拉伯数字结束符
+//			onANEStatus(inputStatus , context);
 			
-		}else if(NC_CNP == nStatus){
+		}else if(NC_NP == nStatus){
 			//当前为中文数字前缀
-			onCNPStatus(inputStatus , context);
+			onNPStatus(inputStatus , context);
 			
 		}else if(NC_CHINESE == nStatus){
 			//当前为中文数字
@@ -247,13 +248,13 @@ public class QuantifierSegmenter implements ISegmenter {
 			//当前为中文数字连接符
 			onCNMStatus(inputStatus , context);
 			
-		}else if(NC_CNE == nStatus){
+		}else if(NC_NE == nStatus){
 			//当前为中文数字结束符
 			onCNEStatus(inputStatus , context);
 			
-		}else if(NC_ROME == nStatus){
-			//当前为罗马数字
-			onROMEStatus(inputStatus , context);			
+//		}else if(NC_ROME == nStatus){
+//			//当前为罗马数字
+//			onROMEStatus(inputStatus , context);			
 			
 		}
 		
@@ -277,7 +278,7 @@ public class QuantifierSegmenter implements ISegmenter {
 		if(NaN == inputStatus){
 			return;
 			
-		}else if(NC_CNP == inputStatus){//中文数词前缀
+		}else if(NC_NP == inputStatus){//中文数词前缀
 			//记录起始位置
 			nStart = context.getCursor();
 			//记录当前的字符状态
@@ -291,7 +292,7 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录可能的结束位置
 			nEnd = context.getCursor();
 			
-		}else if(NC_CNE == inputStatus){//中文数词后缀
+		}else if(NC_NE == inputStatus){//中文数词后缀
 			//记录起始位置
 			nStart = context.getCursor();
 			//记录当前的字符状态
@@ -299,11 +300,11 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录可能的结束位置
 			nEnd = context.getCursor();
 			
-		}else if(NC_ANP == inputStatus){//阿拉伯数字前缀
-			//记录起始位置
-			nStart = context.getCursor();
-			//记录当前的字符状态
-			nStatus = inputStatus;
+//		}else if(NC_ANP == inputStatus){//阿拉伯数字前缀
+//			//记录起始位置
+//			nStart = context.getCursor();
+//			//记录当前的字符状态
+//			nStatus = inputStatus;
 			
 		}else if(NC_ARABIC == inputStatus){//阿拉伯数字
 			//记录起始位置
@@ -313,13 +314,13 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录可能的结束位置
 			nEnd = context.getCursor();
 			
-		}else if(NC_ROME == inputStatus){//罗马数字
-			//记录起始位置
-			nStart = context.getCursor();
-			//记录当前的字符状态
-			nStatus = inputStatus;
-			//记录可能的结束位置
-			nEnd = context.getCursor();	
+//		}else if(NC_ROME == inputStatus){//罗马数字
+//			//记录起始位置
+//			nStart = context.getCursor();
+//			//记录当前的字符状态
+//			nStatus = inputStatus;
+//			//记录可能的结束位置
+//			nEnd = context.getCursor();	
 		
 		}else{
 			//对NC_ANM ，NC_ANE和NC_CNM 不做处理
@@ -332,23 +333,23 @@ public class QuantifierSegmenter implements ISegmenter {
 	 * @param inputStatus
 	 * @param context
 	 */
-	private void onANPStatus(int inputStatus ,  Context context){
-		if(NC_ARABIC == inputStatus){//阿拉伯数字
-			//记录当前的字符状态
-			nStatus = inputStatus;
-			//记录可能的结束位置
-			nEnd = context.getCursor();
-			
-		}else{
-			//输出可能的数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
-			//进入初始态进行处理
-			onNaNStatus(inputStatus , context);
-			
-		}
-	}
+//	private void onANPStatus(int inputStatus ,  Context context){
+//		if(NC_ARABIC == inputStatus){//阿拉伯数字
+//			//记录当前的字符状态
+//			nStatus = inputStatus;
+//			//记录可能的结束位置
+//			nEnd = context.getCursor();
+//			
+//		}else{
+//			//输出可能的数词
+//			outputNumLexeme(context);
+//			//重置数词状态
+//			nReset();
+//			//进入初始态进行处理
+//			onNaNStatus(inputStatus , context);
+//			
+//		}
+//	}
 	
 	
 	/**
@@ -366,15 +367,26 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录当前的字符状态
 			nStatus = inputStatus;
 			
-		}else if(NC_ANE == inputStatus){//阿拉伯数字后缀
-			//记录当前的字符状态
-			nStatus = inputStatus;
+//		}else if(NC_ANE == inputStatus){//阿拉伯数字后缀
+//			//记录当前的字符状态
+//			nStatus = inputStatus;
+//			//记录可能的结束位置
+//			nEnd = context.getCursor();
+//			//输出数词
+//			outputNumLexeme(context);
+//			//重置数词状态
+//			nReset();
+		}else if(NC_CHINESE == inputStatus){//中文数字
 			//记录可能的结束位置
 			nEnd = context.getCursor();
-			//输出数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
+			//记录当前的字符状态
+			nStatus = inputStatus;
+			
+		}else if(NC_NE == inputStatus){//约数词
+			//记录可能的结束位置
+			nEnd = context.getCursor();
+			//记录当前的字符状态
+			nStatus = inputStatus;
 			
 		}else{
 			//输出数词
@@ -400,9 +412,9 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录可能的结束位置
 			nEnd = context.getCursor();
 			
-		}else if (NC_ANP == inputStatus){//阿拉伯数字前缀
-			//记录当前的字符状态
-			nStatus = inputStatus;
+//		}else if (NC_ANP == inputStatus){//阿拉伯数字前缀
+//			//记录当前的字符状态
+//			nStatus = inputStatus;
 			
 		}else{
 			//输出可能存在的数词
@@ -421,53 +433,45 @@ public class QuantifierSegmenter implements ISegmenter {
 	 * @param inputStatus
 	 * @param context
 	 */
-	private void onANEStatus(int inputStatus ,  Context context){
-		//输出可能存在的数词
-		outputNumLexeme(context);
-		//重置数词状态
-		nReset();
-		//进入初始态进行处理
-		onNaNStatus(inputStatus , context);
-				
-	}	
+//	private void onANEStatus(int inputStatus ,  Context context){
+//		//输出可能存在的数词
+//		outputNumLexeme(context);
+//		//重置数词状态
+//		nReset();
+//		//进入初始态进行处理
+//		onNaNStatus(inputStatus , context);
+//				
+//	}	
 	
 	
 	/**
-	 *  当前为CNP状态时，状态机的处理(状态转换)
+	 *  当前为NP状态时，状态机的处理(状态转换)
 	 * @param inputStatus
 	 * @param context
 	 */
-	private void onCNPStatus(int inputStatus ,  Context context){
+	private void onNPStatus(int inputStatus ,  Context context){
 		if(NC_CHINESE == inputStatus){//中文数字
 			//记录可能的结束位置
-			nEnd = context.getCursor() - 1;
-			//输出可能存在的数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
-			//进入初始态进行处理
-			onNaNStatus(inputStatus , context);			
+			nEnd = context.getCursor();
+			//记录当前的字符状态
+			nStatus = inputStatus;
 
 			
 		}else if(NC_ARABIC == inputStatus){//阿拉伯数字
 			//记录可能的结束位置
-			nEnd = context.getCursor() - 1;
-			//输出可能存在的数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
-			//进入初始态进行处理
-			onNaNStatus(inputStatus , context);	
+			nEnd = context.getCursor();
+			//记录当前的字符状态
+			nStatus = inputStatus;
 			
-		}else if(NC_ROME == inputStatus){//罗马数字
-			//记录可能的结束位置
-			nEnd = context.getCursor() - 1;
-			//输出可能存在的数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
-			//进入初始态进行处理
-			onNaNStatus(inputStatus , context);	
+//		}else if(NC_ROME == inputStatus){//罗马数字
+//			//记录可能的结束位置
+//			nEnd = context.getCursor() - 1;
+//			//输出可能存在的数词
+//			outputNumLexeme(context);
+//			//重置数词状态
+//			nReset();
+//			//进入初始态进行处理
+//			onNaNStatus(inputStatus , context);	
 			
 		}else{
 			//重置数词状态
@@ -492,7 +496,7 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录当前的字符状态
 			nStatus = inputStatus;
 			
-		}else if(NC_CNE == inputStatus){//中文数字结束符
+		}else if(NC_NE == inputStatus){//中文数字结束符
 			//记录当前的字符状态
 			nStatus = inputStatus;
 			//记录可能的结束位置
@@ -521,7 +525,7 @@ public class QuantifierSegmenter implements ISegmenter {
 			//记录可能的结束位置
 			nEnd = context.getCursor();
 			
-		}else if(NC_CNE == inputStatus){//中文数字结束符
+		}else if(NC_NE == inputStatus){//中文数字结束符
 			//记录当前的字符状态
 			nStatus = inputStatus;
 			//记录可能的结束位置
@@ -558,21 +562,21 @@ public class QuantifierSegmenter implements ISegmenter {
 	 * @param inputStatus
 	 * @param context
 	 */
-	private void onROMEStatus(int inputStatus ,  Context context){
-		if(NC_ROME == inputStatus){//罗马数字
-			//记录可能的结束位置
-			nEnd = context.getCursor();
-			
-		}else{//其他输入
-			//输出可能存在的数词
-			outputNumLexeme(context);
-			//重置数词状态
-			nReset();
-			//进入初始态进行处理
-			onNaNStatus(inputStatus , context);
-			
-		}
-	}
+//	private void onROMEStatus(int inputStatus ,  Context context){
+//		if(NC_ROME == inputStatus){//罗马数字
+//			//记录可能的结束位置
+//			nEnd = context.getCursor();
+//			
+//		}else{//其他输入
+//			//输出可能存在的数词
+//			outputNumLexeme(context);
+//			//重置数词状态
+//			nReset();
+//			//进入初始态进行处理
+//			onNaNStatus(inputStatus , context);
+//			
+//		}
+//	}
 	
 	/**
 	 * 添加数词词元到结果集
@@ -630,27 +634,27 @@ public class QuantifierSegmenter implements ISegmenter {
 		}else if(ChnNumberChars.contains(input)){
 			type = NC_CHINESE;
 			
-		}else if(Chn_Num_Pre.indexOf(input) >= 0){
-			type = NC_CNP;
+		}else if(Num_Pre.indexOf(input) >= 0){
+			type = NC_NP;
 			
 		}else if(Chn_Num_Mid.indexOf(input) >= 0){
 			type = NC_CNM;
 			
-		}else if(ChnNumEndChars.contains(input)){
-			type = NC_CNE;
+		}else if(NumEndChars.contains(input)){
+			type = NC_NE;
 			
-		}else if(ArabicNumPreChars.contains(input)){
-			type = NC_ANP;
+//		}else if(ArabicNumPreChars.contains(input)){
+//			type = NC_ANP;
 			
 		}else if(ArabicNumMidChars.contains(input)){
 			type = NC_ANM;
 			
-		}else if(Arabic_Num_End.indexOf(input) >= 0){
-			type = NC_ANE;
-			
-		}else if(RomeNumChars.contains(input)){
-			type = NC_ROME;
-			
+//		}else if(Arabic_Num_End.indexOf(input) >= 0){
+//			type = NC_ANE;
+//			
+//		}else if(RomeNumChars.contains(input)){
+//			type = NC_ROME;
+
 		}
 		return type;
 	}
@@ -713,5 +717,4 @@ public class QuantifierSegmenter implements ISegmenter {
 		countStart = -1;
 		countEnd = -1;
 	}
-
 }

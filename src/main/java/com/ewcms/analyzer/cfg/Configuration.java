@@ -113,10 +113,10 @@ public class Configuration {
 		List<ISegmenter> segmenters = new ArrayList<ISegmenter>(4);
 		//处理数量词的子分词器
 		segmenters.add(new QuantifierSegmenter());
-		//处理字母的子分词器
-		segmenters.add(new LetterSegmenter()); 
 		//处理中文词的子分词器
 		segmenters.add(new CJKSegmenter());
+		//处理字母的子分词器
+		segmenters.add(new LetterSegmenter()); 
 		return segmenters;
 	}
 }

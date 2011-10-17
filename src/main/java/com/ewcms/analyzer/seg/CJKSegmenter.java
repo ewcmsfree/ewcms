@@ -6,7 +6,7 @@
 
 package com.ewcms.analyzer.seg;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.ewcms.analyzer.Context;
@@ -39,7 +39,8 @@ public class CJKSegmenter implements ISegmenter {
 	
 	public CJKSegmenter(){
 		doneIndex = -1;
-		hitList = new ArrayList<Hit>();
+		//hitList = new ArrayList<Hit>();
+		hitList = new LinkedList<Hit>();
 	}
 	
 	/* (non-Javadoc)
@@ -55,7 +56,7 @@ public class CJKSegmenter implements ISegmenter {
 				//处理词段队列
 				Hit[] tmpArray = hitList.toArray(new Hit[hitList.size()]);
 				for(Hit hit : tmpArray){
-					hit = Dictionary.matchInMainDictWithHit(segmentBuff, context.getCursor() , hit);
+					hit = Dictionary.matchWithHit(segmentBuff, context.getCursor() , hit);
 					
 					if(hit.isMatch()){//匹配成词
 						//判断是否有不可识别的词段

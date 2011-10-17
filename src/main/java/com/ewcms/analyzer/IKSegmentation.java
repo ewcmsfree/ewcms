@@ -74,8 +74,8 @@ public final class IKSegmentation{
                 return null;
             }else{
             	//分词处理
-        		int buffIndex = 0;
-        		for( ; buffIndex < available ;  buffIndex++){
+        		int analyzedLength = 0;
+        		for(int buffIndex = 0 ; buffIndex < available ;  buffIndex++){
         			//移动缓冲区指针
         			context.setCursor(buffIndex);
         			//进行字符规格化（全角转半角，大写转小写处理）
@@ -84,6 +84,7 @@ public final class IKSegmentation{
         			for(ISegmenter segmenter : segmenters){
         				segmenter.nextLexeme(segmentBuff , context);
         			}
+        			analyzedLength++;
         			/*
         			 * 满足一下条件时，
         			 * 1.available == BUFF_SIZE 表示buffer满载
@@ -105,9 +106,9 @@ public final class IKSegmentation{
 				}
         		//System.out.println(available + " : " +  buffIndex);
             	//记录最近一次分析的字符长度
-        		context.setLastAnalyzed(buffIndex);
+        		context.setLastAnalyzed(analyzedLength);
             	//同时累计已分析的字符长度
-        		context.setBuffOffset(context.getBuffOffset() + buffIndex);
+        		context.setBuffOffset(context.getBuffOffset() + analyzedLength);
         		//如果使用最大切分，则过滤交叠的短词元
         		if(context.isMaxWordLength()){
         			context.excludeOverlap();
