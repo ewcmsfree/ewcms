@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleOperateTrack;
-import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * 
@@ -18,10 +17,10 @@ import com.ewcms.web.util.EwcmsContextUtil;
  */
 public class OperateTrackUtil {
 
-	public static void addOperateTrack(Article article, String statusDesc, String description, String reason, String userRealName){
+	public static void addOperateTrack(Article article, String statusDesc, String description, String reason, String userName, String userRealName){
 		ArticleOperateTrack aot = new ArticleOperateTrack();
 		
-		aot.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		aot.setUserName(userName);
 		aot.setUserRealName(userRealName);
 		aot.setStatusDesc(statusDesc);
 		aot.setDescription(description);

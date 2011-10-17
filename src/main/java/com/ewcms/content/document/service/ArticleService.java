@@ -30,6 +30,7 @@ import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.content.document.util.OperateTrackUtil;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.crawler.util.CrawlerUserName;
 import com.ewcms.history.History;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.security.manage.service.UserServiceable;
@@ -80,6 +81,9 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		}else{
 			keywordAndSummary(article);
 		}
+		
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
+		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "创建。", "", userName, userService.getUserRealName());
 
 		ArticleMain articleMain = new ArticleMain();
 		articleMain.setArticle(article);
@@ -99,6 +103,9 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 		//keywordAndSummary(article);
 
 		ArticleMain articleMain = new ArticleMain();
+		
+		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "通过采集器创建。", "", CrawlerUserName.USER_NAME, userService.getUserRealName());
+		
 		articleMain.setArticle(article);
 		articleMain.setChannelId(channelId);
 		
@@ -141,7 +148,8 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 			article.setModified(modNow);
 			article.setStatus(article_old.getStatus());
 			
-			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "文章已被修改。", "", userService.getUserRealName());
+			String userName = EwcmsContextUtil.getUserDetails().getUsername();
+			OperateTrackUtil.addOperateTrack(article_old, article.getStatusDescription(), "修改。", "", userName, userService.getUserRealName());
 			
 			article.setRelations(article_old.getRelations());
 			article.setOperateTracks(article_old.getOperateTracks());
@@ -221,8 +229,9 @@ public class ArticleService implements ArticleServiceable, ArticlePublishService
 	@Override
 	public void updatePreRelease(Integer channelId) {
 		List<Article> articles = articleDAO.findArticleRelease(channelId);
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
 		for (Article article : articles){
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "", "", userService.getUserRealName());
+			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "从发布变成预发布。", "", userName, userService.getUserRealName());
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);
 			articleDAO.merge(article);
