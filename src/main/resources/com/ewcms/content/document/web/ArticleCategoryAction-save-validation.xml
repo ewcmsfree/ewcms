@@ -3,7 +3,7 @@
 "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
 
 <validators>
-    <field name="articleCategoryVo.categoryName">
+    <field name="categoryVo.categoryName">
         <field-validator type="requiredstring">
             <message>分类名称不能为空</message>
         </field-validator>
