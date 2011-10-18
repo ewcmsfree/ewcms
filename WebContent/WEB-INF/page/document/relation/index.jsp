@@ -32,13 +32,13 @@
 				ewcmsBOBJ.openDataGrid('#tt',{
 	                columns:[[
                               {field:'id',title:'编号',width:60},
-                              {field:'topFlag',title:'置顶',width:60,hidden:true},
+                              //{field:'top',title:'置顶',width:60,hidden:true},
                               {field:'reference',title:'引用',width:60,hidden:true},
                               {field:'flags',title:'属性',width:60,
                                   formatter:function(val,rec){
                                       var pro = [];
-                                      if (rec.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-                                      if (rec.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+                                      //if (rec.top) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
+                                      if (rec.comment) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
                                       if (rec.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
                                       if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
                                       if (rec.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
