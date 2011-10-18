@@ -11,7 +11,6 @@ import java.util.Map;
 import com.ewcms.publication.freemarker.FreemarkerUtil;
 
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateModelException;
 
 /**
  * html格式标签输出

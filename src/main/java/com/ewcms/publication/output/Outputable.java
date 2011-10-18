@@ -8,8 +8,6 @@ package com.ewcms.publication.output;
 
 import java.util.List;
 
-import org.apache.commons.vfs2.FileSystemException;
-
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.publication.PublishException;
 
