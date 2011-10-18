@@ -6,9 +6,11 @@
 
 package com.ewcms.content.document.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ewcms.content.document.BaseException;
+import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.publication.PublishException;
 
@@ -19,48 +21,54 @@ import com.ewcms.publication.PublishException;
  */
 public interface ArticleMainServiceable {
 	/**
-	 * 查询文章主体
+	 * 新增文章主体信息
 	 * 
+	 * @param article 文章信息对象
+	 * @param channelId 频道编号
+	 * @param published 发布时间
+	 * 
+	 * @return Long 文章主体编号
+	 */
+	public Long addArticleMain(Article article, Integer channelId, Date published);
+	
+	/**
+	 * 新增文章主体信息(通过采集器采集数据)
+	 * 
+	 * @param article 文章信息对象
+	 * @param userName 用户名
+	 * @param channelId 频道编号
+	 * @return Long 文章主体编号
+	 */
+	public Long addArticleMainByCrawler(Article article, String userName, Integer channelId);
+	
+	/**
+	 * 修改文章主体信息
+	 * 
+	 * @param article 文章信息对象
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 * @return ArticleMain 文章主体对象
+	 * @param published 发布时间
+	 * 
+	 * @return Long 文章主体编号
 	 */
-	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId);
+	public Long updArticleMain(Article article, Long articleMainId, Integer channelId, Date published);
 
 	/**
-	 * 删除文章主体
+	 * 文章退回到重新编辑状态
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 */
-	public void delArticleMain(Long articleMainId, Integer channelId);
-
-	/**
-	 * 删除文章主体到回收站
-	 * 
-	 * @param articleMainId 文章主体编号
-	 * @param channelId 频道编号
-	 */
-	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId);
-
-	/**
-	 * 恢复文章主体
-	 * 
-	 * @param articleMainId 文章主体编号
-	 * @param channelId 频道编号
-	 * @param userName 操作用户
-	 */
-	public void restoreArticleMain(Long articleMainId, Integer channelId);
-
-	/**
-	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
-	 * 
-	 * @param articleMainId 文章主体编号
-	 * @param channelId 频道编号
-	 * @return Boolean true:提交成功,false:提交失败
 	 * @throws BaseException
 	 */
-	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
+	public void breakArticleMain(Long articleMainId, Integer channelId) throws BaseException;
+
+	/**
+	 * 清除文章主体排序
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelId 频道编号
+	 */
+	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
 	
 	/**
 	 * 拷贝文章主体
@@ -72,13 +80,47 @@ public interface ArticleMainServiceable {
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
 
 	/**
-	 * 移动文章主体
+	 * 删除文章主体
 	 * 
-	 * @param articleMainIds 文章主体编号集合
-	 * @param channelIds 频道编号集合
-	 * @return Boolean true:移动成功,false:移动失败
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
 	 */
-	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
+	public void delArticleMain(Long articleMainId, Integer channelId);
+	
+	/**
+	 * 删除通过采集器采集的文章主体数据
+	 * 
+	 * @param channelId 频道编号
+	 * @param userName 采集者
+	 */
+	public void delArticleMainByCrawler(Integer channelId, String userName);
+	
+	/**
+	 * 删除文章主体到回收站
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 */
+	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId);
+
+	/**
+	 * 文章与文章分类属性是否有关联
+	 * 
+	 * @param articleId 文章信息编号
+	 * @param categoryId 文章分类属性编号
+	 * 
+	 * @return Boolean (true:是,false:否)
+	 */
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId);
+
+	/**
+	 * 查询文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @return ArticleMain 文章主体对象
+	 */
+	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId);
 
 	/**
 	 * 查询文章主体集合
@@ -89,6 +131,44 @@ public interface ArticleMainServiceable {
 	public List<ArticleMain> findArticleMainByChannel(Integer channelId);
 
 	/**
+	 * 查询文章主体
+	 * 
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isTop 是否置顶(true:是,false:否)
+	 * @return Boolean true:存在,false:不存在
+	 */
+	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
+	
+	/**
+	 * 查询操作轨迹原因
+	 * 
+	 * @param trackId 操作轨迹编号
+	 * @return String 原因
+	 */
+	public String getArticleOperateTrack(Long trackId);
+
+	/**
+	 * 文章主体进行排序
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param sort 排序号
+	 * @param isInsert 是否插入(0:插入,1:替换)
+	 * @param isTop 是否置顶(true:是,false:否)
+	 */
+	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop);
+
+	/**
+	 * 移动文章主体
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:移动成功,false:移动失败
+	 */
+	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
+	
+	/**
 	 * 发布文章主体
 	 * 
 	 * @param channelId 频道编号
@@ -96,6 +176,15 @@ public interface ArticleMainServiceable {
 	 * @throws PublishException 
 	 */
 	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException;
+	
+	/**
+	 * 恢复文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @param userName 操作用户
+	 */
+	public void restoreArticleMain(Long articleMainId, Integer channelId);
 	
 	/**
 	 * 审核文章
@@ -108,56 +197,21 @@ public interface ArticleMainServiceable {
 	public void reviewArticleMain(Long articleMainId, Integer channelId, Integer review, String reason);
 	
 	/**
-	 * 文章主体进行排序
+	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param channelId 频道编号
-	 * @param sort 排序号
-	 * @param isInsert 是否插入(0:插入,1:替换)
-	 * @param isTop 是否置顶(true:是,false:否)
-	 */
-	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop);
-	
-	/**
-	 * 查询文章主体
-	 * 
-	 * @param channelId 频道编号
-	 * @param sort 排序号
-	 * @param isTop 是否置顶(true:是,false:否)
-	 * @return Boolean true:存在,false:不存在
-	 */
-	public Boolean findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean isTop);
-	
-	/**
-	 * 清除文章主体排序
-	 * 
-	 * @param articleMainIds 文章主体编号集合
-	 * @param channelId 频道编号
-	 */
-	public void clearArticleMainSort(List<Long> articleMainIds, Integer channelId);
-	
-	/**
-	 * 文章退回到重新编辑状态
-	 * 
-	 * @param articleMianId 文章主体编号
-	 * @param channelId 频道编号
+	 * @return Boolean true:提交成功,false:提交失败
 	 * @throws BaseException
 	 */
-	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException;
+	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
 	
 	/**
-	 * 查询操作轨迹原因
+	 * 文章主体是否置顶
 	 * 
-	 * @param trackId 操作轨迹编号
-	 * @return String 原因
+	 * @param articleMainIds 文章主体编号集合
+	 * @param top 是否置顶(true:置顶,false:不置顶)
 	 */
-	public String getArticleOperateTrack(Long trackId);
+	public void topArticleMain(List<Long> articleMainIds, Boolean top);
 	
-	/**
-	 * 删除网络爬虫采集的数据
-	 * 
-	 * @param channelId 频道编号
-	 * @param userName 采集者
-	 */
-	public void delCrawlerData(Integer channelId, String userName);
 }

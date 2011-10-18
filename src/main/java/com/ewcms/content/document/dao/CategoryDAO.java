@@ -9,9 +9,13 @@ package com.ewcms.content.document.dao;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
-import com.ewcms.content.document.model.ArticleOperateTrack;
+import com.ewcms.content.document.model.Category;
 
+/**
+ * 文章分类属性DAO
+ * 
+ * @author 吴智俊
+ */
 @Repository
-public class ArticleOperateTrackDAO extends JpaDAO<Long, ArticleOperateTrack> {
-
+public class CategoryDAO extends JpaDAO<Integer, Category> {
 }

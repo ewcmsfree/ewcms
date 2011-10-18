@@ -14,13 +14,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.Relation;
 import com.ewcms.content.document.model.ReviewProcess;
-import com.ewcms.content.document.service.ArticleCategoryServiceable;
+import com.ewcms.content.document.service.CategoryServiceable;
 import com.ewcms.content.document.service.ArticleMainServiceable;
-import com.ewcms.content.document.service.ArticleServiceable;
+import com.ewcms.content.document.service.OperateTrackServiceable;
 import com.ewcms.content.document.service.RelationServiceable;
 import com.ewcms.content.document.service.ReviewProcessServiceable;
 import com.ewcms.publication.PublishException;
@@ -34,41 +35,41 @@ import com.ewcms.publication.service.ArticlePublishServiceable;
 public class DocumentFac implements DocumentFacable {
 
 	@Autowired
-	private ArticleCategoryServiceable articleCategoryService;
+	private CategoryServiceable categoryService;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
-	@Autowired
-	private ArticleServiceable articleService;
 	@Autowired
 	private RelationServiceable relationService;
 	@Autowired
 	private ArticlePublishServiceable articlePublishService;
 	@Autowired
 	private ReviewProcessServiceable reviewProcessService;
+	@Autowired
+	private OperateTrackServiceable operateTrackService;
 
 	@Override
-	public Integer addArticleCategory(ArticleCategory articleCategory) {
-		return articleCategoryService.addArticleCategory(articleCategory);
+	public Integer addCategory(Category category) {
+		return categoryService.addCategory(category);
 	}
 
 	@Override
-	public Integer updArticleCategory(ArticleCategory articleCategory) {
-		return articleCategoryService.updArticleCategory(articleCategory);
+	public Integer updCategory(Category category) {
+		return categoryService.updCategory(category);
 	}
 
 	@Override
-	public void delArticleCategory(Integer articleCategoryId) {
-		articleCategoryService.delArticleCategory(articleCategoryId);
+	public void delCategory(Integer categoryId) {
+		categoryService.delCategory(categoryId);
 	}
 
 	@Override
-	public ArticleCategory findArticleCategory(Integer articleCategoryId) {
-		return articleCategoryService.findArticleCategory(articleCategoryId);
+	public Category findCategory(Integer categoryId) {
+		return categoryService.findCategory(categoryId);
 	}
 
 	@Override
-	public List<ArticleCategory> findArticleCategoryAll() {
-		return articleCategoryService.findArticleCategoryAll();
+	public List<Category> findCategoryAll() {
+		return categoryService.findCategoryAll();
 	}
 
 	@Override
@@ -184,7 +185,7 @@ public class DocumentFac implements DocumentFacable {
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Long addArticle(Article article, Integer channelId, Date published) {
-		return articleService.addArticle(article, channelId, published);
+		return articleMainService.addArticleMain(article, channelId, published);
 	}
 
 	@Override
@@ -192,12 +193,12 @@ public class DocumentFac implements DocumentFacable {
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
 	public Long updArticle(Article article, Long articleMainId,	Integer channelId, Date published) {
-		return articleService.updArticle(article, articleMainId, channelId, published);
+		return articleMainService.updArticleMain(article, articleMainId, channelId, published);
 	}
 
 	@Override
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId) {
-		return articleService.findArticleIsEntityByArticleAndCategory(articleId, articleCategoryId);
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId) {
+		return articleMainService.findArticleIsEntityByArticleAndCategory(articleId, categoryId);
 	}
 
 	@Override
@@ -244,7 +245,7 @@ public class DocumentFac implements DocumentFacable {
 
 	@Override
 	public int getArticleCount(Integer channelId) {
-		return articleService.getArticleCount(channelId);
+		return articlePublishService.getArticleCount(channelId);
 	}
 
 	@Override
@@ -310,5 +311,15 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName) {
 		return reviewProcessService.findReviewGroupIsEntityByProcessIdAndUserName(reviewProcessId, goupName);
+	}
+
+	@Override
+	public void topArticleMain(List<Long> articleMainIds, Boolean top) {
+		articleMainService.topArticleMain(articleMainIds, top);
+	}
+
+	@Override
+	public List<OperateTrack> findOperateTrackByArticleMainId(Long articleMainId) {
+		return operateTrackService.findOperateTrackByArticleMainId(articleMainId);
 	}
 }

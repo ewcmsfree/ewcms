@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.content.document.DocumentFacable;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -21,19 +21,19 @@ import com.ewcms.web.vo.ComboBox;
 /**
  * @author 吴智俊
  */
-public class ArticleCategoryAction extends CrudBaseAction<ArticleCategory, Integer> {
+public class CategoryAction extends CrudBaseAction<Category, Integer> {
 
 	private static final long serialVersionUID = 3929684985209263482L;
 
 	@Autowired
 	private DocumentFacable documentFac;
 
-	public ArticleCategory getArticleCategoryVo() {
+	public Category getCategoryVo() {
 		return super.getVo();
 	}
 
-	public void setArticleCategoryVo(ArticleCategory articleCategoryVo) {
-		super.setVo(articleCategoryVo);
+	public void setCategoryVo(Category categoryVo) {
+		super.setVo(categoryVo);
 	}
 
 	public List<Integer> getSelections() {
@@ -45,32 +45,32 @@ public class ArticleCategoryAction extends CrudBaseAction<ArticleCategory, Integ
 	}
 
 	@Override
-	protected Integer getPK(ArticleCategory vo) {
+	protected Integer getPK(Category vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected ArticleCategory getOperator(Integer pk) {
-		return documentFac.findArticleCategory(pk);
+	protected Category getOperator(Integer pk) {
+		return documentFac.findCategory(pk);
 	}
 
 	@Override
 	protected void deleteOperator(Integer pk) {
-		documentFac.delArticleCategory(pk);
+		documentFac.delCategory(pk);
 	}
 
 	@Override
-	protected Integer saveOperator(ArticleCategory vo, boolean isUpdate) {
+	protected Integer saveOperator(Category vo, boolean isUpdate) {
 		if (isUpdate) {
-			return documentFac.updArticleCategory(vo);
+			return documentFac.updCategory(vo);
 		} else {
-			return documentFac.addArticleCategory(vo);
+			return documentFac.addCategory(vo);
 		}
 	}
 
 	@Override
-	protected ArticleCategory createEmptyVo() {
-		return new ArticleCategory();
+	protected Category createEmptyVo() {
+		return new Category();
 	}
 
 	private Long articleId;
@@ -83,17 +83,17 @@ public class ArticleCategoryAction extends CrudBaseAction<ArticleCategory, Integ
 		this.articleId = articleId;
 	}
 
-	public void findArticleCategoryAll() {
-		List<ArticleCategory> articleCategories = documentFac.findArticleCategoryAll();
-		if (articleCategories != null){
+	public void findCategoryAll() {
+		List<Category> categories = documentFac.findCategoryAll();
+		if (categories != null){
 			List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 			ComboBox comboBox = null;
-			for (ArticleCategory articleCategory : articleCategories){
+			for (Category category : categories){
 				comboBox = new ComboBox();
-				comboBox.setId(articleCategory.getId());
-				comboBox.setText(articleCategory.getCategoryName());
+				comboBox.setId(category.getId());
+				comboBox.setText(category.getCategoryName());
 				if (getArticleId() != null){
-					Boolean isEntity = documentFac.findArticleIsEntityByArticleAndCategory(getArticleId(), articleCategory.getId());
+					Boolean isEntity = documentFac.findArticleIsEntityByArticleAndCategory(getArticleId(), category.getId());
 					if (isEntity) comboBox.setSelected(true);
 				}
 				comboBoxs.add(comboBox);

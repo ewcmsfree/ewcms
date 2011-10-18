@@ -46,8 +46,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>summary:摘要</li>
  * <li>contents:内容集合对象</li>
  * <li>image:文章图片</li>
- * <li>topFlag:新闻置顶</li>
- * <li>commentFlag:允许评论</li>
+ * <li>comment:允许评论</li>
  * <li>type:文章类型</li>
  * <li>owner:创建者</li>
  * <li>reviewProcessId:审核流程编号</li>
@@ -55,7 +54,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>modified:修改时间</li>
  * <li>status:状态</li>
  * <li>url:链接地址</li>
- * <li>deleteFlag:删除标志</li>
+ * <li>delete:删除标志</li>
  * <li>relations:相关文章</li>
  * <li>createTime:创建时间</li>
  * <li>categories:文章分类属性集合</li>
@@ -99,10 +98,8 @@ public class Article implements Serializable {
 	private List<Content> contents = new ArrayList<Content>();
 	@Column(name = "image")
 	private String image;
-	@Column(name = "top_flag")
-	private Boolean topFlag;
-	@Column(name = "comment_flag")
-	private Boolean commentFlag;
+	@Column(name = "comment")
+	private Boolean comment;
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ArticleType type;
@@ -121,8 +118,8 @@ public class Article implements Serializable {
 	private ArticleStatus status;
 	@Column(name = "url", columnDefinition = "text")
 	private String url;
-	@Column(name = "delete_flag")
-	private Boolean deleteFlag;
+	@Column(name = "delete")
+	private Boolean delete;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "sort")
@@ -130,26 +127,25 @@ public class Article implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = ArticleCategory.class)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = Category.class)
 	@JoinTable(name = "doc_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
-	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+	private List<Category> categories = new ArrayList<Category>();
 	@Column(name = "total")
 	private Integer contentTotal;
 	@Column(name = "inside")
 	private Boolean inside;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ArticleOperateTrack.class, orphanRemoval = true)
-	@JoinColumn(name = "article_id")
-	@OrderBy(value = "id DESC")
-	private List<ArticleOperateTrack> operateTracks = new ArrayList<ArticleOperateTrack>();
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ArticleOperateTrack.class, orphanRemoval = true)
+//	@JoinColumn(name = "article_id")
+//	@OrderBy(value = "id DESC")
+//	private List<ArticleOperateTrack> operateTracks = new ArrayList<ArticleOperateTrack>();
 	
 	public Article() {
-		topFlag = false;
-		commentFlag = false;
+		comment = false;
 		type = ArticleType.GENERAL;
 		status = ArticleStatus.DRAFT;
 		createTime = new Date(Calendar.getInstance().getTime().getTime());
-		deleteFlag = false;
+		delete = false;
 		inside = false;
 	}
 
@@ -242,20 +238,12 @@ public class Article implements Serializable {
 		this.image = image;
 	}
 
-	public Boolean getTopFlag() {
-		return topFlag;
+	public Boolean getComment() {
+		return comment;
 	}
 
-	public void setTopFlag(Boolean topFlag) {
-		this.topFlag = topFlag;
-	}
-
-	public Boolean getCommentFlag() {
-		return commentFlag;
-	}
-
-	public void setCommentFlag(Boolean commentFlag) {
-		this.commentFlag = commentFlag;
+	public void setComment(Boolean comment) {
+		this.comment = comment;
 	}
 	
 	public ArticleType getType() {
@@ -326,12 +314,12 @@ public class Article implements Serializable {
 		this.url = url;
 	}
 	
-	public Boolean getDeleteFlag() {
-		return deleteFlag;
+	public Boolean getDelete() {
+		return delete;
 	}
 
-	public void setDeleteFlag(Boolean deleteFlag) {
-		this.deleteFlag = deleteFlag;
+	public void setDelete(Boolean delete) {
+		this.delete = delete;
 	}
 
 	@JsonIgnore
@@ -351,11 +339,11 @@ public class Article implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public List<ArticleCategory> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(List<ArticleCategory> categories) {
+	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
 
@@ -375,13 +363,13 @@ public class Article implements Serializable {
 		this.inside = inside;
 	}
 
-	public List<ArticleOperateTrack> getOperateTracks() {
-		return operateTracks;
-	}
-
-	public void setOperateTracks(List<ArticleOperateTrack> operateTracks) {
-		this.operateTracks = operateTracks;
-	}
+//	public List<ArticleOperateTrack> getOperateTracks() {
+//		return operateTracks;
+//	}
+//
+//	public void setOperateTracks(List<ArticleOperateTrack> operateTracks) {
+//		this.operateTracks = operateTracks;
+//	}
 
 	@Override
 	public int hashCode() {

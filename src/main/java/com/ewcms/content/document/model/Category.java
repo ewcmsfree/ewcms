@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "doc_category")
 @SequenceGenerator(name = "seq_doc_category", sequenceName = "seq_doc_category_id", allocationSize = 1)
-public class ArticleCategory implements Serializable {
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = -2075041245158111665L;
 

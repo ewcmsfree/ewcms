@@ -21,7 +21,7 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
@@ -197,13 +197,13 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 			vo.setContents(contentList);
 		}
 		if (isNotNull(getCategories())) {
-			List<ArticleCategory> articleCategories = new ArrayList<ArticleCategory>();
-			ArticleCategory articleCategoryVo = null;
-			for (Integer articleCategoryId : categories) {
-				articleCategoryVo = documentFac.findArticleCategory(articleCategoryId);
-				if (articleCategoryVo == null)
+			List<Category> articleCategories = new ArrayList<Category>();
+			Category categoryVo = null;
+			for (Integer categoryId : categories) {
+				categoryVo = documentFac.findCategory(categoryId);
+				if (categoryVo == null)
 					continue;
-				articleCategories.add(articleCategoryVo);
+				articleCategories.add(categoryVo);
 			}
 			vo.setCategories(articleCategories);
 		}

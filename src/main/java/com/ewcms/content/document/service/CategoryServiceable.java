@@ -8,50 +8,50 @@ package com.ewcms.content.document.service;
 
 import java.util.List;
 
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 
 /**
  * 文章分类属性操作接口
  * 
  * @author 吴智俊
  */
-public interface ArticleCategoryServiceable {
+public interface CategoryServiceable {
 
 	/**
 	 * 新增文章分类属性
 	 * 
-	 * @param articleCategory 文章分类属性对象
+	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer addArticleCategory(ArticleCategory articleCategory);
+	public Integer addCategory(Category category);
 	
 	/**
 	 * 修改文章分类属性
 	 * 
-	 * @param articleCategory 文章分类属性对象
+	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer updArticleCategory(ArticleCategory articleCategory);
+	public Integer updCategory(Category category);
 	
 	/**
 	 * 删除文章分类属性
 	 * 
-	 * @param articleCategoryId 文章分类属性编号
+	 * @param categoryId 文章分类属性编号
 	 */
-	public void delArticleCategory(Integer articleCategoryId);
+	public void delCategory(Integer categoryId);
 	
 	/**
 	 * 查询文章分类属性
 	 * 
-	 * @param articleCategoryId 文章分类属性编号
-	 * @return ArticleCategory 文章分类属性对象
+	 * @param categoryId 文章分类属性编号
+	 * @return Category 文章分类属性对象
 	 */
-	public ArticleCategory findArticleCategory(Integer articleCategoryId);
+	public Category findCategory(Integer categoryId);
 	
 	/**
 	 * 查询所有文章分类属性集合
 	 * 
 	 * @return List 文章分类属性对象集合
 	 */
-	public List<ArticleCategory> findArticleCategoryAll();
+	public List<Category> findCategoryAll();
 }

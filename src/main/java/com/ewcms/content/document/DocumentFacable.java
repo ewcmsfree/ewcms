@@ -10,8 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.Relation;
 import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.publication.PublishException;
@@ -24,40 +25,40 @@ public interface DocumentFacable {
 	/**
 	 * 新增文章分类属性
 	 * 
-	 * @param articleCategory 文章分类属性对象
+	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer addArticleCategory(ArticleCategory articleCategory);
+	public Integer addCategory(Category category);
 	
 	/**
 	 * 修改文章分类属性
 	 * 
-	 * @param articleCategory 文章分类属性对象
+	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer updArticleCategory(ArticleCategory articleCategory);
+	public Integer updCategory(Category category);
 	
 	/**
 	 * 删除文章分类属性
 	 * 
-	 * @param articleCategoryId 文章分类属性编号
+	 * @param categoryId 文章分类属性编号
 	 */
-	public void delArticleCategory(Integer articleCategoryId);
+	public void delCategory(Integer categoryId);
 	
 	/**
 	 * 查询文章分类属性
 	 * 
-	 * @param articleCategoryId 文章分类属性编号
-	 * @return ArticleCategory 文章分类属性对象
+	 * @param categoryId 文章分类属性编号
+	 * @return Category 文章分类属性对象
 	 */
-	public ArticleCategory findArticleCategory(Integer articleCategoryId);
+	public Category findCategory(Integer categoryId);
 	
 	/**
 	 * 查询所有文章分类属性集合
 	 * 
 	 * @return List 文章分类属性对象集合
 	 */
-	public List<ArticleCategory> findArticleCategoryAll();
+	public List<Category> findCategoryAll();
 	
 	/**
 	 * 查询文章主体
@@ -194,6 +195,14 @@ public interface DocumentFacable {
 	public String getArticleOperateTrack(Long trackId);
 	
 	/**
+	 * 文章主体是否置顶
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param top 是否置顶(true:置顶,false:不置顶)
+	 */
+	public void topArticleMain(List<Long> articleMainIds, Boolean top);
+	
+	/**
 	 * 新增文章信息
 	 * 
 	 * @param article 文章信息对象
@@ -218,10 +227,10 @@ public interface DocumentFacable {
 	 * 文章与文章分类属性是否有关联
 	 * 
 	 * @param articleId 文章信息编号
-	 * @param articleCategoryId 文章分类属性编号
+	 * @param categoryId 文章分类属性编号
 	 * @return Boolean true:是,false:否
 	 */
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer articleCategoryId);
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId);
 
 	/**
 	 * 保存相关文章
@@ -354,4 +363,12 @@ public interface DocumentFacable {
 	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName);
 
 	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName);
+	
+	/**
+	 * 通过文章主体编号查询所有操作过程
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @return List 操作过程集合
+	 */
+	public List<OperateTrack> findOperateTrackByArticleMainId(Long articleMainId);
 }

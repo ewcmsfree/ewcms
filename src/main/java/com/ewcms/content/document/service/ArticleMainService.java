@@ -18,22 +18,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.content.document.BaseException;
+import com.ewcms.content.document.dao.ArticleDAO;
 import com.ewcms.content.document.dao.ArticleMainDAO;
-import com.ewcms.content.document.dao.ArticleOperateTrackDAO;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleOperateTrack;
+import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.model.ReviewProcess;
-import com.ewcms.content.document.util.OperateTrackUtil;
+import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.crawler.util.CrawlerUserName;
+import com.ewcms.history.History;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
+import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -42,16 +46,18 @@ import com.ewcms.web.util.EwcmsContextUtil;
  * @author 吴智俊
  */
 @Service
-public class ArticleMainService implements ArticleMainServiceable {
+public class ArticleMainService implements ArticleMainServiceable, ArticlePublishServiceable {
 
 	@Autowired
-	private WebPublishable webPublish;
+	private ArticleDAO articleDAO;
 	@Autowired
 	private ArticleMainDAO articleMainDAO;
 	@Autowired
 	private ReviewProcessDAO reviewProcessDAO;
 	@Autowired
-	private ArticleOperateTrackDAO articleOperateTrackDAO;
+	private OperateTrackServiceable operateTrackService;
+	@Autowired
+	private WebPublishable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
 	@Autowired
@@ -92,9 +98,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Assert.notNull(article);
 			
 			String userName = EwcmsContextUtil.getUserDetails().getUsername();
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "放入回收站。", "", userName, userService.getUserRealName());
+			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入回收站。", "", userName, userService.getUserRealName());
 			
-			article.setDeleteFlag(true);
+			article.setDelete(true);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}
@@ -108,9 +114,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(article);
 		
 		String userName = EwcmsContextUtil.getUserDetails().getUsername();
-		OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "从回收站还原。", "", userName, userService.getUserRealName());
+		operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从回收站还原。", "", userName, userService.getUserRealName());
 		
-		article.setDeleteFlag(false);
+		article.setDelete(false);
 		articleMain.setArticle(article);
 		articleMainDAO.merge(articleMain);
 	}
@@ -125,11 +131,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (article.getStatus() == ArticleStatus.DRAFT || article.getStatus() == ArticleStatus.REEDIT) {
 			ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
 			if (reviewProcess == null ){
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "发布版。", "", userName, userService.getUserRealName());
+				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "发布版。", "", userName, userService.getUserRealName());
+
 				article.setStatus(ArticleStatus.PRERELEASE);
 				article.setReviewProcessId(null);
 			}else{
-				OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "已提交到【" + reviewProcess.getName() + "】进行审核。", "", userName, userService.getUserRealName());
+				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "", userName, userService.getUserRealName());
+
 				article.setStatus(ArticleStatus.REVIEW);
 				article.setReviewProcessId(reviewProcess.getId());
 			}
@@ -169,7 +177,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					}else{
 						target_article.setUrl(null);
 					}
-					target_article.setDeleteFlag(article.getDeleteFlag());
+					target_article.setDelete(article.getDelete());
 
 					List<Content> contents = article.getContents();
 					List<Content> contents_target = new ArrayList<Content>();
@@ -191,14 +199,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setTag(article.getTag());
 					target_article.setSummary(article.getSummary());
 					target_article.setImage(article.getImage());
-					target_article.setTopFlag(article.getTopFlag());
-					target_article.setCommentFlag(article.getCommentFlag());
+					target_article.setComment(article.getComment());
 					target_article.setType(article.getType());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 					target_article.setInside(article.getInside());
 					target_article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
 
-					OperateTrackUtil.addOperateTrack(target_article, article.getStatusDescription(), "从『" + channel_name + "』栏目复制。", "", userName, userService.getUserRealName());
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"从『" + channel_name + "』栏目复制。", "", userName, userService.getUserRealName());
 					
 					ArticleMain articleMain_new = new ArticleMain();
 					articleMain_new.setArticle(target_article);
@@ -225,7 +232,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (target_channelId != source_channelId) {
 					Article article = articleMain.getArticle();
 					
-					OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "从『" + channel_name + "』栏目移动。", "", userName, userService.getUserRealName());
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从『" + channel_name + "』栏目移动。", "", userName, userService.getUserRealName());
+					
 					articleMain.setArticle(article);
 					articleMain.setChannelId(target_channelId);
 					articleMainDAO.merge(articleMain);
@@ -278,7 +286,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
 				String userName = EwcmsContextUtil.getUserDetails().getUsername();
-				OperateTrackUtil.addOperateTrack(article, currentStatus, caption, "", userName, userService.getUserRealName());
+				operateTrackService.addOperateTrack(articleMainId, currentStatus, caption, "", userName, userService.getUserRealName());
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -299,7 +307,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
 				}
 				String userName = EwcmsContextUtil.getUserDetails().getUsername();
-				OperateTrackUtil.addOperateTrack(article, currentStatus, caption, reason, userName, userService.getUserRealName());
+				operateTrackService.addOperateTrack(articleMainId, currentStatus, caption, reason, userName, userService.getUserRealName());
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);
@@ -353,6 +361,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 			ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 			Assert.notNull(articleMain);
 			if (articleMain.getSort() != null){
+				String userName = EwcmsContextUtil.getUserDetails().getUsername();
+				
+				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), "清除文章排序号。", "", userName, userService.getUserRealName());
+				
 				articleMain.setSort(null);
 				articleMainDAO.merge(articleMain);
 			}
@@ -360,14 +372,15 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void breakArticleMain(Long articleMianId, Integer channelId) throws BaseException {
-		ArticleMain articleMain = articleMainDAO.get(articleMianId);
+	public void breakArticleMain(Long articleMainId, Integer channelId) throws BaseException {
+		ArticleMain articleMain = articleMainDAO.get(articleMainId);
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
 		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
 			String userName = EwcmsContextUtil.getUserDetails().getUsername();
-			OperateTrackUtil.addOperateTrack(article, article.getStatusDescription(), "已退回到重新编辑状态。", "", userName, userService.getUserRealName());
+			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "已退回到重新编辑状态。", "", userName, userService.getUserRealName());
+			
 			article.setStatus(ArticleStatus.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
@@ -378,16 +391,219 @@ public class ArticleMainService implements ArticleMainServiceable {
 	
 	@Override
 	public String getArticleOperateTrack(Long trackId){
-		ArticleOperateTrack track = articleOperateTrackDAO.get(trackId);
+		OperateTrack track = operateTrackService.findOperateTrackById(trackId);
 		if (track == null) return "";
 		return (track.getReason() == null)? "" : track.getReason();
 	}
 
 	@Override
-	public void delCrawlerData(Integer channelId, String userName) {
+	public void delArticleMainByCrawler(Integer channelId, String userName) {
 		List<ArticleMain> articleMains = articleMainDAO.findArticleMainByChannelIdAndUserName(channelId, userName);
 		for (ArticleMain articleMain : articleMains){
 			articleMainDAO.remove(articleMain);
+		}
+	}
+
+	@Override
+	public void topArticleMain(List<Long> articleMainIds, Boolean top) {
+		Assert.notNull(articleMainIds);
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.get(articleMainId);
+			if (articleMain == null) continue;
+			if (articleMain.getTop() != top){
+				String userName = EwcmsContextUtil.getUserDetails().getUsername();
+				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), "清除文章排序号。", "", userName, userService.getUserRealName());
+
+				articleMain.setTop(top);
+				articleMainDAO.merge(articleMain);
+			}
+		}
+	}
+	
+	@Override
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId) {
+		return articleMainDAO.findArticleIsEntityByArticleAndCategory(articleId, categoryId);
+	}
+
+	@Override
+	@History(modelObjectIndex = 0)
+	public Long addArticleMain(Article article, Integer channelId, Date published) {
+		Assert.notNull(article);
+		if (isNotNull(published)) {
+			article.setPublished(published);
+		}
+		if (isNull(article.getOwner())){
+			article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
+		}
+
+		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+		if (article.getType() == ArticleType.TITLE){
+			titleArticleContentNull(article);
+		}else{
+			keywordAndSummary(article);
+		}
+		
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
+
+		ArticleMain articleMain = new ArticleMain();
+		articleMain.setArticle(article);
+		articleMain.setChannelId(channelId);
+		
+		articleMainDAO.persist(articleMain);
+		articleMainDAO.flush(articleMain);
+		
+		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "创建。", "", userName, userService.getUserRealName());
+		
+		return articleMain.getId();
+	}
+	
+	@Override
+	public Long addArticleMainByCrawler(Article article, String userName, Integer channelId){
+		Assert.notNull(article);
+		
+		article.setOwner(userName);
+		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+		//keywordAndSummary(article);
+
+		ArticleMain articleMain = new ArticleMain();
+		
+		articleMain.setArticle(article);
+		articleMain.setChannelId(channelId);
+		
+		articleMainDAO.persist(articleMain);
+		articleMainDAO.flush(articleMain);
+		
+		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "通过采集器创建。", "", CrawlerUserName.USER_NAME, userService.getUserRealName());
+
+		return articleMain.getId();
+	}
+
+	@Override
+	@History(modelObjectIndex = 0)
+	public Long updArticleMain(Article article, Long articleMainId, Integer channelId, Date published) {
+		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+		Assert.notNull(articleMain);
+		
+		if (isNotNull(published)) {
+			article.setPublished(published);
+		}
+
+		if (article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.REVIEW) {
+			// throw new BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
+		} else {
+			Article article_old = articleMain.getArticle();
+			Assert.notNull(article_old);
+			if (article.getType() == ArticleType.GENERAL) {
+				article.setUrl(null);
+				keywordAndSummary(article);
+			} else if (article.getType() == ArticleType.TITLE) {
+				article.setKeyword("");
+				article.setSummary("");
+				if (article_old.getContents() != null && !article_old.getContents().isEmpty()) {
+					article.setContents(article_old.getContents());
+				} else {
+					titleArticleContentNull(article);
+				}
+			}
+			
+			Date modNow = new Date(Calendar.getInstance().getTime().getTime());
+			
+			article.setOwner(article_old.getOwner());
+			article.setModified(modNow);
+			article.setStatus(article_old.getStatus());
+			
+			String userName = EwcmsContextUtil.getUserDetails().getUsername();
+			
+			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "修改。", "", userName, userService.getUserRealName());
+			
+			article.setRelations(article_old.getRelations());
+			
+			articleMain.setArticle(article);
+			articleMainDAO.merge(articleMain);
+		}
+		return articleMain.getId();
+	}
+	
+	private void keywordAndSummary(Article article){
+		List<Content> contents = article.getContents();
+		String title = article.getTitle();
+		if (contents != null && !contents.isEmpty() && title != null && title.length()>0){
+			String contentAll = "";
+			for (Content content : contents){
+				contentAll += content.getDetail();
+			}
+			if (article.getKeyword() == null || article.getKeyword().length() == 0){
+				String keyword = HtmlStringUtil.join(ExtractKeywordAndSummary.getKeyword(title + " " + contentAll), " ");	
+				article.setKeyword(keyword);
+			}
+			if (article.getSummary() == null || article.getSummary().length() == 0){
+				String summary = ExtractKeywordAndSummary.getTextAbstract(title, contentAll);
+				article.setSummary(summary);
+			}
+		}
+	}
+	
+	private void titleArticleContentNull(Article article){
+		Content content = new Content();
+		content.setDetail("");
+		content.setPage(1);
+		List<Content> contents = new ArrayList<Content>();
+		contents.add(content);
+		article.setContents(contents);
+	}
+
+	@Override
+	public Article getArticle(Long articleId) {
+		return articleDAO.get(articleId);
+	}
+	
+	@Override
+	public int getArticleCount(Integer channelId){
+		Channel channel = channelDAO.get(channelId);
+		Assert.notNull(channel);
+		int maxSize = channel.getMaxSize();
+		int releaseMaxSize = articleMainDAO.findArticleReleseMaxSize(channelId);
+		if (maxSize < releaseMaxSize){
+			return maxSize;
+		}else{
+			return releaseMaxSize;
+		}
+	}
+
+	@Override
+	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
+		Channel channel = channelDAO.get(channelId);
+		Assert.notNull(channel);
+		return articleMainDAO.findArticlePreReleaseByChannelAndLimit(channelId, limit); 
+	}
+
+	@Override
+	public List<Article> findReleaseArticlePage(Integer channelId, Integer page, Integer row, Boolean top) {
+		return articleMainDAO.findArticleReleasePage(channelId, page, row, top);
+	}
+
+	@Override
+	public void publishArticle(Long id, String url) {
+		Article article = articleDAO.get(id);
+		Assert.notNull(article);
+		article.setUrl(url);
+		articleDAO.merge(article);
+	}
+
+	@Override
+	public void updatePreRelease(Integer channelId) {
+		List<ArticleMain> articleMains = articleMainDAO.findArticleMainRelease(channelId);
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
+		for (ArticleMain articleMain : articleMains){
+			Article article = articleMain.getArticle();
+			if (article == null) continue;
+			operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "从发布变成预发布。", "", userName, userService.getUserRealName());
+			
+			article.setUrl("");
+			article.setStatus(ArticleStatus.PRERELEASE);
+			
+			articleMain.setArticle(article);
+			articleMainDAO.merge(articleMain);
 		}
 	}
 }

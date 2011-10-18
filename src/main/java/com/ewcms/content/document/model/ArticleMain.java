@@ -29,6 +29,7 @@ import javax.persistence.Table;
  * <li>article:文章信息</li>
  * <li>reference:是否引用</li>
  * <li>sort:排序</li>
+ * <li>top:新闻置顶</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -53,10 +54,13 @@ public class ArticleMain implements Serializable {
 	private Boolean reference;
 	@Column(name = "sort")
 	private Long sort;
+	@Column(name = "top")
+	private Boolean top;
 	
 	public ArticleMain(){
 		reference = false;
 		sort = null;
+		top = false;
 	}
 	
 	public Long getId() {
@@ -97,6 +101,14 @@ public class ArticleMain implements Serializable {
 
 	public void setSort(Long sort) {
 		this.sort = sort;
+	}
+
+	public Boolean getTop() {
+		return top;
+	}
+
+	public void setTop(Boolean top) {
+		this.top = top;
 	}
 
 	@Override

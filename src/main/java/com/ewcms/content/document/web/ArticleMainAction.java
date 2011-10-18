@@ -245,4 +245,15 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
+	
+	public void topArticle(){
+		try{
+			documentFac.topArticleMain(getSelections(), getIsTop());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
 }

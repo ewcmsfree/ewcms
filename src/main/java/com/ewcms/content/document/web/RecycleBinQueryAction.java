@@ -50,8 +50,8 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
-		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.channelId=:channelId ";
+		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.delete=true And o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.delete=true And o.channelId=:channelId ";
 		
 		Long id = getParameterValue(Long.class, "id", "查询编号错误，应该是整型");
 		if (isNotNull(id)){
@@ -99,7 +99,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			countHql += " And r.owner=:owner ";
 		}
 		
-		hql += " Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
@@ -154,15 +154,15 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And  o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.deleteFlag=true And o.id In (:id) And o.channelId=:channelId ";
+		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.delete=true And o.id In (:id) And  o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.delete=true And o.id In (:id) And o.channelId=:channelId ";
 		
 		boolean isPermissionIsChannel = getPermissionIsChannel();
 		if (!isPermissionIsChannel){
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
-		hql += " Order By r.topFlag Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

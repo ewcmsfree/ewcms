@@ -23,6 +23,7 @@ import javax.persistence.Table;
  * 
  * <ul>
  * <li>id:编号</li>
+ * <li>articleMainId:文章主体编号</li>
  * <li>userName:操作员</li>
  * <li>statusDesc:状态描述</li>
  * <li>operateTime:操作时间</li>
@@ -34,16 +35,18 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "doc_article_operate_track")
-@SequenceGenerator(name = "seq_doc_article_operate_track", sequenceName = "seq_doc_article_operate_track_id", allocationSize = 1)
-public class ArticleOperateTrack implements Serializable {
+@Table(name = "doc_operate_track")
+@SequenceGenerator(name = "seq_doc_operate_track", sequenceName = "seq_doc_operate_track_id", allocationSize = 1)
+public class OperateTrack implements Serializable {
 
 	private static final long serialVersionUID = -1094223279369849132L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_article_operate_track", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_doc_operate_track", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
+	@Column(name = "articlemain_id")
+	private Long articleMainId;
 	@Column(name = "username")
 	private String userName;
 	@Column(name = "userrealname")
@@ -57,7 +60,7 @@ public class ArticleOperateTrack implements Serializable {
 	@Column(name = "reason", columnDefinition = "text")
 	private String reason;
 	
-	public ArticleOperateTrack(){
+	public OperateTrack(){
 		operateTime = new Date(Calendar.getInstance().getTime().getTime());
 	}
 
@@ -67,6 +70,14 @@ public class ArticleOperateTrack implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getArticleMainId() {
+		return articleMainId;
+	}
+
+	public void setArticleMainId(Long articleMainId) {
+		this.articleMainId = articleMainId;
 	}
 
 	public String getUserName() {
@@ -133,7 +144,7 @@ public class ArticleOperateTrack implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ArticleOperateTrack other = (ArticleOperateTrack) obj;
+		OperateTrack other = (OperateTrack) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
