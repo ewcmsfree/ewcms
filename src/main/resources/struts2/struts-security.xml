@@ -24,15 +24,45 @@
             <result>/WEB-INF/page/security/account/user.jsp</result>
         </action>
     </package>
-    
-    <!-- 
+   
     <package name="security.authority"  extends="struts-default" namespace="/security/authority">
         <action name="index">
             <result type="dispatcher">/WEB-INF/page/security/authority/index.jsp</result>
         </action>
-        <action name="query" class="com.ewcms.web.action.security.authority.QueryAction" method="query"/>
+        <action name="query" class="com.ewcms.security.manage.web.authority.QueryAction" method="query"/>
     </package>
-   
+    
+    <package name="security.group"  extends="struts-default" namespace="/security/group">
+    
+        <action name="index">
+            <result type="dispatcher">/WEB-INF/page/security/group/index.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.security.manage.web.group.QueryAction" method="query"/>
+        
+        <action name="detail" class="com.ewcms.security.manage.web.group.DetailAction">
+            <result>/WEB-INF/page/security/group/detail.jsp</result>
+        </action>
+        <action name="detailQuery" class="com.ewcms.security.manage.web.group.DetailAction" method="query"/>
+        
+         <action name="addAuthsAndUsers" class="com.ewcms.security.manage.web.group.OperatorAction" method="addAuthsAndUsers"/>
+         <action name="removeAuthsAndUsers" class="com.ewcms.security.manage.web.group.OperatorAction" method="removeAuthsAndUsers"/>
+         <action name="hasName" class="com.ewcms.security.manage.web.group.OperatorAction" method="hasName"/>
+         
+         <action name="input" class="com.ewcms.security.manage.web.group.GroupAction" method="input"> 
+             <result name="input">/WEB-INF/page/security/group/edit.jsp</result>
+         </action>
+         <action name="save" class="com.ewcms.security.manage.web.group.GroupAction">
+             <result name="input">/WEB-INF/page/security/group/edit.jsp</result> 
+             <result name="error">/WEB-INF/page/security/group/edit.jsp</result> 
+             <result>/WEB-INF/page/security/group/edit.jsp</result>
+         </action>
+    </package>
+    
+    <package name="security.user"  extends="struts-default" namespace="/security/user">
+        <action name="query" class="com.ewcms.security.manage.web.user.QueryAction" method="query"/>
+    </package>
+    
+    <!-- 
     <package name="security.user"  extends="struts-default" namespace="/security/user">
         <action name="index">
           <result type="dispatcher">/WEB-INF/page/security/user/index.jsp</result>
