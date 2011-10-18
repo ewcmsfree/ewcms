@@ -44,7 +44,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>verifiCode:验证码</li>
  * <li>subjects:调查与投票明细对象集合</li>
  * <li>sort:排序</li>
- * <li>voteFalg:结束标志</li>
+ * <li>voteEnd:结束标志</li>
  * </ul>
  * 
  * @author wu_zhijun
@@ -83,14 +83,14 @@ public class Questionnaire implements Serializable {
 	private List<Subject> subjects = new ArrayList<Subject>();
 	@Column(name = "sort")
 	private Long sort;
-	@Column(name = "voteflag")
-	private Boolean voteFlag;
+	@Column(name = "voteEnd")
+	private Boolean voteEnd;
 	
 	public Questionnaire(){
 		number = 0L;
 		verifiCode = false;
 		questionnaireStatus = QuestionnaireStatus.VIEW;
-		voteFlag = false;
+		voteEnd = false;
 	}
 
 	public Long getId() {
@@ -182,12 +182,12 @@ public class Questionnaire implements Serializable {
 		this.sort = sort;
 	}
 
-	public Boolean getVoteFlag() {
-		return voteFlag;
+	public Boolean getVoteEnd() {
+		return voteEnd;
 	}
 
-	public void setVoteFlag(Boolean voteFlag) {
-		this.voteFlag = voteFlag;
+	public void setVoteEnd(Boolean voteEnd) {
+		this.voteEnd = voteEnd;
 	}
 
 	@Override

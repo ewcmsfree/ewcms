@@ -96,7 +96,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			view.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/page/vote/vote.css'/>\n");
 			view.append("<script language='javascript' src='/" + servletContentName + "/source/page/vote/vote.js'></script>\n");
 			
-			if (questionnaire.getVoteFlag() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
+			if (questionnaire.getVoteEnd() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
 				view.append("<p>对不起，此调查已结束，不再接受投票</p>");
 			}else{
 				List<Subject> subjects = questionnaire.getSubjects();
@@ -105,7 +105,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				view.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
 				view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 				view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
-				view.append("  <input type='hidden' id='voteFlag' name='voteFlag' value='" + questionnaire.getVoteFlag() + "'>\n");
+				view.append("  <input type='hidden' id='voteEnd' name='voteEnd' value='" + questionnaire.getVoteEnd() + "'>\n");
 				view.append("    <dl>\n");
 				
 				Boolean isItemEntity = false;

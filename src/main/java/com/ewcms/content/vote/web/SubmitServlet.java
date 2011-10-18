@@ -52,8 +52,8 @@ public class SubmitServlet extends HttpServlet {
     	ServletOutputStream out = null;
     	String 	output = "";
     	try{
-	    	Boolean voteFlag = Boolean.valueOf(req.getParameter("voteFlag"));
-	    	if (voteFlag){
+	    	Boolean voteEnd = Boolean.valueOf(req.getParameter("voteEnd"));
+	    	if (voteEnd){
 	    		output = "投票已经结束！";
 	    	}else{
 		    	String questionnaireId = req.getParameter("questionnaireId");
