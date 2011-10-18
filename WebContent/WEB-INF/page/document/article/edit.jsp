@@ -24,7 +24,7 @@
 		<script type="text/javascript" src="<s:url value='/source/page/document/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
-	    	categoryURL = '<s:url namespace="/document/articlecategory" action="findArticleCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
+	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
 	    	imageUploadURL = '<s:url action="upload" namespace="/resource"/>?type=image';
 	    	annexUploadURL = '<s:url action="upload" namespace="/resource"/>?type=annex';
 	    	//未定义
@@ -137,8 +137,7 @@
 			        <tr id="trShowHide_4" style="display:none">
 			        	<td style="height:30px;vertical-align: middle;">文章选项：</td>
 			        	<td>
-			        		<s:checkbox id="topFlag" name="articleVo.topFlag" cssStyle="vertical-align: middle;"/><label for="topFlag">文章置顶</label>&nbsp;&nbsp;
-			        		<s:checkbox id="commentFlag" name="articleVo.commentFlag" cssStyle="vertical-align: middle;"/><label for="commentFlag">允许评论</label>
+			        		<s:checkbox id="comment" name="articleVo.comment" cssStyle="vertical-align: middle;"/><label for="comment">允许评论</label>
 			        	</td>
 			        	<td style="height:30px;vertical-align: middle;">分类属性：</td>
 			        	<td>

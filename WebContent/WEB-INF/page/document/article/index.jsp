@@ -22,8 +22,8 @@
 			deleteURL = '<s:url namespace="/document/article" action="delete"/>';
 			treeURL = '<s:url namespace="/site/channel" action="tree"/>';
 			reasonURL = '<s:url namespace="/document/article" action="reason"/>';
+			trackURL = '<s:url namespace="/document/track" action="index"/>';
 		</script>
-		
 	</head>
 	<body class="easyui-layout">
 		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
@@ -156,6 +156,10 @@
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=true');" >关联</div>
 	    	<div class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'/>');">退回</div>
+	    </div>
+	    <div id="btnTopSub" style="width:80px;display:none;">
+	    	<div id="btnTopSet" iconCls="icon-topset" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',true);">设置</div>
+	        <div id="btnTopCancel" iconCls="icon-topcancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',false);">取消</div>
 	    </div>
 		<div id="reason-window" class="easyui-window" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">
