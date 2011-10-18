@@ -12,13 +12,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-import org.springframework.security.core.session.SessionInformation;
 
 import com.ewcms.security.core.session.EwcmsSessionRegistry;
 import com.ewcms.security.core.session.EwcmsSessionRegistryImpl;
@@ -61,7 +59,7 @@ public class GroupServiceTest extends TestCase{
         when(dao.get(any(String.class))).thenReturn(new Group());
         service.setGroupDao(dao);
         try{
-            service.addGroup("Pertty", null, null, null);
+            service.addGroup("Pertty", null);
             fail();
         }catch(UserServiceException e){
             
@@ -81,33 +79,12 @@ public class GroupServiceTest extends TestCase{
     public void testAddGroup()throws UserServiceException{
         GroupService service = new GroupService();
         
-        AuthorityDAOable authDao = mock(AuthorityDAOable.class);
-        when(authDao.get(any(String.class))).thenReturn(new Authority());
-        service.setAuthorityDao(authDao);
+        GroupDAOable dao = mock(GroupDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(null);
+        service.setGroupDao(dao);
         
-        UserDAOable userDao = mock(UserDAOable.class);
-        when(userDao.get(any(String.class))).thenReturn(new User());
-        service.setUserDao(userDao);
-        
-        GroupDAOable groupDao = mock(GroupDAOable.class);
-        service.setGroupDao(groupDao);
-        
-        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
-        sessionRegistry.registerNewSession("perttyid", "Pertty");
-        service.setSessionRegistry(sessionRegistry);
-
-        Set<String> authNames = new HashSet<String>();
-        authNames.add("ROLE_USER");
-        Set<String> usernames = new HashSet<String>();
-        usernames.add("Pertty");
-        service.addGroup("GROUP_ADMIN", "admin group", authNames, usernames);
-        
-        verify(authDao).get(any(String.class));
-        verify(userDao).get(any(String.class));
-        verify(groupDao).persist(any(Group.class));
-        
-        List<SessionInformation> sessions = sessionRegistry.getAllSessions("Pertty",true);
-        assertTrue(sessions.isEmpty());
+        service.addGroup("Pertty", "Pertty is group");
+        verify(dao).persist(any(Group.class));
     }
     
     @Test
@@ -119,7 +96,7 @@ public class GroupServiceTest extends TestCase{
         service.setGroupDao(groupDao);
         
         try{
-            service.updateGroup("GROUP_ADMIN", null, new HashSet<String>(), new HashSet<String>());
+            service.updateGroup("GROUP_ADMIN", null);
             fail();
         }catch(UserServiceException e){
             
@@ -131,70 +108,33 @@ public class GroupServiceTest extends TestCase{
         GroupService service = new GroupService();
         
         Group group = new Group("GROUP_ADMIN","administraction group");
-        Set<Authority> authorities = new HashSet<Authority>();
-        authorities.add(new Authority("ROLE_ADMIN"));
-        authorities.add(new Authority("ROLE_USER"));
-        group.setAuthorities(authorities);
-        Set<User> users = new HashSet<User>();
-        users.add(new User("amdin"));
-        users.add(new User("user"));
-        group.setUsers(users);
         
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(group);
         service.setGroupDao(groupDao);
         
-        AuthorityDAOable authDao = mock(AuthorityDAOable.class);
-        when(authDao.get("ROLE_ADMIN")).thenReturn(new Authority("ROLE_ADMIN"));
-        when(authDao.get("ROLE_EDITOR")).thenReturn(new Authority("ROLE_EDITOR"));
-        service.setAuthorityDao(authDao);
+        service.updateGroup("GROUP_ADMIN", "new administracation group");
         
-        UserDAOable userDao = mock(UserDAOable.class);
-        when(userDao.get("admin")).thenReturn(new User("admin"));
-        when(userDao.get("pertty")).thenReturn(new User("pertty"));
-        service.setUserDao(userDao);
-        
-        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
-        sessionRegistry.registerNewSession("adminid", "admin");
-        sessionRegistry.registerNewSession("userid", "user");
-        sessionRegistry.registerNewSession("perttyid", "pertty");
-        service.setSessionRegistry(sessionRegistry);
-        
-        Set<String> authNames = new HashSet<String>();
-        authNames.add("ROLE_ADMIN");
-        authNames.add("ROLE_EDITOR");
-        Set<String> usernames = new HashSet<String>();
-        usernames.add("admin");
-        usernames.add("pertty");
-        service.updateGroup("GROUP_ADMIN", "new administracation group", authNames, usernames);
-        
-        verify(groupDao).persist(group);
-        assertTrue(group.getAuthorities().size() == 2);
-        assertTrue(group.getUsers().size() == 2);
-        assertTrue(group.getAuthorities().contains(new Authority("ROLE_EDITOR")));
-        assertTrue(group.getUsers().contains(new User("pertty")));
-        assertTrue(sessionRegistry.getAllSessions("admin", true).isEmpty());
-        assertTrue(sessionRegistry.getAllSessions("userid", true).isEmpty());
-        assertTrue(sessionRegistry.getAllSessions("perttyid", true).isEmpty());
+        verify(groupDao).persist(any(Group.class));
     }
     
     @Test
-    public  void testRemoveAuthInGroupButGroupNoExist(){
+    public  void testRemoveAuthsInGroupButGroupNoExist(){
         GroupService service = new GroupService();
         
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(null);
         service.setGroupDao(groupDao);
         try{
-            service.removeAuthInGroup("GROUP_ADMIN", "ROLE_USER");
+            service.removeAuthsInGroup("GROUP_ADMIN", new HashSet<String>());
             fail();
         }catch(UserServiceException e){
-            
+             
         }
     }
     
     @Test
-    public void testRemoveAuthInGroup()throws UserServiceException{
+    public void testRemoveAuthsInGroup()throws UserServiceException{
         GroupService service = new GroupService();
         
         Group group = new Group();
@@ -203,25 +143,41 @@ public class GroupServiceTest extends TestCase{
         authorities.add(new Authority("ROLE_ADMIN"));
         authorities.add(new Authority("ROLE_USER"));
         group.setAuthorities(authorities);
+        Set<User> users= new HashSet<User>();
+        users.add(new User("admin"));
+        users.add(new User("user"));
+        group.setUsers(users);
+        
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(group);
         service.setGroupDao(groupDao);
         
-        service.removeAuthInGroup("GROUP_ADMIN", "ROLE_USER");
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
+        Set<String> removeAuthNames = new HashSet<String>();
+        removeAuthNames.add("ROLE_USER");
+        service.removeAuthsInGroup("GROUP_ADMIN", removeAuthNames);
         
         assertTrue(group.getAuthorities().size() == 1);
         assertEquals(group.getAuthorities().iterator().next().getName(),"ROLE_ADMIN");
+        assertTrue(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("pertty", true).isEmpty());
     }
     
     @Test
-    public  void testRemoveUserInGroupButGroupNoExist(){
+    public  void testRemoveUsersInGroupButGroupNoExist(){
         GroupService service = new GroupService();
         
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(null);
         service.setGroupDao(groupDao);
         try{
-            service.removeAuthInGroup("GROUP_ADMIN", "Pertty");
+            service.removeUsersInGroup("GROUP_ADMIN", new HashSet<String>());
             fail();
         }catch(UserServiceException e){
             
@@ -229,23 +185,34 @@ public class GroupServiceTest extends TestCase{
     }
     
     @Test
-    public void testRemoveUserInGroup()throws UserServiceException{
+    public void testRemoveUsersInGroup()throws UserServiceException{
         GroupService service = new GroupService();
         
         Group group = new Group();
         group.setName("GROUP_ADMIN");
         Set<User> users= new HashSet<User>();
-        users.add(new User("Pertty"));
-        users.add(new User("Jons"));
+        users.add(new User("admin"));
+        users.add(new User("pertty"));
         group.setUsers(users);
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(group);
         service.setGroupDao(groupDao);
         
-        service.removeUserInGroup("GROUP_ADMIN", "Jons");
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
+        Set<String> removeUsernames = new HashSet<String>();
+        removeUsernames.add("admin");
+        service.removeUsersInGroup("GROUP_ADMIN", removeUsernames);
         
         assertTrue(group.getUsers().size() == 1);
-        assertEquals(group.getUsers().iterator().next().getUsername(),"Pertty");
+        assertEquals(group.getUsers().iterator().next().getUsername(),"pertty");
+        assertTrue(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("pertty", true).isEmpty());
     }
     
     @Test
@@ -291,24 +258,33 @@ public class GroupServiceTest extends TestCase{
 
         Group group = new Group("GROUP_ADMIN");
         Set<User> users= new HashSet<User>();
-        users.add(new User("Pertty"));
+        users.add(new User("pertty"));
         group.setUsers(users);
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(group);
         service.setGroupDao(groupDao);
         UserDAOable userDao = mock(UserDAOable.class);
-        when(userDao.get("Jons")).thenReturn(new User("Jons"));
-        when(userDao.get("Pertty")).thenReturn(new User("Pertty"));
+        when(userDao.get("admin")).thenReturn(new User("admin"));
+        when(userDao.get("pertty")).thenReturn(new User("pertty"));
         service.setUserDao(userDao);
         
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
         Set<String> usernames = new HashSet<String>();
-        usernames.add("Jons");
-        usernames.add("Pertty");
+        usernames.add("admin");
+        usernames.add("pertty");
         Set<User> newUsers = service.addUsersToGroup("GROUP_ADMIN",usernames);
         
         assertTrue(group.getUsers().size() == 2);
         assertTrue(newUsers.size() == 1);
-        assertEquals(newUsers.iterator().next().getUsername(),"Jons");
+        assertEquals(newUsers.iterator().next().getUsername(),"admin");
+        assertTrue(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("pertty", true).isEmpty());
     }
     
     @Test
@@ -356,6 +332,10 @@ public class GroupServiceTest extends TestCase{
         Set<Authority> auths= new HashSet<Authority>();
         auths.add(new Authority("ROLE_ADMIN"));
         group.setAuthorities(auths);
+        Set<User> users= new HashSet<User>();
+        users.add(new User("pertty"));
+        group.setUsers(users);
+        
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(group);
         service.setGroupDao(groupDao);
@@ -363,6 +343,12 @@ public class GroupServiceTest extends TestCase{
         when(authDao.get("ROLE_ADMIN")).thenReturn(new Authority("ROLE_ADMIN"));
         when(authDao.get("ROLE_USER")).thenReturn(new Authority("ROLE_USER"));
         service.setAuthorityDao(authDao);
+        
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
         
         Set<String> authnames = new HashSet<String>();
         authnames.add("ROLE_ADMIN");
@@ -372,5 +358,9 @@ public class GroupServiceTest extends TestCase{
         assertTrue(group.getAuthorities().size() == 2);
         assertTrue(newAuthorities.size() == 1);
         assertEquals(newAuthorities.iterator().next().getName(),"ROLE_USER");
+        
+        assertFalse(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("pertty", true).isEmpty());
     }
 }
