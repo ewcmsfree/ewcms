@@ -18,7 +18,7 @@ import com.ewcms.content.document.model.OperateTrack;
 public interface OperateTrackServiceable {
 	
 	/**
-	 * 保存文章操作过程
+	 * 保存文章操作过程(定时器和采集器操作)
 	 * 
 	 * @param articleMainId 文章主体编号
 	 * @param statusDesc 文章当前状态
@@ -28,6 +28,16 @@ public interface OperateTrackServiceable {
 	 * @param userRealName 真实姓名
 	 */
 	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason, String userName, String userRealName);
+	
+	/**
+	 * 保存文章操作过程(登录系统操作)
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param statusDesc 文章当前状态
+	 * @param description 描述
+	 * @param reason 原因
+	 */
+	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason);
 	
 	/**
 	 * 通过文章主体编号查询所有操作过程

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.dao.OperateTrackDAO;
 import com.ewcms.content.document.model.OperateTrack;
+import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * 
@@ -24,9 +26,11 @@ public class OperateTrackService implements OperateTrackServiceable {
 
 	@Autowired
 	private OperateTrackDAO operateTrackDAO;
+	@Autowired
+	private UserServiceable userService;
 	
 	@Override
-	public void addOperateTrack(Long articleMainId, String statusDesc,	String description, String reason, String userName,	String userRealName) {
+	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason, String userName, String userRealName) {
 		OperateTrack operateTrack = new OperateTrack();
 		
 		operateTrack.setArticleMainId(articleMainId);
@@ -37,6 +41,13 @@ public class OperateTrackService implements OperateTrackServiceable {
 		operateTrack.setUserRealName(userRealName);
 		
 		operateTrackDAO.persist(operateTrack);
+	}
+	
+	@Override
+	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason){
+		String userName = EwcmsContextUtil.getUserDetails().getUsername();
+		String userRealName = userService.getUserRealName();
+		addOperateTrack(articleMainId, statusDesc, description, reason, userName, userRealName);
 	}
 
 	@Override
