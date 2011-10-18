@@ -186,7 +186,7 @@ public class EntityQueryTemplate implements Predicatesable,QueryTemplateable{
 
     @Override
     public EntityQueryTemplate and() {
-        for ( ; predicates.size()>1 ; ) {
+        while ( predicates.size()>1 ) {
             and(this);
         }
         return this;
@@ -205,7 +205,7 @@ public class EntityQueryTemplate implements Predicatesable,QueryTemplateable{
 
     @Override
     public EntityQueryTemplate or() {
-        for ( ; predicates.size()>1 ; ) {
+        while (predicates.size()>1) {
             or(this);
         }
         return this;
