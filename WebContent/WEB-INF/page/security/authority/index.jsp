@@ -3,15 +3,15 @@
 <html>
 <head>
     <title>权限</title>
-    <script type='text/javascript' src='<s:url value="/source/js/jquery-1.4.2.min.js" />'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'/>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
+    <script type='text/javascript' src='<s:url value="/source/js/jquery.min.js" />'></script>
+    <script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/source/easyui/ext/datagrid-detailview.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
     <script type="text/javascript">
         $(function(){
             $('#tt').datagrid({
-                title:'权限列表',
                 fitColumns:true,
                 nowrap: false,
                 singleSelect:true,
@@ -28,9 +28,7 @@
         });
     </script>
 </head>
- <body class="easyui-layout">
-     <div region="center" border="false" style="background:#fff;">
-         <table id="tt" align="center" fit="true"></table>
-     </div>
+ <body>
+     <table id="tt"></table>
 </body>
 </html>
