@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
@@ -68,10 +68,10 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
     static{
         Article article = new Article();
         article.setAuthor("作者测试员");
-        article.setCommentFlag(true);
+        article.setComment(true);
         article.setContentTotal(5);
         article.setCreateTime(new Date());
-        article.setDeleteFlag(false);
+        article.setDelete(false);
         article.setId(Long.MIN_VALUE);
         article.setInside(false);
         article.setKeyword("模板 预览");
@@ -85,15 +85,15 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
         article.setSummary("模板预览,显示用户设置的模板样式。");
         article.setTag("preview");
         article.setTitle("文章模板预览");
-        article.setTopFlag(true);
+        //article.setTop(true);
         article.setType(ArticleType.GENERAL);
         article.setUrl("#");
         
-        List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
-        ArticleCategory category = new ArticleCategory();
+        List<Category> categories = new ArrayList<Category>();
+        Category category = new Category();
         category.setCategoryName("文章");
         categories.add(category);
-        category = new ArticleCategory();
+        category = new Category();
         category.setCategoryName("图文");
         categories.add(category);
         article.setCategories(categories);
@@ -118,10 +118,10 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
     private Article createArticle(int index,boolean top){
         Article article = new Article();
         article.setAuthor("作者测试员");
-        article.setCommentFlag(true);
+        article.setComment(true);
         article.setContentTotal(5);
         article.setCreateTime(new Date());
-        article.setDeleteFlag(false);
+        article.setDelete(false);
         article.setId(new Long(index));
         article.setInside(false);
         article.setKeyword("模板 预览");
@@ -137,7 +137,7 @@ public class MockArticlePublishService implements ArticlePublishServiceable{
         int len = Math.abs(random.nextInt()) % 6;
         len = (len == 0 ? 1 : len);
         article.setTitle(DEFAULT_TITLE.substring(len * 5));
-        article.setTopFlag(top);
+        //article.setTopFlag(top);
         article.setType(ArticleType.GENERAL);
         article.setUrl("#");
         
