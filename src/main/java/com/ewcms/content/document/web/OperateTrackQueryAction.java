@@ -1,3 +1,9 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
 package com.ewcms.content.document.web;
 
 import java.text.SimpleDateFormat;
@@ -7,6 +13,11 @@ import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.web.QueryBaseAction;
 
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
 public class OperateTrackQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = 2141489086820205940L;
