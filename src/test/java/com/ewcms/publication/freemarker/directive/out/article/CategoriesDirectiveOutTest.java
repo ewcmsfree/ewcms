@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateScalarModel;
@@ -37,7 +37,7 @@ public class CategoriesDirectiveOutTest {
     @Test
     public void testValueIsEmptyOfConstructOut()throws Exception{
         CategoriesDirectiveOut out = new CategoriesDirectiveOut();
-        String outValue = out.constructOut(new ArrayList<ArticleCategory>(), null, null);
+        String outValue = out.constructOut(new ArrayList<Category>(), null, null);
         Assert.assertNull(outValue);
     }
     
@@ -62,13 +62,13 @@ public class CategoriesDirectiveOutTest {
         Assert.assertEquals(expected, outValue);
     }
     
-    private List<ArticleCategory> initCategories(){
-        List<ArticleCategory> list = new ArrayList<ArticleCategory>();
+    private List<Category> initCategories(){
+        List<Category> list = new ArrayList<Category>();
         
-        ArticleCategory category = new ArticleCategory();
+        Category category = new Category();
         category.setCategoryName("test");
         list.add(category);
-        category = new ArticleCategory();
+        category = new Category();
         category.setCategoryName("test1");
         list.add(category);
         
