@@ -158,7 +158,7 @@ public class ArticleMainService implements ArticleMainServiceable, ArticlePublis
 		Article article = null;
 		Channel channel = channelDAO.get(source_channelId);
 		Assert.notNull(channel);
-		String channel_name = channel.getName();
+		String source_channelName = channel.getName();
 		String userName = EwcmsContextUtil.getUserDetails().getUsername();
 		for (Integer target_channelId : channelIds) {
 			for (Long articleMainId : articleMainIds) {
@@ -205,13 +205,17 @@ public class ArticleMainService implements ArticleMainServiceable, ArticlePublis
 					target_article.setInside(article.getInside());
 					target_article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
 
-					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"从『" + channel_name + "』栏目复制。", "", userName, userService.getUserRealName());
 					
 					ArticleMain articleMain_new = new ArticleMain();
 					articleMain_new.setArticle(target_article);
 					articleMain_new.setChannelId(target_channelId);
 					
 					articleMainDAO.persist(articleMain_new);
+					articleMainDAO.flush(articleMain_new);
+					
+					String target_channelName = channelDAO.get(target_channelId).getName();
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "复制到『" + target_channelName + "』栏目。", "", userName, userService.getUserRealName());
+					operateTrackService.addOperateTrack(articleMain_new.getId(), target_article.getStatusDescription(),"从『" + source_channelName + "』栏目复制。", "", userName, userService.getUserRealName());
 				}
 			}
 		}
@@ -223,7 +227,7 @@ public class ArticleMainService implements ArticleMainServiceable, ArticlePublis
 		ArticleMain articleMain = null;
 		Channel channel = channelDAO.get(source_channelId);
 		Assert.notNull(channel);
-		String channel_name = channel.getName();
+		String source_channelName = channel.getName();
 		String userName = EwcmsContextUtil.getUserDetails().getUsername();
 		for (Integer target_channelId : channelIds) {
 			for (Long articleMainId : articleMainIds) {
@@ -232,7 +236,7 @@ public class ArticleMainService implements ArticleMainServiceable, ArticlePublis
 				if (target_channelId != source_channelId) {
 					Article article = articleMain.getArticle();
 					
-					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从『" + channel_name + "』栏目移动。", "", userName, userService.getUserRealName());
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从『" + source_channelName + "』栏目移动。", "", userName, userService.getUserRealName());
 					
 					articleMain.setArticle(article);
 					articleMain.setChannelId(target_channelId);
@@ -412,7 +416,9 @@ public class ArticleMainService implements ArticleMainServiceable, ArticlePublis
 			if (articleMain == null) continue;
 			if (articleMain.getTop() != top){
 				String userName = EwcmsContextUtil.getUserDetails().getUsername();
-				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), "清除文章排序号。", "", userName, userService.getUserRealName());
+				String desc = "设为置顶。";
+				if (!top) desc = "取消置顶。";
+				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), desc, "", userName, userService.getUserRealName());
 
 				articleMain.setTop(top);
 				articleMainDAO.merge(articleMain);
