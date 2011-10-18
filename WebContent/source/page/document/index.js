@@ -81,14 +81,14 @@ $(function() {
 		},
 		view : detailview,
 		detailFormatter : function(rowIndex, rowData) {
-			return '<div id="ddv-' + rowIndex + '" style="padding:5px 0"></div>';
+			return '<div id="ddv-' + rowIndex + '"></div>';
 			//return detailGridData(rowData.article.operateTracks);
 		},
 		onExpandRow: function(rowIndex, rowData){
 			$('#ddv-' + rowIndex).panel({
 				border:false,
 				cache:false,
-				content: '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="100%" scrolling="auto"></iframe>',
+				content: '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>',
 				onLoad:function(){
 					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 				}
