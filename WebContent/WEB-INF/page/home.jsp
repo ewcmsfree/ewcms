@@ -115,7 +115,7 @@
                     </div>
                      <div class="nav-item">
                          <a href="javascript:_home.addTab('文章分类','document/category/index.do')">
-                            <img src="source/image/category.png" style="border:0"/><br/>
+                            <img src="source/image/articlecategory.png" style="border:0"/><br/>
                             <span>文章分类</span>
                         </a>
                     </div>
