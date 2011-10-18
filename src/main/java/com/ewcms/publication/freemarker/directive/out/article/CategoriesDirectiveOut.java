@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.common.lang.EmptyUtil;
-import com.ewcms.content.document.model.ArticleCategory;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.publication.freemarker.directive.out.HtmlDirectiveOut;
 
 import freemarker.core.Environment;
@@ -40,7 +40,7 @@ public class CategoriesDirectiveOut extends HtmlDirectiveOut {
     public String constructOut(Object value, Environment env, Map params)throws TemplateException {
         Assert.notNull(value);
       
-        List<ArticleCategory> categories = (List<ArticleCategory>)value;
+        List<Category> categories = (List<Category>)value;
         if(categories.isEmpty()){
             logger.debug("Construct value is empty");
             return null;
@@ -53,7 +53,7 @@ public class CategoriesDirectiveOut extends HtmlDirectiveOut {
         String s = getStyleValue(params);
         if(EmptyUtil.isNotNull(s)){builder.append(" style=\"").append(s).append("\"");}
         builder.append(">");
-        for(ArticleCategory category : categories){
+        for(Category category : categories){
             builder.append("<li>").append(category.getCategoryName()).append("</li>");
         }
         builder.append("</ul>");
