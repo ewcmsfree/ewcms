@@ -24,6 +24,7 @@ import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.security.manage.service.UserServiceable;
 
 /**
@@ -43,6 +44,34 @@ public class ArticleMainServiceTest {
 		articleMainDAO = mock(ArticleMainDAO.class);
 		userService = mock(UserServiceable.class);
 		articleMainService.setArticleMainDAO(articleMainDAO);
+	}
+	
+	@Test
+	public void addArticle(){
+		Integer channelId = 1;
+		Article article = new Article();
+		article.setTitle("addTest");
+		article.setType(ArticleType.GENERAL);
+		
+		articleMainService.addArticleMain(article, channelId, null);
+		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
+		verify(articleMainDAO).persist(argument.capture());
+		assertEquals(argument.getValue().getArticle().getTitle(), article.getTitle());
+	}
+	
+	@Test
+	public void updArticle(){
+		Integer channelId = 1;
+		Article article = new Article();
+		article.setTitle("updTest");
+		article.setType(ArticleType.GENERAL);
+		
+		ArticleMain articleMain = initArticleMain();
+		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
+		//articleService.updArticle(article, articleMain.getId(), channelId, null);
+		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
+		verify(articleMainDAO).merge(argument.capture());
+		assertEquals(argument.getValue().getArticle().getTitle(), "updTest");
 	}
 	
 	@Test
@@ -99,7 +128,7 @@ public class ArticleMainServiceTest {
 		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
-		assertTrue(argument.getValue().getArticle().getDeleteFlag());
+		assertTrue(argument.getValue().getArticle().getDelete());
 	}
 	
 	@Test
@@ -130,12 +159,12 @@ public class ArticleMainServiceTest {
 	@Test
 	public void restoreArticleMain(){
 		ArticleMain articleMain = initArticleMain();
-		articleMain.getArticle().setDeleteFlag(true);
+		articleMain.getArticle().setDelete(true);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
 		articleMainService.restoreArticleMain(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
-		assertFalse(argument.getValue().getArticle().getDeleteFlag());
+		assertFalse(argument.getValue().getArticle().getDelete());
 		assertEquals(argument.getValue().getArticle().getStatus(), ArticleStatus.REEDIT);
 	}
 	
