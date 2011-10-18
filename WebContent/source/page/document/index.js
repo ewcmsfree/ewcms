@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var queryURL,inputURL,deleteURL,treeURL, reasonURL;
+var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL;
 var currentnode, rootnode;//当前所选择的节点，父节点
 var sort = '';//排序值
 
@@ -26,21 +26,22 @@ $(function() {
 	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
 	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
 	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
+	ewcmsBOBJ.addToolItem('置顶', 'icon-top', null, 'btnTop');
 	ewcmsBOBJ.addToolItem('排序', 'icon-sort', null, 'btnSort');
 	ewcmsBOBJ.addToolItem('审核', 'icon-review', null, 'btnReview');
 	ewcmsBOBJ.addToolItem('发布', 'icon-publish', null, 'btnPub');
 
 	ewcmsBOBJ.openDataGrid('#tt',{
-		singleSelect : true,
+		//singleSelect : true,
 		columns : [ [
 					{field : 'id',title : '编号',width : 60},
-					{field : 'topFlag',title : '置顶',width : 60,hidden : true,formatter : function(val, rec) {return rec.article.topFlag;}},
+					{field : 'top',title : '置顶',width : 60,hidden : true},
 					{field : 'reference',title : '引用',width : 60,hidden : true},
 					{field : 'flags',title : '属性',width : 60,
 						formatter : function(val, rec) {
 							var pro = [];
-							if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
-							if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+							if (rec.top) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
+							if (rec.article.comment) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
 							if (rec.article.type == "TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
 							if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
 							if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
@@ -80,9 +81,22 @@ $(function() {
 		},
 		view : detailview,
 		detailFormatter : function(rowIndex, rowData) {
-			return detailGridData(rowData.article.operateTracks);
+			return '<div id="ddv-' + rowIndex + '" style="padding:5px 0"></div>';
+			//return detailGridData(rowData.article.operateTracks);
+		},
+		onExpandRow: function(rowIndex, rowData){
+			$('#ddv-' + rowIndex).panel({
+				border:false,
+				cache:false,
+				content: '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="100%" scrolling="auto"></iframe>',
+				onLoad:function(){
+					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+				}
+			});
+			$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 		}
 	});
+	
 	$('#tt2').tree( {
 		checkbox : false,
 		url : treeURL,
@@ -103,6 +117,7 @@ function initSubMenu() {
 	$('#btnSort .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSortSub'});
 	$('#btnReview .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnReviewSub'});
 	$('#btnPub .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnPubSub'});
+	$('#btnTop .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnTopSub'});
 }
 //根据权限显示相应的菜单
 function channelPermission(rootnode, currentnode) {
@@ -380,13 +395,13 @@ function sortOperate(isUrl, url) {
 			if (r) {
 				var reg = /^\d+$/;
 				if (reg.test(r)) {
-					$.post(isUrl, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].article.topFlag,'sort' : r},function(data) {
+					$.post(isUrl, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].top,'sort' : r},function(data) {
 						if (data == 'true') {//用户输入的排序号与系统中的排序号出现重复，显示是插入还是替换选项页面
 							sort = r;
 							ewcmsBOBJ.openWindow('#sort-window',{width : 550,height : 200,title : '排序'});
 							return;
 						} else if (data == 'false') {
-							$.post(url,{'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].article.topFlag,'sort' : r},function(data) {
+							$.post(url,{'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].top,'sort' : r},function(data) {
 								if (data == 'true') {
 									$.messager.alert('提示','设置排序号成功','info');
 									$('#tt').datagrid('clearSelections');
@@ -417,7 +432,7 @@ function sortArticle(url) {
 	$.post(url, {
 		'selections' : $('#tt').datagrid('getSelections')[0].id,
 		'channelId' : currentnode.id,
-		'isTop' : $('#tt').datagrid('getSelections')[0].article.topFlag,
+		'isTop' : $('#tt').datagrid('getSelections')[0].top,
 		'isInsert' : $('input[name=\'sortRadio\']:checked').val(),
 		'sort' : sort
 	}, function(data) {
@@ -450,6 +465,35 @@ function clearSortOperate(url) {
 		$.post(url, parameter, function(data) {
 			if (data == 'true') {
 				$.messager.alert('提示', '设置消除排序号成功', 'info');
+				$('#tt').datagrid('clearSelections');
+				articleReload();
+			} else if (data == 'system-false') {
+				$.messager.alert('提示', '系统错误', 'error');
+			}
+			return;
+		});
+	}
+	return false;
+}
+//设置文章置顶
+function topOperate(url, top){
+	if (currentnode.id != $('#tt2').tree('getRoot').id) {
+		var rows = $('#tt').datagrid('getSelections');
+		if (rows.length == 0) {
+			$.messager.alert('提示', '请选择记录', 'info');
+			return;
+		}
+		var parameter = 'isTop=' + top;
+		for ( var i = 0; i < rows.length; i++) {
+			parameter = parameter + '&selections=' + rows[i].id;
+		}
+		$.post(url, parameter, function(data) {
+			if (data == 'true') {
+				if (top){
+					$.messager.alert('提示', '设置文章置顶成功', 'info');
+				}else{
+					$.messager.alert('提示', '取消文章置顶成功', 'info');
+				}
 				$('#tt').datagrid('clearSelections');
 				articleReload();
 			} else if (data == 'system-false') {
