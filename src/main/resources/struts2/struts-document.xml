@@ -33,6 +33,7 @@
 		<action name="reason" class="com.ewcms.content.document.web.ReasonAction">
 			<result>/WEB-INF/page/document/article/reason.jsp</result>
 		</action>
+		<action name="topArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="topArticle"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index">
@@ -63,20 +64,20 @@
 		<action name="up" class="com.ewcms.content.document.web.RelationAction" method="up"/>
 		<action name="down" class="com.ewcms.content.document.web.RelationAction" method="down"/>
 	</package>
-	<package name="document.articlecategory" extends="struts-default" namespace="/document/articlecategory">
+	<package name="document.category" extends="struts-default" namespace="/document/category">
 		<action name="index">
-			<result>/WEB-INF/page/document/articlecategory/index.jsp</result>
+			<result>/WEB-INF/page/document/category/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.content.document.web.ArticleCategoryAction" method="delete"/>
-		<action name="query" class="com.ewcms.content.document.web.ArticleCategoryQueryAction" method="query"/>
-		<action name="input" class="com.ewcms.content.document.web.ArticleCategoryAction" method="input">
-			<result name="input">/WEB-INF/page/document/articlecategory/edit.jsp</result>
+		<action name="delete" class="com.ewcms.content.document.web.CategoryAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.document.web.CategoryQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.document.web.CategoryAction" method="input">
+			<result name="input">/WEB-INF/page/document/category/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.content.document.web.ArticleCategoryAction" method="save">
-			<result>/WEB-INF/page/document/articlecategory/edit.jsp</result>
-			<result name="input">/WEB-INF/page/document/articlecategory/edit.jsp</result>
+		<action name="save" class="com.ewcms.content.document.web.CategoryAction" method="save">
+			<result>/WEB-INF/page/document/category/edit.jsp</result>
+			<result name="input">/WEB-INF/page/document/category/edit.jsp</result>
 		</action>
-		<action name="findArticleCategoryAll" class="com.ewcms.content.document.web.ArticleCategoryAction" method="findArticleCategoryAll"/>
+		<action name="findCategoryAll" class="com.ewcms.content.document.web.CategoryAction" method="findCategoryAll"/>
 	</package>
 	<package name="document.reviewprocess" extends="struts-default" namespace="/document/reviewprocess">
 		<action name="index" class="com.ewcms.content.document.web.ReviewProcessAction">
@@ -95,5 +96,11 @@
 		<action name="down" class="com.ewcms.content.document.web.ReviewProcessAction" method="down"/>
 		<action name="userInfo" class="com.ewcms.content.document.web.ReviewProcessAction" method="userInfo"/>
 		<action name="groupInfo" class="com.ewcms.content.document.web.ReviewProcessAction" method="groupInfo"/>
+	</package>
+	<package name="document.track" extends="struts-default" namespace="/document/track">
+		<action name="index" class="com.ewcms.content.document.web.OperateTrackAction">
+			<result>/WEB-INF/page/document/track/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.content.document.web.OperateTrackQueryAction" method="query"/>
 	</package>
 </struts>	
