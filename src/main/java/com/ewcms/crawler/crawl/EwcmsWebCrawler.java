@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Content;
-import com.ewcms.content.document.service.ArticleServiceable;
+import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.Page;
 import com.ewcms.crawler.crawl.crawler4j.crawler.WebCrawler;
@@ -48,7 +48,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 	private Gather gather;
 	private String[] crawlDomains;
 	private CrawlerFacable crawlerFac;
-	private ArticleServiceable articleService;
+	private ArticleMainServiceable articleMainService;
 
 	public void setGather(Gather gather) {
 		this.gather = gather;
@@ -62,8 +62,8 @@ public class EwcmsWebCrawler extends WebCrawler {
 		this.crawlerFac = crawlerFac;
 	}
 
-	public void setArticleService(ArticleServiceable articleService) {
-		this.articleService = articleService;
+	public void setArticleMainService(ArticleMainServiceable articleMainService) {
+		this.articleMainService = articleMainService;
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 			article.setTitle(title);
 			article.setContents(contents);
 
-			articleService.addArticleByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
+			articleMainService.addArticleMainByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
 		} catch (IOException e) {
 			logger.warn(e.getLocalizedMessage());
 		}
@@ -168,7 +168,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 		gather = null;
 		crawlDomains = null;
 		crawlerFac = null;
-		articleService = null;
+		articleMainService = null;
 	}
 
 	private void childrenMatchBlock(Long gatherId, Document doc,

@@ -460,6 +460,6 @@ public class GatherService implements GatherServiceable {
 		Assert.notNull(gather);
 		
 		Integer channelId = gather.getChannelId();
-		articleMainService.delCrawlerData(channelId, CrawlerUserName.USER_NAME);
+		articleMainService.delArticleMainByCrawler(channelId, CrawlerUserName.USER_NAME);
 	}
 }

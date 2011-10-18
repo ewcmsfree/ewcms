@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.content.document.service.ArticleServiceable;
+import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.crawler.BaseException;
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.crawl.crawler4j.crawler.CrawlController;
@@ -46,7 +46,7 @@ public class EwcmsController implements EwcmsControllerable {
 	@Autowired
 	private CrawlerFacable crawlerFac;
 	@Autowired
-	private ArticleServiceable articleService;
+	private ArticleMainServiceable articleMainService;
 	
 	@Override
 	public void crawl(Long gatherId) throws BaseException{
@@ -111,7 +111,7 @@ public class EwcmsController implements EwcmsControllerable {
 			//是否包含二进制文件
 			ewcmsWebCrawler.setIncludeBinaryContent(gather.getDownloadFile());
 			
-			ewcmsWebCrawler.setArticleService(articleService);
+			ewcmsWebCrawler.setArticleMainService(articleMainService);
 			ewcmsWebCrawler.setCrawlDomains(crawlDomains);
 			ewcmsWebCrawler.setCrawlerFac(crawlerFac);
 			ewcmsWebCrawler.setGather(gather);
