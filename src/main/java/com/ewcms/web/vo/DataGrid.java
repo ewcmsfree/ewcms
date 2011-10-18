@@ -10,7 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * Jquery easyui datagrid数据对象
+ * 
  * @author wangwei
  */
 public class DataGrid {
