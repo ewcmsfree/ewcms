@@ -54,7 +54,7 @@ public class QuestionnaireServiceTest {
 		assertEquals(questionnaire.getSort().longValue(), 1L);
 		assertEquals(questionnaire.getNumber().longValue(), 0L);
 		assertFalse(questionnaire.getVerifiCode());
-		assertFalse(questionnaire.getVoteFlag());
+		assertFalse(questionnaire.getVoteEnd());
 		assertEquals(questionnaire.getQuestionnaireStatus(), QuestionnaireStatus.VIEW);
 	}
 }
