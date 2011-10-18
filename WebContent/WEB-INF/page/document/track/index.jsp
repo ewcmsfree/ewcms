@@ -15,8 +15,10 @@
 		<script type="text/javascript">
 			$(function(){
 				$('#tt_track').datagrid({
+					singleSelect:true,
 					rownumbers:true,
 					nowrap:false,
+					pagination:true,
 					url : '<s:url namespace="/document/track" action="query"><s:param name="articleMainId" value="articleMainId"></s:param></s:url>',
 					columns:[[
 						{field:'userRealName',title:'操作员',width:100},
@@ -33,12 +35,16 @@
 							}
 						}
 					]]
-				})
+				});
+				var pager = $('#tt_track').datagrid('getPager');
+				pager.pagination({
+					showPageList:false,
+				});
 			})
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div region="center" style="padding: 0px;" border="false">
+		<div region="center" style="padding:2px;" border="false">
 			<table id="tt_track" fit="true"></table>
 		</div>
 	</body>
