@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.security.manage.web;
+package com.ewcms.security.manage.web.user;
 
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
@@ -18,8 +18,13 @@ import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.web.QueryBaseAction;
 
-@Controller
-public class UserQueryAction extends QueryBaseAction {
+/**
+ * 用户列表查询
+ * 
+ * @author wangwei
+ */
+@Controller("security.user.query.action")
+public class QueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable queryResult(QueryFactory queryFactory,
@@ -31,9 +36,15 @@ public class UserQueryAction extends QueryBaseAction {
             .setRow(rows);
 
         String username = getParameterValue(String.class, "username");
-        if (isStringNotEmpty(username))
-            query.likeAnywhere("username", username);
-        entityOrder(query, order);
+        if (isStringNotEmpty(username)) query.likeAnywhere("username", username);
+        String name = getParameterValue(String.class,"name");
+        if (isStringNotEmpty(name)) query.likeAnywhere("name", name);
+        
+        if(order.hasOrder()){
+            entityOrder(query, order);
+        }else{
+            query.orderAsc("username");
+        }
 
         return query.queryCacheResult(cacheKey);
     }

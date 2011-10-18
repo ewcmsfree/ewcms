@@ -8,13 +8,11 @@ package com.ewcms.security.manage.service;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
@@ -30,11 +28,22 @@ public class GroupService extends AbstractService implements GroupServiceable{
     /**
      * 移除过时的用户
      * 
+     * @param users 用户集合
+     */
+    private void removeExpiredUsers(final Collection<User> users){
+        for(User user : users){
+            String name = user.getUsername();
+            removeExpiredUserByUsername(name);
+        }
+    }
+    
+    /**
+     * 通过用户名移除过时的用户
+     * 
      * @param names 用户名集合
      */
-    private void removeExpiredUseByUsernamesr(final Collection<String> names){
-        for(Iterator<String> iterator = names.iterator(); iterator.hasNext();){
-            String name = iterator.next();
+    private void removeExpiredUseByUsernames(final Collection<String> names){
+        for(String name : names){
             removeExpiredUserByUsername(name);
         }
     }
@@ -55,7 +64,13 @@ public class GroupService extends AbstractService implements GroupServiceable{
     }
     
     @Override
-    public void addGroup(final String name,final String remark,final Set<String> authNames,final Set<String> usernames)throws UserServiceException {
+    public boolean isGroupnameExist(final String name) {
+        Group group = groupDao.get(name);
+        return group != null;
+    }
+    
+    @Override
+    public void addGroup(final String name,final String remark)throws UserServiceException {
         
         if(isGroupnameExist(name)){
             throw new UserServiceException(messages.getMessage(
@@ -64,23 +79,11 @@ public class GroupService extends AbstractService implements GroupServiceable{
         
         String namefull = groupNameFull(name);
         Group group = new Group(namefull,remark);
-        if(authNames != null){
-            group.setAuthorities(getAuthoritiesByNames(authNames));
-        }
-        if(usernames != null){
-            group.setUsers(getUsersByNames(usernames));
-        }
         groupDao.persist(group);
-        
-        if(usernames != null){
-            removeExpiredUseByUsernamesr(usernames);
-        }
     }
 
     @Override
-    public void updateGroup(final String name,final String remark,final Set<String> authNames,final Set<String> usernames)throws UserServiceException {
-        Assert.notNull(authNames,"authNames is null");
-        Assert.notNull(usernames,"usernames is null");
+    public void updateGroup(final String name,final String remark)throws UserServiceException {
         
         Group group = groupDao.get(name);
         if(group == null){
@@ -89,22 +92,7 @@ public class GroupService extends AbstractService implements GroupServiceable{
         }
         
         group.setRemark(remark);
-        Collection<Authority> deffAuthorities = syncCollection(
-                group.getAuthorities(),getAuthoritiesByNames(authNames));
-        Collection<User> deffUsers = syncCollection(
-                group.getUsers(),getUsersByNames(usernames));
         groupDao.persist(group);
-        
-        if(!deffAuthorities.isEmpty()){
-            for(User user : group.getUsers()){
-                removeExpiredUserByUsername(user.getUsername());
-            }
-        }
-        if(!deffUsers.isEmpty()){
-            for(User user : deffUsers){
-                removeExpiredUserByUsername(user.getUsername());
-            }
-        }
     }
 
     @Override
@@ -135,6 +123,8 @@ public class GroupService extends AbstractService implements GroupServiceable{
         group.getUsers().addAll(newUsers);
         groupDao.persist(group);
         
+        removeExpiredUsers(newUsers);
+        
         return newUsers;
     }
 
@@ -155,11 +145,13 @@ public class GroupService extends AbstractService implements GroupServiceable{
         group.getAuthorities().addAll(newAuths);
         groupDao.persist(group);
         
+        removeExpiredUsers(group.getUsers());
+        
         return newAuths;
     }
 
     @Override
-    public void removeUserInGroup(final String name,final String username) {
+    public void removeUsersInGroup(final String name,final Set<String> usernames) {
         Group group = groupDao.get(name);
         if(group == null){
             throw new UserServiceException(messages.getMessage(
@@ -168,17 +160,20 @@ public class GroupService extends AbstractService implements GroupServiceable{
         if(group.getUsers().isEmpty()){
             return ;
         }
-        for(User user : group.getUsers()){
-            if(user.getUsername().equals(username)){
-                group.getUsers().remove(user);
-                break;
-            }
+       Set<User> newUsers = new HashSet<User>();
+       for(User user : group.getUsers()){
+           if(!usernames.contains(user.getUsername())){
+               newUsers.add(user);                    
+             }
         }
-        groupDao.persist(group);
+
+       group.setUsers(newUsers);
+       groupDao.persist(group);
+       removeExpiredUseByUsernames(usernames);
     }
 
     @Override
-    public void removeAuthInGroup(final String name,final String authName) throws UserServiceException{
+    public void removeAuthsInGroup(final String name,final Set<String> authNames) throws UserServiceException{
         Group group = groupDao.get(name);
         if(group == null){
             throw new UserServiceException(messages.getMessage(
@@ -187,18 +182,14 @@ public class GroupService extends AbstractService implements GroupServiceable{
         if(group.getAuthorities().isEmpty()){
             return ;
         }
+        Set<Authority> newAuths = new HashSet<Authority>();
         for(Authority auth : group.getAuthorities()){
-            if(auth.getName().equals(authName)){
-                group.getAuthorities().remove(auth);
-                break;
+            if(!authNames.contains(auth.getName())){
+                newAuths.add(auth);
             }
         }
+        group.setAuthorities(newAuths);
         groupDao.persist(group);
-    }
-    
-    @Override
-    public boolean isGroupnameExist(final String name) {
-        Group group = groupDao.get(name);
-        return group != null;
+        removeExpiredUsers(group.getUsers());
     }
 }

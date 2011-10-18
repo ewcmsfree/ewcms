@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -47,10 +48,12 @@ public class Group implements Serializable {
     
     @ManyToMany(cascade = {CascadeType.REFRESH}, targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinTable(name = "auth_group_members", joinColumns = @JoinColumn(name = "group_name"), inverseJoinColumns = @JoinColumn(name = "username"))
+    @OrderBy("username asc")
     private Set<User> users;
 
     @ManyToMany(cascade = {CascadeType.REFRESH}, targetEntity = Authority.class, fetch = FetchType.LAZY)
     @JoinTable(name = "auth_group_authorities", joinColumns = @JoinColumn(name = "group_name"), inverseJoinColumns = @JoinColumn(name = "authority_name"))
+    @OrderBy("name asc")
     private Set<Authority> authorities;
 
     public Group(){}

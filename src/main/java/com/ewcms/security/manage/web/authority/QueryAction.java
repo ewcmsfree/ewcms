@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.security.manage.web;
+package com.ewcms.security.manage.web.authority;
 
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
@@ -16,8 +16,13 @@ import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.web.QueryBaseAction;
 
-@Controller
-public class AuthorityQueryAction extends QueryBaseAction{
+/**
+ * 权限列表查询
+ * 
+ * @author wangwei
+ */
+@Controller("security.authority.query.action")
+public class QueryAction extends QueryBaseAction{
 
     @Override
     protected Resultable queryResult(QueryFactory queryFactory,String cacheKey, int rows,int page, Order order) {
@@ -28,7 +33,15 @@ public class AuthorityQueryAction extends QueryBaseAction{
         
         String name =  getParameterValue(String.class,"name");
         if(isStringNotEmpty(name)) query.likeAnywhere("name", name);
-        entityOrder(query, order);
+        String remark = getParameterValue(String.class,"remark");
+        if(isStringNotEmpty(remark)) query.likeAnywhere("remark", remark);
+        
+        if(order.hasOrder()){
+             entityOrder(query, order);     
+         }else{
+             query.orderAsc("name");
+          }
+        
         
         return query.queryCacheResult(cacheKey);
     }

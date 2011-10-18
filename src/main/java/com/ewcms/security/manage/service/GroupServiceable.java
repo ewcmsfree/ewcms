@@ -17,26 +17,18 @@ public interface GroupServiceable {
     /**
      * 添加用户组
      * 
-     * 与用户组相关联用户会被强迫退出（移除cache,session中的信息）。
-     * 
      * @param name 用户组名称
      * @param remark 备注
-     * @param authNames 权限名称列表
-     * @param usernames 用户名称列表
      */
-    void addGroup(String name,String remark,Set<String> authNames,Set<String> usernames);
+    void addGroup(String name,String remark);
 
     /**
      * 修改用户组
      *
-     * 修改用户组权限或用户时，与用户组相关联用户会被强迫退出（移除cache,session中的信息）。
-     * 
      * @param name 用户组名称
      * @param remark 备注
-     * @param authNames 权限名称列表
-     * @param usernames 用户名称列表
      */
-    void updateGroup(String name,String remark,Set<String> authNames,Set<String> usernames);
+    void updateGroup(String name,String remark);
     
     /**
      * 删除用户组
@@ -71,10 +63,10 @@ public interface GroupServiceable {
      * 
      * 被移除用户强迫退出（移除cache,session中的信息）。
      * 
-     * @param name 用户组名称
-     * @param username 用户组名称
+     * @param name 用户组名称集合
+     * @param usernames 用户组名称
      */
-    void removeUserInGroup(String name,String username);
+    void removeUsersInGroup(String name,Set<String> usernames);
     
     /**
      * 添加权限到用户组
@@ -93,9 +85,9 @@ public interface GroupServiceable {
      * 用户组中用户被强迫退出（移除cache,session中的信息）。
      * 
      * @param name 用户组名称
-     * @param authName 权限名称
+     * @param authNames 权限名称集合
      */
-    void removeAuthInGroup(String name,String authName);
+    void removeAuthsInGroup(String name,Set<String> authNames);
     
     /**
      * 判断用户组名是否存在
