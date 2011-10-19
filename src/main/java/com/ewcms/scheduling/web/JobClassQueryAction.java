@@ -9,10 +9,6 @@ package com.ewcms.scheduling.web;
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -23,7 +19,6 @@ import com.ewcms.web.QueryBaseAction;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobClassQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = -8882837349113907705L;
@@ -46,8 +41,7 @@ public class JobClassQueryAction extends QueryBaseAction {
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
     	EntityQueryable query =  queryFactory.createEntityQuery(JobClass.class).setPage(page).setRow(rows).orderAsc("id");
         
-        List<Integer> ids = getIds(Integer.class);
-        query.in("id", ids);
+        query.in("id", getIds(Integer.class));
         
         return query.queryResult();    
      }

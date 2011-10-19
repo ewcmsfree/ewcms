@@ -7,7 +7,6 @@
 package com.ewcms.scheduling.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.crawler.CrawlerFacable;
 import com.ewcms.crawler.model.Gather;
@@ -22,7 +21,6 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobCrawlerAction extends ActionSupport {
 
 	private static final long serialVersionUID = -7180641001521655948L;

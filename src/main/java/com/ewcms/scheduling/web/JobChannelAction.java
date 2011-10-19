@@ -7,7 +7,6 @@
 package com.ewcms.scheduling.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
@@ -22,7 +21,6 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobChannelAction extends ActionSupport {
 
 	private static final long serialVersionUID = -7180641001521655948L;

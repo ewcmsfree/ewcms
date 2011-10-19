@@ -14,7 +14,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -31,7 +30,6 @@ import com.ewcms.web.vo.DataGrid;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobInfoQueryAction extends QueryBaseAction {
 	
 	private static final long serialVersionUID = -8882837349113907705L;

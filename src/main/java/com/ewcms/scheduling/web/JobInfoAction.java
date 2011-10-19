@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.job.JobClassEntity;
@@ -26,7 +25,6 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 
 	private static final long serialVersionUID = -7180641001521655948L;

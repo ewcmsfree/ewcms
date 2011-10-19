@@ -9,7 +9,6 @@ package com.ewcms.scheduling.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.manage.fac.SchedulingFacable;
@@ -20,7 +19,6 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-@Controller
 public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 
 	private static final long serialVersionUID = -7180641001521655948L;
