@@ -58,7 +58,7 @@ public class HistoryQueryAction extends QueryBaseAction {
         
         HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
         
-        query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+        query.setParameter("userName", EwcmsContextUtil.getUserName());
         
 		if (isNotNull(id)){
 			query.setParameter("id", id);
@@ -81,7 +81,7 @@ public class HistoryQueryAction extends QueryBaseAction {
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		query.setParameter("id", getIds(Integer.class));
-		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
 		
 		setDateFormat(DATE_FORMAT);
 		
