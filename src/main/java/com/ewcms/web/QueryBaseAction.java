@@ -31,7 +31,7 @@ import com.ewcms.web.vo.DataGrid;
 /**
  * 查询显示
  *
- * <p>用于页面查询显示，查询结果�?过JSON数据格式返回，数据格式针对Jquery easyUI DataGrid</p>
+ * <p>用于页面查询显示，查询结果通过JSON数据格式返回，数据格式针对Jquery easyUI DataGrid</p>
  *
  * @author wangwei
  */
