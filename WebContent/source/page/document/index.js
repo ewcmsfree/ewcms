@@ -35,8 +35,6 @@ $(function() {
 		//singleSelect : true,
 		columns : [ [
 					{field : 'id',title : '编号',width : 60},
-					{field : 'top',title : '置顶',width : 60,hidden : true},
-					{field : 'reference',title : '引用',width : 60,hidden : true},
 					{field : 'flags',title : '属性',width : 60,
 						formatter : function(val, rec) {
 							var pro = [];
@@ -62,7 +60,6 @@ $(function() {
 							return rec.article.title + classValue;
 						}
 					},
-					//{field : 'owner',title : '创建者',width : 80,formatter : function(val, rec) {return rec.article.owner;}}, 
 					{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
 					{field : 'published',title : '发布时间',width : 125,formatter : function(val, rec) {return rec.article.published;}}, 
 					{field : 'modified',title : '修改时间',width : 125,formatter : function(val, rec) {return rec.article.modified;}}, 
@@ -82,7 +79,6 @@ $(function() {
 		view : detailview,
 		detailFormatter : function(rowIndex, rowData) {
 			return '<div id="ddv-' + rowIndex + '"></div>';
-			//return detailGridData(rowData.article.operateTracks);
 		},
 		onExpandRow: function(rowIndex, rowData){
 			$('#ddv-' + rowIndex).panel({
@@ -642,61 +638,6 @@ function enableButtons() {
 function showReason(url){
 	$('#editifr_reason').attr('src',url);
 	ewcmsBOBJ.openWindow('#reason-window',{width:600,height:300,title:'原因'});
-}
-//文章操作过程数据
-function detailGridData(operateTracks){
-	var htmls = [];
-	if (operateTracks.length == 0) {
-		htmls.push('<div style="padding:5px 0">没有操作记录!</div>');
-	} else {
-		htmls.push('<div style="padding:5px 0;"><div class="datagrid-header" style="height:21px;">');
-		htmls.push('<div style="float:left;display: block;">');
-		htmls.push('<table cellspacing="0" cellpadding="0" border="0" style="height: 22px;">');
-		htmls.push('<tr>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span></span></div></td>');
-		//htmls.push('<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>操作员</span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>操作员</span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>状态</span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>操作时间</span></div></td>');
-		htmls.push('<td><div class="datagrid-cell" style="width: 600px;; text-align: left;"><span>描述</span></div></td>');
-		htmls.push('</tr>');
-		htmls.push('</table>');
-		htmls.push('</div>');
-		htmls.push('</div>');
-		htmls.push('<div class="datagrid-body">');
-		for ( var i = 0; i < operateTracks.length; i++) {
-			var userRealName = '';
-			if (operateTracks[i].userRealName != null) 
-				userRealName = operateTracks[i].userRealName;
-			var reason = '';
-			if (operateTracks[i].reason != null && operateTracks[i].reason.length > 0){
-				var url = reasonURL + '?trackId=' + operateTracks[i].id;
-				reason = '<a href="#" onclick="showReason(\'' + url + '\');">原因</a>';
-			}
-			htmls.push('<table cellspacing="0" cellpadding="0" border="0"><tr style="height: 21px">'
-							+ '<td><div class="datagrid-cell" style="width: 20px; text-align: center;"><span>'
-							+ (operateTracks.length - i)
-							+ '</span></div></td>'
-							//+ '<td><div class="datagrid-cell" style="width: 80px; text-align: left;"><span>'
-							//+ operateTracks[i].userName
-							//+ '</span></div></td>'
-							+ '<td><div class="datagrid-cell" style="width: 100px; text-align: left;"><span>'
-							+ userRealName
-							+ '</span></div></td>'
-							+ '<td><div class="datagrid-cell" style="width: 60px; text-align: left;"><span>'
-							+ operateTracks[i].statusDesc
-							+ '</span></div></td>'
-							+ '<td><div class="datagrid-cell" style="width: 125px; text-align: left;"><span>'
-							+ operateTracks[i].operateTime
-							+ '</span></div></td>'
-							+ '<td><div class="datagrid-cell" style="width: 600px; text-align: left;"><span>'
-							+ operateTracks[i].description + '&nbsp;&nbsp;' + reason
-							+ '</span></div></td>' 
-							+ '</tr></table>');
-		}
-		htmls.push('</div></div>');
-	}
-	return htmls.join("");
 }
 //根据文章不同的状态,调整子菜单的显示
 function adjustMenu(status){

@@ -475,7 +475,7 @@ function showHide(){
         $('#trShowHide_3').show();
         $('#trShowHide_4').show();
         $('#trShowHide_5').show();
-        $('#imgShowHide').attr('src', '../../source/image/article/hide.gif');
+        //$('#imgShowHide').attr('src', '../../source/image/article/hide.gif');
     	$('#showHideLabel').text('收缩');
     }else{
     	for (var i=1;i<=5;i++){
@@ -488,7 +488,7 @@ function showHide(){
     			$('#trShowHide_' + i).hide();
     		}
     	}
-        $('#imgShowHide').attr('src', '../../source/image/article/show.gif');
+        //$('#imgShowHide').attr('src', '../../source/image/article/show.gif');
     	$('#showHideLabel').text('展开');
     }
     window_resize();
