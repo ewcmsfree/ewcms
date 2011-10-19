@@ -5,7 +5,6 @@
  */
  
 var GroupIndex = function(urls){
-
     this._urls = urls;
 }
 
@@ -53,7 +52,7 @@ GroupIndex.prototype.init = function(opts){
     
     $(opts.toolbarAddId).bind('click',function(){
         $('#editifr-id').attr('src',urls.editUrl);
-        openWindow('#edit-window',{title:'增加 - 用户组',width:480,height:280})
+        openWindow('#edit-window',{title:'增加 - 用户组',width:680,height:480})
     });
     
     $(opts.toolbarUpdateId).bind('click',function(){
@@ -63,10 +62,14 @@ GroupIndex.prototype.init = function(opts){
         }
         var url = urls.editUrl + "?eventOP=update&name=" + rows[0].name; 
         $('#editifr-id').attr('src',url);
-        openWindow('#edit-window',{title:'修改 - 用户组',width:480,height:280})
+        openWindow('#edit-window',{title:'修改 - 用户组',width:680,height:480})
     });
     
     $(opts.toolbarQueryId).bind('click',function(){
         querySearch(opts.queryFormId);
     });
+}
+
+GroupIndex.prototype.closeEditWindow = function(){
+    $('#edit-window').window('close');
 }

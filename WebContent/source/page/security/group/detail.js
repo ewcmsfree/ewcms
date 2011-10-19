@@ -32,9 +32,7 @@ GroupDetail.prototype.init = function(opts){
     ewcmsOOBJ = new EwcmsOperate();
     
     $('#tt').propertygrid({
-        title:"权限/用户",
-        iconCls:"icon-edit",
-        width:500,
+        width:650,
         height:'auto',
         url:urls.queryUrl,
         showGroup:true,
@@ -73,6 +71,13 @@ GroupDetail.prototype.init = function(opts){
             }
         }]
     });
+    
+    if(opts.showTitle){
+        $('#tt').propertygrid({
+            title:"权限/用户",
+            iconCls:"icon-winedit"
+        });
+    }
     
     $('#auth-tt').datagrid({
         width:500,
