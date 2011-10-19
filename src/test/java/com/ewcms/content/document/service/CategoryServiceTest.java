@@ -47,11 +47,11 @@ public class CategoryServiceTest {
 	public void addCategory() {
 		when(categoryDAO.get(1)).thenReturn(null);
 
-		Category articleCategory = new Category();
-		articleCategory.setId(1);
-		articleCategory.setCategoryName("addTest");
+		Category category = new Category();
+		category.setId(1);
+		category.setCategoryName("addTest");
 
-		categoryService.addCategory(articleCategory);
+		categoryService.addCategory(category);
 		ArgumentCaptor<Category> argument = ArgumentCaptor.forClass(Category.class);
 		verify(categoryDAO).persist(argument.capture());
 		assertEquals(argument.getValue().getId(), new Integer(1));
@@ -65,11 +65,11 @@ public class CategoryServiceTest {
 
 	@Test
 	public void updCategory() {
-		Category articleCategory = new Category();
-		articleCategory.setId(1);
-		articleCategory.setCategoryName("addTest");
+		Category category = new Category();
+		category.setId(1);
+		category.setCategoryName("addTest");
 
-		categoryService.updCategory(articleCategory);
+		categoryService.updCategory(category);
 		ArgumentCaptor<Category> argument = ArgumentCaptor.forClass(Category.class);
 		verify(categoryDAO).merge(argument.capture());
 		assertEquals(argument.getValue().getId(), new Integer(1));
@@ -78,8 +78,8 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void delCategory(){
-		Integer articleCategoryId = 1;
-		categoryService.delCategory(articleCategoryId);
+		Integer categoryId = 1;
+		categoryService.delCategory(categoryId);
 		ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
 		verify(categoryDAO).removeByPK(argument.capture());
 	}
@@ -102,21 +102,21 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void findCategoryAll(){
-		List<Category> articleCategorys = new ArrayList<Category>();
+		List<Category> categories = new ArrayList<Category>();
 		
 		Category vo = new Category();
 		vo.setId(1);
 		vo.setCategoryName("findAllTest");
-		articleCategorys.add(vo);
+		categories.add(vo);
 		
 		Category vo1 = new Category();
 		vo1.setId(2);
 		vo1.setCategoryName("findAllTest1");
-		articleCategorys.add(vo1);
+		categories.add(vo1);
 		
-		when(categoryDAO.findAll()).thenReturn(articleCategorys);
+		when(categoryDAO.findAll()).thenReturn(categories);
 		List<Category> lists = categoryService.findCategoryAll();
 		assertNotNull(lists);
-		assertEquals(lists.size(), articleCategorys.size());
+		assertEquals(lists.size(), categories.size());
 	}
 }
