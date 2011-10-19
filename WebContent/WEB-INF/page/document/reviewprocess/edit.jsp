@@ -10,28 +10,28 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>	
         <script type="text/javascript">
-    	$(function() {
-    		$('#userInfo').combobox({
-    			url: '<s:url namespace="/document/reviewprocess" action="userInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
-    			valueField:'id',
-    	        textField:'text',
-    			editable:false,
-    			multiple:true,
-    			cascadeCheck:false,
-    			panelWidth:200,
-    			panelHeight:100
-    		});
-    		$('#groupInfo').combobox({
-    			url: '<s:url namespace="/document/reviewprocess" action="groupInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
-    			valueField:'id',
-    	        textField:'text',
-    			editable:false,
-    			multiple:true,
-    			cascadeCheck:false,
-    			panelWidth:200,
-    			panelHeight:100
-    		});
-    	})
+	    	$(function() {
+	    		$('#userInfo').combobox({
+	    			url: '<s:url namespace="/document/reviewprocess" action="userInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
+	    			valueField:'id',
+	    	        textField:'text',
+	    			editable:false,
+	    			multiple:true,
+	    			cascadeCheck:false,
+	    			panelWidth:200,
+	    			panelHeight:100
+	    		});
+	    		$('#groupInfo').combobox({
+	    			url: '<s:url namespace="/document/reviewprocess" action="groupInfo"><s:param name="processId" value="reviewProcessVo.id"></s:param></s:url>',
+	    			valueField:'id',
+	    	        textField:'text',
+	    			editable:false,
+	    			multiple:true,
+	    			cascadeCheck:false,
+	    			panelWidth:200,
+	    			panelHeight:100
+	    		});
+	    	})
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
 			        <s:iterator value="actionMessages">  
