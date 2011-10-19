@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="name">
+        <field-validator type="requiredstring">
+            <message>不能为空!</message>
+        </field-validator>
+       <field-validator type="regex">
+            <param name="expression"><![CDATA[(^[0-9A-Za-z_]+$)]]></param>
+            <message>请用英文、数字、下划线</message>
+        </field-validator>        
+    </field>
+</validators>
+
+
