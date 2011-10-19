@@ -40,6 +40,13 @@ public interface OperateTrackServiceable {
 	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason);
 	
 	/**
+	 * 删除文章操作过程
+	 * 
+	 * @param articleMainId 文章主体编号
+	 */
+	public void delOperateTrack(Long articleMainId);
+	
+	/**
 	 * 通过文章主体编号查询所有操作过程
 	 * 
 	 * @param articleMainId 文章主体编号

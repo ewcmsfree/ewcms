@@ -60,7 +60,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>categories:文章分类属性集合</li>
  * <li>contentTotal:内容总页数<li>
  * <li>inside:使用内部标题</li>
- * <li>operateTracks:操作记录</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -135,10 +134,6 @@ public class Article implements Serializable {
 	private Integer contentTotal;
 	@Column(name = "inside")
 	private Boolean inside;
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ArticleOperateTrack.class, orphanRemoval = true)
-//	@JoinColumn(name = "article_id")
-//	@OrderBy(value = "id DESC")
-//	private List<ArticleOperateTrack> operateTracks = new ArrayList<ArticleOperateTrack>();
 	
 	public Article() {
 		comment = false;
@@ -362,14 +357,6 @@ public class Article implements Serializable {
 	public void setInside(Boolean inside) {
 		this.inside = inside;
 	}
-
-//	public List<ArticleOperateTrack> getOperateTracks() {
-//		return operateTracks;
-//	}
-//
-//	public void setOperateTracks(List<ArticleOperateTrack> operateTracks) {
-//		this.operateTracks = operateTracks;
-//	}
 
 	@Override
 	public int hashCode() {

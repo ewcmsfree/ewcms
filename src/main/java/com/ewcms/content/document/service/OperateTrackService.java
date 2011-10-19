@@ -60,4 +60,8 @@ public class OperateTrackService implements OperateTrackServiceable {
 		return operateTrackDAO.get(operateTrackId);
 	}
 
+	@Override
+	public void delOperateTrack(Long articleMainId) {
+		operateTrackDAO.delOperateTrackByArticleMainId(articleMainId);
+	}
 }

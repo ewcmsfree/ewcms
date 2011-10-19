@@ -9,6 +9,10 @@ package com.ewcms.content.document.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+
+import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -24,4 +28,15 @@ public class OperateTrackDAO extends JpaDAO<Long, OperateTrack> {
     	if (list.isEmpty()) return new ArrayList<OperateTrack>();
     	return list;
 	}
+	
+    public void delOperateTrackByArticleMainId(final Long articleMainId){
+    	this.getJpaTemplate().execute(new JpaCallback<Object>(){
+			@Override
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				String hql = "Delete OperateTrack As t Where t.articleMainId=?";
+				em.createQuery(hql).setParameter(1, articleMainId).executeUpdate();
+				return null;
+			}
+    	});
+    }
 }

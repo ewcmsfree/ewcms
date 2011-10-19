@@ -77,6 +77,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMain.setArticle(null);
 		}
 		articleMainDAO.remove(articleMain);
+		operateTrackService.delOperateTrack(articleMainId);
 	}
 
 	@Override
