@@ -9,8 +9,6 @@ package com.ewcms.crawler.web;
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
-import java.util.List;
-
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -38,11 +36,7 @@ public class GatherQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Gather.class).setPage(page).setRow(rows).orderAsc("id");
-    	
-        List<Long> ids = getIds(Long.class);
-        query.in("id", ids);
-        
+        query.in("id", getIds(Long.class));
         return query.queryResult();    
 	}
-
 }
