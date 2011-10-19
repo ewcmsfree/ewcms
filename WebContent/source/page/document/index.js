@@ -527,7 +527,7 @@ function breakOperate(url) {
 			} else if (data == 'accessdenied') {
 				$.messager.alert('提示', '没有退回权限', 'info');
 			} else if (data == 'notinstate') {
-				$.messager.alert('提示', '文章只有在发布版或已发布版状态下才能退回', 'info');
+				$.messager.alert('提示', '文章只有在审核中断、发布版、已发布版状态下才能退回', 'info');
 			}
 			return;
 		} else {
@@ -708,7 +708,7 @@ function adjustMenu(status){
 		$('#btnReviewSubmit').attr('style', 'display:block;');
 		$('#btnReviewProcess').attr('style', 'display:none;');
 		$('#btnBreakArticle').attr('style', 'display:none;');
-	}else if (status == 'PRERELEASE' || status == 'RELEASE'){
+	}else if (status == 'PRERELEASE' || status == 'RELEASE' || status == 'REVIEWBREAK'){
 		$('#btnReviewSubmit').attr('style', 'display:none;');
 		$('#btnReviewProcess').attr('style', 'display:none;');
 		$('#btnBreakArticle').attr('style', 'display:block;');
