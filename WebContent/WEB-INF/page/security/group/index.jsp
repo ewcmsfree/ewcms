@@ -15,14 +15,13 @@
     <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
     
      <script type="text/javascript">
+         var _groupIndex = new GroupIndex({
+             queryUrl:'<s:url action="query"/>',
+             detailUrl:'<s:url action="detail"/>',
+             editUrl:'<s:url action="input"/>'
+             });
         $(function(){
-            var groupIndex = new GroupIndex({
-                queryUrl:'<s:url action="query"/>',
-                detailUrl:'<s:url action="detail"/>',
-                editUrl:'<s:url action="input"/>'
-                });
-            
-           groupIndex.init({
+           _groupIndex.init({
                datagridId:'#tt',
                toolbarAddId:'#toolbar-add',
                toolbarUpdateId:'#toolbar-update',
@@ -31,10 +30,8 @@
            });
         });
         
-        function openDetailWindow(name){
-            var url = '<s:url action="detail"/>?name='+name;
-            $('#editifr-auth-user-id').attr('src',url);
-            openWindow('#edit-auth-user-window',{title:'修改 - 权限/用户',width:600,height:450})
+        function closeEditWindow(){
+            _groupIndex.closeEditWindow();
         }
     </script>
 </head>
@@ -55,17 +52,7 @@
          </div>
      </div>
      <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="用户组" style="display:none;">
-           <iframe id="editifr-id"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
+         <iframe id="editifr-id"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
     </div> 
-    <div id="edit-auth-user-window" class="easyui-window" closed="true" icon="icon-winedit" title="用户组" style="display:none;">
-        <div class="easyui-layout" fit="true">
-            <div region="center" border="false">
-               <iframe id="editifr-auth-user-id" width="98%" frameborder="0" height="350"/></iframe>
-            </div>
-            <div region="south" border="false" style="padding-right:20px;text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
-                <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="closeWindow()">取消</a>
-            </div>
-        </div>
-    </div>  
 </body>
 </html>

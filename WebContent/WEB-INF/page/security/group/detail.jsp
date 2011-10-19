@@ -11,6 +11,7 @@
 <script type="text/javascript" src='<s:url value="/source/page/security/group/detail.js"/>'></script>
 <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>' />
 <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
+<link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
 
 <script type="text/javascript">
     $(function() {
@@ -23,7 +24,8 @@
                 });
         
         detail.init({
-            groupName : '<s:property value="name"/>'
+            groupName : '<s:property value="name"/>',
+            showTitle : <s:property value="showTitle"/>
         });
     });
 </script>
