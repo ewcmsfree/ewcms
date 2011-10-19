@@ -56,8 +56,9 @@ public interface SecurityFacable {
      * 
      * @param name 用户组名称
      * @param remark 备注
+     * @return 用户组名称
      */
-    void addGroup(String name,String remark);
+    String addGroup(String name,String remark);
 
     /**
      * 修改用户组
@@ -66,4 +67,11 @@ public interface SecurityFacable {
      * @param remark 备注
      */
     void updateGroup(String name,String remark);
+    
+    /**
+     * 删除用户组
+     * 
+     * @param name 用户组名称
+     */
+    void removeGroup(String name);
 }

@@ -19,8 +19,9 @@ public interface GroupServiceable {
      * 
      * @param name 用户组名称
      * @param remark 备注
+     * @return 用户组名称
      */
-    void addGroup(String name,String remark);
+    String addGroup(String name,String remark);
 
     /**
      * 修改用户组

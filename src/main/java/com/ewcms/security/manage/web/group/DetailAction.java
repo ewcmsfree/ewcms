@@ -38,6 +38,7 @@ public class DetailAction extends ActionSupport{
     private static final String User_Group_Title = "用户";
     
     private String name;
+    private Boolean showTitle = Boolean.TRUE;
     
     @Autowired
     private SecurityFacable fac;
@@ -92,6 +93,14 @@ public class DetailAction extends ActionSupport{
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Boolean getShowTitle() {
+        return showTitle;
+    }
+
+    public void setShowTitle(Boolean showTitle) {
+        this.showTitle = showTitle;
     }
 
     /**

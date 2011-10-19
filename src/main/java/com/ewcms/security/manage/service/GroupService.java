@@ -65,12 +65,12 @@ public class GroupService extends AbstractService implements GroupServiceable{
     
     @Override
     public boolean isGroupnameExist(final String name) {
-        Group group = groupDao.get(name);
+        Group group = groupDao.get(groupNameFull(name));
         return group != null;
     }
     
     @Override
-    public void addGroup(final String name,final String remark)throws UserServiceException {
+    public String addGroup(final String name,final String remark)throws UserServiceException {
         
         if(isGroupnameExist(name)){
             throw new UserServiceException(messages.getMessage(
@@ -80,6 +80,8 @@ public class GroupService extends AbstractService implements GroupServiceable{
         String namefull = groupNameFull(name);
         Group group = new Group(namefull,remark);
         groupDao.persist(group);
+        
+        return namefull;
     }
 
     @Override

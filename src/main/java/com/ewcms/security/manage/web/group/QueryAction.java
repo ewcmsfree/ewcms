@@ -8,6 +8,8 @@ package com.ewcms.security.manage.web.group;
 
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.common.query.Resultable;
@@ -45,6 +47,14 @@ public class QueryAction extends QueryBaseAction{
     @Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory,
             int rows, int page, String[] selections, Order order) {
-        return null;
+        
+        EntityQueryable query = 
+            queryFactory.createEntityQuery(Group.class)
+            .setPage(page)
+            .setRow(rows);
+        
+        query.in("name", Arrays.asList(selections));
+        
+        return query.queryResult();
     }
 }

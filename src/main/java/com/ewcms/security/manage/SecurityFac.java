@@ -63,14 +63,19 @@ public class SecurityFac implements SecurityFacable{
     }
     
     @Override
-    public void addGroup(String name, String remark) {
-        groupService.addGroup(name, remark);
+    public String addGroup(String name, String remark) {
+        return groupService.addGroup(name, remark);
         
     }
 
     @Override
     public void updateGroup(String name, String remark) {
         groupService.updateGroup(name, remark);
+    }
+    
+    @Override
+    public void removeGroup(String name) {
+        groupService.removeGroup(name);
     }
     
     public void setGroupSerivce(GroupServiceable groupSerivce) {
