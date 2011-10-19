@@ -56,7 +56,7 @@ public class HistoryHandler {
 			String packageName = args[modelObjectIndex].getClass().getPackage().getName();
 			String modelName = args[modelObjectIndex].getClass().getSimpleName();
 			historyModel.setClassName(packageName + "." + modelName);
-			historyModel.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
+			historyModel.setUserName(EwcmsContextUtil.getUserName());
 
 			historyModel.setMethodName(pjp.getSignature().getName());
 
