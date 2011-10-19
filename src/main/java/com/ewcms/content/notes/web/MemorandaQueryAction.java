@@ -113,7 +113,7 @@ public class MemorandaQueryAction extends QueryBaseAction {
 			query.setParameter("missRemind", Boolean.parseBoolean(missRemind));
 		}
 		
-		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
 		
 		setDateFormat(DATE_FORMAT);
 		
@@ -128,7 +128,7 @@ public class MemorandaQueryAction extends QueryBaseAction {
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
 		query.setParameter("id", getIds(Long.class));
-		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
 		
 		setDateFormat(DATE_FORMAT);
 		

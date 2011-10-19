@@ -192,7 +192,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setType(article.getType());
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 					target_article.setInside(article.getInside());
-					target_article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
+					target_article.setOwner(EwcmsContextUtil.getUserName());
 
 					
 					ArticleMain articleMain_new = new ArticleMain();
@@ -421,7 +421,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			article.setPublished(published);
 		}
 		if (isNull(article.getOwner())){
-			article.setOwner(EwcmsContextUtil.getUserDetails().getUsername());
+			article.setOwner(EwcmsContextUtil.getUserName());
 		}
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));

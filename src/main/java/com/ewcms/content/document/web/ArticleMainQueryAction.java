@@ -144,7 +144,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 			query.setParameter("articleType", ArticleType.valueOf(articleType));
 		}
 		if (!isPermissionIsChannel){
-			query.setParameter("owner", EwcmsContextUtil.getUserDetails().getUsername());
+			query.setParameter("owner", EwcmsContextUtil.getUserName());
 		}
 		query.setParameter("channelId", getChannelId());
 		
@@ -170,7 +170,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		query.setParameter("id", getIds(Long.class));
 		query.setParameter("channelId", getChannelId());
 		if (!isPermissionIsChannel){
-			query.setParameter("owner", EwcmsContextUtil.getUserDetails().getUsername());
+			query.setParameter("owner", EwcmsContextUtil.getUserName());
 		}
 		
 		setDateFormat(DATE_FORMAT);

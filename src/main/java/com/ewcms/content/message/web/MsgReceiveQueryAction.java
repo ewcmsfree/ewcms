@@ -81,7 +81,7 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 			query.setParameter("status", FrequencyStatus.valueOf(status));
 		}
 		
-		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
 
 		setDateFormat(DATE_FORMAT);
 
@@ -96,7 +96,7 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
 		query.setParameter("id", getIds(Long.class));
-		query.setParameter("userName", EwcmsContextUtil.getUserDetails().getUsername());
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
 		
 		setDateFormat(DATE_FORMAT);
 		

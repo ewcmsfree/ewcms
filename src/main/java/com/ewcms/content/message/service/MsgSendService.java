@@ -45,7 +45,7 @@ public class MsgSendService implements MsgSendServiceable {
 
 	@Override
 	public Long addMsgSend(MsgSend msgSend, String content, List<String> userNames) {
-		msgSend.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		msgSend.setUserName(EwcmsContextUtil.getUserName());
 		msgSend.setStatus(MsgStatus.FAVORITE);
 		MsgContent msgContent = new MsgContent();
 		msgContent.setTitle(msgSend.getTitle());
@@ -79,7 +79,7 @@ public class MsgSendService implements MsgSendServiceable {
 				if (userName.equals(msgSend.getUserName())) continue;
 				MsgReceive msgReceive = new MsgReceive();
 				msgReceive.setUserName(userName);
-				msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
+				msgReceive.setSendUserName(EwcmsContextUtil.getUserName());
 				msgReceive.setStatus(MsgStatus.FAVORITE);
 				msgReceive.setMsgContent(msgContent);
 				msgReceiveDAO.persist(msgReceive);
@@ -106,12 +106,12 @@ public class MsgSendService implements MsgSendServiceable {
 
 	@Override
 	public List<MsgSend> findMsgSendByUserName() {
-		return msgSendDAO.findMsgSendByUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		return msgSendDAO.findMsgSendByUserName(EwcmsContextUtil.getUserName());
 	}
 
 	@Override
 	public Long addSubscription(Long msgSendId, String title, String detail) {
-		MsgSend msgSend = msgSendDAO.findMsgSendByUserNameAndId(EwcmsContextUtil.getUserDetails().getUsername(), msgSendId);
+		MsgSend msgSend = msgSendDAO.findMsgSendByUserNameAndId(EwcmsContextUtil.getUserName(), msgSendId);
 		Assert.notNull(msgSend);
 		if (msgSend.getType() == MsgType.SUBSCRIPTION){
 			List<MsgContent> msgContents = msgSend.getMsgContents();
@@ -129,7 +129,7 @@ public class MsgSendService implements MsgSendServiceable {
 			for (MsgReceiveUser msgReceiveUser : msgReceiveUsers){
 				MsgReceive msgReceive = new MsgReceive();
 				msgReceive.setMsgContent(msgContent);
-				msgReceive.setSendUserName(EwcmsContextUtil.getUserDetails().getUsername());
+				msgReceive.setSendUserName(EwcmsContextUtil.getUserName());
 				msgReceive.setSubscription(true);
 				msgReceive.setUserName(msgReceiveUser.getUserName());
 				msgReceive.setStatus(MsgStatus.FAVORITE);
@@ -164,7 +164,7 @@ public class MsgSendService implements MsgSendServiceable {
 	public String subscribeMsg(Long msgSendId) {
 		MsgSend msgSend = msgSendDAO.get(msgSendId);
 		if (msgSend.getType() == MsgType.SUBSCRIPTION){
-			String receiveUserName = EwcmsContextUtil.getUserDetails().getUsername();
+			String receiveUserName = EwcmsContextUtil.getUserName();
 			String realName = userService.getUserRealName();
 			String sendUserName = msgSend.getUserName();
 			if (receiveUserName.equals(sendUserName)){

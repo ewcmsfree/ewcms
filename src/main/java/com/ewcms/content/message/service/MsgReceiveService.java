@@ -41,12 +41,12 @@ public class MsgReceiveService implements MsgReceiveServiceable {
 
 	@Override
 	public List<MsgReceive> findMsgReceiveByUserName() {
-		return msgReceiveDAO.findMsgReceiveByUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		return msgReceiveDAO.findMsgReceiveByUserName(EwcmsContextUtil.getUserName());
 	}
 
 	@Override
 	public void markReadMsgReceive(Long msgReceiveId, Boolean read) {
-		MsgReceive msgReceive = msgReceiveDAO.findMsgReceiveByUserNameAndId(EwcmsContextUtil.getUserDetails().getUsername(), msgReceiveId);
+		MsgReceive msgReceive = msgReceiveDAO.findMsgReceiveByUserNameAndId(EwcmsContextUtil.getUserName(), msgReceiveId);
 		Assert.notNull(msgReceive);
 		if (msgReceive.getRead() != read){
 			msgReceive.setRead(read);
@@ -61,12 +61,12 @@ public class MsgReceiveService implements MsgReceiveServiceable {
 
 	@Override
 	public List<MsgReceive> findMsgReceiveByUnRead() {
-		return msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(EwcmsContextUtil.getUserDetails().getUsername());
+		return msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(EwcmsContextUtil.getUserName());
 	}
 
 	@Override
 	public void readMsgReceive(Long msgReceiveId) {
-		MsgReceive msgReceive = msgReceiveDAO.findMsgReceiveByUserNameAndId(EwcmsContextUtil.getUserDetails().getUsername(), msgReceiveId);
+		MsgReceive msgReceive = msgReceiveDAO.findMsgReceiveByUserNameAndId(EwcmsContextUtil.getUserName(), msgReceiveId);
 		Assert.notNull(msgReceive);
 		msgReceive.setRead(true);
 		msgReceive.setReadTime(new Date(Calendar.getInstance().getTime().getTime()));

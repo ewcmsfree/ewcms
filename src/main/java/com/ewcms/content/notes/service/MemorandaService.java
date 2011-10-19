@@ -277,7 +277,7 @@ public class MemorandaService implements MemorandaServiceable {
 
 	@Override
 	public Long addMemoranda(Memoranda memoranda, Integer year, Integer month, Integer day) {
-		memoranda.setUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		memoranda.setUserName(EwcmsContextUtil.getUserName());
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day);
@@ -326,7 +326,7 @@ public class MemorandaService implements MemorandaServiceable {
 		} catch (ParseException e) {
 			logger.error(e.toString());
 		}
-		return memorandaDAO.findMemorandaByDate(beginDate, endDate, EwcmsContextUtil.getUserDetails().getUsername());
+		return memorandaDAO.findMemorandaByDate(beginDate, endDate, EwcmsContextUtil.getUserName());
 	}
 
 	@Override
@@ -361,7 +361,7 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		List<Memoranda> memorandaMsg = new ArrayList<Memoranda>();
 		
-		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserDetails().getUsername());
+		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserName());
 		for (Memoranda memoranda : memorandas){
 			Date fireTime = memoranda.getFireTime();
 			if (fireTime == null){
@@ -516,6 +516,6 @@ public class MemorandaService implements MemorandaServiceable {
 
 	@Override
 	public List<Memoranda> findMemorandaByUserName() {
-		return memorandaDAO.findMemorandaByUserName(EwcmsContextUtil.getUserDetails().getUsername());
+		return memorandaDAO.findMemorandaByUserName(EwcmsContextUtil.getUserName());
 	}
 }
