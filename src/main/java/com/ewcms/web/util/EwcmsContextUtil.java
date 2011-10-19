@@ -6,6 +6,7 @@
 
 package com.ewcms.web.util;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,5 +28,13 @@ public class EwcmsContextUtil {
     public static UserDetails getUserDetails(){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userDetails;
+    }
+    
+    public static String getUserName(){
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        if(currentUser == null){
+            return "";
+        }
+        return currentUser.getName();
     }
 }
