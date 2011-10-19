@@ -13,8 +13,6 @@ import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.service.ArticlePublishServiceable;
-import com.ewcms.security.manage.service.UserServiceable;
-import com.ewcms.web.util.EwcmsContextUtil;
 
 @Service
 public class ArticleService implements ArticlePublishServiceable {
@@ -25,8 +23,6 @@ public class ArticleService implements ArticlePublishServiceable {
 	private ChannelDAO channelDAO;
 	@Autowired
 	private OperateTrackServiceable operateTrackService;
-	@Autowired
-	private UserServiceable userService;
 	
 	@Override
 	public Article getArticle(Long articleId) {
@@ -69,11 +65,10 @@ public class ArticleService implements ArticlePublishServiceable {
 	@Override
 	public void updatePreRelease(Integer channelId) {
 		List<ArticleMain> articleMains = articleDAO.findArticleMainRelease(channelId);
-		String userName = EwcmsContextUtil.getUserDetails().getUsername();
 		for (ArticleMain articleMain : articleMains){
 			Article article = articleMain.getArticle();
 			if (article == null) continue;
-			operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "从发布变成预发布。", "", userName, userService.getUserRealName());
+			operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "从发布变成预发布。", "");
 			
 			article.setUrl("");
 			article.setStatus(ArticleStatus.PRERELEASE);

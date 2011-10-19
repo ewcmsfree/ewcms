@@ -90,7 +90,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Article article = articleMain.getArticle();
 			Assert.notNull(article);
 			
-			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入回收站。", "");
+			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入内容回收站。", "");
 			
 			article.setDelete(true);
 			articleMain.setArticle(article);
@@ -108,7 +108,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		articleMain.setArticle(article);
 		articleMainDAO.merge(articleMain);
 		
-		operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从回收站还原。", "");
+		operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从内容回收站还原。", "");
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}else{
-			throw new BaseException("","文章只有在初稿或重新编辑状态下才能提交审核");
+			throw new BaseException("","只有在初稿或重新编辑状态下才能提交审核");
 		}
 	}
 
@@ -271,16 +271,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 						article.setReviewProcessId(null);
 						caption += "，可以进行发布。";
 					}
-					
 				}else{
-					//TODO 文章处于异常状态
-					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
+					article.setStatus(ArticleStatus.REVIEWBREAK);
+					caption = "审核流程已改变，不能再进行审核。请联系频道管理员恢复到重新编辑状态。";
 				}
-				
-				articleMain.setArticle(article);
-				articleMainDAO.merge(articleMain);
-
-				operateTrackService.addOperateTrack(articleMainId, currentStatus, caption, "");
 			}else if (review == 1){// 不通过
 				if (rp != null){
 					caption = "【" + rp.getName() + "】<span style='color:red;'>不通过</span>";
@@ -294,22 +288,21 @@ public class ArticleMainService implements ArticleMainServiceable {
 						caption += "，已退回到重新编辑状态。";
 					}
 				}else{
-					//TODO 文章处于异常状态
-					caption = "审核流程已改变，此文章不能再进行审核。请联系频道管理员把此文章恢复到重新编辑状态。";
+					article.setStatus(ArticleStatus.REVIEWBREAK);
+					caption = "审核流程已改变，不能再进行审核。请联系频道管理员章恢复到重新编辑状态。";
 				}
-				
-				articleMain.setArticle(article);
-				articleMainDAO.merge(articleMain);
-				
-				operateTrackService.addOperateTrack(articleMainId, currentStatus, caption, reason);
 			}
+			articleMain.setArticle(article);
+			articleMainDAO.merge(articleMain);
+			
+			operateTrackService.addOperateTrack(articleMainId, currentStatus, caption, reason);
 		}
 	}
 
 	@Override
 	public void moveArticleMainSort(Long articleMainId, Integer channelId, Long sort, Integer isInsert, Boolean isTop) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByChannelAndEqualSort(channelId, sort, isTop);
-		String desc = "设置文章排序号为：" + sort + "。";
+		String desc = "设置排序号为：" + sort + "。";
 		if (articleMain == null){
 			articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 			Assert.notNull(articleMain);
@@ -328,13 +321,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 						articleMainDAO.merge(articleMain_old);
 					}
 				}
-				desc = "插入文章排序号为：" + sort + "。";
+				desc = "插入排序号为：" + sort + "。";
 				articleMainDAO.merge(articleMain_new);
 			}else if (isInsert == 1){//替换
 				if (articleMain_new.getId() != articleMain.getId()){
 					articleMain.setSort(null);
 					articleMainDAO.merge(articleMain);
-					desc = "替换文章排序号为：" + sort + "。";
+					desc = "替换排序号为：" + sort + "。";
 					articleMainDAO.merge(articleMain_new);
 				}
 			}
@@ -359,7 +352,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 				articleMain.setSort(null);
 				articleMainDAO.merge(articleMain);
 
-				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), "清除文章排序号。", "");
+				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), "清除排序号。", "");
 			}
 		}
 	}
@@ -370,7 +363,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
-		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE){
+		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.REVIEWBREAK){
 
 			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "已退回到重新编辑状态。", "");
 			
@@ -378,7 +371,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}else{
-			throw new BaseException("","文章只有在发布版或已发布版状态下才能退回");
+			throw new BaseException("","只有在审核中断、发布版、已发布版状态下才能退回");
 		}
 	}
 	
@@ -481,7 +474,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}
 
 		if (article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.REVIEW) {
-			// throw new BaseException("error.document.article.notupdate","文章只能在初稿或重新编辑下才能修改");
+			// throw new BaseException("error.document.article.notupdate","只能在初稿或重新编辑下才能修改");
 		} else {
 			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);

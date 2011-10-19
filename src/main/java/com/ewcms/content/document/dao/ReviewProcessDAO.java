@@ -78,4 +78,11 @@ public class ReviewProcessDAO extends JpaDAO<Long, ReviewProcess> {
     	return true;
     }
 
+    @SuppressWarnings("unchecked")
+	public ReviewProcess findIsEntityReviewProcessByChannelAndName(Integer channelId, String name){
+    	String hql = "From ReviewProcess As p Where p.channelId=? And p.name=?";
+    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId, name);
+    	if (list.isEmpty()) return null;
+    	return list.get(0);
+    }
 }

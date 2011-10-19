@@ -6,12 +6,16 @@
 
 package com.ewcms.content.document.service;
 
+import static com.ewcms.common.lang.EmptyUtil.isCollectionEmpty;
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
@@ -29,7 +33,14 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	
 	
 	@Override
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
+		ReviewProcess reviewProcess_entity = reviewProcessDAO.findIsEntityReviewProcessByChannelAndName(channelId, reviewProcess.getName());
+		if (isNotNull(reviewProcess_entity)){
+			throw new BaseException("流程名称已定义，请重新输入其他名称！", "流程名称已定义，请重新输入其他名称！");
+		}
+		if (isCollectionEmpty(userNames) && isCollectionEmpty(groupNames)){
+			throw new BaseException("用户组和用户不能同时为空，必须选择一项以上！", "用户组和用户不能同时为空，必须选择一项以上！");
+		}
 		List<ReviewProcess> vos = reviewProcessDAO.findReviewProcessByChannel(channelId);
 		reviewProcess.setChannelId(channelId);
 		
@@ -136,7 +147,14 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	}
 
 	@Override
-	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
+		ReviewProcess entity = reviewProcessDAO.findIsEntityReviewProcessByChannelAndName(reviewProcess.getChannelId(), reviewProcess.getName());
+		if (isNotNull(entity) && reviewProcess.getId() != entity.getId()){
+			throw new BaseException("流程名称已定义，请重新输入其他名称！", "流程名称已定义，请重新输入其他名称！");
+		}
+		if (isCollectionEmpty(userNames) && isCollectionEmpty(groupNames)){
+			throw new BaseException("用户组和用户不能同时为空，必须选择一项以上！", "用户组和用户不能同时为空，必须选择一项以上！");
+		}
 		setUpReviewUserAndGroup(reviewProcess, userNames, groupNames);
 		reviewProcessDAO.merge(reviewProcess);
 		return reviewProcess.getId();
@@ -163,7 +181,6 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	}
 
 	private void setUpReviewUserAndGroup(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames){
-		
 		List<ReviewGroup> reviewGroups = new ArrayList<ReviewGroup>();
 		ReviewGroup reviewGroup;
 		for (String groupName : groupNames){
@@ -190,14 +207,12 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	}
 
 	@Override
-	public Boolean findReviewUserIsEntityByProcessIdAndUserName(
-			Long reviewProcessId, String userName) {
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName) {
 		return reviewProcessDAO.findReviewUserIsEntityByProcessIdAndUserName(reviewProcessId, userName);
 	}
 
 	@Override
-	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(
-			Long reviewProcessId, String goupName) {
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName) {
 		return reviewProcessDAO.findReviewGroupIsEntityByProcessIdAndUserName(reviewProcessId, goupName);
 	}
 }

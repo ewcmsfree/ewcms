@@ -7,12 +7,14 @@
 package com.ewcms.content.document.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
+import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.security.manage.model.Group;
@@ -35,7 +37,9 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 	private QueryFactory queryFactory;
 	
 	private Integer channelId;
-
+	private String[] reviewUserNames;
+	private String[] reviewGroupNames;
+	
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -44,6 +48,22 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 		this.channelId = channelId;
 	}
 
+	public String[] getReviewUserNames() {
+		return reviewUserNames;
+	}
+
+	public void setReviewUserNames(String[] reviewUserNames) {
+		this.reviewUserNames = reviewUserNames;
+	}
+	
+	public String[] getReviewGroupNames() {
+		return reviewGroupNames;
+	}
+
+	public void setReviewGroupNames(String[] reviewGroupNames) {
+		this.reviewGroupNames = reviewGroupNames;
+	}
+	
 	public ReviewProcess getReviewProcessVo() {
 		return super.getVo();
 	}
@@ -78,21 +98,36 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 
 	@Override
 	protected Long saveOperator(ReviewProcess vo, boolean isUpdate) {
+//		List<String> userNames = new ArrayList<String>();
+//		if (getReviewUserNames() != null){
+//			for (int i = 0; i< getReviewUserNames().length; i++){
+//				String userName = reviewUserNames[i];
+//				userNames.add(userName);
+//			}
+//		}
+//		List<String> groupNames = new ArrayList<String>();
+//		for (int i = 0; i< reviewGroupNames.length; i++){
+//			String groupName = reviewGroupNames[i];
+//			groupNames.add(groupName);
+//			
+//		}
 		List<String> userNames = new ArrayList<String>();
-		for (int i = 0; i< reviewUserNames.length; i++){
-			String userName = reviewUserNames[i];
-			userNames.add(userName);
+		if (getReviewUserNames() != null){
+			userNames = Arrays.asList(getReviewUserNames());
 		}
 		List<String> groupNames = new ArrayList<String>();
-		for (int i = 0; i< reviewGroupNames.length; i++){
-			String groupName = reviewGroupNames[i];
-			groupNames.add(groupName);
-			
+		if (getReviewGroupNames() != null){
+			groupNames = Arrays.asList(getReviewGroupNames());
 		}
-		if (isUpdate) {
-			return documentFac.updReviewProcess(vo, userNames, groupNames);
-		} else {
-			return documentFac.addReviewProcess(getChannelId(), vo, userNames, groupNames);
+		try{
+			if (isUpdate) {
+				return documentFac.updReviewProcess(vo, userNames, groupNames);
+			} else {
+				return documentFac.addReviewProcess(getChannelId(), vo, userNames, groupNames);
+			}
+		}catch(BaseException e){
+			addActionMessage(e.getPageMessage());
+			return null;
 		}
 	}
 
@@ -127,25 +162,6 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 		}
 	}
 	
-	private String[] reviewUserNames;
-	private String[] reviewGroupNames;
-	
-	public String[] getReviewUserNames() {
-		return reviewUserNames;
-	}
-
-	public void setReviewUserNames(String[] reviewUserNames) {
-		this.reviewUserNames = reviewUserNames;
-	}
-	
-	public String[] getReviewGroupNames() {
-		return reviewGroupNames;
-	}
-
-	public void setReviewGroupNames(String[] reviewGroupNames) {
-		this.reviewGroupNames = reviewGroupNames;
-	}
-
 	private Long processId;
 	
 	public Long getProcessId() {

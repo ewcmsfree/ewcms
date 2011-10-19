@@ -293,7 +293,7 @@ public interface DocumentFacable {
 	 * @param groupNames 用户组集合
 	 * @return Long 审核流程编号
 	 */
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames);
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException;
 	
 	/**
 	 * 修改审核流程
@@ -303,7 +303,7 @@ public interface DocumentFacable {
 	 * @param groupNames 用户组集合
 	 * @return Long 审核流程编号
 	 */
-	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames);
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException;
 	
 	/**
 	 * 删除审核流程

@@ -259,7 +259,7 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
 		return reviewProcessService.addReviewProcess(channelId, reviewProcess, userNames, groupNames);
 	}
 
@@ -279,7 +279,7 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) {
+	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
 		return reviewProcessService.updReviewProcess(reviewProcess, userNames, groupNames);
 	}
 
