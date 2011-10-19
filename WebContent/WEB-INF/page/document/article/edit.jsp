@@ -53,17 +53,16 @@
 								<table width="100%">
 									<tr>
 										<td width="100%" style="border: 0px solid;">
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="createArticle('<s:url action='input' namespace='/document/article'><s:param name='channelId' value='channelId'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/create.gif'/>" width="20" height="20" /><b>新建&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="saveArticle();return false;"><img src="<s:url value='/source/image/article/save.gif'/>" width="20" height="20"/><b>保存&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,$('#articleMainId').val());return false;"><img src="<s:url value='/source/image/article/submitreview.gif'/>" width="20" height="20"/><b>提交审核&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('keyWord','<s:url action="keyword" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/keyword.gif'/>" width="20" height="20" /><b>提取关键字&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="getKeywordOrSummary('summary','<s:url action="summary" escapeAmp="false"/>');return false;"><img src="<s:url value='/source/image/article/summary.gif'/>" width="20" height="20" /><b>提取摘要&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/history.gif'/>" width="20" height="20" /><b>历史内容&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="selectRelation('<s:url action='relation' namespace='/document/relation'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;"><img src="<s:url value='/source/image/article/relation.gif'/>" width="20" height="20" /><b>相关文章&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="return false;"><img src="<s:url value='/source/image/article/preview.gif'/>" width="20" height="20" /><b>预览&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="ewcmsCookies();return false;" ><img id="imgCookies" src="<s:url value='/source/image/article/cookies.gif'/>" width="20" height="20" /><b><s:label id="cookiesLabel" value="常用项"></s:label>&nbsp;</b></a>
-					           	 			<a href="javascript:void(0);" class="ewcmsBtn" tabindex="-1" id="" onclick="showHide();return false;" ><img id="imgShowHide" src="<s:url value='/source/image/article/show.gif'/>" width="20" height="20" /><b><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
-											<a href="javascript:void(0);" class="ewcmsBtn_right" tabindex="-1" id="" onclick="closeArticle();return false;"><img src="<s:url value='/source/image/article/close.gif'/>" width="20" height="20" /><b>关闭</b></a>
+											<a class="easyui-linkbutton" iconCls="icon-article-create" href="javascript:void(0)" onclick="createArticle('<s:url action='input' namespace='/document/article'><s:param name='channelId' value='channelId'></s:param></s:url>');return false;">新建</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-save" href="javascript:void(0)" onclick="saveArticle();return false;">保存</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-review" href="javascript:void(0)" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,$('#articleMainId').val());return false;">提交审核</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-keyword" href="javascript:void(0)" onclick="getKeywordOrSummary('keyWord','<s:url action="keyword" escapeAmp="false"/>');return false;">提取关键字</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-summary" href="javascript:void(0)" onclick="getKeywordOrSummary('summary','<s:url action="summary" escapeAmp="false"/>');return false;">提取摘要</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-history" href="javascript:void(0)" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">历史内容</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-relation" href="javascript:void(0)" onclick="selectRelation('<s:url action='relation' namespace='/document/relation'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">相关文章</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-cookies" href="javascript:void(0)" onclick="ewcmsCookies();return false;">常用项</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-show" href="javascript:void(0)" onclick="showHide();return false;"><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
+											<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeArticle();return false;">关闭</a>
 										</td>
 									</tr>
 								</table>
@@ -156,7 +155,8 @@
 			        		</s:else>
 			        		</a>
 			        		<s:textfield id="article_image" name="articleVo.image" cssStyle="display:none;"/>
-			        		<input type="button" value="清除图片" style="vertical-align:bottom;" onclick="clearImage();return false;"/>
+			        		<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearImage();return false;">清除图片</a>
+			        		<!-- <input type="button" value="清除图片" style="vertical-align:bottom;" onclick="clearImage();return false;"/> -->
 			        	</td>
 			        	<td>摘要：</td>
 			        	<td>

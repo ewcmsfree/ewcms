@@ -32,12 +32,9 @@
 				ewcmsBOBJ.openDataGrid('#tt',{
 	                columns:[[
                               {field:'id',title:'编号',width:60},
-                              //{field:'top',title:'置顶',width:60,hidden:true},
-                              {field:'reference',title:'引用',width:60,hidden:true},
                               {field:'flags',title:'属性',width:60,
                                   formatter:function(val,rec){
                                       var pro = [];
-                                      //if (rec.top) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
                                       if (rec.comment) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
                                       if (rec.type=="TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
                                       if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
@@ -60,7 +57,6 @@
                                       return rec.title + classValue;
                                   }
                               },
-                              {field:'owner',title:'创建者',width:80},
                               {field:'statusDescription',title:'状态',width:60},
                               {field:'published',title:'发布时间',width:125},
                               {field:'modified',title:'修改时间',width:125},

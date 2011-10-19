@@ -25,8 +25,6 @@
 				ewcmsBOBJ.openDataGrid('#tt',{
 	                columns:[[
                               {field:'id',title:'编号',width:60},
-                              {field:'top',title:'置顶',width:60,hidden:true},
-                              {field:'reference',title:'引用',width:60,hidden:true},
                               {field:'flags',title:'属性',width:60,
                                   formatter:function(val,rec){
                                       var pro = [];

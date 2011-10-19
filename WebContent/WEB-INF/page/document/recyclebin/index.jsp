@@ -11,10 +11,12 @@
 		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/source/easyui/ext/datagrid-detailview.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
 			var channelId = 0;
+			var trackURL = '<s:url namespace="/document/track" action="index"/>';
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/recyclebin" action="query"/>');
@@ -28,8 +30,6 @@
 				ewcmsBOBJ.openDataGrid('#tt',{
 	                columns:[[
                               {field:'id',title:'编号',width:60},
-                              {field:'top',title:'置顶',width:60,hidden:true},
-                              {field:'reference',title:'引用',width:60,hidden:true},
                               {field:'flags',title:'属性',width:60,
                                   formatter:function(val,rec){
                                       var pro = [];
@@ -67,6 +67,24 @@
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/recyclebin" action="delete"/>');
+				
+				$("#tt").datagrid({
+					view : detailview,
+					detailFormatter : function(rowIndex, rowData) {
+						return '<div id="ddv-' + rowIndex + '"></div>';
+					},
+					onExpandRow: function(rowIndex, rowData){
+						$('#ddv-' + rowIndex).panel({
+							border:false,
+							cache:false,
+							content: '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>',
+							onLoad:function(){
+								$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+							}
+						});
+						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+					}
+				});
 				
 				//站点专栏目录树初始
 				$('#tt2').tree({
