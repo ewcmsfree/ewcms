@@ -17,6 +17,19 @@ import org.junit.Assert;
 public class JsonBaseActionTest {
     
     @Test
+    public void testRenderObject(){
+        JsonBaseAction action = new JsonBaseActionNotRender();
+        String json = action.renderObject(new Object(){
+            @SuppressWarnings("unused")
+            public String getValue(){
+                return "test";
+            }
+        });
+        
+        Assert.assertEquals("{\"value\":\"test\"}", json);
+    }
+    
+    @Test
     public void testRenderSuccess(){
         JsonBaseAction action = new JsonBaseActionNotRender();
         String json = action.renderSuccess();

@@ -365,14 +365,14 @@ public class UserServiceTest extends TestCase{
     }
     
     @Test
-    public  void testRemoveAuthsInUserButUserNoExist(){
+    public  void testRemoveAuthoritiesInUserButUserNoExist(){
         UserService service = new UserService();
         
         UserDAOable dao = mock(UserDAOable.class);
         when(dao.get(any(String.class))).thenReturn(null);
         service.setUserDao(dao);
         try{
-            service.removeAuthsInUser("Pertty", new HashSet<String>());
+            service.removeAuthoritiesInUser("Pertty", new HashSet<String>());
             fail();
         }catch(UserServiceException e){
              
@@ -380,7 +380,7 @@ public class UserServiceTest extends TestCase{
     }
     
     @Test
-    public void testRemoveAuthsInGroup()throws UserServiceException{
+    public void testRemoveAuthoritiesInGroup()throws UserServiceException{
         UserService service = new UserService();
         
         com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
@@ -402,7 +402,7 @@ public class UserServiceTest extends TestCase{
         
         Set<String> removeAuthNames = new HashSet<String>();
         removeAuthNames.add("ROLE_USER");
-        service.removeAuthsInUser("pertty", removeAuthNames);
+        service.removeAuthoritiesInUser("pertty", removeAuthNames);
         
         assertTrue(user.getAuthorities().size() == 1);
         assertEquals(user.getAuthorities().iterator().next().getName(),"ROLE_ADMIN");

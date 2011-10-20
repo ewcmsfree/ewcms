@@ -119,14 +119,14 @@ public class GroupServiceTest extends TestCase{
     }
     
     @Test
-    public  void testRemoveAuthsInGroupButGroupNoExist(){
+    public  void testRemoveAuthoritiesInGroupButGroupNoExist(){
         GroupService service = new GroupService();
         
         GroupDAOable groupDao = mock(GroupDAOable.class);
         when(groupDao.get(any(String.class))).thenReturn(null);
         service.setGroupDao(groupDao);
         try{
-            service.removeAuthsInGroup("GROUP_ADMIN", new HashSet<String>());
+            service.removeAuthoritiesInGroup("GROUP_ADMIN", new HashSet<String>());
             fail();
         }catch(UserServiceException e){
              
@@ -134,7 +134,7 @@ public class GroupServiceTest extends TestCase{
     }
     
     @Test
-    public void testRemoveAuthsInGroup()throws UserServiceException{
+    public void testRemoveAuthoritiesInGroup()throws UserServiceException{
         GroupService service = new GroupService();
         
         Group group = new Group();
@@ -160,7 +160,7 @@ public class GroupServiceTest extends TestCase{
         
         Set<String> removeAuthNames = new HashSet<String>();
         removeAuthNames.add("ROLE_USER");
-        service.removeAuthsInGroup("GROUP_ADMIN", removeAuthNames);
+        service.removeAuthoritiesInGroup("GROUP_ADMIN", removeAuthNames);
         
         assertTrue(group.getAuthorities().size() == 1);
         assertEquals(group.getAuthorities().iterator().next().getName(),"ROLE_ADMIN");
