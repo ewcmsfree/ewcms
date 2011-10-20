@@ -31,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.ewcms.security.core.session.EwcmsSessionRegistry;
+import com.ewcms.security.core.session.EwcmsSessionRegistryImpl;
 import com.ewcms.security.manage.dao.AuthorityDAOable;
 import com.ewcms.security.manage.dao.GroupDAOable;
 import com.ewcms.security.manage.dao.UserDAOable;
@@ -256,7 +257,7 @@ public class UserServiceTest extends TestCase{
         when(dao.get(any(String.class))).thenReturn(new com.ewcms.security.manage.model.User("Pertty"));
         service.setUserDao(dao);
         try{
-            service.addUser("Pertty","123456", true, null, null, null,null,null);
+            service.addUser("Pertty","123456", true, null, null, null);
             fail();
         }catch(UserServiceException e){
         }
@@ -270,24 +271,7 @@ public class UserServiceTest extends TestCase{
         when(userDao.get("Pertty")).thenReturn(null);
         service.setUserDao(userDao);
         
-        GroupDAOable gropDao = mock(GroupDAOable.class);
-        when(gropDao.get("GROUP_ADMIN")).thenReturn(new Group("GROUP_ADMIN"));
-        when(gropDao.get("GROUP_USER")).thenReturn(new Group("GROUP_USER"));
-        service.setGroupDao(gropDao);
-        
-        AuthorityDAOable authorityDao = mock(AuthorityDAOable.class);
-        when(authorityDao.get("ROLE_ADMIN")).thenReturn(new Authority("ROLE_ADMIN"));
-        when(authorityDao.get("ROLE_USER")).thenReturn(new Authority("ROLE_USER"));
-        service.setAuthorityDao(authorityDao);
-        
-        Set<String> groupNames = new HashSet<String>();
-        groupNames.add("GROUP_ADMIN");
-        groupNames.add("GROUP_USER");
-        
-        Set<String> authNames = new HashSet<String>();
-        authNames.add("ROLE_ADMIN");
-        authNames.add("ROLE_USER");
-        service.addUser("Pertty","123456", true, null, null, new UserInfo(), authNames, groupNames);
+        service.addUser("Pertty","123456", true, null, null, new UserInfo());
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());
@@ -298,8 +282,6 @@ public class UserServiceTest extends TestCase{
         assertNull(argument.getValue().getAccountStart());
         assertEquals(argument.getValue().getUserInfo().getUsername(),"Pertty");
         assertEquals(argument.getValue().getUserInfo().getName(),"Pertty");
-        assertTrue(argument.getValue().getAuthorities().size()==2);
-        assertTrue(argument.getValue().getGroups().size()==2);
     }
     
     @Test
@@ -309,17 +291,8 @@ public class UserServiceTest extends TestCase{
         UserDAOable userDao = mock(UserDAOable.class);
         when(userDao.get("Pertty")).thenReturn(null);
         service.setUserDao(userDao);
-        
-        GroupDAOable gropDao = mock(GroupDAOable.class);
-        service.setGroupDao(gropDao);
-        
-        AuthorityDAOable authorityDao = mock(AuthorityDAOable.class);
-        service.setAuthorityDao(authorityDao);
-        
-        Set<String> groupNames = new HashSet<String>();
-        
-        Set<String> authNames = new HashSet<String>();
-        service.addUser("Pertty",null, true, null, null, new UserInfo(), authNames, groupNames);
+                
+        service.addUser("Pertty",null, true, null, null, new UserInfo());
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());
@@ -334,7 +307,7 @@ public class UserServiceTest extends TestCase{
         when(dao.get(any(String.class))).thenReturn(null);
         service.setUserDao(dao);
         try{
-            service.updateUser("Pertty", true, null, null, null,null,null);
+            service.updateUser("Pertty", true, null, null, null);
             fail();
         }catch(UserServiceException e){
         }
@@ -352,14 +325,6 @@ public class UserServiceTest extends TestCase{
                 user.setUsername((String)invocation.getArguments()[0]);
                 user.setEnabled(true);
                 user.setPassword("123456");
-                Set<Authority> authorities = new HashSet<Authority>();
-                authorities.add(new Authority("ROLE_ADMIN"));
-                user.setAuthorities(authorities);
-                Set<Group> groups = new HashSet<Group>();
-                groups.add(new Group("GROUP_ADMIN"));
-                groups.add(new Group("GROUP_USER"));
-                groups.add(new Group("GROUP_TEST"));
-                user.setGroups(groups);
                 UserInfo userInfo = new UserInfo();
                 userInfo.setUsername((String)invocation.getArguments()[0]);
                 userInfo.setName((String)invocation.getArguments()[0]);
@@ -368,24 +333,6 @@ public class UserServiceTest extends TestCase{
             }
         });
         service.setUserDao(userDao);
-        
-        GroupDAOable gropDao = mock(GroupDAOable.class);
-        when(gropDao.get("GROUP_ADMIN")).thenReturn(new Group("GROUP_ADMIN"));
-        when(gropDao.get("GROUP_USER")).thenReturn(new Group("GROUP_USER"));
-        service.setGroupDao(gropDao);
-        
-        AuthorityDAOable authorityDao = mock(AuthorityDAOable.class);
-        when(authorityDao.get("ROLE_ADMIN")).thenReturn(new Authority("ROLE_ADMIN"));
-        when(authorityDao.get("ROLE_USER")).thenReturn(new Authority("ROLE_USER"));
-        service.setAuthorityDao(authorityDao);
-        
-        Set<String> groupNames = new HashSet<String>();
-        groupNames.add("GROUP_ADMIN");
-        groupNames.add("GROUP_USER");
-        
-        Set<String> authNames = new HashSet<String>();
-        authNames.add("ROLE_ADMIN");
-        authNames.add("ROLE_USER");
         
         UserInfo info = new UserInfo();
         info.setName("Pertty User");
@@ -399,7 +346,7 @@ public class UserServiceTest extends TestCase{
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         Date end  = calendar.getTime();
         
-        service.updateUser("Pertty",false, start, end, info, authNames, groupNames);
+        service.updateUser("Pertty",false, start, end, info);
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());
@@ -415,39 +362,253 @@ public class UserServiceTest extends TestCase{
         assertEquals(argument.getValue().getUserInfo().getIdentification(),"1234567890");
         assertEquals(argument.getValue().getUserInfo().getMphone(),"8798444");
         assertEquals(argument.getValue().getUserInfo().getPhone(),"348533");
-        assertTrue(argument.getValue().getAuthorities().size()==2);
-        assertTrue(argument.getValue().getGroups().size()==2);
     }
     
     @Test
-    public void testUpdateUserMustRemoveExpriedUser(){
+    public  void testRemoveAuthsInUserButUserNoExist(){
         UserService service = new UserService();
         
-        UserDAOable userDao = mock(UserDAOable.class);
-        when(userDao.get(any(String.class))).thenAnswer(new Answer<com.ewcms.security.manage.model.User>(){
-            @Override
-            public com.ewcms.security.manage.model.User answer(InvocationOnMock invocation) throws Throwable {
-                com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
-                user.setUsername((String)invocation.getArguments()[0]);
-                user.setEnabled(true);
-                user.setPassword("123456");
-                Set<Authority> authorities = new HashSet<Authority>();
-                user.setAuthorities(authorities);
-                Set<Group> groups = new HashSet<Group>();
-                user.setGroups(groups);
-                UserInfo userInfo = new UserInfo();
-                userInfo.setUsername((String)invocation.getArguments()[0]);
-                userInfo.setName((String)invocation.getArguments()[0]);
-                user.setUserInfo(userInfo);
-                return user;
-            }
-        });
-        service.setUserDao(userDao);
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(null);
+        service.setUserDao(dao);
+        try{
+            service.removeAuthsInUser("Pertty", new HashSet<String>());
+            fail();
+        }catch(UserServiceException e){
+             
+        }
+    }
+    
+    @Test
+    public void testRemoveAuthsInGroup()throws UserServiceException{
+        UserService service = new UserService();
         
-        EwcmsSessionRegistry sessionRegistry = mock(EwcmsSessionRegistry.class);
+        com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
+        user.setUsername("pertty");
+        Set<Authority> authorities= new HashSet<Authority>();
+        authorities.add(new Authority("ROLE_ADMIN"));
+        authorities.add(new Authority("ROLE_USER"));
+        user.setAuthorities(authorities);
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(user);
+        service.setUserDao(dao);
+        
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
         service.setSessionRegistry(sessionRegistry);
         
-        service.updateUser("Pertty",false, null, null, new UserInfo(), new HashSet<String>(), new HashSet<String>());
-        verify(sessionRegistry).removeSessionInformationByUsername("Pertty");
+        Set<String> removeAuthNames = new HashSet<String>();
+        removeAuthNames.add("ROLE_USER");
+        service.removeAuthsInUser("pertty", removeAuthNames);
+        
+        assertTrue(user.getAuthorities().size() == 1);
+        assertEquals(user.getAuthorities().iterator().next().getName(),"ROLE_ADMIN");
+        assertFalse(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("pertty", true).isEmpty());
+    }
+    
+    @Test
+    public void testAddAuthoritiesToUsersButGroupNoExist(){
+        UserService service = new UserService();
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(null);
+        service.setUserDao(dao);
+        try{
+            Set<String> authnames = new HashSet<String>();
+            authnames.add("ROLE_USER");
+            service.addAuthoritiesToUser("pertty", authnames);
+            fail();
+        }catch(UserServiceException e){
+            
+        }
+    }
+    
+    @Test
+    public void testAddAuthoritiesToGroupButAuthorityNoExist(){
+        UserService service = new UserService();
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(new com.ewcms.security.manage.model.User());
+        service.setUserDao(dao);
+        AuthorityDAOable authDao = mock(AuthorityDAOable.class);
+        when(authDao.get(any(String.class))).thenReturn(null);
+        service.setAuthorityDao(authDao);
+        try{
+            Set<String> authnames = new HashSet<String>();
+            authnames.add("ROLE_USER");
+            service.addAuthoritiesToUser("pertty", authnames);
+            fail();
+        }catch(UserServiceException e){
+            
+        }
+    }
+    
+    @Test
+    public void testAddAuthoritiesToUser(){
+        UserService service = new UserService();
+
+        com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
+        user.setUsername("pertty");
+        Set<Authority> authorities= new HashSet<Authority>();
+        authorities.add(new Authority("ROLE_ADMIN"));
+        user.setAuthorities(authorities);
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(user);
+        service.setUserDao(dao);
+        
+        AuthorityDAOable authDao = mock(AuthorityDAOable.class);
+        when(authDao.get("ROLE_ADMIN")).thenReturn(new Authority("ROLE_ADMIN"));
+        when(authDao.get("ROLE_USER")).thenReturn(new Authority("ROLE_USER"));
+        service.setAuthorityDao(authDao);
+        
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
+        Set<String> authnames = new HashSet<String>();
+        authnames.add("ROLE_ADMIN");
+        authnames.add("ROLE_USER");
+        Set<Authority> newAuthorities = service.addAuthoritiesToUser("pertty",authnames);
+        
+        assertTrue(user.getAuthorities().size() == 2);
+        assertTrue(newAuthorities.size() == 1);
+        assertEquals(newAuthorities.iterator().next().getName(),"ROLE_USER");
+        
+        assertFalse(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("pertty", true).isEmpty());
+    }
+    
+    @Test
+    public  void testRemoveGroupsInUserButUserNoExist(){
+        UserService service = new UserService();
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(null);
+        service.setUserDao(dao);
+        try{
+            service.removeGroupsInUser("pertty", new HashSet<String>());
+            fail();
+        }catch(UserServiceException e){
+            
+        }
+    }
+    
+    @Test
+    public void testRemoveGroupsInUser()throws UserServiceException{
+        UserService service = new UserService();
+        
+        com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
+        user.setUsername("pertty");
+        Set<Group> groups = new HashSet<Group>();
+        groups.add(new Group("GROUP_ADMIN"));
+        groups.add(new Group("GROUP_USER"));
+        groups.add(new Group("GROUP_TEST"));
+        user.setGroups(groups);
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(user);
+        service.setUserDao(dao);
+        
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
+        Set<String> removeGroupNames = new HashSet<String>();
+        removeGroupNames.add("GROUP_TEST");
+        removeGroupNames.add("GROUP_USER");
+        service.removeGroupsInUser("pertty", removeGroupNames);
+        
+        assertTrue(user.getGroups().size() == 1);
+        assertEquals(user.getGroups().iterator().next().getName(),"GROUP_ADMIN");
+        
+        assertFalse(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("pertty", true).isEmpty());
+    }
+    
+    @Test
+    public void testAddUsersToGroupButUserNoExist(){
+        UserService service = new UserService();
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(null);
+        service.setUserDao(dao);
+        try{
+            Set<String> names = new HashSet<String>();
+            names.add("GROUP_ADMIN");
+            service.addGroupsToUser("pertty", names);
+            fail();
+        }catch(UserServiceException e){
+            
+        }
+    }
+    
+    @Test
+    public void testAddGroupsToUserButUserNoExist(){
+        UserService service = new UserService();
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(new com.ewcms.security.manage.model.User());
+        service.setUserDao(dao);
+        
+        GroupDAOable groupDao = mock(GroupDAOable.class);
+        when(groupDao.get(any(String.class))).thenReturn(null);
+        service.setGroupDao(groupDao);
+        try{
+            Set<String> names = new HashSet<String>();
+            names.add("GROUP_ADMIN");
+            service.addGroupsToUser("pertty", names);
+            fail();
+        }catch(UserServiceException e){
+            
+        }
+    }
+    
+    @Test
+    public void testAddGroupsToUser(){
+ UserService service = new UserService();
+        
+        com.ewcms.security.manage.model.User user = new com.ewcms.security.manage.model.User();
+        user.setUsername("pertty");
+        Set<Group> groups = new HashSet<Group>();
+        groups.add(new Group("GROUP_ADMIN"));
+        user.setGroups(groups);
+        
+        UserDAOable dao = mock(UserDAOable.class);
+        when(dao.get(any(String.class))).thenReturn(user);
+        service.setUserDao(dao);
+        
+        GroupDAOable gropDao = mock(GroupDAOable.class);
+        when(gropDao.get("GROUP_USER")).thenReturn(new Group("GROUP_USER"));
+        when(gropDao.get("GROUP_TEST")).thenReturn(new Group("GROUP_TEST"));
+        service.setGroupDao(gropDao);
+        
+        EwcmsSessionRegistry sessionRegistry = new EwcmsSessionRegistryImpl();
+        sessionRegistry.registerNewSession("adminid", "admin");
+        sessionRegistry.registerNewSession("userid", "user");
+        sessionRegistry.registerNewSession("perttyid", "pertty");
+        service.setSessionRegistry(sessionRegistry);
+        
+        Set<String> names = new HashSet<String>();
+        names.add("GROUP_USER");
+        names.add("GROUP_TEST");
+        Set<Group> newUsers = service.addGroupsToUser("pertty",names);
+        
+        assertTrue(user.getGroups().size() == 3);
+        assertTrue(newUsers.size() == 2);
+        assertFalse(sessionRegistry.getAllSessions("admin", true).isEmpty());
+        assertFalse(sessionRegistry.getAllSessions("user", true).isEmpty());
+        assertTrue(sessionRegistry.getAllSessions("pertty", true).isEmpty());
     }
 }

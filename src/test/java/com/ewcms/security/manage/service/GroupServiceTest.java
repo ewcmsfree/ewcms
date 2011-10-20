@@ -295,9 +295,9 @@ public class GroupServiceTest extends TestCase{
         when(groupDao.get(any(String.class))).thenReturn(null);
         service.setGroupDao(groupDao);
         try{
-            Set<String> usernames = new HashSet<String>();
-            usernames.add("Jons");
-            service.addUsersToGroup("GROUP_ADMIN", usernames);
+            Set<String> authnames = new HashSet<String>();
+            authnames.add("ROLE_USER");
+            service.addAuthoritiesToGroup("GROUP_ADMIN", authnames);
             fail();
         }catch(UserServiceException e){
             
