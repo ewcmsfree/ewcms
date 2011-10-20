@@ -94,7 +94,7 @@ public class Group implements Serializable {
 
     @JsonIgnore
     public Set<Authority> getAuthorities() {
-        return authorities;
+        return authorities = (authorities == null ? new HashSet<Authority>() : authorities);
     }
 
     public void setAuthorities(Set<Authority> authorities) {

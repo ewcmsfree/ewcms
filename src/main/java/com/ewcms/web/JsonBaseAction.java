@@ -22,6 +22,19 @@ public class JsonBaseAction {
     private static final Logger logger = LoggerFactory.getLogger(JsonBaseAction.class);
     
     /**
+     * 输入对象生成json输出
+     * 
+     * @param o 对象
+     * @return 输出内容
+     */
+    public String renderObject(Object o){
+        
+        String json = JSONUtil.toJSON(o);
+        logger.debug("render output {}",json);
+        return render(json);
+    }
+    
+    /**
      * 操作成功输出json
      * 
      * @return 输出内容

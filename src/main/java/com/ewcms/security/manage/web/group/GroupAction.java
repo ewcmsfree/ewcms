@@ -96,7 +96,7 @@ public class GroupAction extends ActionSupport{
     public void delete(){
         JsonBaseAction json = new JsonBaseAction();
         fac.removeGroup(name);
-        json.renderError();
+        json.renderSuccess();
     }
     
     public String getName() {

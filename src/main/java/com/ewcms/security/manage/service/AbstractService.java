@@ -6,7 +6,6 @@
 
 package com.ewcms.security.manage.service;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -19,7 +18,6 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
-import org.springframework.util.Assert;
 
 import com.ewcms.common.message.EwcmsMessageSource;
 import com.ewcms.security.core.session.EwcmsSessionRegistry;
@@ -101,46 +99,6 @@ abstract class AbstractService implements MessageSourceAware {
                     "AbstractService.groupNotFound",new Object[]{name},"Can't found  "+ name + " group"));
         }
         return group;
-    }
-    
-    /**
-     * 同步二个集合中的对象。
-     * 
-     * 如果对象在目标集合已经存在，则不拷贝到目标对象集合。
-     * 如果对象在目标集合中不存在，则拷贝到目标对象集合。
-     * 如果目标集合中的对象在源集合中不存在，则删除目标对象集合中该对象。
-     * 
-     * @param <E> 对象类型
-     * @param targets 目标对象集合
-     * @param sources 源对象集合
-     * @return 不同的对象集合
-     */
-    protected <E> Collection<E> syncCollection(final Collection<E> targets,final Collection<E> sources){
-        Assert.notNull(sources,"sources is null");
-        Assert.notNull(targets,"target is null");
-        
-        Collection<E> removeCollection = new HashSet<E>();
-        for(E target : targets){
-            if(!sources.contains(target)){
-                removeCollection.add(target);
-            }
-        }
-        
-        Collection<E> newCollection = new HashSet<E>();
-        for(E source : sources){
-            if(!targets.contains(source)){
-                newCollection.add(source);
-            }
-        }
-
-        targets.removeAll(removeCollection);
-        targets.addAll(newCollection);
-        
-        Collection<E> deffCollection = new HashSet<E>();
-        deffCollection.addAll(removeCollection);
-        deffCollection.addAll(newCollection);
-        
-        return deffCollection;
     }
     
     @Override

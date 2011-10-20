@@ -53,9 +53,9 @@ public class UserService extends AbstractService implements UserServiceable{
     private SaltSource saltSource;
     
     @Override
-    public String addUser(final String username,String password,final boolean enabled,
-            final Date accountStart,final  Date accountEnd,final UserInfo userInfo,
-            final Set<String> authNames,final Set<String> groupNames)throws UserServiceException {
+    public String addUser(final String username,final String password,
+            final boolean enabled,final Date accountStart,final  Date accountEnd,
+            final UserInfo userInfo)throws UserServiceException {
         
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
@@ -67,10 +67,6 @@ public class UserService extends AbstractService implements UserServiceable{
         }
         
         User user = new User(username,enabled,accountStart,accountEnd);
-        Set<Authority> authorities = getAuthoritiesByNames(authNames);
-        user.setAuthorities(authorities);
-        Set<Group> groups = getGroupsByNames(groupNames);
-        user.setGroups(groups);
         UserInfo info = (userInfo != null ? userInfo : new UserInfo());
         info.setUsername(username);
         if(info.getName() == null){
@@ -91,37 +87,33 @@ public class UserService extends AbstractService implements UserServiceable{
     }
     
     /**
-     * 删除指定用户名注册的Session.
+     * 得到存在的用户
      * 
-     * 通过该方法可以强制在线该用户退出系统
+     * 用户不存在抛出异常
      * 
      * @param username 用户名
+     * @return  用户对象
+     * @throws UserServiceException
      */
-    private void removeSessionInformation(String username){
-        if(sessionRegistry == null){
-            if(logger.isDebugEnabled()){
-                logger.debug("Can't remove user in session,because sessionRegistry is null");
-            }
-            return ;
+    private User getExistUser(final String username)throws UserServiceException{
+        User user = userDao.get(username);
+        if(user == null){
+            throw new UserServiceException(messages.getMessage(
+                    "GroupService.groupNotFound",new Object[]{username},"Can't found  "+ username + " gruop"));
         }
-        sessionRegistry.removeSessionInformationByUsername(username);
+        return user;
     }
     
     @Override
-    public String updateUser(final String username,final boolean enabled,
-            final Date accountStart,final Date accountEnd,final UserInfo userInfo,
-            final Set<String> authNames,final Set<String> groupNames) throws UserServiceException{
+    public String updateUser(final String username,
+            final boolean enabled,final Date accountStart,
+            final Date accountEnd,final UserInfo userInfo) throws UserServiceException{
         
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
         }
         
-        User user = userDao.get(username);
-        if(user == null){
-            throw new UserServiceException(
-                    messages.getMessage("UserSerivce.usernameNotFound",
-                            new Object[]{username},"Can't found '"+ username + "' user"));
-        }
+        User user = getExistUser(username);
         user.setEnabled(enabled);
         user.setAccountStart(accountStart);
         user.setAccountEnd(accountEnd);
@@ -131,11 +123,7 @@ public class UserService extends AbstractService implements UserServiceable{
         user.getUserInfo().setMphone(userInfo.getMphone());
         user.getUserInfo().setName(userInfo.getName());
         user.getUserInfo().setPhone(userInfo.getPhone());
-        syncCollection(user.getAuthorities(),getAuthoritiesByNames(authNames));
-        syncCollection(user.getGroups(),getGroupsByNames(groupNames));
         userDao.persist(user);
-        
-        removeExpiredUserByUsername(username);
         
         return username;
     }
@@ -146,32 +134,92 @@ public class UserService extends AbstractService implements UserServiceable{
     }
 
     @Override
-    public void deleteUser(final String username) {
+    public void removeUser(final String username) {
         userDao.removeByPK(username);
         userCache.removeUserFromCache(username);
     }
     
     @Override
-    public void activeUser(final String username)throws AuthenticationException{
-        User user  = userDao.get(username);
-        if(user == null){
-            throw new AccessDeniedException("Can't active as user has no");
-        }
+    public void activeUser(final String username)throws UserServiceException{
+        User user  = getExistUser(username);
         user.setEnabled(true);
-        userDao.persist(user);
-        userCache.removeUserFromCache(username);
     }
     
     @Override
-    public void inactiveUser(final String username)throws AuthenticationException{
-        User user = userDao.get(username);
-        if(user == null){
-            throw new AccessDeniedException("Can't inactive as user has no");
-        }
+    public void inactiveUser(final String username)throws UserServiceException{
+        User user  = getExistUser(username);
         user.setEnabled(false);
         userDao.persist(user);
-        userCache.removeUserFromCache(username);
-        removeSessionInformation(username);
+        removeExpiredUserByUsername(username);
+    }
+    
+    @Override
+    public Set<Authority> addAuthoritiesToUser(String username,Set<String> names) throws UserServiceException{
+        User user  = getExistUser(username);
+        Set<Authority> newAuths =new HashSet<Authority>();
+        for(String name : names){
+            Authority newAuth = getAuthorityByName(name);
+            if(!user.getAuthorities().contains(newAuth)){
+                newAuths.add(newAuth);
+            }
+        }
+        user.getAuthorities().addAll(newAuths);
+        userDao.persist(user);
+        
+        removeExpiredUserByUsername(username);
+        
+        return newAuths;
+    }
+
+    @Override
+    public void removeAuthoritiesInUser(String username, Set<String> names) throws UserServiceException{
+        User user  = getExistUser(username);
+        
+        Set<Authority> auths = new HashSet<Authority>();
+        for(Authority auth : user.getAuthorities()){
+            if(!names.contains(auth.getName())){
+                auths.add(auth);
+            }
+        }
+        user.setAuthorities(auths);
+        userDao.persist(user);
+        
+        removeExpiredUserByUsername(username);
+    }
+
+    @Override
+    public Set<Group> addGroupsToUser(String username, Set<String> names) {
+        User user  = getExistUser(username);
+        
+        Set<Group> newGroups =new HashSet<Group>();
+        for(String name : names){
+            Group newGroup = getGroupByName(name);
+            if(!user.getGroups().contains(newGroup)){
+                newGroups.add(newGroup);
+            }
+        }
+        user.getGroups().addAll(newGroups);
+        userDao.persist(user);
+        
+        removeExpiredUserByUsername(username);
+        
+        return newGroups;
+    }
+
+    @Override
+    public void removeGroupsInUser(String username, Set<String> names) {
+        User user  = getExistUser(username);
+        
+        Set<Group> groups = new HashSet<Group>();
+        for(Group group : user.getGroups()){
+            if(!names.contains(group.getName())){
+                groups.add(group);
+            }
+        }
+        user.setGroups(groups);
+        userDao.persist(user);
+        
+        removeExpiredUserByUsername(username);
     }
     
     @Override

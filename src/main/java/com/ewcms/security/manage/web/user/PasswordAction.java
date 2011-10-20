@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.security.manage.web;
+package com.ewcms.security.manage.web.user;
 
 import java.util.List;
 

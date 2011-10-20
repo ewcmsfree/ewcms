@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.security.manage.model.Group;
+import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.service.GroupServiceable;
+import com.ewcms.security.manage.service.UserServiceable;
 
 /**
  * 实现权限管理
@@ -24,6 +26,9 @@ public class SecurityFac implements SecurityFacable{
 
     @Autowired
     private GroupServiceable groupService;
+    
+    @Autowired
+    private UserServiceable userService;
     
     @Override
     public Group getGroup(String name) {
@@ -48,7 +53,7 @@ public class SecurityFac implements SecurityFacable{
             Set<String> authNames,Set<String> usernames) {
         
         if(authNames != null && !authNames.isEmpty()){
-            groupService.removeAuthsInGroup(name, authNames);    
+            groupService.removeAuthoritiesInGroup(name, authNames);    
         }
         
         if(usernames != null && !usernames.isEmpty()){
@@ -78,7 +83,42 @@ public class SecurityFac implements SecurityFacable{
         groupService.removeGroup(name);
     }
     
+    @Override
+    public User getUser(String username) {
+        return userService.getUser(username);
+    }
+    
+    @Override
+    public void addAuthsAndGroupsToUser(String username, 
+            Set<String> authNames, Set<String> groupNames) {
+        
+        if(authNames != null && !authNames.isEmpty()){
+            userService.addAuthoritiesToUser(username, authNames);
+        }
+        
+        if(groupNames != null && !groupNames.isEmpty()){
+            userService.addGroupsToUser(username, groupNames);
+        }
+    }
+
+    @Override
+    public void removeAuthsAndGroupsInUser(String username, 
+            Set<String> authNames, Set<String> groupNames) {
+        
+        if(authNames != null && !authNames.isEmpty()){
+            userService.removeAuthoritiesInUser(username, authNames);
+        }
+        
+        if(groupNames != null && !groupNames.isEmpty()){
+            userService.removeGroupsInUser(username, groupNames);
+        }
+        
+    }
     public void setGroupSerivce(GroupServiceable groupSerivce) {
         this.groupService = groupSerivce;
+    }
+    
+    public void setUserService(UserServiceable userService){
+        this.userService = userService;
     }
 }

@@ -64,8 +64,8 @@ public interface GroupServiceable {
      * 
      * 被移除用户强迫退出（移除cache,session中的信息）。
      * 
-     * @param name 用户组名称集合
-     * @param usernames 用户组名称
+     * @param name 用户组名称
+     * @param usernames 用户名称集合
      */
     void removeUsersInGroup(String name,Set<String> usernames);
     
@@ -88,7 +88,7 @@ public interface GroupServiceable {
      * @param name 用户组名称
      * @param authNames 权限名称集合
      */
-    void removeAuthsInGroup(String name,Set<String> authNames);
+    void removeAuthoritiesInGroup(String name,Set<String> authNames);
     
     /**
      * 判断用户组名是否存在

@@ -84,14 +84,25 @@ public class GroupService extends AbstractService implements GroupServiceable{
         return namefull;
     }
 
-    @Override
-    public void updateGroup(final String name,final String remark)throws UserServiceException {
-        
+    /**
+     * 得到存在的用户组
+     * 
+     * @param name 用户组名称
+     * @return
+     * @throws UserServiceException
+     */
+    private Group getExistGroup(final String name)throws UserServiceException{
         Group group = groupDao.get(name);
         if(group == null){
             throw new UserServiceException(messages.getMessage(
                     "GroupService.groupNotFound",new Object[]{name},"Can't found  "+ name + " gruop"));
         }
+        return group;
+    }
+    @Override
+    public void updateGroup(final String name,final String remark)throws UserServiceException {
+        
+        Group group = getExistGroup(name);
         
         group.setRemark(remark);
         groupDao.persist(group);
@@ -110,11 +121,7 @@ public class GroupService extends AbstractService implements GroupServiceable{
     
     @Override
     public Set<User> addUsersToGroup(final String name,final Set<String> usernames) {
-        Group group = groupDao.get(name);
-        if(group == null){
-            throw new UserServiceException(messages.getMessage(
-                    "GroupService.groupNotFound",new Object[]{name},"Can't found  "+ name + " gruop"));
-        }
+        Group group = getExistGroup(name);
         Set<User> newUsers = new HashSet<User>();
         for(String username : usernames){
             User user = getUserByUsername(username);
@@ -132,11 +139,7 @@ public class GroupService extends AbstractService implements GroupServiceable{
 
     @Override
     public Set<Authority> addAuthoritiesToGroup(final String name,final Set<String> authNames) {
-        Group group = groupDao.get(name);
-        if(group == null){
-            throw new UserServiceException(messages.getMessage(
-                    "GroupService.groupNotFound",new Object[]{name},"Can't found  "+ name + " gruop"));
-        }
+        Group group = getExistGroup(name);
         Set<Authority> newAuths = new HashSet<Authority>(); 
         for(String authName : authNames){
             Authority auth = getAuthorityByName(authName);
@@ -154,43 +157,35 @@ public class GroupService extends AbstractService implements GroupServiceable{
 
     @Override
     public void removeUsersInGroup(final String name,final Set<String> usernames) {
-        Group group = groupDao.get(name);
-        if(group == null){
-            throw new UserServiceException(messages.getMessage(
-                    "GroupService.groupNotFound",new Object[]{name},"Can't found  "+ name + " gruop"));
-        }
+        Group group = getExistGroup(name);
         if(group.getUsers().isEmpty()){
             return ;
         }
-       Set<User> newUsers = new HashSet<User>();
+       Set<User> users = new HashSet<User>();
        for(User user : group.getUsers()){
            if(!usernames.contains(user.getUsername())){
-               newUsers.add(user);                    
+               users.add(user);                    
              }
         }
 
-       group.setUsers(newUsers);
+       group.setUsers(users);
        groupDao.persist(group);
        removeExpiredUseByUsernames(usernames);
     }
 
     @Override
-    public void removeAuthsInGroup(final String name,final Set<String> authNames) throws UserServiceException{
-        Group group = groupDao.get(name);
-        if(group == null){
-            throw new UserServiceException(messages.getMessage(
-                    "GroupService.groupNotFound",new Object[]{name},"Can't found  "+ name + " gruop"));
-        }
+    public void removeAuthoritiesInGroup(final String name,final Set<String> authNames) throws UserServiceException{
+        Group group = getExistGroup(name);
         if(group.getAuthorities().isEmpty()){
             return ;
         }
-        Set<Authority> newAuths = new HashSet<Authority>();
+        Set<Authority> auths = new HashSet<Authority>();
         for(Authority auth : group.getAuthorities()){
             if(!authNames.contains(auth.getName())){
-                newAuths.add(auth);
+                auths.add(auth);
             }
         }
-        group.setAuthorities(newAuths);
+        group.setAuthorities(auths);
         groupDao.persist(group);
         removeExpiredUsers(group.getUsers());
     }

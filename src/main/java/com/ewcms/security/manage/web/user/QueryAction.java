@@ -38,7 +38,7 @@ public class QueryAction extends QueryBaseAction {
         String username = getParameterValue(String.class, "username");
         if (isStringNotEmpty(username)) query.likeAnywhere("username", username);
         String name = getParameterValue(String.class,"name");
-        if (isStringNotEmpty(name)) query.likeAnywhere("name", name);
+        if (isStringNotEmpty(name)) query.likeAnywhere("userInfo.name", name);
         
         if(order.hasOrder()){
             entityOrder(query, order);

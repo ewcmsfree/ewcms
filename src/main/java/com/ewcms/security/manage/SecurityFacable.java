@@ -9,6 +9,7 @@ package com.ewcms.security.manage;
 import java.util.Set;
 
 import com.ewcms.security.manage.model.Group;
+import com.ewcms.security.manage.model.User;
 
 /**
  * 权限管理接口
@@ -26,7 +27,7 @@ public interface SecurityFacable {
     Group getGroup(String name);
     
     /**
-     * 添加权限和用户到指定用的户组中
+     * 添加权限和用户到指定的用户组中
      * 
      * @param name       用户组名称
      * @param authNames  权限名称集合
@@ -74,4 +75,30 @@ public interface SecurityFacable {
      * @param name 用户组名称
      */
     void removeGroup(String name);
+    
+    /**
+     * 得到用户
+     * 
+     * @param username 用户名
+     * @return 用户对象
+     */
+    User getUser(String username);
+    
+    /**
+     * 添加权限和用户组到指定的用户中
+     * 
+     * @param name        用户组名称
+     * @param authNames   权限名称集合
+     * @param groupNames  用户组名称集合
+     */
+    void addAuthsAndGroupsToUser(String name,Set<String> authNames,Set<String> groupNames);
+    
+    /**
+     * 移除指定用户组中的权限和用户
+     * 
+     * @param name       用户组名称
+     * @param authNames  权限名称集合
+     * @param groupNames  用户组名称集合
+     */
+    void removeAuthsAndGroupsInUser(String name,Set<String> authNames,Set<String> groupNames);
 }

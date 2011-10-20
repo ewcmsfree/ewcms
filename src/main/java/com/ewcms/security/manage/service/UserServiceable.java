@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.ewcms.security.manage.model.Authority;
+import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.model.UserInfo;
 
@@ -35,15 +37,12 @@ public interface UserServiceable extends UserDetailsService{
      * @param accountStart 授权开始时间
      * @param accountEnd 授权结束时间
      * @Param userInfo 用户详细信息
-     * @param authNames 赋予权限名称集合
-     * @param groupNames 所属用户组名
      * 
      * @return 用户名
      * @throws UserServiceException
      */
     String addUser(String username,String password,boolean enabled,
-            Date accountStart,Date accountEnd,UserInfo userInfo,
-            Set<String> authNames,Set<String> groupNames)
+            Date accountStart,Date accountEnd,UserInfo userInfo)
             throws UserServiceException;
 
     /**
@@ -54,15 +53,12 @@ public interface UserServiceable extends UserDetailsService{
      * @param accountStart 授权开始时间
      * @param accountEnd 授权结束时间
      * @Param userInfo 用户详细信息
-     * @param authNames 赋予权限名称集合
-     * @param groupNames 所属用户组名
      * 
      * @return 用户名
      * @throws UserServiceException
      */
     String updateUser(String username,boolean enabled,
-            Date accountStart,Date accountEnd,UserInfo userInfo,
-            Set<String> authNames,Set<String> groupNames)
+            Date accountStart,Date accountEnd,UserInfo userInfo)
             throws UserServiceException;
 
     /**
@@ -78,7 +74,7 @@ public interface UserServiceable extends UserDetailsService{
      * 
      * @param username 用户名
      */
-    void deleteUser(String username);
+    void removeUser(String username);
     
     /**
      * 激活（开启）用户
@@ -97,6 +93,48 @@ public interface UserServiceable extends UserDetailsService{
      * @param username
      */
     void inactiveUser(String username);
+    
+    /**
+     * 添加权限到用户
+     * 
+     * 用户强迫退出（移除cache,session中的信息）。
+     * 
+     * @param username 用户名称
+     * @param names 权限名称集合
+     * @return 新增权限集合
+     */
+    Set<Authority> addAuthoritiesToUser(String username,Set<String> names);
+    
+    /**
+     * 移除用户中权限
+     * 
+     * 用户被强迫退出（移除cache,session中的信息）。
+     * 
+     * @param username 用户名称
+     * @param names 权限名称集合
+     */
+    void removeAuthoritiesInUser(String username,Set<String> names);
+    
+    /**
+     * 添加用户组到用户
+     * 
+     * 用户强迫退出（移除cache,session中的信息）。
+     * 
+     * @param username 用户名称
+     * @param names 用户组名称集合
+     * @return 新增用户组集合
+     */
+    Set<Group> addGroupsToUser(String username,Set<String> names);
+    
+    /**
+     * 移除用户中用户组
+     * 
+     * 用户强迫退出（移除cache,session中的信息）。
+     * 
+     * @param username 用户名称
+     * @param names 用户组名称集合
+     */
+    void removeGroupsInUser(String username,Set<String> names);
     
     /**
      * 得到当前用户信息

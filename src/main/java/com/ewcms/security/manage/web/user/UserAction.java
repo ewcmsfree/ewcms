@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.security.manage.web;
+package com.ewcms.security.manage.web.user;
 
 import java.util.HashSet;
 import java.util.List;
@@ -124,7 +124,7 @@ public class UserAction extends CrudBaseAction<User,String>{
 
     @Override
     protected void deleteOperator(String pk) {
-        userService.deleteUser(pk);
+        userService.removeUser(pk);
     }
 
     private Set<String> getAuthNames(){
@@ -145,13 +145,13 @@ public class UserAction extends CrudBaseAction<User,String>{
     @Override
     protected String saveOperator(User vo, boolean isUpdate) {
         if(isUpdate){
-            userService.updateUser(user.getUsername(), vo.isEnabled(),
-                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
-                    getAuthNames(), getGroupNams());
+//            userService.updateUser(user.getUsername(), vo.isEnabled(),
+//                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
+//                    getAuthNames(), getGroupNams());
         }else{
-            userService.addUser(vo.getUsername(),vo.getPassword(), vo.isEnabled(),
-                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
-                    getAuthNames(), getGroupNams());
+//            userService.addUser(vo.getUsername(),vo.getPassword(), vo.isEnabled(),
+//                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
+//                    getAuthNames(), getGroupNams());
         }
         
         return vo.getUsername();

@@ -8,6 +8,7 @@ package com.ewcms.security.manage.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -150,7 +151,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     public Set<Group> getGroups() {
-        return groups;
+        return groups = (groups == null ? new HashSet<Group>() : groups);
     }
 
     public void setGroups(Set<Group> groups) {
@@ -159,7 +160,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     public Set<Authority> getAuthorities() {
-        return authorities;
+        return authorities = (authorities == null ? new HashSet<Authority>() : authorities);
     }
 
     public void setAuthorities(Set<Authority> authorities) {
