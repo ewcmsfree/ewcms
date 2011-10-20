@@ -18,13 +18,15 @@
          var _groupIndex = new GroupIndex({
              queryUrl:'<s:url action="query"/>',
              detailUrl:'<s:url action="detail"/>',
-             editUrl:'<s:url action="input"/>'
+             editUrl:'<s:url action="input"/>',
+             deleteUrl:'<s:url action="delete"/>'
              });
         $(function(){
            _groupIndex.init({
                datagridId:'#tt',
                toolbarAddId:'#toolbar-add',
                toolbarUpdateId:'#toolbar-update',
+               toolbarRemoveId:'#toolbar-remove',
                toolbarQueryId:'#toolbar-query',
                queryFormId:'#queryform'
            });

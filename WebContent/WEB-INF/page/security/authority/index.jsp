@@ -17,6 +17,7 @@
                 singleSelect:true,
                 rownumbers:true,
                 pagination:true,
+                loadMsg:'',
                 url:'<s:url action="query"/>',
                 frozenColumns:[[
                     {field:'name',title:'名称',width:200}
