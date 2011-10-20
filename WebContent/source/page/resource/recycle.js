@@ -22,34 +22,43 @@ operators = {
             $.post(url,selects,function(data){
                 if(data.success){
                     o.reload(datagridId);
-                    //$.messager.alert('提示','发布资源成功');
                 }else{
                     $.messager.alert('错误','还原资源错误');
                 }
             });
         },
         remove :function(datagridId,url){
+            if($(datagridId).datagrid('getSelections').length == 0){
+                $.messager.alert('提示','请选择永久删除的资源','info');
+                return;
+            }
             var o = this;
             var selects = this._construtSelects(datagridId);
-            $.post(url,selects,function(data){
-                if(data.success){
-                    o.reload(datagridId);
-                    //$.messager.alert('提示','资源删除成功');
-                }else{
-                    $.messager.alert('错误','删除资源失败');
+            $.messager.confirm('提示', '确定永久删除所选资源?', function(r){
+                if (r){
+                    $.post(url,selects,function(data){
+                        if(data.success){
+                            o.reload(datagridId);
+                        }else{
+                            $.messager.alert('错误','永久删除资源失败');
+                        }
+                    });
                 }
-            });
+            },'info');
         },
-        clear : function (datagridId){
+        clear : function (datagridId,url){
             var o = this;
-            window.frames[ifr].insert(function(success,data){
-                if(success){
-                    o.reload(datagridId);
-                    $(windowId).window('close');
-                }else{
-                    $.messager.alert('错误','资源上传失败');
+            $.messager.confirm('提示', '确定清空所有删除资源?', function(r){
+                if (r){
+                    $.post(url,function(data){
+                        if(data.success){
+                            o.reload(datagridId);
+                        }else{
+                            $.messager.alert('错误','清空所有删除资源失败');
+                        }
+                    });
                 }
-           });
+            },'info');
        }
 }
 
@@ -156,7 +165,7 @@ recycle.prototype.init = function(urls){
     });
     
     $(opts.toolbarClearId).bind('click',function(){
-        operators.remove(opts.datagridId,urls.clear);
+        operators.clear(opts.datagridId,urls.clear);
     });
     
     $(opts.toolbarQueryId).bind('click',function(){

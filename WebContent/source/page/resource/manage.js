@@ -29,16 +29,23 @@ operators = {
             });
         },
         remove :function(datagridId,url){
+            if($(datagridId).datagrid('getSelections').length == 0){
+                $.messager.alert('提示','请选择删除的记录','info');
+                return;
+            }
             var o = this;
             var selects = this._construtSelects(datagridId);
-            $.post(url,selects,function(data){
-                if(data.success){
-                    o.reload(datagridId);
-                    //$.messager.alert('提示','资源删除成功');
-                }else{
-                    $.messager.alert('错误','删除资源失败');
+            $.messager.confirm('提示', '确定删除所选记录?', function(r){
+                if (r){
+                    $.post(url,selects,function(data){
+                        if(data.success){
+                            o.reload(datagridId);
+                        }else{
+                            $.messager.alert('错误','删除资源失败');
+                        }
+                    });
                 }
-            });
+            },'info');
         },
         save : function (ifr,windowId,datagridId){
             var o = this;

@@ -4,11 +4,11 @@
  * http://www.ewcms.com
  */
  
-var GroupIndex = function(urls){
+var UserIndex = function(urls){
     this._urls = urls;
 }
 
-GroupIndex.prototype.init = function(opts){
+UserIndex.prototype.init = function(opts){
     
     var urls = this._urls;
     
@@ -18,20 +18,40 @@ GroupIndex.prototype.init = function(opts){
     ewcmsOOBJ.setDatagridID(opts.datagridId);
     
     $(opts.datagridId).datagrid({
-        fitColumns:true,
         nowrap: false,
         singleSelect:true,
         rownumbers:true,
         pagination:true,
-        idField:'name',
+        idField:'username',
         pageSize:20,
         url: urls.queryUrl,
         view: detailview,
         loadMsg:'',
         columns:[[
             {field:'ck',checkbox:true},
-            {field:'name',title:'名称',width:300},
-            {field:"remark",title:'描述',width:400}
+            {field:'username',title:'用户名称',width:120,sortable:true},
+            {field:'userInfo.name',title:'姓名',width:120,formatter:function(val,row){
+                return row.userInfo.name;
+              }},
+            {field:'accountStart',title:'授权开始时间',width:130},
+            {field:'accountEnd',title:'授权结束时间',width:130},
+            {field:'userInfo.mphone',title:'手机',width:150,formatter:function(val,row){
+                return row.userInfo.mphone;
+              }},
+            {field:'userInfo.phone',title:'电话',width:150,formatter:function(val,row){
+                return row.userInfo.phone;
+              }},
+            {field:'userInfo.email',title:'邮件',width:200,formatter:function(val,row){
+                return row.userInfo.email;
+              }},
+            {field:'createTime',title:'创建时间',width:130,sortable:true},
+            {field:'enabled',title:'启用/停用',width:100,align:'center',formatter:function(val,row){
+                if (val){
+                    return "<a href='#' onclick='alert(111)'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
+                }else {
+                    return "<a href='#' onclick='alert(2222)'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
+                }
+              }}
         ]],
         detailFormatter:function(index,row){
             return '<div id="ddv-' + index + '" style="padding:5px 0"></div>';
@@ -41,7 +61,7 @@ GroupIndex.prototype.init = function(opts){
                 fit:true,
                 border:false,
                 cache:false,
-                content: '<iframe src=' + urls.detailUrl + '?name=' +row.name + ' width=98% frameborder=0 height=350/>',
+                content: '<iframe src=' + urls.detailUrl + '?username=' +row.username + ' width=98% frameborder=0 height=350/>',
                 onLoad:function(){
                     $('#tt').datagrid('fixDetailRowHeight',index);
                 }
@@ -52,32 +72,32 @@ GroupIndex.prototype.init = function(opts){
     
     $(opts.toolbarAddId).bind('click',function(){
         $('#editifr-id').attr('src',urls.editUrl);
-        openWindow('#edit-window',{title:'增加 - 用户组',width:680,height:480})
+        openWindow('#edit-window',{title:'增加 - 用户',width:680,height:480})
     });
     
     $(opts.toolbarUpdateId).bind('click',function(){
         var rows = $(opts.datagridId).datagrid('getSelections');
         if(rows.length == 0){
-            $.messager.alert('提示','请选择修改的用户组','info');
+            $.messager.alert('提示','请选择修改的用户','info');
         }
         var url = urls.editUrl + "?eventOP=update&name=" + rows[0].name; 
         $('#editifr-id').attr('src',url);
-        openWindow('#edit-window',{title:'修改 - 用户组',width:680,height:480})
+        openWindow('#edit-window',{title:'修改 - 用户',width:680,height:480})
     });
     
     $(opts.toolbarRemoveId).bind('click',function(){
         var rows = $(opts.datagridId).datagrid('getSelections');
         if(rows.length == 0){
-            $.messager.alert('提示','请选择删除的用户组','info');
+            $.messager.alert('提示','请选择删除的用户','info');
             return;
         }
-        $.messager.confirm('提示', '确定删除所选用户组?', function(r){
+        $.messager.confirm('提示', '确定删除所选用户?', function(r){
             if (r){
                 $.post(urls.deleteUrl,{"name":rows[0].name},function(data){
                    if(data.success){
                        $('#tt').datagrid('reload')
                    } else{
-                       $.messager.alert('错误','删除用户组失败','error');
+                       $.messager.alert('错误','删除用户失败','error');
                    }
                 });
             }
@@ -89,6 +109,6 @@ GroupIndex.prototype.init = function(opts){
     });
 }
 
-GroupIndex.prototype.closeEditWindow = function(){
+UserIndex.prototype.closeEditWindow = function(){
     $('#edit-window').window('close');
 }

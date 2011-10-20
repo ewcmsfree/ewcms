@@ -4,12 +4,12 @@
  * http://www.ewcms.com
  */
  
-var GroupDetail = function(urls){
+var UserDetail = function(urls){
     
     this._urls = urls;
 }
 
-GroupDetail.prototype._constructParameter = function(opts){
+UserDetail.prototype._constructParameter = function(opts){
     opts.property = opts.property || 'name'; 
     var rows = $(opts.tableId).datagrid('getSelections');
     var parameters = '';
@@ -23,7 +23,7 @@ GroupDetail.prototype._constructParameter = function(opts){
    return parameters;
 }
 
-GroupDetail.prototype.init = function(opts){
+UserDetail.prototype.init = function(opts){
  
     var urls = this._urls;
     var constructParameter = this._constructParameter;
@@ -44,14 +44,14 @@ GroupDetail.prototype.init = function(opts){
             {field:"value",title:'描述',width:300}
         ]],
         onBeforeLoad:function(param){
-             param['name'] = opts.groupName;    
+             param['username'] = opts.username;    
         },
         toolbar:[{
             id:'btnadd',
             text:'添加',
             iconCls:'icon-add',
             handler:function(){
-                openWindow('#edit-window',{title:'增加 - 权限/用户',width:550,height:320})
+                openWindow('#edit-window',{title:'增加 - 权限/用户组',width:550,height:320})
           }
         },'-',{
             id:'btnremove',
@@ -82,7 +82,7 @@ GroupDetail.prototype.init = function(opts){
     
     if(opts.showTitle){
         $('#tt').propertygrid({
-            title:"权限/用户",
+            title:"权限/用户组",
             iconCls:"icon-winedit"
         });
     }
@@ -105,23 +105,21 @@ GroupDetail.prototype.init = function(opts){
         ]]
     });
     
-    $("#user-tt").datagrid({
+    $("#group-tt").datagrid({
         width:500,
-        idField:'username',
+        idField:'name',
         pageSize:5,
         pagination:true,
         nowrap: false,
         rownumbers:true,
         pageList:[5],
-        url:urls.userQueryUrl,
+        url:urls.groupQueryUrl,
         frozenColumns:[[
              {field:'ck',checkbox:true},
-             {field:"username",title:'用户名称',width:200}
+             {field:"name",title:'用户组名称',width:200}
         ]],
         columns:[[
-             {field:"userInfo",title:'姓名',width:230,formatter:function(value,row){
-                 return value.name;     
-             }}
+             {field:"remark",title:'描述',width:230}
         ]]
     });
     
@@ -130,9 +128,9 @@ GroupDetail.prototype.init = function(opts){
             text:'确定',
             iconCls:'icon-ok',
             handler:function(){
-                var parameter ='name=' + opts.groupName + '&' + 
+                var parameter ='username=' + opts.username + '&' + 
                         constructParameter({tableId:'#auth-tt',parameterName:'authNames'}) +
-                        constructParameter({tableId:'#user-tt',parameterName:'usernames',property:'username'});
+                        constructParameter({tableId:'#group-tt',parameterName:'groupNames'});
                 $.post(urls.addUrl,parameter,function(data){
                     if(data.success){
                         $("#tt").datagrid('reload');
@@ -141,7 +139,7 @@ GroupDetail.prototype.init = function(opts){
                     }
                 });
                 $('#auth-tt').datagrid('unselectAll');
-                $('#user-tt').datagrid('unselectAll');
+                $('#group-tt').datagrid('unselectAll');
                 $('#edit-window').dialog('close');
             }
          }] 
@@ -153,9 +151,9 @@ GroupDetail.prototype.init = function(opts){
         querySearch('#auth-queryform');
     });
     
-    $('#user-toolbar-query').bind('click',function(){
-        ewcmsOOBJ.setQueryURL(urls.userQueryUrl);
-        ewcmsOOBJ.setDatagridID('#user-tt');
-        querySearch('#user-queryform');
+    $('#group-toolbar-query').bind('click',function(){
+        ewcmsOOBJ.setQueryURL(urls.groupQueryUrl);
+        ewcmsOOBJ.setDatagridID('#group-tt');
+        querySearch('#group-queryform');
     });
 }
