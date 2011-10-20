@@ -60,7 +60,17 @@
     </package>
     
     <package name="security.user"  extends="struts-default" namespace="/security/user">
+        <action name="index">
+          <result type="dispatcher">/WEB-INF/page/security/user/index.jsp</result>
+        </action>
         <action name="query" class="com.ewcms.security.manage.web.user.QueryAction" method="query"/>
+        
+        <action name="detail" class="com.ewcms.security.manage.web.user.DetailAction">
+            <result>/WEB-INF/page/security/user/detail.jsp</result>
+        </action>
+        <action name="detailQuery" class="com.ewcms.security.manage.web.user.DetailAction" method="query"/>
+        <action name="addAuthsAndGroups" class="com.ewcms.security.manage.web.user.DetailAction" method="addAuthsAndGroups"/>
+        <action name="removeAuthsAndGroups" class="com.ewcms.security.manage.web.user.DetailAction" method="removeAuthsAndGroups"/>
     </package>
     
     <!-- 
