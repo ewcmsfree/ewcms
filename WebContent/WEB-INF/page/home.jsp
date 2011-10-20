@@ -128,21 +128,21 @@
                 </div>
                 <div title="权限管理" style="overflow:auto;">
                    <div class="nav-item">
-                       <a href="javascript:_home.addTab('用户管理','security/user/index.do')">
-                            <img src="source/image/user.png" style="border:0;"/><br/>
-                            <span>用户管理</span>
+                        <a href="javascript:_home.addTab('权限列表','security/authority/index.do')">
+                            <img src="source/image/role.png" style="border:0;"/><br/>
+                            <span>权限列表</span>
                         </a>
-                    </div>
-                    <div class="nav-item">
+                   </div>
+                   <div class="nav-item">
                        <a href="javascript:_home.addTab('用户组管理','security/group/index.do')">
                             <img src="source/image/group.png" style="border:0;"/><br/>
                             <span>用户组管理</span>
                         </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="javascript:_home.addTab('权限列表','security/authority/index.do')">
-                            <img src="source/image/role.png" style="border:0;"/><br/>
-                            <span>权限列表</span>
+                   </div>
+                   <div class="nav-item">
+                       <a href="javascript:_home.addTab('用户管理','security/user/index.do')">
+                            <img src="source/image/user.png" style="border:0;"/><br/>
+                            <span>用户管理</span>
                         </a>
                     </div>
                 </div>     
