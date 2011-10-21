@@ -2,6 +2,9 @@
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
+
+<jsp:include page="../../loading.jsp" flush="true"/>
+
 <html>
 	<head>
 		<title>文档编辑</title>	

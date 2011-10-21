@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<jsp:include page="../../loading.jsp" flush="true"/>
 <html>
 	<head>
 		<title>操作明细</title>
