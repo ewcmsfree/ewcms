@@ -14,8 +14,10 @@ UserDetail.prototype._constructParameter = function(opts){
     var rows = $(opts.tableId).datagrid('getSelections');
     var parameters = '';
     $.each(rows,function(index,value){
-        if(opts.group && value.group == opts.group){
-            parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
+        if(opts.group){
+            if( value.group == opts.group){
+                parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
+            }
         }else{
             parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
         }
@@ -62,9 +64,9 @@ UserDetail.prototype.init = function(opts){
                     $.messager.alert('提示','请选择删除的记录','info');
                     return;
                 }
-                var parameter ='name=' + opts.groupName + '&' + 
+                var parameter ='username=' + opts.username + '&' + 
                         constructParameter({tableId:'#tt',parameterName:'authNames',group:'权限'}) +
-                        constructParameter({tableId:'#tt',parameterName:'usernames',group:'用户'});
+                        constructParameter({tableId:'#tt',parameterName:'groupNames',group:'用户组'});
                 $.messager.confirm('提示', '确定删除所选记录?', function(r){
                     if (r){
                         $.post(urls.removeUrl,parameter,function(data){

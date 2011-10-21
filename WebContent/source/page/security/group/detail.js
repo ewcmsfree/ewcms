@@ -14,8 +14,10 @@ GroupDetail.prototype._constructParameter = function(opts){
     var rows = $(opts.tableId).datagrid('getSelections');
     var parameters = '';
     $.each(rows,function(index,value){
-        if(opts.group && value.group == opts.group){
-            parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
+        if(opts.group){
+            if( value.group == opts.group){
+                parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
+            }
         }else{
             parameters = parameters + opts.parameterName +'='  + value[opts.property] +'&';
         }

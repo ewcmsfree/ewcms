@@ -17,6 +17,8 @@ UserIndex.prototype.init = function(opts){
     ewcmsOOBJ.setQueryURL(urls.queryUrl);
     ewcmsOOBJ.setDatagridID(opts.datagridId);
     
+    var odsf = this;
+    
     $(opts.datagridId).datagrid({
         nowrap: false,
         singleSelect:true,
@@ -47,9 +49,9 @@ UserIndex.prototype.init = function(opts){
             {field:'createTime',title:'创建时间',width:130,sortable:true},
             {field:'enabled',title:'启用/停用',width:100,align:'center',formatter:function(val,row){
                 if (val){
-                    return "<a href='#' onclick='alert(111)'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
+                    return "已启用&nbsp;&nbsp;<a href='#' onclick='inactive(\""+ row.username +"\")'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
                 }else {
-                    return "<a href='#' onclick='alert(2222)'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
+                    return "已停用&nbsp;&nbsp;<a href='#' onclick='active(\""+ row.username +"\")'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='启用操作'/></a>";
                 }
               }}
         ]],
@@ -80,7 +82,7 @@ UserIndex.prototype.init = function(opts){
         if(rows.length == 0){
             $.messager.alert('提示','请选择修改的用户','info');
         }
-        var url = urls.editUrl + "?eventOP=update&name=" + rows[0].name; 
+        var url = urls.editUrl + "?eventOP=update&username=" + rows[0].username; 
         $('#editifr-id').attr('src',url);
         openWindow('#edit-window',{title:'修改 - 用户',width:680,height:480})
     });
@@ -111,4 +113,26 @@ UserIndex.prototype.init = function(opts){
 
 UserIndex.prototype.closeEditWindow = function(){
     $('#edit-window').window('close');
+}
+
+UserIndex.prototype.active=function(username){
+    var urls = this._urls;
+    $.post(urls.activeUrl,{"username":username},function(data){
+        if(data.success){
+            $('#tt').datagrid('reload')
+        } else{
+            $.messager.alert('错误','启用用户失败','error');
+        }
+     });
+}
+
+UserIndex.prototype.inactive=function(username){
+    var urls = this._urls;
+    $.post(urls.inactiveUrl,{"username":username},function(data){
+        if(data.success){
+            $('#tt').datagrid('reload')
+        } else{
+            $.messager.alert('错误','启用用户失败','error');
+        }
+     });
 }
