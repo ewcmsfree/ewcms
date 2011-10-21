@@ -99,7 +99,7 @@ public class UserService extends AbstractService implements UserServiceable{
         User user = userDao.get(username);
         if(user == null){
             throw new UserServiceException(messages.getMessage(
-                    "GroupService.groupNotFound",new Object[]{username},"Can't found  "+ username + " gruop"));
+                    "GroupService.groupNotFound",new Object[]{username},"Can't found  "+ username + " username"));
         }
         return user;
     }

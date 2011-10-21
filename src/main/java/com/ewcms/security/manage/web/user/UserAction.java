@@ -6,177 +6,157 @@
 
 package com.ewcms.security.manage.web.user;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.security.manage.model.Authority;
-import com.ewcms.security.manage.model.Group;
+import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.security.manage.model.User;
-import com.ewcms.security.manage.service.UserServiceable;
-import com.ewcms.web.CrudBaseAction;
-import com.ewcms.web.util.Struts2Util;
+import com.ewcms.security.manage.service.UserServiceException;
+import com.ewcms.web.JsonBaseAction;
+import com.opensymphony.xwork2.ActionSupport;
 
-@Controller
-public class UserAction extends CrudBaseAction<User,String>{
+/**
+ * 用户操作Action
+ * 
+ * @author wangwei
+ */
+@Controller("security.user.user.action")
+public class UserAction extends ActionSupport{
     
     private static final String EVENTOP_ADD = "add";
     private static final String EVENTOP_UPDATE = "update";
     
-    private static final String ROLE_PREFIX = "ROLE_";
-    private static final String GROUP_PREFIX = "GROUP_";
-    
+    private String username;
+    private List<String> newUsernames;
     private User user;
-    private Set<Authority> authorities = new HashSet<Authority>();
-    private Set<Group> groups = new HashSet<Group>();
-    private String eventOP = "add";
+    private boolean showAuthGroupTab = false;
+    private String eventOP = EVENTOP_ADD;
     
     @Autowired
-    private UserServiceable userService;
+    private SecurityFacable fac;
     
-    public void usernameExist(){
+    public void hasUsername(){
         String format = "{\"exist\":%b}";
-        boolean exist = false;
-        if(!operatorPK.isEmpty()){
-            exist = userService.usernameExist(operatorPK.get(0));
-        }
-        Struts2Util.renderJson(String.format(format, exist));
+        boolean  exist = fac.usernameExist(username);
+        JsonBaseAction json = new JsonBaseAction();
+        json.render(String.format(format, exist));
     }
     
     public void active(){
-        String format = "{\"success\":%b,\"message\":\"%s\"}";
-        try{
-            if(!operatorPK.isEmpty()){
-                for(String username:operatorPK){
-                    userService.activeUser(username);
-                }
-            }
-        }catch(AuthenticationException e){
-            Struts2Util.renderJson(String.format(format, false,e.toString()));
-        }
-        Struts2Util.renderJson(String.format(format, true,""));
+         JsonBaseAction json = new JsonBaseAction();
+         try{
+             fac.activeUser(username);
+             json.renderSuccess();
+         }catch(UserServiceException e){
+            json.renderError(e.getMessage());
+           }
     }
     
     public void inactive(){
-        String format = "{\"success\":%b,\"message\":\"%s\"}";
+        JsonBaseAction json = new JsonBaseAction();
         try{
-            if(!operatorPK.isEmpty()){
-                for(String username:operatorPK){
-                    userService.inactiveUser(username);
-                }
-            }
-        }catch(AuthenticationException e){
-            Struts2Util.renderJson(String.format(format, false,e.toString()));
-        }
-        Struts2Util.renderJson(String.format(format, true,""));
+            fac.inactiveUser(username);
+            json.renderSuccess();
+        }catch(UserServiceException e){
+           json.renderError(e.getMessage());
+          }
     }
     
     @Override
-    public String input()throws Exception{
-        if(operatorPK==null || operatorPK.isEmpty()){
+    public String input(){
+        if(username == null){
             eventOP = EVENTOP_ADD;
-        }else{
-            eventOP = EVENTOP_UPDATE;
+            return INPUT;
         }
-        return super.input();
+        
+        showAuthGroupTab = true; 
+        eventOP = EVENTOP_UPDATE;
+        user = fac.getUser(username);
+        if(user == null){
+            addActionError("修改的用户不存在");
+            username = "";
+            eventOP = EVENTOP_ADD;
+        }
+
+        return INPUT;
     }
     
-    private boolean isUsernameValidate(final String username){
-        if(StringUtils.startsWith(username, ROLE_PREFIX) || StringUtils.startsWith(username, GROUP_PREFIX)){
-            this.addActionError("用户名不能使用\""+ROLE_PREFIX+"\"和\""+GROUP_PREFIX+"\"前缀");
-            return false;
+    /**
+     * 验证授权日期是否正确
+     * 
+     * 结束日期必须大于开始日期
+     * 
+     * @param start 开始日期
+     * @param end   结束日期
+     * @return true 验证正确
+     */
+    private boolean validateAccoutDate(Date start,Date end){
+        if(end != null && start != null){
+            if(end.getTime()<start.getTime()){
+                this.addActionError("授权开始时间大于授权结束日期");
+                return false;
+            }
         }
         return true;
     }
     
+    /**
+     * 判断是否是更新操作
+     * 
+     * @return
+     */
+    private boolean isUpdateOperator(){
+        return EVENTOP_UPDATE.equals(eventOP);
+    }
+    
     @Override
-    public String save()throws Exception{
-        if(vo.getAccountEnd()!=null && vo.getAccountStart() != null){
-            if(vo.getAccountEnd().getTime()<vo.getAccountStart().getTime()){
-                this.addActionError("授权开始时间大于授权结束日期");
-                return ERROR;
+    public String execute(){
+        if(!validateAccoutDate(user.getAccountStart(), user.getAccountEnd())){
+            return ERROR;
+         }
+        
+        try{
+            if(isUpdateOperator()){
+                username = fac.updateUser(user.getUsername(),
+                        user.isEnabled(), user.getAccountStart(), 
+                        user.getAccountEnd(), user.getUserInfo());
+                addActionMessage("用户修改成功");
+            }else{
+                if(fac.usernameExist(user.getUsername())){
+                    addActionError("用户名称已经存在");
+                    return ERROR;
+                }
+                username = fac.addUser(user.getUsername(),user.getPassword(),
+                        user.isEnabled(), user.getAccountStart(), 
+                        user.getAccountEnd(), user.getUserInfo());
+                newUsernames = (newUsernames == null ? new ArrayList<String>() : newUsernames);
+                newUsernames.add(username);
+                addActionMessage("添加用户成功，可以添加权限和所属用户组");
             }
-        }
-        if(!isUsernameValidate(vo.getUsername())){
+            showAuthGroupTab = true; 
+            return SUCCESS;
+        }catch(UserServiceException e){
+            addActionError(e.getMessage());
             return ERROR;
         }
-        return super.save();
+    }
+      
+    public void delete(){
+        JsonBaseAction json = new JsonBaseAction();
+        fac.removeUser(username);
+        json.renderSuccess();
     }
     
-    @Override
-    public String execute()throws Exception{
-        return save();
-    }
-    
-    protected boolean isUpdateOperator(){
-        return eventOP.equals(EVENTOP_UPDATE);
-    }
-    
-    @Override
-    protected User getOperator(String pk) {
-        return userService.getUser(pk);
+    public String getUsername() {
+        return username;
     }
 
-    @Override
-    protected void deleteOperator(String pk) {
-        userService.removeUser(pk);
-    }
-
-    private Set<String> getAuthNames(){
-        Set<String> names = new HashSet<String>();
-        for(Authority auth : authorities){
-           names.add(auth.getName()); 
-        }
-        return names;
-    }
-    
-    private Set<String> getGroupNams(){
-        Set<String> names = new HashSet<String>();
-        for(Group group : groups){
-            names.add(group.getName());
-        }
-        return names;
-    }
-    @Override
-    protected String saveOperator(User vo, boolean isUpdate) {
-        if(isUpdate){
-//            userService.updateUser(user.getUsername(), vo.isEnabled(),
-//                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
-//                    getAuthNames(), getGroupNams());
-        }else{
-//            userService.addUser(vo.getUsername(),vo.getPassword(), vo.isEnabled(),
-//                    vo.getAccountStart(), vo.getAccountEnd(), vo.getUserInfo(),
-//                    getAuthNames(), getGroupNams());
-        }
-        
-        return vo.getUsername();
-    }
-
-    @Override
-    protected String getPK(User vo) {
-        return vo.getUsername();
-    }
-    
-    @Override
-    protected User constructVo(User vo) {
-        if(vo.getAuthorities() != null){
-            authorities = vo.getAuthorities();
-        }
-        if(vo.getGroups() != null){
-            groups = vo.getGroups();
-        }
-        user = vo;
-        return vo;
-    }
-    
-    @Override
-    protected User createEmptyVo() {
-        return new User();
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public User getUser() {
@@ -184,16 +164,7 @@ public class UserAction extends CrudBaseAction<User,String>{
     }
 
     public void setUser(User user) {
-        super.setVo(user);
         this.user = user;
-    }
-
-    public List<String> getSelections() {
-        return getOperatorPK();
-    }
-
-    public void setSelections(List<String> selections) {
-        setOperatorPK(selections);
     }
 
     public String getEventOP() {
@@ -204,27 +175,23 @@ public class UserAction extends CrudBaseAction<User,String>{
         this.eventOP = eventOP;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-    
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-    
-    public Set<Group> getGroups() {
-        return groups;
-    }
-    
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
-    }
-    
-    public String getDefaultPassword(){
-        return userService.getDefaultPassword();
+    public List<String> getNewUsernames() {
+        return newUsernames;
     }
 
-    public void setUserService(UserServiceable userService) {
-        this.userService = userService;
+    public void setNewUsernames(List<String> newUsernames) {
+        this.newUsernames = newUsernames;
+    }
+
+    public boolean isShowAuthGroupTab(){
+        return showAuthGroupTab; 
+    }
+    
+    public boolean isAddSaveState(){
+        return !isUpdateOperator() && showAuthGroupTab;
+    }
+    
+    public void setFac(SecurityFacable fac) {
+        this.fac = fac;
     }
 }

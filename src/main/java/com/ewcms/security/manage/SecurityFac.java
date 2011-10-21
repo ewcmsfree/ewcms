@@ -6,6 +6,7 @@
 
 package com.ewcms.security.manage;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.model.UserInfo;
 import com.ewcms.security.manage.service.GroupServiceable;
+import com.ewcms.security.manage.service.UserServiceException;
 import com.ewcms.security.manage.service.UserServiceable;
 
 /**
@@ -84,8 +87,31 @@ public class SecurityFac implements SecurityFacable{
     }
     
     @Override
+    public String addUser(String username, String password, boolean enabled,
+            Date accountStart, Date accountEnd, UserInfo userInfo)
+            throws UserServiceException {
+        
+        return userService.addUser(username, password, enabled,
+                accountStart, accountEnd, userInfo);
+    }
+
+    @Override
+    public String updateUser(String username, boolean enabled,
+            Date accountStart, Date accountEnd, UserInfo userInfo)
+            throws UserServiceException {
+        
+        return userService.updateUser(username, enabled, 
+                accountStart, accountEnd, userInfo);
+    }
+    
+    @Override
     public User getUser(String username) {
         return userService.getUser(username);
+    }
+    
+    @Override
+    public void removeUser(String username) {
+        userService.removeUser(username);
     }
     
     @Override
@@ -112,8 +138,24 @@ public class SecurityFac implements SecurityFacable{
         if(groupNames != null && !groupNames.isEmpty()){
             userService.removeGroupsInUser(username, groupNames);
         }
+    }
+    
+    @Override
+    public void activeUser(String username) {
+        userService.activeUser(username);
         
     }
+
+    @Override
+    public void inactiveUser(String username) {
+        userService.inactiveUser(username);
+    }
+    
+    @Override
+    public boolean usernameExist(String username) {
+        return userService.usernameExist(username);
+    }
+    
     public void setGroupSerivce(GroupServiceable groupSerivce) {
         this.groupService = groupSerivce;
     }

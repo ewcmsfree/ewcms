@@ -63,17 +63,17 @@ public class GroupAction extends ActionSupport{
      * 
      * @return true update operator
      */
-    private boolean isUpdateOperate(){
+    private boolean isUpdateOperator(){
         return eventOP.equals(UPDATE_OPERATION);
     }
     
     @Override
     public String execute(){
         try{
-            if(isUpdateOperate()){
+            if(isUpdateOperator()){
                 fullname = name;
                 fac.updateGroup(name, remark);
-                addActionMessage("修改用户成功");
+                addActionMessage("用户组修改成功");
             }else{
                 if(fac.isGroupnameExist(name)){
                     addActionError("用户组已经存在");
@@ -115,11 +115,11 @@ public class GroupAction extends ActionSupport{
         this.remark = remark;
     }
 
-    public Boolean getShowAuthUserTab(){
+    public boolean isShowAuthUserTab(){
         return fullname != null;
     }
     
-    public Boolean getAddSaveState(){
+    public boolean isAddSaveState(){
         return eventOP.equals("add") && fullname != null;
     }
     

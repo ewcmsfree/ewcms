@@ -29,7 +29,7 @@ import com.ewcms.web.vo.DataGrid;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * 用户组明细Action
+ * 用户明细操作Action
  * 
  * @author wangwei
  */

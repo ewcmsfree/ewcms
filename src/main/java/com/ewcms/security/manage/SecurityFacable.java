@@ -6,10 +6,13 @@
 
 package com.ewcms.security.manage;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.model.UserInfo;
+import com.ewcms.security.manage.service.UserServiceException;
 
 /**
  * 权限管理接口
@@ -77,6 +80,39 @@ public interface SecurityFacable {
     void removeGroup(String name);
     
     /**
+     * 添加用户
+     * 
+     * @param username 用户名
+     * @param password 密码
+     * @param enabled  有效
+     * @param accountStart 授权开始时间
+     * @param accountEnd 授权结束时间
+     * @Param userInfo 用户详细信息
+     * 
+     * @return 用户名
+     * @throws UserServiceException
+     */
+    String addUser(String username,String password,boolean enabled,
+            Date accountStart,Date accountEnd,UserInfo userInfo)
+            throws UserServiceException;
+
+    /**
+     * 更新用户信息
+     * 
+     * @param username 用户名
+     * @param enabled  有效
+     * @param accountStart 授权开始时间
+     * @param accountEnd 授权结束时间
+     * @Param userInfo 用户详细信息
+     * 
+     * @return 用户名
+     * @throws UserServiceException
+     */
+    String updateUser(String username,boolean enabled,
+            Date accountStart,Date accountEnd,UserInfo userInfo)
+            throws UserServiceException;
+    
+    /**
      * 得到用户
      * 
      * @param username 用户名
@@ -85,20 +121,55 @@ public interface SecurityFacable {
     User getUser(String username);
     
     /**
+     * 删除用户
+     * 
+     * @param username 用户名
+     */
+    void removeUser(String username);
+    
+    /**
      * 添加权限和用户组到指定的用户中
      * 
-     * @param name        用户组名称
+     * @param username    用户组名称
      * @param authNames   权限名称集合
      * @param groupNames  用户组名称集合
      */
-    void addAuthsAndGroupsToUser(String name,Set<String> authNames,Set<String> groupNames);
+    void addAuthsAndGroupsToUser(String username,Set<String> authNames,Set<String> groupNames);
     
     /**
      * 移除指定用户组中的权限和用户
      * 
-     * @param name       用户组名称
+     * @param username   用户组名称
      * @param authNames  权限名称集合
      * @param groupNames  用户组名称集合
      */
-    void removeAuthsAndGroupsInUser(String name,Set<String> authNames,Set<String> groupNames);
+    void removeAuthsAndGroupsInUser(String username,Set<String> authNames,Set<String> groupNames);
+    
+    /**
+     * 激活（启用）用户
+     * 
+     * 失效用户可以通过该过程激活，成为正常用户
+     * 
+     * @param username 用户名
+     */
+    void activeUser(String username);
+    
+    /**
+     * 失效（停用）用户
+     * 
+     * 正常用户可以通过该过程失效，成为无效用户
+     * 
+     * @param username
+     */
+    void inactiveUser(String username);
+    
+    /**
+     * 判读用户名是否存在
+     * 
+     * 用户名是关键字，新增时判断用户名是否被用
+     * 
+     * @param username 用户名
+     * @return if true 存在 ,if false 不存在
+     */
+    boolean usernameExist(String username);
 }

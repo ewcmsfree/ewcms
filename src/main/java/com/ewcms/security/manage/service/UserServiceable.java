@@ -29,8 +29,6 @@ public interface UserServiceable extends UserDetailsService{
     /**
      * 添加用户
      * 
-     * 如果用户已经存在，则抛出UsernameExistException异常。
-     * 
      * @param username 用户名
      * @param password 密码
      * @param enabled  有效
