@@ -19,7 +19,9 @@
              queryUrl:'<s:url action="query"/>',
              detailUrl:'<s:url action="detail"/>',
              editUrl:'<s:url action="input"/>',
-             deleteUrl:'<s:url action="delete"/>'
+             deleteUrl:'<s:url action="delete"/>',
+             activeUrl:'<s:url action="active"/>',
+             inactiveUrl:'<s:url action="inactive"/>'
              });
         $(function(){
             _userIndex.init({
@@ -34,6 +36,14 @@
         
         function closeEditWindow(){
             _userIndex.closeEditWindow();
+        }
+        
+        function active(username){
+            _userIndex.active(username);
+        }
+        
+        function inactive(username){
+            _userIndex.inactive(username);
         }
     </script>
 </head>
