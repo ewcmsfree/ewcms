@@ -57,6 +57,7 @@
 		</script>		
 	</head>
 	<body class="easyui-layout">
+		<jsp:include page="../../loading.jsp" flush="true"/>
 		<div region="center" style="padding:2px;" border="false">
 	 		<table id="tt" fit="true"></table>	
 	 	</div>
