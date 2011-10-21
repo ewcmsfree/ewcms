@@ -2,6 +2,9 @@
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<jsp:include page="loading.jsp" flush="true"/>
+
 <html>
     <head>
         <title>EWCMS 站群内容管理平台</title>
