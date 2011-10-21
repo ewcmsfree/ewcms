@@ -81,12 +81,24 @@ $(function() {
 			return '<div id="ddv-' + rowIndex + '"></div>';
 		},
 		onExpandRow: function(rowIndex, rowData){
+			var content = '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>';
+			
 			$('#ddv-' + rowIndex).panel({
 				border:false,
 				cache:false,
-				content: '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>',
+				content: content,
+				loadingMessage:'加载中。。。',
 				onLoad:function(){
 					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+				},
+				extractor: function(){
+					var pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
+					var matches = pattern.exec(content);
+					if (matches){
+						return matches[1];	// only extract body content
+					} else {
+						return data;
+					}
 				}
 			});
 			$('#tt').datagrid('fixDetailRowHeight',rowIndex);
