@@ -71,6 +71,19 @@
         <action name="detailQuery" class="com.ewcms.security.manage.web.user.DetailAction" method="query"/>
         <action name="addAuthsAndGroups" class="com.ewcms.security.manage.web.user.DetailAction" method="addAuthsAndGroups"/>
         <action name="removeAuthsAndGroups" class="com.ewcms.security.manage.web.user.DetailAction" method="removeAuthsAndGroups"/>
+        
+        <action name="input" class="com.ewcms.security.manage.web.user.UserAction" method="input"> 
+             <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
+         </action>
+         <action name="save" class="com.ewcms.security.manage.web.user.UserAction">
+             <result name="input">/WEB-INF/page/security/user/edit.jsp</result> 
+             <result name="error">/WEB-INF/page/security/user/edit.jsp</result> 
+             <result>/WEB-INF/page/security/user/edit.jsp</result>
+         </action>
+         <action name="hasUsername" class="com.ewcms.security.manage.web.user.UserAction" method="hasUsername"/>
+         <action name="delete" class="com.ewcms.security.manage.web.user.UserAction" method="delete"/>
+         <action name="active" class="com.ewcms.security.manage.web.user.UserAction" method="active"/>
+         <action name="inactive" class="com.ewcms.security.manage.web.user.UserAction" method="inactive"/>
     </package>
     
     <!-- 
