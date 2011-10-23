@@ -3,11 +3,10 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
 
-<jsp:include page="../../loading.jsp" flush="true"/>
-
 <html>
 	<head>
 		<title>文档编辑</title>	
+		<jsp:include page="../../loading.jsp"/>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
@@ -30,7 +29,7 @@
 	</head>
 	<body class="easyui-layout">
 		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
-			<ul  id="tt2"></ul>
+			<ul id="tt2"></ul>
 		</div>
 		<div region="center" style="padding:2px;" border="false">
 			<table id="tt" fit="true"></table>
@@ -157,12 +156,12 @@
 	    <div id="btnPubSub" style="width:80px;display:none;">
 	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=false');" >独立</div>
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=true');" >关联</div>
-	    	<div class="menu-sep"></div>
+	    	<div id="btnPublishSep" class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'/>');">退回</div>
 	    </div>
 	    <div id="btnTopSub" style="width:80px;display:none;">
-	    	<div id="btnTopSet" iconCls="icon-topset" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',true);">设置</div>
-	        <div id="btnTopCancel" iconCls="icon-topcancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',false);">取消</div>
+	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',true);">确定</div>
+	        <div id="btnTopCancel" iconCls="icon-top-cancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',false);">取消</div>
 	    </div>
 		<div id="reason-window" class="easyui-window" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">

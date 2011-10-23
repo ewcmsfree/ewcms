@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+
 <jsp:include page="../../loading.jsp" flush="true"/>
+
 <html>
 	<head>
 		<title>操作明细</title>
@@ -24,7 +26,7 @@
 					columns:[[
 						{field:'userRealName',title:'操作员',width:100},
 						{field:'statusDesc',title:'状态',width:60},
-						{field:'operateTime',title:'操作时间',width:125},
+						{field:'operateTime',title:'操作时间',width:145},
 						{field:'description', title:'描述', width:600,
 							formatter : function(val, rec) {
 								var reason = '&nbsp;&nbsp;';
