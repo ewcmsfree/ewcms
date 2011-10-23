@@ -268,3 +268,12 @@ table.cellspacing { border-collapse: separate; }
 .icon-delgatherdata{
 	background:url('icons/delgatherdata.png') no-repeat;
 }
+.icon-top{
+	background:url('icons/top.png') no-repeat;
+}
+.icon-top-set{
+	background:url('icons/top_set.png') no-repeat;
+}
+.icon-top-cancel{
+	background:url('icons/top_cancel.png') no-repeat;
+}
