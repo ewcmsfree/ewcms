@@ -32,39 +32,38 @@ $(function() {
 	ewcmsBOBJ.addToolItem('发布', 'icon-publish', null, 'btnPub');
 
 	ewcmsBOBJ.openDataGrid('#tt',{
-		//singleSelect : true,
-		columns : [ [
-					{field : 'id',title : '编号',width : 60},
-					{field : 'flags',title : '属性',width : 60,
-						formatter : function(val, rec) {
-							var pro = [];
-							if (rec.top) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
-							if (rec.article.comment) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-							if (rec.article.type == "TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
-							if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
-							if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
-							return pro.join("");
-						}
-					},
-					{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
-						formatter : function(val, rec) {
-							var classPro = [];
-							var categories = rec.article.categories;
-							for ( var i = 0; i < categories.length; i++) {
-								classPro.push(categories[i].categoryName);
-							}
-							var classValue = "";
-							if (classPro.length > 0) {
-								classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
-							}
-							return rec.article.title + classValue;
-						}
-					},
-					{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
-					{field : 'published',title : '发布时间',width : 125,formatter : function(val, rec) {return rec.article.published;}}, 
-					{field : 'modified',title : '修改时间',width : 125,formatter : function(val, rec) {return rec.article.modified;}}, 
-					{field : 'sort',title : '排序号',width : 60}
-				  ] ]
+		columns:[[
+		    {field : 'id',title : '编号',width : 50},
+			{field : 'flags',title : '属性',width : 60,
+			    formatter : function(val, rec) {
+				    var pro = [];
+					if (rec.top) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>");
+					if (rec.article.comment) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
+					if (rec.article.type == "TITLE") pro.push("<img src='../../source/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
+					if (rec.reference) pro.push("<img src='../../source/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
+					if (rec.article.inside) pro.push("<img src='../../source/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
+					return pro.join("");
+				}
+			},
+			{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
+				formatter : function(val, rec) {
+					var classPro = [];
+					var categories = rec.article.categories;
+					for ( var i = 0; i < categories.length; i++) {
+						classPro.push(categories[i].categoryName);
+					}
+					var classValue = "";
+					if (classPro.length > 0) {
+						classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+					}
+					return rec.article.title + classValue;
+				}
+			},
+			{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
+			{field : 'published',title : '发布时间',width : 145,formatter : function(val, rec) {return rec.article.published;}}, 
+			{field : 'modified',title : '修改时间',width : 145,formatter : function(val, rec) {return rec.article.modified;}}, 
+			{field : 'sort',title : '排序号',width : 50}
+		]]
 	});
 
 	ewcmsOOBJ = new EwcmsOperate();
@@ -82,24 +81,20 @@ $(function() {
 		},
 		onExpandRow: function(rowIndex, rowData){
 			var content = '<iframe src="' + trackURL + '?articleMainId=' + rowData.id + '" frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>';
+			//var href = trackURL + '?articleMainId=' + rowData.id;
 			
 			$('#ddv-' + rowIndex).panel({
-				border:false,
-				cache:false,
-				content: content,
-				loadingMessage:'加载中。。。',
-				onLoad:function(){
+				border : false,
+				cache : false,
+				content : content,
+				//href : href,
+				onLoad : function(){
 					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-				},
-				extractor: function(){
-					var pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
-					var matches = pattern.exec(content);
-					if (matches){
-						return matches[1];	// only extract body content
-					} else {
-						return data;
-					}
 				}
+			    //,
+				//extractor : function(data){
+				//	return $('<iframe frameborder="0" width="100%" height="275px" scrolling="auto"></iframe>').attr('src',href);
+				//}
 			});
 			$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 		}
@@ -620,6 +615,7 @@ function disableButtons() {
 	$('#btnSort').linkbutton('disable');
 	$('#btnReview').linkbutton('disable');
 	$('#btnPub').linkbutton('disable');
+	$('#btnTop').linkbutton('disable');
 	$('#btnSortSet').attr('style', 'display:none;');
 	$('#btnSortClear').attr('style', 'display:none;');
 	$('#btnReviewSubmit').attr('style', 'display:none;');
@@ -627,6 +623,8 @@ function disableButtons() {
 	$('#btnPublishOk').attr('style', 'display:none;');
 	$('#btnPublishRec').attr('style','display:none;');
 	$('#btnBreakArticle').attr('style', 'display:none;');
+	$('#btnTopSet').attr('style','display:none;');
+	$('#btnTopCancel').attr('style','display:none;');
 }
 //主菜单/子菜单可用
 function enableButtons() {
@@ -638,6 +636,7 @@ function enableButtons() {
 	$('#btnSort').linkbutton('enable');
 	$('#btnReview').linkbutton('enable');
 	$('#btnPub').linkbutton('enable');
+	$('#btnTop').linkbutton('enable');
 	$('#btnSortSet').attr('style', 'display:block;');
 	$('#btnSortClear').attr('style', 'display:block;');
 	$('#btnReviewSubmit').attr('style', 'display:block;');
@@ -645,6 +644,8 @@ function enableButtons() {
 	$('#btnPublishOk').attr('style', 'display:block;');
 	$('#btnPublishRec').attr('style','display:block;');
 	$('#btnBreakArticle').attr('style', 'display:block;');
+	$('#btnTopSet').attr('style','display:block;');
+	$('#btnTopCancel').attr('style','display:block;');
 }
 //显示文章操作过程中用户输入的原因页面
 function showReason(url){
