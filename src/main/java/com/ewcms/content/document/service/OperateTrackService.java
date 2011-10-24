@@ -46,7 +46,7 @@ public class OperateTrackService implements OperateTrackServiceable {
 	@Override
 	public void addOperateTrack(Long articleMainId, String statusDesc, String description, String reason){
 		String userName = EwcmsContextUtil.getUserName();
-		String userRealName = userService.getUserRealName();
+		String userRealName = userService.getCurrentUserInfo().getName();
 		addOperateTrack(articleMainId, statusDesc, description, reason, userName, userRealName);
 	}
 
