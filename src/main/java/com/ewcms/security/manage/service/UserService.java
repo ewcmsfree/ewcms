@@ -428,17 +428,6 @@ public class UserService extends AbstractService implements UserServiceable{
         return authorities;
     }
     
-    @Override
-    public String getUserRealName() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        if(currentUser == null){
-            return "";
-        }
-        final String username = currentUser.getName();
-        final User user = userDao.get(username);
-        return user == null ? "": user.getUserInfo().getName();
-    }
-    
     public void setDefaultPassword(String defaultPassword) {
         this.defaultPassword = defaultPassword;
     }

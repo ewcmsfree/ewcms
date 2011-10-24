@@ -201,11 +201,4 @@ public interface SecurityFacable {
      * @return
      */
     UserInfo getCurrentUserInfo();
-    
-    /**
-     * 得到真是用户名
-     * 
-     * @return
-     */
-    String getUserRealName();
 }

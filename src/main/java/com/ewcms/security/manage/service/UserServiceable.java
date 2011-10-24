@@ -181,11 +181,4 @@ public interface UserServiceable extends UserDetailsService{
      * @return 缺省密码
      */
     String getDefaultPassword();
-    
-    /**
-     * 得到真是用户名
-     * 
-     * @return
-     */
-    String getUserRealName();
 }

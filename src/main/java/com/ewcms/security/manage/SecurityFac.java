@@ -176,11 +176,6 @@ public class SecurityFac implements SecurityFacable{
         return userService.getCurrentUserInfo();
     }
     
-    @Override
-    public String getUserRealName() {
-        return userService.getUserRealName();
-    }
-    
     public void setGroupSerivce(GroupServiceable groupSerivce) {
         this.groupService = groupSerivce;
     }
