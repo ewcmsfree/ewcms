@@ -6,11 +6,15 @@
 
 package com.ewcms.content.document.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +128,7 @@ public class ArticleMainServiceTest {
 	public void delArticleMainToRecycleBin(){
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
-		when(userService.getUserRealName()).thenReturn("吴智俊");
+		when(userService.getCurrentUserInfo().getName()).thenReturn("吴智俊");
 		articleMainService.delArticleMainToRecycleBin(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
