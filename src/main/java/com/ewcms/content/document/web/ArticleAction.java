@@ -213,7 +213,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 			pub_date = bartDateFormat.parse(getPublished());
 		} catch (ParseException e) {
 		}
-		String author = userService.getUserRealName();
+		String author = userService.getCurrentUserInfo().getName();
 		vo.setAuthor(author);
 		if (isUpdate) {
 			return documentFac.updArticle(vo, getArticleMainId(), getChannelId(), pub_date);
