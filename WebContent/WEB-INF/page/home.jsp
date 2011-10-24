@@ -8,17 +8,16 @@
 <html>
     <head>
         <title>EWCMS 站群内容管理平台</title>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/portal.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/home.css"/>'>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src="<s:url value="/source/js/jquery.portal.js"/>"></script>
-        <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/page/home.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/portal.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>        
         <script type="text/javascript">
             var _home = new home();
             $(function(){
@@ -29,11 +28,6 @@
                     exit:'<s:url value="/logout.do"/>',
                     siteswitch:'<s:url action="siteswitch"/>'
                 });
-                
-                $('#pp').portal({
-    				border:false,
-    				fit:true
-    			});
                 
                 var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
                 var popInterval = setInterval("_home.getPopMessage('" + popMessageUrl + "')",60000);
@@ -62,7 +56,7 @@
         <div region="north" split="true" class="head">
              <div style="padding: 10px;">
                   <div style="float:left;width:120px;">
-                      <img src="<s:url value="/source/image/ewcms.png"/>" alt="ewcms.png"/>
+                      <img src="<s:url value="/ewcmssource/image/ewcms.png"/>" alt="ewcms.png"/>
                   </div>
                   <div  style="float:right;width:680px;padding-top:20px;height: 60px;">
                      <div style="float:left;width:646px;padding-top: 8px;text-align: right;">
@@ -73,7 +67,7 @@
                      </div>
                      <div style="float:right;width:30px">
                          <a id="button-main"  href="#" style="border:0;padding:2;">
-                            <img src='<s:url value="/source/image/exit.png"/>' width="24" border=0/>
+                            <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="24" border=0/>
                          </a>
                      </div>
                   </div>
@@ -94,37 +88,37 @@
                  <div title="系统管理" style="overflow:auto;">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('站点管理','site/organ/index.do')">
-                            <img src="source/image/site.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/site.png" style="border:0;"/><br/>
                             <span>站点管理</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('任务设置','scheduling/jobinfo/index.do')"> 
-                            <img src="source/image/scheduling_job.png" style="border: 0" /><br/>
+                            <img src="ewcmssource/image/scheduling_job.png" style="border: 0" /><br/>
                             <span>任务设置</span>
                          </a>
                     </div>
                     <div class="nav-item">
                         <a  href="javascript:_home.addTab('作业设置','scheduling/jobclass/index.do')"> 
-                             <img src="source/image/scheduling_jobclass.png" style="border: 0" /><br/>
+                             <img src="ewcmssource/image/scheduling_jobclass.png" style="border: 0" /><br/>
                              <span>作业设置</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('历史记录','history/index.do')">
-                            <img src="source/image/historymodel.png" style="border: 0" /><br />
+                            <img src="ewcmssource/image/historymodel.png" style="border: 0" /><br />
                             <span>历史记录</span>
                         </a>
                     </div>
                      <div class="nav-item">
                          <a href="javascript:_home.addTab('文章分类','document/category/index.do')">
-                            <img src="source/image/articlecategory.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
                             <span>文章分类</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('采集器','crawler/index.do')">
-                            <img src="source/image/crawler.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
                             <span>采集器</span>
                         </a>
                     </div>
@@ -132,19 +126,19 @@
                 <div title="权限管理" style="overflow:auto;">
                    <div class="nav-item">
                         <a href="javascript:_home.addTab('权限列表','security/authority/index.do')">
-                            <img src="source/image/role.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/role.png" style="border:0;"/><br/>
                             <span>权限列表</span>
                         </a>
                    </div>
                    <div class="nav-item">
                        <a href="javascript:_home.addTab('用户组管理','security/group/index.do')">
-                            <img src="source/image/group.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/group.png" style="border:0;"/><br/>
                             <span>用户组管理</span>
                         </a>
                    </div>
                    <div class="nav-item">
                        <a href="javascript:_home.addTab('用户管理','security/user/index.do')">
-                            <img src="source/image/user.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/user.png" style="border:0;"/><br/>
                             <span>用户管理</span>
                         </a>
                     </div>
@@ -154,7 +148,7 @@
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('专题与栏目','site/channel/index.do')">
-                            <img src="source/image/package.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/package.png" style="border:0;"/><br/>
                             <span>专题与栏目</span>
                         </a>
                     </div>
@@ -162,7 +156,7 @@
                     <sec:authorize ifAnyGranted="ROLE_ADMIN">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('模板与资源','site/template/index.do')">
-                            <img src="source/image/kontact.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/kontact.png" style="border:0;"/><br/>
                             <span>模板与资源</span>
                         </a>
                     </div>
@@ -172,31 +166,31 @@
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('文章编辑','document/article/index.do')">
-                            <img src="source/image/articleedit.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/articleedit.png" style="border:0"/><br/>
                             <span>文章编辑</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('文章回收站','document/recyclebin/index.do')">
-                            <img src="source/image/recyclebin.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('问卷调查','vote/index.do')">
-                            <img src="source/image/vote.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/vote.png" style="border:0"/><br/>
                             <span>问卷调查</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('备忘录','notes/index.do')">
-                            <img src="source/image/notes.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/notes.png" style="border:0"/><br/>
                             <span>备忘录</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('个人消息','message/index.do')">
-                            <img src="source/image/message.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/message.png" style="border:0"/><br/>
                             <span>个人消息</span>
                         </a>
                     </div>
@@ -206,13 +200,13 @@
                 <div title="站点资源" style="overflow:auto;">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('资源管理','resource/index.do')">
-                            <img src="source/image/kontact.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
                             <span>资源管理</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('资源回收站','resource/recycle.do')">
-                            <img src="source/image/recyclebin.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
                         </a>
                     </div>
