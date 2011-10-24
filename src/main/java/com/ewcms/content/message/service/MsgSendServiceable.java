@@ -25,11 +25,11 @@ public interface MsgSendServiceable {
 	
 	public void delSubscription(Long msgContentId);
 	
-	public List<MsgSend> findMsgSendByGeneral();
+//	public List<MsgSend> findMsgSendByGeneral(Integer row);
 	
-	public List<MsgSend> findMsgSendByNotice();
+	public List<MsgSend> findMsgSendByNotice(Integer row);
 	
-	public List<MsgSend> findMsgSendBySubscription();
+	public List<MsgSend> findMsgSendBySubscription(Integer row);
 	
 	public String subscribeMsg(Long msgSendId);
 }

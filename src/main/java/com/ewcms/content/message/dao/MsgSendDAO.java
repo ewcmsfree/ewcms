@@ -9,6 +9,10 @@ package com.ewcms.content.message.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+
+import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -40,11 +44,15 @@ public class MsgSendDAO extends JpaDAO<Long, MsgSend> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<MsgSend> findMsgSendByType(MsgType msgType){
-		String hql = "From MsgSend As s Where s.type=? Order By s.sendTime Desc";
-		List<MsgSend> list = this.getJpaTemplate().find(hql, msgType);
-    	if (list.isEmpty()) return new ArrayList<MsgSend>();
-    	return list;
+	public List<MsgSend> findMsgSendByType(final MsgType msgType, final Integer row){
+		Object result = this.getJpaTemplate().execute(new JpaCallback<Object>(){
+			@Override
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				String hql = "From MsgSend As s Where s.type=? Order By s.sendTime Desc";
+				return em.createQuery(hql).setParameter(1, msgType).setMaxResults(row).getResultList();
+			}
+    	});
+    	return (List<MsgSend>)result;	
 	}
 	
 	@SuppressWarnings("unchecked")

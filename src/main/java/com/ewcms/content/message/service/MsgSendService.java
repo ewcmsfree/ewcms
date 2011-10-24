@@ -145,19 +145,19 @@ public class MsgSendService implements MsgSendServiceable {
 		msgContentDAO.removeByPK(msgContentId);
 	}
 
+//	@Override
+//	public List<MsgSend> findMsgSendByGeneral(Integer row) {
+//		return msgSendDAO.findMsgSendByType(MsgType.GENERAL, row);
+//	}
+
 	@Override
-	public List<MsgSend> findMsgSendByGeneral() {
-		return msgSendDAO.findMsgSendByType(MsgType.GENERAL);
+	public List<MsgSend> findMsgSendByNotice(Integer row) {
+		return msgSendDAO.findMsgSendByType(MsgType.NOTICE, row);
 	}
 
 	@Override
-	public List<MsgSend> findMsgSendByNotice() {
-		return msgSendDAO.findMsgSendByType(MsgType.NOTICE);
-	}
-
-	@Override
-	public List<MsgSend> findMsgSendBySubscription() {
-		return msgSendDAO.findMsgSendByType(MsgType.SUBSCRIPTION);
+	public List<MsgSend> findMsgSendBySubscription(Integer row) {
+		return msgSendDAO.findMsgSendByType(MsgType.SUBSCRIPTION, row);
 	}
 
 	@Override

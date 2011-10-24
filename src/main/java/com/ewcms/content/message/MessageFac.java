@@ -79,19 +79,19 @@ public class MessageFac implements MessageFacable {
 		msgSendService.delSubscription(msgContentId);
 	}
 
+//	@Override
+//	public List<MsgSend> findMsgSendByGeneral(Integer row) {
+//		return msgSendService.findMsgSendByGeneral(row);
+//	}
+
 	@Override
-	public List<MsgSend> findMsgSendByGeneral() {
-		return msgSendService.findMsgSendByGeneral();
+	public List<MsgSend> findMsgSendByNotice(Integer row) {
+		return msgSendService.findMsgSendByNotice(row);
 	}
 
 	@Override
-	public List<MsgSend> findMsgSendByNotice() {
-		return msgSendService.findMsgSendByNotice();
-	}
-
-	@Override
-	public List<MsgSend> findMsgSendBySubscription() {
-		return msgSendService.findMsgSendBySubscription();
+	public List<MsgSend> findMsgSendBySubscription(Integer row) {
+		return msgSendService.findMsgSendBySubscription(row);
 	}
 
 	@Override

@@ -107,7 +107,7 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	}
 	
 	public void notice(){
-		List<MsgSend> msgSends = messageFac.findMsgSendByNotice();
+		List<MsgSend> msgSends = messageFac.findMsgSendByNotice(10);
 		if (!msgSends.isEmpty()){
 			Struts2Util.renderJson(JSONUtil.toJSON(msgSends));
 		}else{
@@ -116,7 +116,7 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	}
 	
 	public void subscription(){
-		List<MsgSend> msgSends = messageFac.findMsgSendBySubscription();
+		List<MsgSend> msgSends = messageFac.findMsgSendBySubscription(10);
 		if (!msgSends.isEmpty()){
 			Struts2Util.renderJson(JSONUtil.toJSON(msgSends));
 		}else{
