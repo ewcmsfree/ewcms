@@ -11,9 +11,9 @@
     </script>
     <head>
         <title>Ewcms用户登录</title>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/page/login.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/login.css"/>'>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/login.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'>
         <script type="text/javascript">
             $(function() {
                 var _login = new login('<s:url value = "/checkcode.jpg"/>');
@@ -25,18 +25,18 @@
         <div align="center">
             <div class="main">
                 <div>
-                    <div class="main_icon" align="left" ><img src="<s:url value="/source/image/ewcms.png"/>" alt="ewcms.png"/><span class="main_title">内容管理系统</span></div>
+                    <div class="main_icon" align="left" ><img src="<s:url value="/ewcmssource/image/ewcms.png"/>" alt="ewcms.png"/><span class="main_title">内容管理系统</span></div>
                 </div>
                 <div class="left" align="left">
                      <div>
                         <div class="main_detail" align="left">EWCMS 的开发理念是：可更加高效生成站点，内容管理更加简单。EWCMS 具有以下特点： </div>
                     </div>
                     <div>
-                        <div class="preface_icon"><img src="<s:url value="/source/image/login/login01.jpg"/>" alt="login01.jpg"/></div>
+                        <div class="preface_icon"><img src="<s:url value="/ewcmssource/image/login/login01.jpg"/>" alt="login01.jpg"/></div>
                         <div class="preface_info">方便、简单的创建门户网站，支持多站点。</div>
                     </div>
                     <div>
-                        <div class="preface_icon"><img src="<s:url value="/source/image/login/login02.jpg"/>" alt="login02.jpg"/></div>
+                        <div class="preface_icon"><img src="<s:url value="/ewcmssource/image/login/login02.jpg"/>" alt="login02.jpg"/></div>
                         <div class="preface_info">更多安全保障</div>
                     </div>
                 </div>
