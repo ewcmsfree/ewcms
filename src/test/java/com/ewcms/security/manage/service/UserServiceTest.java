@@ -144,7 +144,7 @@ public class UserServiceTest extends TestCase{
             }
         });
         service.setUserDao(dao);
-        assertTrue(service.usernameExist("Pertty"));
+        assertTrue(service.hasUsername("Pertty"));
     }
     
     @Test
@@ -154,7 +154,7 @@ public class UserServiceTest extends TestCase{
         UserDAOable dao = mock(UserDAOable.class);
         when(dao.get(any(String.class))).thenReturn(null);
         service.setUserDao(dao);
-        assertFalse(service.usernameExist("Pertty"));
+        assertFalse(service.hasUsername("Pertty"));
     }
     
     @Test

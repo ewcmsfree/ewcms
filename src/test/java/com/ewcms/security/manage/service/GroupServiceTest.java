@@ -40,7 +40,7 @@ public class GroupServiceTest extends TestCase{
         GroupDAOable dao = mock(GroupDAOable.class);
         when(dao.get(any(String.class))).thenReturn(null);
         service.setGroupDao(dao);
-        assertFalse(service.isGroupnameExist("GROUP_USER"));
+        assertFalse(service.hasGroupname("GROUP_USER"));
     }
     
     @Test
@@ -49,7 +49,7 @@ public class GroupServiceTest extends TestCase{
         GroupDAOable dao = mock(GroupDAOable.class);
         when(dao.get(any(String.class))).thenReturn(new Group());
         service.setGroupDao(dao);
-        assertTrue(service.isGroupnameExist("Pertty"));
+        assertTrue(service.hasGroupname("Pertty"));
     }
     
     @Test
