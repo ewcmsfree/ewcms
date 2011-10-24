@@ -21,7 +21,8 @@
              editUrl:'<s:url action="input"/>',
              deleteUrl:'<s:url action="delete"/>',
              activeUrl:'<s:url action="active"/>',
-             inactiveUrl:'<s:url action="inactive"/>'
+             inactiveUrl:'<s:url action="inactive"/>',
+             initpasswordUrl:'<s:url action="initpassword"/>'
              });
         $(function(){
             _userIndex.init({
@@ -29,6 +30,7 @@
                toolbarAddId:'#toolbar-add',
                toolbarUpdateId:'#toolbar-update',
                toolbarRemoveId:'#toolbar-remove',
+               toolbarInitPasswordId:'#toolbar-initpassword',
                toolbarQueryId:'#toolbar-query',
                queryFormId:'#queryform'
            });
@@ -54,7 +56,7 @@
              <a href="#" id="toolbar-add" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
              <a href="#" id="toolbar-update" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
              <a href="#" id="toolbar-remove" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
-             <a href="#" id="toolbar-password" class="easyui-linkbutton" iconCls="icon-password" plain="true">修改密码</a>
+             <a href="#" id="toolbar-initpassword" class="easyui-linkbutton" iconCls="icon-password" plain="true">修改密码</a>
          </div>
          <div style="padding-left:5px;">
              <form id="queryform" style="padding: 0;margin: 0;">

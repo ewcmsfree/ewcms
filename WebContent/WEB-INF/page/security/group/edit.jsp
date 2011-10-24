@@ -17,7 +17,7 @@
            <s:include value="../../alertMessage.jsp"/>
            var groupEdit = new GroupEdit({
               detailUrl:'<s:url action="detail"/>',
-              hasNameUrl:'<s:url action="hasName"/>'
+              hasNameUrl:'<s:url action="hasGroupname"/>'
            });
          
            groupEdit.init({

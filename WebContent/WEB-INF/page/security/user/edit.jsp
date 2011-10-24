@@ -53,9 +53,8 @@
                                <td width="120px">初始密码：</td>
                                <td class="formFieldError">
                                    <s:password id="passwordId" name="user.password"/>&nbsp;&nbsp;
-                                   <a href="javascript:void(0);" style="text-decoration: none;;color: red;">
-                                       <span id="defaultPasswordId" title="<s:property value="defaultPassword"/>">显示缺省密码</span>
-                                   </a>
+                                   <a class="easyui-linkbutton" id="button-default-password" href="javascript:void(0)" plain="true">缺省密码:</a>
+                                   <span id="default-password" style="display:none;"><s:property value="defaultPassword"/></span>
                                    <s:fielderror ><s:param value="%{'user.password'}"/></s:fielderror>
                                </td>
                            </tr>
