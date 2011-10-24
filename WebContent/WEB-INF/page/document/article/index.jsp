@@ -29,7 +29,7 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div region="west"  title='<img src="<s:url value="/ewcmssource/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
+		<div region="west"  title='<img src="<s:url value="/ewcmssource/easyui/themes/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
 			<ul id="tt2"></ul>
 		</div>
 		<div region="center" style="padding:2px;" border="false">

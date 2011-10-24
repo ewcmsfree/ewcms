@@ -5,9 +5,8 @@
 <%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>文档编辑：</title>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/default/easyui.css'/>"/>
@@ -21,7 +20,6 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/tiny_mce_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
