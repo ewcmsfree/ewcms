@@ -249,7 +249,7 @@
 
 	public String mapPath(HttpServletRequest request, String path) {
 		String requestURI = request.getRequestURI();
-		String contextPath = request.getContextPath();
+		String contextPath = request.getContextPath() + "/";
 		requestURI = requestURI.replace(contextPath,"");
 		String absPath = getServletContext().getRealPath(requestURI);
 
