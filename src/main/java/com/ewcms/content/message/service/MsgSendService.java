@@ -165,7 +165,7 @@ public class MsgSendService implements MsgSendServiceable {
 		MsgSend msgSend = msgSendDAO.get(msgSendId);
 		if (msgSend.getType() == MsgType.SUBSCRIPTION){
 			String receiveUserName = EwcmsContextUtil.getUserName();
-			String realName = userService.getUserRealName();
+			String realName = userService.getCurrentUserInfo().getName();
 			String sendUserName = msgSend.getUserName();
 			if (receiveUserName.equals(sendUserName)){
 				return "own";
