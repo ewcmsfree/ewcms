@@ -43,20 +43,19 @@
             <result>/WEB-INF/page/security/group/detail.jsp</result>
         </action>
         <action name="detailQuery" class="com.ewcms.security.manage.web.group.DetailAction" method="query"/>
-        
-         <action name="addAuthsAndUsers" class="com.ewcms.security.manage.web.group.OperatorAction" method="addAuthsAndUsers"/>
-         <action name="removeAuthsAndUsers" class="com.ewcms.security.manage.web.group.OperatorAction" method="removeAuthsAndUsers"/>
-         <action name="hasName" class="com.ewcms.security.manage.web.group.OperatorAction" method="hasName"/>
+        <action name="addAuthsAndUsers" class="com.ewcms.security.manage.web.group.DetailAction" method="addAuthsAndUsers"/>
+        <action name="removeAuthsAndUsers" class="com.ewcms.security.manage.web.group.DetailAction" method="removeAuthsAndUsers"/>
          
-         <action name="input" class="com.ewcms.security.manage.web.group.GroupAction" method="input"> 
-             <result name="input">/WEB-INF/page/security/group/edit.jsp</result>
-         </action>
-         <action name="save" class="com.ewcms.security.manage.web.group.GroupAction">
-             <result name="input">/WEB-INF/page/security/group/edit.jsp</result> 
-             <result name="error">/WEB-INF/page/security/group/edit.jsp</result> 
-             <result>/WEB-INF/page/security/group/edit.jsp</result>
-         </action>
-         <action name="delete" class="com.ewcms.security.manage.web.group.GroupAction" method="delete"/>
+        <action name="input" class="com.ewcms.security.manage.web.group.GroupAction" method="input"> 
+            <result name="input">/WEB-INF/page/security/group/edit.jsp</result>
+        </action>
+        <action name="hasGroupname" class="com.ewcms.security.manage.web.group.GroupAction" method="hasGroupname"/>
+        <action name="save" class="com.ewcms.security.manage.web.group.GroupAction">
+            <result name="input">/WEB-INF/page/security/group/edit.jsp</result> 
+            <result name="error">/WEB-INF/page/security/group/edit.jsp</result> 
+            <result>/WEB-INF/page/security/group/edit.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.security.manage.web.group.GroupAction" method="delete"/>
     </package>
     
     <package name="security.user"  extends="struts-default" namespace="/security/user">
@@ -75,69 +74,23 @@
         <action name="input" class="com.ewcms.security.manage.web.user.UserAction" method="input"> 
              <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
          </action>
+         <action name="hasUsername" class="com.ewcms.security.manage.web.user.UserAction" method="hasUsername"/>
          <action name="save" class="com.ewcms.security.manage.web.user.UserAction">
              <result name="input">/WEB-INF/page/security/user/edit.jsp</result> 
              <result name="error">/WEB-INF/page/security/user/edit.jsp</result> 
              <result>/WEB-INF/page/security/user/edit.jsp</result>
          </action>
-         <action name="hasUsername" class="com.ewcms.security.manage.web.user.UserAction" method="hasUsername"/>
          <action name="delete" class="com.ewcms.security.manage.web.user.UserAction" method="delete"/>
          <action name="active" class="com.ewcms.security.manage.web.user.UserAction" method="active"/>
          <action name="inactive" class="com.ewcms.security.manage.web.user.UserAction" method="inactive"/>
-    </package>
-    
-    <!-- 
-    <package name="security.user"  extends="struts-default" namespace="/security/user">
-        <action name="index">
-          <result type="dispatcher">/WEB-INF/page/security/user/index.jsp</result>
+         
+          <action name="initpassword" class="com.ewcms.security.manage.web.user.InitPasswordAction" method="input">
+            <result name="input">/WEB-INF/page/security/user/initpassword.jsp</result>
         </action>
-        <action name="input" class="com.ewcms.security.manage.web.UserAction" method="input">
-          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
-        </action>
-        <action name="save" class="com.ewcms.security.manage.web.UserAction">
-          <result name="input">/WEB-INF/page/security/user/edit.jsp</result>
-          <result name="error">/WEB-INF/page/security/user/edit.jsp</result>
-          <result>/WEB-INF/page/security/user/edit.jsp</result>
-        </action>
-        <action name="query" class="com.ewcms.security.manage.web.UserQueryAction" method="query"/>
-        <action name="delete" class="com.ewcms.security.manage.web.UserAction" method="delete"/>
-        <action name="usernameExist" class="com.ewcms.security.manage.web.UserAction" method="usernameExist"/>
-        <action name="active" class="com.ewcms.security.manage.web.UserAction" method="active"/>
-        <action name="inactive" class="com.ewcms.security.manage.web.UserAction" method="inactive"/>
-        <action name="password" class="com.ewcms.security.manage.web.PasswordAction" method="input">
-            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
-            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
-            <result>/WEB-INF/page/security/user/password.jsp</result>
-        </action>
-        <action name="savePassword" class="com.ewcms.security.manage.web.PasswordAction">
-            <result name="input">/WEB-INF/page/security/user/password.jsp</result>
-            <result name="error">/WEB-INF/page/security/user/password.jsp</result>
-            <result>/WEB-INF/page/security/user/password.jsp</result>
+        <action name="saveInitPassword" class="com.ewcms.security.manage.web.user.InitPasswordAction">
+            <result name="input">/WEB-INF/page/security/user/initpassword.jsp</result>
+            <result name="error">/WEB-INF/page/security/user/initpassword.jsp</result>
+            <result>/WEB-INF/page/security/user/initpassword.jsp</result>
         </action>
     </package>
-    
-    <package name="security.group"  extends="struts-default" namespace="/security/group">
-      <action name="query" class="com.ewcms.web.action.security.group.QueryAction" method="query"/>
-      <action name="queryTreeGrid" class="com.ewcms.web.action.security.group.QueryAction" method="queryTreeGrid"/>
-      <action name="queryUsers" class="com.ewcms.web.action.security.group.QueryAction" method="queryUsers"/>
-      <action name="queryAuthorities" class="com.ewcms.web.action.security.group.QueryAction" method="queryAuthorities"/>
-      <action name="index">
-          <result type="dispatcher">/WEB-INF/page/security/group/index.jsp</result>
-      </action>
-      <action name="groupnameExist" class="com.ewcms.web.action.security.group.GroupAction" method="groupnameExist"/>
-      <action name="input" class="com.ewcms.web.action.security.group.GroupAction" method="input">
-          <result name="input">/WEB-INF/page/security/group/edit.jsp</result>
-      </action>
-      <action name="save" class="com.ewcms.web.action.security.group.GroupAction">
-          <result>/WEB-INF/page/security/group/edit.jsp</result>
-          <result name="input">/WEB-INF/page/security/group/edit.jsp</result>
-          <result name="error">/WEB-INF/page/security/group/edit.jsp</result>
-      </action>
-      <action name="addAuthorities" class="com.ewcms.web.action.security.group.GroupAction" method="addAuthorities"/>
-      <action name="addUsers" class="com.ewcms.web.action.security.group.GroupAction" method="addUsers"/>
-      <action name="delete" class="com.ewcms.web.action.security.group.GroupAction" method="delete"/>
-      <action name="deleteAuth" class="com.ewcms.web.action.security.group.GroupAction" method="deleteAuth"/>
-      <action name="deleteUser" class="com.ewcms.web.action.security.group.GroupAction" method="deleteUser"/>
-    </package>
-     -->
 </struts>
