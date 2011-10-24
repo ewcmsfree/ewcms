@@ -63,7 +63,7 @@ tinyMCE.init({
 		   	title : '插入图片',
 		   	image : ed.baseURI.getURI() + '/image/image.gif',
 		   	onclick : function() {
-				var url = ed.baseURI.getURI() + "/../../resource/image/upload.do";
+				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=IMAGE";
 		   		ed.focus();
 		   		openImageWindow(true,true,url);
 	       	}
@@ -72,7 +72,7 @@ tinyMCE.init({
 			title : '插入附件',
 			image : ed.baseURI.getURI() + '/image/annex.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/annex/upload.do?multi=true";
+				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=ANNEX&multi=true";
 				ed.focus();
 				openAnnexWindow(url);
 			}
