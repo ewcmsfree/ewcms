@@ -221,7 +221,7 @@
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                    	<tr id="noties_tr">
+                    	<tr id="notice_tr">
                     		<td class="portal-column-td">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
