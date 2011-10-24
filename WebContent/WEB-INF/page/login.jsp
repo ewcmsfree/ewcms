@@ -1,3 +1,5 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@page import="org.springframework.security.web.WebAttributes"%>
 <%@page import="org.springframework.security.core.AuthenticationException"%>
@@ -13,7 +15,7 @@
         <title>Ewcms用户登录</title>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/login.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'/>
         <script type="text/javascript">
             $(function() {
                 var _login = new login('<s:url value = "/checkcode.jpg"/>');
