@@ -4,16 +4,16 @@
 <html>
     <head>
         <title>上传资源</title>
-        <script type='text/javascript' src='<s:url value="/source/js/jquery.min.js" />'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-        <script type='text/javascript' src='<s:url value="/source/uploadify/jquery.uploadify.min.js"/>'></script>
-        <script type='text/javascript' src='<s:url value="/source/uploadify/swfobject.js"/>'></script>
-        <script type='text/javascript' src='<s:url value="/source/page/resource/resource.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'/>
-        <link rel="stylesheet" type="text/css" href="<s:url value="/source/uploadify/uploadify.css"/>"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href="<s:url value='/source/css/ewcms.css'/>" />
-        
+        <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+        <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/jquery.uploadify.min.js"/>'></script>
+        <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/swfobject.js"/>'></script>
+        <script type='text/javascript' src='<s:url value="/ewcmssource/page/resource/resource.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+        <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/uploadify/uploadify.css"/>"/>
+         
         <script type="text/javascript">
             var _u = new Upload('<s:property  value="context"/>','<s:url action="save"/>',
                 {uploader:'<s:url value="/source/uploadify/medium/uploadify.allglyphs.swf"/>',

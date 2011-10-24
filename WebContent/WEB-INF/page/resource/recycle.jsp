@@ -5,12 +5,12 @@
 <html>
     <head>
         <title>资源管理实现</title>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/page/resource/recycle.js"/>'></script>
+        <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/resource/recycle.js"/>'></script>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
         <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
