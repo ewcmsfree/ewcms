@@ -64,7 +64,7 @@ public class GroupService extends AbstractService implements GroupServiceable{
     }
     
     @Override
-    public boolean isGroupnameExist(final String name) {
+    public boolean hasGroupname(final String name) {
         Group group = groupDao.get(groupNameFull(name));
         return group != null;
     }
@@ -72,7 +72,7 @@ public class GroupService extends AbstractService implements GroupServiceable{
     @Override
     public String addGroup(final String name,final String remark)throws UserServiceException {
         
-        if(isGroupnameExist(name)){
+        if(hasGroupname(name)){
             throw new UserServiceException(messages.getMessage(
                     "GroupService.groupnameExist","groupname exist"));
         }

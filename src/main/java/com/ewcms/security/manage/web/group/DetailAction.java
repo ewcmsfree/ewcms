@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.service.UserServiceException;
+import com.ewcms.web.JsonBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.vo.DataGrid;
@@ -38,6 +41,8 @@ public class DetailAction extends ActionSupport{
     private static final String User_Group_Title = "用户";
     
     private String name;
+    private Set<String> authNames;
+    private Set<String> usernames;
     private Boolean showTitle = Boolean.TRUE;
     
     @Autowired
@@ -87,6 +92,32 @@ public class DetailAction extends ActionSupport{
         return items;
     }
 
+    /**
+     * 添加权限和用户
+     */
+    public void addAuthsAndUsers(){
+        JsonBaseAction json = new JsonBaseAction();
+        try{
+            fac.addAuthsAndUsersToGroup(name, authNames, usernames);
+            json.renderSuccess();    
+        }catch(UserServiceException e){
+            json.renderError(e.getMessage());
+        }
+    }
+    
+    /**
+     * 删除权限和用户
+     */
+    public void removeAuthsAndUsers(){
+        JsonBaseAction json = new JsonBaseAction();
+        try{
+            fac.removeAuthsAndUsersInGroup(name, authNames, usernames);
+            json.renderSuccess();    
+        }catch(UserServiceException e){
+            json.renderError(e.getMessage());
+        }
+    }
+    
     public String getName() {
         return name;
     }
@@ -103,6 +134,22 @@ public class DetailAction extends ActionSupport{
         this.showTitle = showTitle;
     }
 
+    public Set<String> getAuthNames() {
+        return authNames;
+    }
+
+    public void setAuthNames(Set<String> authNames) {
+        this.authNames = authNames;
+    }
+
+    public Set<String> getUsernames() {
+        return usernames;
+    }
+
+    public void setUsernames(Set<String> usernames) {
+        this.usernames = usernames;
+    }
+    
     /**
      * jquery easyui propertygrid 显示行对象
      */

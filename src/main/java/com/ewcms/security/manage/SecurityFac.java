@@ -66,8 +66,8 @@ public class SecurityFac implements SecurityFacable{
     
 
     @Override
-    public boolean isGroupnameExist(String name) {
-        return groupService.isGroupnameExist(name);
+    public boolean hasGroupname(String name) {
+        return groupService.hasGroupname(name);
     }
     
     @Override
@@ -152,8 +152,13 @@ public class SecurityFac implements SecurityFacable{
     }
     
     @Override
-    public boolean usernameExist(String username) {
-        return userService.usernameExist(username);
+    public boolean hasUsername(String username) {
+        return userService.hasUsername(username);
+    }
+    
+    @Override
+    public String getDefaultPassword() {
+        return userService.getDefaultPassword();
     }
     
     public void setGroupSerivce(GroupServiceable groupSerivce) {

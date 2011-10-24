@@ -53,7 +53,7 @@ public interface SecurityFacable {
      * @param name 用户组名 
      * @return if 'true' exist ,else 'false' not exist
      */
-    boolean isGroupnameExist(String name);
+    boolean hasGroupname(String name);
     
     /**
      * 添加用户组
@@ -164,12 +164,19 @@ public interface SecurityFacable {
     void inactiveUser(String username);
     
     /**
-     * 判读用户名是否存在
+     * 判断用户名是否存在
      * 
      * 用户名是关键字，新增时判断用户名是否被用
      * 
      * @param username 用户名
      * @return if true 存在 ,if false 不存在
      */
-    boolean usernameExist(String username);
+    boolean hasUsername(String username);
+    
+    /**
+     * 得到缺省用户密码
+     * 
+     * @return 缺省密码
+     */
+    String getDefaultPassword();
 }

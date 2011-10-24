@@ -61,7 +61,7 @@ public class UserService extends AbstractService implements UserServiceable{
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
         }
         
-        if(usernameExist(username)){
+        if(hasUsername(username)){
             throw new UserServiceException(
                     messages.getMessage("UserService.usernameExist","username already exist"));
         }
@@ -313,7 +313,7 @@ public class UserService extends AbstractService implements UserServiceable{
     }
 
     @Override
-    public boolean usernameExist(String username) {
+    public boolean hasUsername(String username) {
         User user = userDao.get(username);
         return user != null;
     }

@@ -39,6 +39,16 @@ public class GroupAction extends ActionSupport{
     @Autowired
     private SecurityFacable fac;
     
+    /**
+     * 判断用户组名称是否存在
+     */
+    public void hasGroupname(){
+        String format = "{\"exist\":%b}";
+        boolean exist = fac.hasGroupname(name);
+        JsonBaseAction json = new JsonBaseAction();
+        json.render(String.format(format, exist));
+    }
+    
     @Override
     public String input(){
 
@@ -75,7 +85,7 @@ public class GroupAction extends ActionSupport{
                 fac.updateGroup(name, remark);
                 addActionMessage("用户组修改成功");
             }else{
-                if(fac.isGroupnameExist(name)){
+                if(fac.hasGroupname(name)){
                     addActionError("用户组已经存在");
                 }else{
                     fullname = fac.addGroup(name, remark);

@@ -33,6 +33,7 @@ public class UserAction extends ActionSupport{
     private String username;
     private List<String> newUsernames;
     private User user;
+    private String defaultPassword;
     private boolean showAuthGroupTab = false;
     private String eventOP = EVENTOP_ADD;
     
@@ -41,7 +42,7 @@ public class UserAction extends ActionSupport{
     
     public void hasUsername(){
         String format = "{\"exist\":%b}";
-        boolean  exist = fac.usernameExist(username);
+        boolean  exist = fac.hasUsername(username);
         JsonBaseAction json = new JsonBaseAction();
         json.render(String.format(format, exist));
     }
@@ -70,6 +71,9 @@ public class UserAction extends ActionSupport{
     public String input(){
         if(username == null){
             eventOP = EVENTOP_ADD;
+            user = new User();
+            user.setEnabled(Boolean.TRUE);
+            defaultPassword = fac.getDefaultPassword();
             return INPUT;
         }
         
@@ -126,7 +130,7 @@ public class UserAction extends ActionSupport{
                         user.getAccountEnd(), user.getUserInfo());
                 addActionMessage("用户修改成功");
             }else{
-                if(fac.usernameExist(user.getUsername())){
+                if(fac.hasUsername(user.getUsername())){
                     addActionError("用户名称已经存在");
                     return ERROR;
                 }
@@ -165,6 +169,10 @@ public class UserAction extends ActionSupport{
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public String getDefaultPassword() {
+        return defaultPassword;
     }
 
     public String getEventOP() {

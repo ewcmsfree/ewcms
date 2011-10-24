@@ -96,5 +96,5 @@ public interface GroupServiceable {
      * @param name 用户组名 
      * @return if 'true' exist ,else 'false' not exist
      */
-    boolean isGroupnameExist(String name);
+    boolean hasGroupname(String name);
 }
