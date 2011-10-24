@@ -19,6 +19,11 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
 @Service
 public class ArticleService implements ArticlePublishServiceable {
 
