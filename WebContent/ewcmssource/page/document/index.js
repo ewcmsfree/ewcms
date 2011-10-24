@@ -377,6 +377,8 @@ function reviewArticle(url) {
 			$('#tt').datagrid('clearSelections');
 			articleReload();
 			$.messager.alert('提示', '文章审核成功', 'info');
+		} else if (data == 'accessdenied') {
+			$.messager.alert('提示', '没有审核文章权限', 'info');
 		}
 		return;
 	});
@@ -419,7 +421,10 @@ function sortOperate(isUrl, url) {
 						} else if (data == 'system-false') {
 							$.messager.alert('提示','系统错误','error');
 							return;
-								}
+						} else if (data == 'accessdenied') {
+							$.messager.alert('提示', '没有设置文章排序权限', 'info');
+							return;
+						}
 					});
 				} else {
 					sortOperate();
@@ -472,6 +477,8 @@ function clearSortOperate(url) {
 				articleReload();
 			} else if (data == 'system-false') {
 				$.messager.alert('提示', '系统错误', 'error');
+			} else if (data == 'accessdenied') {
+				$.messager.alert('提示', '没有清除文章的排序权限', 'info');
 			}
 			return;
 		});
@@ -486,7 +493,7 @@ function topOperate(url, top){
 			$.messager.alert('提示', '请选择记录', 'info');
 			return;
 		}
-		var parameter = 'isTop=' + top;
+		var parameter = 'isTop=' + top + '&channelId=' + currentnode.id;
 		for ( var i = 0; i < rows.length; i++) {
 			parameter = parameter + '&selections=' + rows[i].id;
 		}
@@ -501,13 +508,15 @@ function topOperate(url, top){
 				articleReload();
 			} else if (data == 'system-false') {
 				$.messager.alert('提示', '系统错误', 'error');
+			} else if (data == 'accessdenied') {
+				$.messager.alert('提示', '没有设置文章置顶权限', 'info');
 			}
 			return;
 		});
 	}
 	return false;
 }
-//文章退回到重新编辑状态(文章只有处于发布版和已发布两个状态才能退回)
+//文章退回到重新编辑状态(文章只有处于审核中...、发布版、已发布两个状态才能退回)
 function breakOperate(url) {
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
