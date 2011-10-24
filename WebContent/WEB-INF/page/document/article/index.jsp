@@ -7,16 +7,16 @@
 	<head>
 		<title>文档编辑</title>	
 		<jsp:include page="../../loading.jsp"/>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/ext/datagrid-detailview.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/page/document/index.js"/>'></script>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/ext/datagrid-detailview.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/document/index.js"/>'></script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 		<script type="text/javascript">
 			queryURL = '<s:url namespace="/document/article" action="query"/>';
@@ -28,7 +28,7 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div region="west"  title='<img src="<s:url value="/source/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
+		<div region="west"  title='<img src="<s:url value="/ewcmssource/theme/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
 			<ul id="tt2"></ul>
 		</div>
 		<div region="center" style="padding:2px;" border="false">

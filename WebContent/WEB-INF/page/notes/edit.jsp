@@ -5,11 +5,11 @@
 <html>
 	<head>
 		<title>备忘录</title>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>							
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>	
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>							
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
 		<ewcms:datepickerhead></ewcms:datepickerhead>
         <script type="text/javascript">
             $(function(){

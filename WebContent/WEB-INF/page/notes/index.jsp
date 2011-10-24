@@ -5,15 +5,15 @@
 <html>
   <head>
     <title>个人备忘</title>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
-    <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>" />
-    <link rel="stylesheet" type="text/css" href="<s:url value="/source/page/notes/notes.css"/>" />
-    <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>" />
+    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/page/notes/notes.css"/>" />
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
     <script type="text/javascript">
        var dropURL = '<s:url namespace="/notes" action="drop"/>';
        $(function(){
@@ -107,7 +107,7 @@
                         $('#a_title_' + id).attr('title', value);
                         if (value.length > 10) value = value.substring(0, 9) + '...';
                         if ($(window.frames['editifr'].document).find('#warn').attr('checked') == 'checked'){
-                            value = value + "<img id='img_clock_" + id + "'  src='../../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+                            value = value + "<img id='img_clock_" + id + "'  src='../../ewcmssource/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
                         }else{
                             $('#img_clock_' + id).remove();
                         }

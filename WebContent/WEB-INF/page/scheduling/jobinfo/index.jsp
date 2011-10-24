@@ -4,14 +4,14 @@
 <html>
 	<head>
 		<title>作业设置</title>	
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/easyui/themes/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
 		$(function(){
 			ewcmsBOBJ = new EwcmsBase();
@@ -39,9 +39,9 @@
 		                 		formatter:function(val,rec){
 		                 			var button_html = "";
 		                 			if (rec.state=='正常'){
-			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='pause'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
+			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='pause'/>?jobId=" + rec.id + "'><img src='../../ewcmssource/image/scheduling/pause.png' width='13px' height='13px' title='暂停操作'/></a>";
 		                 			}else if (rec.state=='暂停'){
-			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='resumed'/>?jobId=" + rec.id + "'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
+			                 			button_html = "<a href='<s:url namespace='/scheduling/jobinfo' action='resumed'/>?jobId=" + rec.id + "'><img src='../../ewcmssource/image/scheduling/resumed.png' width='13px' height='13px' title='恢复操作'/></a>";
 		                 			}
 		                 			return button_html;
 		                 		}

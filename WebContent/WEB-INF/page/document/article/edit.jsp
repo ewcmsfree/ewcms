@@ -11,19 +11,19 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>文档编辑：</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/easyui/themes/default/easyui.css'/>"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/easyui/themes/icon.css'/>"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/css/ewcms.css'/>" />
-		<link rel="stylesheet" type="text/css" href="<s:url value='/source/page/document/article.css'/>" />
-		<script type="text/javascript" src="<s:url value='/source/js/jquery.min.js'/>"></script>
-		<script type="text/javascript" src="<s:url value='/source/js/jquery.cookies.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src="<s:url value='/source/tiny_mce/tiny_mce_gzip.js'/>"></script>
-		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config_gzip.js'/>"></script>
-		<script type="text/javascript" src="<s:url value='/source/tiny_mce/config.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.js"/>'></script>
-		<script type="text/javascript" src="<s:url value='/source/page/document/edit.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/default/easyui.css'/>"/>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/icon.css'/>"/>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>" />
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/page/document/article.css'/>" />
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.min.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.cookies.js'/>"></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/tiny_mce_gzip.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config.js'/>"></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.js"/>'></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
@@ -76,7 +76,7 @@
 			    	<tr >
 			        	<td width="6%">标题：</td>
 			        	<td width="50%" id="tdTitle" class="formFieldError" colspan="2">
-			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
+			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
 			        		<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
 						</td>
 						<td width="44%" style="vertical-align: middle;">
@@ -94,14 +94,14 @@
 			        <tr id="trShortTitle" style="display:none;">
 			        	<td>短标题：</td>
 			        	<td id="tdShortTitle" colspan="3" class="formFieldError">
-			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="25"></s:textfield>
+			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="25"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.shortTitle'}" /></s:fielderror>
 			        	</td>
 			        </tr>
 			        <tr id="trSubTitle" style="display:none;">
 			        	<td>副标题：</td>
 			        	<td id="tdSubTitle" colspan="3" class="formFieldError">
-			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:320px;background:url(../../source/image/article/rule.gif) repeat-x left bottom;" maxlength="50"></s:textfield>
+			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.subTitle'}" /></s:fielderror>
 			        	</td>
 			        </tr>
@@ -153,7 +153,7 @@
 			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../../${articleVo.image}"/>
 			        		</s:if>
 			        		<s:else>
-			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="<s:url value='/source/image/article/nopicture.jpg'/>"/>
+			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="<s:url value='/ewcmssource/image/article/nopicture.jpg'/>"/>
 			        		</s:else>
 			        		</a>
 			        		<s:textfield id="article_image" name="articleVo.image" cssStyle="display:none;"/>
@@ -218,12 +218,12 @@
 							</ul>
 							<span class="add">
 								<s:a onclick="addPage();" href="#;" alt="在当前页后插入">
-									<img src="<s:url value='/source/image/article/icon_plus.gif'/>"	border="0" />
+									<img src="<s:url value='/ewcmssource/image/article/icon_plus.gif'/>"	border="0" />
 								</s:a>
 							</span>
 							<span class="add">
 								<s:a onclick="delPage();" href="#;" alt="删除当前页">
-									<img src="<s:url value='/source/image/article/icon_minus.gif'/>" border="0" />
+									<img src="<s:url value='/ewcmssource/image/article/icon_minus.gif'/>" border="0" />
 								</s:a>
 							</span>
 						</td>
