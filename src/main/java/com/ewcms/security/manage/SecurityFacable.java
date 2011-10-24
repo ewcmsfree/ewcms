@@ -179,4 +179,33 @@ public interface SecurityFacable {
      * @return 缺省密码
      */
     String getDefaultPassword();
+    
+    /**
+     * 用户修改密码
+     * 
+     * @param oldPassword 老密码
+     * @param newPassword 新密码
+     */
+    void changePassword(String oldPassword,String newPassword);
+    
+    /**
+     * 更新当前用户信息
+     * 
+     * @param userInfo
+     */
+    void updateUserInfo(UserInfo userInfo);
+    
+    /**
+     * 得到当前用户信息
+     * 
+     * @return
+     */
+    UserInfo getCurrentUserInfo();
+    
+    /**
+     * 得到真是用户名
+     * 
+     * @return
+     */
+    String getUserRealName();
 }

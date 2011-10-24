@@ -161,6 +161,26 @@ public class SecurityFac implements SecurityFacable{
         return userService.getDefaultPassword();
     }
     
+    @Override
+    public void changePassword(String oldPassword, String newPassword) {
+        userService.changePassword(oldPassword, newPassword);
+    }
+    
+    @Override
+    public void updateUserInfo(UserInfo userInfo) {
+        userService.updateUserInfo(userInfo);
+    }
+    
+    @Override
+    public UserInfo getCurrentUserInfo() {
+        return userService.getCurrentUserInfo();
+    }
+    
+    @Override
+    public String getUserRealName() {
+        return userService.getUserRealName();
+    }
+    
     public void setGroupSerivce(GroupServiceable groupSerivce) {
         this.groupService = groupSerivce;
     }

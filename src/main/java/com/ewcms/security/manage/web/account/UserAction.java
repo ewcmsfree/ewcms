@@ -9,8 +9,8 @@ package com.ewcms.security.manage.web.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.security.manage.model.UserInfo;
-import com.ewcms.security.manage.service.UserServiceable;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -24,18 +24,18 @@ public class UserAction extends ActionSupport{
     private UserInfo userInfo;
     
     @Autowired
-    private UserServiceable userService;
+    private SecurityFacable fac;
     
     @Override
     public String input(){
-        userInfo = userService.getCurrentUserInfo();
+        userInfo = fac.getCurrentUserInfo();
         return INPUT;
     }
     
     @Override
     public String execute(){
         try{
-            userService.updateUserInfo(userInfo);
+            fac.updateUserInfo(userInfo);
             this.addActionMessage("修改用户信息成功");
             return SUCCESS;
         }catch(Exception e){
@@ -52,7 +52,7 @@ public class UserAction extends ActionSupport{
         this.userInfo = userInfo;
     }
 
-    public void setUserService(UserServiceable userService) {
-        this.userService = userService;
-    }   
+    public void setFac(SecurityFacable fac) {
+        this.fac = fac;
+    }
 }

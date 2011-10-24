@@ -6,13 +6,12 @@
 
 package com.ewcms.security.manage.web.account;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.security.manage.SecurityFacable;
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * 用户修改密码Action
@@ -27,7 +26,7 @@ public class PasswordAction extends ActionSupport{
     private String againPassword;
     
     @Autowired
-    private UserServiceable userService;
+    private SecurityFacable fac;
     
     @Override
     public String input(){
@@ -44,7 +43,7 @@ public class PasswordAction extends ActionSupport{
             return ERROR;
         }
         try{
-            userService.changePassword(oldPassword, password);
+            fac.changePassword(oldPassword, password);
             addActionMessage("修改密码成功");
             return SUCCESS;
         }catch(AuthenticationException e){
@@ -77,7 +76,7 @@ public class PasswordAction extends ActionSupport{
         this.againPassword = againPassword;
     }
 
-    public void setUserService(UserServiceable userService) {
-        this.userService = userService;
+    public void setFac(SecurityFacable fac) {
+        this.fac = fac;
     }
 }
