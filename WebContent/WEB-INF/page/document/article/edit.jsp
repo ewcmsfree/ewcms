@@ -27,8 +27,8 @@
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
-	    	imageUploadURL = '<s:url action="upload" namespace="/resource"/>?type=image';
-	    	annexUploadURL = '<s:url action="upload" namespace="/resource"/>?type=annex';
+	    	imageUploadURL = '<s:url action="resource" namespace="/resource"/>?type=image';
+	    	annexUploadURL = '<s:url action="resource" namespace="/resource"/>?type=annex';
 	    	//未定义
 	    	imageBrowseURL = '<s:url action="browse" namespace="/resource/image"/>';
 	    	//未定义
@@ -148,7 +148,7 @@
 			        <tr id="trShowHide_5" style="display:none">
 			        	<td>引用图片：</td>
 			        	<td>
-			        		<a href="javascript:void(0);" onclick="selectImage('<s:url action='upload' namespace='/resource/image'/>');return false;">
+			        		<a href="javascript:void(0);" onclick="selectImage('<s:url action='resource' namespace='/resource'/>?type=IMAGE');return false;">
 			        		<s:if test="articleVo.image!=null&&articleVo.image!=''">
 			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../../${articleVo.image}"/>
 			        		</s:if>
@@ -157,7 +157,7 @@
 			        		</s:else>
 			        		</a>
 			        		<s:textfield id="article_image" name="articleVo.image" cssStyle="display:none;"/>
-			        		<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearImage();return false;">清除图片</a>
+			        		<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearImage();return false;" style="vertical-align:bottom;">清除图片</a>
 			        		<!-- <input type="button" value="清除图片" style="vertical-align:bottom;" onclick="clearImage();return false;"/> -->
 			        	</td>
 			        	<td>摘要：</td>
