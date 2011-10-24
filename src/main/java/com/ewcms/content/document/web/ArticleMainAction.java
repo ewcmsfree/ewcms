@@ -248,7 +248,7 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void topArticle(){
 		try{
-			documentFac.topArticleMain(getSelections(), getIsTop());
+			documentFac.topArticleMain(getSelections(), getIsTop(), getChannelId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));

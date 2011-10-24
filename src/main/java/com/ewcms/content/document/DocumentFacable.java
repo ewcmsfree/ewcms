@@ -199,8 +199,9 @@ public interface DocumentFacable {
 	 * 
 	 * @param articleMainIds 文章主体编号集合
 	 * @param top 是否置顶(true:置顶,false:不置顶)
+	 * @param channelId 频道编号
 	 */
-	public void topArticleMain(List<Long> articleMainIds, Boolean top);
+	public void topArticleMain(List<Long> articleMainIds, Boolean top, Integer channelId);
 	
 	/**
 	 * 新增文章信息

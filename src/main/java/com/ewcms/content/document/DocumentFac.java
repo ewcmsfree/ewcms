@@ -314,7 +314,10 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public void topArticleMain(List<Long> articleMainIds, Boolean top) {
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void topArticleMain(List<Long> articleMainIds, Boolean top, Integer channelId) {
 		articleMainService.topArticleMain(articleMainIds, top);
 	}
 
