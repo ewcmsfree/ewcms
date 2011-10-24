@@ -12,6 +12,11 @@ import org.springframework.security.acls.model.AclCache;
 import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.ObjectIdentity;
 
+/**
+ * AclCache没有缓存实现
+ * 
+ * @author wangwei
+ */
 public class NullAclCache implements AclCache {
 
 	@Override
