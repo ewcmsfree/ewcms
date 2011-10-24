@@ -24,10 +24,10 @@
         <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
         <sec:intercept-url pattern="/account/*.do" access="authenticated and fullyAuthenticated"/>
         
-        <sec:intercept-url pattern="/resource/image/manage.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/resource/annex/manage.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/resource/image/*.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/annex/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/resource.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/receive.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/thumb.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/thumbReceive.do" access="authenticated"/>
         <sec:intercept-url pattern="/resource/**/*.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/scheduling/jobchannel/*.do" access="authenticated"/>
@@ -47,14 +47,6 @@
         <sec:intercept-url pattern="/site/template/source/save.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/channel/tree.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/channel/*.do" access="hasAnyRole('ROLE_EDITOR','ROLE_WRITER','ROLE_USER','ROLE_ADMIN')"/>
-        
-        <sec:intercept-url pattern="/plguin/interaction/*.do" access="hasAnyRole('ROLE_INTERACTION','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/plugin/leadingwindow/**/*.do" access="hasAnyRole('ROLE_LEADING','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/plugin/member/*.do" access="hasAnyRole('ROLE_ZHENGXIE','ROLE_RENDA','ROLE_ADMIN')"/>
-        
-        <sec:intercept-url pattern="/plugin/onlineoffice/**/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/plugin/article/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/plugin/advisor/*.do" access="hasAnyRole('ROLE_ONLINEOFFICE','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/**/*.do" access="hasAnyRole('ROLE_ADMIN')"/>
         
@@ -129,7 +121,7 @@
         <property name="permissionEvaluator" ref="aclPermissionEvaluator"/>
     </bean>
     
-    <bean id="aclPermissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+    <bean id="aclPermissionEvaluator" class="com.ewcms.security.acls.EwcmsAclPermissionEvaluator">
         <constructor-arg ref="aclService" />
         <property name="permissionFactory" ref="permissionFactory"/>
     </bean>
