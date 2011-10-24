@@ -226,20 +226,50 @@
                     <div style="margin-top:20px;">
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
-                    <div id="pp" style="position:relative">  
-        				<div style="width:33%">
-        					<div id='notice' title="公告栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
-			    			</div>
-        				</div>  
-                        <div style="width:33%">
-        					<div id='subscription' title="订阅栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
-			    			</div>
-                        </div>  
-			            <div style="width:33%">
-        					<div id='other' title="其它栏" collapsible="true" closable="false" style="height:200px;padding:5px;">
-			    			</div>
-			            </div>  
-			    	</div>  
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    	<tr id="noties_tr">
+                    		<td class="portal-column-td">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">公告栏</div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('公告栏信息','message/more/index.do?type=NOTICE');return false;" style="text-decoration:none;">更多...</a></div>
+	        							</div>
+	        							<div style="height: 160px; padding: 5px;" closable="true" collapsible="false" title="" id="notice" class="portal-p panel-body">
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        				</tr>
+                    	<tr id="subscription_tr">
+                    		<td class="portal-column-td">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">订阅栏</div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('订阅栏信息','message/more/index.do?type=SUBSCRIPTION');return false;" style="text-decoration:none;">更多...</a></div>
+	        							</div>
+	        							<div style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="subscription" class="portal-p panel-body">
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        				</tr>
+                    	<tr id="other_tr" style="display:none;">
+                    		<td class="portal-column-td">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">其他栏</div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="" style="text-decoration:none;">更多...</a></div>
+	        							</div>
+	        							<div id="other" style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="other" class="portal-p panel-body">
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        				</tr>
+			         </table>
                 </div>
             </div>
         </div>
