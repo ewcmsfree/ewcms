@@ -3,11 +3,11 @@
 <html>
     <head>
         <title>修改密码</title>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/security/account/password.css"/>'/>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/page/security/account/digitialspaghetti.password.min.js"/>'></script>
+        <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/security/account/digitialspaghetti.password.min.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/security/account/password.css"/>'/>
         <script type="text/javascript">
             $(function(){
                 <s:include value="../../alertMessage.jsp"/>
