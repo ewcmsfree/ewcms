@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/source/page/security/account/password.css"/>'/>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/digitialspaghetti.password.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/source/page/security/account/digitialspaghetti.password.min.js"/>'></script>
         <script type="text/javascript">
             $(function(){
                 <s:include value="../../alertMessage.jsp"/>
