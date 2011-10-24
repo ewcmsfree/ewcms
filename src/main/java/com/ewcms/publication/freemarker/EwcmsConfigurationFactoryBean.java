@@ -29,13 +29,12 @@ public class EwcmsConfigurationFactoryBean extends EwcmsConfigurationFactory imp
         Assert.notNull(channelService,"channelService must setting");
         Assert.notNull(articleService,"articleService must setting");
         Assert.notNull(templateService,"templateService must setting");
-        
-        this.configuration = createConfiguration();
     }
 
     @Override
-    public Configuration getObject() {
-        return this.configuration;
+    public Configuration getObject() throws IOException, TemplateException {
+        configuration = (configuration == null ? createConfiguration() : configuration);
+        return configuration;
     }
 
     @Override
