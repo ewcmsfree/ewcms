@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.security.manage.service.UserServiceable;
+import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.web.context.EwcmsContextHolder;
-import com.ewcms.web.util.JSONUtil;
-import com.ewcms.web.util.Struts2Util;
 
 /**
  * 首页Action
@@ -27,25 +25,26 @@ public class HomeAction extends EwcmsBaseAction {
     private Integer siteId;
     private String siteName;
     private String realName;
+    private boolean siteExist = true;
     
 	@Autowired
 	private SiteFac siteFac;
 	
 	@Autowired
-	private UserServiceable userService;
+	private SecurityFacable securityFac;
 
 	
 	public String execute() {
-		Site site;
-		if (siteId == null) {
-			site = getSiteList()==null|| getSiteList().size()==0?new Site():getSiteList().get(0);
-			setSiteId(site.getId());
-		} else {
-			site = siteFac.getSite(siteId);
-		}
-		setSiteName(site.getSiteName());
+	    
+	    realName = securityFac.getCurrentUserInfo().getName();
+	    
+	    //TODO 得到用户所属组织，通过组织得到站点。
+	    
+		Site site = getSite(siteId);
 		EwcmsContextHolder.getContext().setSite(site);
-		realName = userService.getUserRealName();
+		
+		setSiteName(site.getSiteName());
+		
 		return SUCCESS;
 	}
 	
@@ -53,8 +52,27 @@ public class HomeAction extends EwcmsBaseAction {
 	    return realName;
 	}
 	
-	private List<Site> getSiteList() {
-		return siteFac.getSiteListByOrgans(new Integer[]{}, true);
+	public boolean hasSite(){
+	    return siteExist;
+	}
+	
+	private Site getSite(Integer id) {
+	    if(id != null){
+	        Site site =  siteFac.getSite(siteId);
+	        if(site == null){
+	            addActionError("站点不存在");
+	            siteExist = false;
+	            return new Site();    
+	        }
+	        return site;
+	    }else{
+	        List<Site> list= siteFac.getSiteListByOrgans(new Integer[]{}, true);
+	        if(list == null || list.isEmpty()){
+	            siteExist = false;
+	            return new Site();
+	        }
+	       return list.get(0);
+	    }
 	}
 
 	public Integer getSiteId() {
@@ -65,10 +83,6 @@ public class HomeAction extends EwcmsBaseAction {
 		this.siteId = siteId;
 	}
 	
-	public void siteLoad(){
-		Struts2Util.renderJson(JSONUtil.toJSON(getSiteList()));		
-	}
-
     public String getSiteName() {
         return siteName;
     }
