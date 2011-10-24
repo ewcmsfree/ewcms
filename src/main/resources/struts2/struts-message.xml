@@ -52,4 +52,10 @@
 		</action>
 		<action name="subscribe" class="com.ewcms.content.message.web.MsgDetailAction" method="subscribe"/>
 	</package>
+	<package name="message.more" extends="struts-default" namespace="/message/more">
+		<action name="index" class="com.ewcms.content.message.web.MoreAction">
+			<result>/WEB-INF/page/message/more.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.content.message.web.MoreQueryAction" method="query"/>
+	</package>
 </struts>	
