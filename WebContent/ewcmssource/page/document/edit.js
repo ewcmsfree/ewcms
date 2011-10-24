@@ -12,6 +12,8 @@ var noImage = "../../ewcmssource/image/article/nopicture.jpg";
 var userName;
 
 $(function() {
+	ewcmsBOBJ = new EwcmsBase();
+	
 	//设置自动保存的时长
 	setInterval("auto_save()",600000);
 	changeType();
@@ -448,7 +450,7 @@ function selectHistory(url){
 	$("#save_span").attr("style","display:none");
 	
 	$("#editifr_pop").attr("src",url);
-	openWindow("#pop-window",{width:800,height:600,title:"历史内容选择"});
+	ewcmsBOBJ.openWindow("#pop-window",{width:800,height:600,title:"历史内容选择"});
 }
 //选择相关联文章页面
 function selectRelation(url){
@@ -464,7 +466,7 @@ function selectRelation(url){
 	$("#selectHistory_span").attr("style","display:none");
 	$("#save_span").attr("style","");
 	$("#editifr_pop").attr("src",url);
-	openWindow("#pop-window",{width:800,height:600,title:"相关文章选择"});
+	ewcmsBOBJ.openWindow("#pop-window",{width:800,height:600,title:"相关文章选择"});
 }
 //展开与收缩
 function showHide(){
@@ -518,7 +520,7 @@ function changeType(){
 function openAnnexWindow(url){
 	$('#systemtab_annex').tabs('select','本地附件');
     $('#uploadifr_annex_id').attr('src',url);
-    openWindow("#annex-window",{width:600,height:500,title:"本地附件"});
+    ewcmsBOBJ.openWindow("#annex-window",{width:600,height:500,title:"本地附件"});
 }
 //插入附件到内容编辑页面
 function insertAnnexOperator(){
@@ -569,7 +571,7 @@ function openImageWindow(multi,content_image,url){
     }else{
         $('#uploadifr_image_id').attr('src',url + '&multi=false');
     }
-    openWindow("#image-window",{width:600,height:500,title:"图片选择"});
+    ewcmsBOBJ.openWindow("#image-window",{width:600,height:500,title:"图片选择"});
 }
 //插入图片到内容编辑页面
 function insertImageOperator(){
@@ -620,7 +622,7 @@ function insertImageOperator(){
 //打开问卷调查页面
 function openVoteWidnow(url){
 	$('#editifr_vote').attr('src',url);
-	openWindow("#vote-window",{width:600,height:500,title:"问卷调查选择"});
+	ewcmsBOBJ.openWindow("#vote-window",{width:600,height:500,title:"问卷调查选择"});
 }
 //插入问卷调查到内容编辑页面
 function insertVote(){
@@ -683,7 +685,7 @@ function auto_save() {
 }
 //打开Cookies页面设置
 function ewcmsCookies(){
-	openWindow("#ewcms-cookies",{width:300,height:215,title:"设置常用项"});
+	ewcmsBOBJ.openWindow("#ewcms-cookies",{width:300,height:215,title:"设置常用项"});
 }
 //Cookies设置
 function ewcmsCookiesSet(obj,trId){
