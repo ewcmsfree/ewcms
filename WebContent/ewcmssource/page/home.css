@@ -7,4 +7,4 @@
  a:hover {text-decoration: underline;color: red;}
  p{line-height:200%;}
  .head{height:65px;padding:0px;overflow:hidden;background:url('../image/vistaBlue.jpg') #1E4176}
- .ellipsis{display:block;width:1200px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
+ .ellipsis{display:block;width:900px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
