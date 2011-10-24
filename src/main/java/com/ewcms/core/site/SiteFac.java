@@ -136,28 +136,25 @@ public class SiteFac{
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel','CREATE')")	
+            +"or hasPermission(#parentId,'com.ewcms.core.site.model.Channel',new String[]{'ADMIN','CREATE'})") 
 	public Integer addChannel(Integer parentId, String name) {
 		return channelService.addChannel(parentId, name);
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','UPDATE')")	
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel',new String[]{'ADMIN','UPDATE'})")
 	public void renameChannel(Integer id, String name) {
 		channelService.renameChannel(id, name);
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#channel,'ADMIN') or hasPermission(#channel,'UPDATE')")	
+            +"or hasPermission(#channel,new String[]{'ADMIN','UPDATE'})")	
 	public Integer updChannel(Channel vo) {
 		return channelService.updChannel(vo);
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN') "
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN') " 
-            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel','DELETE')")	
+            +"or hasPermission(#id,'com.ewcms.core.site.model.Channel',new String[]{'ADMIN','DELETE'})")
 	public void delChannel(Integer id) {
 		channelService.delChannel(id);
 	}
