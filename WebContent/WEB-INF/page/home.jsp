@@ -73,7 +73,7 @@
                      </div>
                      <div style="float:right;width:30px">
                          <a id="button-main"  href="#" style="border:0;padding:2;">
-                            <img src='<s:url value="/source/image/exit.png"/>' width="24"/>
+                            <img src='<s:url value="/source/image/exit.png"/>' width="24" border=0/>
                          </a>
                      </div>
                   </div>
