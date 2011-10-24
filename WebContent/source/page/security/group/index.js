@@ -59,6 +59,7 @@ GroupIndex.prototype.init = function(opts){
         var rows = $(opts.datagridId).datagrid('getSelections');
         if(rows.length == 0){
             $.messager.alert('提示','请选择修改的用户组','info');
+            return;
         }
         var url = urls.editUrl + "?eventOP=update&name=" + rows[0].name; 
         $('#editifr-id').attr('src',url);

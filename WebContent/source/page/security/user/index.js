@@ -81,6 +81,7 @@ UserIndex.prototype.init = function(opts){
         var rows = $(opts.datagridId).datagrid('getSelections');
         if(rows.length == 0){
             $.messager.alert('提示','请选择修改的用户','info');
+            return;
         }
         var url = urls.editUrl + "?eventOP=update&username=" + rows[0].username; 
         $('#editifr-id').attr('src',url);
@@ -104,6 +105,17 @@ UserIndex.prototype.init = function(opts){
                 });
             }
         },'info');
+    });
+    
+    $(opts.toolbarInitPasswordId).bind('click',function(){
+        var rows = $(opts.datagridId).datagrid('getSelections');
+        if(rows.length == 0){
+            $.messager.alert('提示','请选择修改密码的用户','info');
+            return;
+        }
+        var url = urls.initpasswordUrl + "?username=" + rows[0].username;
+        $('#editifr-id').attr('src', url);
+        openWindow('#edit-window',{title:'修改 - 用户密码',width:480,height:280})
     });
     
     $(opts.toolbarQueryId).bind('click',function(){

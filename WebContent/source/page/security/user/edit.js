@@ -68,4 +68,10 @@ UserEdit.prototype.init = function(opts){
     $('#button-cancel').bind('click',function(){
         parent.closeEditWindow();
     });
+    
+    $('#button-default-password').bind('mouseover',function(){
+        $("#default-password").css('display','');
+    }).bind('mouseout',function(){
+        $("#default-password").css('display','none');
+    });
 }
