@@ -1,10 +1,13 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
+
 <html>
 	<head>
 		<title>调度器任务</title>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>							
@@ -164,7 +167,7 @@
 				<tr>
 					<td>说明：</td>
 					<td colspan="3">
-						<s:textarea name="pageDisplayVo.description" rows="3" cols="80"></s:textarea>
+						<s:textarea name="pageDisplayVo.description" rows="3" cols="80"/>
 					</td>
 				</tr>
 				<tr>

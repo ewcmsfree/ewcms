@@ -1,13 +1,13 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="loading.jsp" flush="true"/>
-
 <html>
     <head>
         <title>EWCMS 站群内容管理平台</title>
+        <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/portal.css"/>'>

@@ -1,9 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
 <%@ taglib prefix="s" uri="/struts-tags" %>
+
 <html>
 	<head>
 		<title>作业设置</title>	
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>
@@ -57,7 +60,6 @@
 		</script>		
 	</head>
 	<body class="easyui-layout">
-		<jsp:include page="../../loading.jsp" flush="true"/>
 		<div region="center" style="padding:2px;" border="false">
 	 		<table id="tt" fit="true"></table>	
 	 	</div>
