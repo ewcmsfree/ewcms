@@ -7,7 +7,7 @@
 					+ ((document.documentElement.clientHeight - 110) / 2)
 					+ 'px;left:'
 					+ ((document.documentElement.clientWidth - 200) / 2)
-					+ 'px;  padding: 12px 5px 10px 30px; background: #fff url() no-repeat scroll 5px 10px; border: 2px solid #6593CF; color: #222; display: block;">页面正在加载，请稍候。。。</div>');
+					+ 'px;  padding: 12px 5px 10px 30px; background: #fff url() no-repeat scroll 5px 10px; border: 2px solid #6593CF; color: #222; display: block;"><font size="9">页面正在加载，请稍候。。。</font></div>');
 	
 	if (window.addEventListener){//for Mozilla/Opera9
 		document.onreadystatechange = function() {
