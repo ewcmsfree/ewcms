@@ -4,14 +4,14 @@
 <html>
 	<head>
 		<title>专栏资源管理</title>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/ewcms.func.js"/>'></script>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/home.js"/>'></script>		
 		<script>
 			$(function(){
 				//创建和设置页面的基本对象 EwcmsBase

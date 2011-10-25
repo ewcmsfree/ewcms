@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
-<head>
-    <title>频道权限</title>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-    <link rel="stylesheet" type="text/css" href="<s:url value="/source/css/ewcms.css"/>"/>
-    <script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
-    <script type="text/javascript" src='<s:url value="/source/js/easyui-lang-zh_CN.js"/>'></script>
+	<head>
+    	<title>频道权限</title>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>    
     <script type="text/javascript">
         var permissions = [
             {id:1,name:'读文章'},
@@ -294,8 +294,8 @@
         function isGroup(val){
             return /^GROUP_.*$/.test(val);
         }
-    </script>
-</head>
+    	</script>
+	</head>
 <body class="easyui-layout">
     <div region="center" style="padding:2px;" border="false">
         <table id="tt" fit="true"></table>      

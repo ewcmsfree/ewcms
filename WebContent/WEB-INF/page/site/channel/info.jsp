@@ -3,12 +3,12 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>专栏信息设置</title>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>	
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
+		<title>专栏信息设置</title>	
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
 		<script type="text/javascript"> 
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
