@@ -9,7 +9,6 @@
         <title>EWCMS 站群内容管理平台</title>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/portal.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
