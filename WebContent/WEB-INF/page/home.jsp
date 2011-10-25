@@ -26,7 +26,8 @@
                     user:'<s:url action="user" namespace="/account"/>',
                     password:'<s:url action="password" namespace="/account"/>',
                     exit:'<s:url value="/logout.do"/>',
-                    siteswitch:'<s:url action="siteswitch"/>'
+                    siteswitch:'<s:url action="siteswitch"/>',
+                    hasSite:<s:property value="hasSite"/>
                 });
                 
                 var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
@@ -83,7 +84,7 @@
         </div>
         <div region="south" style="height:2px;background:#efefef;overflow:hidden;"></div>
         <div region="west" split="true" title="EWCMS平台菜单" style="width:180px;padding:1px;overflow:hidden;">
-            <div class="easyui-accordion" fit="true" border="false">
+            <div id="mainmenu" class="easyui-accordion" fit="true" border="false">
                  <sec:authorize ifAnyGranted="ROLE_ADMIN">
                  <div title="系统管理" style="overflow:auto;">
                     <div class="nav-item">
