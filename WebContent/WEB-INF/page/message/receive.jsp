@@ -92,8 +92,28 @@
 					return;
 				}
 				$("#tt").datagrid('reload');
+				refreshTipMessage();
 			});
             return false;           
+		}
+		function refreshTipMessage(){
+			  $.ajax({
+				  type:'post',
+				  datatype:'json',
+				  cache:false,
+				  url:'<s:url namespace="/message/receive" action="unRead"/>',
+				  data: '',
+				  success:function(message, textStatus){
+					  parent.parent.$('#tipMessage').empty();
+				      var html = '<span id="messageFlash">';
+				      if (message != 'false'){
+				      	var tiplength = message.length;
+				        html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【<img src="./ewcmssource/image/msg/msg_new.gif"/>新消息(' + tiplength + ')】</a>';
+				      }
+				      html += '</span>';
+				      $(html).appendTo('#tipMessage');
+				  }
+			  });
 		}
 		</script>		
 	</head>
