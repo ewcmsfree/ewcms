@@ -128,7 +128,6 @@ public class EwcmsController implements EwcmsControllerable {
 			}catch(Exception e){
 				
 			}
-			
 			ewcmsWebCrawler = null;
 			docIDServer = null;
 			frontier = null;

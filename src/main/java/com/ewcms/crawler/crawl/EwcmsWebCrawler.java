@@ -76,14 +76,15 @@ public class EwcmsWebCrawler extends WebCrawler {
 	 */
 	@Override
 	public boolean shouldVisit(WebURL url) {
-		if (url == null)
-			return false;
+		if (url == null) return false;
 		String href = url.getURL();
-		if (filters.matcher(href).matches())
-			return false;
-		for (String domain : crawlDomains) {
-			if (href.startsWith(domain)) {
-				return true;
+		if (filters.matcher(href).matches()) return false;
+		String htmlType = gather.getHtmlType();
+		if (href.indexOf(htmlType) > -1){
+			for (String domain : crawlDomains) {
+				if (href.startsWith(domain)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -161,7 +162,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 	}
 
 	/**
-	 * 控制器退出之前调用
+	 * 控制器退出之前执行
 	 */
 	@Override
 	public void onBeforeExit() {
