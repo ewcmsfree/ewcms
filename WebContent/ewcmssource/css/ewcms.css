@@ -277,3 +277,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-top-cancel{
 	background:url('icons/top_cancel.png') no-repeat;
 }
+.icon-subscription-add{
+	background:url('icons/subscription_add.png') no-repeat;
+}
