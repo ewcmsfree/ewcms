@@ -6,6 +6,8 @@
 
 package com.ewcms.content.message.web;
 
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,9 +91,11 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 	protected Long saveOperator(MsgSend vo, boolean isUpdate) {
 		List<String> userNames = new ArrayList<String>();
 		if (vo.getType() == MsgType.GENERAL){
-			for (int i = 0; i< receiveUserNames.length; i++){
-				String userName = receiveUserNames[i];
-				userNames.add(userName);
+			if (isNotNull(receiveUserNames)){
+				for (int i = 0; i< receiveUserNames.length; i++){
+					String userName = receiveUserNames[i];
+					userNames.add(userName);
+				}
 			}
 		}
 		if (isUpdate) {
