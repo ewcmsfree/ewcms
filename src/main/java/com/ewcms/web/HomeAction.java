@@ -9,6 +9,7 @@ package com.ewcms.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Site;
@@ -20,6 +21,7 @@ import com.ewcms.web.context.EwcmsContextHolder;
  *
  * @author 周冬初
  */
+@Controller("home")
 public class HomeAction extends EwcmsBaseAction {
     
     private Integer siteId;
