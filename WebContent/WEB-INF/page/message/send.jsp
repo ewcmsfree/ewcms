@@ -29,7 +29,7 @@
 			
 			
 			ewcmsBOBJ.addToolItem('新增信息','icon-add', addCallBack, 'btnMsg');
-			ewcmsBOBJ.addToolItem('新增订阅内容','icon-add',addSubscription,'btnRec')
+			ewcmsBOBJ.addToolItem('新增订阅内容','icon-subscription-add',addSubscription,'btnRec')
 			ewcmsBOBJ.addToolItem('删除', 'icon-remove', delCallBack, 'btnRemove');
 			ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
 			ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
