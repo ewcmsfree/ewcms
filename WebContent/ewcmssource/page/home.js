@@ -58,7 +58,7 @@ home.prototype.init = function(urls){
         openWindow(windowId,{width:550,height:230,title:'修改密码',url:urls.password}); 
     });
     $('#switch-menu').bind('click',function(){
-        openWindow(windowId,{width:550,height:230,title:'站点切换',url:urls.siteswitch,iframeID:'#editifr'}); 
+        openWindow(windowId,{width:450,height:280,title:'站点切换',url:urls.siteswitch}); 
     });      
     $('#exit-menu').bind('click',function(){
         window.location = urls.exit;
