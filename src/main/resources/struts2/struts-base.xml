@@ -9,11 +9,10 @@
         <action name="index" class="com.ewcms.web.HomeAction">
             <result>/WEB-INF/page/home.jsp</result>
         </action>
-        <action name="siteload" class="com.ewcms.web.HomeAction" method="siteLoad"/>
-        <action name="siteswitch">
+        <action name="siteswitch" class="com.ewcms.web.SiteSwitchAction">
             <result>/WEB-INF/page/siteswitch.jsp</result>
         </action>
-                	
+        <action name="siteQuery" class="com.ewcms.web.SiteSwitchAction" method="query"/>
         <action name="login">
             <result>/WEB-INF/page/login.jsp</result>
         </action>
