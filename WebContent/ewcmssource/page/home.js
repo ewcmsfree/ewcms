@@ -36,7 +36,7 @@ home.prototype.addTab=function(title,src){
     }    
 }
 
-home.prototype.init = function(urls){
+home.prototype.init = function(opts){
     var windowId = this._windowId;
  
     $('#button-main').bind('click',function(){
@@ -52,17 +52,27 @@ home.prototype.init = function(urls){
     });
     
     $('#user-menu').bind('click',function(){
-        openWindow(windowId,{width:550,height:300,title:'修改用户信息',url:urls.user}); 
+        openWindow(windowId,{width:550,height:300,title:'修改用户信息',url:opts.user}); 
     });
     $('#password-menu').bind('click',function(){
-        openWindow(windowId,{width:550,height:230,title:'修改密码',url:urls.password}); 
+        openWindow(windowId,{width:550,height:230,title:'修改密码',url:opts.password}); 
     });
     $('#switch-menu').bind('click',function(){
-        openWindow(windowId,{width:450,height:280,title:'站点切换',url:urls.siteswitch}); 
+        var item = $('#mm').menu('getItem','#switch-menu');
+        if(!item.disabled){
+            openWindow(windowId,{width:450,height:280,title:'站点切换',url:opts.siteswitch});            
+        }
     });      
     $('#exit-menu').bind('click',function(){
-        window.location = urls.exit;
+        window.location = opts.exit;
     });
+    
+    if(!opts.hasSite){
+        $('#mainmenu').accordion('remove','站点建设');
+        $('#mainmenu').accordion('remove','站点内容');
+        $('#mainmenu').accordion('remove','站点资源');
+        $('#mm').menu('disableItem','#switch-menu');
+    }
 }
 
 home.prototype.getPopMessage=function(url){
