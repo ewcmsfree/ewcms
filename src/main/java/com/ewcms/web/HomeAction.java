@@ -27,7 +27,7 @@ public class HomeAction extends EwcmsBaseAction {
     private Integer siteId;
     private String siteName;
     private String realName;
-    private boolean siteExist = true;
+    private boolean hasSite = true;
     
 	@Autowired
 	private SiteFac siteFac;
@@ -54,8 +54,8 @@ public class HomeAction extends EwcmsBaseAction {
 	    return realName;
 	}
 	
-	public boolean hasSite(){
-	    return siteExist;
+	public Boolean getHasSite(){
+	    return hasSite;
 	}
 	
 	private Site getSite(Integer id) {
@@ -63,14 +63,14 @@ public class HomeAction extends EwcmsBaseAction {
 	        Site site =  siteFac.getSite(siteId);
 	        if(site == null){
 	            addActionError("站点不存在");
-	            siteExist = false;
+	            hasSite = false;
 	            return new Site();    
 	        }
 	        return site;
 	    }else{
 	        List<Site> list= siteFac.getSiteListByOrgans(new Integer[]{}, true);
 	        if(list == null || list.isEmpty()){
-	            siteExist = false;
+	            hasSite = false;
 	            return new Site();
 	        }
 	       return list.get(0);
