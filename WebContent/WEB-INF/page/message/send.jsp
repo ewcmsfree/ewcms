@@ -28,7 +28,8 @@
 			ewcmsBOBJ.delToolItem('缺省查询');
 			
 			
-			ewcmsBOBJ.addToolItem('新增','icon-add', null, 'btnAdd');
+			ewcmsBOBJ.addToolItem('新增信息','icon-add', addCallBack, 'btnMsg');
+			ewcmsBOBJ.addToolItem('新增订阅内容','icon-add',addSubscription,'btnRec')
 			ewcmsBOBJ.addToolItem('删除', 'icon-remove', delCallBack, 'btnRemove');
 			ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
 			ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
@@ -69,11 +70,7 @@
 					$('#tt').datagrid('fixDetailRowHeight',index);  
 				}
 			});
-			initSubMenu();
 		});
-		function initSubMenu() {
-			$('#btnAdd .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSubAdd'});
-		}
 		//内容数据
 		function detailGridData(rowData){
 			var htmls = [];
@@ -119,7 +116,6 @@
 		}
 		function initOperateQuery(){
 			defQueryCallBack();
-			initSubMenu();
 		}
 		function addSubscription(){
 			var rows = $("#tt").datagrid("getSelections");
@@ -139,7 +135,6 @@
 				$.messager.alert('提示','只能是订阅的记录才能再新增订阅内容','info');
 				return;
 			}
-			initSubMenu();
 		}
 		function delSubscription(id){
 			var url = '<s:url namespace="/message/content" action="delete"/>';
@@ -191,9 +186,5 @@
                 </div>
             </div>
         </div>
-        <div id="btnSubAdd" style="width:80px;display:none;">
-        	<div id="btnMsg" iconCls="" onclick="addCallBack();">消息</div>
-	        <div id="btnRec" iconCls="" onclick="addSubscription();">订阅内容</div>
-	    </div>
 	</body>
 </html>
