@@ -7,17 +7,17 @@
 <html>
     <head>
         <title>EWCMS 站群内容管理平台</title>
-        <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/portal.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/portal.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>        
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
+        <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>       
         <script type="text/javascript">
             var _home = new home();
             $(function(){
@@ -272,7 +272,7 @@
                 <div region="center" border="false" style="padding: 10px;">
                     <iframe id="editifr" name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
-                <div region="south" border="false" style="padding-right:20px;text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                <div region="south" border="false" style="padding-right:20px;text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['editifr'].pageSubmit();">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#edit-window').window('close');">取消</a>
                 </div>
