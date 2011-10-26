@@ -7,10 +7,10 @@
   <head>
     <title>个人备忘</title>
 	<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>" />
-    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/page/notes/notes.css"/>" />
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'></link>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
+    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>" ></link>
+    <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/page/notes/notes.css"/>"></link>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
@@ -165,7 +165,7 @@
 		    		</td>
 		    	</tr>
 		    </table>
-		    <table aligh="right" width="30%" cellspacing="0" cellpadding="0" border="0">
+		    <table align="right" width="30%" cellspacing="0" cellpadding="0" border="0">
 		      <tr>
 		        <td align="right" width="100%">
 		        	<a id="prevMonth" href="javascript:void(0);" iconCls="icon-notes-prev" class="easyui-linkbutton" onclick="ChangeDate($('#year').val(),$('#month').val(),-1);return false;">上一个月</a>&nbsp;
