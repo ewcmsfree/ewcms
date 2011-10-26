@@ -8,24 +8,24 @@
 	<head>
 		<title>文档编辑</title>	
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/ext/datagrid-detailview.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/page/document/index.js"/>'></script>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/default/easyui.css'/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/icon.css'/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>"></link>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.min.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/jquery.easyui.min.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/locale/easyui-lang-zh_CN.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/ext/datagrid-detailview.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/ewcms.base.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/js/ewcms.func.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/index.js'/>"></script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 		<script type="text/javascript">
-			queryURL = '<s:url namespace="/document/article" action="query"/>';
-			inputURL = '<s:url namespace="/document/article" action="input"/>';
-			deleteURL = '<s:url namespace="/document/article" action="delete"/>';
-			treeURL = '<s:url namespace="/site/channel" action="tree"/>';
-			reasonURL = '<s:url namespace="/document/article" action="reason"/>';
-			trackURL = '<s:url namespace="/document/track" action="index"/>';
+			queryURL = "<s:url namespace='/document/article' action='query'/>";
+			inputURL = "<s:url namespace='/document/article' action='input'/>";
+			deleteURL = "<s:url namespace='/document/article' action='delete'/>";
+			treeURL = "<s:url namespace='/site/channel' action='tree'/>";
+			reasonURL = "<s:url namespace='/document/article' action='reason'/>";
+			trackURL = "<s:url namespace='/document/track' action='index'/>";
 		</script>
 	</head>
 	<body class="easyui-layout">
@@ -117,7 +117,7 @@
                 	</table>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle('<s:url namespace='/document/article' action='reviewArticle'/>');">确定</a></span>
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle('<s:url namespace='/document/article' action='reviewArticle'/>');">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#review-window').window('close');return false;">取消</a>
                 </div>
             </div>
@@ -141,7 +141,7 @@
                     </table>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:sortArticle('<s:url namespace='/document/article' action='sortArticle'/>');">确定</a></span>
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:sortArticle('<s:url namespace='/document/article' action='sortArticle'/>');">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#sort-window').window('close');return false;">取消</a>
                 </div>
             </div>

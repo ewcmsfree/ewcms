@@ -9,10 +9,10 @@
 	<head>
 		<title>文档编辑：</title>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/default/easyui.css'/>"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/icon.css'/>"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>" />
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/page/document/article.css'/>" />
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/default/easyui.css'/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/icon.css'/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/page/document/article.css'/>"></link>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.min.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.cookies.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
@@ -62,7 +62,7 @@
 											<a class="easyui-linkbutton" iconCls="icon-article-history" href="javascript:void(0)" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">历史内容</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-relation" href="javascript:void(0)" onclick="selectRelation('<s:url action='relation' namespace='/document/relation'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">相关文章</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-cookies" href="javascript:void(0)" onclick="ewcmsCookies();return false;">常用项</a>
-											<a class="easyui-linkbutton" iconCls="icon-article-show" href="javascript:void(0)" onclick="showHide();return false;"><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</b></a>
+											<a class="easyui-linkbutton" iconCls="icon-article-show" href="javascript:void(0)" onclick="showHide();return false;"><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</a>
 											<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeArticle();return false;">关闭</a>
 										</td>
 									</tr>
