@@ -23,8 +23,6 @@ import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.service.UserServiceException;
 import com.ewcms.web.JsonBaseAction;
-import com.ewcms.web.util.JSONUtil;
-import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.vo.DataGrid;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -56,10 +54,11 @@ public class DetailAction extends ActionSupport{
     public void query(){
         Group group = fac.getGroup(name);
         
+        JsonBaseAction json = new JsonBaseAction();
+        
         if(group == null){
             logger.warn("Group name is {} but get is null",name);
-            DataGrid datagrid= new DataGrid(0,Collections.EMPTY_LIST);
-            Struts2Util.renderJson(JSONUtil.toJSON(datagrid));
+            json.renderObject(new DataGrid(0,Collections.EMPTY_LIST));
             return ;
         }
         
@@ -79,9 +78,7 @@ public class DetailAction extends ActionSupport{
             }
         }));
             
-        DataGrid datagrid = new DataGrid(items.size(),items);
-        String json = JSONUtil.toJSON(datagrid);
-        Struts2Util.renderJson(json);
+        json.renderObject(new DataGrid(items.size(),items));
     }
     
     private List<PropertyGridItem> getItems(Collection<?> values,ConvertToPropertyGridItem convert){
