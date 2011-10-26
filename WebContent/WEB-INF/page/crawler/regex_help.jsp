@@ -37,7 +37,7 @@
 		<b>3.条件使用</b>
 		<ul>
 			<li>:lt(n)：查找哪些元素的同级索引值（它的位置在DOM树中是相对于它的父节点）小于n，比如：td:lt(3)表示小于三列的元素</li>
-			<li>:qt(n)：查找哪些元素的同级索引值大于n，比如：div p:get(2)表示哪些div中有包含2个以上的p元素<li>
+			<li>:qt(n)：查找哪些元素的同级索引值大于n，比如：div p:get(2)表示哪些div中有包含2个以上的p元素</li>
 			<li>:eq(n)：查打哪些元素的同级索引值与n相等，比如：form input:eq(1)表示包含一个input标签的Form元素</li>
 			<li>:has(selector)：查找匹配选择器包含元素的元素，比如：div:has(p)表示哪些div包含了p元素</li>
 			<li>:not(selector)：查找与选择器不匹配的元素，比如：div:not(.logo)表示不包含class=logo元素的所有div列表</li>
