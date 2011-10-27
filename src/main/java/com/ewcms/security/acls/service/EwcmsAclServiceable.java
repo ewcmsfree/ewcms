@@ -7,7 +7,6 @@
 package com.ewcms.security.acls.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.security.acls.model.AccessControlEntry;
@@ -16,6 +15,11 @@ import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 
+/**
+ * 对象控制访问接口
+ * 
+ * @author wangwei
+ */
 public interface EwcmsAclServiceable extends MutableAclService{
 
     /**
@@ -53,56 +57,47 @@ public interface EwcmsAclServiceable extends MutableAclService{
     List<AccessControlEntry> findAces(ObjectIdentity objectIdentity);
     
     /**
-     * 实体权限继承
+     * 更新继承权限
      * 
      * <p>父对象标识不为空，则继承权限</p>
      * 
-     * @param objectIdentity 被设置访问控制的对象标识
-     * @param parentIdentity 被设置访问控制的父对象标识
-     */
-    void entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity);
-    
-    /**
-     * 更新对象访问控制权限
-     * 
-     * 父对象不为空，则继承权限
-     * 
      * @param object 被设置访问控制的对象
-     * @param sidPermissions 控制访问集合(key:Sid,value:Permission)
      * @param parent 被设置访问控制的父对象
      */
-    void updatePermissions(Object object,Map<Sid,Permission> sidPermissions,Object parent);
+    void updateInheriting(Object object,Object parent);
     
     /**
-     * 通过对象标识更新访问控制权限
-     * 
-     * 父对象标识不为空，则继承权限
-     * 
-     * @param objectIdentity 被设置访问控制的对象标识
-     * @param sidPermissions 控制访问集合(key:Sid,value:Permission)
-     * @param parentIdentity 被设置访问控制的父对象标识
-     */
-    void updatePermissions(ObjectIdentity objectIdentity,Map<Sid,Permission> sidPermissions,ObjectIdentity parentIdentity);
-    
-    /**
-     * 更新对象访问控制权限
-     * 
-     * 父对象不为空，则继承权限
+     * 添加对象访问控制权限
      * 
      * @param object 被设置访问控制的对象
-     * @param sidNamePermissionMasks 控制访问集合(key:sid name,value:permission mark)
-     * @param parent 被设置访问控制的父对象
+     * @param name 名称（如：用户称）
+     * @param mask 权限编码
      */
-    void updatePermissionsBySidNamePermissionMask(Object object,Map<String,Integer> sidNamePermissionMasks,Object parent);
+    void addPermission(Object object,String name,Integer mask);
     
     /**
-     * 通过对象标识更新访问控制权限
-     * 
-     * 父对象不为空，则继承权限
+     * 添加对象访问控制权限
      * 
      * @param object 被设置访问控制的对象
-     * @param sidNamePermissionMarks 控制访问集合(key:sid name,value:permission mark)
-     * @param parent 被设置访问控制的父对象
+     * @param sid 身份对象
+     * @param Permission 权限
      */
-    void updatePermissionsBySidNamePermissionMask(ObjectIdentity objectIdentity,Map<String,Integer> sidNamePermissionMasks,ObjectIdentity parentIdentity);
+    void addPermission(Object object,Sid sid,Permission permisson);
+
+    /**
+     * 删除对象访问控制权限
+     * 
+     * @param object 被设置访问控制的对象
+     * @param name 名称（如：用户称）
+     */
+    void removePermission(Object obejct,String name);
+    
+    /**
+     * 权限不存在添加权限，权限存在修改
+     * 
+     * @param object 被设置访问控制的对象
+     * @param name 名称（如：用户称）
+     * @param mask 权限编码
+     */
+    void addOrUpdatePermission(Object object,String name,Integer mask);
 }

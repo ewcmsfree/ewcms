@@ -8,10 +8,7 @@ package com.ewcms.security.acls.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -39,6 +36,11 @@ import org.springframework.util.Assert;
 
 import com.ewcms.security.acls.domain.EwcmsPermission;
 
+/**
+ * 实现对象控制访问
+ * 
+ * @author wangwei
+ */
 public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclServiceable {
     
     private static final Logger logger = LoggerFactory.getLogger(EwcmsAclService.class);
@@ -120,100 +122,83 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
         }
     }
     
-    @Override
-    public void entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity) {
-        entryInheriting(objectIdentity,parentIdentity,true);
-    }
-    
     /**
-     * 继承权限
+     * 得到MutableAcl对象
      * 
-     * @param objectIdentity 被设置访问控制的对象
-     * @param parentIdentity 被设置访问控制的父对象标识
-     * @param persist true 保存 false 不保存
-     * @return 
+     * 如果MutableAcl对象不存在,就创建它。
+     * 
+     * @param objectIdentity 被设置访问控制的象标识
+     * @return
      */
-    private Acl entryInheriting(ObjectIdentity objectIdentity,ObjectIdentity parentIdentity,boolean persist){
-        MutableAcl acl = null;
+    private MutableAcl getMutableAcl(ObjectIdentity objectIdentity){
         try{
-            acl = (MutableAcl)readAclById(objectIdentity);
+            return (MutableAcl)readAclById(objectIdentity);
         }catch(NotFoundException e){
             logger.debug("Not found acl by {}",objectIdentity.toString());
-            acl = createAcl(objectIdentity);
+            return createAcl(objectIdentity);
         }
+    }
+    
+    @Override
+    public void updateInheriting(Object object,Object parent) {
+        ObjectIdentity objectIdentity = new ObjectIdentityImpl(object);
+        ObjectIdentity parentIdentity = (parent == null? null :  new ObjectIdentityImpl(parent));
         
-        if(parentIdentity != null){
-            try{
-                final Acl parentAcl = (MutableAcl)readAclById(parentIdentity);
-                acl.setParent(parentAcl);
-                acl.setEntriesInheriting(Boolean.TRUE);
-            }catch(NotFoundException e){
-                logger.debug("Not found acl of parent by {}",objectIdentity.toString());
-            }
-        }else{
+        MutableAcl acl = getMutableAcl(objectIdentity);
+        if(parentIdentity == null){
             acl.setEntriesInheriting(Boolean.FALSE);
-        }
-        
-        if(persist){
             updateAcl(acl);    
         }
         
-        return acl;
+        try{
+            Acl parentAcl = (MutableAcl)readAclById(parentIdentity);
+            acl.setParent(parentAcl);
+            acl.setEntriesInheriting(Boolean.TRUE);
+            updateAcl(acl);    
+        }catch(NotFoundException e){
+            logger.debug("Not found acl of parent by {}",objectIdentity.toString());
+        }
+    }
+    
+    private Sid getSid(String name){
+        return isGrant(name) ? new GrantedAuthoritySid(name) : new PrincipalSid(name);
     }
     
     @Override
-    public void updatePermissions(final Object object,final Map<Sid,Permission> sidPermissions,final Object parent){
-        final ObjectIdentity objectIdentity = new ObjectIdentityImpl(object);
-        final ObjectIdentity parentIdentity = (parent == null? null :  new ObjectIdentityImpl(parent));
-        updatePermissions(objectIdentity,sidPermissions,parentIdentity);
+    public void addPermission(Object object, String name, Integer mask) {
+        Permission permission = EwcmsPermission.maskOf(mask);
+        addPermission(object, getSid(name), permission);
+    }
+
+    @Override
+    public void addPermission(Object object, Sid sid, Permission permission) {
+        ObjectIdentity objectIdentity = new ObjectIdentityImpl(object);
+        
+        MutableAcl acl = getMutableAcl(objectIdentity);
+        acl.insertAce(acl.getEntries().size(), permission, sid, Boolean.TRUE);
     }
     
     @Override
-    public void updatePermissions(final ObjectIdentity objectIdentity,final Map<Sid,Permission> sidPermissions,ObjectIdentity parentIdentity){
+    public void removePermission(Object object, String name) {
+        ObjectIdentity objectIdentity = new ObjectIdentityImpl(object);
+        MutableAcl acl = (MutableAcl)readAclById(objectIdentity);
         
-        MutableAcl acl = (MutableAcl)entryInheriting(objectIdentity,parentIdentity,false);
+        if(acl.getEntries() == null || acl.getEntries().isEmpty()){
+            return ;
+        }
         
-        //empty history entries
-        if(acl.getEntries() != null && !acl.getEntries().isEmpty()){
-            for(int i = 0 ; i < acl.getEntries().size(); i++){
-                acl.deleteAce(i);
+        for(int i = 0 ; i < acl.getEntries().size(); i++){
+            AccessControlEntry entry = acl.getEntries().get(i);
+            if(entry.getSid().equals(getSid(name))){
+                acl.deleteAce(i);    
             }
         }
-       
-        //inert new entries
-        for(Iterator<Sid> iterator = sidPermissions.keySet().iterator(); iterator.hasNext() ;){
-            Sid sid = iterator.next();
-            Permission permission = sidPermissions.get(sid);
-            boolean granting =Boolean.TRUE;
-            acl.insertAce(acl.getEntries().size(), permission, sid, granting);
-        }
-                
-        updateAcl(acl);
     }
-
+    
     @Override
-    public void updatePermissionsBySidNamePermissionMask(Object object,Map<String, Integer> sidNamePermissionMasks, Object parent) {
-        final ObjectIdentity objectIdentity = new ObjectIdentityImpl(object);
-        final ObjectIdentity parentIdentity = (parent == null? null :  new ObjectIdentityImpl(parent));
-        updatePermissionsBySidNamePermissionMask(objectIdentity,sidNamePermissionMasks,parentIdentity);
-    }
-
-    @Override
-    public void updatePermissionsBySidNamePermissionMask(ObjectIdentity objectIdentity,Map<String, Integer> sidNamePermissionMasks,ObjectIdentity parentIdentity) {
-        Map<Sid,Permission> sidPermissions = new LinkedHashMap<Sid,Permission>();
-        for(Iterator<String> iterator = sidNamePermissionMasks.keySet().iterator(); iterator.hasNext() ;){
-            String name = iterator.next();
-            Sid sid ;
-            if(isGrant(name)){
-                sid= new GrantedAuthoritySid(name);
-            }else{
-                sid = new PrincipalSid(name);
-            }
-            int mask = sidNamePermissionMasks.get(name);
-            Permission permission = EwcmsPermission.maskOf(mask);
-            sidPermissions.put(sid, permission);
-        }
-        updatePermissions(objectIdentity,sidPermissions,parentIdentity);
+    public void addOrUpdatePermission(Object object, String name, Integer mask) {
+        removePermission(object,name);
+        addPermission(object,name,mask);
     }
     
     protected boolean isGrant(final String name){
