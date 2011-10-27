@@ -7,10 +7,9 @@
 package com.ewcms.core.site.service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -23,6 +22,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
@@ -32,52 +32,65 @@ import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
- * @author 周冬初
+ * 实现专栏服务
  * 
+ * @author 周冬初
  */
 @Service
 public class ChannelService implements ChannelServiceable{
+    
     @Autowired
     private ChannelDAO channelDao;
+    
     @Autowired
     private EwcmsAclServiceable aclService;
 
-    private Set<Permission> getPermissionsofChannel(final Channel channel) {
+    private Set<Permission> getPermissionsofChannel(Channel channel) {
         Assert.notNull(channel, "channel is null");
         return aclService.getPermissions(channel);
     }
     
+    @Override
     public Set<Permission> getPermissionsById(int id) {
         return getPermissionsofChannel(getChannel(id));
     }
     
-    public Acl findAclOfChannel(final Channel channel){
-        final ObjectIdentity objectIdentity = new ObjectIdentityImpl(channel);
+    @Override
+    public Acl findAclOfChannel(Channel channel){
+        ObjectIdentity objectIdentity = new ObjectIdentityImpl(channel);
         try{
             return aclService.readAclById(objectIdentity);
         }catch(NotFoundException e){
             return null;
         }        
-    }	
-
-    public void updatePermissionOfChannel(final Integer id,final Map<String,Integer> sidNamePermissionMasks,boolean inherit){
-        Channel channel = getChannel(id);
-        Channel parent = null;
-        if(inherit){
-            parent = channel.getParent();
-        }
-        aclService.updatePermissionsBySidNamePermissionMask(channel, sidNamePermissionMasks, parent);
-    } 
+    }
     
-    /**
-     * 获取当前频道的子频道
-     * 
-     * TODO 说明原因
-     * 
-     * @param id 频道编号 
-     * @param publicenable 是否发布(true:只显示发布的子频道,false:显示所有子频道）
-     * @return 子频道集合
-     */
+    @Override
+    public void addOrUpdatePermission(Integer id, String name, Integer mask) {
+        Channel channel = channelDao.get(id);
+        Assert.notNull(channel, "channel is null");
+        
+        aclService.addOrUpdatePermission(channel, name, mask);
+    }
+
+    @Override
+    public void removePermission(Integer id, String name) {
+        Channel channel = channelDao.get(id);
+        Assert.notNull(channel, "channel is null");
+        
+        aclService.removePermission(channel, name);
+    }
+
+    @Override
+    public void updateInheriting(Integer id, boolean inheriting) {
+        Channel channel = channelDao.get(id);
+        Assert.notNull(channel, "channel is null");
+        
+        Channel parent = inheriting ? channel.getParent() : null;
+        aclService.updateInheriting(channel,parent);
+    }
+    
+    @Override
     public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable) {
         List<ChannelNode> nodes = new ArrayList<ChannelNode>();
         List<Channel> channels = channelDao.getChannelChildren(id,getCurSite().getId());
@@ -98,36 +111,23 @@ public class ChannelService implements ChannelServiceable{
      * @param createCommon 创建通用权限(true:创建通用权限)
      * @param inherit 继承父站点专栏权限
      */
-    private void initAclOfChannel(final Channel channel,final boolean createCommon,final boolean inherit){
-        Map<Sid,Permission> sidPermissions = new LinkedHashMap<Sid,Permission>();
-        
-        final Sid principalSid = new PrincipalSid(
-                SecurityContextHolder.getContext().getAuthentication());
-        sidPermissions.put(principalSid, EwcmsPermission.ADMIN);
+    private void initAclOfChannel(Channel channel,boolean createCommon,boolean inherit){
+
+        Sid principalSid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication());
+        aclService.addPermission(channel,principalSid,EwcmsPermission.ADMIN);
 
         if(createCommon){
-            final Sid userSid = new GrantedAuthoritySid("ROLE_USER");
-            sidPermissions.put(userSid, EwcmsPermission.READ);
-            final Sid writerSid = new GrantedAuthoritySid("ROLE_WRITER");
-            sidPermissions.put(writerSid, EwcmsPermission.WRITE);
-            final Sid editorSid = new GrantedAuthoritySid("ROLE_EDITOR");
-            sidPermissions.put(editorSid, EwcmsPermission.PUBLISH);
-        }
-        Channel parent = null;
-        if(inherit && channel.getParent() != null){
-             parent = channel.getParent();
+            aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_USER"),EwcmsPermission.READ);
+            aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_WRITER"),EwcmsPermission.WRITE);
+            aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_EDITOR"),EwcmsPermission.PUBLISH);
         }
         
-        aclService.updatePermissions(channel, sidPermissions, parent);
+        if(inherit && channel.getParent() != null){
+             aclService.updateInheriting(channel, channel.getParent());
+        }
     }
     
-    /**
-     * 得到顶级站点专栏（根站点专栏）
-     * 
-     * 顶级站点专栏不存在，则创建顶级站点专栏。
-     * 
-     * @return channel
-     */
+    @Override
     public ChannelNode channelNodeRoot() {
         Channel channel = channelDao.getChannelRoot(getCurSite().getId());
         if (channel == null) {
@@ -144,18 +144,13 @@ public class ChannelService implements ChannelServiceable{
         return new ChannelNode(channel,getPermissionsofChannel(channel));
     }
     
+    @Override
     public Channel getChannelRoot() {
         Channel channel = channelDao.getChannelRoot(getCurSite().getId());
         return channel;
     }
-    /**
-     * 创建站点专栏.
-     * 
-     * @param parentId 父栏目编号.
-     * @param name 栏目名称.
-     * 
-     * @return 频道编号
-     */
+    
+    @Override
     public Integer addChannel(Integer parentId, String name) {
         Assert.notNull(parentId, "parentId is null");
         Channel channel = new Channel();
@@ -167,39 +162,36 @@ public class ChannelService implements ChannelServiceable{
         return channel.getId();
     }
 
-    /**
-     * 重命名站点专栏.
-     */
+    @Override
     public void renameChannel(Integer id, String name) {
         Channel vo = getChannel(id);
         vo.setName(name);
         channelDao.merge(vo);
     }
 
-    /**
-     * 修改站点专栏.
-     */
-    public Integer updChannel(final Channel channel) {
+    @Override
+    public Integer updChannel(Channel channel) {
         channelDao.merge(channel);
-        updAbsUrlAndPubPath(channel);
+        updAbsUrlAndPubPath(channel.getId(),getCurSite().getId());
         return channel.getId();
     }
 
     /**
-     * 更新子站点专栏AbsUrl和PubPath
+     * 更新子专栏的AbsUrl和PubPath
      * 
-     * 当前站点专栏的目录(dir)和(url)发生改变,则子站点专栏的absUrl和pubPath也要发生改变。
+     * 专栏的目录和链接地址发生改变,则子站点专栏的absUrl和pubPath也要发生改变。
      * 
-     * @param channel 站点专栏
+     * @param channelId 专栏编号
+     * @param siteId 站点编号
      */
-    private void updAbsUrlAndPubPath(final Channel channel) {
-        List<Channel> children = channelDao.getChannelChildren(channel.getId(), getCurSite().getId());
+    private void updAbsUrlAndPubPath(int channelId,int siteId) {
+        List<Channel> children = channelDao.getChannelChildren(channelId, siteId);
         for (Channel child : children ) {
             child.setAbsUrl(null);
             child.setPubPath(null);
-            updAbsUrlAndPubPath(child);
+            channelDao.merge(child);
+            updAbsUrlAndPubPath(child.getId(),siteId);
         }
-        channelDao.merge(channel);
     }
 
     public void delChannel(Integer id) {

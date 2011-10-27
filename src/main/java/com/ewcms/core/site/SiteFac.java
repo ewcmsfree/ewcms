@@ -4,20 +4,17 @@
  * http://www.ewcms.com
  */
 
-/**
- * 
- */
 package com.ewcms.core.site;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.stereotype.Service;
-import com.ewcms.core.site.ChannelNode;
+
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
@@ -31,8 +28,8 @@ import com.ewcms.core.site.service.TemplateSourceServiceable;
 import com.ewcms.web.vo.TreeNode;
 
 /**
+ * 
  * @author 周冬初
- *
  */
 @Service
 public class SiteFac{
@@ -51,10 +48,22 @@ public class SiteFac{
     public Acl findAclOfChannel(final Channel channel){
     	return channelService.findAclOfChannel(channel);
     }
+    
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
-    public void updatePermissionOfChannel(final Integer id,final Map<String,Integer> sidNamePermissionMasks,boolean inherit){
-    	channelService.updatePermissionOfChannel(id, sidNamePermissionMasks, inherit);
+    public void addOrUpdatePermission(Integer id,String name,int mask){
+    	channelService.addOrUpdatePermission(id, name, mask);
     }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+    public void removePermission(Integer id,String name){
+        channelService.removePermission(id, name);
+    }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+    public void updateInheriting(Integer id,boolean inheriting){
+        channelService.updateInheriting(id, inheriting);
+    }
+    
 	public List<Site> getSiteListByOrgans(Integer[] organs, Boolean publicenable) {
 		return siteService.getSiteListByOrgans(organs, publicenable);
 	}
