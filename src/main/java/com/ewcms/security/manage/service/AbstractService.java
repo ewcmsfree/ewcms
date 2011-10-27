@@ -28,6 +28,11 @@ import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 
+/**
+ * 权限服务管理实现
+ * 
+ * @author wangwei
+ */
 abstract class AbstractService implements MessageSourceAware {
     
     private static final Logger logger = LoggerFactory.getLogger(AbstractService.class);

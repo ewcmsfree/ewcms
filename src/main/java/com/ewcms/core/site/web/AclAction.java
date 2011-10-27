@@ -18,18 +18,18 @@ import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.acls.model.Acl;
-import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.web.JsonBaseAction;
 import com.ewcms.web.vo.DataGrid;
 import com.opensymphony.xwork2.Action;
 
 /**
- * 频道acl管理
+ * 专栏acl管理
  * 
  * @author wangwei
  */
@@ -41,13 +41,18 @@ public class AclAction extends JsonBaseAction{
     private Integer id;
     private String name;
     private Integer mask;
-    private Boolean inherit = Boolean.TRUE;
+    private String type;
+    private Boolean inherit;
 
     @Autowired
 	private SiteFac siteFac;
-        
+    
+    @Autowired
+    private SecurityFacable securityFac;
     
     public String input(){
+        type = "user";
+        inherit = Boolean.TRUE;
         return Action.INPUT;
     }
     
@@ -76,34 +81,54 @@ public class AclAction extends JsonBaseAction{
         Channel channel = siteFac.getChannel(id);
         Acl acl = siteFac.findAclOfChannel(channel);  
      
-        if(acl == null){
+        if(acl == null || acl.getEntries() == null){
             renderObject(new DataGrid(0,Collections.EMPTY_LIST));
         }
              
-        List<AccessControlEntry> aces = acl.getEntries();
-        if(aces == null || aces.isEmpty()){
-            renderObject(new DataGrid(0,Collections.EMPTY_LIST));
+        List<Map<String,Object>> items =new ArrayList<Map<String,Object>>();
+        for(AccessControlEntry ace : acl.getEntries()){
+            Sid sid = ace.getSid();
+            String n = (sid instanceof PrincipalSid) ?
+                    ((PrincipalSid)sid).getPrincipal() 
+                    :((GrantedAuthoritySid)sid).getGrantedAuthority();
+            int m = ace.getPermission().getMask();
+            items.add(gridItem(n,m));
         }
         
-        List<Map<String,Object>> items =new ArrayList<Map<String,Object>>();
-        for(AccessControlEntry ace : aces){
-            Sid sid = ace.getSid();
-            Permission permission = ace.getPermission();
-            Map<String,Object> item;
-            if(sid instanceof PrincipalSid){
-                PrincipalSid psid = (PrincipalSid)sid;
-                item = gridItem(psid.getPrincipal(),permission.getMask());
-            }else{
-                GrantedAuthoritySid gsid = (GrantedAuthoritySid)sid;
-                item = gridItem(gsid.getGrantedAuthority(),permission.getMask());
-             }
-            items.add(item);
-        }
         renderObject(new DataGrid(items.size(),items));
     }
     
-    public void add(){
+    private boolean hasName(){
+        if(type.equals("user") && !securityFac.hasUsername(name)){
+            renderError(String.format("\"%s\"用户不存在",name));
+            return false;
+        }else if(type.equals("group") && !securityFac.hasGroupname(name)){
+            renderError(String.format("\"%s\"用户组不存在",name));
+            return false;
+        }else if(!securityFac.hasAuthorityname(name)){
+            renderError(String.format("\"%s\"通用权限不存在",name));
+            return false;
+        }
+        return true;
+    }
+    
+    public void save(){
+        if(!hasName()){
+            return ;
+        }
         
+        siteFac.addOrUpdatePermission(id, name, mask);
+        renderSuccess();
+    }
+    
+    public void remove(){
+        siteFac.removePermission(id, name);
+        renderSuccess();
+    }
+    
+    public void updateInherit(){
+        siteFac.updateInheriting(id, inherit);
+        renderSuccess();
     }
     
     public Boolean getInherit() {
@@ -138,6 +163,22 @@ public class AclAction extends JsonBaseAction{
         this.mask = mask;
     }
     
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public void setSiteFac(SiteFac siteFac) {
+        this.siteFac = siteFac;
+    }
+
+    public void setSecurityFac(SecurityFacable securityFac) {
+        this.securityFac = securityFac;
+    }
+
     private static Map<String,Object> createEditor(){
         
         Map<String,Object> editor = new HashMap<String,Object>();

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.security.manage.model.UserInfo;
+import com.ewcms.security.manage.service.AuthorityServiceable;
 import com.ewcms.security.manage.service.GroupServiceable;
 import com.ewcms.security.manage.service.UserServiceException;
 import com.ewcms.security.manage.service.UserServiceable;
@@ -28,10 +29,18 @@ import com.ewcms.security.manage.service.UserServiceable;
 public class SecurityFac implements SecurityFacable{
 
     @Autowired
+    private AuthorityServiceable authorityService;
+    
+    @Autowired
     private GroupServiceable groupService;
     
     @Autowired
     private UserServiceable userService;
+    
+    @Override
+    public boolean hasAuthorityname(String name) {
+        return authorityService.hasAuthorityname(name);
+    }
     
     @Override
     public Group getGroup(String name) {
@@ -174,6 +183,10 @@ public class SecurityFac implements SecurityFacable{
     @Override
     public UserInfo getCurrentUserInfo() {
         return userService.getCurrentUserInfo();
+    }
+    
+    public void setAuthoritySerivce(AuthorityServiceable authorityService){
+        this.authorityService = authorityService;
     }
     
     public void setGroupSerivce(GroupServiceable groupSerivce) {

@@ -22,6 +22,14 @@ import com.ewcms.security.manage.service.UserServiceException;
 public interface SecurityFacable {
 
     /**
+     * 判断通过用权限名是否存在
+     * 
+     * @param name 通用权限名 
+     * @return if 'true' exist ,else 'false' not exist
+     */
+    public boolean hasAuthorityname(String name);
+    
+    /**
      * 得到用户组
      * 
      * @param name 用户名
