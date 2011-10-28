@@ -127,7 +127,7 @@ public class Gather implements Serializable {
 		maxPage = -1;
 		depth = -1;
 		threadCount = 30;
-		timeOutWait = 1;
+		timeOutWait = 10;
 		htmlType = "html";
 		proxy = false;
 		downloadFile = false;
