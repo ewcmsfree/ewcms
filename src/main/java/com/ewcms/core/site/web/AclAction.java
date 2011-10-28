@@ -29,7 +29,7 @@ import com.ewcms.web.vo.DataGrid;
 import com.opensymphony.xwork2.Action;
 
 /**
- * 专栏acl管理
+ * 专栏acl管理Action
  * 
  * @author wangwei
  */
@@ -56,7 +56,7 @@ public class AclAction extends JsonBaseAction{
         return Action.INPUT;
     }
     
-    private Map<String,Object> gridItem(String name,Integer mask){
+    private Map<String,Object> permissionItem(String name,Integer mask){
         Map<String,Object> map = new HashMap<String,Object>();
         
         map.put("name", name);
@@ -67,47 +67,103 @@ public class AclAction extends JsonBaseAction{
         return map;
     }
     
+    private boolean isAuthority(String name){
+        return StringUtils.startsWith(name, "ROLE_");
+    }
+    
+    private boolean isGroup(String name){
+        return StringUtils.startsWith(name, "GROUP_");
+    }
+    
     private String getGroup(String name){
-        if(StringUtils.startsWith(name, "GROUP_")){
-            return "用户组";
-        }else if (StringUtils.startsWith(name, "ROLE_")){
+        if(isAuthority(name)){
             return "通用权限";
+        }else if (isGroup(name)){
+            return "用户组";            
         }else{
             return "用户";
         }
     }
     
-    public void query(){
-        Channel channel = siteFac.getChannel(id);
-        Acl acl = siteFac.findAclOfChannel(channel);  
-     
-        if(acl == null || acl.getEntries() == null){
-            renderObject(new DataGrid(0,Collections.EMPTY_LIST));
-        }
-             
-        List<Map<String,Object>> items =new ArrayList<Map<String,Object>>();
-        for(AccessControlEntry ace : acl.getEntries()){
+    private List<Map<String,Object>> permissionItems(List<AccessControlEntry> aces,boolean inheriting){
+        
+        List<Map<String,Object>> userItems =new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> groupItems =new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> authorityItems =new ArrayList<Map<String,Object>>();
+        for(AccessControlEntry ace : aces){
             Sid sid = ace.getSid();
             String n = (sid instanceof PrincipalSid) ?
                     ((PrincipalSid)sid).getPrincipal() 
                     :((GrantedAuthoritySid)sid).getGrantedAuthority();
             int m = ace.getPermission().getMask();
-            items.add(gridItem(n,m));
+            if(isAuthority(n)){
+                authorityItems.add(permissionItem(n,m));
+            }else if(isGroup(n)){
+                groupItems.add(permissionItem(n,m));
+            }else{
+                userItems.add(permissionItem(n,m));
+            }
         }
+        
+        List<Map<String,Object>> items =new ArrayList<Map<String,Object>>();
+        items.addAll(authorityItems);
+        items.addAll(groupItems);
+        items.addAll(userItems);
+        items.add(inheritItem(inheriting));
+        
+        return items;
+    }
+    
+    private Map<String,Object> inheritItem(Boolean inherit){
+        Map<String,Object> map = new HashMap<String,Object>();
+        
+        map.put("name", "继承权限");
+        map.put("value", inherit.toString());
+        map.put("group", "其他");
+        Map<String,Object> editor = new HashMap<String,Object>();
+        map.put("editor", editor);
+        
+        editor.put("type", "checkbox");
+        Map<String,Object> checkboxData = new HashMap<String,Object>();
+        editor.put("options",checkboxData);
+        checkboxData.put("on", Boolean.TRUE);
+        checkboxData.put("off", Boolean.FALSE);
+        
+        return map;
+    }
+    
+    public void query(){
+        Channel channel = siteFac.getChannel(id);
+        Acl acl = siteFac.findAclOfChannel(channel);  
+        if(acl == null || acl.getEntries() == null){
+            renderObject(new DataGrid(0,Collections.EMPTY_LIST));
+            return ;
+        }
+             
+        List<Map<String,Object>> items = permissionItems(
+                acl.getEntries(),acl.isEntriesInheriting());
         
         renderObject(new DataGrid(items.size(),items));
     }
     
     private boolean hasName(){
-        if(type.equals("user") && !securityFac.hasUsername(name)){
+        
+        if(type == null){
+            return true;
+        }
+        
+        if(type.equals("user") 
+                && !securityFac.hasUsername(name)){
             renderError(String.format("\"%s\"用户不存在",name));
             return false;
-        }else if(type.equals("group") && !securityFac.hasGroupname(name)){
+        }else if(type.equals("group") 
+                && !securityFac.hasGroupname(name)){
             renderError(String.format("\"%s\"用户组不存在",name));
             return false;
-        }else if(!securityFac.hasAuthorityname(name)){
+        }else if(type.equals("role") 
+                && !securityFac.hasAuthorityname(name)){
             renderError(String.format("\"%s\"通用权限不存在",name));
-            return false;
+            return false;    
         }
         return true;
     }
