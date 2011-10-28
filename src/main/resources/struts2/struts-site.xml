@@ -172,12 +172,12 @@
 		<action name="channelSource" class="com.ewcms.core.site.web.ChannelAction">
 			<result>/WEB-INF/page/site/channel/source.jsp</result>
 		</action>
-        <action name="channelAcl" class="com.ewcms.core.site.web.ChannelAction" method="input">
+        <action name="channelAcl" class="com.ewcms.core.site.web.AclAction" method="input">
         	<result name="input">/WEB-INF/page/site/channel/acl.jsp</result>
         </action>
-        	<action name="channelAclUpdate" class="com.ewcms.core.site.web.ChannelAction">
-        	<result name="input">/WEB-INF/page/site/channel/acl.jsp</result>
-        <result name="success">/WEB-INF/page/site/channel/acl.jsp</result>
-        </action>               		
+        <action name="aclQuery" class="com.ewcms.core.site.web.AclAction" method="query"/>
+        <action name="saveAcl" class="com.ewcms.core.site.web.AclAction" method="save"/>
+        <action name="removeAcl" class="com.ewcms.core.site.web.AclAction" method="remove"/>
+        <action name="inheritAcl" class="com.ewcms.core.site.web.AclAction" method="updateInherit"/>
 	</package>
 </struts>	
