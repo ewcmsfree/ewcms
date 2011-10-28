@@ -150,14 +150,10 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
             updateAcl(acl);    
         }
         
-        try{
-            Acl parentAcl = (MutableAcl)readAclById(parentIdentity);
-            acl.setParent(parentAcl);
-            acl.setEntriesInheriting(Boolean.TRUE);
-            updateAcl(acl);    
-        }catch(NotFoundException e){
-            logger.debug("Not found acl of parent by {}",objectIdentity.toString());
-        }
+        Acl parentAcl = getMutableAcl(parentIdentity);
+        acl.setParent(parentAcl);
+        acl.setEntriesInheriting(Boolean.TRUE);
+        updateAcl(acl);    
     }
     
     private Sid getSid(String name){
@@ -176,6 +172,7 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
         
         MutableAcl acl = getMutableAcl(objectIdentity);
         acl.insertAce(acl.getEntries().size(), permission, sid, Boolean.TRUE);
+        updateAcl(acl);
     }
     
     @Override
@@ -190,7 +187,9 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
         for(int i = 0 ; i < acl.getEntries().size(); i++){
             AccessControlEntry entry = acl.getEntries().get(i);
             if(entry.getSid().equals(getSid(name))){
-                acl.deleteAce(i);    
+                acl.deleteAce(i);
+                updateAcl(acl);
+                break;
             }
         }
     }
