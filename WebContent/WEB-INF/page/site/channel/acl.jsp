@@ -1,320 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
-	<head>
-    	<title>频道权限</title>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>    
+<head>
+   	<title>频道权限</title>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+    <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>    
+        
     <script type="text/javascript">
-        var permissions = [
-            {id:1,name:'读文章'},
-            {id:2,name:'写文章'},
-            {id:4,name:'发布专栏'},
-            {id:8,name:'创建专栏'},
-            {id:16,name:'修改专栏'},
-            {id:32,name:'删除专栏'},
-            {id:64,name:'所有权限'}
-        ];
-        
-        $(function(){
-            var lastIndex;
-            $("#auth_all_tt").datagrid({
-                title:'',
-                fitColumns:true,
-                nowrap: false,
-                rownumbers:true,
-                idField:'name',
-                pagination:true,
-                url:'<s:url action="query" namespace="/security/authority"/>',
-                frozenColumns:[[
-                     {field:'ck',checkbox:true},
-                     {field:"name",title:'权限名称',width:100}
-                ]],
-                columns:[[
-                     {field:"remark",title:'描述',width:300}
-                ]]
-            });
-            $("#group_all_tt").datagrid({
-                title:'',
-                fitColumns:true,
-                nowrap: false,
-                rownumbers:true,
-                idField:'name',
-                pagination:true,
-                url:'<s:url action="query" namespace="/security/group"/>',
-                frozenColumns:[[
-                     {field:'ck',checkbox:true},
-                     {field:"name",title:'用户组名称',width:100}
-                ]],
-                columns:[[
-                     {field:"remark",title:'说明',width:300}
-                ]]
-            });
-            $("#user_all_tt").datagrid({
-                title:'',
-                fitColumns:true,
-                nowrap: false,
-                rownumbers:true,
-                idField:'username',
-                pagination:true,
-                url:'<s:url action="query" namespace="/security/user"/>',
-                frozenColumns:[[
-                     {field:'ck',checkbox:true},
-                     {field:"username",title:'用户名称',width:100}
-                ]],
-                columns:[[
-                     {field:"userInfo",title:'姓名',width:300,formatter:function(value,row){
-                         if(value){
-                             return value.name;     
-                         }else{
-                             return '';
-                         }
-                     }}
-                ]]
-            });
-            $('#auth_dd').dialog({
-                buttons:[{
-                    text:'确定',
-                    iconCls:'icon-ok',
-                    handler:function(){
-                        addSelectsToTreeGrid('#auth_all_tt',1,'#auth_dd');
-                    }
-                 }],
-                 onOpen:function(){
-                     $(this).window('resize');
-                     $("#auth_all_tt").datagrid("resize");
-                 }
-             });
-            $('#group_dd').dialog({
-                buttons:[{
-                    text:'确定',
-                    iconCls:'icon-ok',
-                    handler:function(){
-                        addSelectsToTreeGrid('#group_all_tt',2,'#group_dd');
-                    }
-                 }],
-                 onOpen:function(){
-                     $(this).window('resize');
-                     $("#group_all_tt").datagrid("resize");
-                 }
-             });
-            $('#user_dd').dialog({
-                buttons:[{
-                    text:'确定',
-                    iconCls:'icon-ok',
-                    handler:function(){
-                        addSelectsToTreeGrid('#user_all_tt',3,'#user_dd',function(data){
-                            return data.username;
-                        });
-                    }
-                 }],
-                 onOpen:function(){
-                     $(this).window('resize');
-                     $("#user_all_tt").datagrid("resize");
-                 }
-             });
-            $('#tt').treegrid({
-                title:'用户组列表',
-                nowrap: false,
-                rownumbers: true,
-                singleSelect:true,
-                idField:'id',
-                treeField:'grant',
-                animate:true,
-                collapsible:true,
-                frozenColumns:[[
-                    {field:'grant',title:'授权',width:300}
-                ]],
-                columns:[[
-                    {field:"permission",title:'权限',width:200,
-                        editor:{
-                            type:'combobox',
-                            options:{
-                                valueField:'id',
-                                textField:'name',
-                                required:true,
-                                editable:false,
-                                data:permissions
-                             }
-                        },
-                        formatter:function(value){
-                            for(var i=0; i<permissions.length; i++){
-                                if (permissions[i].id == value) {
-                                    return permissions[i].name;
-                                }
-                            }
-                            return value;
-                        }
-                    }
-                ]],
-                toolbar:[{
-                    id:'btnaddauth',
-                    text:'添加授权',
-                    iconCls:'icon-add',
-                    handler:function(){
-                        $('#auth_dd').dialog('open');
+    ewcmsBOBJ = new EwcmsBase();
+    ewcmsOOBJ = new EwcmsOperate();
+    $(function(){
+        $('#tt').propertygrid({
+            width:450,
+            height:'auto',
+            url:'<s:url action="aclQuery"/>',
+            showGroup:true,
+            scrollbarSize:0,
+            singleSelect:true,
+            columns:[[
+                {field:'ck',checkbox:true},
+                {field:'name',title:'名称',width:300},
+                {field:"value",title:'权限',width:150}
+            ]],
+            onBeforeLoad:function(param){
+                 param['id'] = <s:property value="id"/>;    
+            },
+            onSelect:function(rowIndex,data){
+                if(data.group == '其他'){
+                    $('#btnremove').linkbutton('disable');
+                }else{
+                    $('#btnremove').linkbutton('enable');
+                }
+            },
+            onAfterEdit:function(rowIndex,data,changes){
+              if(changes){
+                  var params = {};
+                  params['id'] = <s:property value='id'/>
+                  if(data.name == '继承权限'){
+                      params['inherit'] = changes.value;
+                      $.post('<s:url action="inheritAcl"/>',params,function(data){
+                          if(!data.success){
+                              $.messager.alert('错误',data.message,'error');
+                          }
+                       });
+                  }else{
+                      params['name'] = data.name;
+                      params['mask'] = changes.value;
+                      $.post('<s:url action="saveAcl"/>',params,function(data){
+                          if(!data.success){
+                              $.messager.alert('错误',data.message,'error');
+                          }
+                       });    
                   }
-                },{
-                    id:'btnaddgroup',
-                    text:'添加用户组',
-                    iconCls:'icon-add',
-                    handler:function(){
-                        $('#group_dd').dialog('open');
+              }
+            },
+            toolbar:[{
+                id:'btnadd',
+                text:'添加',
+                iconCls:'icon-add',
+                handler:function(){
+                    openWindow('#edit-window',{title:'增加 - 权限/用户',width:400,height:200})
+              }
+            },'-',{
+                id:'btnremove',
+                text:'删除',
+                iconCls:'icon-remove',
+                handler:function(){
+                    var rows = $('#tt').datagrid('getSelections');
+                    if(rows.length == 0){
+                        $.messager.alert('提示','请选择删除的记录','info');
+                        return;
                     }
-                },{
-                    id:'btnadduser',
-                    text:'添加用户',
-                    iconCls:'icon-add',
-                    handler:function(){
-                        $('#user_dd').dialog('open');
-                    }
-                },'-',{
-                    id:'btndelete',
-                    text:'删除',
-                    iconCls:'icon-remove',
-                    handler:function(){
-                        var row = $('#tt').treegrid('getSelected');
-                        if(row.id < 1000){
-                            return ;
-                        }
-                        $.messager.confirm('提示',"确定要删除所选记录吗?",function(r){
-                            if(r){
-                                $('#tt').treegrid('remove',row.id);
-                            }
-                        }); 
-                    }
-                },'-',{
-                    id:'btndsave',
-                    text:'保存',
-                    iconCls:'icon-save',
-                    handler:function(){
-                        var insertToForm = function(parent){
-                            var rows = $("#tt").treegrid('getChildren',parent);
-                            for(var i = 0 ; i < rows.length ; i++){
-                                $('#tt').treegrid('endEdit',rows[i].id);
-                                if(!rows[i].permission){
-                                    $.messager.alert('提示',rows[i].grant + '权限没有设置');
-                                    $("#tt").treegrid('select',rows[i].id);
-                                    return false;
+                    var parameter ='id=' + <s:property value="id"/> + '&name=' + rows[0].name;
+                    $.messager.confirm('提示', '确定删除所选记录?', function(r){
+                        if (r){
+                            $.post('<s:url action="removeAcl"/>',parameter,function(data){
+                                if(data.success){
+                                    $("#tt").datagrid('reload');
+                                }else{
+                                    $.messager.alert('错误',data.message);
                                 }
-                                $('<input>').attr({type: "hidden",name: "sidPermissions['"+rows[i].grant+"']",value: rows[i].permission}).appendTo('form');
-                            }
-                            return true;
+                          });
                         }
-                        if(insertToForm(1) && insertToForm(2) &&  insertToForm(3)){
-                           // alert("dsfsdfsdfsdfsdf");
-                            $('form').submit();
-                        }
-                    }
-                }],
-                onClickRow:function(row){
-                    $('#tt').treegrid('endEdit',lastIndex);
-                    if(row.id >= 1000){
-                        $('#tt').treegrid('beginEdit',row.id);
-                        lastIndex = row.id;
-                    }
+                    },'info');
                 }
+            }]
+        });    
+        
+        $('#button-save').bind('click',function(){
+            var value = $("#permissionform").serialize();
+            $.post('<s:url action="saveAcl"/>',value,function(data){
+               if(data.success){
+                   $('#tt').propertygrid('reload');
+               } else{
+                   $.messager.alert('错误',data.message,'error');
+               }
             });
-            initTreegridData();
         });
-        
-        function initTreegridData(){
-            $('#tt').treegrid('append', {
-                parent: null,
-                data: [
-                    {id:1,grant:"授权"},
-                    {id:2,grant:"用户组"},
-                    {id:3,grant:"用户"}
-                ]
-            });
-            <s:iterator value="sidPermissions.keySet()" id="sid">
-            var row = {grant:'<s:property value="#sid"/>',
-                      permission:<s:property value="sidPermissions.get(#sid)"/>};
-            insertRow(row);
-            </s:iterator>
-        }
-        
-        function addSelectsToTreeGrid(source,parent,dlg,nameCallback){
-            var selects = $(source).datagrid('getSelections');
-            var existRows = $("#tt").treegrid('getChildren',parent);
-            var newIds = [];
-            if(!nameCallback){
-                nameCallback = function(data){
-                    return data.name;
-                }
-            }
-            for(var i = 0 ; i < selects.length; i++){
-                var  notExist = true;
-                for(var j = 0 ; j < existRows.length ; j++){
-                    if(nameCallback(selects[i]) == existRows[j].grant){
-                        notExist = false;
-                        break;
-                    }
-                }
-                if(notExist){
-                    var id = insertRow({'grant':nameCallback(selects[i])});
-                    $('#tt').treegrid('beginEdit',id);
-                }
-            }
-            $(source).datagrid('unselectAll');
-            $(dlg).dialog('close');
-        }
-        
-        var idIndex = 1000;
-        function insertRow(row){
-            idIndex++;
-            row.id = idIndex;
-            if(isRole(row.grant)){
-                $('#tt').treegrid('append', {
-                    parent:1,
-                    data: [row]
-                });
-            }else if(isGroup(row.grant)){
-                $('#tt').treegrid('append', {
-                    parent:2,
-                    data: [row]
-                });
-            }else{
-                $('#tt').treegrid('append', {
-                    parent:3,
-                    data: [row]
-                });
-            }    
-            return idIndex;
-        }
-        
-        function isRole(val){
-            return /^ROLE_.*$/.test(val);
-        }
-        
-        function isGroup(val){
-            return /^GROUP_.*$/.test(val);
-        }
-    	</script>
-	</head>
-<body class="easyui-layout">
-    <div region="center" style="padding:2px;" border="false">
-        <table id="tt" fit="true"></table>      
+    });
+    
+  	 </script>
+</head>
+<body>
+    <div style="padding: 10px;">
+        <table id="tt" style="margin: 5px;"></table>
     </div>
-    <div region="south" style="padding:3px 10px;" border="false">
-        <s:form action="channelAclUpdate">
-            <div><s:checkbox name="inherit" cssStyle="vertical-align:middle;"/><span style="font-size:110%;color:#ff3300;">继承权限</span></div>
-            <s:hidden name="id"/>
-        </s:form>
-    </div>
-   
-    <div id="auth_dd" title="权限列表" icon="icon-save" closed="true" style="padding:5px;width:600px;height:300px;">
-        <table id="auth_all_tt" style="width:575px;height:220px;"></table>
-    </div>
-    <div id="group_dd" title="用户组列表" icon="icon-save" closed="true" style="padding:5px;width:600px;height:380px;">
-       <table id="group_all_tt" style="width:565px;height:300px;"></table>
-    </div>
-    <div id="user_dd" title="用户列表" icon="icon-save" closed="true" style="padding:5px;width:600px;height:300px;">
-        <table id="user_all_tt" style="width:575px;height:220px;"></table>
+    <div id="edit-window" class="easyui-window" closed="true" icon='icon-winedit'>
+          <div class="easyui-layout" fit="true" >
+                <div region="center" border="false" style="padding: 10px 5px;">
+                <form id="permissionform">
+                      <table class="formtable" >
+                            <tr>
+                                <td width="60px">名称：</td>
+                                <td class="formFieldError" style="border: none;">
+                                   <select id="cc" class="easyui-combobox" name="type" style="width:80px;" required="true">
+                                        <option value="user">用户</option>
+                                        <option value="group">用户组</option>
+                                        <option value="role">通用权限</option>
+                                    </select>
+                                    <input type="text" name="name" style="width:150px;" style="margin-right: 5px;"/>
+                                    <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                                    <a id="button-save" class="easyui-linkbutton" icon="icon-levels" href="javascript:void(0)" plain="true"></a>
+                                    </sec:authorize>
+                                </td>
+                           </tr>
+                           <tr>
+                               <td width="60px">权限：</td>
+                               <td>
+                                   <input type="radio" value="1" name="mask" checked style="vertical-align:middle;"/><span style="vertical-align:middle;">读</span>&nbsp;&nbsp;
+                                   <input type="radio" value="2" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">写</span>&nbsp;&nbsp;
+                                   <input type="radio" value="4" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">发布</span>&nbsp;&nbsp;
+                                   <input type="radio" value="64" name="mask"style="vertical-align:middle;"/><span style="vertical-align:middle;">管理</span>&nbsp;&nbsp;
+                               </td>
+                           </tr>
+                        </table>
+                        <s:hidden name="id"/>
+                </form>
+                </div>
+                <div region="south" border="false" style="text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a id="button-save" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)">确定</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#edit-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+      </div>
+      <div id="query-window" icon="icon-winedit" closed="true">
+          <table id="query-tt" toolbar="#query-tb"></table>
+          <div id="#query-tb" style="padding: 5px; height: auto; display: none;">
+              <div style="padding-left: 5px;">
+                  <form id="auth-queryform" style="padding: 0; margin: 0;">
+                         名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
+                         描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
+                      <a href="#" id="auth-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+                  </form>
+             </div>
+        </div>
     </div>
 </body>
 </html>
