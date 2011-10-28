@@ -7,6 +7,7 @@
 package com.ewcms.security.manage.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ewcms.security.manage.dao.AuthorityDAOable;
 
@@ -15,6 +16,7 @@ import com.ewcms.security.manage.dao.AuthorityDAOable;
  *  
  * @author wangwei
  */
+@Service
 public class AuthorityService implements AuthorityServiceable{
 
     @Autowired
