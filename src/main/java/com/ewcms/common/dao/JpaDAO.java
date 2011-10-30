@@ -8,9 +8,13 @@ package com.ewcms.common.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 
@@ -20,7 +24,15 @@ import org.springframework.orm.jpa.support.JpaDaoSupport;
  */
 public abstract class JpaDAO<K, E> extends JpaDaoSupport implements JpaDAOable<K,E> {
 
+    @Autowired
+    protected EntityManagerFactory entityManagerFactory;
+    
     protected Class<E> entityClass;
+
+    @PostConstruct
+    public void init() {
+        super.setEntityManagerFactory(entityManagerFactory);
+    }
 
     @SuppressWarnings("unchecked")
     public JpaDAO() {
