@@ -6,108 +6,30 @@
 <html>
 <head>
    	<title>频道权限</title>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>    
+    <script type="text/javascript" src='<s:url value="/ewcmssource/page/site/channel/acl.js"/>'></script>    
         
     <script type="text/javascript">
-    ewcmsBOBJ = new EwcmsBase();
-    ewcmsOOBJ = new EwcmsOperate();
-    $(function(){
-        $('#tt').propertygrid({
-            width:450,
-            height:'auto',
-            url:'<s:url action="aclQuery"/>',
-            showGroup:true,
-            scrollbarSize:0,
-            singleSelect:true,
-            columns:[[
-                {field:'ck',checkbox:true},
-                {field:'name',title:'名称',width:300},
-                {field:"value",title:'权限',width:150}
-            ]],
-            onBeforeLoad:function(param){
-                 param['id'] = <s:property value="id"/>;    
-            },
-            onSelect:function(rowIndex,data){
-                if(data.group == '其他'){
-                    $('#btnremove').linkbutton('disable');
-                }else{
-                    $('#btnremove').linkbutton('enable');
-                }
-            },
-            onAfterEdit:function(rowIndex,data,changes){
-              if(changes){
-                  var params = {};
-                  params['id'] = <s:property value='id'/>
-                  if(data.name == '继承权限'){
-                      params['inherit'] = changes.value;
-                      $.post('<s:url action="inheritAcl"/>',params,function(data){
-                          if(!data.success){
-                              $.messager.alert('错误',data.message,'error');
-                          }
-                       });
-                  }else{
-                      params['name'] = data.name;
-                      params['mask'] = changes.value;
-                      $.post('<s:url action="saveAcl"/>',params,function(data){
-                          if(!data.success){
-                              $.messager.alert('错误',data.message,'error');
-                          }
-                       });    
-                  }
-              }
-            },
-            toolbar:[{
-                id:'btnadd',
-                text:'添加',
-                iconCls:'icon-add',
-                handler:function(){
-                    openWindow('#edit-window',{title:'增加 - 权限/用户',width:400,height:200})
-              }
-            },'-',{
-                id:'btnremove',
-                text:'删除',
-                iconCls:'icon-remove',
-                handler:function(){
-                    var rows = $('#tt').datagrid('getSelections');
-                    if(rows.length == 0){
-                        $.messager.alert('提示','请选择删除的记录','info');
-                        return;
-                    }
-                    var parameter ='id=' + <s:property value="id"/> + '&name=' + rows[0].name;
-                    $.messager.confirm('提示', '确定删除所选记录?', function(r){
-                        if (r){
-                            $.post('<s:url action="removeAcl"/>',parameter,function(data){
-                                if(data.success){
-                                    $("#tt").datagrid('reload');
-                                }else{
-                                    $.messager.alert('错误',data.message);
-                                }
-                          });
-                        }
-                    },'info');
-                }
-            }]
-        });    
-        
-        $('#button-save').bind('click',function(){
-            var value = $("#permissionform").serialize();
-            $.post('<s:url action="saveAcl"/>',value,function(data){
-               if(data.success){
-                   $('#tt').propertygrid('reload');
-               } else{
-                   $.messager.alert('错误',data.message,'error');
-               }
-            });
+        var _acl = new ChannelAcl({
+            queryUrl:'<s:url action="aclQuery"/>',
+            removeUrl:'<s:url action="removeAcl"/>',
+            inheritUrl:'<s:url action="inheritAcl"/>',
+            saveUrl:'<s:url action="saveAcl"/>',
+            userQueryUrl:'<s:url action="query" namespace="/security/user"/>',
+            groupQueryUrl:'<s:url action="query" namespace="/security/group"/>',
+            authQueryUrl:'<s:url action="query" namespace="/security/authority"/>'
         });
-    });
-    
+        
+        $(function(){
+            _acl.init({id:<s:property value="id"/>});
+        });
   	 </script>
 </head>
 <body>
@@ -125,11 +47,11 @@
                                    <select id="cc" class="easyui-combobox" name="type" style="width:80px;" required="true">
                                         <option value="user">用户</option>
                                         <option value="group">用户组</option>
-                                        <option value="role">通用权限</option>
+                                        <option value="auth">通用权限</option>
                                     </select>
-                                    <input type="text" name="name" style="width:150px;" style="margin-right: 5px;"/>
+                                    <input type="text" id="input-name" name="name" style="width:150px;" style="margin-right: 5px;"/>
                                     <sec:authorize ifAnyGranted="ROLE_ADMIN">
-                                    <a id="button-save" class="easyui-linkbutton" icon="icon-levels" href="javascript:void(0)" plain="true"></a>
+                                    <a id="button-query" class="easyui-linkbutton" icon="icon-levels" href="javascript:void(0)" plain="true"></a>
                                     </sec:authorize>
                                 </td>
                            </tr>
@@ -153,16 +75,24 @@
             </div>
       </div>
       <div id="query-window" icon="icon-winedit" closed="true">
-          <table id="query-tt" toolbar="#query-tb"></table>
-          <div id="#query-tb" style="padding: 5px; height: auto; display: none;">
-              <div style="padding-left: 5px;">
-                  <form id="auth-queryform" style="padding: 0; margin: 0;">
-                         名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
-                         描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
-                      <a href="#" id="auth-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
-                  </form>
-             </div>
-        </div>
+        <div class="easyui-layout" fit="true" >
+            <div region="center" border="false" style="padding: 10px 5px;">
+                <table id="query-tt" toolbar="#query-tb"></table>
+                <div id="query-tb" style="padding: 5px; height: auto; display: none;">
+                   <div style="padding-left: 5px;">
+                          <form id="auth-queryform" style="padding: 0; margin: 0;">
+                                <span id="query-label-name">名称:</span><input id='query-input-name' type="text" name="name" style="width: 100px" />&nbsp; 
+                                <span id="query-label-desc">描述:</span><input id='query-input-desc' type="text" name="remark" style="width: 150px" />&nbsp;
+                              <a href="#" id="auth-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+                          </form>
+                   </div>
+                </div>
+            </div>
+            <div region="south" border="false" style="text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
+                <a id="button-selected" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)">确定</a>
+                <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#query-window').window('close');return false;">取消</a>
+            </div>
+         </div>
     </div>
 </body>
 </html>
