@@ -225,13 +225,13 @@ function insertFileToCkeditorOperator(){
 				var html_obj="";
 				var type = value.type;
 				if (type=="ANNEX"){
-					html_obj="<a href='../../" + value.uri + "'>" + value.title + "</a>";
+					html_obj = "<a href='../../" + value.uri + "'>" + value.title + "</a>";
 				}else if (type=="IMAGE"){
-					html_obj="<p style='text-align: center;'><img border='0' src='../../" + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
+					html_obj = "<p style='text-align: center;'><img border='0' src='../../" + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
 				}else if (type=="FLASH"){
-					html_obj="";
+					html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
 				}else if (type=="VIDEO"){
-					html_obj="";
+					html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
 				}
 				if (tinyMCE.getInstanceById('_Content_' + pages) != null){
 					tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
@@ -557,6 +557,90 @@ function insertAnnexOperator(){
     }
 	$("#annex-window").window("close");
 }
+//打开Flash页面
+function openFlashWindow(url){
+	$('#systemtab_flash').tabs('select','本地Flash');
+    $('#uploadifr_flash_id').attr('src',url);
+    ewcmsBOBJ.openWindow("#flash-window",{width:600,height:500,title:"本地Flash"});
+}
+//插入Flash到内容编辑页面
+function insertFlashOperator(){
+    var tab = $('#systemtab_flash').tabs('getSelected');
+    var title = tab.panel('options').title;
+    if(title == '本地Flash'){
+        uploadifr_flash.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	            	alert(value.uri);
+	                var html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                alert(html_obj);
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入Flash失败', 'error');
+        	}
+        });
+    }else{
+        queryifr_flash.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                var html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入Flash失败', 'error');
+        	}
+        });
+    }
+	$("#flash-window").window("close");
+}
+//打开视频页面
+function openVideoWindow(url){
+	$('#systemtab_video').tabs('select','本地视频');
+    $('#uploadifr_video_id').attr('src',url);
+    ewcmsBOBJ.openWindow("#video-window",{width:600,height:500,title:"本地视频"});
+}
+//插入视频到内容编辑页面
+function insertVideoOperator(){
+    var tab = $('#systemtab_video').tabs('getSelected');
+    var title = tab.panel('options').title;
+    if(title == '本地附件'){
+        uploadifr_video.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                var html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入视频失败', 'error');
+        	}
+        });
+    }else{
+        queryifr_video.insert(function(data,success){
+        	if (success){
+	            $.each(data,function(index,value){
+	                var html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
+	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
+	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
+	    			}
+	            });
+        	}else{
+        		$.messager.alert('错误', '插入附件失败', 'error');
+        	}
+        });
+    }
+	$("#video-window").window("close");
+}
 //选择引用图片页面
 function selectImage(url){
 	openImageWindow(false, false, url);
@@ -747,4 +831,74 @@ function loadingEnable(){
 function loadingDisable(){
    $('.datagrid-mask-msg').remove();
    $('.datagrid-mask').remove();
+}
+
+function writeFlash(p) {
+	writeEmbed(
+		'D27CDB6E-AE6D-11cf-96B8-444553540000',
+		'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
+		'application/x-shockwave-flash',
+		p
+	);
+}
+
+function writeShockWave(p) {
+	writeEmbed(
+	'166B1BCA-3F9C-11CF-8075-444553540000',
+	'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0',
+	'application/x-director',
+		p
+	);
+}
+
+function writeQuickTime(p) {
+	writeEmbed(
+		'02BF25D5-8C17-4B23-BC80-D3488ABDDC6B',
+		'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0',
+		'video/quicktime',
+		p
+	);
+}
+
+function writeRealMedia(p) {
+	writeEmbed(
+		'CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA',
+		'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
+		'audio/x-pn-realaudio-plugin',
+		p
+	);
+}
+
+function writeWindowsMedia(p) {
+	p.url = p.src;
+	writeEmbed(
+		'6BF52A52-394A-11D3-B153-00C04F79FAA6',
+		'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701',
+		'application/x-mplayer2',
+		p
+	);
+}
+
+function writeEmbed(cls, cb, mt, p) {
+	var h = '', n;
+
+	h += '<object classid="clsid:' + cls + '" codebase="' + cb + '"';
+	h += typeof(p.id) != "undefined" ? 'id="' + p.id + '"' : '';
+	h += typeof(p.name) != "undefined" ? 'name="' + p.name + '"' : '';
+	h += typeof(p.width) != "undefined" ? 'width="' + p.width + '"' : '';
+	h += typeof(p.height) != "undefined" ? 'height="' + p.height + '"' : '';
+	h += typeof(p.align) != "undefined" ? 'align="' + p.align + '"' : '';
+	h += '>';
+
+	for (n in p)
+		h += '<param name="' + n + '" value="' + p[n] + '">';
+
+	h += '<embed type="' + mt + '"';
+
+	for (n in p)
+		h += n + '="' + p[n] + '" ';
+
+	h += '></embed></object>';
+
+	document.write(h);
 }
