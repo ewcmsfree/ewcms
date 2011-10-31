@@ -160,7 +160,7 @@ public class AclAction extends JsonBaseAction{
                 && !securityFac.hasGroupname(name)){
             renderError(String.format("\"%s\"用户组不存在",name));
             return false;
-        }else if(type.equals("role") 
+        }else if(type.equals("auth") 
                 && !securityFac.hasAuthorityname(name)){
             renderError(String.format("\"%s\"通用权限不存在",name));
             return false;    
@@ -173,18 +173,30 @@ public class AclAction extends JsonBaseAction{
             return ;
         }
         
-        siteFac.addOrUpdatePermission(id, name, mask);
-        renderSuccess();
+        try{
+            siteFac.addOrUpdatePermission(id, name, mask);
+            renderSuccess();    
+        }catch(Exception e){
+            renderError();
+        }
     }
     
     public void remove(){
-        siteFac.removePermission(id, name);
-        renderSuccess();
+        try{
+            siteFac.removePermission(id, name);
+            renderSuccess();
+        }catch(Exception e){
+            renderError();
+        }
     }
     
     public void updateInherit(){
-        siteFac.updateInheriting(id, inherit);
-        renderSuccess();
+        try{
+            siteFac.updateInheriting(id, inherit);
+            renderSuccess();    
+        }catch(Exception e){
+            renderError();
+        }
     }
     
     public Boolean getInherit() {
