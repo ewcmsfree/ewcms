@@ -120,13 +120,13 @@ public class EwcmsController implements EwcmsControllerable {
 		}catch(IOException e){
 			logger.error(e.getLocalizedMessage());
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage());
 		}finally{
 			try{
 				File gatherFolder = new File(gatherFolderPath);
 				if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
 			}catch(Exception e){
-				
+				logger.error(e.getLocalizedMessage());
 			}
 			ewcmsWebCrawler = null;
 			docIDServer = null;
