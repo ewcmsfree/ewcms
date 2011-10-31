@@ -297,6 +297,42 @@
                 </div>
             </div>
         </div>
+		<div id="flash-window" class="easyui-window" closed="true" icon="icon-save" title="插入Flash" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
+                    <div class="easyui-tabs" id="systemtab_flash" border="false" fit="true"  plain="true">
+                        <div title="本地Flash"  style="padding: 5px;" cache="true">
+                            <iframe src="" id="uploadifr_flash_id"  name="uploadifr_flash" class="editifr" scrolling="no"></iframe>
+                        </div>
+                        <div title="服务器Flash" cache="true">
+                            <iframe src="" id="queryifr_flash_id"  name="queryifr_flash" class="editifr" scrolling="no"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertFlashOperator()">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#flash-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
+		<div id="video-window" class="easyui-window" closed="true" icon="icon-save" title="插入视频" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
+                    <div class="easyui-tabs" id="systemtab_video" border="false" fit="true"  plain="true">
+                        <div title="本地视频"  style="padding: 5px;" cache="true">
+                            <iframe src="" id="uploadifr_video_id"  name="uploadifr_video" class="editifr" scrolling="no"></iframe>
+                        </div>
+                        <div title="服务器视频" cache="true">
+                            <iframe src="" id="queryifr_video_id"  name="queryifr_video" class="editifr" scrolling="no"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertVideoOperator()">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#video-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
 		<div id="vote-window" class="easyui-window" title="问卷调查" icon="icon-save" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">

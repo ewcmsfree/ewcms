@@ -18,9 +18,9 @@
          
         <script type="text/javascript">
             var _u = new Upload('<s:property  value="context"/>','<s:url action="save"/>',
-                {uploader:'<s:url value="/source/uploadify/medium/uploadify.allglyphs.swf"/>',
-                expressInstall:'<s:url value="/source/uploadify/medium/expressInstall.swf"/>',
-                cancelImg: '<s:url value="/source/uploadify/image/cancel.png"/>',
+                {uploader:'<s:url value="/ewcmssource/uploadify/medium/uploadify.allglyphs.swf"/>',
+                expressInstall:'<s:url value="/ewcmssource/uploadify/medium/expressInstall.swf"/>',
+                cancelImg: '<s:url value="/ewcmssource/uploadify/image/cancel.png"/>',
                 script: '<s:url action="receive"/>;jsessionid=<%=session.getId()%>',
                 thumbScript: '<s:url action="thumbReceive"/>;jsessionid=<%=session.getId()%>',
                 type: '<s:property value="type"/>',
