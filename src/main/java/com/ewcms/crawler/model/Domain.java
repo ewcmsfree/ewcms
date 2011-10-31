@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 /**
  * 
- * URL层级
+ * URL层级(域名)
  * 
  * <ul>
  * <li>id:编号</li>

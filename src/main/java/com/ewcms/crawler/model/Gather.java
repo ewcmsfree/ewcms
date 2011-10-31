@@ -27,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * 
- * 采集器基本信息
+ * 采集器信息
  * 
  * <ul>
  * <li>id:编号</li>

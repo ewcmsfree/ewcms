@@ -6,6 +6,7 @@
 package com.ewcms.crawler.util;
 
 /**
+ * 采集器采集文章时所使用的默认操作员
  * 
  * @author wu_zhijun
  *

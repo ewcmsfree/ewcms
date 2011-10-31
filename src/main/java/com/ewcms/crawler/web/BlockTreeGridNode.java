@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 树型结构对象
  * 
  * @author wuzhijun
  *
