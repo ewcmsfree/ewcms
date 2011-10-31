@@ -7,7 +7,7 @@ tinyMCE.init({
 	skin : "o2k7",
 	plugins : "pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 	// Theme options
-	theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,|,preview,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,ewcmsImage,ewcmsAnnex,ewcmsVote,ewcmsFlash",
+	theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,|,preview,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,ewcmsImage,ewcmsAnnex,ewcmsVote,ewcmsFlash,ewcmsVideo",
 	theme_advanced_buttons2 : "formatselect,fontselect,fontsizeselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,|,fullscreen,code,|,help",
 	theme_advanced_buttons3 : "",
 	theme_advanced_buttons4 : "",
@@ -87,10 +87,21 @@ tinyMCE.init({
 			}
 		});
 		ed.addButton('ewcmsFlash',{
-			title : '插入调查投票',
+			title : '插入Flash',
 			image : ed.baseURI.getURI() + '/image/flash.gif',
 			onclick : function(){
+				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=FLASH&multi=true";
 				ed.focus();
+				openFlashWindow(url);
+			}
+		});
+		ed.addButton('ewcmsVideo',{
+			title : '插入视频',
+			image : ed.baseURI.getURI() + '/image/video.gif',
+			onclick : function(){
+				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=VIDEO&multi=true";
+				ed.focus();
+				openVideoWindow(url);
 			}
 		});
 	}
