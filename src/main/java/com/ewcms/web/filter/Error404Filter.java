@@ -127,7 +127,7 @@ public class Error404Filter implements Filter {
         }
         
         String path = getPath(request);
-        logger.debug("resource path is {}",path);
+        logger.debug("Resource path is {}",path);
         
         if(outputResource(response,path) || outputTemplateSource(response,path)){
             return ;
