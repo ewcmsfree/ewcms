@@ -45,9 +45,13 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     
     @Autowired
     private Configuration configuration;
+    @Autowired
     private ArticlePublishServiceable articleService ;
+    @Autowired
     private ChannelPublishServiceable channelService;
+    @Autowired
     private TemplatePublishServiceable templateService;
+    
     private Configuration mockConfiguration;
     
        /**
