@@ -8,9 +8,9 @@ package com.ewcms.publication.preview;
 
 import java.io.OutputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
@@ -18,7 +18,6 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.freemarker.EwcmsConfigurationFactory;
 import com.ewcms.publication.freemarker.html.DetailGenerator;
 import com.ewcms.publication.freemarker.html.Generatorable;
 import com.ewcms.publication.freemarker.html.HomeGenerator;
@@ -35,34 +34,18 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
+@Service
 public class TemplatePreview implements TemplatePreviewable,InitializingBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(TemplatePreview.class);
     private static final ArticlePublishServiceable MOCK_ARTICLE_SERVICE = new MockArticlePublishService();
     
+    @Autowired
     private Configuration configuration;
+    
     private ArticlePublishServiceable articleService ;
     private ChannelPublishServiceable channelService;
     private TemplatePublishServiceable templateService;
     private Configuration mockConfiguration;
-    
-    /**
-     * 创建模拟Freemaker configuration
-     * 
-     * @return
-     */
-    private Configuration createMockConfiguration(){
-        try{
-            EwcmsConfigurationFactory factory = new  EwcmsConfigurationFactory();
-            factory.setArticleService(MOCK_ARTICLE_SERVICE);
-            factory.setChannelService(channelService);
-            factory.setTemplateService(templateService);
-            return factory.createConfiguration();
-        }catch(Exception e){
-            logger.error("Freemarker configure created error:{}",e);
-            throw new IllegalStateException(e);
-        }
-    }
     
     @Override
     public void view(OutputStream out, Site site, Channel channel,
@@ -88,7 +71,6 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
         Assert.notNull(articleService,"articleService must setting");
         Assert.notNull(channelService,"channelService configuration must setting");
         Assert.notNull(templateService,"templateService must setting");
-        mockConfiguration = createMockConfiguration();
     }
     
     public void setConfiguration(Configuration cfg){
