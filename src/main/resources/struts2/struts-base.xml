@@ -20,4 +20,4 @@
             <result>/WEB-INF/page/accessDenied.jsp</result>
         </action>
     </package>
-</struts>	
+</struts>
