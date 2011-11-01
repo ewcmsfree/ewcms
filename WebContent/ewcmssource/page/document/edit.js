@@ -222,16 +222,16 @@ function insertFileToCkeditorOperator(){
 	editifr_pop.insert(function(data,success){
 		if (success){
 			$.each(data, function(index,value){
-				var html_obj="";
+				var html_obj = "";
 				var type = value.type;
 				if (type=="ANNEX"){
 					html_obj = "<a href='../../" + value.uri + "'>" + value.title + "</a>";
 				}else if (type=="IMAGE"){
 					html_obj = "<p style='text-align: center;'><img border='0' src='../../" + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
 				}else if (type=="FLASH"){
-					html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
+					html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
 				}else if (type=="VIDEO"){
-					html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
+					html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
 				}
 				if (tinyMCE.getInstanceById('_Content_' + pages) != null){
 					tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
@@ -572,7 +572,7 @@ function insertFlashOperator(){
         	if (success){
 	            $.each(data,function(index,value){
 	            	alert(value.uri);
-	                var html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                var html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
 	                alert(html_obj);
 	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
@@ -587,7 +587,7 @@ function insertFlashOperator(){
         queryifr_flash.insert(function(data,success){
         	if (success){
 	            $.each(data,function(index,value){
-	                var html_obj = writeFlash({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                var html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
 	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
 	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
@@ -614,7 +614,7 @@ function insertVideoOperator(){
         uploadifr_video.insert(function(data,success){
         	if (success){
 	            $.each(data,function(index,value){
-	                var html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                var html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
 	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
 	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
@@ -628,7 +628,7 @@ function insertVideoOperator(){
         queryifr_video.insert(function(data,success){
         	if (success){
 	            $.each(data,function(index,value){
-	                var html_obj = writeRealMedia({'src':'../../' + value.uri,'width':'320','height':'240'});
+	                var html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
 	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
 	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
@@ -834,7 +834,7 @@ function loadingDisable(){
 }
 
 function writeFlash(p) {
-	writeEmbed(
+	return writeEmbed(
 		'D27CDB6E-AE6D-11cf-96B8-444553540000',
 		'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
 		'application/x-shockwave-flash',
@@ -843,7 +843,7 @@ function writeFlash(p) {
 }
 
 function writeShockWave(p) {
-	writeEmbed(
+	return writeEmbed(
 	'166B1BCA-3F9C-11CF-8075-444553540000',
 	'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0',
 	'application/x-director',
@@ -852,7 +852,7 @@ function writeShockWave(p) {
 }
 
 function writeQuickTime(p) {
-	writeEmbed(
+	return writeEmbed(
 		'02BF25D5-8C17-4B23-BC80-D3488ABDDC6B',
 		'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0',
 		'video/quicktime',
@@ -861,7 +861,7 @@ function writeQuickTime(p) {
 }
 
 function writeRealMedia(p) {
-	writeEmbed(
+	return writeEmbed(
 		'CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA',
 		'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
 		'audio/x-pn-realaudio-plugin',
@@ -871,7 +871,7 @@ function writeRealMedia(p) {
 
 function writeWindowsMedia(p) {
 	p.url = p.src;
-	writeEmbed(
+	return writeEmbed(
 		'6BF52A52-394A-11D3-B153-00C04F79FAA6',
 		'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701',
 		'application/x-mplayer2',
@@ -900,5 +900,5 @@ function writeEmbed(cls, cb, mt, p) {
 
 	h += '></embed></object>';
 
-	document.write(h);
+	return h;
 }
