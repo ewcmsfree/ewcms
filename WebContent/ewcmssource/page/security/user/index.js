@@ -17,9 +17,8 @@ UserIndex.prototype.init = function(opts){
     ewcmsOOBJ.setQueryURL(urls.queryUrl);
     ewcmsOOBJ.setDatagridID(opts.datagridId);
     
-    var odsf = this;
-    
     $(opts.datagridId).datagrid({
+        fit:true,
         nowrap: false,
         singleSelect:true,
         rownumbers:true,

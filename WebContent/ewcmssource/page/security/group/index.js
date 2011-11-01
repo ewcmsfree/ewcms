@@ -18,6 +18,7 @@ GroupIndex.prototype.init = function(opts){
     ewcmsOOBJ.setDatagridID(opts.datagridId);
     
     $(opts.datagridId).datagrid({
+        fit:true,
         fitColumns:true,
         nowrap: false,
         singleSelect:true,
