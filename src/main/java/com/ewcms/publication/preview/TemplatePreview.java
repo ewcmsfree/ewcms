@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -42,6 +43,7 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(TemplatePreview.class);
     private static final ArticlePublishServiceable MOCK_ARTICLE_SERVICE = new MockArticlePublishService();
     
+    @Autowired
     private Configuration configuration;
     private ArticlePublishServiceable articleService ;
     private ChannelPublishServiceable channelService;
@@ -70,11 +72,13 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     public void view(OutputStream out, Site site, Channel channel,
             Template template, Boolean mock) throws PublishException {
         
-        ArticlePublishServiceable service = (mock ? MOCK_ARTICLE_SERVICE : articleService);
-        Configuration cfg = (mock ? mockConfiguration : configuration);
+        ArticlePublishServiceable service = articleService;
+        Configuration cfg =  configuration;
    
         if(mock){
-            cfg.clearTemplateCache();    
+            service = MOCK_ARTICLE_SERVICE;
+            mockConfiguration.clearTemplateCache();
+            cfg = mockConfiguration;
         }
         
         Generatorable generator ;
