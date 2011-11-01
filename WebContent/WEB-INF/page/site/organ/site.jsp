@@ -9,7 +9,9 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>			
+        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>	
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		</head>
 		<s:if test="organVo.parent!=null && organVo.parent.homeSiteId == null">
 			<body>
@@ -30,17 +32,17 @@
 		    			}
 					}					
 				});
-			});
 
-			//操作菜单初始
-			$(function(){
 				$('#tt2').bind('contextmenu',function(e){
 					$('#treeopmenu').menu('show', {
 						left: e.pageX,
 						top: e.pageY
 					});
 					return false;
-				});
+				});		
+
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsOOBJ = new EwcmsOperate();	
 			});
 			function getNodeId(node){
 				return node.id==null?'':node.id;

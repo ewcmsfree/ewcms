@@ -282,7 +282,7 @@
 		</script>		
 	</head>
 	<body class="easyui-layout" onload="loadHomePage();">
-		<div region="west"  title='<label style="vertical-align: middle;cursor:pointer;" onclick="templateTreeLoad();">模板库</label>&nbsp;&nbsp;<label id="opmenu" style="cursor:pointer;"><font style="color:black;">操作<img src="<s:url value="/source/theme/default/images/menu_downarrow.png"/>" style="vertical-align: middle;"/></font></label><label style="cursor:pointer;" onclick="toResource();"><font style="color:black;">资源库<img src="<s:url value="/source/theme/default/images/menu_rightarrow.png"/>" style="vertical-align: middle;"/></font></label>' split="true" style="width:190px;">		
+		<div region="west"  title='<label style="vertical-align: middle;cursor:pointer;" onclick="templateTreeLoad();">模板库</label>&nbsp;&nbsp;<label id="opmenu" style="cursor:pointer;"><font style="color:black;">操作<img src="<s:url value="/ewcmssource/easyui/themes/default/images/menu_downarrow.png"/>" style="vertical-align: middle;"/></font></label><label style="cursor:pointer;" onclick="toResource();"><font style="color:black;">资源库<img src="<s:url value="/ewcmssource/easyui/themes/default/images/menu_rightarrow.png"/>" style="vertical-align: middle;"/></font></label>' split="true" style="width:190px;">		
 			<ul  id="tt2"></ul>
 		</div>
 		<div region="center"  style="overflow:auto;">

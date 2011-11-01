@@ -9,7 +9,6 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>    
-              
 		<script type="text/javascript"> 
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
@@ -30,16 +29,13 @@
 					$('#serverInfo5').show();
 					return;
 				}
-				if(valuestr=="SFTP" || valuestr=="FTP"){
+				if(valuestr=="SFTP" || valuestr=="FTP" || valuestr=="FTPS"){
 					$('#serverInfo1').show();
 					$('#serverInfo2').show();
 					$('#serverInfo3').show();
 					$('#serverInfo4').show();
 					$('#serverInfo5').show();
 					return;
-				}
-				if(valuestr=="SMB"){
-					$('#serverInfo1').show();
 				}				
 			}
 		</script>
@@ -83,7 +79,7 @@
 				<tr id="serverInfo4" style="display:none;">
 					<td >密码：</td>
 					<td class="formFieldError">
-						<s:textfield name="siteVo.siteServer.password" cssClass="inputtext" size="40"/>
+						<s:password name="siteVo.siteServer.password" cssClass="inputtext" size="40"></s:password>
 					</td>				
 				</tr>
 				<tr id="serverInfo5" style="display:none;">

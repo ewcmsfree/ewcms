@@ -224,7 +224,7 @@
 		</script>		
 	</head>
 	<body class="easyui-layout" onload="loadHomePage();">
-		<div region="west"  title='<label style="cursor:pointer;" onclick="organTreeLoad();" ><img src="<s:url value="/source/image/refresh.png" />" style="vertical-align: middle;">机构库</label>&nbsp;&nbsp;&nbsp;&nbsp;<label id="opmenu" style="cursor:pointer;"><font style="color:black;">操作<img src="<s:url value="/source/theme/default/images/menu_downarrow.png"/>" style="vertical-align: middle;"/></font></label>' split="true" style="width:190px;">		
+		<div region="west"  title='<label style="cursor:pointer;" onclick="organTreeLoad();" ><img src="<s:url value="/ewcmssource/image/refresh.png" />" style="vertical-align: middle;">机构库</label>&nbsp;&nbsp;&nbsp;&nbsp;<label id="opmenu" style="cursor:pointer;"><font style="color:black;">操作<img src="<s:url value="/ewcmssource/easyui/themes/default/images/menu_downarrow.png"/>" style="vertical-align: middle;"/></font></label>' split="true" style="width:190px;">		
 			<ul  id="tt2"></ul>
 		</div>
 		
