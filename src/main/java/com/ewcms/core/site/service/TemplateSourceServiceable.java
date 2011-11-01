@@ -11,6 +11,7 @@ package com.ewcms.core.site.service;
 
 import java.util.List;
 
+import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 
@@ -45,4 +46,12 @@ public interface TemplateSourceServiceable extends TemplateSourcePublishServicea
     public TemplateSource channelSRCRoot();
     
     public TemplateSource channelTemplateSource(String srcName);
+    
+    /**
+     * 通过UniquePath得到模板，模板不存在返回null值
+     * 
+     * @param path 模板唯一路径
+     * @return
+     */
+    public TemplateSource getTemplateSourceByUniquePath(String path);    
 }

@@ -14,9 +14,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
+import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
 
 /**
@@ -117,5 +120,19 @@ public class TemplateSourceDAO extends JpaDAO<Integer, TemplateSource> {
                 return null;
             }
         });	
+	}
+	
+	public TemplateSource getTemplateSourceByPath(final Integer siteId,final String path){
+	    List<TemplateSource> res = this.getJpaTemplate().execute(new JpaCallback<List<TemplateSource>>() {
+            @Override
+            public List<TemplateSource> doInJpa(EntityManager em) throws PersistenceException {
+                String hql = "From TemplateSource o Where  o.path=? and o.site.id=?";
+                TypedQuery<TemplateSource> query = em.createQuery(hql, TemplateSource.class);
+                query.setParameter(1,path);
+                query.setParameter(2, siteId);
+                return query.getResultList();
+            }
+        });
+	    return res.isEmpty() ? null : res.get(0);
 	}	
 }

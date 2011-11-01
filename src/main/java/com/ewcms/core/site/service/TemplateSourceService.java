@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
-import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -156,4 +155,9 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	public void updateNotRelease(Integer siteId) {
 		templateSourceDao.updateNotRelease(siteId);
 	}
+
+	@Override
+	public TemplateSource getTemplateSourceByUniquePath(String path) {
+		return templateSourceDao.getTemplateSourceByPath(getCurSite().getId(), path);
+	}	
 }
