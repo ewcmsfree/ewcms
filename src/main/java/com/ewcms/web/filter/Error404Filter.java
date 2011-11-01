@@ -28,6 +28,8 @@ import org.springframework.stereotype.Controller;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.service.ResourceServiceable;
+import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.core.site.service.TemplateSourceServiceable;
 
 /**
@@ -97,8 +99,19 @@ public class Error404Filter implements Filter {
      * @throws IOException
      */
     private boolean outputTemplateSource(HttpServletResponse response,String uri)throws IOException{
-        //TODO 查询
-        return false;
+        TemplateSource source = templateSourceService.getTemplateSourceByUniquePath(uri);
+        if(source == null){
+            return false;
+        }
+        TemplatesrcEntity entity = source.getSourceEntity();
+       if(entity == null || entity.getSrcEntity() == null){
+           return false;
+       }
+       
+       IOUtils.write(entity.getSrcEntity(), response.getOutputStream());
+       response.flushBuffer();
+       
+       return true;
     }
     
     @Override
