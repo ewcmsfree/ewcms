@@ -105,4 +105,12 @@ public interface ResourceServiceable extends ResourcePublishServiceable {
      *         资源描述信息
      */
     Resource updateDescription(Integer id,String description);
+    
+    /**
+     * 通过uri得到资源对象
+     * 
+     * @param uri 资源地址
+     * @return
+     */
+    Resource getResourceByUri(String uri);
 }

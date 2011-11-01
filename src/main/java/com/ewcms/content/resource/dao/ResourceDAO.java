@@ -77,4 +77,22 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
             }
         });
     }
+
+    @Override
+    public Resource getResourceByUri(final Integer siteId,final String uri) {
+        
+        List<Resource> list = getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
+            @Override
+            public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
+                String hql = "From Resource o Where o.site.id= ? And (o.uri = ? or o.thumbUri = ?)";
+                TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
+                query.setParameter(1, siteId);
+                query.setParameter(2, uri);
+                query.setParameter(3, uri);
+                return query.getResultList();
+            }
+        });
+        
+       return list.isEmpty() ? null : list.get(0);
+    }
 }

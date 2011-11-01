@@ -287,6 +287,12 @@ public class ResourceService implements ResourceServiceable {
         resourceDao.updateNotRelease(siteId);
     }
     
+    @Override
+    public Resource getResourceByUri(String uri) {
+        Integer siteId = getCurrentSite().getId();
+        return resourceDao.getResourceByUri(siteId, uri);
+    }
+    
     public void setResourceDao(ResourceDAO dao) {
         this.resourceDao = dao;
     }

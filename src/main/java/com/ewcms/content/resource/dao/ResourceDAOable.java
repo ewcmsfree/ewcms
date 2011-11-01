@@ -41,4 +41,12 @@ public interface ResourceDAOable extends JpaDAOable<Integer,Resource> {
      */
     void updateNotRelease(Integer siteId);
     
+    /**
+     * 通过通过站点编号和uri得到资源
+     * 
+     * @param siteId 站点编号
+     * @param uri 资源地址
+     * @return
+     */
+    Resource getResourceByUri(Integer siteId,String uri);
 }
