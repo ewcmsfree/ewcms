@@ -7,6 +7,7 @@
 package com.ewcms.publication.preview;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.publication.PublishException;
@@ -38,9 +39,9 @@ import freemarker.template.Configuration;
  * @author wangwei
  */
 @Service
-public class TemplatePreview implements TemplatePreviewable,InitializingBean {
+public class PreviewService implements PreviewServiceable,InitializingBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(TemplatePreview.class);
+    private static final Logger logger = LoggerFactory.getLogger(PreviewService.class);
     private static final ArticlePublishServiceable MOCK_ARTICLE_SERVICE = new MockArticlePublishService();
     
     @Autowired
@@ -54,7 +55,7 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     
     private Configuration mockConfiguration;
     
-       /**
+    /**
      * 创建模拟Freemaker configuration
      * 
      * @return
@@ -73,8 +74,7 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     }
     
     @Override
-    public void view(OutputStream out, Site site, Channel channel,
-            Template template, Boolean mock) throws PublishException {
+    public void viewTemplate(OutputStream out,Integer id, Boolean mock) throws PublishException {
         
         ArticlePublishServiceable service = articleService;
         Configuration cfg =  configuration;
@@ -85,6 +85,11 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
             cfg = mockConfiguration;
         }
         
+        Template template = templateService.getTemplate(id);
+        if(template == null){
+            throw new PublishException("Template is not exist.");
+        }
+        
         Generatorable generator ;
         if(template.getType() == TemplateType.HOME){
             generator = new HomeGenerator(cfg);
@@ -93,17 +98,31 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
         }else{
             generator = new DetailGenerator(cfg,service);
         }
-        generator.previewProcess(out, site, channel, template);
+        
+        Channel channel = channelService.getChannel(template.getChannelId());
+        generator.previewProcess(out, channel.getSite(), channel, template);
     }
     
     @Override
-    public void viewArticle(OutputStream out, Site site, Channel channel,
-            Template template, Long id, int pageNumber) throws PublishException {
+    public void viewArticle(OutputStream out,Integer channelId,Long id, Integer pageNumber) throws PublishException {
         
-        ArticlePublishServiceable service = articleService;
-        Configuration cfg =  configuration;
-        DetailGenerator generator = new DetailGenerator(cfg,service);
-        generator.previewProcess(out, site, channel, template,id,pageNumber);
+        DetailGenerator generator = new DetailGenerator(configuration,articleService);
+        Article article = articleService.getArticle(id);
+        if(article == null){
+            throw new PublishException("Article is not exist");
+        }
+        Channel channel = channelService.getChannel(channelId);
+        if(channel == null){
+            throw new PublishException("Channel is not exist");
+        }
+        List<Template> templates = templateService.getTemplatesInChannel(channelId);
+        for(Template template : templates){
+            if(template.getType() != TemplateType.DETAIL){
+                continue;
+            }
+            generator.previewProcess(out, channel.getSite(), channel, template,id,pageNumber);
+            break;
+        }
     }   
     
     @Override
