@@ -39,6 +39,7 @@ operators = {
                     $.post(url,selects,function(data){
                         if(data.success){
                             o.reload(datagridId);
+                            $(datagridId).datagrid('unselectAll');
                         }else{
                             $.messager.alert('错误','永久删除资源失败');
                         }

@@ -98,6 +98,7 @@ UserIndex.prototype.init = function(opts){
                 $.post(urls.deleteUrl,{"name":rows[0].name},function(data){
                    if(data.success){
                        $('#tt').datagrid('reload')
+                       $('#tt').datagrid('unselectAll');
                    } else{
                        $.messager.alert('错误','删除用户失败','error');
                    }

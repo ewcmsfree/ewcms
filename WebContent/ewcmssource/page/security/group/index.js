@@ -77,7 +77,8 @@ GroupIndex.prototype.init = function(opts){
             if (r){
                 $.post(urls.deleteUrl,{"name":rows[0].name},function(data){
                    if(data.success){
-                       $('#tt').datagrid('reload')
+                       $('#tt').datagrid('reload');
+                       $('#tt').datagrid('unselectAll');
                    } else{
                        $.messager.alert('错误','删除用户组失败','error');
                    }

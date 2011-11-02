@@ -71,6 +71,7 @@ GroupDetail.prototype.init = function(opts){
                         $.post(urls.removeUrl,parameter,function(data){
                             if(data.success){
                                 $("#tt").datagrid('reload');
+                                $('#tt').datagrid('unselectAll');
                             }else{
                                 $.messager.alert('错误',data.message);
                             }
