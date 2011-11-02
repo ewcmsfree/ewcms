@@ -41,7 +41,7 @@ import com.ewcms.core.site.service.TemplateSourceServiceable;
 public class Error404Filter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(Error404Filter.class);
-
+    private static final String previewPath = "/site/template";
     @Autowired
     private ResourceServiceable resourceService;
     
