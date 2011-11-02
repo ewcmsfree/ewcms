@@ -233,12 +233,12 @@ public class EntityQueryTemplate implements Predicatesable,QueryTemplateable{
     }
     
     public EntityQueryTemplate orderAsc(final String name) {
-        orders.add(builder.asc(root.get(name)));
+        orders.add(builder.asc(get(name)));
         return this;
     }
     
     public EntityQueryTemplate orderDesc(final String name) {
-        orders.add(builder.desc(root.get(name)));
+        orders.add(builder.desc(get(name)));
         return this;
     }
     
