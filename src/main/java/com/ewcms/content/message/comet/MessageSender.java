@@ -32,7 +32,7 @@ public class MessageSender implements Runnable {
 	public void send(String message) {  
         synchronized (messages) {  
             messages.add(message);  
-            logger.info("Message added #messages=" + messages.size());  
+            //logger.info("Message added #messages=" + messages.size());  
             messages.notify();  
         }  
     }  
@@ -64,12 +64,15 @@ public class MessageSender implements Runnable {
                     } catch (InterruptedException e){  
                         // Ignore  
                     }  
-                }  
+                } 
+                connection.setCharacterEncoding("utf-8");
+                connection.setContentType("text/html; charset=utf-8");
+                
                 PrintWriter writer = connection.getWriter();  
                 for (int j = 0; j < pendingMessages.length; j++) {  
                     final String result = pendingMessages[j] + "<br>";  
                     writer.println(result);  
-                    logger.info("Writing:" + result);  
+                    //logger.info("Writing:" + result);  
                 }  
                 writer.flush();  
                 writer.close();  

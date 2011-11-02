@@ -1,6 +1,7 @@
 package com.ewcms.content.message.comet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -14,6 +15,8 @@ import org.apache.catalina.CometEvent;
 import org.apache.catalina.CometProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -24,11 +27,11 @@ public class MessageServlet extends HttpServlet implements CometProcessor {
 
 	private static final long serialVersionUID = 8941875437286407922L;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MessageServlet.class);
+	private static final Logger logger = LoggerFactory.getLogger(MessageServlet.class);
 
+	protected ArrayList<HttpServletResponse> connections = new ArrayList<HttpServletResponse>();
 	private MessageSender messageSender = null;
-	private int count = 0;
+	private int newsMsgCount = 0;
 	private static final Integer TIMEOUT = 60 * 1000;
 
 	private MsgReceiveDAO msgReceiveDAO;
@@ -36,6 +39,7 @@ public class MessageServlet extends HttpServlet implements CometProcessor {
 	@Override
 	public void destroy() {
 		logger.info("destory");
+		connections.clear();
 		messageSender.stop();
 		messageSender = null;
 	}
@@ -56,27 +60,28 @@ public class MessageServlet extends HttpServlet implements CometProcessor {
 		HttpServletRequest request = event.getHttpServletRequest();
 		HttpServletResponse response = event.getHttpServletResponse();
 		if (event.getEventType() == CometEvent.EventType.BEGIN) {
+			logger.info("Begin for session: " + request.getSession(true).getId());
 			request.setAttribute("org.apache.tomcat.comet.timeout", TIMEOUT);
-			logger.info("Begin for session: "
-					+ request.getSession(true).getId());
-			HttpSession session = request.getSession();
-			
-			String userName = (String) request.getSession().getAttribute("username");
-			logger.info(userName);
 			messageSender.setConnection(response);
-			NewsMessage newsMessage = new NewsMessage();
+			
+			NewsMessage newsMessage = new NewsMessage(request);
 			newsMessage.start();
 		} else if (event.getEventType() == CometEvent.EventType.ERROR) {
-			logger.info("Error for session: "
-					+ request.getSession(true).getId());
+			logger.info("Error for session: " + request.getSession(true).getId());
 			event.close();
 		} else if (event.getEventType() == CometEvent.EventType.READ) {
-			throw new UnsupportedOperationException(
-					"This servlet does not accept data");
-		}
+			logger.info("Read....");
+			throw new UnsupportedOperationException("This servlet does not accept data");
+		} 
 	}
 
 	private class NewsMessage {
+		private HttpServletRequest request;
+		
+		public NewsMessage(HttpServletRequest request){
+			this.request = request;
+		}
+		
 		public void start() {
 			Runnable r = new Runnable() {
 				@Override
@@ -84,24 +89,37 @@ public class MessageServlet extends HttpServlet implements CometProcessor {
 					int i = 0;
 					while (i >= 0) {
 						try {
-							List<MsgReceive> msgReceives = msgReceiveDAO.findMsgReceiveByUserNameAndUnRead("user");
-							int unReadMsg = msgReceives.size();
-							if (unReadMsg != count){
-								count = unReadMsg;
-								messageSender.send(entryToHeml(msgReceives.size()));
+							HttpSession session = request.getSession();
+							SecurityContext securityContext = (SecurityContext)session.getAttribute("SPRING_SECURITY_CONTEXT");
+							String userName = "";
+							if (securityContext != null){
+								UserDetails userDetails = (UserDetails)securityContext.getAuthentication().getPrincipal();
+								userName = userDetails.getUsername();
 							}
-							Thread.sleep(30000L);
+
+							if (userName.equals("")){
+								 wait();
+							}else{
+								List<MsgReceive> msgReceives = msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(userName);
+								int unReadMsg = msgReceives.size();
+								if (unReadMsg != newsMsgCount){
+									newsMsgCount = unReadMsg;
+									messageSender.send(entryToHtml(msgReceives.size()));
+								}
+								Thread.sleep(30000L);
+							}
 						}catch(Exception e){
 						}
 						i++;
 					}
 				}
+				
 			};
 			Thread t = new Thread(r);
 			t.start();
 		}
 		
-		private String entryToHeml(Integer count){
+		private String entryToHtml(Integer count){
 			StringBuilder html = new StringBuilder();
 			if (count > 0){
 				html.append("<a href='javascript:void(0);' onclick='javascript:_home.addTab(\"个人消息\",\"message/index.do\");return false;' onfocus='this.blur();' style='color:red;font-size:13px;text-decoration:none;'>【<img src='./ewcmssource/image/msg/msg_new.gif'/>新消息(" + count + ")】</a>");
