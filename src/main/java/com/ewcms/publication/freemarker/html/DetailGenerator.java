@@ -127,9 +127,25 @@ public class DetailGenerator extends GeneratorBase {
         
         List<Article> articles = service.findPreReleaseArticles(channel.getId(), max);
         Map<String,Object> parameters = constructParameters(site,channel,articles.get(0),pageNumber,pageCount,Boolean.TRUE);
+        
         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
         UriRuleable rule =new NullUriRule();
         Writer writer = new OutputStreamWriter(stream);
         write(t , parameters, rule, writer);
+    }
+    
+    public void previewProcess(OutputStream stream,Site site,Channel channel,Template template,long id,int pageNumber)throws PublishException{
+        Article article = service.getArticle(id);
+         if(article == null){
+             throw new PublishException("Aritcle is not exist,id = " + id );
+         }
+         
+         int pageCount = article.getContentTotal();
+         Map<String,Object> parameters = constructParameters(site,channel,article,pageNumber,pageCount,Boolean.TRUE);
+         
+         freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
+         UriRuleable rule =new NullUriRule();
+         Writer writer = new OutputStreamWriter(stream);
+         write(t , parameters, rule, writer);
     }
 }

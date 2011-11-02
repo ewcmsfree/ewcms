@@ -97,6 +97,16 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
     }
     
     @Override
+    public void viewArticle(OutputStream out, Site site, Channel channel,
+            Template template, Long id, int pageNumber) throws PublishException {
+        
+        ArticlePublishServiceable service = articleService;
+        Configuration cfg =  configuration;
+        DetailGenerator generator = new DetailGenerator(cfg,service);
+        generator.previewProcess(out, site, channel, template,id,pageNumber);
+    }   
+    
+    @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(configuration,"template's configuration must setting");
         Assert.notNull(articleService,"articleService must setting");
@@ -119,5 +129,5 @@ public class TemplatePreview implements TemplatePreviewable,InitializingBean {
 
     public void setTemplateService(TemplatePublishServiceable templateService) {
         this.templateService = templateService;
-    }   
+    }
 }

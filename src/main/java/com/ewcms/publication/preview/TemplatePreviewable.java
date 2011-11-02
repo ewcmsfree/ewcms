@@ -21,7 +21,7 @@ import com.ewcms.publication.PublishException;
 public interface TemplatePreviewable {
 
     /**
-     * 查看模板生成
+     * 模板预览
      * 
      * @param out       
      *          输出数据流
@@ -36,5 +36,23 @@ public interface TemplatePreviewable {
      * @throws PublishException
      */
     public void view(OutputStream out,Site site,Channel channel,Template template,Boolean mock)throws PublishException;
-        
+       
+    /**
+     * 文章预览
+     * 
+     * @param out       
+     *          输出数据流
+     * @param site       
+     *          站点
+     * @param channel       
+     *          频道
+     * @param template
+     *          模板
+     * @param id
+     *          文章编号
+     * @param pageNumber
+     *          页数 
+     * @throws PublishException
+     */
+    public void viewArticle(OutputStream out,Site site,Channel channel,Template template,Long id,int pageNumber)throws PublishException;
 }
