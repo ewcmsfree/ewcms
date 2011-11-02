@@ -34,16 +34,15 @@ GroupDetail.prototype.init = function(opts){
     ewcmsOOBJ = new EwcmsOperate();
     
     $('#tt').propertygrid({
-        width:650,
-        height:'auto',
+        width:700,
         url:urls.queryUrl,
         showGroup:true,
         scrollbarSize:0,
         singleSelect:false,
         columns:[[
             {field:'ck',checkbox:true},
-            {field:'name',title:'名称',width:200},
-            {field:"value",title:'描述',width:300}
+            {field:'name',title:'名称',width:150},
+            {field:"value",title:'描述',width:260}
         ]],
         onBeforeLoad:function(param){
              param['name'] = opts.groupName;    
