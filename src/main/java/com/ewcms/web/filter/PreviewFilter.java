@@ -30,7 +30,6 @@ import com.ewcms.core.site.service.TemplateServiceable;
 
 @Controller("previewFilter")
 public class PreviewFilter implements Filter {
-    
     private static final Logger logger = LoggerFactory.getLogger(PreviewFilter.class);
     
     private static final String PREVIEW_PATH = "/template/preview";
