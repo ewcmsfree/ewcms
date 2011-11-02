@@ -23,6 +23,7 @@
         <sec:intercept-url pattern="/index.do" access="authenticated"/>
         <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
         <sec:intercept-url pattern="/account/*.do" access="authenticated and fullyAuthenticated"/>
+        <sec:intercept-url pattern="/*.msg" access="authenticated"/>
         
         <sec:intercept-url pattern="/resource/resource.do" access="authenticated"/>
         <sec:intercept-url pattern="/resource/receive.do" access="authenticated"/>
