@@ -17,7 +17,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -113,12 +112,17 @@ public class Error404Filter implements Filter {
        return true;
     }
     
+    private boolean isView(HttpServletRequest request){
+        String value = request.getParameter("view");
+        return value != null;
+    }
+    
     @Override
     public void doFilter(ServletRequest req, ServletResponse rep,FilterChain chain) throws IOException, ServletException {
-       
-        HttpServletResponse response = (HttpServletResponse) rep;
+        
         HttpServletRequest request = (HttpServletRequest) req;
-        Error404ResponseWrapper responseWrapper = new Error404ResponseWrapper(response);
+        HttpServletResponse response = (HttpServletResponse) rep;
+        Error404ResponseWrapper responseWrapper = new Error404ResponseWrapper(this, response);
         
         chain.doFilter(request, responseWrapper);
         if(responseWrapper.isFound()){
@@ -128,15 +132,19 @@ public class Error404Filter implements Filter {
         String uri = getPath(request);
         logger.debug("Resource path is {}",uri);
         
-        if(outputResource(response,uri) 
-                ||outputTemplateSource(response,uri)){
-            
+        if(isView(request)){
+            logger.debug("now is preview");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND,uri);
+            return ;
+        }
+        
+        if(outputResource(response,uri)||outputTemplateSource(response,uri)){
             return ;
         }
         
         
         logger.warn("This is not path = {}",uri);
-        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        response.sendError(HttpServletResponse.SC_NOT_FOUND,uri);
     }
     
     public ResourceServiceable getResourceService() {
@@ -154,50 +162,5 @@ public class Error404Filter implements Filter {
     public void setTemplateSourceService(
             TemplateSourceServiceable templateSourceService) {
         this.templateSourceService = templateSourceService;
-    }
-
-    private class Error404ResponseWrapper extends HttpServletResponseWrapper {
-        
-        private int status = SC_OK;
-        
-        public Error404ResponseWrapper(HttpServletResponse response){
-            super(response);
-        }
-        
-        @Override
-        public void sendError(int sc) throws IOException {
-            this.status = sc;
-            if(isFound()){
-                super.sendError(sc);                
-            }else{
-                super.setStatus(SC_OK);
-            }
-        }
-
-        @Override
-        public void sendError(int sc, String msg) throws IOException {
-            this.status = sc;
-            if(isFound()){
-                super.sendError(sc,msg);  
-            }else{
-                super.setStatus(SC_OK);                 
-            }
-        }
-        
-        public void setStatus(int status){
-           this.status = status;
-           super.setStatus(status);
-        }
-        
-        @Override
-        public void reset() {
-            this.status = SC_OK;
-            super.reset();
-        }
-
-        
-        public boolean isFound(){
-            return status != SC_NOT_FOUND;
-        }
     }
 }
