@@ -14,6 +14,7 @@
     <script type="text/javascript">
         $(function(){
             $('#tt').datagrid({
+                fit:true,
                 fitColumns:true,
                 nowrap: false,
                 singleSelect:true,
@@ -31,7 +32,9 @@
         });
     </script>
 </head>
- <body>
-     <table id="tt"></table>
+ <body class="easyui-layout">
+     <div region="center" border="false" style="padding: 5px;">
+         <table id="tt"></table>
+     </div>
 </body>
 </html>

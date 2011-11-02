@@ -31,32 +31,34 @@
     });
 </script>
 </head>
-<body>
-    <table id="tt"></table>
-    <s:hidden value="name"></s:hidden>
-    <div id="edit-window" icon="icon-winedit" closed="true">
-        <div class="easyui-tabs" border="false" fit="true">
-            <div title="权限" style="padding: 5px;">
-                <table id="auth-tt" toolbar="#auth-tb"></table>
-                <div id="auth-tb" style="padding: 5px; height: auto; display: none;">
-                    <div style="padding-left: 5px;">
-                        <form id="auth-queryform" style="padding: 0; margin: 0;">
-                                名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
-                                描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
-                            <a href="#" id="auth-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
-                        </form>
+<body class="easyui-layout">
+    <div region="center" border="false" collapsible="false">
+        <table id="tt"></table>
+        <s:hidden value="name"></s:hidden>
+        <div id="edit-window" icon="icon-winedit" closed="true">
+            <div class="easyui-tabs" border="false" fit="true">
+                <div title="权限" style="padding: 5px;">
+                    <table id="auth-tt" toolbar="#auth-tb"></table>
+                    <div id="auth-tb" style="padding: 5px; height: auto; display: none;">
+                        <div style="padding-left: 5px;">
+                            <form id="auth-queryform" style="padding: 0; margin: 0;">
+                                    名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
+                                    描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
+                                <a href="#" id="auth-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div title="用户组" style="padding: 5px;">
-                <table id="group-tt" toolbar="#group-tb"></table>
-                <div id="group-tb" style="padding: 5px; height: auto; display: none;">
-                    <div style="padding-left: 5px;">
-                        <form id="group-queryform" style="padding: 0; margin: 0;">
-                                名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
-                                描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
-                            <a href="#" id="group-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
-                        </form>
+                <div title="用户组" style="padding: 5px;">
+                    <table id="group-tt" toolbar="#group-tb"></table>
+                    <div id="group-tb" style="padding: 5px; height: auto; display: none;">
+                        <div style="padding-left: 5px;">
+                            <form id="group-queryform" style="padding: 0; margin: 0;">
+                                    名称: <input type="text" name="name" style="width: 100px" />&nbsp; 
+                                    描述: <input type="text" name="remark" style="width: 150px" />&nbsp;
+                                <a href="#" id="group-toolbar-query" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
