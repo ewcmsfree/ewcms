@@ -30,7 +30,7 @@ import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.publication.preview.TemplatePreviewable;
+import com.ewcms.publication.preview.PreviewServiceable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -51,7 +51,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	private String templateContent;
 	private Integer id;
 	@Autowired
-	private TemplatePreviewable templatePreview;
+	private PreviewServiceable templatePreview;
 
 	public Template getTemplateVo() {
 		return super.getVo();
@@ -434,18 +434,18 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		return INPUT;
 	}
 
-	public void previewTemplate() {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
-		try {
-			templatePreview.view(response.getOutputStream(), getCurrentSite(),
-					siteFac.getChannel(getTemplateVo().getChannelId()), siteFac.getTemplate(getTemplateVo().getId()),
-					true);
-		} catch (Exception e) {
-			outputInfo(e.toString());
-		}
-	}
+//	public void previewTemplate() {
+//		HttpServletResponse response = ServletActionContext.getResponse();
+//		response.setContentType("text/html");
+//		response.setCharacterEncoding("utf-8");
+//		try {
+//			templatePreview.view(response.getOutputStream(), getCurrentSite(),
+//					siteFac.getChannel(getTemplateVo().getChannelId()), siteFac.getTemplate(getTemplateVo().getId()),
+//					true);
+//		} catch (Exception e) {
+//			outputInfo(e.toString());
+//		}
+//	}
 
 	/**
 	 * 模板类型选择
