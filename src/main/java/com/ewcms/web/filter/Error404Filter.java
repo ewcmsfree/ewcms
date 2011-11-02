@@ -41,7 +41,6 @@ import com.ewcms.core.site.service.TemplateSourceServiceable;
 public class Error404Filter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(Error404Filter.class);
-    private static final String previewPath = "/site/template";
     @Autowired
     private ResourceServiceable resourceService;
     
@@ -126,14 +125,17 @@ public class Error404Filter implements Filter {
             return ;
         }
         
-        String path = getPath(request);
-        logger.debug("Resource path is {}",path);
+        String uri = getPath(request);
+        logger.debug("Resource path is {}",uri);
         
-        if(outputResource(response,path) || outputTemplateSource(response,path)){
+        if(outputResource(response,uri) 
+                ||outputTemplateSource(response,uri)){
+            
             return ;
         }
         
-        logger.warn("This is not path = {}",path);
+        
+        logger.warn("This is not path = {}",uri);
         response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
     
