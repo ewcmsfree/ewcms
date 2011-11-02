@@ -40,9 +40,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsWebCrawler.class);
 
-	Pattern filters = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
-			+ "|png|tiff?|mid|mp2|mp3|mp4" + "|wav|avi|mov|mpeg|ram|m4v|pdf"
-			+ "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+	Pattern filters = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
 	private Gather gather;
 	private String[] crawlDomains;
@@ -110,14 +108,16 @@ public class EwcmsWebCrawler extends WebCrawler {
 				}
 			}
 
-			List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gather.getId());
+			List<MatchBlock> parents = crawlerFac
+					.findParentMatchBlockByGatherId(gather.getId());
 			if (isCollectionNotEmpty(parents)) {
 				StringBuffer sbHtml = new StringBuffer();
 				childrenMatchBlock(gather.getId(), doc, parents, sbHtml);
 				doc = Jsoup.parse(sbHtml.toString());
 			}
 
-			List<FilterBlock> filterParents = crawlerFac.findParentFilterBlockByGatherId(gather.getId());
+			List<FilterBlock> filterParents = crawlerFac
+					.findParentFilterBlockByGatherId(gather.getId());
 			if (isCollectionNotEmpty(filterParents)) {
 				StringBuffer sbHtml = new StringBuffer();
 				childrenFilterBlock(gather.getId(), doc, filterParents, sbHtml);
@@ -169,7 +169,8 @@ public class EwcmsWebCrawler extends WebCrawler {
 		articleMainService = null;
 	}
 
-	private void childrenMatchBlock(Long gatherId, Document doc, List<MatchBlock> matchBlocks, StringBuffer sbHtml) {
+	private void childrenMatchBlock(Long gatherId, Document doc,
+			List<MatchBlock> matchBlocks, StringBuffer sbHtml) {
 		for (MatchBlock matchBlock : matchBlocks) {
 			String regex = matchBlock.getRegex();
 			Elements elements = doc.select(regex);
@@ -185,7 +186,8 @@ public class EwcmsWebCrawler extends WebCrawler {
 		}
 	}
 
-	private void childrenFilterBlock(Long gatherId, Document doc, List<FilterBlock> filterBlocks, StringBuffer sbHtml) {
+	private void childrenFilterBlock(Long gatherId, Document doc,
+			List<FilterBlock> filterBlocks, StringBuffer sbHtml) {
 		for (FilterBlock filterBlock : filterBlocks) {
 			String regex = filterBlock.getRegex();
 			Elements elements = doc.select("*").not(regex);
