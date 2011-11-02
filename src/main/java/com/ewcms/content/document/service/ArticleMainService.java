@@ -387,6 +387,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void delArticleMainByCrawler(Integer channelId, String userName) {
 		List<ArticleMain> articleMains = articleMainDAO.findArticleMainByChannelIdAndUserName(channelId, userName);
 		for (ArticleMain articleMain : articleMains){
+			if (articleMain.getArticle().getStatus() == ArticleStatus.RELEASE) continue;
 			articleMainDAO.remove(articleMain);
 		}
 	}
