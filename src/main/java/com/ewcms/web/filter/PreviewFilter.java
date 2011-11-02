@@ -14,8 +14,9 @@ import org.springframework.stereotype.Controller;
 @Controller("previewFilter")
 public class PreviewFilter implements Filter {
     
-    private static final String PREVIEW_PATH = "/site/template";
-
+    private static final String PREVIEW_PATH = "/template/preview";
+    private static final String CHANNEL_ID = "channelId";
+    private static final String TEMPLATE_ID = "templateId";
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
