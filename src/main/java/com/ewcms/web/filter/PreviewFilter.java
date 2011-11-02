@@ -7,6 +7,9 @@
 package com.ewcms.web.filter;
 
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,24 +26,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.service.ChannelServiceable;
 import com.ewcms.core.site.service.TemplateServiceable;
+import com.ewcms.publication.service.ArticlePublishServiceable;
 
 @Controller("previewFilter")
 public class PreviewFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(PreviewFilter.class);
     
+    private static final Format format = new SimpleDateFormat("yyyy-MM-dd");
     private static final String PREVIEW_PATH = "/template/preview";
-    private static final String CHANNEL_ID = "channelId";
-    private static final String TEMPLATE_ID = "templateId";
+    private static final String CHANNEL_ID_PARAM = "channelId";
+    private static final String TEMPLATE_ID_PARAM = "templateId";
+    private static final String ARTICLE_ID_PARAM = "articleId";
     
     @Autowired
     private ChannelServiceable channelService;
     
     @Autowired
     private TemplateServiceable templateService;
+    
+    @Autowired
+    private ArticlePublishServiceable articleService ;
     
     @Override
     public void destroy() {
@@ -51,26 +61,55 @@ public class PreviewFilter implements Filter {
     }
     
     private Integer getChannelId(HttpServletRequest request){
-        String value = request.getParameter(CHANNEL_ID);
+        String value = request.getParameter(CHANNEL_ID_PARAM);
         logger.debug("ChannelId is {}",value);
         return value == null ? null : Integer.valueOf(value);
     }
     
     private Integer getTemplateId(HttpServletRequest request){
-        String value = request.getParameter(TEMPLATE_ID);
+        String value = request.getParameter(TEMPLATE_ID_PARAM);
         logger.debug("TemplateId is {}",value);
         return value == null ? null : Integer.valueOf(value);
     }
     
-    private String getUri(Integer channelId,Integer templateId){
-        Channel channel = channelService.getChannel(channelId);
-        Template template = templateService.getTemplate(templateId);
+    private Long getArticleId(HttpServletRequest request){
+        String value = request.getParameter(ARTICLE_ID_PARAM);
+        logger.debug("ArticleId is {}",value);
+        return value == null ? null : Long.valueOf(value);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private String getRedirectUri(HttpServletRequest request,Long articleId,Integer templateId){
         
-        if(channel == null || template == null){
-            return null;
+        StringBuilder builder = new StringBuilder();
+        
+        if(templateId == null){
+            Article article = articleService.getArticle(articleId);
+            if(article == null){
+                return null;
+            }
+            builder.append("/document/")
+                   .append(format.format(article.getCreateTime()))
+                   .append("/view.html");
+        }else{
+            Template template = templateService.getTemplate(templateId);
+            if(template == null){
+                return null;
+            }
+            Channel channel = channelService.getChannel(template.getChannelId());
+            builder.append(channel.getAbsUrl())
+                   .append("/")
+                   .append(template.getName());
         }
         
-        return channel.getAbsUrl() + "/" + template.getName()+"?view=true";
+        builder.append("?view=true");
+        for(Enumeration e = request.getParameterNames();e.hasMoreElements();){
+            String name = (String)e.nextElement();
+            String value = request.getParameter(name);
+            builder.append("&").append(name).append("=").append(value);
+        }
+        
+        return builder.toString();
     }
     
     @Override
@@ -87,12 +126,15 @@ public class PreviewFilter implements Filter {
         try{
             Integer channelId = getChannelId(request);
             Integer templateId = getTemplateId(request);
-            if(channelId == null || templateId == null){
+            Long articleId = getArticleId(request);
+            if(templateId == null 
+                    &&(channelId == null || articleId == null )){
+                
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return ;
             }
 
-            String redirectUri = getUri(channelId,templateId);
+            String redirectUri = getRedirectUri(request,articleId,templateId);
             if(redirectUri == null){
                 logger.debug("Redirect's address is null");
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
