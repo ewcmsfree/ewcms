@@ -66,6 +66,15 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 	
+   <filter>
+        <filter-name>previewFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>previewFilter</filter-name>
+        <url-pattern>/template/preview</url-pattern>
+    </filter-mapping>
+    
     <filter>
         <filter-name>error404Filter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
