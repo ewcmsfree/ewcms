@@ -59,7 +59,7 @@ public class PreviewRender implements Renderable{
     private Integer getPageNumber(HttpServletRequest request){
         String value = request.getParameter(PAGE_NUMBER_PARAM);
         logger.debug("Page number is {}",value);
-        return value == null ? new Integer(1) : Integer.valueOf(value);
+        return value == null ? new Integer(0) : Integer.valueOf(value);
     }
     
     private boolean isMock(HttpServletRequest request){
