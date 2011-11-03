@@ -29,45 +29,27 @@
                     hasSite:<s:property value="hasSite"/>
                 });
                 
-                //var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
-                //var popInterval = setInterval("_home.getPopMessage('" + popMessageUrl + "')",60000);
-                //_home.setPopInterval(popInterval);
+                var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
+                var popInterval = setInterval("_home.getPopMessage('" + popMessageUrl + "')",60000);
+                _home.setPopInterval(popInterval);
                 
-                //var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
-                //var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=notice'
-                //_home.getNotice(noticeUrl, noticeDetailUrl);
-                //var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "','" + noticeDetailUrl + "')",60000);
-                //_home.setNoticeInterval(noticeInterval);
+                var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
+                var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=notice'
+                _home.getNotice(noticeUrl, noticeDetailUrl);
+                var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "','" + noticeDetailUrl + "')",60000);
+                _home.setNoticeInterval(noticeInterval);
                 
-                //var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
-                //var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=subscription'
-                //_home.getSubscription(subscriptionUrl, subscriptionDetailUrl);
-                //var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl  + "','" + subscriptionDetailUrl +  "')",60000);
-                //_home.setSubscriptionInterval(subscriptionInterval);
+                var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
+                var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=subscription'
+                _home.getSubscription(subscriptionUrl, subscriptionDetailUrl);
+                var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl  + "','" + subscriptionDetailUrl +  "')",60000);
+                _home.setSubscriptionInterval(subscriptionInterval);
                 
-                //var tipMessageUrl = '<s:url namespace="/message/receive" action="unRead"/>';
-                //_home.getTipMessage(tipMessageUrl);
-                //var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
-                //_home.setTipInterval(tipInterval);
-                go();
+                var tipMessageUrl = '<s:url namespace="/message/receive" action="unRead"/>';
+                _home.getTipMessage(tipMessageUrl);
+                var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
+                _home.setTipInterval(tipInterval);
             });
-            function go(){
-                var url = '<s:url value="messageServlet.msg"/>';
-                var request =  new XMLHttpRequest();
-                request.open("GET", url, true);
-                request.setRequestHeader("Content-Type","application/x-javascript;");
-                request.onreadystatechange = function() {
-                    if (request.readyState == 4) {
-                        if (request.status == 200){
-                            if (request.responseText) {
-                                document.getElementById("forecasts").innerHTML = request.responseText;
-                            }
-                        }
-                        go();
-                    }
-                };
-                request.send(null);
-            }
         </script>
     </head>
     <body class="easyui-layout">
