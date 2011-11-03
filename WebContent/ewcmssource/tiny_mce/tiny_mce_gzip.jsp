@@ -250,7 +250,9 @@
 	public String mapPath(HttpServletRequest request, String path) {
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath() + "/";
-		requestURI = requestURI.replace(contextPath,"");
+		if (!contextPath.equals("/")){
+			requestURI = requestURI.replace(contextPath,"");
+		}
 		String absPath = getServletContext().getRealPath(requestURI);
 
 		absPath = absPath.substring(0, absPath.lastIndexOf(File.separatorChar) + 1);

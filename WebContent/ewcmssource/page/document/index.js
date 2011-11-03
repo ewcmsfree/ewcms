@@ -22,6 +22,7 @@ $(function() {
 	ewcmsBOBJ.addToolItem('新增', 'icon-add', addOperate, 'btnAdd');
 	ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
 	ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
+	ewcmsBOBJ.addToolItem('预览', 'icon-article-preview', previewOperate, 'btnPreview')
 	ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
 	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
 	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
@@ -115,6 +116,19 @@ $(function() {
 	$('#btnSearch').linkbutton('disable');
 	$('#btnBack').linkbutton('disable');
 });
+function previewOperate(){
+	var rows = $('#tt').datagrid('getSelections');
+	if (rows.length == 0) {
+		$.messager.alert('提示', '请选择预览记录', 'info');
+		return;
+	}
+	if (rows.length > 1) {
+		$.messager.alert('提示', '只能选择一个预览', 'info');
+		return;
+	}
+	window.open('/template/preview?channelId=' + currentnode.id + '&articleId=' + rows[0].article.id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+}
+
 //把子菜单添加到相应的父节点上
 function initSubMenu() {
 	$('#btnSort .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSortSub'});

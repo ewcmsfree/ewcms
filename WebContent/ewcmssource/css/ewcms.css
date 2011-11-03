@@ -280,3 +280,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-subscription-add{
 	background:url('icons/subscription_add.png') no-repeat;
 }
+.icon-article-preview{
+	background:url('icons/article_preview.png') no-repeat;
+}
