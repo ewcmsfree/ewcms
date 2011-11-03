@@ -175,7 +175,7 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannel(1, 1)).thenReturn(createChannel(1,true));
         when(service.getChannel(1, 2)).thenReturn(createChannel(2,true));
         when(service.getChannel(1, 3)).thenReturn(createChannel(3,true));
-        when(service.getChannelByUrlOrPath(1,"/db/test")).thenReturn(createChannel(3,true));
+        when(service.getChannelByUrlOrPath(1,"db/test")).thenReturn(createChannel(3,true));
         ChannelListDirective directive = new ChannelListDirective(service);
         
         cfg.setSharedVariable("clist", directive);
