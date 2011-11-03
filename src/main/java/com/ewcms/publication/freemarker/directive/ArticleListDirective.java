@@ -161,8 +161,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         String value = FreemarkerUtil.getString(params, name);
         logger.debug("Directive {} property is {}",name,value);
         if (EmptyUtil.isStringNotEmpty(value)) {
-            value = value.trim();
-            channel = channelService.getChannelByUrlOrPath(siteId, value);
+            String path = UriFormat.formatChannelPath(value);
+            channel = channelService.getChannelByUrlOrPath(siteId, path);
             if(EmptyUtil.isNotNull(channel)){
                 logger.debug("Channel is {}",channel.toString());
                 return channel;

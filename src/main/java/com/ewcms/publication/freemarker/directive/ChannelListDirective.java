@@ -82,10 +82,10 @@ public class ChannelListDirective implements TemplateDirectiveModel {
                 String name = getNameValue(params);
                 Writer writer = env.getOut();
                 for (int i = 0 ; i < channels.size(); i++) {
-                    body.render(writer);
                     Channel channel = channels.get(i);
                     FreemarkerUtil.setVariable(env, name, channel);
                     FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), i + 1);
+                    body.render(writer);
                     FreemarkerUtil.removeVariable(env, GlobalVariable.INDEX.toString());
                     FreemarkerUtil.removeVariable(env, name);
                 }
@@ -218,12 +218,13 @@ public class ChannelListDirective implements TemplateDirectiveModel {
             logger.debug("Channel is {}",channel.toString());
             return loadingChannel(siteId, channel.getId(),child,debug);
         }
-        channel = channelService.getChannelByUrlOrPath(siteId, value);
+        String path = UriFormat.formatChannelPath(value);
+        channel = channelService.getChannelByUrlOrPath(siteId, path);
         if(EmptyUtil.isNotNull(channel)){
             logger.debug("Channel is {}",channel.toString());
             return loadingChannel(siteId, channel.getId(),child,debug);
         }
-        throw new TemplateModelException(value + "Url or variable " + value + " had not exist");
+        throw new TemplateModelException("Url or variable \"" + value + "\" had not exist");
     }
     
     /**
