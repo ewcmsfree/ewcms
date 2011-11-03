@@ -30,7 +30,6 @@ import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.publication.preview.PreviewServiceable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -50,8 +49,6 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	private String templateFileContentType;
 	private String templateContent;
 	private Integer id;
-	@Autowired
-	private PreviewServiceable templatePreview;
 
 	public Template getTemplateVo() {
 		return super.getVo();
@@ -181,51 +178,15 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 
 	public String importTemplate() {
 		if (templateFile != null) {
-			try {
-				if (templateFileContentType != null
-						&& "application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
-					ZipFile zfile = new ZipFile(templateFile);
-					Enumeration zList = zfile.entries();
-					Map<String, Integer> dirMap = new HashMap<String, Integer>();
-					ZipEntry ze = null;
-					String[] pathArr;
-					String pathKey, path;
-					while (zList.hasMoreElements()) {
-						ze = (ZipEntry) zList.nextElement();
-						Template vo = new Template();
-						vo.setSite(getCurrentSite());
-						pathArr = ze.getName().split("/");
-						vo.setName(pathArr[pathArr.length - 1]);
-						pathKey = ze.getName().substring(0, ze.getName().lastIndexOf(pathArr[pathArr.length - 1]));
-						if (pathKey == null || pathKey.length() == 0) {
-							if (getTemplateVo().getParent().getId() == null) {
-								vo.setParent(null);
-							} else {
-								vo.setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
-							}
-						} else {
-							vo.setParent(siteFac.getTemplate(dirMap.get(pathKey)));
-						}
-
-						if (ze.isDirectory()) {
-							dirMap.put(ze.getName(), siteFac.addTemplate(vo));
-							continue;
-						}
-
-						InputStream in = new BufferedInputStream(zfile.getInputStream(ze));
-						byte[] buffer = new byte[Integer.parseInt(String.valueOf(ze.getSize()))];
-						in.read(buffer);
-						TemplateEntity tplEntityVo = new TemplateEntity();
-						tplEntityVo.setTplEntity(buffer);
-						vo.setTemplateEntity(tplEntityVo);
-						siteFac.addTemplate(vo);
-					}
-					zfile.close();
-				} else {
-					getTemplateVo().setSite(getCurrentSite());
-					getTemplateVo().setName(templateFileFileName);
-					getTemplateVo().setSize(converKB(templateFile.length()));
-					TemplateEntity tplEntityVo = new TemplateEntity();
+			if (templateFileContentType != null
+					&& "application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
+				parseTemplateZIPFile();
+			} else {
+				getTemplateVo().setSite(getCurrentSite());
+				getTemplateVo().setName(templateFileFileName);
+				getTemplateVo().setSize(converKB(templateFile.length()));
+				TemplateEntity tplEntityVo = new TemplateEntity();
+				try {
 					byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
 					InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
 							.valueOf(templateFile.length())));
@@ -238,15 +199,64 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 						getTemplateVo().setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
 					}
 					siteFac.addTemplate(getTemplateVo());
+				} catch (Exception e) {
+					outputInfo(e.toString());
 				}
-			} catch (Exception e) {
-				outputInfo(e.toString());
 			}
+
 		} else {
 			if (getTemplateVo().getParent() != null && getTemplateVo().getParent().getId() != null)
 				getTemplateVo().setPath(siteFac.getTemplate(getTemplateVo().getParent().getId()).getPath());
 		}
 		return INPUT;
+	}
+
+	private void parseTemplateZIPFile() {
+		try {
+			ZipFile zfile = new ZipFile(templateFile);
+			Enumeration zList = zfile.entries();
+			Map<String, Integer> dirMap = new HashMap<String, Integer>();
+			ZipEntry ze = null;
+			String[] pathArr;
+			String pathKey, path;
+			while (zList.hasMoreElements()) {
+				try {
+					ze = (ZipEntry) zList.nextElement();
+					Template vo = new Template();
+					vo.setSite(getCurrentSite());
+					pathArr = ze.getName().split("/");
+					vo.setName(pathArr[pathArr.length - 1]);
+					pathKey = ze.getName().substring(0, ze.getName().lastIndexOf(pathArr[pathArr.length - 1]));
+					if (pathKey == null || pathKey.length() == 0) {
+						if (getTemplateVo().getParent().getId() == null) {
+							vo.setParent(null);
+						} else {
+							vo.setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
+						}
+					} else {
+						vo.setParent(siteFac.getTemplate(dirMap.get(pathKey)));
+					}
+
+					if (ze.isDirectory()) {
+						dirMap.put(ze.getName(), siteFac.addTemplate(vo));
+						continue;
+					}
+
+					InputStream in = new BufferedInputStream(zfile.getInputStream(ze));
+					byte[] buffer = new byte[Integer.parseInt(String.valueOf(ze.getSize()))];
+					in.read(buffer);
+					TemplateEntity tplEntityVo = new TemplateEntity();
+					tplEntityVo.setTplEntity(buffer);
+					vo.setTemplateEntity(tplEntityVo);
+					siteFac.addTemplate(vo);
+				} catch (Exception e) {
+					outputInfo(e.toString());
+				}
+			}
+			zfile.close();
+		} catch (Exception e) {
+			outputInfo(e.toString());
+		}
 	}
 
 	/**
@@ -426,7 +436,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			tplEntityVo.setTplEntity(getTemplateContent().getBytes("UTF-8"));
 			vo.setTemplateEntity(tplEntityVo);
 			siteFac.updTemplate(vo);
-			
+
 			addActionMessage("模板内容保存成功！");
 		} catch (Exception e) {
 			addActionMessage("模板内容保存失败！");
