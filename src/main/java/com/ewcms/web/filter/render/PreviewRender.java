@@ -59,7 +59,7 @@ public class PreviewRender implements Renderable{
     private Integer getPageNumber(HttpServletRequest request){
         String value = request.getParameter(PAGE_NUMBER_PARAM);
         logger.debug("Page number is {}",value);
-        return value == null ? null : Integer.valueOf(value);
+        return value == null ? new Integer(1) : Integer.valueOf(value);
     }
     
     private boolean isMock(HttpServletRequest request){
@@ -78,12 +78,12 @@ public class PreviewRender implements Renderable{
         Integer templateId = getTemplateId(request);
         try{
             if(templateId != null){
-                boolean mock = isMock(request);
+                Boolean mock = isMock(request);
                 preview.viewTemplate(response.getOutputStream(), templateId, mock);
             }else{
-                int channelId = getChannelId(request);
-                long articleId = getArticleId(request);
-                int pageNumber = getPageNumber(request);
+                Integer channelId = getChannelId(request);
+                Long articleId = getArticleId(request);
+                Integer pageNumber = getPageNumber(request);
                 preview.viewArticle(response.getOutputStream(), channelId, articleId, pageNumber);
             }
             return true;
