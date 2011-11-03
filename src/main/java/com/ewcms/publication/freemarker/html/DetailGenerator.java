@@ -26,8 +26,9 @@ import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.output.event.ArticleOutputEvent;
 import com.ewcms.publication.service.ArticlePublishServiceable;
-import com.ewcms.publication.uri.DefaultArticleUriRule;
+import com.ewcms.publication.uri.DefaultDetailUriRule;
 import com.ewcms.publication.uri.NullUriRule;
+import com.ewcms.publication.uri.PreviewDetailUriRule;
 import com.ewcms.publication.uri.UriRuleable;
 
 import freemarker.template.Configuration;
@@ -42,12 +43,12 @@ public class DetailGenerator extends GeneratorBase {
     private static final Logger logger = LoggerFactory.getLogger(DetailGenerator.class);
     
     private static final Integer MAX_ARTICLES = 1000;
+    private static final UriRuleable DEFAULT_URI_RULE = new DefaultDetailUriRule();
+    private static final UriRuleable PREVIEW_URI_RULE = new PreviewDetailUriRule();
     
     private Configuration cfg;
     private ArticlePublishServiceable service;
     private Integer maxArticles;
-    
-    UriRuleable uriRule = new DefaultArticleUriRule();
     
     public DetailGenerator(Configuration cfg,ArticlePublishServiceable service){
         this(cfg,service,MAX_ARTICLES);
@@ -107,7 +108,7 @@ public class DetailGenerator extends GeneratorBase {
             
             for(int i = 0 ; i < count; ++i){
                 Map<String,Object> parameters = constructParameters(site,channel,article,i,count,Boolean.FALSE);
-                resource.addChild(generator(t,parameters,uriRule));
+                resource.addChild(generator(t,parameters,DEFAULT_URI_RULE));
             }
             
             String url = resource.getChildren().get(0).getUri();
@@ -144,8 +145,7 @@ public class DetailGenerator extends GeneratorBase {
          Map<String,Object> parameters = constructParameters(site,channel,article,pageNumber,pageCount,Boolean.TRUE);
          
          freemarker.template.Template t = getFreemarkerTemplate(cfg,template.getUniquePath());
-         UriRuleable rule =new NullUriRule();
          Writer writer = new OutputStreamWriter(stream);
-         write(t , parameters, rule, writer);
+         write(t , parameters, PREVIEW_URI_RULE, writer);
     }
 }
