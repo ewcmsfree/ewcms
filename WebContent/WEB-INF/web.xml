@@ -120,17 +120,6 @@
 		<url-pattern>/result.vote</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 
-	<servlet>
-		<servlet-name>messageServlet</servlet-name>
-		<servlet-class>com.ewcms.content.message.comet.MessageServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>messageServlet</servlet-name>
-		<url-pattern>/messageServlet.msg</url-pattern>
-	</servlet-mapping>
-	 -->
-
     <welcome-file-list>
         <welcome-file>index.do</welcome-file>
     </welcome-file-list>
