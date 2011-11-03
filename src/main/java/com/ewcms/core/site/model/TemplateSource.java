@@ -74,7 +74,7 @@ public class TemplateSource implements Serializable {
     @ManyToOne(cascade = {CascadeType.REFRESH}, targetEntity = TemplateSource.class)
     @JoinColumn(name = "parent_id", nullable = true)
     private TemplateSource parent;
-    @OneToOne(cascade={CascadeType.ALL},targetEntity=TemplatesrcEntity.class,fetch = FetchType.LAZY)
+    @OneToOne(cascade={CascadeType.ALL},targetEntity=TemplatesrcEntity.class,fetch = FetchType.EAGER)
     @JoinColumn(name="tplEntityId",nullable=true)
     private TemplatesrcEntity sourceEntity;
     @Formula(value="(Select count(o.id) From site_templatesource o Where o.parent_id= id)")
