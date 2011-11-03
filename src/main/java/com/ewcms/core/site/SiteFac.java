@@ -27,6 +27,8 @@ import com.ewcms.core.site.service.TemplateServiceable;
 import com.ewcms.core.site.service.TemplateSourceServiceable;
 import com.ewcms.web.vo.TreeNode;
 
+import freemarker.template.Configuration;
+
 /**
  * 
  * @author 周冬初
@@ -43,7 +45,9 @@ public class SiteFac{
 	private OrganService organService;	
 	@Autowired
 	private TemplateSourceServiceable templateSourceService;
-
+	@Autowired
+    private Configuration cfg;
+    
     @PreAuthorize("isAuthenticated()")
     public Acl findAclOfChannel(final Channel channel){
     	return channelService.findAclOfChannel(channel);
@@ -121,12 +125,15 @@ public class SiteFac{
 	}
 
 	public Integer updTemplate(Template vo) {
-		return templateService.updTemplate(vo);
+		Integer id = templateService.updTemplate(vo);
+		cfg.clearTemplateCache();
+		return id;
 	}
 
 	
 	public void delTemplateBatch(List<Integer> idList) {
 		templateService.delTemplateBatch(idList);		
+		cfg.clearTemplateCache();
 	}
 
 	
