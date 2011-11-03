@@ -122,14 +122,13 @@ public class TemplateSourceDAO extends JpaDAO<Integer, TemplateSource> {
         });	
 	}
 	
-	public TemplateSource getTemplateSourceByPath(final Integer siteId,final String path){
+	public TemplateSource getTemplateSourceByPath(final String path){
 	    List<TemplateSource> res = this.getJpaTemplate().execute(new JpaCallback<List<TemplateSource>>() {
             @Override
             public List<TemplateSource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From TemplateSource o Where  o.path=? and o.site.id=?";
+                String hql = "From TemplateSource o Where  o.uniquePath=?";
                 TypedQuery<TemplateSource> query = em.createQuery(hql, TemplateSource.class);
                 query.setParameter(1,path);
-                query.setParameter(2, siteId);
                 return query.getResultList();
             }
         });
