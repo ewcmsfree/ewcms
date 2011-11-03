@@ -158,6 +158,6 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 
 	@Override
 	public TemplateSource getTemplateSourceByUniquePath(String path) {
-		return templateSourceDao.getTemplateSourceByPath(getCurSite().getId(), path);
+		return templateSourceDao.getTemplateSourceByPath(getCurSite().getId()+path);
 	}	
 }
