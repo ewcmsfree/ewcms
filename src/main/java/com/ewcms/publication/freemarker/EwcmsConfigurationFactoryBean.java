@@ -34,7 +34,7 @@ public class EwcmsConfigurationFactoryBean extends EwcmsConfigurationFactory imp
     @Override
     public Configuration getObject() throws IOException, TemplateException {
         configuration = (configuration == null ? createConfiguration() : configuration);
-        return configuration;
+        return configuration; 
     }
 
     @Override
