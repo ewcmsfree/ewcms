@@ -87,23 +87,27 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	@Override
 	public StringBuffer getQuestionnaireViewToHtml(Long questionnaireId, String servletContentName){
 		try{
+			if (!servletContentName.equals("")){
+				servletContentName = "/" + servletContentName;
+			}
+			
 			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
 			if (questionnaire == null) return new StringBuffer("<p>没有问卷调查</p>");
 			
 			StringBuffer view = new StringBuffer();
 			
 			view.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
-			view.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/page/vote/vote.css'/>\n");
-			view.append("<script language='javascript' src='/" + servletContentName + "/source/page/vote/vote.js'></script>\n");
+			view.append("<link rel='stylesheet' type='text/css' href='" + servletContentName + "/ewcmssource/page/vote/vote.css'/>\n");
+			view.append("<script language='javascript' src='" + servletContentName + "/ewcmssource/page/vote/vote.js'></script>\n");
 			
-			if (questionnaire.getVoteEnd() || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
+			if ((questionnaire.getVoteEnd()!= null && questionnaire.getVoteEnd()) || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
 				view.append("<p>对不起，此调查已结束，不再接受投票</p>");
 			}else{
 				List<Subject> subjects = questionnaire.getSubjects();
 				if (subjects == null || subjects.isEmpty())	return new StringBuffer("<p>没有问卷调查</p>");
 				
 				view.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
-				view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='/" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
+				view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 				view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
 				view.append("  <input type='hidden' id='voteEnd' name='voteEnd' value='" + questionnaire.getVoteEnd() + "'>\n");
 				view.append("    <dl>\n");
@@ -166,7 +170,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				if (questionnaire.getVerifiCode()){
 					view.append("    <dl>\n");
 					view.append("      <dd>\n");
-					view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='/" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"/" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
+					view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"/" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
 					view.append("        <input type='text' name='j_checkcode' class='checkcode' size='10' maxlength='4' title='验证码不区分大小写'/>");
 					view.append("      </dd>\n");
 					view.append("    </dl>\n");
@@ -175,7 +179,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				view.append("       <dd>\n");
 				view.append("         <input type='submit' value='提交' onclick='return checkVote(" + questionnaireId + ");'>&nbsp;&nbsp;");
 				if (questionnaire.getQuestionnaireStatus() != QuestionnaireStatus.NOVIEW){
-					view.append("         <input type='button' value='查看' onclick='javascript:window.open(\"/" + servletContentName + "/result.vote?id=" + questionnaireId + "\",\"_blank\")'>\n");
+					view.append("         <input type='button' value='查看' onclick='javascript:window.open(\"" + servletContentName + "/result.vote?id=" + questionnaireId + "\",\"_blank\")'>\n");
 				}
 				view.append("       </dd>\n");
 				view.append("    </dl>\n");
@@ -198,6 +202,10 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	@Override
 	public StringBuffer getQuestionnaireResultToHtml(Long questionnaireId, String servletContentName, String ipAddr, Boolean isView){
 		try{
+			if (!servletContentName.equals("")){
+				servletContentName = "/" + servletContentName;
+			}
+			
 			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
 			if (questionnaire == null) return new StringBuffer("<p>没有问卷调查结果</p>");
 			
@@ -212,7 +220,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 			StringBuffer result = new StringBuffer();
 			
 			result.append("<div id='voteresult' style='height:100%;overflow-y:auto;text-align:left;'>\n");
-			result.append("<link rel='stylesheet' type='text/css' href='/" + servletContentName + "/source/page/vote/voteresult.css'/>\n");
+			result.append("<link rel='stylesheet' type='text/css' href='" + servletContentName + "/ewcmssource/page/vote/voteresult.css'/>\n");
 			result.append("  <div style='padding:10px;overflow:hidden;_overflow:visible;_height:1%;'>\n");
 			result.append("    <h2 style='float:left;'>" + questionnaire.getTitle() + "：调查结果</h2>\n");
 			//result.append("    <h2 style='float:right;'>投票人数：" + questionnaire.getNumber() + "</h2>\n");

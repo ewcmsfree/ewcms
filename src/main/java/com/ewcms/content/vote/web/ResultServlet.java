@@ -51,7 +51,7 @@ public class ResultServlet extends HttpServlet {
 				
 		    	String ipAddr = req.getRemoteAddr();
 		    	
-		    	output = voteFac.getQuestionnaireResultClientToHtml(questionnaireId, getServletContext().getServletContextName(), ipAddr);
+		    	output = voteFac.getQuestionnaireResultClientToHtml(questionnaireId, getServletContext().getContextPath(), ipAddr);
 			}
 			out = resp.getOutputStream();
 	    	resp.setCharacterEncoding("utf-8");

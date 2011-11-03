@@ -147,7 +147,7 @@ public class QuestionnaireAction extends CrudBaseAction<Questionnaire, Long> {
 			ServletOutputStream out = null;
 			StringBuffer output = new StringBuffer();
 			try{
-				output = voteFac.getQuestionnaireResultToHtml(getId(), ServletActionContext.getServletContext().getServletContextName(), null, false);
+				output = voteFac.getQuestionnaireResultToHtml(getId(), ServletActionContext.getServletContext().getContextPath(), null, false);
 				
 				ActionContext context = ActionContext.getContext();
 				HttpServletResponse response = (HttpServletResponse) context.get(ServletActionContext.HTTP_RESPONSE); 
@@ -167,11 +167,5 @@ public class QuestionnaireAction extends CrudBaseAction<Questionnaire, Long> {
 	    		}
 			}
 		}
-	}
-	
-	public String getUrlAndContextName() {
-		String url = getCurrentSite().getSiteURL();
-		String contextName = "ewcms";
-		return url + "/" + contextName;
 	}
 }

@@ -47,7 +47,7 @@ public class ViewServlet extends HttpServlet {
 		    	WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(application);
 		    	VoteFacable voteFac = (VoteFacable) wac.getBean("voteFac");
 		    	
-		    	StringBuffer js = voteFac.getQuestionnaireViewToHtml(new Long(questionnaireId), getServletContext().getServletContextName());
+		    	StringBuffer js = voteFac.getQuestionnaireViewToHtml(new Long(questionnaireId), getServletContext().getContextPath());
 		    	output.append(js.toString());
 			}
 			out = resp.getOutputStream();
