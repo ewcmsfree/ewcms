@@ -68,7 +68,6 @@
 			
             <result name="input">/WEB-INF/page/site/template/import.jsp</result>
         </action>
-         <action name="preview" class="com.ewcms.core.site.web.TemplateAction" method="previewTemplate"/>
         <action name="delete" class="com.ewcms.core.site.web.TemplateAction" method="delete"/>
         <action name="query" class="com.ewcms.core.site.web.TemplateQueryAction" method="query"/>
         <action name="input" class="com.ewcms.core.site.web.TemplateAction" method="input">
