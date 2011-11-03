@@ -12,21 +12,21 @@ import org.slf4j.LoggerFactory;
 import com.ewcms.publication.PublishException;
 
 /**
- * 默认文章页 uri生成规则
+ * 预览文章uri生成规则
  * 
  * @author wangwei
  */
-public class DefaultArticleUriRule extends UriRule{
+public class PreviewDetailUriRule extends UriRule {
+
+    private static final Logger logger = LoggerFactory.getLogger(PreviewDetailUriRule.class);
     
-    private static final Logger logger = LoggerFactory.getLogger(DefaultArticleUriRule.class);
-    
-    public DefaultArticleUriRule(){
-        String patter = "/document/${a.createTime}/${a.id}_${p}.html";
+    public PreviewDetailUriRule(){
+        String patter = "${a.id}.html?view=true&channelId=${c.id}&articleId=${a.id}&page=${p}";
         try {
             super.parse(patter);
         } catch (PublishException e) {
             logger.error("Patter parse error:{}",e.toString());
-            throw new IllegalStateException("DefaultArticleUriRule patter parse error");
+            throw new IllegalStateException("DefaultListUriRule patter parse error");
         }
     }
     
