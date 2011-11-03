@@ -71,7 +71,7 @@
 			}	
 
 			function previewTPL(idValue){
-				window.open('<s:url action="preview" namespace="/site/template"/>?templateVo.channelId=<s:property value="channelVo.id"/>&templateVo.id='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
+				window.open('/template/preview?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
 			}					
 		</script>		
 	</head>
