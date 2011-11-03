@@ -48,7 +48,7 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
     private Map<String, Object> freemarkerVariables = new HashMap<String,Object>();
     
     private List<TemplateLoader> postTemplateLoaders = new ArrayList<TemplateLoader>();;
-    
+     
     @Autowired
     protected ChannelPublishServiceable channelService;
     @Autowired
