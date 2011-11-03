@@ -90,7 +90,7 @@ public class PreviewFilter implements Filter {
             }
             builder.append("/document/")
                    .append(format.format(article.getCreateTime()))
-                   .append("/view.html");
+                   .append("/").append(article.getId()).append(".html");
         }else{
             Template template = templateService.getTemplate(templateId);
             if(template == null){
