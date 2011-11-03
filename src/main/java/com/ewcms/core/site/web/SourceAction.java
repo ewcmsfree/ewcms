@@ -126,23 +126,19 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			if (sourceFile != null) {
 				getSourceVo().setSize(converKB(sourceFile.length()));
 
-				byte[] buffer = new byte[Integer.parseInt(String
-						.valueOf(sourceFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(
-						sourceFile), Integer.parseInt(String.valueOf(sourceFile
-						.length())));
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
+				InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+						.valueOf(sourceFile.length())));
 				in.read(buffer);
 				tplEntityVo.setSrcEntity(buffer);
 				getSourceVo().setSourceEntity(tplEntityVo);
 
 			}
 			if (isUpdate) {
-				TemplateSource oldvo = siteFac.getTemplateSource(getSourceVo()
-						.getId());
+				TemplateSource oldvo = siteFac.getTemplateSource(getSourceVo().getId());
 				oldvo.setDescribe(getSourceVo().getDescribe());
 				if (sourceFile != null) {
-					oldvo.getSourceEntity().setSrcEntity(
-							getSourceVo().getSourceEntity().getSrcEntity());
+					oldvo.getSourceEntity().setSrcEntity(getSourceVo().getSourceEntity().getSrcEntity());
 					oldvo.setName(sourceFileFileName);
 					oldvo.setRelease(false);
 				}
@@ -150,14 +146,11 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			} else {
 				getSourceVo().setSourceEntity(tplEntityVo);
 				getSourceVo().setSite(getCurrentSite());
-				getSourceVo().setParent(
-						siteFac.channelTemplateSource(getSourceVo()
-								.getChannelId().toString()));
+				getSourceVo().setParent(siteFac.channelTemplateSource(getSourceVo().getChannelId().toString()));
 				if (sourceFile != null) {
 					getSourceVo().setName(sourceFileFileName);
 				} else {
-					String fileName = "new" + (int) (Math.random() * 100)
-							+ ".htm";
+					String fileName = "new" + (int) (Math.random() * 100) + ".htm";
 					getSourceVo().setName(fileName);
 				}
 				return siteFac.addTemplateSource(getSourceVo());
@@ -172,8 +165,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	protected TemplateSource createEmptyVo() {
 		TemplateSource newvo = new TemplateSource();
 		newvo.setChannelId(vo.getChannelId());
-		newvo.setPath(siteFac.channelTemplateSource(
-				vo.getChannelId().toString()).getPath());
+		newvo.setPath(siteFac.channelTemplateSource(vo.getChannelId().toString()).getPath());
 		return newvo;
 	}
 
@@ -185,14 +177,11 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			TreeNode treeFile = new TreeNode();
 			treeFile.setText(getCurrentSite().getSiteName());
 			treeFile.setState("open");
-			treeFile.setChildren(TreeNodeConvert.templateSourceConvert(siteFac
-					.getTemplaeSourceTreeList(false)));
-			Struts2Util
-					.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
+			treeFile.setChildren(TreeNodeConvert.templateSourceConvert(siteFac.getTemplaeSourceTreeList(false)));
+			Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 			return;
 		}
-		List<TreeNode> tnList = TreeNodeConvert.templateSourceConvert(siteFac
-				.getTemplaeSourceTreeList(id, false));
+		List<TreeNode> tnList = TreeNodeConvert.templateSourceConvert(siteFac.getTemplaeSourceTreeList(id, false));
 		if (tnList.isEmpty()) {
 			Struts2Util.renderJson("{}");
 		} else {
@@ -202,90 +191,87 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 
 	public String importSource() {
 		if (sourceFile != null) {
-			try {
-				if (sourceFileContentType != null
-						&& "application/zip,application/x-zip-compressed"
-								.indexOf(sourceFileContentType) != -1) {
-					ZipFile zfile = new ZipFile(sourceFile);
-					Enumeration zList = zfile.entries();
-					Map<String, Integer> dirMap = new HashMap<String, Integer>();
-					ZipEntry ze = null;
-					String[] pathArr;
-					String pathKey, path;
-					while (zList.hasMoreElements()) {
-						ze = (ZipEntry) zList.nextElement();
-						//outputInfo(ze.getName());
-						TemplateSource vo = new TemplateSource();
-						vo.setSite(getCurrentSite());
-						pathArr = ze.getName().split("/");
-						vo.setName(pathArr[pathArr.length - 1]);
-						pathKey = ze.getName().substring(
-								0,
-								ze.getName().lastIndexOf(
-										pathArr[pathArr.length - 1]));
-						if (pathKey == null || pathKey.length() == 0) {
-							if (getSourceVo().getParent().getId() == null) {
-								vo.setParent(null);
-							} else {
-								vo.setParent(siteFac
-										.getTemplateSource(getSourceVo()
-												.getParent().getId()));
-							}
-						} else {
-							vo.setParent(siteFac.getTemplateSource(dirMap
-									.get(pathKey)));
-						}
-						if (ze.isDirectory()) {
-							dirMap.put(ze.getName(),
-									siteFac.addTemplateSource(vo));
-							continue;
-						}
-						InputStream in = new BufferedInputStream(
-								zfile.getInputStream(ze));
-						byte[] buffer = new byte[Integer.parseInt(String
-								.valueOf(ze.getSize()))];
-						in.read(buffer);
-						
-						TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
-						tplEntityVo.setSrcEntity(buffer);
-						vo.setSourceEntity(tplEntityVo);
-						siteFac.addTemplateSource(vo);
-						buffer=null;
-						in.close();
-					}
-					zfile.close();
-				} else {
-					getSourceVo().setSite(getCurrentSite());
-					getSourceVo().setName(sourceFileFileName);
-					getSourceVo().setSize(converKB(sourceFile.length()));
-					TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
-					byte[] buffer = new byte[Integer.parseInt(String
-							.valueOf(sourceFile.length()))];
-					InputStream in = new BufferedInputStream(
-							new FileInputStream(sourceFile),
-							Integer.parseInt(String.valueOf(sourceFile.length())));
+			if (sourceFileContentType != null
+					&& "application/zip,application/x-zip-compressed".indexOf(sourceFileContentType) != -1) {
+				paraseSourceZIPFile();
+			} else {
+				getSourceVo().setSite(getCurrentSite());
+				getSourceVo().setName(sourceFileFileName);
+				getSourceVo().setSize(converKB(sourceFile.length()));
+				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
+				try {
+					InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+							.valueOf(sourceFile.length())));
 					in.read(buffer);
+
 					tplEntityVo.setSrcEntity(buffer);
 					getSourceVo().setSourceEntity(tplEntityVo);
 					if (getSourceVo().getParent().getId() == null) {
 						getSourceVo().setParent(null);
-					
-				}else{
-					getSourceVo().setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
-				}					
+
+					} else {
+						getSourceVo().setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
+					}
 					siteFac.addTemplateSource(getSourceVo());
+				} catch (Exception e) {
+					outputInfo(e.toString());
 				}
-			} catch (Exception e) {
-				outputInfo(e.toString());
 			}
 		} else {
-			if (getSourceVo().getParent() != null
-					&& getSourceVo().getParent().getId() != null)
-				getSourceVo().setPath(
-						siteFac.getTemplateSource(
-								getSourceVo().getParent().getId()).getPath());
+			if (getSourceVo().getParent() != null && getSourceVo().getParent().getId() != null)
+				getSourceVo().setPath(siteFac.getTemplateSource(getSourceVo().getParent().getId()).getPath());
 		}
 		return INPUT;
+	}
+
+	private void paraseSourceZIPFile() {
+		try {
+			ZipFile zfile = new ZipFile(sourceFile);
+			Enumeration zList = zfile.entries();
+			Map<String, Integer> dirMap = new HashMap<String, Integer>();
+			ZipEntry ze = null;
+			String[] pathArr;
+			String pathKey, path;
+			while (zList.hasMoreElements()) {
+				try {
+					ze = (ZipEntry) zList.nextElement();
+					TemplateSource vo = new TemplateSource();
+					vo.setSite(getCurrentSite());
+					pathArr = ze.getName().split("/");
+					vo.setName(pathArr[pathArr.length - 1]);
+					pathKey = ze.getName().substring(0, ze.getName().lastIndexOf(pathArr[pathArr.length - 1]));
+					if (pathKey == null || pathKey.length() == 0) {
+						if (getSourceVo().getParent().getId() == null) {
+							vo.setParent(null);
+						} else {
+							vo.setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
+						}
+					} else {
+						vo.setParent(siteFac.getTemplateSource(dirMap.get(pathKey)));
+					}
+					if (ze.isDirectory()) {
+						dirMap.put(ze.getName(), siteFac.addTemplateSource(vo));
+						continue;
+					}
+					InputStream in = new BufferedInputStream(zfile.getInputStream(ze));
+					byte[] buffer = new byte[Integer.parseInt(String.valueOf(ze.getSize()))];
+					in.read(buffer);
+
+					TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
+					tplEntityVo.setSrcEntity(buffer);
+					vo.setSourceEntity(tplEntityVo);
+					siteFac.addTemplateSource(vo);
+					buffer = null;
+					in.close();
+				} catch (Exception e) {
+					outputInfo(e.toString());
+				}
+			}
+			zfile.close();
+		} catch (Exception e) {
+			outputInfo(e.toString());
+		}
 	}
 
 	/**
@@ -299,7 +285,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			vo.setSourceEntity(new TemplatesrcEntity());
 			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
-			}else{
+			} else {
 				getSourceVo().setParent(siteFac.getTemplateSource(vo.getParent().getId()));
 			}
 			Integer tplId = siteFac.addTemplateSource(vo);
@@ -319,7 +305,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			vo.setSite(getCurrentSite());
 			if (vo.getParent().getId() == null) {
 				vo.setParent(null);
-			}else{
+			} else {
 				getSourceVo().setParent(siteFac.getTemplateSource(vo.getParent().getId()));
 			}
 			Integer tplId = siteFac.addTemplateSource(vo);
@@ -336,8 +322,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	public void renameSource() {
 		try {
 			String newName = getSourceVo().getName();
-			TemplateSource vo = siteFac
-					.getTemplateSource(getSourceVo().getId());
+			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			vo.setName(newName);
 			siteFac.updTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
@@ -365,13 +350,11 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	 */
 	public void movetoSource() {
 		try {
-			TemplateSource vo = siteFac
-					.getTemplateSource(getSourceVo().getId());
+			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			if (getSourceVo().getParent().getId() == null) {
 				vo.setParent(null);
 			} else {
-				vo.setParent(siteFac.getTemplateSource(getSourceVo()
-						.getParent().getId()));
+				vo.setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
 			}
 			siteFac.updTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
@@ -386,11 +369,9 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	 */
 	public String editSource() {
 		if (getSourceVo() != null && getSourceVo().getId() != null) {
-			TemplateSource vo = siteFac
-					.getTemplateSource(getSourceVo().getId());
+			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			try {
-				setSourceContent(new String(
-						vo.getSourceEntity().getSrcEntity(), "UTF-8"));
+				setSourceContent(new String(vo.getSourceEntity().getSrcEntity(), "UTF-8"));
 			} catch (Exception e) {
 			}
 			setSourceVo(vo);
@@ -410,19 +391,16 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 
 	public String saveInfo() {
 		try {
-			TemplateSource vo = siteFac
-					.getTemplateSource(getSourceVo().getId());
-				if (sourceFile != null){
-					TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
-					vo.setSize(converKB(sourceFile.length()));
-					byte[] buffer = new byte[Integer.parseInt(String
-							.valueOf(sourceFile.length()))];
-					InputStream in = new BufferedInputStream(new FileInputStream(
-							sourceFile), Integer.parseInt(String.valueOf(sourceFile
-							.length())));
-					in.read(buffer);
-					tplEntityVo.setSrcEntity(buffer);
-					vo.setSourceEntity(tplEntityVo);
+			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
+			if (sourceFile != null) {
+				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
+				vo.setSize(converKB(sourceFile.length()));
+				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
+				InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+						.valueOf(sourceFile.length())));
+				in.read(buffer);
+				tplEntityVo.setSrcEntity(buffer);
+				vo.setSourceEntity(tplEntityVo);
 			}
 			vo.setName(sourceFileFileName);
 			vo.setDescribe(getSourceVo().getDescribe());
@@ -436,8 +414,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 
 	public String saveContent() {
 		try {
-			TemplateSource vo = siteFac
-					.getTemplateSource(getSourceVo().getId());
+			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
 			tplEntityVo.setSrcEntity(getSourceContent().getBytes("UTF-8"));
 			vo.setSourceEntity(tplEntityVo);
