@@ -63,7 +63,7 @@ tinyMCE.init({
 		   	title : '插入图片',
 		   	image : ed.baseURI.getURI() + '/image/image.gif',
 		   	onclick : function() {
-				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=IMAGE";
+				var url = ed.baseURI.getURI() + "/../../resource/insert.do";
 		   		ed.focus();
 		   		openImageWindow(true,true,url);
 	       	}
@@ -72,7 +72,7 @@ tinyMCE.init({
 			title : '插入附件',
 			image : ed.baseURI.getURI() + '/image/annex.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=ANNEX&multi=true";
+				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=ANNEX&multi=true";
 				ed.focus();
 				openAnnexWindow(url);
 			}
@@ -90,7 +90,7 @@ tinyMCE.init({
 			title : '插入Flash',
 			image : ed.baseURI.getURI() + '/image/flash.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=FLASH&multi=true";
+				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=FLASH&multi=true";
 				ed.focus();
 				openFlashWindow(url);
 			}
@@ -99,7 +99,7 @@ tinyMCE.init({
 			title : '插入视频',
 			image : ed.baseURI.getURI() + '/image/video.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/resource.do?type=VIDEO&multi=true";
+				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=VIDEO&multi=true";
 				ed.focus();
 				openVideoWindow(url);
 			}
