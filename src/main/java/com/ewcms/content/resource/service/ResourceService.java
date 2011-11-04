@@ -76,11 +76,11 @@ public class ResourceService implements ResourceServiceable {
      * 
      * @param site 站点
      * @param uri  图片地址
+     * @param path 图片地址
      * @return     压缩图片地址
      */
-    private String imageCompression(Site site,String uri){
+    private String imageCompression(Site site,String uri,String path){
         String thumbUri = getThumbUri(uri);
-        String path = Resource.resourcePath(site, uri);
         String imagePath = Resource.resourcePath(site, thumbUri);
         boolean success = ImageUtil.compression(path, imagePath, 128, 128);
         return success ? thumbUri : uri;
@@ -115,7 +115,7 @@ public class ResourceService implements ResourceServiceable {
         resource.setType(type);
         resource.setSite(site);
         if (type == Resource.Type.IMAGE) {
-            resource.setThumbUri(imageCompression(site,uri));
+            resource.setThumbUri(imageCompression(site,uri,file.getPath()));
         }
         resourceDao.persist(resource);
 
@@ -137,11 +137,11 @@ public class ResourceService implements ResourceServiceable {
             if(resource.getPath().equals(resource.getThumbPath())){
                 String thumbUri = getThumbUri(resource.getUri());
                 String thumbPath = Resource.resourcePath(resource.getSite(), thumbUri);
-                if(ImageUtil.compression(resource.getPath(), thumbPath, 128, 128)){
+                if(ImageUtil.compression(file.getPath(), thumbPath, 128, 128)){
                     resource.setThumbUri(thumbUri);
                 }
             }else{
-                if(!ImageUtil.compression(resource.getPath(), resource.getThumbPath(), 128, 128)){
+                if(!ImageUtil.compression(file.getPath(), resource.getThumbPath(), 128, 128)){
                     FileUtils.forceDeleteOnExit(new File(resource.getThumbPath()));
                     resource.setThumbUri(resource.getUri());
                 }
