@@ -33,8 +33,8 @@
                 _u.init();
             });
 
-            function insert(callback){
-                _u.insert(callback);
+            function insert(callback,message){
+                _u.insert(callback,message);
             }
             
         </script>
