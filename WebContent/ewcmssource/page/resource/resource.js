@@ -134,11 +134,8 @@ Upload.prototype.init=function(){
 }
 
 Upload.prototype.insert=function(callback,message){
-	alert('2');
     var params = $('#resource_infos').serialize();
-    alert('3');
     $.post(this._saveaction,params,function(data){
-    	alert('4');
         if(callback){
             callback(data.value,data.success);
         }else{
