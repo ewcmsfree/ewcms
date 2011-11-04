@@ -29,12 +29,12 @@
               })
               
               var insert = function(callback,message){
-                  _insert.insert(callback.message);
+                  _insert.insert(callback,message);
               }
         </script>
     </head>
     <body>
-            <div class="easyui-tabs"  id="systemtab" border="true" fit="true">
+            <div class="easyui-tabs" border="true" fit="true">
                 <div title="上传"  style="padding: 5px;">
                     <iframe id="resourceifr_id" name="resourceifr" src='<s:url action="resource"/>?type=<s:property value="type"/>' class="editifr" scrolling="no"></iframe>
                 </div>

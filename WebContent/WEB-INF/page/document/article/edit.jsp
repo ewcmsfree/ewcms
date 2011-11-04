@@ -26,12 +26,7 @@
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
-	    	imageUploadURL = '<s:url action="resource" namespace="/resource"/>?type=image';
-	    	annexUploadURL = '<s:url action="resource" namespace="/resource"/>?type=annex';
-	    	//未定义
-	    	imageBrowseURL = '<s:url action="browse" namespace="/resource/image"/>';
-	    	//未定义
-	    	annexBrowseURL = '<s:url action="browse" namespace="/resource/annex"/>';
+	    	insertURL = '<s:url action="insert" namespace="/resource"/>';
 	    	userName = '<sec:authentication property="name"/>';
 	    	<s:property value="javaScript"/>
 			function tipMessage(){
@@ -260,19 +255,10 @@
             </div>
         </div>
 		<div id="image-window" class="easyui-window" closed="true" icon="icon-save" title="插入图片" style="display:none;">
-            <input type="hidden" id="image_multi_id" value=true/>
-            <input type="hidden" id="content_image_id" value=true/>
             <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
-                    <div class="easyui-tabs"  id="systemtab_image" border="false" fit="true"  plain="true">
-                        <div title="本地图片"  style="padding: 5px;" cache="true">
-                            <iframe src="" id="uploadifr_image_id"  name="uploadifr_image" class="editifr" scrolling="no"></iframe>
-                        </div>
-                        <div title="服务器图片" cache="true">
-                            <iframe src="" id="queryifr_image_id"  name="queryifr_image" class="editifr" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
+            	<div region="center" border="false">
+             		<iframe src="" id="uploadifr_image_id"  name="uploadifr_image" class="editifr" scrolling="no"></iframe>
+             	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertImageOperator()">插入</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#image-window').window('close');return false;">取消</a>
