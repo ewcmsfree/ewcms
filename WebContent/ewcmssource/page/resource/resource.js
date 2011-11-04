@@ -51,7 +51,7 @@ var Upload = function(context,saveaction,opts){
     this._context = context;
     this._opts = opts;
     this._saveaction = saveaction;
-};
+}
 
 Upload.prototype.init=function(){
     var utils = UploadUtils;
@@ -60,7 +60,8 @@ Upload.prototype.init=function(){
     
     $('#tt').datagrid({
         nowrap: false,
-        fit : true,
+        width:560,
+        height:280,
         columns:[[
                   {field:'ck',checkbox:true,width:20},
                   {field:'thumbUri',title:'引导图',width:40,align:'center',
@@ -130,7 +131,7 @@ Upload.prototype.init=function(){
             }
         }
     });
-};
+}
 
 Upload.prototype.insert=function(callback,message){
     var params = $('#resource_infos').serialize();
@@ -139,8 +140,13 @@ Upload.prototype.insert=function(callback,message){
             callback(data.value,data.success);
         }else{
             if(!data.success){
-                $.messager.alert('提示','插入图片错误');
+                if(message){
+                    $.messager.alert('提示',message);
+                }else{
+                    $.messager.alert('提示','插入资源错误');    
+                }
+                
             }
         }
      },"json");
-};
+}
