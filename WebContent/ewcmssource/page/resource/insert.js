@@ -27,6 +27,7 @@ ResourceInsert.prototype.init=function(opts){
         nowrap: false,
         pageSize:5,
         pageList:[5],
+        singleSelect:!opts.multi,
         columns:[[
            {field:'ck',checkbox:true},
            {field:'thumbUri',title:'引导图',width:60,align:'center',formatter:function(val,row){
@@ -51,15 +52,15 @@ ResourceInsert.prototype.init=function(opts){
 }
 
 ResourceInsert.prototype.insert=function(callback,message){
-    var title =$(".easyui-tabs").tabs("getSelected").title;
-    if(title == "插入"){
+    var title =$(".easyui-tabs").tabs("getSelected").panel('options').title;
+    if(title == "上传"){
         resourceifr.insert(callback,message);
     }else{
-        var rows = $("tt").datagrid('getSelections');
+        var rows = $("#tt").datagrid('getSelections');
         if(rows.length == 0){
             $.messager.alert('提示','请选择插入的资源','info');
             return;
         }
-         callback(rows,true);
+        callback(rows,true);
     }
 }

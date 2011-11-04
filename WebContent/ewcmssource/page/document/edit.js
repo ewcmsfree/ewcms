@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var categoryURL, imageUploadURL, imageBrowseURL, annexUploadURL, annexBrowseURL;
+var categoryURL, insertURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
@@ -72,29 +72,6 @@ $(function() {
 		cascadeCheck:false,
 		panelWidth:200
 	});
-	$('#systemtab_image').tabs({
-        onSelect:function(title){
-            var multi = $('#image_multi_id').val();
-            if(title == '本地图片'){
-                var src = imageUploadURL + '&multi='+multi;
-                $("#uploadifr_image_id").attr('src',src);
-            }else{
-                var src = imageBrowseURL + '&multi='+multi;
-                $("#queryifr_image_id").attr('src',src);
-            }
-        }
-    });
-    $('#systemtab_annex').tabs({
-        onSelect:function(title){
-            if(title == '本地附件'){
-                var src = annexUploadURL + '&multi=true';
-                $("#uploadifr_annex_id").attr('src',src);
-            }else{
-                var src = annexBrowseURL + '&multi=true';
-                $("#queryifr_annex_id").attr('src',src);
-            }
-        }
-    });
     
 	ewcmsCookiesInit(userName);
 	
@@ -647,60 +624,34 @@ function selectImage(url){
 }
 //打开图片页面
 function openImageWindow(multi,content_image,url){
-	$('#systemtab_image').tabs('select','本地图片');
-    $('#image_multi_id').val(multi);
-    $('#content_image_id').val(content_image);
-    if(multi){
-        $('#uploadifr_image_id').attr('src',url + '&multi=true');
-    }else{
-        $('#uploadifr_image_id').attr('src',url + '&multi=false');
-    }
-    ewcmsBOBJ.openWindow("#image-window",{width:600,height:500,title:"图片选择"});
+    url = url + '?type=image&multi=' + multi;
+    ewcmsBOBJ.openWindow("#image-window",{width:600,height:500,title:"图片选择",url:url});
 }
 //插入图片到内容编辑页面
 function insertImageOperator(){
-    var tab = $('#systemtab_image').tabs('getSelected');
-    var title = tab.panel('options').title;
-    var content_image = $('#content_image_id').val();
-    if(title == '本地图片'){
-        uploadifr_image.insert(function(data,success){
+    //var tab = $('#systemtab_image').tabs('getSelected');
+    //var title = tab.panel('options').title;
+    //var content_image = $('#content_image_id').val();
+    //if(title == '本地图片'){
+	uploadifr_image.insert(function(data, success){
         	if (success){
 	            $.each(data,function(index,value){
-	                if (content_image=="true"){
-	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
+//	                if (content_image=="true"){
+	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.description + "</p>";
 	                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 	        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
 	        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
 	        			}
-	                }else{
-	    				$("#referenceImage").attr("src", "../.." + value.uri);
-	    				$("#article_image").attr("value", value.uri);
-	                }
+//	                }else{
+//	    				//$("#referenceImage").attr("src", "../.." + value.uri);
+//	    				//$("#article_image").attr("value", value.uri);
+//	                }
 	            });
         	}else{
         		$.messager.alert('错误', '插入图片失败', 'error');
         	}
+        	
         });
-    }else{
-        queryifr_image.insert(function(data, success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                if (content_image=="true"){
-	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
-	                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	        			}
-	                }else{
-	    				$("#referenceImage").attr("src", "../.." + value.uri);
-	    				$("#article_image").attr("value", value.uri);
-	                }
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入图片失败', 'error');
-        	}
-        });
-    }
 	$("#image-window").window("close");
 }
 //打开问卷调查页面
