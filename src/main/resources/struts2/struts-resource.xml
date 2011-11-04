@@ -36,5 +36,9 @@
         <action name="revert" class="com.ewcms.content.resource.web.RecycleAction" method="revert"/>
         <action name="delete" class="com.ewcms.content.resource.web.RecycleAction" method="delete"/>
         <action name="clear" class="com.ewcms.content.resource.web.RecycleAction" method="clear"/>
+        
+         <action name="insert" class="com.ewcms.content.resource.web.InsertAction">
+            <result>/WEB-INF/page/resource/insert.jsp</result>
+        </action>
     </package>
 </struts>
