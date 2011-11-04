@@ -126,7 +126,7 @@ function previewOperate(){
 		$.messager.alert('提示', '只能选择一个预览', 'info');
 		return;
 	}
-	window.open('/template/preview?channelId=' + currentnode.id + '&articleId=' + rows[0].article.id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+	window.open('/template/preview?channelId=' + currentnode.id + '&articleId=' + rows[0].article.id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 }
 
 //把子菜单添加到相应的父节点上
