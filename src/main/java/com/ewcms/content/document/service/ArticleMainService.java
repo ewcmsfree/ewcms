@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,9 @@ import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.content.document.model.Content;
+import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
+import com.ewcms.content.document.model.ReviewUser;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
@@ -36,6 +39,9 @@ import com.ewcms.crawler.util.CrawlerUserName;
 import com.ewcms.history.History;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
+import com.ewcms.security.manage.model.Group;
+import com.ewcms.security.manage.model.User;
+import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -55,6 +61,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private WebPublishable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private UserServiceable userService;
 	
 	public void setWebPublish(WebPublishable webPublish) {
 		this.webPublish = webPublish;
@@ -245,6 +253,41 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (isNotNull(channelId)) {
 			webPublish.publishChannel(channelId, recursion);
 		}
+	}
+	
+	@Override
+	public Boolean reviewArticleMainIsEffective(Long articleMainId, Integer channelId){
+		if (isNull(articleMainId) && isNull(channelId)) return false;
+		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+		if (isNull(articleMain)) return false;
+		Article article = articleMain.getArticle();
+		if (isNull(article)) return false;
+		if (article.getStatus() == ArticleStatus.REVIEW){
+			ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcessId(), channelId);
+			List<ReviewUser> reviewUsers = rp.getReviewUsers();
+			List<ReviewGroup> reviewGroups = rp.getReviewGroups();
+			if (reviewUsers.isEmpty() && reviewGroups.isEmpty()){
+				return false;
+			}
+			String userName = EwcmsContextUtil.getUserName();
+			if (isNull(userName) || userName.length() == 0) return false;
+			for (ReviewUser reviewUser : reviewUsers){
+				if (reviewUser.getUserName().equals(userName)){
+					return true;
+				}
+			}
+			User user = userService.getUser(userName);
+			Set<Group> groups = user.getGroups();
+			if (isNull(groups)) return false;
+			for (ReviewGroup reviewGroup : reviewGroups){
+				for (Group group : groups){
+					if (reviewGroup.getGroupName().equals(group.getName())){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

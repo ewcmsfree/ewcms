@@ -187,6 +187,15 @@ public interface ArticleMainServiceable {
 	public void restoreArticleMain(Long articleMainId, Integer channelId);
 	
 	/**
+	 * 审核是否可以进行，通过流程定义的用户或用户组判断
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @param channelId 频道编号
+	 * @Param Boolean true:是,false:否
+	 */
+	public Boolean reviewArticleMainIsEffective(Long articleMainId, Integer channelId);
+	
+	/**
 	 * 审核文章
 	 * 
 	 * @param articleMainId 文章主体编号

@@ -256,4 +256,15 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
+	
+	public void reviewEffective(){
+		try{
+			Boolean effective =  documentFac.reviewArticleMainIsEffective(getSelections().get(0), getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON(effective.toString()));
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
 }

@@ -139,6 +139,11 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
+	public Boolean reviewArticleMainIsEffective(Long articleMainId, Integer channelId){
+		return articleMainService.reviewArticleMainIsEffective(articleMainId, channelId);
+	}
+	
+	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
 			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
