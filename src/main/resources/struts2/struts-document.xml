@@ -34,6 +34,7 @@
 			<result>/WEB-INF/page/document/article/reason.jsp</result>
 		</action>
 		<action name="topArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="topArticle"/>
+		<action name="reviewEffective" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewEffective"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index">
