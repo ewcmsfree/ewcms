@@ -28,6 +28,7 @@
         <sec:intercept-url pattern="/resource/receive.do" access="authenticated"/>
         <sec:intercept-url pattern="/resource/thumb.do" access="authenticated"/>
         <sec:intercept-url pattern="/resource/thumbReceive.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/insert.do" access="authenticated"/>
         <sec:intercept-url pattern="/resource/**/*.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/scheduling/jobchannel/*.do" access="authenticated"/>
