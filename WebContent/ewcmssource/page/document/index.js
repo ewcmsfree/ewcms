@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL;
+var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL, effectiveURL;
 var currentnode, rootnode;//当前所选择的节点，父节点
 var sort = '';//排序值
 
@@ -577,10 +577,16 @@ function reviewOperate() {
 		return;
 	}
 	if (rows[0].article.status == 'REVIEW') {
-		ewcmsBOBJ.openWindow('#review-window', {
-			width : 550,
-			height : 230,
-			title : '审核'
+		$.post(effectiveURL, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id}, function(data) {
+			if (data == 'true'){
+				ewcmsBOBJ.openWindow('#review-window', {
+					width : 550,
+					height : 230,
+					title : '审核'
+				});
+			}else{
+				$.messager.alert('提示', '您没有权限审核此文章', 'info');
+			}
 		});
 	} else {
 		$.messager.alert('提示', '文章只能在审核中状态才能审核', 'info');
