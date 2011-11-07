@@ -60,7 +60,15 @@ $(function() {
 					return rec.article.title + classValue;
 				}
 			},
-			{field : 'statusDescription',title : '状态',width : 60,formatter : function(val, rec) {return rec.article.statusDescription;}}, 
+			{field : 'statusDescription',title : '状态',width : 120,
+				formatter : function(val, rec) {
+					var processName = "";
+					if (rec.article.status == 'REVIEW' && rec.article.reviewProcess != null){
+						processName = "(" + rec.article.reviewProcess.name + ")";
+					}
+					return rec.article.statusDescription + processName;
+				}
+			}, 
 			{field : 'published',title : '发布时间',width : 145,formatter : function(val, rec) {return rec.article.published;}}, 
 			{field : 'modified',title : '修改时间',width : 145,formatter : function(val, rec) {return rec.article.modified;}}, 
 			{field : 'sort',title : '排序号',width : 50}
@@ -686,14 +694,14 @@ function adjustMenu(status){
 	if (status == 'REVIEW'){
 		$('#btnReviewSubmit').attr('style', 'display:none;');
 		$('#btnReviewProcess').attr('style', 'display:block;');
-		$('#btnBreakArticle').attr('style', 'display:none;');
+		//$('#btnBreakArticle').attr('style', 'display:none;');
 	}else if (status == 'DRAFT' || status == 'REEDIT'){
 		$('#btnReviewSubmit').attr('style', 'display:block;');
 		$('#btnReviewProcess').attr('style', 'display:none;');
-		$('#btnBreakArticle').attr('style', 'display:none;');
+		//$('#btnBreakArticle').attr('style', 'display:none;');
 	}else if (status == 'PRERELEASE' || status == 'RELEASE' || status == 'REVIEWBREAK'){
 		$('#btnReviewSubmit').attr('style', 'display:none;');
 		$('#btnReviewProcess').attr('style', 'display:none;');
-		$('#btnBreakArticle').attr('style', 'display:block;');
+		//$('#btnBreakArticle').attr('style', 'display:block;');
 	}
 }
