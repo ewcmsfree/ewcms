@@ -24,6 +24,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * 审核流程定义
  * 
@@ -94,6 +96,7 @@ public class ReviewProcess implements Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public List<ReviewUser> getReviewUsers() {
 		return reviewUsers;
 	}
@@ -102,6 +105,7 @@ public class ReviewProcess implements Serializable {
 		this.reviewUsers = reviewUsers;
 	}
 
+	@JsonIgnore
 	public List<ReviewGroup> getReviewGroups() {
 		return reviewGroups;
 	}
@@ -110,6 +114,7 @@ public class ReviewProcess implements Serializable {
 		this.reviewGroups = reviewGroups;
 	}
 
+	@JsonIgnore
 	public ReviewProcess getNextProcess() {
 		return nextProcess;
 	}
@@ -118,6 +123,7 @@ public class ReviewProcess implements Serializable {
 		this.nextProcess = nextProcess;
 	}
 
+	@JsonIgnore
 	public ReviewProcess getPrevProcess() {
 		return prevProcess;
 	}

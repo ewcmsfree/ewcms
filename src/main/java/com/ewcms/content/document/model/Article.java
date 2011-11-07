@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -49,7 +50,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>comment:允许评论</li>
  * <li>type:文章类型</li>
  * <li>owner:创建者</li>
- * <li>reviewProcessId:审核流程编号</li>
  * <li>published:发布时间</li>
  * <li>modified:修改时间</li>
  * <li>status:状态</li>
@@ -60,6 +60,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>categories:文章分类属性集合</li>
  * <li>contentTotal:内容总页数<li>
  * <li>inside:使用内部标题</li>
+ * <li>reviewProcess:审核流程对象</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -104,8 +105,10 @@ public class Article implements Serializable {
 	private ArticleType type;
 	@Column(name = "owner")
 	private String owner;
-	@Column(name = "reviewprocess_id")
-	private Long reviewProcessId;
+//	@Column(name = "reviewprocess_id")
+//	private Long reviewProcessId;
+//	@Column(name = "reviewprocess_name")
+//	private String reviewProcessName;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "published")
 	private Date published;
@@ -134,6 +137,9 @@ public class Article implements Serializable {
 	private Integer contentTotal;
 	@Column(name = "inside")
 	private Boolean inside;
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = ReviewProcess.class)
+	@JoinColumn(name="reviewprocess_id")
+	private ReviewProcess reviewProcess;
 	
 	public Article() {
 		comment = false;
@@ -257,13 +263,13 @@ public class Article implements Serializable {
 		this.type = type;
 	}
 
-	public Long getReviewProcessId() {
-		return reviewProcessId;
-	}
-
-	public void setReviewProcessId(Long reviewProcessId) {
-		this.reviewProcessId = reviewProcessId;
-	}
+//	public Long getReviewProcessId() {
+//		return reviewProcessId;
+//	}
+//
+//	public void setReviewProcessId(Long reviewProcessId) {
+//		this.reviewProcessId = reviewProcessId;
+//	}
 
 	public String getOwner() {
 		return owner;
@@ -356,6 +362,14 @@ public class Article implements Serializable {
 
 	public void setInside(Boolean inside) {
 		this.inside = inside;
+	}
+
+	public ReviewProcess getReviewProcess() {
+		return reviewProcess;
+	}
+
+	public void setReviewProcess(ReviewProcess reviewProcess) {
+		this.reviewProcess = reviewProcess;
 	}
 
 	@Override
