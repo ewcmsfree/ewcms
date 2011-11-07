@@ -60,7 +60,15 @@
                                   }
                               },
                               {field:'owner',title:'创建者',width:80,formatter:function(val,rec){return rec.article.owner;}},
-                              {field:'statusDescription',title:'状态',width:60,formatter:function(val,rec){return rec.article.statusDescription;}},
+                  			  {field : 'statusDescription',title : '状态',width : 120,
+                  				  formatter : function(val, rec) {
+                  					  var processName = "";
+                  					  if (rec.article.status == 'REVIEW' && rec.article.reviewProcess != null){
+                  						  processName = "(" + rec.article.reviewProcess.name + ")";
+                  					  }
+                  					  return rec.article.statusDescription + processName;
+                  				  }
+                  			  }, 
                               {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
                               {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
                               {field:'sort',title:'排序号',width:60}
