@@ -552,23 +552,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 		return articleMain.getId();
 	}
 	
-//	@Override
-//	public List<String> findGroupName(String userName){
-//		List<String> groupNames = new ArrayList<String>();
-//		
-//		User user = userService.getUser(userName);
-//		if (isNotNull(user)) {
-//			Set<Group> groups = user.getGroups();
-//			if (isNotNull(groups) && !groups.isEmpty()){
-//				for (Group group : groups){
-//					String name = group.getName();
-//					groupNames.add(name);
-//				}
-//			}
-//		}
-//		return groupNames;
-//	}
-	
 	private void keywordAndSummary(Article article){
 		List<Content> contents = article.getContents();
 		String title = article.getTitle();

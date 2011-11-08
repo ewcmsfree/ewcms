@@ -222,12 +222,4 @@ public interface ArticleMainServiceable {
 	 * @param top 是否置顶(true:置顶,false:不置顶)
 	 */
 	public void topArticleMain(List<Long> articleMainIds, Boolean top);
-	
-//	/**
-//	 * 查询用户组名称集合
-//	 * 
-//	 * @param userName 用户名
-//	 * @return List 用户组名称集合
-//	 */
-//	public List<String> findGroupName(String userName);
 }
