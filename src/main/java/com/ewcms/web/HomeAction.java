@@ -40,25 +40,19 @@ public class HomeAction extends EwcmsBaseAction {
      * 
      * @param id 站点编号
      * @return 操作站点
-     * TODO 得到用户所属组织，通过组织得到站点。
      */
     private Site getSite(Integer id) {
+        Site site = null;
         if(id != null){
-            Site site =  siteFac.getSite(siteId);
-            if(site == null){
-                addActionError("站点不存在");
-                hasSite = false;
-                return new Site();    
-            }
-            return site;
+            site =  siteFac.getSite(siteId);
         }else{
+            //TODO 得到用户所属组织，通过组织得到站点。
             List<Site> list= siteFac.getSiteListByOrgans(new Integer[]{}, true);
-            if(list == null || list.isEmpty()){
-                hasSite = false;
-                return new Site();
+            if(list != null && !list.isEmpty()){
+                site = list.get(0);
             }
-           return list.get(0);
         }
+        return site ;
     }
 
     /**
@@ -72,13 +66,15 @@ public class HomeAction extends EwcmsBaseAction {
 	
 	public String execute() {
 	    
-	    realName = securityFac.getCurrentUserInfo().getName();
-	    
 		Site site = getSite(siteId);
+		hasSite = site != null;
+		
 		if(site != null){
 		    setSiteName(site.getSiteName());
 		    initSiteInContext(site);
 		}
+		
+		realName = securityFac.getCurrentUserInfo().getName();
 		
 		return SUCCESS;
 	}
