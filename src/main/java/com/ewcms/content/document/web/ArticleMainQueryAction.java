@@ -20,6 +20,7 @@ import org.springframework.security.acls.model.Permission;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
+import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ArticleType;
 import com.ewcms.core.site.SiteFac;
@@ -38,6 +39,8 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	
 	@Autowired
 	private SiteFac siteFac;
+	@Autowired
+	private DocumentFacable documentFac;
 	    
 	private Integer channelId;
 		
@@ -51,8 +54,8 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
-		String hql = "Select o From ArticleMain As o Left Join o.article AS r Where r.delete=false And o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Where r.delete=false And o.channelId=:channelId ";
+		String hql = "Select o From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where (p Is Null @Owner@ Or u.userName=:userName Or g.groupName In (:groupName)) And r.delete=false And o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where (p Is Null @Owner@ Or u.userName=:userName Or g.groupName In (:groupName)) And r.delete=false And o.channelId=:channelId ";
 		
 		Long id = getParameterValue(Long.class, "id", "查询编号错误，应该是整型");
 		if (isNotNull(id)){
@@ -96,8 +99,14 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		}
 		boolean isPermissionIsChannel = getPermissionIsChannel();
 		if (!isPermissionIsChannel){
-			hql += " And r.owner=:owner ";
-			countHql += " And r.owner=:owner ";
+			String ownerSql = " And r.owner=:owner ";
+			hql = hql.replace("@Owner@", ownerSql);
+			countHql = countHql.replace("@Owner@", ownerSql);
+//			hql += " And r.owner=:owner ";
+//			countHql += " And r.owner=:owner ";
+		}else{
+			hql = hql.replace("@Owner@", " ");
+			countHql = countHql.replace("@Owner@", " ");
 		}
 		
 		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
@@ -146,6 +155,8 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		if (!isPermissionIsChannel){
 			query.setParameter("owner", EwcmsContextUtil.getUserName());
 		}
+		query.setParameter("userName", EwcmsContextUtil.getUserName());
+		query.setParameter("groupName", documentFac.findGroupName(EwcmsContextUtil.getUserName()));
 		query.setParameter("channelId", getChannelId());
 		
 		setDateFormat(DATE_FORMAT);

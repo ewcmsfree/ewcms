@@ -309,7 +309,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (rp != null){
 					caption = "【" + rp.getName() + "】<span style='color:blue;'>通过</span>";
 					if (rp.getNextProcess() != null) {
-						//Long nextReviewProcessId = rp.getNextProcess().getId();
+//						Long nextReviewProcessId = rp.getNextProcess().getId();
 //						article.setReviewProcessId(nextReviewProcessId);
 						article.setReviewProcess(rp.getNextProcess());
 						caption += "，已提交到【" + rp.getNextProcess().getName() + "】进行审核。";
@@ -556,6 +556,22 @@ public class ArticleMainService implements ArticleMainServiceable {
 			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "修改。", "");
 		}
 		return articleMain.getId();
+	}
+	
+	public List<String> findGroupName(String userName){
+		List<String> groupNames = new ArrayList<String>();
+		
+		User user = userService.getUser(userName);
+		if (isNotNull(user)) {
+			Set<Group> groups = user.getGroups();
+			if (isNotNull(groups) && !groups.isEmpty()){
+				for (Group group : groups){
+					String name = group.getName();
+					groupNames.add(name);
+				}
+			}
+		}
+		return groupNames;
 	}
 	
 	private void keywordAndSummary(Article article){
