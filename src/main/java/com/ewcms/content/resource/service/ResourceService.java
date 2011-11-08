@@ -49,7 +49,6 @@ public class ResourceService implements ResourceServiceable {
     private Site getCurrentSite() {
         Site site = EwcmsContextUtil.getCurrentSite();
         logger.debug("Current site is {}",site);
-        site = (site == null ? new Site() : site);
         return site;
     }
     
@@ -290,7 +289,11 @@ public class ResourceService implements ResourceServiceable {
     
     @Override
     public Resource getResourceByUri(String uri) {
-        Integer siteId = getCurrentSite().getId();
+        Site site = getCurrentSite();
+        if(site == null){
+            return null;
+        }
+        Integer siteId = site.getId();
         return resourceDao.getResourceByUri(siteId, uri);
     }
     
