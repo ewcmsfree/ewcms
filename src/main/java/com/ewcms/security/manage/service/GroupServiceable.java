@@ -14,6 +14,8 @@ import com.ewcms.security.manage.model.User;
 
 public interface GroupServiceable {
     
+    public static final String GROUP_NAME_PERFIX = "GROUP_";
+    
     /**
      * 添加用户组
      * 

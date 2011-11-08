@@ -23,8 +23,6 @@ public class GroupService extends AbstractService implements GroupServiceable{
 
     static final Logger logger = LoggerFactory.getLogger(GroupService.class);
     
-    private static final String GROUP_NAME_PERFIX = "GROUP_";
-    
     /**
      * 移除过时的用户
      * 

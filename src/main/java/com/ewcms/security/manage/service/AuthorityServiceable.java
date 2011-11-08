@@ -13,6 +13,8 @@ package com.ewcms.security.manage.service;
  */
 public interface AuthorityServiceable {
 
+    public static final String Authority_NAME_PERFIX = "ROLE_";
+    
     /**
      * 判断通过用权限名是否存在
      * 
