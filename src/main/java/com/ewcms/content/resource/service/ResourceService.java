@@ -49,6 +49,7 @@ public class ResourceService implements ResourceServiceable {
     private Site getCurrentSite() {
         Site site = EwcmsContextUtil.getCurrentSite();
         logger.debug("Current site is {}",site);
+        site = (site == null ? new Site() : site);
         return site;
     }
     
