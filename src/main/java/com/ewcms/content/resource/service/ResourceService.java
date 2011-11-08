@@ -290,9 +290,6 @@ public class ResourceService implements ResourceServiceable {
     @Override
     public Resource getResourceByUri(String uri) {
         Site site = getCurrentSite();
-        if(site == null){
-            return null;
-        }
         Integer siteId = site.getId();
         return resourceDao.getResourceByUri(siteId, uri);
     }
