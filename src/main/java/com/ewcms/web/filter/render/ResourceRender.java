@@ -19,9 +19,11 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.service.ResourceServiceable;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.core.site.service.TemplateSourceServiceable;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * 返回指定的资源
@@ -98,8 +100,16 @@ public class ResourceRender implements Renderable {
        return true;
     }
     
+    private boolean skip(HttpServletRequest request,HttpServletResponse response){
+        Site site = EwcmsContextUtil.getCurrentSite();
+        return site == null;
+    }
     @Override
     public boolean render(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        
+        if(skip(request,response)){
+            return false;
+        }
         
         String uri = getPath(request);
         logger.debug("Resource path is {}",uri);
