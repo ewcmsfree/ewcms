@@ -35,48 +35,54 @@ public class HomeAction extends EwcmsBaseAction {
 	@Autowired
 	private SecurityFacable securityFac;
 
+	/**
+     * 得到操作站点
+     * 
+     * @param id 站点编号
+     * @return 操作站点
+     * TODO 得到用户所属组织，通过组织得到站点。
+     */
+    private Site getSite(Integer id) {
+        if(id != null){
+            Site site =  siteFac.getSite(siteId);
+            if(site == null){
+                addActionError("站点不存在");
+                hasSite = false;
+                return new Site();    
+            }
+            return site;
+        }else{
+            List<Site> list= siteFac.getSiteListByOrgans(new Integer[]{}, true);
+            if(list == null || list.isEmpty()){
+                hasSite = false;
+                return new Site();
+            }
+           return list.get(0);
+        }
+    }
+
+    /**
+     * 初始站点到访问上下文中当，提供全局访问
+     * 
+     * @param site
+     */
+    private void initSiteInContext(Site site){
+	    EwcmsContextHolder.getContext().setSite(site);
+	}
 	
 	public String execute() {
 	    
 	    realName = securityFac.getCurrentUserInfo().getName();
 	    
-	    //TODO 得到用户所属组织，通过组织得到站点。
-	    
 		Site site = getSite(siteId);
-		EwcmsContextHolder.getContext().setSite(site);
-		
-		setSiteName(site.getSiteName());
+		if(site != null){
+		    setSiteName(site.getSiteName());
+		    initSiteInContext(site);
+		}
 		
 		return SUCCESS;
 	}
 	
-	public String getRealName(){
-	    return realName;
-	}
-	
-	public Boolean getHasSite(){
-	    return hasSite;
-	}
-	
-	private Site getSite(Integer id) {
-	    if(id != null){
-	        Site site =  siteFac.getSite(siteId);
-	        if(site == null){
-	            addActionError("站点不存在");
-	            hasSite = false;
-	            return new Site();    
-	        }
-	        return site;
-	    }else{
-	        List<Site> list= siteFac.getSiteListByOrgans(new Integer[]{}, true);
-	        if(list == null || list.isEmpty()){
-	            hasSite = false;
-	            return new Site();
-	        }
-	       return list.get(0);
-	    }
-	}
-
 	public Integer getSiteId() {
 		return siteId;
 	}
@@ -91,5 +97,13 @@ public class HomeAction extends EwcmsBaseAction {
 
     public void setSiteName(String siteName) {
         this.siteName = siteName;
+    }
+    
+    public String getRealName(){
+        return realName;
+    }
+    
+    public Boolean getHasSite(){
+        return hasSite;
     }
 }
