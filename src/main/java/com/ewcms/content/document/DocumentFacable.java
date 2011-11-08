@@ -382,11 +382,11 @@ public interface DocumentFacable {
 	 */
 	public List<OperateTrack> findOperateTrackByArticleMainId(Long articleMainId);
 	
-	/**
-	 * 查询用户组名称集合
-	 * 
-	 * @param userName 用户名
-	 * @return List 用户组名称集合
-	 */
-	public List<String> findGroupName(String userName);
+//	/**
+//	 * 查询用户组名称集合
+//	 * 
+//	 * @param userName 用户名
+//	 * @return List 用户组名称集合
+//	 */
+//	public List<String> findGroupName(String userName);
 }

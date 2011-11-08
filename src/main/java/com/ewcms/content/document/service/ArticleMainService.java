@@ -11,9 +11,9 @@ import static com.ewcms.common.lang.EmptyUtil.isNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,9 +39,6 @@ import com.ewcms.crawler.util.CrawlerUserName;
 import com.ewcms.history.History;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
-import com.ewcms.security.manage.model.Group;
-import com.ewcms.security.manage.model.User;
-import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -61,8 +58,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private WebPublishable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
-	@Autowired
-	private UserServiceable userService;
 	
 	public void setWebPublish(WebPublishable webPublish) {
 		this.webPublish = webPublish;
@@ -278,12 +273,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 					return true;
 				}
 			}
-			User user = userService.getUser(userName);
-			Set<Group> groups = user.getGroups();
-			if (isNull(groups)) return false;
+			Collection<String> grouptNames = EwcmsContextUtil.getGroupnames();
+			if (isNull(grouptNames)) return false;
 			for (ReviewGroup reviewGroup : reviewGroups){
-				for (Group group : groups){
-					if (reviewGroup.getGroupName().equals(group.getName())){
+				for (String groupName : grouptNames){
+					if (reviewGroup.getGroupName().equals(groupName)){
 						return true;
 					}
 				}
@@ -558,21 +552,22 @@ public class ArticleMainService implements ArticleMainServiceable {
 		return articleMain.getId();
 	}
 	
-	public List<String> findGroupName(String userName){
-		List<String> groupNames = new ArrayList<String>();
-		
-		User user = userService.getUser(userName);
-		if (isNotNull(user)) {
-			Set<Group> groups = user.getGroups();
-			if (isNotNull(groups) && !groups.isEmpty()){
-				for (Group group : groups){
-					String name = group.getName();
-					groupNames.add(name);
-				}
-			}
-		}
-		return groupNames;
-	}
+//	@Override
+//	public List<String> findGroupName(String userName){
+//		List<String> groupNames = new ArrayList<String>();
+//		
+//		User user = userService.getUser(userName);
+//		if (isNotNull(user)) {
+//			Set<Group> groups = user.getGroups();
+//			if (isNotNull(groups) && !groups.isEmpty()){
+//				for (Group group : groups){
+//					String name = group.getName();
+//					groupNames.add(name);
+//				}
+//			}
+//		}
+//		return groupNames;
+//	}
 	
 	private void keywordAndSummary(Article article){
 		List<Content> contents = article.getContents();

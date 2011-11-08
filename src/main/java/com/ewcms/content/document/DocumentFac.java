@@ -331,8 +331,8 @@ public class DocumentFac implements DocumentFacable {
 		return operateTrackService.findOperateTrackByArticleMainId(articleMainId);
 	}
 
-	@Override
-	public List<String> findGroupName(String userName) {
-		return articleMainService.findGroupName(userName);
-	}
+//	@Override
+//	public List<String> findGroupName(String userName) {
+//		return articleMainService.findGroupName(userName);
+//	}
 }
