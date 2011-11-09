@@ -104,6 +104,7 @@ public class ResourceRender implements Renderable {
         Site site = EwcmsContextUtil.getCurrentSite();
         return site == null;
     }
+    
     @Override
     public boolean render(HttpServletRequest request,HttpServletResponse response)throws IOException {
         

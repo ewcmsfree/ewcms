@@ -72,9 +72,18 @@ public class PreviewRender implements Renderable{
         }
     }
     
+    private boolean skip(HttpServletRequest request,HttpServletResponse response){
+        String value = request.getParameter("view");
+        return value == null;
+    }
+    
     @Override
     public boolean render(HttpServletRequest request,HttpServletResponse response) throws IOException {
        
+        if(skip(request,response)){
+            return false;
+        }
+        
         Integer templateId = getTemplateId(request);
         try{
             if(templateId != null){

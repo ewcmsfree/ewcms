@@ -7,6 +7,8 @@
 package com.ewcms.web.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -49,8 +51,7 @@ public class Error404Filter implements Filter, InitializingBean {
     @Autowired
     private PreviewServiceable preview;
     
-    private Renderable resourceRender;
-    private Renderable previewRender;
+    private List<Renderable> renders;
     
     @Override
     public void destroy() {
@@ -65,13 +66,9 @@ public class Error404Filter implements Filter, InitializingBean {
         Assert.notNull(resourceService,"resourceService must setting");
         Assert.notNull(templateSourceService,"templateSourceService must setting");
         Assert.notNull(preview,"preview must setting");
-        resourceRender = new ResourceRender(resourceService,templateSourceService);
-        previewRender = new PreviewRender(preview);
-    }
-    
-    private boolean isView(HttpServletRequest request){
-        String value = request.getParameter("view");
-        return value != null;
+        renders = new ArrayList<Renderable>();
+        renders.add(new ResourceRender(resourceService,templateSourceService));
+        renders.add(new PreviewRender(preview));
     }
     
     @Override
@@ -86,17 +83,10 @@ public class Error404Filter implements Filter, InitializingBean {
             return ;
         }
         
-        Renderable render ;
-        if(isView(request)){
-            logger.debug("now is preview render");
-            render = previewRender;
-        }else{
-            logger.debug("now is resource render");
-            render = resourceRender;
-        }
-        
-        if(render.render(request, response)){
-            return ;
+        for(Renderable render : renders){
+            if(render.render(request, response)){
+                return ;
+            }
         }
         
         String uri = request.getRequestURI();
