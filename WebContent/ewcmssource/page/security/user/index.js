@@ -48,9 +48,9 @@ UserIndex.prototype.init = function(opts){
             {field:'createTime',title:'创建时间',width:130,sortable:true},
             {field:'enabled',title:'启用/停用',width:100,align:'center',formatter:function(val,row){
                 if (val){
-                    return "已启用&nbsp;&nbsp;<a href='#' onclick='inactive(\""+ row.username +"\")'><img src='../../source/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
+                    return "已启用&nbsp;&nbsp;<a href='#' onclick='inactive(\""+ row.username +"\")'><img src='../../ewcmssource/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
                 }else {
-                    return "已停用&nbsp;&nbsp;<a href='#' onclick='active(\""+ row.username +"\")'><img src='../../source/image/scheduling/resumed.png' width='13px' height='13px' title='启用操作'/></a>";
+                    return "已停用&nbsp;&nbsp;<a href='#' onclick='active(\""+ row.username +"\")'><img src='../../ewmcssource/image/scheduling/resumed.png' width='13px' height='13px' title='启用操作'/></a>";
                 }
               }}
         ]],
