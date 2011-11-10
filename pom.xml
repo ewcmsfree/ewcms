@@ -40,6 +40,8 @@
 		<junit.version>4.8.1</junit.version>
 		<jmock.junit.version>2.5.1</jmock.junit.version>
 		<mockito.all.version>1.8.5</mockito.all.version>
+       <servlet.version>2.5</servlet.version>
+       <jsp.version>2.1</jsp.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -346,6 +348,18 @@
 			<artifactId>je</artifactId>
 			<version>4.0.92</version>
 		</dependency>
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>servlet-api</artifactId>
+           <version>${servlet.version}</version>
+           <scope>provided</scope>
+       </dependency>
+       <dependency>
+           <groupId>javax.servlet.jsp</groupId>
+           <artifactId>jsp-api</artifactId>
+           <version>${jsp.version}</version>
+           <scope>provided</scope>
+       </dependency>
 	</dependencies>
 	<build>
 		<plugins>
