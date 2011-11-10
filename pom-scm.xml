@@ -22,8 +22,8 @@
 	</pluginRepositories>
 	
 	<scm>
-		<connection>scm:svn:http://svn.jict.org/repos/ewcms/ewcms</connection>
-		<developerConnection>scm:svn:http://svn.jict.org/repos/ewcms/ewcms</developerConnection>
+		<connection>scm:svn:http://svn.jict.org/repos/ewcms/trunk/ewcms</connection>
+		<developerConnection>scm:svn:http://svn.jict.org/repos/ewcms/trunk/ewcms</developerConnection>
 		<url>http://wiki.jict.org/ewcms/browser/ewcms/ewcms</url>
 	</scm>
 	
