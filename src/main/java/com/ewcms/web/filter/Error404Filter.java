@@ -33,6 +33,7 @@ import com.ewcms.publication.preview.PreviewServiceable;
 import com.ewcms.web.filter.render.PreviewRender;
 import com.ewcms.web.filter.render.Renderable;
 import com.ewcms.web.filter.render.ResourceRender;
+import com.ewcms.web.filter.render.TemplateSourceRender;
 
 /**
  *  当找不到资源时，该过滤器会重新在系统查询匹配资源，如有匹配资源返回该资源。
@@ -67,8 +68,9 @@ public class Error404Filter implements Filter, InitializingBean {
         Assert.notNull(templateSourceService,"templateSourceService must setting");
         Assert.notNull(preview,"preview must setting");
         renders = new ArrayList<Renderable>();
-        renders.add(new ResourceRender(resourceService,templateSourceService));
         renders.add(new PreviewRender(preview));
+        renders.add(new ResourceRender(resourceService));
+        renders.add(new TemplateSourceRender(templateSourceService));
     }
     
     @Override
