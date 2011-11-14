@@ -196,13 +196,6 @@ CREATE TABLE qrtz_locks
     PRIMARY KEY (LOCK_NAME)
 );
 
-
-INSERT INTO qrtz_locks values('TRIGGER_ACCESS');
-INSERT INTO qrtz_locks values('JOB_ACCESS');
-INSERT INTO qrtz_locks values('CALENDAR_ACCESS');
-INSERT INTO qrtz_locks values('STATE_ACCESS');
-INSERT INTO qrtz_locks values('MISFIRE_ACCESS');
-
 CREATE INDEX idx_qrtz_j_req_recovery on qrtz_job_details(REQUESTS_RECOVERY);
 CREATE INDEX idx_qrtz_t_next_fire_time on qrtz_triggers(NEXT_FIRE_TIME);
 CREATE INDEX idx_qrtz_t_state on qrtz_triggers(TRIGGER_STATE);

@@ -1,4 +1,4 @@
---删除数据
+--删除权限数据
 Delete From auth_user_authorities;
 Delete From auth_group_authorities;
 Delete From auth_group_members;
@@ -32,3 +32,13 @@ Insert Into auth_userinfo (username,name) Values ('admin','admin');
 
 --用户组成员
 Insert Into auth_group_members (group_name,username) Values ('GROUP_ADMIN','admin');
+
+--删除定时器数据
+Delete From qrtz_locks;
+
+--初始定时器
+INSERT INTO qrtz_locks values('TRIGGER_ACCESS');
+INSERT INTO qrtz_locks values('JOB_ACCESS');
+INSERT INTO qrtz_locks values('CALENDAR_ACCESS');
+INSERT INTO qrtz_locks values('STATE_ACCESS');
+INSERT INTO qrtz_locks values('MISFIRE_ACCESS');
