@@ -199,13 +199,13 @@
                 <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
                 <div title="站点资源" style="overflow:auto;">
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('资源管理','resource/index.do')">
+                        <a href="javascript:_home.addTab('资源管理','resource/manage/index.do')">
                             <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
                             <span>资源管理</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('资源回收站','resource/recycle.do')">
+                        <a href="javascript:_home.addTab('资源回收站','resource/manage/recycle.do')">
                             <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
                         </a>
