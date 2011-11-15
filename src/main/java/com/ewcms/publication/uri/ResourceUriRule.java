@@ -27,15 +27,20 @@ public class ResourceUriRule extends UriRule{
     private String context;
     
     public ResourceUriRule(String c){
-        c = StringUtils.removeStart(c, "/");
-        c = StringUtils.removeEnd(c, "/");
-        context = c;
+        if(StringUtils.isBlank(c)){
+            context = null;
+        }else{
+            c = StringUtils.removeStart(c, "/");
+            c = StringUtils.removeEnd(c, "/");
+            context = c;    
+        }
     }
     
     @Override
     public String getUri()throws PublishException {
+        
         uriRule.putParameter("n",RandomStringUtils.randomNumeric(32));
-        String uri = "/" + context + uriRule.getUri();
+        String uri = (context == null ? uriRule.getUri() :  ("/" + context + uriRule.getUri()));
         logger.debug("resource new uri = {}",uri);
         return uri;
     }
