@@ -24,9 +24,9 @@
             
             $(function(){
                 _m.init({
-                    query:'<s:url action="query"/>',
-                    resource:'<s:url action="resource"/>',
-                    thumb:'<s:url action="thumb"/>',
+                    query:'<s:url action="query" namespace="/resource"/>',
+                    resource:'<s:url action="resource" namespace="/resource"/>',
+                    thumb:'<s:url action="thumb" namespace="/resource"/>',
                     publish:'<s:url action="publish"/>',
                     remove:'<s:url action="softDelete"/>'
                 });

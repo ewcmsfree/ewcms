@@ -13,9 +13,9 @@
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/resource/recycle.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/theme/default/easyui.css"/>'/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/theme/icon.css"/>'/>
-        <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/easyui/css/ewcms.css"/>"/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
+        <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"/>
        
         <ewcms:datepickerhead></ewcms:datepickerhead>
         
@@ -24,7 +24,7 @@
         
             $(function(){
                 _r.init({
-                    query:'<s:url action="query"/>',
+                    query:'<s:url action="query" namespace="/resource"/>',
                     remove:'<s:url action="delete"/>',
                     clear:'<s:url action="clear"/>',
                     revert:'<s:url action="revert"/>'
