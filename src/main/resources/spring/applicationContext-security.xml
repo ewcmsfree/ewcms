@@ -50,6 +50,7 @@
         <sec:intercept-url pattern="/site/channel/*.do" access="hasAnyRole('ROLE_EDITOR','ROLE_WRITER','ROLE_USER','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/**/*.do" access="hasAnyRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/**/*" access="authenticated"/>
         
         <sec:remember-me key="com_ewcms_web_key" services-ref="jpaTokenBasedRememberMeService"/>
 
