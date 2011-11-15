@@ -13,7 +13,7 @@
         <sec:custom-filter position="FORM_LOGIN_FILTER" ref="usernamePasswordCheckcodeAuthenticationFilter"/>
                        
         <sec:intercept-url pattern="/checkcode.jpg" access="permitAll"/>
-        <sec:intercept-url pattern="/ewcmssource/*" access="permitAll"/>
+        <sec:intercept-url pattern="/ewcmssource/**/*" access="permitAll"/>
         <sec:intercept-url pattern="/login.do" access="permitAll"/>
         <sec:intercept-url pattern="/accessDenied.do" access="permitAll"/>
         <sec:intercept-url pattern="/submit.vote" access="permitAll"/>
@@ -24,12 +24,8 @@
         <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
         <sec:intercept-url pattern="/account/*.do" access="authenticated and fullyAuthenticated"/>
         
-        <sec:intercept-url pattern="/resource/resource.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/receive.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/thumb.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/thumbReceive.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/insert.do" access="authenticated"/>
-        <sec:intercept-url pattern="/resource/**/*.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/resource/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/resource/manage/*.do" access="hasAnyRole('ROLE_RESOURCE','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/scheduling/jobchannel/*.do" access="authenticated"/>
         
@@ -50,7 +46,6 @@
         <sec:intercept-url pattern="/site/channel/*.do" access="hasAnyRole('ROLE_EDITOR','ROLE_WRITER','ROLE_USER','ROLE_ADMIN')"/>
         
         <sec:intercept-url pattern="/**/*.do" access="hasAnyRole('ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/**/*" access="authenticated"/>
         
         <sec:remember-me key="com_ewcms_web_key" services-ref="jpaTokenBasedRememberMeService"/>
 
