@@ -5,40 +5,35 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>	
-
     <package name="resource"  extends="struts-default" namespace="/resource">
-    
+       <action name="resource" class="com.ewcms.content.resource.web.ResourceAction" method="input">
+            <result>/WEB-INF/page/resource/resource.jsp</result>
+        </action>
+        <action name="receive" class="com.ewcms.content.resource.web.ResourceAction" method="receive"/>
+        <action name = "save" class="com.ewcms.content.resource.web.ResourceAction" method="save"/>
+        <action name="thumb" class="com.ewcms.content.resource.web.ThumbAction" method="input">
+            <result>/WEB-INF/page/resource/thumb.jsp</result>
+        </action>
+        <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbAction" method="receive"/>
+        <action name = "query" class="com.ewcms.content.resource.web.QueryAction" method="query"/>
+        <action name="insert" class="com.ewcms.content.resource.web.InsertAction">
+            <result>/WEB-INF/page/resource/insert.jsp</result>
+        </action>
+    </package>
+    <package name="resource.manage"  extends="struts-default" namespace="/resource/manage">
         <action name="index" >
             <result type="dispatcher">/WEB-INF/page/resource/index.jsp</result>
         </action>
         <action name="manage" class="com.ewcms.content.resource.web.ManageAction">
             <result>/WEB-INF/page/resource/manage.jsp</result>
         </action>
-        
-        <action name="resource" class="com.ewcms.content.resource.web.ResourceAction" method="input">
-            <result>/WEB-INF/page/resource/resource.jsp</result>
-        </action>
-        <action name="receive" class="com.ewcms.content.resource.web.ResourceAction" method="receive"/>
         <action name = "softDelete" class="com.ewcms.content.resource.web.ResourceAction" method="delete"/>
         <action name = "publish" class="com.ewcms.content.resource.web.ResourceAction" method="publish"/>
-        <action name = "save" class="com.ewcms.content.resource.web.ResourceAction" method="save"/>
-        
-        <action name="thumb" class="com.ewcms.content.resource.web.ThumbAction" method="input">
-            <result>/WEB-INF/page/resource/thumb.jsp</result>
-        </action>
-        <action name="thumbReceive" class="com.ewcms.content.resource.web.ThumbAction" method="receive"/>
-      
-        <action name = "query" class="com.ewcms.content.resource.web.QueryAction" method="query"/>
-        
         <action name="recycle" class="com.ewcms.content.resource.web.RecycleAction" method="input">
             <result>/WEB-INF/page/resource/recycle.jsp</result>
         </action>
         <action name="revert" class="com.ewcms.content.resource.web.RecycleAction" method="revert"/>
         <action name="delete" class="com.ewcms.content.resource.web.RecycleAction" method="delete"/>
         <action name="clear" class="com.ewcms.content.resource.web.RecycleAction" method="clear"/>
-        
-         <action name="insert" class="com.ewcms.content.resource.web.InsertAction">
-            <result>/WEB-INF/page/resource/insert.jsp</result>
-        </action>
     </package>
 </struts>
