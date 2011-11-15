@@ -13,7 +13,7 @@
         <sec:custom-filter position="FORM_LOGIN_FILTER" ref="usernamePasswordCheckcodeAuthenticationFilter"/>
                        
         <sec:intercept-url pattern="/checkcode.jpg" access="permitAll"/>
-        <sec:intercept-url pattern="/source/*" access="permitAll"/>
+        <sec:intercept-url pattern="/ewcmssource/*" access="permitAll"/>
         <sec:intercept-url pattern="/login.do" access="permitAll"/>
         <sec:intercept-url pattern="/accessDenied.do" access="permitAll"/>
         <sec:intercept-url pattern="/submit.vote" access="permitAll"/>
