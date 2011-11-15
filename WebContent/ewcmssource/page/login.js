@@ -33,18 +33,15 @@ login.prototype.init = function(){
         $('input[name=j_checkcode]').val("").focus();
     });
     
-    var focus = false;
-    if (this.isEmpty($('input[name=j_checkcode]'))) {
-        $('input[name=j_checkcode]').focus();
-        focus = true;
+    if (this.isEmpty($('input[name=j_username]'))) {
+        $('input[input[name=j_username]').focus();
+        return ;
     }
     if (this.isEmpty($('input[name=j_password]'))) {
         $('input[name=j_password]').focus();
-        focus = true;
+        return ;
     }
-    if (!focus) {
-        $('input[input[name=j_username]').focus();
-    }
+   $('input[name=j_checkcode]').focus();
 }
 
 login.prototype.isEmpty = function(input){
