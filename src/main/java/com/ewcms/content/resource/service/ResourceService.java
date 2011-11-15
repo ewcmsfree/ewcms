@@ -76,7 +76,7 @@ public class ResourceService implements ResourceServiceable {
      */
     private String getThumbUri(String uri){
         if(StringUtils.contains(uri, '.')){
-            return StringUtils.substringBeforeLast(uri,".") + getThumbSuffix() +StringUtils.substringAfterLast(uri,".");
+            return StringUtils.substringBeforeLast(uri,".") + getThumbSuffix()+"." +StringUtils.substringAfterLast(uri,".");
         }else{
             return uri+getThumbSuffix();
         }
