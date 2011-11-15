@@ -43,6 +43,9 @@ public class ResourceService implements ResourceServiceable {
 
     private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
     
+    private static final String DEFAULT_RESOUCE_CONTEXT = "pub_res";
+    private static final String DEFAULT_THUMB_SUFFIX="_thumb";
+    
     @Autowired
     private ResourceDAOable resourceDao;
     
@@ -57,6 +60,14 @@ public class ResourceService implements ResourceServiceable {
         return names[names.length - 1];
     }
     
+    private String getResourceContext(){
+        //TODO Get resource context
+        return DEFAULT_RESOUCE_CONTEXT;
+    }
+    
+    private String getThumbSuffix(){
+        return DEFAULT_THUMB_SUFFIX;
+    }
     /**
      * 得到引导图Uri
      * 
@@ -65,9 +76,9 @@ public class ResourceService implements ResourceServiceable {
      */
     private String getThumbUri(String uri){
         if(StringUtils.contains(uri, '.')){
-            return StringUtils.substringBeforeLast(uri,".") + "_thumb." +StringUtils.substringAfterLast(uri,".");
+            return StringUtils.substringBeforeLast(uri,".") + getThumbSuffix() +StringUtils.substringAfterLast(uri,".");
         }else{
-            return uri+"_thumb";
+            return uri+getThumbSuffix();
         }
     }
     
@@ -104,9 +115,8 @@ public class ResourceService implements ResourceServiceable {
     public Resource uplaod(File file, String fullName, Resource.Type type) throws IOException {
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
-        //TODO Context
         String name = getName(fullName);
-        String uri = operator.write(new FileInputStream(file), new ResourceUriRule("pub_res"),getSuffix(name));
+        String uri = operator.write(new FileInputStream(file), new ResourceUriRule(getResourceContext()),getSuffix(name));
         Resource resource = new Resource();
         resource.setUri(uri);
         resource.setSize(file.length());
@@ -167,9 +177,8 @@ public class ResourceService implements ResourceServiceable {
         String oldThumbPath = resource.getThumbPath();
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
-        //TODO Context
         String name = getName(fullName);
-        String uri = operator.write(new FileInputStream(file), new ThumbResourceUriRule("pub_res"),getSuffix(name));
+        String uri = operator.write(new FileInputStream(file), new ThumbResourceUriRule(getResourceContext()),getSuffix(name));
         resource.setThumbUri(uri);
         resourceDao.persist(resource);
         
