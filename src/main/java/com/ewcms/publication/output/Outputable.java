@@ -27,4 +27,12 @@ public interface Outputable {
      */
     public void out(SiteServer server,List<OutputResource> resources)throws PublishException;
     
+    /**
+     * 测试发布设置是否正确
+     * 
+     * @param server 服务器设置
+     * @throws PublishException
+     */
+    public void test(SiteServer server)throws PublishException;
+    
 }
