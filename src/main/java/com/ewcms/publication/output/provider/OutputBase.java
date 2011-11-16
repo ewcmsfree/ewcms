@@ -39,9 +39,17 @@ public abstract class OutputBase implements Outputable {
     private static final Logger logger = LoggerFactory.getLogger(OutputBase.class);
     private static final String PATH_SPARATOR = "/";
     
-    private FileSystemOptions initOptions(SiteServer server)throws FileSystemException{
+    /**
+     * 初始文件系统选项
+     * 
+     * @param server 服务器对象
+     * @return
+     * @throws FileSystemException
+     */
+    protected FileSystemOptions initOptions(SiteServer server)throws FileSystemException{
         FileSystemOptions opts = new FileSystemOptions();
-        setUserAuthenticator(opts,server.getUserName(),server.getPassword());
+        StaticUserAuthenticator auth = new StaticUserAuthenticator(null,server.getUserName(),server.getPassword());
+        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
         return opts;
     }
     
@@ -83,22 +91,6 @@ public abstract class OutputBase implements Outputable {
         }
     }
     
-    /**
-     * 设置用户认证
-     * 
-     * @param opts
-     *           文件系统设置选项
-     * @param username
-     *            用户名
-     * @param password
-     *            密码
-     * @throws FileSystemException
-     */
-    protected void setUserAuthenticator(FileSystemOptions opts,String username,String password)throws FileSystemException {
-        StaticUserAuthenticator auth = new StaticUserAuthenticator(null,username,password);
-        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
-    }
-
     /**
      * 发布在资源
      * 
