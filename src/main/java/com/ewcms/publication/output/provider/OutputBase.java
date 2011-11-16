@@ -38,19 +38,48 @@ public abstract class OutputBase implements Outputable {
 
     private static final Logger logger = LoggerFactory.getLogger(OutputBase.class);
     private static final String PATH_SPARATOR = "/";
-
+    
+    private FileSystemOptions initOptions(SiteServer server)throws FileSystemException{
+        FileSystemOptions opts = new FileSystemOptions();
+        setUserAuthenticator(opts,server.getUserName(),server.getPassword());
+        return opts;
+    }
+    
     @Override
     public void out(SiteServer server, List<OutputResource> resources)throws PublishException {
 
         try {
-            FileSystemOptions opts = new FileSystemOptions();
-            setUserAuthenticator(opts,server.getUserName(),server.getPassword());
+            FileSystemOptions opts = initOptions(server);
             FileObject root = getTargetRoot(opts,server,VFS.getManager());
             outResources(root, server.getPath(), resources);
             root.close();
         } catch (FileSystemException e) {
             logger.error("Init output is error:{}", e.toString());
             throw new PublishException(e);
+        }
+    }
+    
+    @Override
+    public void test(SiteServer server)throws PublishException{
+        FileObject root = null;
+        try {
+            FileSystemOptions opts = initOptions(server);
+            root = getTargetRoot(opts,server,VFS.getManager());
+        } catch (FileSystemException e) {
+            logger.error("Test output is error:{}", e.toString());
+            throw new PublishException("error.output.notconnect");
+        }
+
+        try{
+            if(!root.exists()){
+                throw new PublishException("error.output.nodir");
+            }    
+            if(!root.isWriteable()){
+                throw new PublishException("error.output.notwrite");
+            }
+            root.close();
+        }catch(FileSystemException e){
+            
         }
     }
     
