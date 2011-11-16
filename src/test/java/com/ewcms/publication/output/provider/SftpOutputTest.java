@@ -9,13 +9,15 @@ package com.ewcms.publication.output.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Test;
-import org.springframework.util.Assert;
+import org.junit.Assert;
 
 import com.ewcms.core.site.model.SiteServer;
+import com.ewcms.publication.PublishException;
 import com.ewcms.publication.output.OutputResource;
 
 /**
@@ -32,7 +34,7 @@ public class SftpOutputTest {
         FileSystemOptions opts = new FileSystemOptions();
         out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
         FileObject target = out.getTargetRoot(opts,initServer(), VFS.getManager());
-        Assert.notNull(target);
+        Assert.assertNotNull(target);
         target.close();
     }
     
@@ -43,6 +45,65 @@ public class SftpOutputTest {
         List<OutputResource> resources = initResources();
         
         out.out(server, resources);
+    }
+    @Test
+    public void testServerAddressError()throws Exception{
+        try{
+            SftpOutput out = new SftpOutput();
+            SiteServer server = initServer();
+            server.setHostName("192.168.18.45");
+            out.test(server);
+        }catch(Exception e){
+            Assert.assertTrue(StringUtils.contains(e.getMessage(), "error.output.notconnect"));
+        }
+    }
+    
+    @Test
+    public void testServerPortError()throws Exception{
+        try{
+            SftpOutput out = new SftpOutput();
+            SiteServer server = initServer();
+            server.setPort("111");
+            out.test(server);
+        }catch(Exception e){
+            Assert.assertTrue(StringUtils.contains(e.getMessage(), "error.output.notconnect"));
+        }
+    }
+    
+    @Test
+    public void testUserAuthenticatorError()throws Exception{
+        try{
+            SftpOutput out = new SftpOutput();
+            SiteServer server = initServer();
+            server.setUserName("wangwei1");
+            out.test(server);
+        }catch(Exception e){
+            Assert.assertTrue(StringUtils.contains(e.getMessage(), "error.output.notconnect"));
+        }
+    }
+    
+    @Test
+    public void testTestNoDir()throws Exception{
+        try{
+            SftpOutput out = new SftpOutput();
+            SiteServer server = initServer();
+            server.setPath("/dddd");
+            out.test(server);
+        }catch(PublishException e){
+           Assert.assertEquals("error.output.nodir", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testTestNotWrite()throws Exception{
+        try{
+            SftpOutput out = new SftpOutput();
+            SiteServer server = initServer();
+            server.setPath("/usr");
+            out.test(server);
+        }catch(PublishException e){
+           Assert.assertEquals("error.output.nodir", e.getMessage());
+        }
     }
     
     private SiteServer initServer(){
