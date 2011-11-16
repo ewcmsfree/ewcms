@@ -50,7 +50,7 @@ UserIndex.prototype.init = function(opts){
                 if (val){
                     return "已启用&nbsp;&nbsp;<a href='#' onclick='inactive(\""+ row.username +"\")'><img src='../../ewcmssource/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
                 }else {
-                    return "已停用&nbsp;&nbsp;<a href='#' onclick='active(\""+ row.username +"\")'><img src='../../ewmcssource/image/scheduling/resumed.png' width='13px' height='13px' title='启用操作'/></a>";
+                    return "已停用&nbsp;&nbsp;<a href='#' onclick='active(\""+ row.username +"\")'><img src='../../ewcmssource/image/scheduling/resumed.png' width='13px' height='13px' title='启用操作'/></a>";
                 }
               }}
         ]],
@@ -95,7 +95,7 @@ UserIndex.prototype.init = function(opts){
         }
         $.messager.confirm('提示', '确定删除所选用户?', function(r){
             if (r){
-                $.post(urls.deleteUrl,{"name":rows[0].name},function(data){
+                $.post(urls.deleteUrl,{"username":rows[0].username},function(data){
                    if(data.success){
                        $('#tt').datagrid('reload')
                        $('#tt').datagrid('unselectAll');
