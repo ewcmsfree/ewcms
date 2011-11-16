@@ -28,8 +28,8 @@ public class FtpOutputTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         FtpOutput out = new FtpOutput();
-        FileSystemOptions opts = new FileSystemOptions();
-        out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
+        SiteServer server = initServer();
+        FileSystemOptions opts =out.initOptions(server);;
         FileObject target = out.getTargetRoot(opts,initServer(), VFS.getManager());
         Assert.notNull(target);
         target.close();

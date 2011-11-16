@@ -31,8 +31,8 @@ public class SftpOutputTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         SftpOutput out = new SftpOutput();
-        FileSystemOptions opts = new FileSystemOptions();
-        out.setUserAuthenticator(opts, "wangwei", "hhywangwei");
+        SiteServer server = initServer();
+        FileSystemOptions opts =out.initOptions(server);;
         FileObject target = out.getTargetRoot(opts,initServer(), VFS.getManager());
         Assert.assertNotNull(target);
         target.close();

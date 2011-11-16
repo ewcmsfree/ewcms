@@ -42,8 +42,12 @@ public class OutputBaseTest {
     @Test
     public void testSetUserAuthenticator()throws Exception{
         OutputBaseImpl output = new OutputBaseImpl();
-        FileSystemOptions opts = new FileSystemOptions();
-        output.setUserAuthenticator(opts, "username", "password");
+        
+        SiteServer  server = new SiteServer();
+        server.setUserName("wangwei");
+        server.setPassword("hhywangwei");
+        
+        FileSystemOptions opts =output.initOptions(server);;
         UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
         Assert.assertNotNull(auth);
     }
