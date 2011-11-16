@@ -5,6 +5,10 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>ewcms</param-value>
+    </context-param>    
+    <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath*:applicationContext.xml

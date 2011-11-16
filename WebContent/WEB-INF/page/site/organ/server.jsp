@@ -38,10 +38,17 @@
 					return;
 				}				
 			}
+
+			function testServer(){
+				var formValue = $('#serverForm').serialize();
+	            $.post('<s:url action="testServer"/>',formValue,function(data){
+	    	    	$.messager.alert('提示',data);
+	    	    });
+			}
 		</script>
 	</head>
 	<body onload="tipMessage();">
-		<s:form action="saveServer" namespace="/site/organ">				
+		<s:form action="saveServer" namespace="/site/organ" id="serverForm">				
 			<table class="formtable" align="center">
 				<tr>
 					<td>站点名称：</td>

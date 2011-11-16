@@ -297,6 +297,7 @@
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator('serverifr')">保存</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick=" $('#server-window').window('close');">关闭窗口</a>
+                     <a class="easyui-linkbutton" icon="icon-reload" href="javascript:void(0)" onclick=" window.frames['serverifr'].testServer();">连接测试</a>
                 </div>
             </div>
         </div>	        		
