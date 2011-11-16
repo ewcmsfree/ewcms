@@ -15,7 +15,11 @@
         <field-validator type="regex">
             <param name="expression"><![CDATA[(^[0-9A-Za-z_]+$)]]></param>
             <message>请用英文、数字、下划线</message>
-        </field-validator>        
+        </field-validator>      
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(?!GROUP_|ROLE_)\w*$]]></param>
+            <message>不能用GROUP_和ROLE_开始</message>
+        </field-validator>          
     </field>
     <field name="user.password">
         <field-validator type="stringlength">
