@@ -45,7 +45,8 @@
 		</action>
 		<action name="saveServer" class="com.ewcms.core.site.web.SetupAction" method="saveServer">
 			<result name="input">/WEB-INF/page/site/organ/server.jsp</result>
-		</action>							
+		</action>	
+		<action name="testServer" class="com.ewcms.core.site.web.SetupAction" method="testSiteServer"/>								
 	</package>	
 	
 	<package name="site.setup"  extends="struts-default" namespace="/site/setup"> 	
