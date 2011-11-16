@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.output.OutputFactory;
+import com.ewcms.publication.output.Outputable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -225,4 +227,22 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 		}
 		return INPUT;
 	}
+	
+	/**
+	 * 移动专栏.
+	 */
+	public void testSiteServer() {
+		try {
+			Outputable output = OutputFactory.factory(getSiteVo().getSiteServer().getOutputType());
+			output.test(getSiteVo().getSiteServer());
+			Struts2Util.renderJson(JSONUtil.toJSON("服务器连接成功"));
+		} catch (Exception e) {
+			String errorMSG = "连接异常";
+			if(e.getMessage().equals("error.output.notconnect"))errorMSG = "服务器连接失败";
+			if(e.getMessage().equals("error.output.nodir"))errorMSG = "目录不存在";
+			if(e.getMessage().equals("error.output.notwrite"))errorMSG = "没有可写权限";
+			Struts2Util.renderJson(JSONUtil.toJSON(errorMSG));
+		}
+	}
+	
 }
