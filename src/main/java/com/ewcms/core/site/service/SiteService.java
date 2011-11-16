@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.SiteDAO;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.web.context.EwcmsContextHolder;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.vo.TreeNode;
 
 /**
@@ -57,6 +59,12 @@ public class SiteService implements SiteServiceable{
 
 	public Integer updSite(Site vo) {
 		siteDao.merge(vo);
+		Site currSite = getCurSite();
+		if(currSite != null){
+			if(currSite.getId() == vo.getId()){
+				initSiteInContext(vo);
+			}
+		}
 		return vo.getId();
 	}
 
@@ -129,5 +137,15 @@ public class SiteService implements SiteServiceable{
 		}
 		return tnList;
 	}
-
+    private Site getCurSite() {
+        return EwcmsContextUtil.getCurrentSite();
+    }
+    /**
+     * 初始站点到访问上下文中当，提供全局访问
+     * 
+     * @param site
+     */
+    private void initSiteInContext(Site site){
+	    EwcmsContextHolder.getContext().setSite(site);
+	}    
 }
