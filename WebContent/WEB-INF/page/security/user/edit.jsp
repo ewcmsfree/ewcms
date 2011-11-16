@@ -54,9 +54,7 @@
                            <tr>
                                <td width="120px">初始密码：</td>
                                <td class="formFieldError">
-                                   <s:password id="passwordId" name="user.password"/>&nbsp;&nbsp;
-                                   <a class="easyui-linkbutton" id="button-default-password" href="javascript:void(0)" plain="true">缺省密码:</a>
-                                   <span id="default-password" style="display:none;"><s:property value="defaultPassword"/></span>
+                                   <s:password id="passwordId" name="user.password" cssClass="inputtext" />&nbsp;&nbsp;
                                    <s:fielderror ><s:param value="%{'user.password'}"/></s:fielderror>
                                </td>
                            </tr>
@@ -64,7 +62,7 @@
                            <tr>
                                <td width="120px">授权开始时间：</td>
                                <td class="formFieldError">
-                                   <ewcms:datepicker id="accountStartid" name="user.accountStart" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+                                   <ewcms:datepicker id="accountStartid" name="user.accountStart"  option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
                                    <s:fielderror ><s:param value="%{'user.accountStart'}"/></s:fielderror>
                                </td>
                            </tr>
