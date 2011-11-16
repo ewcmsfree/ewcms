@@ -87,7 +87,7 @@ public abstract class OutputBase implements Outputable {
             }
             root.close();
         }catch(FileSystemException e){
-            
+            logger.error("Test output is error:{}", e.toString());
         }
     }
     
