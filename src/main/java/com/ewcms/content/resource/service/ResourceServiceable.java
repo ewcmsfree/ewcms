@@ -26,35 +26,35 @@ public interface ResourceServiceable extends ResourcePublishServiceable {
      * 上传资源
      * 
      * @param file      资源文件
-     * @param fullName  文件名（可以是路径）
-     * @param type      资源类型
-     * @return          资源对象
+     * @param path    文件路径
+     * @param type    资源类型
+     * @return            资源对象
      * @throws IOException
      */
-    Resource uplaod(File file,String fullName,Type type)throws IOException;
+    Resource uplaod(File file,String path,Type type)throws IOException;
     
     /**
      * 更新资源
      * 
      * @param id        资源编号
      * @param file      资源文件
-     * @param fullName  文件名（可以是路径）
-     * @param type      资源类型
+     * @param path   文件路径
+     * @param type   资源类型
      * @return          资源对象
      * @throws IOException
      */
-    Resource update(Integer id,File file,String fullName,Resource.Type type)throws IOException;
+    Resource update(Integer id,File file,String path,Resource.Type type)throws IOException;
     
     /**
      * 更新引导图
      * 
      * @param id 资源编号
      * @param file 引导图文件
-     * @param fullName 引导图文件名
+     * @param path 引导图文件路径
      * @return
      * @throws IOException
      */
-    Resource updateThumb(Integer id,File file,String fullName)throws IOException;
+    Resource updateThumb(Integer id,File file,String path)throws IOException;
     
     /**
      * 保存资源

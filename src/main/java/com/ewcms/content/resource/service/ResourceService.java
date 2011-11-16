@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.ewcms.common.io.ImageUtil;
 import com.ewcms.content.resource.dao.ResourceDAO;
@@ -55,11 +56,6 @@ public class ResourceService implements ResourceServiceable {
         return site;
     }
     
-    private String getName(String fullName) {
-        String[] names = fullName.split("/");
-        return names[names.length - 1];
-    }
-    
     private String getResourceContext(){
         //TODO Get resource context
         return DEFAULT_RESOUCE_CONTEXT;
@@ -68,17 +64,30 @@ public class ResourceService implements ResourceServiceable {
     private String getThumbSuffix(){
         return DEFAULT_THUMB_SUFFIX;
     }
+    
+    /**
+     * 通过路径得到文件名
+     * 
+     * @param path 文件路径
+     * @return
+     */
+    String getFilename(String path) {
+        String[] names = path.split("/");
+        return names[names.length - 1];
+    }
+ 
     /**
      * 得到引导图Uri
      * 
      * @param uri 统一资源资源地址
      * @return
      */
-    private String getThumbUri(String uri){
-        if(StringUtils.contains(uri, '.')){
-            return StringUtils.substringBeforeLast(uri,".") + getThumbSuffix()+"." +StringUtils.substringAfterLast(uri,".");
-        }else{
+    String getThumbUri(String uri){
+        int index = StringUtils.lastIndexOf(uri, '.');
+        if(index == -1){
             return uri+getThumbSuffix();
+        }else{
+            return StringUtils.overlay(uri, getThumbSuffix(), index,index);
         }
     }
     
@@ -103,7 +112,7 @@ public class ResourceService implements ResourceServiceable {
      * @param name 文件名
      * @return
      */
-    private String getSuffix(String name) {
+    String getSuffix(String name) {
         if (StringUtils.contains(name, ".")) {
             return StringUtils.substringAfterLast(name, ".");
         }else{
@@ -112,10 +121,10 @@ public class ResourceService implements ResourceServiceable {
     }
     
     @Override
-    public Resource uplaod(File file, String fullName, Resource.Type type) throws IOException {
+    public Resource uplaod(File file, String path, Resource.Type type) throws IOException {
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
-        String name = getName(fullName);
+        String name = getFilename(path);
         String uri = operator.write(new FileInputStream(file), new ResourceUriRule(getResourceContext()),getSuffix(name));
         Resource resource = new Resource();
         resource.setUri(uri);
@@ -133,13 +142,10 @@ public class ResourceService implements ResourceServiceable {
     }
     
     @Override
-    public Resource update(Integer id, File file, String fullName, Resource.Type type)throws IOException {
+    public Resource update(Integer id, File file, String path, Resource.Type type)throws IOException {
         
         Resource resource = resourceDao.get(id);
-        if(resource == null){
-            //TODO 错误资源不存在
-            return null;
-        }
+        Assert.notNull(resource,"Resourc is not exist,id = " + id);
         
         FileUtils.copyFile(file, new File(resource.getPath()));
         
@@ -160,24 +166,21 @@ public class ResourceService implements ResourceServiceable {
         
         resource.setState(State.NORMAL);
         resource.setUpdateTime(new Date(System.currentTimeMillis()));
-        resource.setName(getName(fullName));
+        resource.setName(getFilename(path));
         resourceDao.persist(resource);
         return resource;
     }
     
     @Override
-    public Resource updateThumb(Integer id,File file, String fullName) throws IOException {
-        Resource resource = resourceDao.get(id);
+    public Resource updateThumb(Integer id,File file, String path) throws IOException {
         
-        if(resource == null){
-            //TODO throw not exist
-            return new Resource();
-        }
+        Resource resource = resourceDao.get(id);
+        Assert.notNull(resource,"Resourc is not exist,id = " + id);
 
         String oldThumbPath = resource.getThumbPath();
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
-        String name = getName(fullName);
+        String name = getFilename(path);
         String uri = operator.write(new FileInputStream(file), new ThumbResourceUriRule(getResourceContext()),getSuffix(name));
         resource.setThumbUri(uri);
         resourceDao.persist(resource);
