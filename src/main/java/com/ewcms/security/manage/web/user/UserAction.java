@@ -33,7 +33,6 @@ public class UserAction extends ActionSupport{
     private String username;
     private List<String> newUsernames;
     private User user;
-    private String defaultPassword;
     private boolean showAuthGroupTab = false;
     private String eventOP = EVENTOP_ADD;
     
@@ -69,11 +68,11 @@ public class UserAction extends ActionSupport{
     
     @Override
     public String input(){
+        
         if(username == null){
             eventOP = EVENTOP_ADD;
             user = new User();
             user.setEnabled(Boolean.TRUE);
-            defaultPassword = fac.getDefaultPassword();
             return INPUT;
         }
         
@@ -171,10 +170,6 @@ public class UserAction extends ActionSupport{
         this.user = user;
     }
     
-    public String getDefaultPassword() {
-        return defaultPassword;
-    }
-
     public String getEventOP() {
         return eventOP;
     }
