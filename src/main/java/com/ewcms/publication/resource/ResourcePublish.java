@@ -147,12 +147,9 @@ public class ResourcePublish implements ResourcePublishable{
                 throw new PublishException("TemplateSource is not exits");
             }
             
-            if(source.getSourceEntity() == null){
-            	logger.debug("TemplateSource Entity is null");
-            	return ;
+            if(source.getSourceEntity() != null){
+                outputs.add(createOutputResource(source)); 
             }
-            
-           	outputs.add(createOutputResource(source));	
             createOutputsByTemplateSourceChildren(outputs,id);
             Site site = source.getSite();
             SiteServer server = site.getSiteServer();
