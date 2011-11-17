@@ -7,7 +7,11 @@
 package com.ewcms.crawler.util;
 
 /**
+<<<<<<< .working
  * 采集器采集文章时�?��用的默认操作�? * 
+=======
+ * 
+>>>>>>> .merge-right.r3740
  * @author wu_zhijun
  *
  */
