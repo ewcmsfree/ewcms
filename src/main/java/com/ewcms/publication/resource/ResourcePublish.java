@@ -178,7 +178,7 @@ public class ResourcePublish implements ResourcePublishable{
         for(TemplateSource child : children){
         	if(child.getSourceEntity() == null){
             	logger.debug("TemplateSource Entity is null");
-            	return ;
+            	continue ;
             }
             outputResources.add(createOutputResource(child));	
             createOutputsByTemplateSourceChildren(outputResources,child.getId());
