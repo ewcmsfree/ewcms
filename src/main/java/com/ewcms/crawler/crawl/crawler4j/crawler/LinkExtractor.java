@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.crawler.crawl.crawler4j.crawler;
 
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;

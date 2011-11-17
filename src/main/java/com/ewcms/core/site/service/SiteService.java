@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.SiteDAO;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.web.context.EwcmsContextHolder;
 import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.vo.TreeNode;
@@ -46,6 +47,12 @@ public class SiteService implements SiteServiceable{
 	
 	public Integer saveSiteServer(Site vo) {
 		Site oldvo = getSite(vo.getId());
+		SiteServer siteServer = vo.getSiteServer();
+		if(siteServer.getPassword()==null||siteServer.getPassword().length()==0){
+			if(oldvo.getSiteServer()!=null){
+				siteServer.setPassword(oldvo.getSiteServer().getPassword());
+			}
+		}
 		oldvo.setSiteServer(vo.getSiteServer());
 		updSite(oldvo);
 		return oldvo.getSiteServer().getId();

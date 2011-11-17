@@ -3,6 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
+
 package com.ewcms.crawler.model;
 
 import java.io.Serializable;
@@ -20,13 +21,12 @@ import javax.persistence.Table;
 
 /**
  * 
- * 过滤块
- * 
+ * 过滤�? * 
  * <ul>
  * <li>id:编号</li>
- * <li>regex:表达式</li>
- * <li>parent:父节点</li>
- * <li>sort:排序号</li>
+ * <li>regex:表达�?/li>
+ * <li>parent:父节�?/li>
+ * <li>sort:排序�?/li>
  * </ul>
  * 
  * @author wuzhijun
