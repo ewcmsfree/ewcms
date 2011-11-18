@@ -144,7 +144,6 @@ public class ResourcePublish implements ResourcePublishable{
         publishSite(id);
     }
 
-
     @Override
     public void publishAgain(Integer id, Boolean templateSource)throws PublishException {
         if(templateSource){
