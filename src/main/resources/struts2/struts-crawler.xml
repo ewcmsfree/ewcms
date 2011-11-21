@@ -9,65 +9,65 @@
 		<action name="index">
 			<result>/WEB-INF/page/crawler/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.crawler.web.GatherAction" method="delete"/>
-		<action name="input" class="com.ewcms.crawler.web.GatherAction" method="input">
+		<action name="delete" class="com.ewcms.plugin.crawler.manager.web.GatherAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.crawler.manager.web.GatherAction" method="input">
 			<result name="input">/WEB-INF/page/crawler/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.crawler.web.GatherAction" method="save">
+		<action name="save" class="com.ewcms.plugin.crawler.manager.web.GatherAction" method="save">
 			<result>/WEB-INF/page/crawler/edit.jsp</result>
 			<result name="input">/WEB-INF/page/crawler/edit.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.crawler.web.GatherQueryAction" method="query"/>
-		<action name="crawlRun" class="com.ewcms.crawler.web.GatherAction" method="crawlRun"/>
-		<action name="delGatherData" class="com.ewcms.crawler.web.GatherAction" method="delGatherData"/>
+		<action name="query" class="com.ewcms.plugin.crawler.manager.web.GatherQueryAction" method="query"/>
+		<action name="crawlRun" class="com.ewcms.plugin.crawler.manager.web.GatherAction" method="crawlRun"/>
+		<action name="delGatherData" class="com.ewcms.plugin.crawler.manager.web.GatherAction" method="delGatherData"/>
 	</package>
 	<package name="crawler.domain" extends="struts-default" namespace="/crawler/domain">
-		<action name="index" class="com.ewcms.crawler.web.DomainAction">
+		<action name="index" class="com.ewcms.plugin.crawler.manager.web.DomainAction">
 			<result>/WEB-INF/page/crawler/domain/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.crawler.web.DomainAction" method="delete"/>
-		<action name="input" class="com.ewcms.crawler.web.DomainAction" method="input">
+		<action name="delete" class="com.ewcms.plugin.crawler.manager.web.DomainAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.crawler.manager.web.DomainAction" method="input">
 			<result name="input">/WEB-INF/page/crawler/domain/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.crawler.web.DomainAction" method="save">
+		<action name="save" class="com.ewcms.plugin.crawler.manager.web.DomainAction" method="save">
 			<result>/WEB-INF/page/crawler/domain/edit.jsp</result>
 			<result name="input">/WEB-INF/page/crawler/domain/edit.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.crawler.web.DomainQueryAction" method="query"/>
-		<action name="up" class="com.ewcms.crawler.web.DomainAction" method="up"/>
-		<action name="down" class="com.ewcms.crawler.web.DomainAction" method="down"/>
+		<action name="query" class="com.ewcms.plugin.crawler.manager.web.DomainQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.plugin.crawler.manager.web.DomainAction" method="up"/>
+		<action name="down" class="com.ewcms.plugin.crawler.manager.web.DomainAction" method="down"/>
 	</package>
 	<package name="crawler.match" extends="struts-default" namespace="/crawler/match">
-		<action name="index" class="com.ewcms.crawler.web.MatchBlockAction">
+		<action name="index" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction">
 			<result>/WEB-INF/page/crawler/match/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.crawler.web.MatchBlockAction" method="delete"/>
-		<action name="input" class="com.ewcms.crawler.web.MatchBlockAction" method="input">
+		<action name="delete" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction" method="input">
 			<result name="input">/WEB-INF/page/crawler/match/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.crawler.web.MatchBlockAction" method="save">
+		<action name="save" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction" method="save">
 			<result>/WEB-INF/page/crawler/match/edit.jsp</result>
 			<result name="input">/WEB-INF/page/crawler/match/edit.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.crawler.web.MatchBlockQueryAction" method="query"/>
-		<action name="up" class="com.ewcms.crawler.web.MatchBlockAction" method="up"/>
-		<action name="down" class="com.ewcms.crawler.web.MatchBlockAction" method="down"/>
+		<action name="query" class="com.ewcms.plugin.crawler.manager.web.MatchBlockQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction" method="up"/>
+		<action name="down" class="com.ewcms.plugin.crawler.manager.web.MatchBlockAction" method="down"/>
 	</package>
 	<package name="crawler.filter" extends="struts-default" namespace="/crawler/filter">
-		<action name="index" class="com.ewcms.crawler.web.FilterBlockAction">
+		<action name="index" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction">
 			<result>/WEB-INF/page/crawler/filter/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.crawler.web.FilterBlockAction" method="delete"/>
-		<action name="input" class="com.ewcms.crawler.web.FilterBlockAction" method="input">
+		<action name="delete" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction" method="input">
 			<result name="input">/WEB-INF/page/crawler/filter/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.crawler.web.FilterBlockAction" method="save">
+		<action name="save" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction" method="save">
 			<result>/WEB-INF/page/crawler/filter/edit.jsp</result>
 			<result name="input">/WEB-INF/page/filter/match/edit.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.crawler.web.FilterBlockQueryAction" method="query"/>
-		<action name="up" class="com.ewcms.crawler.web.FilterBlockAction" method="up"/>
-		<action name="down" class="com.ewcms.crawler.web.FilterBlockAction" method="down"/>
+		<action name="query" class="com.ewcms.plugin.crawler.manager.web.FilterBlockQueryAction" method="query"/>
+		<action name="up" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction" method="up"/>
+		<action name="down" class="com.ewcms.plugin.crawler.manager.web.FilterBlockAction" method="down"/>
 	</package>
 	<package name="crawler.help" extends="struts-default" namespace="/crawler/help">
 		<action name="index">
