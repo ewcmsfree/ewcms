@@ -36,7 +36,6 @@
 			        ]],
 			        toolbar:[
 			            {id:'btnadd',text:'添加',iconCls:'icon-add',handler:addCallBack},
-			            {id:'btnSearch',text:'查询',iconCls:'icon-search',handler:queryCallBack},
 			            {id:'btnBack',text:'缺省查询',iconCls:'icon-back',handler:defQueryCallBack}
 			        ]
 				});
@@ -67,31 +66,5 @@
                 </div>
             </div>
         </div>	
-        <div id="query-window" class="easyui-window" closed="true" icon='icon-search' title="查询"  style="display:none;">
-            <div class="easyui-layout" fit="true"  >
-                <div region="center" border="false" >
-                <form id="queryform">
-                	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="tdtitle">报表名称：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="name" name="name" class="inputtext"/>
-                                </td>
-                            </tr>
-               		</table>
-               	</form>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
-                </div>
-            </div>
-        </div>      	
 	</body>
 </html>
