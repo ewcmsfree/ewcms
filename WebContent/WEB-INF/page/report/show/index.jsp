@@ -18,11 +18,11 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript">
-			ewcmsBOBJ = new EwcmsBase();
 			function setReportParameter(reportId,eventStr){
+				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/report/show" action="paraset"/>?reportType=' + eventStr + '&reportId='+ reportId;
 				$('#parameterifr').attr('src',url);
-				ewcmsBOBJ.openWindow("#parameter-window",{width:400,height:200,title:"参数选择"});
+				ewcmsBOBJ.openWindow("#parameter-window",{width:400,height:213,title:"参数选择"});
 			}
 		</script>		
 	</head>
@@ -42,7 +42,7 @@
 								<tr height="25">
 								<s:iterator value="texts" status="stat">
 									<td width="20%">
-										<a href="javascript:void(0)" onclick='setReportParameter(<s:property value="id"/>,"text");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="textName"/></span></a>
+										<a href="javascript:void(0);" onclick='setReportParameter(<s:property value="id"/>,"text");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="textName"/></span></a>
 									</td>
 									<s:if test="#stat.index%3==0 && !#stat.first && !#stat.last">
             						</tr>
@@ -56,7 +56,7 @@
 								<tr height="25">
 								<s:iterator value="charts" status="stat">
 									<td width="20%">
-										<a href="javascript:void(0)" onclick='setReportParameter(<s:property value="id"/>,"chart");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="name"/></span></a>
+										<a href="javascript:void(0);" onclick='setReportParameter(<s:property value="id"/>,"chart");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="name"/></span></a>
 									</td>	
 									<s:if test="#stat.index%3==0 && !#stat.first && !#stat.last">
             						</tr>
@@ -78,7 +78,7 @@
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['parameterifr'].document.forms[0].submit();">生成</a>
-                    <a class="easyui-linkbutton" icon="icon-close" href="javascript:void(0)" onclick="$('#parameter-window').window('close');">关闭</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#parameter-window').window('close');">关闭</a>
                 </div>
             </div>
         </div>	
