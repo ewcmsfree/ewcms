@@ -34,12 +34,11 @@
 			            {field:'name',title:'名称',width:150},
 			            {field:"value",title:'描述',width:260}
 			        ]],
-			        toolbar:[{
-			            id:'btnadd',
-			            text:'添加',
-			            iconCls:'icon-add',
-			            handler:addCallBack
-			          }]
+			        toolbar:[
+			            {id:'btnadd',text:'添加',iconCls:'icon-add',handler:addCallBack},
+			            {id:'btnSearch',text:'查询',iconCls:'icon-search',handler:queryCallBack},
+			            {id:'btnBack',text:'缺省查询',iconCls:'icon-back',handler:defQueryCallBack}
+			        ]
 				});
 				
 				ewcmsOOBJ = new EwcmsOperate();
@@ -47,6 +46,11 @@
 				ewcmsOOBJ.setInputURL('<s:url namespace="/report/category/detail" action="input"/>?categoryId=<s:property value="categoryId"/>');
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/report/category/detail" action="delete"/>?categoryId=<s:property value="categoryId"/>');
 			})
+			function saveReport(){
+				saveOperator();
+				$.messager.alert('提示', '保存成功', 'info');
+				$('#tt').propertygrid('reload');
+			}
         </script>
 	</head>
 	<body class="easyui-layout">
@@ -59,7 +63,7 @@
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveReport();">保存</a>
                 </div>
             </div>
         </div>	
