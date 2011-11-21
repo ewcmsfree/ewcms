@@ -35,8 +35,8 @@ import com.ewcms.content.document.model.ReviewUser;
 import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.crawler.util.CrawlerUserName;
 import com.ewcms.history.History;
+import com.ewcms.plugin.crawler.util.CrawlerUserName;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -453,7 +453,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 	
 	@Override
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId) {
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Long categoryId) {
 		return articleMainDAO.findArticleIsEntityByArticleAndCategory(articleId, categoryId);
 	}
 

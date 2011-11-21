@@ -29,26 +29,26 @@ public class CategoryService implements CategoryServiceable {
 	}
 	
 	@Override
-	public Integer addCategory(Category category) {
+	public Long addCategory(Category category) {
 		Assert.notNull(category);
 		categoryDAO.persist(category);
 		return category.getId();
 	}
 
 	@Override
-	public Integer updCategory(Category category) {
+	public Long updCategory(Category category) {
 		Assert.notNull(category);
 		categoryDAO.merge(category);
 		return category.getId();
 	}
 
 	@Override
-	public void delCategory(Integer categoryId) {
+	public void delCategory(Long categoryId) {
 		categoryDAO.removeByPK(categoryId);
 	}
 
 	@Override
-	public Category findCategory(Integer categoryId) {
+	public Category findCategory(Long categoryId) {
 		return categoryDAO.get(categoryId);
 	}
 

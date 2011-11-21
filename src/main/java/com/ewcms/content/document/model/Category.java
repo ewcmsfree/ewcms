@@ -38,15 +38,15 @@ public class Category implements Serializable {
 	@GeneratedValue(generator = "seq_doc_category", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	@OrderBy(value = "id")
-	private Integer id;
+	private Long id;
 	@Column(name = "categroy_name", nullable = false)
 	private String categoryName;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

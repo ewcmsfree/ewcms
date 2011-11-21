@@ -23,7 +23,7 @@ public interface CategoryServiceable {
 	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer addCategory(Category category);
+	public Long addCategory(Category category);
 	
 	/**
 	 * 修改文章分类属性
@@ -31,14 +31,14 @@ public interface CategoryServiceable {
 	 * @param category 文章分类属性对象
 	 * @return Integer 文章分类属性编号
 	 */
-	public Integer updCategory(Category category);
+	public Long updCategory(Category category);
 	
 	/**
 	 * 删除文章分类属性
 	 * 
 	 * @param categoryId 文章分类属性编号
 	 */
-	public void delCategory(Integer categoryId);
+	public void delCategory(Long categoryId);
 	
 	/**
 	 * 查询文章分类属性
@@ -46,7 +46,7 @@ public interface CategoryServiceable {
 	 * @param categoryId 文章分类属性编号
 	 * @return Category 文章分类属性对象
 	 */
-	public Category findCategory(Integer categoryId);
+	public Category findCategory(Long categoryId);
 	
 	/**
 	 * 查询所有文章分类属性集合

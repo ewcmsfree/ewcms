@@ -17,5 +17,5 @@ import com.ewcms.content.document.model.Category;
  * @author 吴智俊
  */
 @Repository
-public class CategoryDAO extends JpaDAO<Integer, Category> {
+public class CategoryDAO extends JpaDAO<Long, Category> {
 }

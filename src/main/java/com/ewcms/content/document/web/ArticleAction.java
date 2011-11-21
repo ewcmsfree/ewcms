@@ -57,7 +57,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 	private Integer channelId;
 	private Date modified;
 	private String published;
-	private Integer[] categories;
+	private Long[] categories;
 //	private List<Integer> selCategories = new ArrayList<Integer>();
 
 	public Long getArticleMainId() {
@@ -100,11 +100,11 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 		this.published = published;
 	}
 
-	public Integer[] getCategories() {
+	public Long[] getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Integer[] categories) {
+	public void setCategories(Long[] categories) {
 		this.categories = categories;
 	}
 
@@ -199,7 +199,7 @@ public class ArticleAction extends CrudBaseAction<Article, Long> {
 		if (isNotNull(getCategories())) {
 			List<Category> articleCategories = new ArrayList<Category>();
 			Category categoryVo = null;
-			for (Integer categoryId : categories) {
+			for (Long categoryId : categories) {
 				categoryVo = documentFac.findCategory(categoryId);
 				if (categoryVo == null)
 					continue;

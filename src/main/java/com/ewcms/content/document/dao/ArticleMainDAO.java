@@ -64,7 +64,7 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
 	}
 	
     @SuppressWarnings("unchecked")
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId){
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Long categoryId){
     	String hql = "Select a From Article As a Left Join a.categories As c Where a.id=? And c.id=?";
     	List<Article> list = this.getJpaTemplate().find(hql, articleId, categoryId);
     	if (list.isEmpty()) return false;

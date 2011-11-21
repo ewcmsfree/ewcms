@@ -111,7 +111,7 @@ public interface ArticleMainServiceable {
 	 * 
 	 * @return Boolean (true:是,false:否)
 	 */
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId);
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Long categoryId);
 
 	/**
 	 * 查询文章主体

@@ -48,22 +48,22 @@ public class DocumentFac implements DocumentFacable {
 	private OperateTrackServiceable operateTrackService;
 
 	@Override
-	public Integer addCategory(Category category) {
+	public Long addCategory(Category category) {
 		return categoryService.addCategory(category);
 	}
 
 	@Override
-	public Integer updCategory(Category category) {
+	public Long updCategory(Category category) {
 		return categoryService.updCategory(category);
 	}
 
 	@Override
-	public void delCategory(Integer categoryId) {
+	public void delCategory(Long categoryId) {
 		categoryService.delCategory(categoryId);
 	}
 
 	@Override
-	public Category findCategory(Integer categoryId) {
+	public Category findCategory(Long categoryId) {
 		return categoryService.findCategory(categoryId);
 	}
 
@@ -202,7 +202,7 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Integer categoryId) {
+	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Long categoryId) {
 		return articleMainService.findArticleIsEntityByArticleAndCategory(articleId, categoryId);
 	}
 

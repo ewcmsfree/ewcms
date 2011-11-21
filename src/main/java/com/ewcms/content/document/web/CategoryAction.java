@@ -21,7 +21,7 @@ import com.ewcms.web.vo.ComboBox;
 /**
  * @author 吴智俊
  */
-public class CategoryAction extends CrudBaseAction<Category, Integer> {
+public class CategoryAction extends CrudBaseAction<Category, Long> {
 
 	private static final long serialVersionUID = 3929684985209263482L;
 
@@ -36,31 +36,31 @@ public class CategoryAction extends CrudBaseAction<Category, Integer> {
 		super.setVo(categoryVo);
 	}
 
-	public List<Integer> getSelections() {
+	public List<Long> getSelections() {
 		return super.getOperatorPK();
 	}
 
-	public void setSelections(List<Integer> selections) {
+	public void setSelections(List<Long> selections) {
 		super.setOperatorPK(selections);
 	}
 
 	@Override
-	protected Integer getPK(Category vo) {
+	protected Long getPK(Category vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected Category getOperator(Integer pk) {
+	protected Category getOperator(Long pk) {
 		return documentFac.findCategory(pk);
 	}
 
 	@Override
-	protected void deleteOperator(Integer pk) {
+	protected void deleteOperator(Long pk) {
 		documentFac.delCategory(pk);
 	}
 
 	@Override
-	protected Integer saveOperator(Category vo, boolean isUpdate) {
+	protected Long saveOperator(Category vo, boolean isUpdate) {
 		if (isUpdate) {
 			return documentFac.updCategory(vo);
 		} else {

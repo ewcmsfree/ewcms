@@ -29,7 +29,7 @@ public class CategoryQueryAction extends QueryBaseAction {
 			String cacheKey, int rows, int page, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Category.class).setPage(page).setRow(rows).orderAsc("id");
     	
-    	Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
+    	Long id = getParameterValue(Long.class,"id", "查询编号错误，应该是整型");
     	if (isNotNull(id)) query.eq("id", id);
     	        
     	String name = getParameterValue(String.class, "name", "");
@@ -43,7 +43,7 @@ public class CategoryQueryAction extends QueryBaseAction {
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Category.class).setPage(page).setRow(rows).orderAsc("id");
     	
-        List<Integer> ids = getIds(Integer.class);
+        List<Long> ids = getIds(Long.class);
         query.in("id", ids);
         
         return query.queryResult();    
