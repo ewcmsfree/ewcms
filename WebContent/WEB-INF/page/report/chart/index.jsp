@@ -19,6 +19,7 @@
 		<script type="text/javascript">
 			var parameterURL = "<s:url namespace='/report/parameter' action='index'/>";
 			var schedulingURL = "<s:url namespace='/scheduling/jobreport' action='index'/>";
+			var helpURL = "<s:url namespace='/report/chart' action='help'/>";
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/report/chart" action="query"/>');
@@ -104,6 +105,9 @@
 			}
 			function saveScheduling(){
 				window.frames['editifr_scheduling'].document.forms[0].submit();
+			}
+			function helpOperate(){
+				window.open(helpURL,'popup','width=900,height=500,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,scrollbars=yes,status=no,left=' + (window.screen.width - 900)/ 2 + ',top=' + (window.screen.height - 500) / 2);
 			}
 		</script>		
 	</head>

@@ -40,7 +40,7 @@
 				<tr>
 					<td>SQL表达式：</td>
 					<td class="formFieldError" colspan="3">
-						<s:textarea	name="reportChartVo.chartSql" cols="80" rows="6"/>
+						<s:textarea	name="reportChartVo.chartSql" cols="80" rows="6"/><a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a>
 						<s:fielderror><s:param value="%{'reportChartVo.chartSql'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
