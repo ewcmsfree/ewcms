@@ -32,7 +32,7 @@
 		                {field:'description',title:'说明',width:300},
 		                {field:'download',title:'下载',width:30,
 		                	formatter:function(val,rec){
-		                		return "&nbsp;<a href='javascript:void(0);' onclick='download(" +  rec.id + ");'><img src='../../ewcmssource/css/icons/download.png' width='13px' height='13px' title='下载'/></a>";
+		                		return "&nbsp;<a href='javascript:void(0);' onclick='download(" +  rec.id + ");'><img src='../../ewcmssource/css/icons/download.png' width='13px' height='13px' title='下载' style='border:0'/></a>";
 		                	}
 		                }
 		                ]]
