@@ -14,15 +14,15 @@ import java.io.Serializable;
 public class ComboBox implements Serializable {
 
 	private static final long serialVersionUID = -5293494898730788029L;
-	private Integer id;
+	private Long id;
 	private String text;
 	private Boolean selected;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
