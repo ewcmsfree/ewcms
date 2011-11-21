@@ -45,16 +45,16 @@ public class CategoryServiceTest {
 
 	@Test
 	public void addCategory() {
-		when(categoryDAO.get(1)).thenReturn(null);
+		when(categoryDAO.get(1L)).thenReturn(null);
 
 		Category category = new Category();
-		category.setId(1);
+		category.setId(1L);
 		category.setCategoryName("addTest");
 
 		categoryService.addCategory(category);
 		ArgumentCaptor<Category> argument = ArgumentCaptor.forClass(Category.class);
 		verify(categoryDAO).persist(argument.capture());
-		assertEquals(argument.getValue().getId(), new Integer(1));
+		assertEquals(argument.getValue().getId(), new Long(1));
 		assertEquals(argument.getValue().getCategoryName(), "addTest");
 	}
 
@@ -66,21 +66,21 @@ public class CategoryServiceTest {
 	@Test
 	public void updCategory() {
 		Category category = new Category();
-		category.setId(1);
+		category.setId(1L);
 		category.setCategoryName("addTest");
 
 		categoryService.updCategory(category);
 		ArgumentCaptor<Category> argument = ArgumentCaptor.forClass(Category.class);
 		verify(categoryDAO).merge(argument.capture());
-		assertEquals(argument.getValue().getId(), new Integer(1));
+		assertEquals(argument.getValue().getId(), new Long(1));
 		assertEquals(argument.getValue().getCategoryName(), "addTest");
 	}
 	
 	@Test
 	public void delCategory(){
-		Integer categoryId = 1;
+		Long categoryId = 1L;
 		categoryService.delCategory(categoryId);
-		ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
+		ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
 		verify(categoryDAO).removeByPK(argument.capture());
 	}
 	
@@ -88,13 +88,13 @@ public class CategoryServiceTest {
 	public void findCategory(){
 		Category articleCategory = new Category();
 		
-		articleCategory.setId(1);
+		articleCategory.setId(1L);
 		articleCategory.setCategoryName("findTest");
 		
-        when(categoryDAO.get(1)).thenReturn(articleCategory);
+        when(categoryDAO.get(1L)).thenReturn(articleCategory);
         
-        Category vo = categoryService.findCategory(1);
-        ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
+        Category vo = categoryService.findCategory(1L);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         verify(categoryDAO).get(argument.capture());
         assertEquals(articleCategory.getId(),vo.getId());
         assertEquals(articleCategory.getCategoryName(), vo.getCategoryName());
@@ -105,12 +105,12 @@ public class CategoryServiceTest {
 		List<Category> categories = new ArrayList<Category>();
 		
 		Category vo = new Category();
-		vo.setId(1);
+		vo.setId(1L);
 		vo.setCategoryName("findAllTest");
 		categories.add(vo);
 		
 		Category vo1 = new Category();
-		vo1.setId(2);
+		vo1.setId(2L);
 		vo1.setCategoryName("findAllTest1");
 		categories.add(vo1);
 		
