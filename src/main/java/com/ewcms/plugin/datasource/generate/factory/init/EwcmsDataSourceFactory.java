@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.plugin.datasource.generate.factory.init.bean.BeanForInterfaceFactoryable;
+import com.ewcms.plugin.datasource.model.BeanDS;
+import com.ewcms.plugin.datasource.model.CustomDS;
+import com.ewcms.plugin.datasource.model.JdbcDS;
+import com.ewcms.plugin.datasource.model.JndiDS;
 
 /**
  * 数据库服务工厂,在系统启动时自动加载
@@ -51,10 +55,10 @@ public class EwcmsDataSourceFactory implements EwcmsDataSourceFactoryable, Initi
     static {
         serviceDefinitionMap = new HashMap<String, String>();
 
-        serviceDefinitionMap.put("com.ewcms.function.datasource.model.JdbcDS", "jdbcDataSourceFactory");
-        serviceDefinitionMap.put("com.ewcms.function.datasource.model.JndiDS", "jndiDataSourceFactory");
-        serviceDefinitionMap.put("com.ewcms.function.datasource.model.BeanDS", "beanDataSourceFactory");
-        serviceDefinitionMap.put("com.ewcms.function.datasource.model.CustomDS", "customDataSourceFactory");
+        serviceDefinitionMap.put(JdbcDS.class.getName().toString(), "jdbcDataSourceFactory");
+        serviceDefinitionMap.put(JndiDS.class.getName().toString(), "jndiDataSourceFactory");
+        serviceDefinitionMap.put(BeanDS.class.getName().toString(), "beanDataSourceFactory");
+        serviceDefinitionMap.put(CustomDS.class.getName().toString(), "customDataSourceFactory");
     }
 
     @Override

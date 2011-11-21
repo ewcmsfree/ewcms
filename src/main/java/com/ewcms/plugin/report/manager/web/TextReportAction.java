@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -181,8 +182,8 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 				if (report.getTextEntity() != null
 						&& report.getTextEntity().length != 0) {
 					String fileName = String.valueOf(report.getTextName());
-					// fileName = URLEncoder.encode(fileName, "UTF-8");
-					fileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
+					fileName = URLEncoder.encode(fileName, "UTF-8");
+					//fileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
 
 					HttpServletResponse response = ServletActionContext
 							.getResponse();

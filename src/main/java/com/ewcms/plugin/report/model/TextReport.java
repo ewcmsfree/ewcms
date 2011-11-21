@@ -70,7 +70,7 @@ public class TextReport implements Serializable {
     private Boolean hidden;
     @Column(name = "remarks",columnDefinition = "text")
     private String remarks;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Parameter.class, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Parameter.class, orphanRemoval = true)
     @JoinColumn(name = "text_id")
     @OrderBy("id")
     private Set<Parameter> parameters = new LinkedHashSet<Parameter>();
