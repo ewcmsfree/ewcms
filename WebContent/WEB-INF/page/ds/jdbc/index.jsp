@@ -35,7 +35,7 @@
 		                {field:'remarks',title:'说明',width:300},
 		                {field:'connectTest',title:'测试',width:30,
 		                	formatter : function(val, rec) {
-		                		return "&nbsp;<a href='javascript:void(0);' onclick='test(" +  rec.id + ");'><img src='../../ewcmssource/image/ds/connect_test.png' width='13px' height='13px' title='测试'/></a>";
+		                		return "&nbsp;<a href='javascript:void(0);' onclick='test(" +  rec.id + ");'><img src='../../ewcmssource/image/ds/connect_test.png' width='13px' height='13px' title='测试' style='border:0'/></a>";
 		                	}
 		                }
                   ]]
