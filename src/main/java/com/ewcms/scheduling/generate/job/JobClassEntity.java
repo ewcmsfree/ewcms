@@ -13,9 +13,9 @@ package com.ewcms.scheduling.generate.job;
  */
 public class JobClassEntity {
 	//频道执行JOB
-	public static final String JOB_CHANNEL = "com.ewcms.function.scheduling.generate.job.channel.EwcmsExecutionChannelJob";
+	public static final String JOB_CHANNEL = "com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob";
 	//采集器执行JOB
-	public static final String JOB_CRAWLER = "com.ewcms.function.scheduling.generate.job.crawler.EwcmsExecutionCrawlerJob";
+	public static final String JOB_CRAWLER = "com.ewcms.scheduling.generate.job.crawler.EwcmsExecutionCrawlerJob";
 	//报表执行JOB
-	public static final String JOB_REPORT = "com.ewcms.function.scheduling.generate.job.report.EwcmsExecutionReportJob";
+	public static final String JOB_REPORT = "com.ewcms.scheduling.generate.job.report.EwcmsExecutionReportJob";
 }
