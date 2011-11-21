@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
-	
-	<!-- Quartz Scheduler Manager -->
-	<bean id="jobsQuartzScheduler" class="com.ewcms.scheduling.quartz.JobsQuartzScheduler">
-		<property name="scheduler" ref="quartzScheduler"/>
-	</bean>
-	
-    <bean id="schedulerFactoryProxyTemplate" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
-        <property name="transactionManager" ref="txManager"/>
-        <property name="transactionAttributes">
-            <props>
-                <prop key="schedule*">PROPAGATION_REQUIRED</prop>
-                <prop key="reschedule*">PROPAGATION_REQUIRED</prop>
-                <prop key="remove*">PROPAGATION_REQUIRED</prop>
-                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
-            </props>
-        </property>
-    </bean>
 
-    <bean id="jobsQuartzSchedulerFactory" parent="schedulerFactoryProxyTemplate">
-        <property name="target" ref="jobsQuartzScheduler"></property>
-    </bean>
-    
-    <bean id="schedulingFac" class="com.ewcms.scheduling.manage.fac.SchedulingFac">
-        <property name="jobInfoService" ref="jobInfoService"/>
-        <property name="scheduler" ref="jobsQuartzSchedulerFactory"/>
-        <property name="validator" ref="jobInfoValidator"/>
-        <property name="jobClassService" ref="jobClassService"/>
-    </bean>
-   	
+	<bean id="objectPoolFactory" class="org.apache.commons.pool.impl.GenericObjectPoolFactory">
+		<constructor-arg type="org.apache.commons.pool.PoolableObjectFactory">
+			<null />
+		</constructor-arg>
+		<constructor-arg type="int" value="5000" />
+	</bean>
+
+	<!-- Quartz Scheduler Manager -->
+	<bean id="jobsQuartzScheduler"
+		class="com.ewcms.scheduling.generate.quartz.JobsQuartzScheduler">
+		<property name="scheduler" ref="quartzScheduler" />
+	</bean>
+
+	<bean id="schedulerFactoryProxyTemplate"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		abstract="true">
+		<property name="transactionManager" ref="txManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="schedule*">PROPAGATION_REQUIRED</prop>
+				<prop key="reschedule*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jobsQuartzSchedulerFactory" parent="schedulerFactoryProxyTemplate">
+		<property name="target" ref="jobsQuartzScheduler"></property>
+	</bean>
+
+	<bean id="schedulingFac" class="com.ewcms.scheduling.manager.SchedulingFac">
+		<property name="jobInfoService" ref="jobInfoService" />
+		<property name="scheduler" ref="jobsQuartzSchedulerFactory" />
+		<property name="validator" ref="jobInfoValidator" />
+		<property name="jobClassService" ref="jobClassService" />
+	</bean>
+
 	<bean id="schedulingFactory" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="interceptorNames">
 			<list>
-				<idref local="schedulingFac"/>
+				<idref local="schedulingFac" />
 			</list>
 		</property>
 	</bean>
-	
-     <!-- Quartz Scheduler Engine -->
- 	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" destroy-method="destroy">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="transactionManager" ref="txManager"/>
-		<property name="configLocation" value="classpath:quartz.base.properties"/>
-		<property name="waitForJobsToCompleteOnShutdown" value="false"/>
-		<property name="autoStartup" value="false"/>
-		<property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+
+	<!-- Quartz Scheduler Engine -->
+	<bean id="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		lazy-init="false" destroy-method="destroy">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="txManager" />
+		<property name="configLocation" value="classpath:quartz.base.properties" />
+		<property name="waitForJobsToCompleteOnShutdown" value="false" />
+		<property name="autoStartup" value="false" />
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
 	</bean>
-	
-    <bean id="quartzSchedulerControl" class="com.ewcms.scheduling.quartz.QuartzSchedulerControl" depends-on="schedulingFactory" init-method="start">
-        <property name="scheduler" ref="quartzScheduler"/>
-    </bean>
+
+	<bean id="quartzSchedulerControl"
+		class="com.ewcms.scheduling.generate.quartz.QuartzSchedulerControl"
+		depends-on="schedulingFactory" init-method="start">
+		<property name="scheduler" ref="quartzScheduler" />
+	</bean>
 </beans>
