@@ -6,6 +6,10 @@
 
 package com.ewcms.scheduling.generate.job;
 
+import com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob;
+import com.ewcms.scheduling.generate.job.crawler.EwcmsExecutionCrawlerJob;
+import com.ewcms.scheduling.generate.job.report.EwcmsExecutionReportJob;
+
 /**
  * 执行定时工作任务实体类路径
  * 
@@ -13,9 +17,9 @@ package com.ewcms.scheduling.generate.job;
  */
 public class JobClassEntity {
 	//频道执行JOB
-	public static final String JOB_CHANNEL = "com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob";
+	public static final String JOB_CHANNEL = EwcmsExecutionChannelJob.class.getName().toString();
 	//采集器执行JOB
-	public static final String JOB_CRAWLER = "com.ewcms.scheduling.generate.job.crawler.EwcmsExecutionCrawlerJob";
+	public static final String JOB_CRAWLER = EwcmsExecutionCrawlerJob.class.getName().toString();
 	//报表执行JOB
-	public static final String JOB_REPORT = "com.ewcms.scheduling.generate.job.report.EwcmsExecutionReportJob";
+	public static final String JOB_REPORT = EwcmsExecutionReportJob.class.getName().toString();
 }
