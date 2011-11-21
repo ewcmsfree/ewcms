@@ -39,7 +39,9 @@
 		<action name="parameterType" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="parameterType"/>
 		<action name="preview" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="preview" />
 		<action name="findReportChart" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="findReportChart" />
-	</package>
+		<action name="help">
+			<result>/WEB-INF/page/report/chart/sql_help.jsp</result>
+		</action>	</package>
 	<package name="report.repository" extends="struts-default" namespace="/report/repository">
 		<action name="index">
 			<result>/WEB-INF/page/report/repository/index.jsp</result>
