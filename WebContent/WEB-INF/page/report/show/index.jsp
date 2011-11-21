@@ -6,11 +6,12 @@
 
 <html>
 	<head>
-		<title>报表系统</title>
+		<title>报表集</title>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'></link>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/page/report/show.css"/>"></link>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
@@ -21,46 +22,54 @@
 			function setReportParameter(reportId,eventStr){
 				var url = '<s:url namespace="/report/show" action="paraset"/>?reportType=' + eventStr + '&reportId='+ reportId;
 				$('#parameterifr').attr('src',url);
-				ewcmsBOBJ.openWindow("#parameter-window",{width:400,height:300,title:"参数选择"});
+				ewcmsBOBJ.openWindow("#parameter-window",{width:400,height:200,title:"参数选择"});
 			}
 		</script>		
 	</head>
 	<body class="easyui-layout">
-		<div region="center" style="padding:2px;" border="false">
-		<table class="formtable" width="100%" height="100%">
-			<tr>
-				<td>
-					<s:iterator value="%{categoryReports}" >
-						<table class="formtable" width="100%" height="100%">
-							<tr>
-								<td colspan="4" bgcolor="#a9c9e2" height="20"><FONT color="#1E4176"><b><s:property value="name"/>报表集</b></FONT></td>
-							</tr>
-							<tr>
-								<td><b>文字报表</b></td>
-							</tr>
-							<tr height="25">
-								<td>
-									<s:iterator value="texts">
-										<label style="border:float gray;height:20px;vertical-align: middle;" onclick='setReportParameter(<s:property value="id"/>,"text");'>&nbsp;<s:property value="textName"/>&nbsp;</label>&nbsp;
-									</s:iterator>
-								</td>
-							</tr>
-							<tr>
-								<td><b>图型报表</b></td>
-							</tr>
-							<tr height="25">
-								<td>
-									<s:iterator value="charts">
-										<label style="border:float gray;height:20px;vertical-align: middle;" onclick='setReportParameter(<s:property value="id"/>,"chart");'>&nbsp;<s:property value="name"/>&nbsp;</label>&nbsp;
-									</s:iterator>
-								</td>							
-							</tr>
-						</table>
-						<br>
-					</s:iterator>
-				</td>
-			</tr>
-		</table>
+		<div style="padding:2px;" border="false">
+			<table class="formtable" width="100%" height="100%">
+				<tr>
+					<td>
+						<s:iterator value="%{categoryReports}" >
+							<table class="formtable" width="100%" height="100%">
+								<tr>
+									<td colspan="4" bgcolor="#a9c9e2" height="20"><FONT color="#1E4176"><b><s:property value="name"/>报表集</b></FONT></td>
+								</tr>
+								<tr>
+									<td colspan="4"><b>文字报表：</b></td>
+								</tr>
+								<tr height="25">
+								<s:iterator value="texts" status="stat">
+									<td width="20%">
+										<a href="javascript:void(0)" onclick='setReportParameter(<s:property value="id"/>,"text");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="textName"/></span></a>
+									</td>
+									<s:if test="#stat.index%3==0 && !#stat.first && !#stat.last">
+            						</tr>
+            						<tr height="25">
+        							</s:if>
+								</s:iterator>
+								</tr>
+								<tr>
+									<td colspan="4"><b>图型报表：</b></td>
+								</tr>
+								<tr height="25">
+								<s:iterator value="charts" status="stat">
+									<td width="20%">
+										<a href="javascript:void(0)" onclick='setReportParameter(<s:property value="id"/>,"chart");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="name"/></span></a>
+									</td>	
+									<s:if test="#stat.index%3==0 && !#stat.first && !#stat.last">
+            						</tr>
+            						<tr height="25">
+        							</s:if>
+								</s:iterator>
+								</tr>
+							</table>
+							<br>
+						</s:iterator>
+					</td>
+				</tr>
+			</table>
 		</div>
         <div id="parameter-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;参数选择" style="display:none;">
             <div class="easyui-layout" fit="true">
