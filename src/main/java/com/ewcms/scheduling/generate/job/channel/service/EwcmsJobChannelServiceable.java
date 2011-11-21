@@ -9,7 +9,7 @@ package com.ewcms.scheduling.generate.job.channel.service;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
-import com.ewcms.scheduling.manage.vo.PageDisplayVO;
+import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 
 /**
  * 频道定时任务Service接口

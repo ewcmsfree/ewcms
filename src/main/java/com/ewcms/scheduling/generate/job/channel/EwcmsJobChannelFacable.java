@@ -8,7 +8,7 @@ package com.ewcms.scheduling.generate.job.channel;
 
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
-import com.ewcms.scheduling.manage.vo.PageDisplayVO;
+import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 
 /**
  * 频道定时任务Fac接口

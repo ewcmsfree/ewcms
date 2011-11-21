@@ -15,11 +15,11 @@ import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.channel.dao.EwcmsJobChannelDAO;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
-import com.ewcms.scheduling.manage.SchedulingFacable;
-import com.ewcms.scheduling.manage.dao.JobClassDAO;
-import com.ewcms.scheduling.manage.dao.JobInfoDAO;
-import com.ewcms.scheduling.manage.util.ConversionUtil;
-import com.ewcms.scheduling.manage.vo.PageDisplayVO;
+import com.ewcms.scheduling.manager.SchedulingFacable;
+import com.ewcms.scheduling.manager.dao.JobClassDAO;
+import com.ewcms.scheduling.manager.dao.JobInfoDAO;
+import com.ewcms.scheduling.manager.util.ConversionUtil;
+import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 import com.ewcms.scheduling.model.JobClass;
 import com.ewcms.scheduling.model.JobInfo;
 

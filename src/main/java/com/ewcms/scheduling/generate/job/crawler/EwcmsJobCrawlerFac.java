@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
 import com.ewcms.scheduling.generate.job.crawler.service.EwcmsJobCrawlerServiceable;
-import com.ewcms.scheduling.manage.vo.PageDisplayVO;
+import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 
 /**
  * 采集器定时任务Fac

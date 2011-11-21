@@ -6,7 +6,7 @@ import java.util.Set;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobParameter;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
-import com.ewcms.scheduling.manage.vo.PageDisplayVO;
+import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 
 public interface EwcmsJobReportFacable {
 	/**
