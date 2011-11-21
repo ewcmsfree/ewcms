@@ -16,8 +16,8 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ewcms.function.report.generate.vo.PageShowParam;
-import com.ewcms.function.report.model.Parameter;
+import com.ewcms.plugin.report.generate.vo.PageShowParam;
+import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobParameter;
 import com.ewcms.scheduling.manage.vo.PageDisplayVO;
 import com.ewcms.scheduling.model.JobCalendarTrigger;

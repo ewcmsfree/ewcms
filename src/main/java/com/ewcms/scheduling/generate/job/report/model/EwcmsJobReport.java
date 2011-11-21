@@ -23,8 +23,8 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.ewcms.function.report.model.ChartReport;
-import com.ewcms.function.report.model.TextReport;
+import com.ewcms.plugin.report.model.ChartReport;
+import com.ewcms.plugin.report.model.TextReport;
 import com.ewcms.scheduling.model.JobInfo;
 
 /**

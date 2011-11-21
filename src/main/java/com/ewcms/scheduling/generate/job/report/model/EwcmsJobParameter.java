@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.ewcms.function.report.model.Parameter;
+import com.ewcms.plugin.report.model.Parameter;
 
 /**
  * 报表调度器所使用的参数

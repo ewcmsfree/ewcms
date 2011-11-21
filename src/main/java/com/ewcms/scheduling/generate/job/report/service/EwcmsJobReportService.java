@@ -6,12 +6,12 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.plugin.report.manager.service.ChartReportServiceable;
+import com.ewcms.plugin.report.manager.service.TextReportServiceable;
+import com.ewcms.plugin.report.model.ChartReport;
+import com.ewcms.plugin.report.model.TextReport;
+import com.ewcms.plugin.report.model.TextType;
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.function.report.manager.service.ChartReportServiceable;
-import com.ewcms.function.report.manager.service.TextReportServiceable;
-import com.ewcms.function.report.model.ChartReport;
-import com.ewcms.function.report.model.TextReport;
-import com.ewcms.function.report.model.TextType;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.report.dao.EwcmsJobReportDAO;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobParameter;

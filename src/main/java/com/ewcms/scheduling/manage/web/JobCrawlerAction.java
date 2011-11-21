@@ -8,9 +8,9 @@ package com.ewcms.scheduling.manage.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.plugin.crawler.manager.CrawlerFacable;
+import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.function.crawler.manager.CrawlerFacable;
-import com.ewcms.function.crawler.model.Gather;
 import com.ewcms.scheduling.generate.job.crawler.EwcmsJobCrawlerFacable;
 import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
 import com.ewcms.scheduling.manage.util.ConversionUtil;

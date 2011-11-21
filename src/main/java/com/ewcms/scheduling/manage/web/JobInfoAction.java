@@ -11,12 +11,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.plugin.report.generate.factory.ChartFactoryable;
+import com.ewcms.plugin.report.generate.factory.TextFactoryable;
+import com.ewcms.plugin.report.generate.vo.PageShowParam;
+import com.ewcms.plugin.report.model.ChartReport;
+import com.ewcms.plugin.report.model.TextReport;
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.function.report.generate.factory.ChartFactoryable;
-import com.ewcms.function.report.generate.factory.TextFactoryable;
-import com.ewcms.function.report.generate.vo.PageShowParam;
-import com.ewcms.function.report.model.ChartReport;
-import com.ewcms.function.report.model.TextReport;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
 import com.ewcms.scheduling.generate.job.report.EwcmsJobReportFacable;

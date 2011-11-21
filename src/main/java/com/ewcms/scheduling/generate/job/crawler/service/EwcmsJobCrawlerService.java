@@ -9,9 +9,9 @@ package com.ewcms.scheduling.generate.job.crawler.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.plugin.crawler.manager.dao.GatherDAO;
+import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.scheduling.BaseException;
-import com.ewcms.function.crawler.manager.dao.GatherDAO;
-import com.ewcms.function.crawler.model.Gather;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.crawler.dao.EwcmsJobCrawlerDAO;
 import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;

@@ -13,8 +13,8 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.function.crawler.generate.EwcmsControllerable;
-import com.ewcms.function.crawler.model.Gather;
+import com.ewcms.plugin.crawler.generate.EwcmsControllerable;
+import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.scheduling.generate.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
 

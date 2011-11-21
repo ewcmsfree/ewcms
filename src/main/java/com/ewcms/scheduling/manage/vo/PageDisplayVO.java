@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ewcms.function.report.generate.vo.PageShowParam;
+import com.ewcms.plugin.report.generate.vo.PageShowParam;
 
 /**
  * @author 吴智俊

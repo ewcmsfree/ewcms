@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.ewcms.function.crawler.model.Gather;
+import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.scheduling.model.JobInfo;
 
 /**
