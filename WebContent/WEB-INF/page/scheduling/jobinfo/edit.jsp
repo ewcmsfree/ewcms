@@ -15,134 +15,8 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.js"/>'></script>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/scheduling/jobinfo/edit.js"/>'></script>
         <script type="text/javascript">
-        	$(function() {
-            	var monthsAllChecked = true;
-            	var weekDaysAllChecked = true;
-        		$("input[name='pageDisplayVo.months']").each(function(){
-                	if (!$(this).attr('checked')){
-                		monthsAllChecked = false;
-                	}
-            	});
-            	if (monthsAllChecked){
-                	$('#monthsAll').attr('checked',true);
-            	}else{
-                	$('#monthsAll').attr('checked',false);
-            	}
-            	$("input[name='pageDisplayVo.weekDays']").each(function(){
-                	if (!$(this).attr('checked')){
-                		weekDaysAllChecked = false;
-                	}
-            	});
-            	if (weekDaysAllChecked){
-                	$('#weekDaysAll').attr('checked',true);
-            	}else{
-            		$('#weekDaysAll').attr('checked',false);
-            	}
-            	$('#monthsAll').click(function(){
-                	if ($('#monthsAll').attr('checked') == 'checked'){
-                		$("input[name='pageDisplayVo.months']").attr('checked',true);
-                	}else{
-                		$("input[name='pageDisplayVo.months']").attr('checked',false);
-                	}
-            	});
-            	$('#weekDaysAll').click(function(){
-            		$("input[name='pageDisplayVo.days']").get(1).checked = true;
-                	if ($('#weekDaysAll').attr('checked') == 'checked'){
-                		$("input[name='pageDisplayVo.weekDays']").attr('checked',true);
-                	}else{
-                		$("input[name='pageDisplayVo.weekDays']").attr('checked',false);
-                	}
-            	});
-            	$("input[name='pageDisplayVo.weekDays']").click(function(){
-                	$("input[name='pageDisplayVo.days']").get(1).checked = true;
-                	var weekChecked = true;
-                	$("input[name='pageDisplayVo.weekDays']").each(function(){
-                		if (!$(this).attr('checked')){
-                			weekChecked = false;
-                    	}
-                	});
-                	if (weekChecked){
-                    	$('#weekDaysAll').attr('checked',true);
-                	}else{
-                		$('#weekDaysAll').attr('checked',false);
-                	}
-            	});
-            	$("input[name='pageDisplayVo.months']").click(function(){
-                	var monthsChecked = true;
-                	$("input[name='pageDisplayVo.months']").each(function(){
-                		if (!$(this).attr('checked')){
-                			monthsChecked = false;
-                    	}
-                	});
-                	if (monthsChecked){
-                    	$('#monthsAll').attr('checked',true);
-                	}else{
-                		$('#monthsAll').attr('checked',false);
-                	}
-            	});
-            	$('#monthDays').click(function(){
-            		$("input[name='pageDisplayVo.days']").get(2).checked = true;
-            	});
-            	$('#occurrenceCount').click(function(){
-            		$("input[name='pageDisplayVo.occur']").get(2).checked = true;
-            	});
-            	$("input[name='pageDisplayVo.days']").click(function(){
-            		if ($("input[name='pageDisplayVo.days']:checked").val() == 3){
-                		$('#monthDays').focus();
-            		}
-            	});
-            	$("input[name='pageDisplayVo.occur']").click(function(){
-                	var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
-            		if ( occurId == 3){
-                		$('#occurrenceCount').focus();
-            		}else if (occurId == 2){
-                		$("input[name='pageDisplayVo.endDateSimple']").focus();
-            		}
-            	});
-            	$("input[name='pageDisplayVo.mode']").click(function(){
-            		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
-            		if (typeof modeId == 'undefined'){
-            			modeId = 1;
-    					$("input[name='pageDisplayVo.mode']").get(modeId).checked = true;
-    					$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-            		}
-            		if (modeId == 0){
-            			$('#trSimplicity').hide();
-    					$('#trComplexity').hide();
-            		}else if (modeId == 1){
-            			$('#trSimplicity').show();
-    					$('#trComplexity').hide();
-            		}else{
-            			$('#trSimplicity').hide();
-    					$('#trComplexity').show();
-            		}
-            	});
-        		var modeId = $("input[name='pageDisplayVo.mode']:checked").val();
-        		if (typeof modeId == 'undefined' || $('#jobId').val()==""){
-        			modeId = 1;
-					$("input[name='pageDisplayVo.mode']").get(modeId).checked = true;
-					$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-        		}
-        		if (modeId == 0){
-        			$('#trSimplicity').hide();
-					$('#trComplexity').hide();
-        		}else if (modeId == 1){
-        			$('#trSimplicity').show();
-					$('#trComplexity').hide();
-        		}else{
-        			$('#trSimplicity').hide();
-					$('#trComplexity').show();
-        		}
-        		var occurId = $("input[name='pageDisplayVo.occur']:checked").val();
-        		if (typeof occurId == 'undefined' || $('#jobId').val()==""){
-        			$("input[name='pageDisplayVo.occur']").get(0).checked = true;
-        		}
-        		var daysId = $("input[name='pageDisplayVo.days']:checked").val();
-        		if (typeof daysId == 'undefined' || $('#jobId').val()==""){
-            		$("input[name='pageDisplayVo.days']").get(0).checked = true;
-        		}
-        	});
         	<s:property value="javaScript"/>
     		function tipMessage(){
 			    <s:if test="hasActionMessages()">  
@@ -163,11 +37,11 @@
 				<tr>
 					<td width="10%">调度作业选择：</td>
 					<td colspan="3" class="formFieldError">
-						<s:if test="pageDisplayVo.isJobChannel==true">
+						<s:if test="((pageDisplayVo.isJobChannel==true)||(pageDisplayVo.isJobReport==true))">
 							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" disabled="true" cssClass="inputtext"></s:select>
 							<s:hidden name="pageDisplayVo.jobClassId"></s:hidden>
 						</s:if>
-						<s:if test="pageDisplayVo.isJobChannel==false">
+						<s:if test="(pageDisplayVo.isJobChannel==false)&&(pageDisplayVo.isJobReport==false)">
 							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" cssClass="inputtext"></s:select>
 						</s:if>
 						<s:fielderror><s:param value="%{'pageDisplayVo.jobClassId'}" /></s:fielderror>
@@ -189,13 +63,6 @@
 						&nbsp;
 						</s:else>
 					</td>
-					
-					<!-- 
-					<td>用户名：</td>
-					<td>
-						<s:textfield name="pageDisplayVo.userName" maxlength="50"></s:textfield>
-					</td>
-					 -->
 				</tr>
 				<tr>
 					<td>说明：</td>
@@ -203,6 +70,24 @@
 						<s:textarea name="pageDisplayVo.description" rows="3" cols="80"></s:textarea>
 					</td>
 				</tr>
+				<s:if test="(null!=pageShowParams)&&!(pageShowParams.isEmpty())">
+				<tr>
+					<td colspan="4" align="left"><font color="#0066FF"><b>参数信息</b></font></td>
+				</tr>
+				<ewcms:scheduling-reportparameter/>
+				</s:if>
+				<s:if test="pageDisplayVo.reportType=='text'">
+				<tr>
+					<td colspan="4" align="left"><font color="#0066FF"><b>输出格式信息</b></font></td>
+				</tr>
+				<tr>
+					<td class="texttd">输出格式：</td>
+					<td class="inputtd" colspan="4"><s:checkboxlist
+						id="pageDisplayVo.outputFormats"
+						name="pageDisplayVo.outputFormats"
+						list='#{1:"Pdf",2:"Xls",3:"Rtf",4:"Xml"}'></s:checkboxlist></td>
+				</tr>
+				</s:if>
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>计划信息</b></font></td>
 				</tr>

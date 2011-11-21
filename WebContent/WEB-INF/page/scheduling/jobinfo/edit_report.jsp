@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>							
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
+		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/scheduling/jobinfo/edit.js"/>'></script>
         <script type="text/javascript">
     		function tipMessage(){
@@ -23,27 +23,57 @@
 		     	</s:if>  
 			}
             <s:property value="javaScript"/>
+            
         </script>	
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
 	<body onload="tipMessage();">
-		<s:form id="crawlerSave" action="save" namespace="/scheduling/jobcrawler">
+		<s:form action="save" namespace="/scheduling/jobreport">
 			<table class="formtable" align="center">
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>任务信息</b></font></td>
 				</tr>
 				<tr>
-					<td width="10%">采集器名称：</td>
+					<td width="15%">名称：</td>
 					<td>
-						<s:textfield name="pageDisplayVo.label"	maxlength="50" readonly="true"></s:textfield>
+						<s:textfield name="pageDisplayVo.label"	maxlength="50"></s:textfield>
+					</td>
+					<td width=15%">报表名称：</td>
+					<td>
+						<s:label name="pageDisplayVo.reportName"></s:label>
+						<s:if test="reportType=='text'">
+							<s:label value="(文字报表)"></s:label>
+						</s:if>
+						<s:if test="reportType=='chart'">
+							<s:label value="(图型报表)"></s:label>
+						</s:if>
+						<s:hidden name="reportType" />
 					</td>
 				</tr>
 				<tr>
 					<td>说明：</td>
 					<td colspan="3">
-						<s:textarea name="pageDisplayVo.description" rows="3" cols="80"/>
+						<s:textarea name="pageDisplayVo.description" rows="3" cols="80"></s:textarea>
 					</td>
 				</tr>
+				<s:if test="(reportType!='')&&(null!=pageShowParams)&&!(pageShowParams.isEmpty())">
+				<tr>
+					<td colspan="4" align="left"><font color="#0066FF"><b>参数信息</b></font></td>
+				</tr>
+				<ewcms:scheduling-reportparameter/>
+				</s:if>
+				<s:if test="reportType=='text'">
+				<tr>
+					<td colspan="4" align="left"><font color="#0066FF"><b>输出格式信息</b></font></td>
+				</tr>
+				<tr>
+					<td class="texttd">输出格式：</td>
+					<td class="inputtd" colspan="4"><s:checkboxlist
+						id="pageDisplayVo.outputFormats"
+						name="pageDisplayVo.outputFormats"
+						list='#{1:"Pdf",2:"Xls",3:"Rtf",4:"Xml"}'></s:checkboxlist></td>
+				</tr>
+				</s:if>
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>计划信息</b></font></td>
 				</tr>
@@ -155,7 +185,7 @@
 			<s:hidden name="pageDisplayVo.triggerId"/>
 			<s:hidden name="pageDisplayVo.triggerVersion"/>
 			<s:hidden name="pageDisplayVo.start" value="2"/>
-            <s:hidden id="gatherId" name="gatherId"/>			
+            <s:hidden id="reportId" name="reportId"/>			
 		</s:form>
 	</body>
 </html>
