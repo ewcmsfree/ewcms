@@ -15,7 +15,7 @@ if (window.addEventListener) {// for Mozilla/Opera9
 		}
 	};
 } else if (window.attachEvent) {// for IE
-	window.attachEvent('load', function() {
+	window.attachEvent('onload', function() {
 		document.getElementById('loading_mask').style.display = 'none';
 		document.getElementById('loading_mask_msg').style.display = 'none';
 	}, false);
