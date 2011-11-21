@@ -44,7 +44,7 @@ public class EwcmsJobParameter implements Serializable {
     private Long id;
     @Column(name = "parametervalue")
     private String parameterValue;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "rep_param_id")
     private Parameter parameter;
 

@@ -55,13 +55,13 @@ public class EwcmsJobReport extends JobInfo {
     
     @Column(name = "outputformat", length = 20)
     private String outputFormat;
-    @OneToMany(cascade = {CascadeType.ALL}, targetEntity = EwcmsJobParameter.class, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.ALL}, targetEntity = EwcmsJobParameter.class, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "job_report_id")
     private Set<EwcmsJobParameter> ewcmsJobParameters;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "report_id")
     private TextReport textReport;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "chart_id")
     private ChartReport chartReport;
 
