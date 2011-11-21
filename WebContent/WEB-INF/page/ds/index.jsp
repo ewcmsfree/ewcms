@@ -9,20 +9,44 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'></link>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+		<script type="text/javascript">
+			$(function(){
+				$('#systemtab').tabs({
+					onSelect:function(title){
+						var jdbcurl="<s:url namespace='/ds/jdbc' action='index'/>";
+						var jndiurl="<s:url namespace='/ds/jndi' action='index'/>";
+						var beanurl="<s:url namespace='/ds/bean' action='index'/>";
+						var customurl="<s:url namespace='/ds/custom' action='index'/>";
+						if(title=="JDBC数据源"){
+							$("#editjdbcifr").attr('src',jdbcurl);
+						}
+						if(title=="JNDI数据源"){
+							$("#editjndiifr").attr('src',jndiurl);
+						}
+						if(title=="BEAN数据源"){
+							$("#editbeanifr").attr('src',beanurl);
+						}
+						if(title=="CUSTOM数据源"){
+							$("#editcustomifr").attr('src',customurl);
+						}	
+					}
+				});
+			});	
+		</script>					
 	</head>
 	<body>
-		<div class="easyui-tabs" id="dstab" border="false" fit="true">
+		<div class="easyui-tabs" id="systemtab" border="false" fit="true">
 			<div title="JDBC数据源">
-				<iframe id="editinfoifr"  name="editjdbcifr" class="editifr" src="<s:url namespace='/ds/jdbc' action='index'/>" onload="iframeFitHeight(this);"></iframe>
+				<iframe id="editjdbcifr"  name="editjdbcifr" class="editifr" scrolling="no"></iframe>
 			</div>			
 			<div title="JNDI数据源" >
-				<iframe id="editjdbcfr"  name="editjndiifr" class="editifr" src="<s:url namespace='/ds/jndi' action='index'/>" onload="iframeFitHeight(this);"></iframe>	
+				<iframe id="editjndiifr"  name="editjndiifr" class="editifr" scrolling="no"></iframe>	
 			</div>
 			<div title="BEAN数据源" >
-				<iframe id="editsrcifr"  name="editbeanifr" class="editifr" src="<s:url namespace='/ds/bean' action='index'/>" onload="iframeFitHeight(this);"></iframe>	
+				<iframe id="editbeanifr"  name="editbeanifr" class="editifr" scrolling="no"></iframe>	
 			</div>					
 			<div title="CUSTOM数据源" >
-			    <iframe id="editauthifr"  name="editcustomifr" class="editifr" src="<s:url namespace='/ds/custom' action='index'/>" onload="iframeFitHeight(this);"></iframe> 
+			    <iframe id="editcustomifr"  name="editcustomifr" class="editifr" scrolling="no"></iframe> 
 			</div>
 		</div>	
 	</body>
