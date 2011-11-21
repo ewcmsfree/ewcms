@@ -1,2 +1,0 @@
-@CHARSET "UTF-8";
- .ellipsis{display:block;width:200px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
