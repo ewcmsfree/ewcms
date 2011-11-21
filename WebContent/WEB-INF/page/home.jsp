@@ -212,6 +212,46 @@
                     </div>
                 </div>
                 </sec:authorize>
+                <sec:authorize ifAnyGranted="ROLE_ADMIN">
+               	<div title="报表管理" style="overflow:auto;">
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('文字报表','report/text/index.do')">
+                            <img src="ewcmssource/image/report_text.png" style="border:0"/><br/>
+                            <span>文字报表</span>
+                        </a>
+               	    </div>
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('图型报表','report/chart/index.do')">
+                            <img src="ewcmssource/image/report_chart.png" style="border:0"/><br/>
+                            <span>图型报表</span>
+                        </a>
+               	    </div>
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('报表分类','report/category/index.do')">
+                            <img src="ewcmssource/image/report_category.png" style="border:0"/><br/>
+                            <span>报表分类</span>
+                        </a>
+               	    </div>
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('报表存储','report/repository/index.do')">
+                            <img src="ewcmssource/image/report_repository.png" style="border:0"/><br/>
+                            <span>报表存储</span>
+                        </a>
+               	    </div>
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('报表集','report/show/index.do')">
+                            <img src="ewcmssource/image/report_show.png" style="border:0"/><br/>
+                            <span>报表集</span>
+                        </a>
+               	    </div>
+               	    <div class="nav-item">
+                         <a href="javascript:_home.addTab('数据源','ds/index.do')">
+                            <img src="ewcmssource/image/report_ds.png" style="border:0"/><br/>
+                            <span>数据源</span>
+                        </a>
+               	    </div>
+               	</div>
+                </sec:authorize>
             </div>
         </div>
         <div region="center" style="overflow:hidden;">
