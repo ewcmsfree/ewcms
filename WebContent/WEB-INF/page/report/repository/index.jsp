@@ -29,8 +29,13 @@
 		                {field:'name',title:'名称',width:100},
 		                {field:'type',title:'类型',width:100},
 		                {field:'updateDate',title:'更新时间',width:125},
-		                {field:'description',title:'说明',width:300}
-                  ]]
+		                {field:'description',title:'说明',width:300},
+		                {field:'download',title:'下载',width:30,
+		                	formatter:function(val,rec){
+		                		return "&nbsp;<a href='javascript:void(0);' onclick='download(" +  rec.id + ");'><img src='../../ewcmssource/css/icons/download.png' width='13px' height='13px' title='下载'/></a>";
+		                	}
+		                }
+		                ]]
 			});
 
 			ewcmsOOBJ = new EwcmsOperate();
@@ -38,6 +43,9 @@
 			//ewcmsOOBJ.setInputURL('<s:url namespace="/report/repository" action="input"/>');
 			ewcmsOOBJ.setDeleteURL('<s:url namespace="/report/repository" action="delete"/>');
 		});
+		function download(id){
+			window.open('<s:url namespace="/report/repository" action="download"/>?repositoryId=' + id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+		}
 		</script>		
 	</head>
 	<body class="easyui-layout">

@@ -90,7 +90,7 @@
 					$.messager.alert('提示', '只能选择一个预览', 'info');
 					return;
 				}
-				window.open('<s:url namespace="/report/text" action="preview"/>?textId=' + rows[0].id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+				window.open('<s:url namespace="/report/text" action="preview"/>?repositoryId=' + rows[0].id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 			}
 			function timeTextOperate(){
 				var rows = $('#tt').datagrid('getSelections');
