@@ -18,7 +18,6 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/ds/index.js"/>'></script>
-		<ewcms:text-head/>
 		<ewcms:datepickerhead/>
 		<script type="text/javascript">
 			function checkBoxValue(name){
