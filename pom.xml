@@ -11,38 +11,81 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		
+		<!-- Hibernate -->
 		<hibernate.entitymanager.version>3.5.1-Final</hibernate.entitymanager.version>
 		<hibernate.c3p0.version>3.3.2.GA</hibernate.c3p0.version>
 		<hibernate.jpamodelgen.version>1.0.0.Final</hibernate.jpamodelgen.version>
+		
+		<!-- Springframework Core-->
 		<springframework.version>3.0.5.RELEASE</springframework.version>
+		
+		<!-- Springframework Security -->
 		<springframework.security.version>3.0.5.RELEASE</springframework.security.version>
+		<aspectjweaver.version>1.6.8</aspectjweaver.version>
+		
+		<!-- Struts2 -->
 		<struts2.version>2.1.8.1</struts2.version>
 		<struts2.annotations.version>1.0.5</struts2.annotations.version>
+		
+		<!-- Ehcache -->
+		<ehcache.core.version>2.4.2</ehcache.core.version>
+		
+		<!-- Commons -->
 		<commons.lang.version>2.4</commons.lang.version>
 		<commons.logging.version>1.1.1</commons.logging.version>
 		<commons.codec.version>1.4</commons.codec.version>
 		<commons.beanutils.version>1.8.3</commons.beanutils.version>
 		<commons.vfs2.version>2.0</commons.vfs2.version>
-		<commons-net>3.0.1</commons-net>
+		<commons.net.version>3.0.1</commons.net.version>
+		
 		<jcraft.version>0.1.44-1</jcraft.version>
 		<jcifs.version>1.2.19</jcifs.version>
+		
+		<!-- Slf4j Log -->
 		<slf4j.version>1.6.1</slf4j.version>
-		<aspectjweaver.version>1.6.8</aspectjweaver.version>
+		
+		<!-- Json -->
 		<jackson.version>1.5.3</jackson.version>
+		
+		<!-- Database Connection -->
 		<postgresql.version>8.4-701.jdbc4</postgresql.version>
+		
+		<!-- Word Analyzer -->
 		<lucene.version>3.0.2</lucene.version>
 		<nekohtml.version>1.9.6.2</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>
+		
+		<!-- verification code -->
 		<jcaptcha.version>1.0</jcaptcha.version>
+		
+		<!-- Quartz -->
 		<quartz.version>1.8.5</quartz.version>
-		<ehcache.core.version>2.4.2</ehcache.core.version>
+		
+		<!-- Crawler -->
+		<httpcomponents.version>4.0.1</httpcomponents.version>
+		<dsiutils.version>1.0.10</dsiutils.version>
+		<fastutil.version>6.4.1</fastutil.version>
+		<je.version>4.0.92</je.version>
 		<jsoup.version>1.6.1</jsoup.version>
+		
+		<!-- Text reports and Chart reports -->
+		<jasperreports.version>3.0.0</jasperreports.version>
+		<jfree.version>1.0.9</jfree.version>
+		<iTextAsian.version>1.0.0</iTextAsian.version>
+		
+		<!-- Connect to external database -->
+		<commons.dbcp.version>1.2.2</commons.dbcp.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
+		
+		<!-- Servlet -->
+		<servlet.version>2.5</servlet.version>
+		<jsp.version>2.1</jsp.version>
+		
+		<!-- Test -->
 		<junit.version>4.8.1</junit.version>
 		<jmock.junit.version>2.5.1</jmock.junit.version>
 		<mockito.all.version>1.8.5</mockito.all.version>
-       <servlet.version>2.5</servlet.version>
-       <jsp.version>2.1</jsp.version>
-       <xerces.version>2.8.1</xerces.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -81,6 +124,27 @@
 			<url>http://oss.sonatype.org/content/groups/public</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>default-tool.jar</id>
+			<activation>
+				<property>
+					<name>java.vendor</name>
+					<value>Sun Microsystems Inc.</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+					<version>1.6.0</version>
+					<scope>system</scope>
+					<systemPath>${java.home}/../lib/tools.jar</systemPath>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -134,7 +198,7 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -161,6 +225,12 @@
 			<version>${springframework.security.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
 			<version>${struts2.version}</version>
@@ -168,6 +238,10 @@
 				<exclusion>
 					<artifactId>spring-test</artifactId>
 					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>tools</artifactId>
+					<groupId>com.sun</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -180,8 +254,20 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-annotations</artifactId>
 			<version>${struts2.annotations.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>tools</artifactId>
+					<groupId>com.sun</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.core.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -193,10 +279,38 @@
 			<version>${commons.logging.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>${commons.beanutils.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-vfs2</artifactId>
+			<version>${commons.vfs2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>${commons.net.version}</version>
+			<classifier>ftp</classifier>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>${jcraft.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.samba.jcifs</groupId>
+			<artifactId>jcifs</artifactId>
+			<version>${jcifs.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -207,32 +321,7 @@
 			<artifactId>slf4j-jdk14</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-vfs2</artifactId>
-			<version>${commons.vfs2.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jcraft</groupId>
-			<artifactId>jsch</artifactId>
-			<version>${jcraft.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>${commons-net}</version>
-			<classifier>ftp</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.samba.jcifs</groupId>
-			<artifactId>jcifs</artifactId>
-			<version>${jcifs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectjweaver.version}</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
@@ -243,16 +332,13 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>${commons.codec.version}</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
@@ -262,12 +348,6 @@
 			<groupId>nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
 			<version>${nekohtml.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xercesImpl</artifactId>
-					<groupId>xerces</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.solr</groupId>
@@ -280,6 +360,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha</artifactId>
@@ -291,21 +372,95 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz.version}</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-			<version>${ehcache.core.version}</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${httpcomponents.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpcomponents.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.unimi.dsi</groupId>
+			<artifactId>dsiutils</artifactId>
+			<version>${dsiutils.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.unimi.dsi</groupId>
+			<artifactId>fastutil</artifactId>
+			<version>${fastutil.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sleepycat</groupId>
+			<artifactId>je</artifactId>
+			<version>${je.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bctsp-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>${jfree.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>${jfree.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>iTextAsian</artifactId>
+			<version>${iTextAsian.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons.dbcp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons.collections.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${jsp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -330,49 +485,6 @@
 			<version>${mockito.all.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>dsiutils</artifactId>
-			<version>1.0.10</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>fastutil</artifactId>
-			<version>6.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sleepycat</groupId>
-			<artifactId>je</artifactId>
-			<version>4.0.92</version>
-		</dependency>
-       <dependency>
-           <groupId>javax.servlet</groupId>
-           <artifactId>servlet-api</artifactId>
-           <version>${servlet.version}</version>
-           <scope>provided</scope>
-       </dependency>
-       <dependency>
-           <groupId>javax.servlet.jsp</groupId>
-           <artifactId>jsp-api</artifactId>
-           <version>${jsp.version}</version>
-           <scope>provided</scope>
-       </dependency>
-       <dependency>
-           <groupId>xerces</groupId>
-           <artifactId>xercesImpl</artifactId>
-           <version>${xerces.version}</version>
-           <scope>provided</scope>
-       </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -440,6 +552,15 @@
 			<plugin>
 				<groupId>org.apache.myfaces.tobago</groupId>
 				<artifactId>maven-apt-plugin</artifactId>
+				<version>1.0.37</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<A>uri=/ewcms-tags,tlibVersion=2.2,jspVersion=2.0,shortName=s,displayName="Ewcms
 						Tags",
@@ -469,14 +590,6 @@
 						<include>**/*.java</include>
 					</includes>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
@@ -490,7 +603,6 @@
 						</goals>
 					</execution>
 				</executions>
-
 				<configuration>
 					<nosuffix>true</nosuffix>
 					<jswarn>false</jswarn>
@@ -499,7 +611,6 @@
 					<encoding>UTF-8</encoding>
 					<linebreakpos>-1</linebreakpos>
 					<failOnWarning>false</failOnWarning>
-
 					<sourceDirectory>${basedir}/WebContent/source/</sourceDirectory>
 					<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/source/</outputDirectory>
 					<excludes>
@@ -524,6 +635,15 @@
 				<inherited>false</inherited>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<header>${basedir}/src/etc/header.txt</header>
 					<failIfMissing>true</failIfMissing>
@@ -544,20 +664,11 @@
 						<exclude>**/WebContent/**</exclude>
 					</excludes>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -593,7 +704,7 @@
 											maven-license-plugin
 										</artifactId>
 										<versionRange>
-											[1.10.b1,)
+											[1.9.0,)
 										</versionRange>
 										<goals>
 											<goal>format</goal>
@@ -615,9 +726,7 @@
 											[1.1,)
 										</versionRange>
 										<goals>
-											<goal>
-												compress
-											</goal>
+											<goal>compress</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
