@@ -41,7 +41,7 @@
 				});
 				var pager = $('#tt_track').datagrid('getPager');
 				pager.pagination({
-					showPageList:false,
+					showPageList:false
 				});
 			})
 		</script>
