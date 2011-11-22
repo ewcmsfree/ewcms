@@ -13,8 +13,8 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
         <script type="text/javascript">
-            var textCategoryURL = "<s:url namespace='/report/text' action='findReportText'/>?categoryId=<s:property value='categoryId'/>";
-            var chartCategoryURL = "<s:url namespace='/report/chart' action='findReportChart'/>?categoryId=<s:property value='categoryId'/>";
+            var textCategoryURL = "<s:url namespace='/report/text' action='findTextReport'/>?categoryId=<s:property value='categoryId'/>";
+            var chartCategoryURL = "<s:url namespace='/report/chart' action='findChartReport'/>?categoryId=<s:property value='categoryId'/>";
 	        $(function(){
 	        	$('#text_categories').combobox({
 	        		url: textCategoryURL,
@@ -54,21 +54,21 @@
 				<tr>
 					<td>分类编号：</td>
 					<td>
-						<s:textfield name="reportCategoryVo.id" cssClass="inputtext" readonly="true" />
+						<s:textfield name="categoryReportVo.id" cssClass="inputtext" readonly="true" />
 					</td>
 					<td>分类名称：</td>
 					<td>
-						<s:textfield name="reportCategoryVo.name" cssClass="inputtext" readonly="true" />
+						<s:textfield name="categoryReportVo.name" cssClass="inputtext" readonly="true" />
 					</td>
 				</tr>
 				<tr>
 					<td>文字报表：</td>
 					<td>
-						<input id="text_categories" name="reportTextIds" style="width:200px;" ></input>
+						<input id="text_categories" name="textReportIds" style="width:200px;" ></input>
 					</td>
 					<td>图型报表：</td>
 					<td>
-						<input id="chart_categories" name="reportChartIds" style="width:200px;"></input>
+						<input id="chart_categories" name="hartReportIds" style="width:200px;"></input>
 					</td>
 				</tr>
 			</table>

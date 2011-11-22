@@ -29,18 +29,18 @@
 				<tr>
 					<td>名称：</td>
 					<td class="formFieldError">
-						<s:textfield name="reportCategoryVo.name" cssClass="inputtext" maxlength="10" />
-						<s:fielderror><s:param value="%{'reportCategoryVo.name'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
+						<s:textfield name="categoryReportVo.name" cssClass="inputtext" maxlength="10" />
+						<s:fielderror><s:param value="%{'categoryReportVo.name'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>
 					<td>备注：</td>
 					<td colspan="3">
-						<s:textarea name="reportCategoryVo.remarks" cols="60"/>
+						<s:textarea name="categoryReportVo.remarks" cols="60"/>
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="reportCategoryVo.id"/>
+			<s:hidden name="categoryReportVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

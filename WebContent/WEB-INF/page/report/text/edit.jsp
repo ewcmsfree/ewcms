@@ -29,8 +29,8 @@
 				<tr>
 					<td>报表名：</td>
 					<td class="formFieldError">
-						<s:textfield name="reportTextVo.textName" cssClass="inputtext" maxlength="10" />
-						<s:fielderror><s:param value="%{'reportTextVoVo.textName'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
+						<s:textfield name="textReportVo.name" cssClass="inputtext" maxlength="10" />
+						<s:fielderror><s:param value="%{'textReportVoVo.name'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -43,23 +43,23 @@
 				<tr>
 					<td>数据源类型：</td>
 					<td class="formFieldError">
-						<s:select list="baseDSList" name="reportTextVo.baseDS.id" listKey="id" listValue="name" headerKey="0" headerValue="默认数据源" cssClass="inputtext"/>
+						<s:select list="baseDSList" name="textReportVo.baseDS.id" listKey="id" listValue="name" headerKey="0" headerValue="默认数据源" cssClass="inputtext"/>
 					</td>
 				</tr>
 				<tr>
 					<td>是否隐藏：</td>
 					<td>
-						<s:checkbox	name="reportTextVo.hidden" />
+						<s:checkbox	name="textReportVo.hidden" />
 					</td>
 				</tr>
                 <tr>
 					<td>备注：</td>
 					<td>
-						<s:textarea name="reportTextVo.remarks" cols="60"/>
+						<s:textarea name="textReportVo.remarks" cols="60"/>
 					</td>
 				</tr>			
 			</table>
-			<s:hidden name="reportTextVo.id"/>
+			<s:hidden name="textReportVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

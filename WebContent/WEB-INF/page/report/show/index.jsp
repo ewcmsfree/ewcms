@@ -43,7 +43,7 @@
 							<tr>
 							<s:iterator value="texts" status="stat">
 								<td width="20%">
-									<a href="javascript:void(0);" onclick='setReportParameter(<s:property value="id"/>,"text");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="textName"/></span></a>
+									<a href="javascript:void(0);" onclick='setReportParameter(<s:property value="id"/>,"text");' style="text-decoration:none;" title="<s:property value='remarks'/>"><span class="ellipsis"><s:property value="name"/></span></a>
 								</td>
 								<s:if test="#stat.index%3==0 && !#stat.first && !#stat.last">
            						</tr>
