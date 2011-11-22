@@ -32,62 +32,62 @@ public class ChartReportService implements ChartReportServiceable {
 	private ChartReportDAO chartReportDAO;
 	
 	@Override
-	public Long saveChart(ChartReport chart){
-		Assert.notNull(chart);
-		Assert.hasLength(chart.getChartSql());
+	public Long addChartReport(ChartReport chartReport){
+		Assert.notNull(chartReport);
+		Assert.hasLength(chartReport.getChartSql());
 
-		Set<Parameter> parameters = ChartAnalysisUtil.analysisSql(chart.getChartSql());
-		chart.setParameters(parameters);
+		Set<Parameter> parameters = ChartAnalysisUtil.analysisSql(chartReport.getChartSql());
+		chartReport.setParameters(parameters);
 
-		chartReportDAO.persist(chart);
-		return chart.getId();
+		chartReportDAO.persist(chartReport);
+		return chartReport.getId();
 	}
 
 	@Override
-	public Long updateChart(ChartReport chart){
-		Assert.notNull(chart);
-		Assert.hasLength(chart.getChartSql());
+	public Long updChartReport(ChartReport chartReport){
+		Assert.notNull(chartReport);
+		Assert.hasLength(chartReport.getChartSql());
 		
-		ChartReport entity = chartReportDAO.get(chart.getId());
+		ChartReport entity = chartReportDAO.get(chartReport.getId());
 		
-		entity.setName(chart.getName());
-		entity.setBaseDS(chart.getBaseDS());
-		entity.setChartType(chart.getChartType());
-		entity.setShowTooltips(chart.getShowTooltips());
-		entity.setChartTitle(chart.getChartTitle());
-		entity.setFontName(chart.getFontName());
-		entity.setFontSize(chart.getFontSize());
-		entity.setFontStyle(chart.getFontStyle());
-		entity.setHorizAxisLabel(chart.getHorizAxisLabel());
-		entity.setVertAxisLabel(chart.getVertAxisLabel());
-		entity.setDataFontName(chart.getDataFontName());
-		entity.setDataFontSize(chart.getDataFontSize());
-		entity.setDataFontStyle(chart.getDataFontStyle());
-		entity.setAxisFontName(chart.getAxisFontName());
-		entity.setAxisFontSize(chart.getAxisFontSize());
-		entity.setAxisFontStyle(chart.getAxisFontStyle());
-		entity.setAxisTickFontName(chart.getAxisTickFontName());
-		entity.setAxisTickFontSize(chart.getAxisTickFontSize());
-		entity.setAxisTickFontStyle(chart.getAxisTickFontStyle());
-		entity.setTickLabelRotate(chart.getTickLabelRotate());
-		entity.setShowLegend(chart.getShowLegend());
-		entity.setLegendPosition(chart.getLegendPosition());
-		entity.setLegendFontName(chart.getLegendFontName());
-		entity.setLegendFontSize(chart.getLegendFontSize());
-		entity.setLegendFontStyle(chart.getLegendFontStyle());
-		entity.setChartHeight(chart.getChartHeight());
-		entity.setChartWidth(chart.getChartWidth());
-		entity.setBgColorB(chart.getBgColorB());
-		entity.setBgColorG(chart.getBgColorG());
-		entity.setBgColorR(chart.getBgColorR());
-		entity.setRemarks(chart.getRemarks());
+		entity.setName(chartReport.getName());
+		entity.setBaseDS(chartReport.getBaseDS());
+		entity.setChartType(chartReport.getChartType());
+		entity.setShowTooltips(chartReport.getShowTooltips());
+		entity.setChartTitle(chartReport.getChartTitle());
+		entity.setFontName(chartReport.getFontName());
+		entity.setFontSize(chartReport.getFontSize());
+		entity.setFontStyle(chartReport.getFontStyle());
+		entity.setHorizAxisLabel(chartReport.getHorizAxisLabel());
+		entity.setVertAxisLabel(chartReport.getVertAxisLabel());
+		entity.setDataFontName(chartReport.getDataFontName());
+		entity.setDataFontSize(chartReport.getDataFontSize());
+		entity.setDataFontStyle(chartReport.getDataFontStyle());
+		entity.setAxisFontName(chartReport.getAxisFontName());
+		entity.setAxisFontSize(chartReport.getAxisFontSize());
+		entity.setAxisFontStyle(chartReport.getAxisFontStyle());
+		entity.setAxisTickFontName(chartReport.getAxisTickFontName());
+		entity.setAxisTickFontSize(chartReport.getAxisTickFontSize());
+		entity.setAxisTickFontStyle(chartReport.getAxisTickFontStyle());
+		entity.setTickLabelRotate(chartReport.getTickLabelRotate());
+		entity.setShowLegend(chartReport.getShowLegend());
+		entity.setLegendPosition(chartReport.getLegendPosition());
+		entity.setLegendFontName(chartReport.getLegendFontName());
+		entity.setLegendFontSize(chartReport.getLegendFontSize());
+		entity.setLegendFontStyle(chartReport.getLegendFontStyle());
+		entity.setChartHeight(chartReport.getChartHeight());
+		entity.setChartWidth(chartReport.getChartWidth());
+		entity.setBgColorB(chartReport.getBgColorB());
+		entity.setBgColorG(chartReport.getBgColorG());
+		entity.setBgColorR(chartReport.getBgColorR());
+		entity.setRemarks(chartReport.getRemarks());
 		
-		if (!entity.getChartSql().equals(chart.getChartSql())) {
-			entity.setChartSql(chart.getChartSql());
+		if (!entity.getChartSql().equals(chartReport.getChartSql())) {
+			entity.setChartSql(chartReport.getChartSql());
 			Set<Parameter> icNewList = new LinkedHashSet<Parameter>();
 			
 			Set<Parameter> oldParameters = entity.getParameters();
-			Set<Parameter> newParameters = ChartAnalysisUtil.analysisSql(chart.getChartSql());
+			Set<Parameter> newParameters = ChartAnalysisUtil.analysisSql(chartReport.getChartSql());
 			for (Parameter newParameter : newParameters){
 				Parameter ic = findListEntity(oldParameters,newParameter);
 				if (ic == null){
@@ -98,29 +98,29 @@ public class ChartReportService implements ChartReportServiceable {
 			entity.setParameters(icNewList);
 		}
 		chartReportDAO.merge(entity);
-		return chart.getId();
+		return chartReport.getId();
 	}
 
 	@Override
-	public void deletedChart(Long chartId){
-		chartReportDAO.removeByPK(chartId);
+	public void delChartReport(Long chartReportId){
+		chartReportDAO.removeByPK(chartReportId);
 	}
 
 	@Override
-	public ChartReport findByChart(Long chartId){
-		return chartReportDAO.get(chartId);
+	public ChartReport findChartReportById(Long chartReportId){
+		return chartReportDAO.get(chartReportId);
 	}
 
 	@Override
-	public List<ChartReport> findAllChart() {
+	public List<ChartReport> findAllChartReport() {
 		return chartReportDAO.findAll();
 	}
 	
 	@Override
-	public Long updateChartParam(Long chartId, Parameter parameter) throws BaseException {
-		if (chartId == null || chartId.intValue() == 0)
+	public Long updChartReportParameter(Long chartReportId, Parameter parameter) throws BaseException {
+		if (chartReportId == null || chartReportId.intValue() == 0)
 			throw new BaseException("", "图型编号不存在，请重新选择！");
-		ChartReport chart = chartReportDAO.get(chartId);
+		ChartReport chart = chartReportDAO.get(chartReportId);
 		if (chart == null)
 			throw new BaseException("", "图型不存在，请重新选择！");
 		
@@ -135,6 +135,7 @@ public class ChartReportService implements ChartReportServiceable {
 		
 		return parameter.getId();
 	}
+	
 	/**
 	 * 根据参数名查询数据库中的参数集合
 	 * 

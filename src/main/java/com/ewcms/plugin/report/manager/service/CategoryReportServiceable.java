@@ -7,7 +7,6 @@ package com.ewcms.plugin.report.manager.service;
 
 import java.util.List;
 
-import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.model.CategoryReport;
 
 /**
@@ -19,55 +18,63 @@ public interface CategoryReportServiceable {
 	/**
 	 * 新增或修改报表分类对象
 	 * 
-	 * @param reportCategory 分类对象
-	 * @throws BaseException
+	 * @param categoryReport 分类对象
 	 */
-	public Long saveOrUpdateReportCategory(CategoryReport reportCategory);
+	public Long addOrUpdCategoryReport(CategoryReport categoryReport);
 
 	/**
 	 * 删除报表分类对象
 	 * 
-	 * @param reportCategoryId 分类编号
-	 * @throws BaseException
+	 * @param categoryReportId 分类编号
 	 */
-	public void deletedReportCategory(Long reportCategoryId);
+	public void delCategoryReport(Long categoryReportId);
 	
 	/**
 	 * 查询报表分类对象
 	 * 
-	 * @param reportCategoryId 分类编号
+	 * @param categoryReportId 分类编号
 	 * @return Categories 对象
-	 * @throws BaseException
 	 */
-	public CategoryReport findByCategory(Long reportCategoryId);
+	public CategoryReport findCategoryReportById(Long categoryReportId);
 
 	/**
 	 * 查询所有分类对象
 	 * 
 	 * @return List对象
-	 * @throws BaseException
 	 */
-	public List<CategoryReport> findAllReportCategory();
+	public List<CategoryReport> findAllCategoryReport();
 
 	/**
 	 * 根据分类编号保存报表
 	 * 
-	 * @param reportCategoryId 分类编号
+	 * @param categoryReportId 分类编号
 	 * @param textIds 报表编号数组
-	 * @throws BaseException
 	 */
-	public void saveTextToCategories(Long reportCategoryId, Long[] textIds);
+	public void addTextToCategories(Long categoryReportId, Long[] textIds);
 
 	/**
 	 * 根据分类编号保存图型
 	 * 
-	 * @param reportCategoryId 分类编号
+	 * @param categoryReportId 分类编号
 	 * @param chartIds 图型编号数组
-	 * @throws BaseException
 	 */
-	public void saveChartToCategories(Long reportCategoryId,Long[] chartIds);
-		
+	public void addChartToCategories(Long categoryReportId,Long[] chartIds);
+	
+	/**
+	 * 判断文字报表是否在分类中
+	 * 
+	 * @param textId 文字报表编号
+	 * @param categoryId 分类编号
+	 * @return Boolean (false:不存在,true:存在)
+	 */
 	public Boolean findTextIsEntityByTextAndCategory(Long textId, Long categoryId);
 	
+	/**
+	 * 判断图型报表是否在分类中
+	 * 
+	 * @param chartId 图型报表编号
+	 * @param categoryId 分类编号
+	 * @return Boolean (false:不存在,true:存在)
+	 */
 	public Boolean findChartIsEntityByChartAndCategory(Long chartId, Long categoryId);
 }

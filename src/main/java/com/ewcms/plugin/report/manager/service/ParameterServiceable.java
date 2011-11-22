@@ -12,5 +12,11 @@ import com.ewcms.plugin.report.model.Parameter;
  */
 public interface ParameterServiceable {
 	
+	/**
+	 * 查询参数对象
+	 * 
+	 * @param parameterId 参数编号
+	 * @return Parameter 参数对象
+	 */
 	public Parameter findParameterById(Long parameterId);
 }

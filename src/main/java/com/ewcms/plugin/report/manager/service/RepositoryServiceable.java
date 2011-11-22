@@ -5,7 +5,6 @@
  */
 package com.ewcms.plugin.report.manager.service;
 
-import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.model.Repository;
 
 /**
@@ -17,33 +16,31 @@ public interface RepositoryServiceable {
 	/**
 	 * 新增存储
 	 * 
-	 * @param repository
-	 * @throws BaseException
+	 * @param repository 存储对象
+	 * @return Long 存储编号
 	 */
     public Long addRepository(Repository repository);
 
     /**
      * 修改存储
      * 
-     * @param repository
-     * @throws BaseException
+     * @param repository 存储对象
+     * @return Long 存储编号
      */
     public Long updRepository(Repository repository);
 
     /**
      * 查询存储
      * 
-     * @param repositoryId
-     * @return
-     * @throws BaseException
+     * @param repositoryId 存储编号
+     * @return Repository 存储对象
      */
-    public Repository findRepository(Long repositoryId);
+    public Repository findRepositoryById(Long repositoryId);
     
     /**
      * 删除存储
      * 
-     * @param repositoryId
-     * @throws BaseException
+     * @param repositoryId 存储编号
      */
     public void delRepository(Long repositoryId);
 }

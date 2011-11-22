@@ -32,7 +32,7 @@ public class ShowReportAction extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		setCategoryReports(reportFac.findAllReportCategory());
+		setCategoryReports(reportFac.findAllCategoryReport());
 		return SUCCESS;
 	}
 }

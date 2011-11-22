@@ -20,50 +20,47 @@ public interface ChartReportServiceable {
 	/**
 	 * 新增图型报表并把图型报表中的参数存入数据库中
 	 * 
-	 * @param chart 图型对象
-	 * @throws BaseException
+	 * @param chartReport 图型报表对象
+	 * @return Long 图型报表编号
 	 */
-	public Long saveChart(ChartReport chart);
+	public Long addChartReport(ChartReport chartReport);
 	
 	/**
 	 * 修改图型报表
 	 * 
-	 * @param chart 图型对象
-	 * @throws BaseException
+	 * @param chartReport 图型报表对象
+	 * @return Long 图型报表编号
 	 */
-	public Long updateChart(ChartReport chart);
+	public Long updChartReport(ChartReport chartReport);
 
 	/**
 	 * 删除图型报表对象
 	 * 
-	 * @param chartId 图型报表编号
-	 * @throws BaseException
+	 * @param chartReportId 图型报表编号
 	 */
-	public void deletedChart(Long chartId);
+	public void delChartReport(Long chartReportId);
 	
 	/**
 	 * 查询图型报表对象
 	 * 
-	 * @param chartId 图型报表编号
-	 * @return Chart对象
-	 * @throws BaseException
+	 * @param chartReportId 图型报表编号
+	 * @return ChartReport 图型报表对象
 	 */
-	public ChartReport findByChart(Long chartId);
+	public ChartReport findChartReportById(Long chartReportId);
 
 	/**
 	 * 查询所有图型报表
 	 * 
-	 * @return List
-	 * @throws BaseException
+	 * @return List 图型报表集合
 	 */
-	public List<ChartReport> findAllChart();
+	public List<ChartReport> findAllChartReport();
 	
 	/**
 	 * 更新图型参数
 	 * 
-	 * @param chartId 图型编号
+	 * @param chartReportId 图型编号
 	 * @param pagesList 页面参数集合
 	 * @throws BaseException
 	 */
-	public Long updateChartParam(Long chartId,Parameter parameter) throws BaseException;
+	public Long updChartReportParameter(Long chartReportId,Parameter parameter) throws BaseException;
 }

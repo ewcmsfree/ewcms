@@ -33,7 +33,7 @@ public class RepositoryAction extends CrudBaseAction<Repository, Long> {
 
 	@Override
 	protected Repository getOperator(Long pk) {
-		return reportFac.findRepository(pk);
+		return reportFac.findRepositoryById(pk);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class RepositoryAction extends CrudBaseAction<Repository, Long> {
 		InputStream in = null;
 		try {
 			if (getRepositoryId() != null) {
-				Repository repository = reportFac.findRepository(getRepositoryId());
+				Repository repository = reportFac.findRepositoryById(getRepositoryId());
 				String type = repository.getType();
 				byte[] bytes = repository.getEntity();
 

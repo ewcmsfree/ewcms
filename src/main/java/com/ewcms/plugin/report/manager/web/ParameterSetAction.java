@@ -94,12 +94,12 @@ public class ParameterSetAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		if (reportType.equals("text")) {
-			parameters = ParamConversionPage.conversion(reportFac.findByText(reportId).getParameters());
+			parameters = ParamConversionPage.conversion(reportFac.findTextReportById(reportId).getParameters());
 			return SUCCESS;
 		}
 
 		if (reportType.equals("chart")) {
-			parameters = ParamConversionPage.conversion(reportFac.findByChart(reportId).getParameters());
+			parameters = ParamConversionPage.conversion(reportFac.findChartReportById(reportId).getParameters());
 			return SUCCESS;
 		}
 		return null;
@@ -117,7 +117,7 @@ public class ParameterSetAction extends ActionSupport {
 		PrintWriter pw = null;
 		InputStream in = null;
 		try {
-			TextReport report = reportFac.findByText(reportId);
+			TextReport report = reportFac.findTextReportById(reportId);
 			HttpServletResponse response = ServletActionContext.getResponse();
 			HttpServletRequest request = ServletActionContext.getRequest();
 
@@ -157,7 +157,7 @@ public class ParameterSetAction extends ActionSupport {
 		PrintWriter pw = null;
 		InputStream in = null;
 		try {
-			ChartReport chart = reportFac.findByChart(reportId);
+			ChartReport chart = reportFac.findChartReportById(reportId);
 
 			HttpServletResponse response = ServletActionContext.getResponse();
 			pw = response.getWriter();

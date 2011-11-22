@@ -35,7 +35,7 @@ public class RepositoryService implements RepositoryServiceable {
 	}
 
 	@Override
-	public Repository findRepository(Long repositoryId){
+	public Repository findRepositoryById(Long repositoryId){
 		return repositoryDAO.get(repositoryId);
 	}
 

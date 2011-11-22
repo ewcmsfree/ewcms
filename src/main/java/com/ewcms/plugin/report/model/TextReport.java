@@ -59,8 +59,8 @@ public class TextReport implements Serializable {
     @GeneratedValue(generator = "seq_repo_text",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
-    @Column(name = "textname", length = 50, nullable = false, unique = true)
-    private String textName;
+    @Column(name = "name", length = 50, nullable = false, unique = true)
+    private String name;
     @Column(name = "textentity")
     private byte[] textEntity;
     @Temporal(TemporalType.TIMESTAMP)
@@ -91,12 +91,12 @@ public class TextReport implements Serializable {
         this.id = id;
     }
 
-    public String getTextName() {
-        return textName;
+    public String getName() {
+        return name;
     }
 
-    public void setTextName(String name) {
-        this.textName = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonIgnore
@@ -154,7 +154,7 @@ public class TextReport implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((textName == null) ? 0 : textName.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -177,11 +177,11 @@ public class TextReport implements Serializable {
         } else if (!id.equals(other.id)) {
             return false;
         }
-        if (textName == null) {
-            if (other.textName != null) {
+        if (name == null) {
+            if (other.name != null) {
                 return false;
             }
-        } else if (!textName.equals(other.textName)) {
+        } else if (!name.equals(other.name)) {
             return false;
         }
         return true;

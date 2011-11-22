@@ -62,19 +62,19 @@ public class CategoryReportDetailQueryAction extends QueryBaseAction {
 
 	public String query() {
 		List<PropertyGrid> list = new ArrayList<PropertyGrid>();
-		CategoryReport reportCategory = reportFac
-				.findByCategory(getCategoryId());
-		Set<TextReport> texts = reportCategory.getTexts();
+		CategoryReport categoryReport = reportFac
+				.findCategoryReportById(getCategoryId());
+		Set<TextReport> texts = categoryReport.getTexts();
 		for (TextReport text : texts) {
 			PropertyGrid grid = new PropertyGrid();
-			grid.setName(text.getTextName());
+			grid.setName(text.getName());
 			grid.setValue(text.getRemarks());
 			grid.setGroup(TEXT_GROUP_TITLE);
 
 			list.add(grid);
 		}
 
-		Set<ChartReport> charts = reportCategory.getCharts();
+		Set<ChartReport> charts = categoryReport.getCharts();
 		for (ChartReport chart : charts) {
 			PropertyGrid grid = new PropertyGrid();
 			grid.setName(chart.getName());

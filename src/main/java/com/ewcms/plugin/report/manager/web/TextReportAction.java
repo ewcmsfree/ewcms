@@ -74,12 +74,12 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 		super.setOperatorPK(selections);
 	}
 
-	public TextReport getReportTextVo() {
+	public TextReport getTextReportVo() {
 		return super.getVo();
 	}
 
-	public void setReportTextVo(TextReport reportText) {
-		super.setVo(reportText);
+	public void setTextReportVo(TextReport textReport) {
+		super.setVo(textReport);
 	}
 
 	@Override
@@ -89,12 +89,12 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 
 	@Override
 	protected TextReport getOperator(Long pk) {
-		return reportFac.findByText(pk);
+		return reportFac.findTextReportById(pk);
 	}
 
 	@Override
 	protected void deleteOperator(Long pk) {
-		reportFac.deletedText(pk);
+		reportFac.delTextReport(pk);
 	}
 
 	@Override
@@ -111,9 +111,9 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 				vo.setTextEntity(buffer);
 			}
 			if (isUpdate) {
-				return reportFac.updateText(vo);
+				return reportFac.updTextReport(vo);
 			} else {
-				return reportFac.saveText(vo);
+				return reportFac.addTextReport(vo);
 			}
 		} catch (BaseException e) {
 			e.printStackTrace();
@@ -183,10 +183,10 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 		InputStream in = null;
 		try {
 			if (getTextId() != null) {
-				TextReport report = reportFac.findByText(getTextId());
+				TextReport report = reportFac.findTextReportById(getTextId());
 				if (report.getTextEntity() != null
 						&& report.getTextEntity().length != 0) {
-					String fileName = String.valueOf(report.getTextName());
+					String fileName = String.valueOf(report.getName());
 					fileName = URLEncoder.encode(fileName, "UTF-8");
 					//fileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
 
@@ -239,7 +239,7 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 		InputStream in = null;
 		try {
 			if (getTextId() != null) {
-				TextReport report = reportFac.findByText(getTextId());
+				TextReport report = reportFac.findTextReportById(getTextId());
 				Set<Parameter> parameters = report.getParameters();
 				Map<String, String> map = new HashMap<String, String>();
 				for (Parameter param : parameters) {
@@ -290,15 +290,15 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 		this.categoryId = categoryId;
 	}
 
-	public void findReportText() {
-		List<TextReport> texts = reportFac.findAllText();
+	public void findTextReport() {
+		List<TextReport> texts = reportFac.findAllTextReport();
 		if (texts != null) {
 			List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 			ComboBox comboBox = null;
 			for (TextReport text : texts) {
 				comboBox = new ComboBox();
 				comboBox.setId(text.getId());
-				comboBox.setText(text.getTextName());
+				comboBox.setText(text.getName());
 				if (getCategoryId() != null) {
 					Boolean isEntity = reportFac
 							.findTextIsEntityByTextAndCategory(text.getId(),

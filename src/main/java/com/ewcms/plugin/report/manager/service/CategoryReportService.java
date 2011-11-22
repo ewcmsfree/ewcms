@@ -35,29 +35,29 @@ public class CategoryReportService implements CategoryReportServiceable {
 	private ChartReportDAO chartReportDAO;
 
 	@Override
-	public Long saveOrUpdateReportCategory(CategoryReport reportCategory){
-		categoryReportDAO.merge(reportCategory);
-		return reportCategory.getId();
+	public Long addOrUpdCategoryReport(CategoryReport categoryReport){
+		categoryReportDAO.merge(categoryReport);
+		return categoryReport.getId();
 	}
 
 	@Override
-	public void deletedReportCategory(Long reportCategoryId){
-		categoryReportDAO.removeByPK(reportCategoryId);
+	public void delCategoryReport(Long categoryReportId){
+		categoryReportDAO.removeByPK(categoryReportId);
 	}
 
 	@Override
-	public CategoryReport findByCategory(Long reportCategoryId) {
-		return categoryReportDAO.get(reportCategoryId);
+	public CategoryReport findCategoryReportById(Long categoryReportId) {
+		return categoryReportDAO.get(categoryReportId);
 	}
 
 	@Override
-	public List<CategoryReport> findAllReportCategory(){
+	public List<CategoryReport> findAllCategoryReport(){
 		return categoryReportDAO.findAll();
 	}
 
 	@Override
-	public void saveTextToCategories(Long reportCategoryId, Long[] textIds){
-		CategoryReport reportCategory = findByCategory(reportCategoryId);
+	public void addTextToCategories(Long categoryReportId, Long[] textIds){
+		CategoryReport categoryReport = findCategoryReportById(categoryReportId);
 
 		Set<TextReport> texts = new HashSet<TextReport>();
 		if (textIds != null && textIds.length > 0) {
@@ -67,13 +67,13 @@ public class CategoryReportService implements CategoryReportServiceable {
 				texts.add(text);
 			}
 		}
-		reportCategory.setTexts(texts);
-		saveOrUpdateReportCategory(reportCategory);
+		categoryReport.setTexts(texts);
+		addOrUpdCategoryReport(categoryReport);
 	}
 
 	@Override
-	public void saveChartToCategories(Long reportCategoryId, Long[] chartIds) {
-		CategoryReport categories = findByCategory(reportCategoryId);
+	public void addChartToCategories(Long categoryReportId, Long[] chartIds) {
+		CategoryReport categories = findCategoryReportById(categoryReportId);
 
 		Set<ChartReport> chartList = new HashSet<ChartReport>();
 		if (chartIds != null && chartIds.length > 0) {
@@ -84,18 +84,16 @@ public class CategoryReportService implements CategoryReportServiceable {
 			}
 		}
 		categories.setCharts(chartList);
-		saveOrUpdateReportCategory(categories);
+		addOrUpdCategoryReport(categories);
 	}
 
 	@Override
-	public Boolean findTextIsEntityByTextAndCategory(Long textId,
-			Long categoryId) {
+	public Boolean findTextIsEntityByTextAndCategory(Long textId, Long categoryId) {
 		return categoryReportDAO.findTextIsEntityByTextAndCategory(textId, categoryId);
 	}
 
 	@Override
-	public Boolean findChartIsEntityByChartAndCategory(Long chartId,
-			Long categoryId) {
+	public Boolean findChartIsEntityByChartAndCategory(Long chartId, Long categoryId) {
 		return categoryReportDAO.findChartIsEntityByChartAndCategory(chartId, categoryId);
 	}
 }

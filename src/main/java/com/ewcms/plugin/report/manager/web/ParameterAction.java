@@ -79,9 +79,9 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 		if (getReportId() != null && vo.getId() != null){
 			try{
 				if (reportType.equals("text"))
-					return reportFac.updateTextParam(getReportId(), vo);
+					return reportFac.updTextReportParameter(getReportId(), vo);
 				if (reportType.equals("chart"))
-					return reportFac.updateChartParam(getReportId(), vo);
+					return reportFac.updChartReportParameter(getReportId(), vo);
 			}catch(BaseException e){
 				
 			}

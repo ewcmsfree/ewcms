@@ -33,12 +33,12 @@ public class CategoryReportAction extends CrudBaseAction<CategoryReport, Long> {
 		super.setOperatorPK(selections);
 	}
 
-	public CategoryReport getReportCategoryVo() {
+	public CategoryReport getCategoryReportVo() {
 		return super.getVo();
 	}
 
-	public void setReportCategoryVo(CategoryReport reportCategory) {
-		super.setVo(reportCategory);
+	public void setCategoryReportVo(CategoryReport categoryReport) {
+		super.setVo(categoryReport);
 	}
 
 	@Override
@@ -48,17 +48,17 @@ public class CategoryReportAction extends CrudBaseAction<CategoryReport, Long> {
 
 	@Override
 	protected CategoryReport getOperator(Long pk) {
-		return reportFac.findByCategory(pk);
+		return reportFac.findCategoryReportById(pk);
 	}
 
 	@Override
 	protected void deleteOperator(Long pk) {
-		reportFac.deletedReportCategory(pk);
+		reportFac.delCategoryReport(pk);
 	}
 
 	@Override
 	protected Long saveOperator(CategoryReport vo, boolean isUpdate) {
-		return reportFac.saveOrUpdateReportCategory(vo);
+		return reportFac.addOrUpdCategoryReport(vo);
 	}
 
 	@Override

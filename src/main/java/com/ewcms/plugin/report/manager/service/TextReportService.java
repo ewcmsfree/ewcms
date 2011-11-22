@@ -36,8 +36,8 @@ public class TextReportService implements TextReportServiceable {
 	private TextReportDAO textReportDAO;
 	
 	@Override
-	public Long saveText(TextReport text) throws BaseException {
-		byte[] reportFile = text.getTextEntity();
+	public Long addTextReport(TextReport textReport) throws BaseException {
+		byte[] reportFile = textReport.getTextEntity();
 
 		if (reportFile != null && reportFile.length > 0) {
 			InputStream in = new ByteArrayInputStream(reportFile);
@@ -50,25 +50,25 @@ public class TextReportService implements TextReportServiceable {
 					Parameter ic = getParameterValue(param);
 					icSet.add(ic);
 				}
-				text.setParameters(icSet);
+				textReport.setParameters(icSet);
 			}
 		}
-		textReportDAO.persist(text);
-		return text.getId();
+		textReportDAO.persist(textReport);
+		return textReport.getId();
 	}
 
 	@Override
-	public Long updateText(TextReport text) throws BaseException {
-		TextReport entity = textReportDAO.get(text.getId());
+	public Long updTextReport(TextReport textReport) throws BaseException {
+		TextReport entity = textReportDAO.get(textReport.getId());
 		
-		entity.setBaseDS(text.getBaseDS());
-		entity.setTextName(text.getTextName());
-		entity.setHidden(text.getHidden());
-		entity.setRemarks(text.getRemarks());
+		entity.setBaseDS(textReport.getBaseDS());
+		entity.setName(textReport.getName());
+		entity.setHidden(textReport.getHidden());
+		entity.setRemarks(textReport.getRemarks());
 		
-		byte[] reportFile = text.getTextEntity();
+		byte[] reportFile = textReport.getTextEntity();
 		if (reportFile != null && reportFile.length > 0) {
-			entity.setTextEntity(text.getTextEntity());
+			entity.setTextEntity(textReport.getTextEntity());
 			
 			InputStream in = new ByteArrayInputStream(reportFile);
 			TextDesignUtil rd = new TextDesignUtil(in);
@@ -91,25 +91,25 @@ public class TextReportService implements TextReportServiceable {
 	}
 
 	@Override
-	public void deletedText(Long textId){
-		textReportDAO.removeByPK(textId);
+	public void delTextReport(Long textReportId){
+		textReportDAO.removeByPK(textReportId);
 	}
 
 	@Override
-	public TextReport findByText(Long textId){
-		return textReportDAO.get(textId);
+	public TextReport findTextReportById(Long textReportId){
+		return textReportDAO.get(textReportId);
 	}
 
 	@Override
-	public List<TextReport> findAllText() {
+	public List<TextReport> findAllTextReport() {
 		return textReportDAO.findAll();
 	}
 	
 	@Override
-	public Long updateTextParam(Long textId, Parameter parameter) throws BaseException {
-		if (textId == null || textId.intValue() == 0)
+	public Long updTextReportParameter(Long textReportId, Parameter parameter) throws BaseException {
+		if (textReportId == null || textReportId.intValue() == 0)
 			throw new BaseException("", "报表编号不存在，请重新选择！");
-		TextReport text = textReportDAO.get(textId);
+		TextReport text = textReportDAO.get(textReportId);
 		if (text == null)
 			throw new BaseException("", "报表不存在，请重新选择！");
 		
@@ -128,22 +128,22 @@ public class TextReportService implements TextReportServiceable {
 	/**
 	 * 把报表文件里的参数转换数据参数
 	 * 
-	 * @param param
+	 * @param jrParameter
 	 *            报表参数对象
 	 * @return Parameters
 	 */
-	private Parameter getParameterValue(JRParameter param) {
+	private Parameter getParameterValue(JRParameter jrParameter) {
 		Parameter ic = new Parameter();
 
-		ic.setEnName(param.getName());
-		ic.setClassName(param.getValueClassName());
-		if (param.getDefaultValueExpression() == null){
+		ic.setEnName(jrParameter.getName());
+		ic.setClassName(jrParameter.getValueClassName());
+		if (jrParameter.getDefaultValueExpression() == null){
 			ic.setDefaultValue("");
 		}else{
-			ic.setDefaultValue(param.getDefaultValueExpression().getText());
+			ic.setDefaultValue(jrParameter.getDefaultValueExpression().getText());
 		}
-		ic.setDescription(param.getDescription());
-		ic.setType(Conversion(param.getValueClassName()));
+		ic.setDescription(jrParameter.getDescription());
+		ic.setType(Conversion(jrParameter.getValueClassName()));
 
 		return ic;
 	}

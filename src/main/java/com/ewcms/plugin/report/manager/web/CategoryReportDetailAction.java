@@ -32,9 +32,9 @@ public class CategoryReportDetailAction extends ActionSupport {
 	private ReportFacable reportFac;
 
 	private Long categoryId;
-	private Long[] reportTextIds;
-	private Long[] reportChartIds;
-	private CategoryReport reportCategoryVo;
+	private Long[] textReportIds;
+	private Long[] chartReportIds;
+	private CategoryReport categoryReportVo;
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -44,28 +44,28 @@ public class CategoryReportDetailAction extends ActionSupport {
 		this.categoryId = categoryId;
 	}
 
-	public Long[] getReportTextIds() {
-		return reportTextIds;
+	public Long[] getTextReportIds() {
+		return textReportIds;
 	}
 
-	public void setReportTextIds(Long[] reportTextIds) {
-		this.reportTextIds = reportTextIds;
+	public void setTextReportIds(Long[] textReportIds) {
+		this.textReportIds = textReportIds;
 	}
 
-	public Long[] getReportChartIds() {
-		return reportChartIds;
+	public Long[] getChartReportIds() {
+		return chartReportIds;
 	}
 
-	public void setReportChartIds(Long[] reportChartIds) {
-		this.reportChartIds = reportChartIds;
+	public void setChartReportIds(Long[] chartReportIds) {
+		this.chartReportIds = chartReportIds;
 	}
 
-	public CategoryReport getReportCategoryVo() {
-		return reportCategoryVo;
+	public CategoryReport getCategoryReportVo() {
+		return categoryReportVo;
 	}
 
-	public void setReportCategoryVo(CategoryReport reportCategoryVo) {
-		this.reportCategoryVo = reportCategoryVo;
+	public void setCategoryReportVo(CategoryReport categoryReportVo) {
+		this.categoryReportVo = categoryReportVo;
 	}
 
 	@Override
@@ -74,44 +74,44 @@ public class CategoryReportDetailAction extends ActionSupport {
 	}
 
 	public String input() {
-		CategoryReport vo = reportFac.findByCategory(getCategoryId());
+		CategoryReport vo = reportFac.findCategoryReportById(getCategoryId());
 
-		Set<ChartReport> reportCharts = vo.getCharts();
+		Set<ChartReport> chartReports = vo.getCharts();
 		List<Long> chartIds = new ArrayList<Long>();
-		for (ChartReport reportChart : reportCharts) {
-			chartIds.add(reportChart.getId());
+		for (ChartReport chartReport : chartReports) {
+			chartIds.add(chartReport.getId());
 		}
-		setReportChartIds(chartIds.toArray(new Long[0]));
+		setChartReportIds(chartIds.toArray(new Long[0]));
 
-		Set<TextReport> reportTexts = vo.getTexts();
+		Set<TextReport> textReports = vo.getTexts();
 		List<Long> textIds = new ArrayList<Long>();
-		for (TextReport reportText : reportTexts) {
-			textIds.add(reportText.getId());
+		for (TextReport textReport : textReports) {
+			textIds.add(textReport.getId());
 		}
-		setReportTextIds(textIds.toArray(new Long[0]));
+		setTextReportIds(textIds.toArray(new Long[0]));
 
-		setReportCategoryVo(vo);
+		setCategoryReportVo(vo);
 		return INPUT;
 	}
 
 	public String save() {
-		reportFac.saveChartToCategories(getCategoryId(), getReportChartIds());
-		reportFac.saveTextToCategories(getCategoryId(), getReportTextIds());
+		reportFac.addChartToCategories(getCategoryId(), getChartReportIds());
+		reportFac.addTextToCategories(getCategoryId(), getTextReportIds());
 		return SUCCESS;
 	}
 
-	public Map<Long, String> getReportText() {
+	public Map<Long, String> getTextReport() {
 		Map<Long, String> map = new HashMap<Long, String>();
-		List<TextReport> texts = reportFac.findAllText();
+		List<TextReport> texts = reportFac.findAllTextReport();
 		for (TextReport text : texts) {
-			map.put(text.getId(), text.getTextName());
+			map.put(text.getId(), text.getName());
 		}
 		return map;
 	}
 
-	public Map<Long, String> getReportChart() {
+	public Map<Long, String> getChartReport() {
 		Map<Long, String> map = new HashMap<Long, String>();
-		List<ChartReport> charts = reportFac.findAllChart();
+		List<ChartReport> charts = reportFac.findAllChartReport();
 		for (ChartReport chart : charts) {
 			map.put(chart.getId(), chart.getName());
 		}

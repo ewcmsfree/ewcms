@@ -8,6 +8,11 @@ package com.ewcms.plugin.report.manager.dao;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.plugin.report.model.Repository;
 
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
 @org.springframework.stereotype.Repository
 public class RepositoryDAO extends JpaDAO<Long, Repository> {
 }

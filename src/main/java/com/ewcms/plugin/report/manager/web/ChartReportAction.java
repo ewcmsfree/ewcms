@@ -59,12 +59,12 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 		super.setOperatorPK(selections);
 	}
 
-	public ChartReport getReportChartVo() {
+	public ChartReport getChartReportVo() {
 		return super.getVo();
 	}
 
-	public void setReportChartVo(ChartReport reportChart) {
-		super.setVo(reportChart);
+	public void setChartReportVo(ChartReport chartReport) {
+		super.setVo(chartReport);
 	}
 
 	@Override
@@ -74,21 +74,21 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 
 	@Override
 	protected ChartReport getOperator(Long pk) {
-		return reportFac.findByChart(pk);
+		return reportFac.findChartReportById(pk);
 	}
 
 	@Override
 	protected void deleteOperator(Long pk) {
-		reportFac.deletedChart(pk);
+		reportFac.delChartReport(pk);
 	}
 
 	@Override
 	protected Long saveOperator(ChartReport vo, boolean isUpdate) {
 		vo.setBaseDS(baseDSFac.findByBaseDS(vo.getBaseDS().getId()));
 		if (isUpdate) {
-			return reportFac.updateChart(vo);
+			return reportFac.updChartReport(vo);
 		} else {
-			return reportFac.saveChart(vo);
+			return reportFac.addChartReport(vo);
 		}
 	}
 
@@ -171,7 +171,7 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 		PrintWriter pw = null;
 		InputStream in = null;
 		try {
-			ChartReport chart = reportFac.findByChart(chartId);
+			ChartReport chart = reportFac.findChartReportById(chartId);
 			Assert.notNull(chart);
 
 			Set<Parameter> parameters = chart.getParameters();
@@ -223,8 +223,8 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 		this.categoryId = categoryId;
 	}
 
-	public void findReportChart() {
-		List<ChartReport> charts = reportFac.findAllChart();
+	public void findChartReport() {
+		List<ChartReport> charts = reportFac.findAllChartReport();
 		if (charts != null) {
 			List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 			ComboBox comboBox = null;

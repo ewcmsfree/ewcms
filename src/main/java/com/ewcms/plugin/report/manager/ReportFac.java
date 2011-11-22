@@ -42,83 +42,83 @@ public class ReportFac implements ReportFacable {
 	private RepositoryServiceable repositoryService;
 	
 	@Override
-	public Long saveChart(ChartReport chart) {
-		return chartReportService.saveChart(chart);
+	public Long addChartReport(ChartReport chartReport) {
+		return chartReportService.addChartReport(chartReport);
 	}
 
 	@Override
-	public Long updateChart(ChartReport chart){
-		return chartReportService.updateChart(chart);
+	public Long updChartReport(ChartReport chartReport){
+		return chartReportService.updChartReport(chartReport);
 	}
 
 	@Override
-	public void deletedChart(Long chartId) {
-		chartReportService.deletedChart(chartId);
+	public void delChartReport(Long chartReportId) {
+		chartReportService.delChartReport(chartReportId);
 	}
 
 	@Override
-	public ChartReport findByChart(Long chartId){
-		return chartReportService.findByChart(chartId);
+	public ChartReport findChartReportById(Long chartReportId){
+		return chartReportService.findChartReportById(chartReportId);
 	}
 
 	@Override
-	public List<ChartReport> findAllChart() {
-		return chartReportService.findAllChart();
+	public List<ChartReport> findAllChartReport() {
+		return chartReportService.findAllChartReport();
 	}
 
 	@Override
-	public Long saveOrUpdateReportCategory(CategoryReport reportCategory) {
-		return categoryReportService.saveOrUpdateReportCategory(reportCategory);
+	public Long addOrUpdCategoryReport(CategoryReport categoryReport) {
+		return categoryReportService.addOrUpdCategoryReport(categoryReport);
 	}
 
 	@Override
-	public void deletedReportCategory(Long reportCategoryId){
-		categoryReportService.deletedReportCategory(reportCategoryId);
+	public void delCategoryReport(Long categoryReportId){
+		categoryReportService.delCategoryReport(categoryReportId);
 	}
 
 	@Override
-	public CategoryReport findByCategory(Long reportCategoryId) {
-		return categoryReportService.findByCategory(reportCategoryId);
+	public CategoryReport findCategoryReportById(Long categoryReportId) {
+		return categoryReportService.findCategoryReportById(categoryReportId);
 	}
 
 	@Override
-	public List<CategoryReport> findAllReportCategory(){
-		return categoryReportService.findAllReportCategory();
+	public List<CategoryReport> findAllCategoryReport(){
+		return categoryReportService.findAllCategoryReport();
 	}
 
 	@Override
-	public void saveTextToCategories(Long reportCategoryId, Long[] textIds){
-		categoryReportService.saveTextToCategories(reportCategoryId, textIds);
+	public void addTextToCategories(Long categoryReportId, Long[] textIds){
+		categoryReportService.addTextToCategories(categoryReportId, textIds);
 	}
 
 	@Override
-	public void saveChartToCategories(Long reportCategoryId, Long[] chartIds) {
-		categoryReportService.saveChartToCategories(reportCategoryId, chartIds);
+	public void addChartToCategories(Long categoryReportId, Long[] chartIds) {
+		categoryReportService.addChartToCategories(categoryReportId, chartIds);
 	}
 
 	@Override
-	public Long saveText(TextReport text) throws BaseException {
-		return textReportService.saveText(text);
+	public Long addTextReport(TextReport textReport) throws BaseException {
+		return textReportService.addTextReport(textReport);
 	}
 
 	@Override
-	public Long updateText(TextReport text) throws BaseException {
-		return textReportService.updateText(text);
+	public Long updTextReport(TextReport textReport) throws BaseException {
+		return textReportService.updTextReport(textReport);
 	}
 
 	@Override
-	public void deletedText(Long textId) {
-		textReportService.deletedText(textId);
+	public void delTextReport(Long textReportId) {
+		textReportService.delTextReport(textReportId);
 	}
 
 	@Override
-	public TextReport findByText(Long textId) {
-		return textReportService.findByText(textId);
+	public TextReport findTextReportById(Long textReportId) {
+		return textReportService.findTextReportById(textReportId);
 	}
 
 	@Override
-	public List<TextReport> findAllText() {
-		return textReportService.findAllText();
+	public List<TextReport> findAllTextReport() {
+		return textReportService.findAllTextReport();
 	}
 
 	@Override
@@ -132,8 +132,8 @@ public class ReportFac implements ReportFacable {
 	}
 
 	@Override
-	public Repository findRepository(Long repositoryId){
-		return repositoryService.findRepository(repositoryId);
+	public Repository findRepositoryById(Long repositoryId){
+		return repositoryService.findRepositoryById(repositoryId);
 	}
 
 	@Override
@@ -142,15 +142,15 @@ public class ReportFac implements ReportFacable {
 	}
 
 	@Override
-	public Long updateChartParam(Long chartId, Parameter parameter)
+	public Long updChartReportParameter(Long chartId, Parameter parameter)
 			throws BaseException {
-		return chartReportService.updateChartParam(chartId, parameter);
+		return chartReportService.updChartReportParameter(chartId, parameter);
 	}
 
 	@Override
-	public Long updateTextParam(Long textId, Parameter parameter)
+	public Long updTextReportParameter(Long textId, Parameter parameter)
 			throws BaseException {
-		return textReportService.updateTextParam(textId, parameter);
+		return textReportService.updTextReportParameter(textId, parameter);
 	}
 
 	@Override
