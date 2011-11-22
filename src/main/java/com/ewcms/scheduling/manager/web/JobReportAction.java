@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.manager.web;
 
 import java.util.ArrayList;
@@ -22,6 +27,11 @@ import com.ewcms.scheduling.manager.util.ConversionUtil;
 import com.ewcms.scheduling.manager.vo.PageDisplayVO;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * 
+ * @author wu_zhijun
+ *
+ */
 public class JobReportAction extends ActionSupport {
 
 	private static final long serialVersionUID = 5346861972849849266L;
