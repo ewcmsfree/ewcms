@@ -21,7 +21,7 @@
 		<action name="parameterType" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="parameterType"/>
 		<action name="download" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="download" />
 		<action name="preview" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="preview" />
-		<action name="findReportText" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="findReportText" />
+		<action name="findTextReport" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="findTextReport" />
 	</package>
 	<package name="report.chart" extends="struts-default" namespace="/report/chart">
 		<action name="index">
@@ -38,7 +38,7 @@
 		<action name="query" class="com.ewcms.plugin.report.manager.web.ChartReportQueryAction" method="query"/>
 		<action name="parameterType" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="parameterType"/>
 		<action name="preview" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="preview" />
-		<action name="findReportChart" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="findReportChart" />
+		<action name="findChartReport" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="findChartReport" />
 		<action name="help">
 			<result>/WEB-INF/page/report/chart/sql_help.jsp</result>
 		</action>	</package>
