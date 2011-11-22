@@ -11,12 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.plugin.report.generate.factory.ChartFactoryable;
 import com.ewcms.plugin.report.generate.factory.TextFactoryable;
@@ -36,7 +36,7 @@ import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
  */
 public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
 
-    private static final Log log = LogFactory.getLog(EwcmsExecutionReportJob.class);
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionReportJob.class);
     
     private static final String SCHEDULER_FACTORY = "ewcmsJobReportFac";
     private static final String REPORT_FACTORY = "reportFac";
@@ -46,7 +46,7 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
     protected EwcmsJobReport jobDetails;
 
     protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
-    	log.info("生成报表开始...");
+    	logger.info("生成报表开始...");
         try {
             excuteReport();
         } catch (JobExecutionException e) {
@@ -58,7 +58,7 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
         } finally {
             this.clear();
         }
-    	log.info("生成报表结束.");
+    	logger.info("生成报表结束.");
     }
 
     protected void excuteReport() throws Exception {
