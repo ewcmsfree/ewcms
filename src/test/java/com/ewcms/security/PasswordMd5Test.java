@@ -12,12 +12,12 @@
 package com.ewcms.security;
 
 import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.dao.ReflectionSaltSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.junit.Test;
 /**
@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class PasswordMd5Test {
 
-    private static final Log log = LogFactory.getLog(PasswordMd5Test.class);
+	private static final Logger logger = LoggerFactory.getLogger(PasswordMd5Test.class);
 
     @Test
     public void testMd5(){
@@ -39,6 +39,6 @@ public class PasswordMd5Test {
 
         String password = encoder.encodePassword("123456", salt);
 
-        log.info(password);
+        logger.info(password);
     }
 }
