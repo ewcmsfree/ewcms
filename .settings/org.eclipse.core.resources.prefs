@@ -1,7 +1,12 @@
-#Mon Jul 26 10:04:26 CST 2010
+#Fri Nov 11 20:44:56 CST 2011
 eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
 encoding//src/main/java/com/ewcms/util/EncodeUtils.java=UTF-8
 encoding//src/main/java/com/ewcms/util/JSONUtils.java=UTF-8
 encoding//src/main/java/com/ewcms/util/ServletUtils.java=UTF-8
 encoding//src/main/java/com/ewcms/util/Struts2Utils.java=UTF-8
 encoding//src/main/java/com/ewcms/web/action/CrudBaseAction.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
+encoding/<project>=UTF-8
