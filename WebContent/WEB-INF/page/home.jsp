@@ -7,6 +7,8 @@
 <html>
     <head>
         <title>EWCMS 站群内容管理平台</title>
+        <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
+        <script type="text/javascript" src='<s:url value="/ewcmssource/iepngfix/unitpngfix.js"/>'></script>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
@@ -15,8 +17,7 @@
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>       
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>
         <script type="text/javascript">
             var _home = new home();
             $(function(){
