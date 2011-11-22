@@ -52,15 +52,15 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 	
 	@Override
 	public Integer saveOrUpdateJobReport(Long reportId, PageDisplayVO vo, String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException {
-		TextReport reportText = null;
-		ChartReport reportChart = null;
+		TextReport textReport = null;
+		ChartReport chartReport = null;
 		if (reportType.equals("text")){
-			reportText = textService.findByText(reportId);
+			textReport = textService.findTextReportById(reportId);
 		}else if (reportType.equals("chart")){
-			reportChart = chartService.findByChart(reportId);
+			chartReport = chartService.findChartReportById(reportId);
 		}
 		
-		if (reportText != null || reportChart != null){
+		if (textReport != null || chartReport != null){
 			JobInfo jobInfo = new JobInfo();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0){
 				jobInfo = jobInfoDAO.get(vo.getJobId());
@@ -105,8 +105,8 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 			jobReport.setTrigger(jobInfo.getTrigger());
 			jobReport.setUserName(jobInfo.getUserName());
 			jobReport.setVersion(jobInfo.getVersion());
-			jobReport.setTextReport(reportText);
-			jobReport.setChartReport(reportChart);
+			jobReport.setTextReport(textReport);
+			jobReport.setChartReport(chartReport);
 			if (jobReport.getId() == null) {
 				return schedulingFac.saveScheduleJob(jobReport);
 			} else {
