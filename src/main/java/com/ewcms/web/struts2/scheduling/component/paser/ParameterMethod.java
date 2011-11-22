@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.web.struts2.scheduling.component.paser.type.BooleanParser;
@@ -30,7 +30,7 @@ import freemarker.template.TemplateModelException;
  */
 public class ParameterMethod implements TemplateMethodModelEx {
 	
-	private static final Log log = LogFactory.getLog(ParameterMethod.class);
+	private static final Logger logger = LoggerFactory.getLogger(ParameterMethod.class);
 			
 	private static Map<String, Object> typeMap = new HashMap<String, Object>();
 
@@ -46,7 +46,7 @@ public class ParameterMethod implements TemplateMethodModelEx {
 	@SuppressWarnings({ "rawtypes" })
 	public Object exec(List params) throws TemplateModelException {
 		if (params.size() != 1) {
-			log.error("参数错误");
+			logger.error("参数错误");
 			throw new TemplateModelException("参数错误");
 		}
 		StringModel stringModel = (StringModel)params.get(0);
