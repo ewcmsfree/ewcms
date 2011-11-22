@@ -16,7 +16,7 @@ import org.apache.struts2.components.UIBean;
 import org.apache.struts2.views.annotations.StrutsTag;
 
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
-import com.ewcms.web.struts2.report.component.paser.ParameterMethod;
+import com.ewcms.web.struts2.scheduling.component.paser.ParameterMethod;
 import com.opensymphony.xwork2.util.ValueStack;
 
 /**
