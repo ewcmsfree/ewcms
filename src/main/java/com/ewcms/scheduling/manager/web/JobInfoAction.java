@@ -111,7 +111,7 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 				pageDisplayVo = ConversionUtil.constructPageVo((EwcmsJobReport) jobInfo);
 				if (textReport != null) {
 					pageDisplayVo.setReportId(textReport.getId());
-					pageDisplayVo.setReportName(textReport.getTextName());
+					pageDisplayVo.setReportName(textReport.getName());
 					pageDisplayVo.setReportType("text");
 					pageDisplayVo.setPageShowParams(ConversionUtil.coversionParameterFromPage(ewcmsJobReportFac.findByJobReportParameterById(jobInfo.getId()), textFactory.textParameters(textReport)));
 					pageDisplayVo.setOutputFormats(ConversionUtil.stringToArray(((EwcmsJobReport) jobInfo).getOutputFormat()));

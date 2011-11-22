@@ -98,7 +98,7 @@ public class JobReportAction extends ActionSupport {
 			if (getReportType().equals("text")){
 				TextReport text = ewcmsJobReport.getTextReport();
 				vo.setReportId(text.getId());
-				vo.setReportName(text.getTextName());
+				vo.setReportName(text.getName());
 				vo.setReportType("text");
 				vo.setPageShowParams(ConversionUtil.coversionParameterFromPage(ewcmsJobReportFac.findByJobReportParameterById(ewcmsJobReport.getId()), textFactory.textParameters(text)));
 				vo.setOutputFormats(ConversionUtil.stringToArray(((EwcmsJobReport) ewcmsJobReport).getOutputFormat()));
@@ -113,12 +113,12 @@ public class JobReportAction extends ActionSupport {
 			setPageShowParams(vo.getPageShowParams());
 		}else{
 			if (getReportType().equals("text")){
-				TextReport text = reportFac.findByText(getReportId());
-				getPageDisplayVo().setLabel(text.getTextName());
-				getPageDisplayVo().setReportName(text.getTextName());
+				TextReport text = reportFac.findTextReportById(getReportId());
+				getPageDisplayVo().setLabel(text.getName());
+				getPageDisplayVo().setReportName(text.getName());
 				getPageDisplayVo().setPageShowParams(textFactory.textParameters(text));
 			}else if (getReportType().equals("chart")){
-				ChartReport chart =  reportFac.findByChart(getReportId());
+				ChartReport chart =  reportFac.findChartReportById(getReportId());
 				getPageDisplayVo().setLabel(chart.getName());
 				getPageDisplayVo().setReportName(chart.getName());
 				getPageDisplayVo().setPageShowParams(chartFactory.chartParameters(chart));
@@ -132,10 +132,10 @@ public class JobReportAction extends ActionSupport {
 		try {
 			Set<EwcmsJobParameter> ewcmsJobParameters = new LinkedHashSet<EwcmsJobParameter>();
 			if (getReportType().equals("text")){
-				TextReport text = reportFac.findByText(getReportId());
+				TextReport text = reportFac.findTextReportById(getReportId());
 				ewcmsJobParameters = ConversionUtil.pageToJob(new LinkedHashSet<EwcmsJobParameter>(),text.getParameters(),ServletActionContext.getRequest());
 			}else if (getReportType().equals("chart")){
-				ChartReport chart = reportFac.findByChart(getReportId());
+				ChartReport chart = reportFac.findChartReportById(getReportId());
 				ewcmsJobParameters = ConversionUtil.pageToJob(new LinkedHashSet<EwcmsJobParameter>(),chart.getParameters(),ServletActionContext.getRequest());
 			}
 			Integer jobId = ewcmsJobReportFac.saveOrUpdateJobReport(getReportId(), getPageDisplayVo(), getReportType(), ewcmsJobParameters);
