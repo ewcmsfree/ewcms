@@ -33,7 +33,7 @@ import com.ewcms.scheduling.model.JobInfo;
  * <ul>
  * <li>mail:AlqcJobMail对象</li>
  * <li>outputFormat:输出格式</li>
- * <li>alqcJobParameters:AlqcJobParameter集合</li>
+ * <li>ewcmsJobParameters:EwcmsJobParameter集合</li>
  * <li>report:Report对象</li>
  * <li>chart:Chart对象</li>
  * </ul>

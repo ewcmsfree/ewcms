@@ -27,7 +27,7 @@ import com.ewcms.plugin.report.model.Parameter;
  * <ul>
  * <li>id:参数编号</li>
  * <li>value:参数值</li>
- * <li>parameter:org.jict.alqc.report.model.Parameter对象</li>
+ * <li>parameter:Parameter对象</li>
  * </ul>
  * 
  * @author 吴智俊
