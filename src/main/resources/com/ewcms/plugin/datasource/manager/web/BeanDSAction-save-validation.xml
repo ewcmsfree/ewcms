@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<field name="beanDSVo.name">
+		<field-validator type="requiredstring">
+			<message>必须输入名称</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="maxLength">10</param>
+			<message>名称不能大于${maxLength}个字符</message>
+		</field-validator>
+	</field>
+	<field name="beanDSVo.beanName">
+		<field-validator type="requiredstring">
+			<message>必须输入Bean名称</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="maxLength">100</param>
+			<message>Bean名称不能大于${maxLength}个字符</message>
+		</field-validator>
+	</field>
+	<field name="beanDSVo.beanMethod">
+		<field-validator type="requiredstring">
+			<message>必须输入Bean方法</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="maxLength">100</param>
+			<message>Bean方法不能大于${maxLength}字符</message>
+		</field-validator>
+	</field>
+</validators>
