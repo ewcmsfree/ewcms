@@ -21,17 +21,17 @@ import com.ewcms.plugin.report.model.CategoryReport;
 public class CategoryReportDAO extends JpaDAO<Long, CategoryReport> {
 	
 	@SuppressWarnings("unchecked")
-	public Boolean findTextIsEntityByTextAndCategory(Long textId, Long categoryId){
+	public Boolean findTextIsEntityByTextAndCategory(Long textReportId, Long categoryReportId){
     	String hql = "Select c From CategoryReport As c Left Join c.texts As t Where t.id=? And c.id=?";
-    	List<CategoryReport> list = this.getJpaTemplate().find(hql, textId, categoryId);
+    	List<CategoryReport> list = this.getJpaTemplate().find(hql, textReportId, categoryReportId);
     	if (list.isEmpty()) return false;
     	return true;
     }
 	
 	@SuppressWarnings("unchecked")
-	public Boolean findChartIsEntityByChartAndCategory(Long chartId, Long categoryId){
+	public Boolean findChartIsEntityByChartAndCategory(Long chartReportId, Long categoryReportId){
     	String hql = "Select c From CategoryReport As c Left Join c.charts As t Where t.id=? And c.id=?";
-    	List<CategoryReport> list = this.getJpaTemplate().find(hql, chartId, categoryId);
+    	List<CategoryReport> list = this.getJpaTemplate().find(hql, chartReportId, categoryReportId);
     	if (list.isEmpty()) return false;
     	return true;
     }

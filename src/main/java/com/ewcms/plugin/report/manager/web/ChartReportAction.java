@@ -5,30 +5,21 @@
  */
 package com.ewcms.plugin.report.manager.web;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
 import com.ewcms.plugin.datasource.manager.BaseDSFacable;
 import com.ewcms.plugin.datasource.model.BaseDS;
-import com.ewcms.plugin.report.generate.factory.ChartFactoryable;
 import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.manager.util.ChartUtil;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.ChartType;
-import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -48,8 +39,6 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 	private ReportFacable reportFac;
 	@Autowired
 	private BaseDSFacable baseDSFac;
-	@Autowired
-	private ChartFactoryable chartFactory;
 
 	public List<Long> getSelections() {
 		return super.getOperatorPK();
@@ -155,62 +144,6 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 
 	public Map<Integer, String> getAlignmentMap() {
 		return ChartUtil.getAlignmentMap();
-	}
-
-	private Long chartId;
-
-	public Long getChartId() {
-		return chartId;
-	}
-
-	public void setChartId(Long chartId) {
-		this.chartId = chartId;
-	}
-
-	public void preview() {
-		PrintWriter pw = null;
-		InputStream in = null;
-		try {
-			ChartReport chart = reportFac.findChartReportById(chartId);
-			Assert.notNull(chart);
-
-			Set<Parameter> parameters = chart.getParameters();
-			Map<String, String> map = new HashMap<String, String>();
-			for (Parameter param : parameters) {
-				map.put(param.getEnName(), param.getDefaultValue());
-			}
-
-			HttpServletResponse response = ServletActionContext.getResponse();
-			pw = response.getWriter();
-
-			response.reset();// 清空输出
-			response.setContentLength(0);
-			byte[] bytes = chartFactory.export(chart, map);
-			response.setContentLength(bytes.length);
-			response.setHeader("Content-Type", "image/png");
-			in = new ByteArrayInputStream(bytes);
-			int len = 0;
-			while ((len = in.read()) > -1) {
-				pw.write(len);
-			}
-			pw.flush();
-		} catch (Exception e) {
-		} finally {
-			if (pw != null) {
-				try {
-					pw.close();
-					pw = null;
-				} catch (Exception e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-					in = null;
-				} catch (Exception e) {
-				}
-			}
-		}
 	}
 
 	private Long categoryId;

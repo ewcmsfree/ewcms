@@ -5,9 +5,12 @@
  */
 package com.ewcms.plugin.report.manager.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
+import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.TextReport;
 
 /**
@@ -17,5 +20,11 @@ import com.ewcms.plugin.report.model.TextReport;
  */
 @Repository
 public class TextReportDAO extends JpaDAO<Long, TextReport> {
-	
+	@SuppressWarnings("unchecked")
+	public List<CategoryReport> findCategoryReportByTextReportId(Long textReportId){
+		String hql = "Select c From CategoryReport As c Left Join c.texts As t Where t.id=?";
+    	List<CategoryReport> list = this.getJpaTemplate().find(hql, textReportId);
+    	if (list.isEmpty()) return null;
+    	return list;
+	}
 }

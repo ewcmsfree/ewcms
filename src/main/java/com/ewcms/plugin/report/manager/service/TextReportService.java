@@ -15,11 +15,14 @@ import net.sf.jasperreports.engine.JRParameter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.ewcms.plugin.BaseException;
+import com.ewcms.plugin.report.manager.dao.CategoryReportDAO;
 import com.ewcms.plugin.report.manager.dao.TextReportDAO;
 import com.ewcms.plugin.report.manager.util.ParameterSetValueUtil;
 import com.ewcms.plugin.report.manager.util.TextDesignUtil;
+import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.plugin.report.model.TextReport;
@@ -34,6 +37,8 @@ public class TextReportService implements TextReportServiceable {
 
 	@Autowired
 	private TextReportDAO textReportDAO;
+	@Autowired
+	private CategoryReportDAO categorReportDAO;
 	
 	@Override
 	public Long addTextReport(TextReport textReport) throws BaseException {
@@ -92,6 +97,18 @@ public class TextReportService implements TextReportServiceable {
 
 	@Override
 	public void delTextReport(Long textReportId){
+		TextReport textReport = textReportDAO.get(textReportId);
+		Assert.notNull(textReport);
+		List<CategoryReport> categories = textReportDAO.findCategoryReportByTextReportId(textReportId);
+		if (categories != null && !categories.isEmpty()){
+			for (CategoryReport categoryReport : categories){
+				Set<TextReport> textReports = categoryReport.getTexts();
+				if (textReports.isEmpty()) continue;
+				textReports.remove(textReport);
+				categoryReport.setTexts(textReports);
+				categorReportDAO.merge(categoryReport);
+			}
+		}
 		textReportDAO.removeByPK(textReportId);
 	}
 

@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
@@ -29,12 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.datasource.manager.BaseDSFacable;
 import com.ewcms.plugin.datasource.model.BaseDS;
-import com.ewcms.plugin.report.generate.factory.TextFactoryable;
 import com.ewcms.plugin.report.manager.ReportFacable;
-import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextType;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -53,8 +48,6 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 	private ReportFacable reportFac;
 	@Autowired
 	private BaseDSFacable baseDSFac;
-	@Autowired
-	private TextFactoryable textFactory;
 
 	private File textFile;// 实际上传文件
 
@@ -216,52 +209,6 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 				this.addActionError("没有文件可供下载");
 			}
 		} catch (IOException e) {
-		} finally {
-			if (pw != null) {
-				try {
-					pw.close();
-					pw = null;
-				} catch (Exception e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-					in = null;
-				} catch (Exception e) {
-				}
-			}
-		}
-	}
-
-	public void preview() {
-		PrintWriter pw = null;
-		InputStream in = null;
-		try {
-			if (getTextId() != null) {
-				TextReport report = reportFac.findTextReportById(getTextId());
-				Set<Parameter> parameters = report.getParameters();
-				Map<String, String> map = new HashMap<String, String>();
-				for (Parameter param : parameters) {
-					map.put(param.getEnName(), param.getDefaultValue());
-				}
-				HttpServletResponse response = ServletActionContext
-						.getResponse();
-				HttpServletRequest request = ServletActionContext.getRequest();
-
-				pw = response.getWriter();
-				response.reset();// 清空输出
-				response.setContentLength(0);
-				byte[] bytes = textFactory.export(map, report, TextType.PDF,
-						response, request);
-				in = new ByteArrayInputStream(bytes);
-				int len = 0;
-				while ((len = in.read()) > -1) {
-					pw.write(len);
-				}
-				pw.flush();
-			}
-		} catch (Exception e) {
 		} finally {
 			if (pw != null) {
 				try {

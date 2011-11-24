@@ -33,22 +33,25 @@ public class TextDesignUtil {
 	private final static Map<String,String> PARAMMAP = new HashMap<String,String>();
 	
 	static{
+		PARAMMAP.put("REPORT_CONTEXT","");
 		PARAMMAP.put("REPORT_PARAMETERS_MAP","");
-		PARAMMAP.put("REPORT_CONNECTION","");
+		PARAMMAP.put("JASPER_REPORT", "");
+		PARAMMAP.put("REPORT_CONNECTION", "");
 		PARAMMAP.put("REPORT_MAX_COUNT","");
 		PARAMMAP.put("REPORT_DATA_SOURCE","");
 		PARAMMAP.put("REPORT_SCRIPTLET","");
 		PARAMMAP.put("REPORT_LOCALE","");
 		PARAMMAP.put("REPORT_RESOURCE_BUNDLE","");
 		PARAMMAP.put("REPORT_TIME_ZONE","");
-		PARAMMAP.put("REPORT_VIRTUALIZER", "");
+		PARAMMAP.put("REPORT_FORMAT_FACTORY", "");
 		PARAMMAP.put("REPORT_CLASS_LOADER","");
 		PARAMMAP.put("REPORT_URL_HANDLER_FACTORY","");
 		PARAMMAP.put("REPORT_FILE_RESOLVER", "");
-		PARAMMAP.put("REPORT_FORMAT_FACTORY", "");
-		PARAMMAP.put("IS_IGNORE_PAGINATION","");
 		PARAMMAP.put("REPORT_TEMPLATES", "");
-		
+		PARAMMAP.put("SORT_FIELDS", "");
+		PARAMMAP.put("FILTER", "");
+		PARAMMAP.put("REPORT_VIRTUALIZER", "");
+		PARAMMAP.put("IS_IGNORE_PAGINATION","");
 	}
 	
 	private JasperDesign design = null;

@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ewcms.plugin.BaseException;
+import com.ewcms.plugin.report.manager.dao.CategoryReportDAO;
 import com.ewcms.plugin.report.manager.dao.ChartReportDAO;
 import com.ewcms.plugin.report.manager.util.ChartAnalysisUtil;
 import com.ewcms.plugin.report.manager.util.ParameterSetValueUtil;
+import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.Parameter;
 
@@ -30,6 +32,8 @@ public class ChartReportService implements ChartReportServiceable {
 
 	@Autowired
 	private ChartReportDAO chartReportDAO;
+	@Autowired
+	private CategoryReportDAO categorReportDAO;
 	
 	@Override
 	public Long addChartReport(ChartReport chartReport){
@@ -103,6 +107,18 @@ public class ChartReportService implements ChartReportServiceable {
 
 	@Override
 	public void delChartReport(Long chartReportId){
+		ChartReport chartReport = chartReportDAO.get(chartReportId);
+		Assert.notNull(chartReport);
+		List<CategoryReport> categories = chartReportDAO.findCategoryReportByChartReportId(chartReportId);
+		if (categories != null && !categories.isEmpty()){
+			for (CategoryReport categoryReport : categories){
+				Set<ChartReport> chartReports = categoryReport.getCharts();
+				if (chartReports.isEmpty()) continue;
+				chartReports.remove(chartReport);
+				categoryReport.setCharts(chartReports);
+				categorReportDAO.merge(categoryReport);
+			}
+		}
 		chartReportDAO.removeByPK(chartReportId);
 	}
 
