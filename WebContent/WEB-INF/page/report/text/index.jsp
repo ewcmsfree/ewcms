@@ -32,7 +32,7 @@
 				ewcmsBOBJ.openDataGrid('#tt',{
 	                columns:[[
 							{field:'id',title:'编号',width:50,sortable:true},
-			                {field:'textName',title:'名称',width:200},
+			                {field:'name',title:'名称',width:200},
 			                {field:'uploadDate',title:'更新时间',width:145},
 			                {field:'dsName',title:'数据源名称',width:200,
 			                	formatter:function(val,rec){
@@ -90,7 +90,9 @@
 					$.messager.alert('提示', '只能选择一个预览', 'info');
 					return;
 				}
-				window.open('<s:url namespace="/report/text" action="preview"/>?repositoryId=' + rows[0].id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+				var url = '<s:url namespace="/report/show" action="paraset"/>?reportType=text&reportId='+ rows[0].id;
+				$('#parameterifr').attr('src',url);
+				ewcmsBOBJ.openWindow("#parameter-window",{width:400,height:213,title:"参数选择"});
 			}
 			function timeTextOperate(){
 				var rows = $('#tt').datagrid('getSelections');
@@ -166,5 +168,16 @@
 	        </div>
 	      </div>
 	    </div>
+        <div id="parameter-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;参数选择" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                   <iframe id="parameterifr"  name="parameterifr" class="editifr" frameborder="0" style="overflow-x:hidden;overflow-y:scroll"></iframe>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['parameterifr'].document.forms[0].submit();">生成</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#parameter-window').window('close');">关闭</a>
+                </div>
+            </div>
+        </div>	
 	</body>
 </html>

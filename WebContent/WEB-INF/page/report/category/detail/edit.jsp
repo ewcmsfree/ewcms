@@ -68,7 +68,7 @@
 					</td>
 					<td>图型报表：</td>
 					<td>
-						<input id="chart_categories" name="hartReportIds" style="width:200px;"></input>
+						<input id="chart_categories" name="chartReportIds" style="width:200px;"></input>
 					</td>
 				</tr>
 			</table>

@@ -49,7 +49,7 @@
 				<tr>
 					<td>数据输入方式：</td>
 					<td>
-						<s:select list="@com.ewcms.function.report.model.ParametersType@values()" listValue="description" name="parameterVo.type" id="parametersType"></s:select>
+						<s:select list="@com.ewcms.plugin.report.model.ParametersType@values()" listValue="description" name="parameterVo.type" id="parametersType"></s:select>
 					</td>
 					<td>辅助数据设置：</td>
 					<td>

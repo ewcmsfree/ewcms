@@ -29,7 +29,7 @@
 				<tr>
 					<td>报表名：</td>
 					<td class="formFieldError">
-						<s:textfield name="textReportVo.name" cssClass="inputtext" maxlength="10" />
+						<s:textfield name="textReportVo.name" cssClass="inputtext" maxlength="20" />
 						<s:fielderror><s:param value="%{'textReportVoVo.name'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>

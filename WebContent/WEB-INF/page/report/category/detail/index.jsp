@@ -36,6 +36,7 @@
 			        ]],
 			        toolbar:[
 			            {id:'btnadd',text:'添加',iconCls:'icon-add',handler:addCallBack},
+			            {id:'btnremove',text:'移除',iconCls:'icon-remove',handler:delCallBack},
 			            {id:'btnBack',text:'缺省查询',iconCls:'icon-back',handler:defQueryCallBack}
 			        ]
 				});
