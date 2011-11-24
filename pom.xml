@@ -68,8 +68,10 @@
 		<jsoup.version>1.6.1</jsoup.version>
 		
 		<!-- Text reports and Chart reports -->
-		<jasperreports.version>3.0.0</jasperreports.version>
-		<jfree.version>1.0.9</jfree.version>
+		<jasperreports.version>4.1.2</jasperreports.version>
+		<groovy.all.version>1.7.5</groovy.all.version>
+		<jfree.version>1.0.16</jfree.version>
+		<jfreechart.version>1.0.13</jfreechart.version>
 		<iTextAsian.version>1.0.0</iTextAsian.version>
 		
 		<!-- Connect to external database -->
@@ -394,15 +396,20 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>jasperreports</groupId>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>${jasperreports.version}</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>bctsp-jdk14</artifactId>
-					<groupId>bouncycastle</groupId>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.all.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jfree</groupId>
@@ -412,7 +419,7 @@
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>${jfree.version}</version>
+			<version>${jfreechart.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lowagie</groupId>
