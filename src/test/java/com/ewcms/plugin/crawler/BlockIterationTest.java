@@ -28,7 +28,7 @@ import com.ewcms.plugin.crawler.model.MatchBlock;
  * @author wu_zhijun
  *
  */
-public class TestBlockIterationTest {
+public class BlockIterationTest {
 	
 	private GatherService gatherService;
 	private GatherDAO gatherDAO;
