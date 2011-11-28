@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL, effectiveURL;
+var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL, reviewEffectiveURL;
 var currentnode, rootnode;//当前所选择的节点，父节点
 var sort = '';//排序值
 
@@ -585,17 +585,18 @@ function reviewOperate() {
 		return;
 	}
 	if (rows[0].article.status == 'REVIEW') {
-		$.post(effectiveURL, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id}, function(data) {
-			if (data == 'true'){
+		$.post(reviewEffectiveURL, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id}, function(data) {
+			if (data == 'true') {
 				ewcmsBOBJ.openWindow('#review-window', {
 					width : 550,
 					height : 230,
 					title : '审核'
 				});
 			}else{
-				$.messager.alert('提示', '您没有权限审核此文章', 'info');
+				$.messager.alert('提示', '您无此文章审核权限', 'info');
 			}
 		});
+		
 	} else {
 		$.messager.alert('提示', '文章只能在审核中状态才能审核', 'info');
 	}
@@ -653,6 +654,7 @@ function disableButtons() {
 	$('#btnReview').linkbutton('disable');
 	$('#btnPub').linkbutton('disable');
 	$('#btnTop').linkbutton('disable');
+	$('#btnPreview').linkbutton('disable');
 	$('#btnSortSet').attr('style', 'display:none;');
 	$('#btnSortClear').attr('style', 'display:none;');
 	$('#btnReviewSubmit').attr('style', 'display:none;');
@@ -674,6 +676,7 @@ function enableButtons() {
 	$('#btnReview').linkbutton('enable');
 	$('#btnPub').linkbutton('enable');
 	$('#btnTop').linkbutton('enable');
+	$('#btnPreview').linkbutton('enable');
 	$('#btnSortSet').attr('style', 'display:block;');
 	$('#btnSortClear').attr('style', 'display:block;');
 	$('#btnReviewSubmit').attr('style', 'display:block;');

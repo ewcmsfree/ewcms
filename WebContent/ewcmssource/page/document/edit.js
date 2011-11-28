@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var categoryURL, insertURL;
+var categoryURL, insertURL, voteURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
@@ -193,33 +193,6 @@ function onOutPage(id){
 	if (li_object.attr("class")=="pagetabOver"){
 		li_object.attr("class","");
 	}
-}
-//插入选择的文章到当前内容编辑页面
-function insertFileToCkeditorOperator(){
-	editifr_pop.insert(function(data,success){
-		if (success){
-			$.each(data, function(index,value){
-				var html_obj = "";
-				var type = value.type;
-				if (type=="ANNEX"){
-					html_obj = "<a href='../../" + value.uri + "'>" + value.title + "</a>";
-				}else if (type=="IMAGE"){
-					html_obj = "<p style='text-align: center;'><img border='0' src='../../" + value.uri + "'/></p><p style='text-align: center;'>" + value.title + "</p>";
-				}else if (type=="FLASH"){
-					html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
-				}else if (type=="VIDEO"){
-					html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
-				}
-				if (tinyMCE.getInstanceById('_Content_' + pages) != null){
-					tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
-					//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-				}
-		   });
-		}else{
-			$.messager.alert('错误', '插入失败', 'error');
-		}
-    });
-	$("#pop-window").window("close");
 }
 //选择内容编辑页面的历史记录
 function selectHistoryOperator(url){
@@ -494,165 +467,63 @@ function changeType(){
     window_resize();
 }
 //打开附件页面
-function openAnnexWindow(url){
-	$('#systemtab_annex').tabs('select','本地附件');
-    $('#uploadifr_annex_id').attr('src',url);
-    ewcmsBOBJ.openWindow("#annex-window",{width:600,height:500,title:"本地附件"});
-}
-//插入附件到内容编辑页面
-function insertAnnexOperator(){
-    var tab = $('#systemtab_annex').tabs('getSelected');
-    var title = tab.panel('options').title;
-    if(title == '本地附件'){
-        uploadifr_annex.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                var html_obj="<a href='../.." + value.uri + "'>" + value.title + "</a>";
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入附件失败', 'error');
-        	}
-        });
-    }else{
-        queryifr_annex.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                var html_obj="<a href='../.." + value.uri + "'>" + value.title + "</a>";
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入附件失败', 'error');
-        	}
-        });
-    }
-	$("#annex-window").window("close");
+function openAnnexWindow(){
+    var url = insertURL + '?type=annex';
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地附",url:url});
 }
 //打开Flash页面
-function openFlashWindow(url){
-	$('#systemtab_flash').tabs('select','本地Flash');
-    $('#uploadifr_flash_id').attr('src',url);
-    ewcmsBOBJ.openWindow("#flash-window",{width:600,height:500,title:"本地Flash"});
-}
-//插入Flash到内容编辑页面
-function insertFlashOperator(){
-    var tab = $('#systemtab_flash').tabs('getSelected');
-    var title = tab.panel('options').title;
-    if(title == '本地Flash'){
-        uploadifr_flash.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	            	alert(value.uri);
-	                var html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
-	                alert(html_obj);
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入Flash失败', 'error');
-        	}
-        });
-    }else{
-        queryifr_flash.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                var html_obj = writeFlash({src:'../../' + value.uri,width:320,height:240});
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入Flash失败', 'error');
-        	}
-        });
-    }
-	$("#flash-window").window("close");
+function openFlashWindow(){
+    var url = insertURL + '?type=flash';
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地Flash",url:url});
 }
 //打开视频页面
-function openVideoWindow(url){
-	$('#systemtab_video').tabs('select','本地视频');
-    $('#uploadifr_video_id').attr('src',url);
-    ewcmsBOBJ.openWindow("#video-window",{width:600,height:500,title:"本地视频"});
-}
-//插入视频到内容编辑页面
-function insertVideoOperator(){
-    var tab = $('#systemtab_video').tabs('getSelected');
-    var title = tab.panel('options').title;
-    if(title == '本地附件'){
-        uploadifr_video.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                var html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入视频失败', 'error');
-        	}
-        });
-    }else{
-        queryifr_video.insert(function(data,success){
-        	if (success){
-	            $.each(data,function(index,value){
-	                var html_obj = writeRealMedia({src:'../../' + value.uri,width:320,height:240});
-	                if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	    				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	    				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	    			}
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入附件失败', 'error');
-        	}
-        });
-    }
-	$("#video-window").window("close");
+function openVideoWindow(){
+    var url = insertURL + '?type=video';
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地视频",url:url});
 }
 //选择引用图片页面
-function selectImage(url){
-	openImageWindow(false, false, url);
+function openRefenceImageWindow(){
+	$('#refence_img').attr('value','true');
+	openImageWindow(false);
 }
 //打开图片页面
-function openImageWindow(multi,content_image,url){
-    url = url + '?type=image&multi=' + multi;
-    ewcmsBOBJ.openWindow("#image-window",{width:600,height:500,title:"图片选择",url:url});
+function openImageWindow(multi){
+    var url = insertURL + '?type=image&multi=' + multi;
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"图片选择",url:url});
 }
-//插入图片到内容编辑页面
-function insertImageOperator(){
-    //var tab = $('#systemtab_image').tabs('getSelected');
-    //var title = tab.panel('options').title;
-    //var content_image = $('#content_image_id').val();
-    //if(title == '本地图片'){
-	uploadifr_image.insert(function(data, success){
-        	if (success){
-	            $.each(data,function(index,value){
-//	                if (content_image=="true"){
-	                	var html_obj="<p style='text-align: center;'><img border='0' src='../.." + value.uri + "'/></p><p style='text-align: center;'>" + value.description + "</p>";
-	                	if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-	        				tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
-	        				//tinyMCE.execCommand('mceInsertContent',false,html_obj);
-	        			}
-//	                }else{
-//	    				//$("#referenceImage").attr("src", "../.." + value.uri);
-//	    				//$("#article_image").attr("value", value.uri);
-//	                }
-	            });
-        	}else{
-        		$.messager.alert('错误', '插入图片失败', 'error');
-        	}
-        	
-        });
-	$("#image-window").window("close");
+//插入选择的文章到当前内容编辑页面
+function insertFileToCkeditorOperator(){
+	uploadifr_insert.insert(function(data,success){
+		if (success){
+			var refence_img = $('#refence_img').val();
+			$.each(data, function(index,value){
+				alert(refence_img);
+				if ($('#refence_img').val() == 'true'){
+    				$("#referenceImage").attr("src", value.uri);
+    				$("#article_image").attr("value", value.uri);
+					$('#refence_img').attr('value', 'false');
+				}else{
+					var html_obj = "";
+					var type = value.type;
+					if (type=="ANNEX"){
+						html_obj = "<a href='" + value.uri + "'>" + value.description + "</a>";
+					}else if (type=="IMAGE"){
+						html_obj = "<p style='text-align: center;'><img border='0' src='" + value.uri + "'/></p><p style='text-align: center;'>" + value.description + "</p>";
+					}else if (type=="FLASH"){
+						html_obj = writeFlash({src:value.uri,width:320,height:240});
+					}else if (type=="VIDEO"){
+						html_obj = writeRealMedia({src:value.uri,width:320,height:240});
+					}
+					if (tinyMCE.getInstanceById('_Content_' + pages) != null){
+						tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
+					}
+				}
+		   });
+		}else{
+			$.messager.alert('错误', '插入失败', 'error');
+		}
+    });
+	$("#insert-window").window("close");
 }
 //打开问卷调查页面
 function openVoteWidnow(url){
