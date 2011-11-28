@@ -63,45 +63,45 @@ tinyMCE.init({
 		   	title : '插入图片',
 		   	image : ed.baseURI.getURI() + '/image/image.gif',
 		   	onclick : function() {
-				var url = ed.baseURI.getURI() + "/../../resource/insert.do";
+				//var url = ed.baseURI.getURI() + "/../../resource/insert.do";
 		   		ed.focus();
-		   		openImageWindow(true,true,url);
+		   		openImageWindow(true);
 	       	}
 		});
 		ed.addButton('ewcmsAnnex',{
 			title : '插入附件',
 			image : ed.baseURI.getURI() + '/image/annex.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=ANNEX&multi=true";
+				//var url = ed.baseURI.getURI() + "/../../resource/insert.do";
 				ed.focus();
-				openAnnexWindow(url);
+				openAnnexWindow();
 			}
 		});
 		ed.addButton('ewcmsVote',{
 			title : '插入调查投票',
 			image : ed.baseURI.getURI() + '/image/vote.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../vote/questionnaire/article.do";
+				//var url = ed.baseURI.getURI() + "/../../vote/questionnaire/article.do";
 				ed.focus();
-				openVoteWidnow(url);
+				openVoteWidnow();
 			}
 		});
 		ed.addButton('ewcmsFlash',{
 			title : '插入Flash',
 			image : ed.baseURI.getURI() + '/image/flash.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=FLASH&multi=true";
+				//var url = ed.baseURI.getURI() + "/../../resource/insert.do";
 				ed.focus();
-				openFlashWindow(url);
+				openFlashWindow();
 			}
 		});
 		ed.addButton('ewcmsVideo',{
 			title : '插入视频',
 			image : ed.baseURI.getURI() + '/image/video.gif',
 			onclick : function(){
-				var url = ed.baseURI.getURI() + "/../../resource/insert.do?type=VIDEO&multi=true";
+				//var url = ed.baseURI.getURI() + "/../../resource/insert.do";
 				ed.focus();
-				openVideoWindow(url);
+				openVideoWindow();
 			}
 		});
 	}
