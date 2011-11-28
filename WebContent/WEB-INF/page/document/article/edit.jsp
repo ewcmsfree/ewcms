@@ -28,6 +28,7 @@
 	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
 	    	insertURL = '<s:url action="insert" namespace="/resource"/>';
 	    	userName = '<sec:authentication property="name"/>';
+	    	voteURL = '<s:url action="article" namespace="/vote/questionnaire"/>';
 	    	<s:property value="javaScript"/>
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
@@ -142,7 +143,7 @@
 			        <tr id="trShowHide_5" style="display:none">
 			        	<td>引用图片：</td>
 			        	<td>
-			        		<a href="javascript:void(0);" onclick="selectImage('<s:url action='resource' namespace='/resource'/>?type=IMAGE');return false;">
+			        		<a href="javascript:void(0);" onclick="openRefenceImageWindow(false);return false;" style="text-decoration:none;">
 			        		<s:if test="articleVo.image!=null&&articleVo.image!=''">
 			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../../${articleVo.image}"/>
 			        		</s:if>
@@ -254,71 +255,18 @@
                 </div>
             </div>
         </div>
-		<div id="image-window" class="easyui-window" closed="true" icon="icon-save" title="插入图片" style="display:none;">
+		<div id="insert-window" class="easyui-window" closed="true" icon="icon-save" title="插入" style="display:none;">
+		    <s:hidden id="refence_img"/>
             <div class="easyui-layout" fit="true">
             	<div region="center" border="false">
-             		<iframe src="" id="uploadifr_image_id"  name="uploadifr_image" class="editifr" scrolling="no"></iframe>
+             		<iframe src="" id="uploadifr_insert_id"  name="uploadifr_insert" class="editifr" scrolling="no"></iframe>
              	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertImageOperator()">插入</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#image-window').window('close');return false;">取消</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertFileToCkeditorOperator()">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>	
-		<div id="annex-window" class="easyui-window" closed="true" icon="icon-save" title="插入附件" style="display:none;">
-            <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
-                    <div class="easyui-tabs" id="systemtab_annex" border="false" fit="true"  plain="true">
-                        <div title="本地附件"  style="padding: 5px;" cache="true">
-                            <iframe src="" id="uploadifr_annex_id"  name="uploadifr_annex" class="editifr" scrolling="no"></iframe>
-                        </div>
-                        <div title="服务器附件" cache="true">
-                            <iframe src="" id="queryifr_annex_id"  name="queryifr_annex" class="editifr" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnexOperator()">插入</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#annex-window').window('close');return false;">取消</a>
-                </div>
-            </div>
-        </div>
-		<div id="flash-window" class="easyui-window" closed="true" icon="icon-save" title="插入Flash" style="display:none;">
-            <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
-                    <div class="easyui-tabs" id="systemtab_flash" border="false" fit="true"  plain="true">
-                        <div title="本地Flash"  style="padding: 5px;" cache="true">
-                            <iframe src="" id="uploadifr_flash_id"  name="uploadifr_flash" class="editifr" scrolling="no"></iframe>
-                        </div>
-                        <div title="服务器Flash" cache="true">
-                            <iframe src="" id="queryifr_flash_id"  name="queryifr_flash" class="editifr" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertFlashOperator()">插入</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#flash-window').window('close');return false;">取消</a>
-                </div>
-            </div>
-        </div>
-		<div id="video-window" class="easyui-window" closed="true" icon="icon-save" title="插入视频" style="display:none;">
-            <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
-                    <div class="easyui-tabs" id="systemtab_video" border="false" fit="true"  plain="true">
-                        <div title="本地视频"  style="padding: 5px;" cache="true">
-                            <iframe src="" id="uploadifr_video_id"  name="uploadifr_video" class="editifr" scrolling="no"></iframe>
-                        </div>
-                        <div title="服务器视频" cache="true">
-                            <iframe src="" id="queryifr_video_id"  name="queryifr_video" class="editifr" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertVideoOperator()">插入</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#video-window').window('close');return false;">取消</a>
-                </div>
-            </div>
-        </div>
 		<div id="vote-window" class="easyui-window" title="问卷调查" icon="icon-save" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
