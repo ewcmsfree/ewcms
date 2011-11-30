@@ -262,7 +262,7 @@
              		<iframe src="" id="uploadifr_insert_id"  name="uploadifr_insert" class="editifr" scrolling="no"></iframe>
              	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertFileToCkeditorOperator()">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertFileToTinyMCEOperator();">插入</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
                 </div>
             </div>
