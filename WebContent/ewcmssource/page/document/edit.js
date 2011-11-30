@@ -492,12 +492,10 @@ function openImageWindow(multi){
     ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"图片选择",url:url});
 }
 //插入选择的文章到当前内容编辑页面
-function insertFileToCkeditorOperator(){
+function insertFileToTinyMCEOperator(){
 	uploadifr_insert.insert(function(data,success){
 		if (success){
-			var refence_img = $('#refence_img').val();
 			$.each(data, function(index,value){
-				alert(refence_img);
 				if ($('#refence_img').val() == 'true'){
     				$("#referenceImage").attr("src", value.uri);
     				$("#article_image").attr("value", value.uri);
@@ -515,19 +513,20 @@ function insertFileToCkeditorOperator(){
 						html_obj = writeRealMedia({src:value.uri,width:320,height:240});
 					}
 					if (tinyMCE.getInstanceById('_Content_' + pages) != null){
-						tinyMCE.execInstanceCommand('_Content_' + pages,'mceInsertContent',false,html_obj);
+						tinyMCE.execInstanceCommand('_Content_' + pages, 'mceInsertContent', false, html_obj);
 					}
 				}
 		   });
+		   $("#insert-window").window("close");
 		}else{
 			$.messager.alert('错误', '插入失败', 'error');
 		}
     });
-	$("#insert-window").window("close");
+	
 }
 //打开问卷调查页面
-function openVoteWidnow(url){
-	$('#editifr_vote').attr('src',url);
+function openVoteWidnow(){
+	$('#editifr_vote').attr('src',voteURL);
 	ewcmsBOBJ.openWindow("#vote-window",{width:600,height:500,title:"问卷调查选择"});
 }
 //插入问卷调查到内容编辑页面
