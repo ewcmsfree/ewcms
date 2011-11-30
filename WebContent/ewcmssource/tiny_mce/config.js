@@ -5,6 +5,9 @@ tinyMCE.init({
 	theme : "advanced",
 	language : 'zh-cn',
 	skin : "o2k7",
+	convert_urls : false,//不作任何url转换
+	//remove_script_host : false,
+	//relative_urls : false, 
 	plugins : "pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 	// Theme options
 	theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,|,preview,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,advhr,|,print,|,ltr,rtl,|,ewcmsImage,ewcmsAnnex,ewcmsVote,ewcmsFlash,ewcmsVideo",
