@@ -15,6 +15,7 @@ package com.ewcms.publication.freemarker;
  * DEBUG:调试模式
  * PAGE_NUMBER:页数
  * PAGE_COUNT:总页数
+ * PAGE_OUT:显示页数对象
  * INDEX:所处位置
  * URI_RULE:uri生成规则
  * 
