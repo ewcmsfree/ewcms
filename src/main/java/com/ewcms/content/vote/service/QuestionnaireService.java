@@ -87,9 +87,9 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	@Override
 	public StringBuffer getQuestionnaireViewToHtml(Long questionnaireId, String servletContentName){
 		try{
-			if (!servletContentName.equals("")){
-				servletContentName = "/" + servletContentName;
-			}
+//			if (!servletContentName.equals("")){
+//				servletContentName = servletContentName;
+//			}
 			
 			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
 			if (questionnaire == null) return new StringBuffer("<p>没有问卷调查</p>");
@@ -202,9 +202,9 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 	@Override
 	public StringBuffer getQuestionnaireResultToHtml(Long questionnaireId, String servletContentName, String ipAddr, Boolean isView){
 		try{
-			if (!servletContentName.equals("")){
-				servletContentName = "/" + servletContentName;
-			}
+//			if (!servletContentName.equals("")){
+//				servletContentName = "/" + servletContentName;
+//			}
 			
 			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
 			if (questionnaire == null) return new StringBuffer("<p>没有问卷调查结果</p>");
