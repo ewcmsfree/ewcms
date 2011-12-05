@@ -18,6 +18,10 @@ public class BaseDSService implements BaseDSServiceable {
 	
 	@Autowired
 	private BaseDSDAO baseDSDAO;
+
+	public void setBaseDSDAO(BaseDSDAO baseDSDAO){
+		this.baseDSDAO = baseDSDAO;
+	}
 	
 	@Override
 	public Long saveOrUpdateBaseDS(BaseDS baseDS) {
