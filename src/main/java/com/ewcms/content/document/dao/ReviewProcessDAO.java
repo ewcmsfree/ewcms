@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
+import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.ReviewProcess;
 
 /**
@@ -84,5 +85,13 @@ public class ReviewProcessDAO extends JpaDAO<Long, ReviewProcess> {
     	List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId, name);
     	if (list.isEmpty()) return null;
     	return list.get(0);
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<ArticleMain> findArticleMainByReviewProcess(Integer channelId, Long reviewProcessId){
+    	String hql = "Select m From ArticleMain As m Left Join m.article As a Left Join a.reviewProcess As r Where m.channelId=? And r.id=? And m.reference=false";
+    	List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, reviewProcessId);
+    	if (list.isEmpty()) return null;
+    	return list;
     }
 }

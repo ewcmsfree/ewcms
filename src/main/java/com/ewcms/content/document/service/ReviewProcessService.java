@@ -16,7 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.BaseException;
+import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.ArticleStatus;
 import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.content.document.model.ReviewUser;
@@ -29,8 +33,11 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	@Autowired
 	private ReviewProcessDAO reviewProcessDAO;
 	@Autowired
+	private ArticleMainDAO articleMainDAO;
+	@Autowired
 	private UserServiceable userService;
-	
+	@Autowired
+	private OperateTrackServiceable operateTrackService;
 	
 	@Override
 	public Long addReviewProcess(Integer channelId, ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
@@ -84,6 +91,22 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 				reviewProcessDAO.merge(prevVo);
 			}
 		}
+		
+		List<ArticleMain> articleMains = reviewProcessDAO.findArticleMainByReviewProcess(vo.getChannelId(), reviewProcessId);
+		if (articleMains != null && !articleMains.isEmpty()){
+			for (ArticleMain articleMain : articleMains){
+				Article article = articleMain.getArticle();
+				
+				operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "审核流程{" + vo.getName()  + "}已经被删除。", "");
+
+				article.setReviewProcess(null);
+				article.setStatus(ArticleStatus.REVIEWBREAK);
+				
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
+			}
+		}
+		
 		reviewProcessDAO.removeByPK(reviewProcessId);
 	}
 
