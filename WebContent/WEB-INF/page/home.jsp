@@ -50,6 +50,11 @@
                 _home.getTipMessage(tipMessageUrl);
                 var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
                 _home.setTipInterval(tipInterval);
+                
+                var beApprovalUrl = '<s:url namespace="/document/article" action="beApproval"/>';
+                _home.getBeApproval(beApprovalUrl);
+                var beApproval = setInterval("_home.getBeApproval('" + beApprovalUrl + "')",60000);
+                _home.setBeApprovalInterval(beApproval);
             });
         </script>
     </head>
@@ -262,6 +267,20 @@
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    	<tr id="other_tr">
+                    		<td class="portal-column-td">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">待办事栏</div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="" style="text-decoration:none;"></a></div>
+	        							</div>
+	        							<div id="other" style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="other" class="portal-p panel-body">
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        				</tr>
                     	<tr id="notice_tr">
                     		<td class="portal-column-td">
                     			<div style="overflow:hidden;padding:0 0 0 0">
@@ -285,20 +304,6 @@
 	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('订阅栏信息','message/more/index.do?type=SUBSCRIPTION');return false;" style="text-decoration:none;">更多...</a></div>
 	        							</div>
 	        							<div style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="subscription" class="portal-p panel-body">
-				    					</div>
-				    				</div>
-        						</div>
-        					</td>
-        				</tr>
-                    	<tr id="other_tr" style="display:none;">
-                    		<td class="portal-column-td">
-                    			<div style="overflow:hidden;padding:0 0 0 0">
-	        						<div class="panel" style="margin-bottom:2px;">
-	        							<div class="panel-header">
-	        								<div class="panel-title">其他栏</div>
-	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="" style="text-decoration:none;">更多...</a></div>
-	        							</div>
-	        							<div id="other" style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="other" class="portal-p panel-body">
 				    					</div>
 				    				</div>
         						</div>
