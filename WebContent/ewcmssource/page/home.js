@@ -218,6 +218,46 @@ home.prototype.setTipInterval=function(tipInterval){
     this._tipInterval = tipInterval;
 }
 
+home.prototype.getBeApproval=function(url){
+    var beApproval = this._beApproval;
+	var currentAjax = $.ajax({
+		type:'post',
+		datatype:'json',
+		cache:false,
+		url: url,
+		data: '',
+		success:function(message, textStatus){
+    		if (message != 'false'){
+    			$('#other .t-list').empty();
+    			var subscriptionHtml = '<div class="t-list"><table width="100%">';
+    			var pro = [];
+        		for (var i=0;i<message.length;i++){
+        			pro.push('<tr><td width="50%"><a href="javascript:void(0);" style="text-decoration:none;">栏目：『' + message[i].channelName + '』 共有 ' + message[i].articleCount + ' 条需要审批</a></td></tr>');
+        		}
+        		var html = pro.join("");
+        		subscriptionHtml += html + '</table></div>'
+        		$(subscriptionHtml).appendTo('#other');
+        		$('#other_tr').show();
+    		}else{
+    			$('#other_tr').hide();
+    		}
+		},
+		beforeSend:function(XMLHttpRequest){
+			$('#other_tr').hide();
+		},
+		complete:function(XMLHttpRequest, textStatus){
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			clearInterval(beApproval);
+			if(currentAjax) {currentAjax.abort();}
+		}
+	});
+}
+
+home.prototype.setBeApprovalInterval=function(beApproval){
+    this._beApproval = beApproval;
+}
+
 function showRecord(url, id){
 	url = url + '&id=' + id;
 	$('#editifr_detail').attr('src',url);
