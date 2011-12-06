@@ -26,7 +26,7 @@
 			treeURL = "<s:url namespace='/site/channel' action='tree'/>";
 			reasonURL = "<s:url namespace='/document/article' action='reason'/>";
 			trackURL = "<s:url namespace='/document/track' action='index'/>";
-			reviewEffectiveURL = "<s:url namespace='/document/article' action='reviewEffective'/>";
+			effectiveURL = "<s:url namespace='/document/article' action='reviewEffective'/>";
 		</script>
 	</head>
 	<body class="easyui-layout">
