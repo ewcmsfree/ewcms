@@ -8,6 +8,7 @@ package com.ewcms.content.document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,7 @@ import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.document.service.OperateTrackServiceable;
 import com.ewcms.content.document.service.RelationServiceable;
 import com.ewcms.content.document.service.ReviewProcessServiceable;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 
@@ -183,6 +185,11 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public String getArticleOperateTrack(Long trackId){
 		return articleMainService.getArticleOperateTrack(trackId);
+	}
+	
+	@Override
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName){
+		return articleMainService.findBeApprovalArticleMain(userName, groupName);
 	}
 	
 	@Override

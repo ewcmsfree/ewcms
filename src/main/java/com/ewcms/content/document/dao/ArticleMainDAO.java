@@ -7,13 +7,16 @@
 package com.ewcms.content.document.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.ArticleStatus;
 
 /**
  * 文章主体DAO
@@ -69,5 +72,21 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     	List<Article> list = this.getJpaTemplate().find(hql, articleId, categoryId);
     	if (list.isEmpty()) return false;
     	return true;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Map<Integer, Long> findBeApprovalArticleMain(String userName, String groupName){
+    	Map<Integer, Long> map = new HashMap<Integer, Long>();
+    	String hql = "Select o.channelId, Count(o) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where r.delete=false And r.status=? And (u.userName=? Or g.groupName In (?)) Group By o.channelId";
+    	List<Object> list = this.getJpaTemplate().find(hql, ArticleStatus.REVIEW, userName, groupName);
+    	for (int i=0; i < list.size(); i++){
+    		Object[] obj = (Object[])list.get(i);
+    		Integer channelId = (Integer)obj[0];
+    		Long count = (Long)obj[1];
+    		if (count > 0){
+    			map.put(channelId, count);
+    		}
+    	}
+    	return map;
     }
 }

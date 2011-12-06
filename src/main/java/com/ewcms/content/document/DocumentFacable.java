@@ -8,6 +8,7 @@ package com.ewcms.content.document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.Category;
@@ -15,6 +16,7 @@ import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.Relation;
 import com.ewcms.content.document.model.ReviewProcess;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 
 /**
@@ -211,6 +213,15 @@ public interface DocumentFacable {
 	 * @param channelId 频道编号
 	 */
 	public void topArticleMain(List<Long> articleMainIds, Boolean top, Integer channelId);
+	
+	/**
+	 * 待审核文章显示
+	 * 
+	 * @param userName 用户名
+	 * @param groupName 用户组
+	 * @return Map
+	 */
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName);
 	
 	/**
 	 * 新增文章信息

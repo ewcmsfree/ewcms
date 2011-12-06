@@ -8,10 +8,12 @@ package com.ewcms.content.document.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 
 /**
@@ -222,4 +224,13 @@ public interface ArticleMainServiceable {
 	 * @param top 是否置顶(true:置顶,false:不置顶)
 	 */
 	public void topArticleMain(List<Long> articleMainIds, Boolean top);
+	
+	/**
+	 * 待审核文章显示
+	 * 
+	 * @param userName 用户名
+	 * @param groupName 用户组
+	 * @return Map
+	 */
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName);
 }

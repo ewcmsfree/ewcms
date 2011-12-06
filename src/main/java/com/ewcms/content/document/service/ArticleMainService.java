@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -578,5 +581,20 @@ public class ArticleMainService implements ArticleMainServiceable {
 		List<Content> contents = new ArrayList<Content>();
 		contents.add(content);
 		article.setContents(contents);
+	}
+
+	@Override
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName) {
+		Map<Channel, Long> result = new HashMap<Channel, Long>();
+		Map<Integer, Long> map = articleMainDAO.findBeApprovalArticleMain(userName, groupName);
+		if (!map.isEmpty()){
+			Set<Integer> keySets = map.keySet();
+			for (Integer key : keySets){
+				Channel channel = channelDAO.get(key);
+				Long count = map.get(key);
+				result.put(channel, count);
+			}
+		}
+		return result;
 	}
 }
