@@ -96,7 +96,7 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 		if (articleMains != null && !articleMains.isEmpty()){
 			for (ArticleMain articleMain : articleMains){
 				Article article = articleMain.getArticle();
-				
+				if (article == null) continue;
 				operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "审核流程{" + vo.getName()  + "}已经被删除。", "");
 
 				article.setReviewProcess(null);
