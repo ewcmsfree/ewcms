@@ -35,6 +35,7 @@
 		</action>
 		<action name="topArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="topArticle"/>
 		<action name="reviewEffective" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewEffective"/>
+		<action name="beApproval" class="com.ewcms.content.document.web.ArticleMainAction" method="beApproval"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index">
