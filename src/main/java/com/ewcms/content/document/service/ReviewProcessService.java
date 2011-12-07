@@ -172,13 +172,15 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 	@Override
 	public Long updReviewProcess(ReviewProcess reviewProcess, List<String> userNames, List<String> groupNames) throws BaseException {
 		ReviewProcess entity = reviewProcessDAO.findIsEntityReviewProcessByChannelAndName(reviewProcess.getChannelId(), reviewProcess.getName());
-		if (isNotNull(entity) && reviewProcess.getId() != entity.getId()){
+		if (isNotNull(entity) && reviewProcess.getId().longValue() != entity.getId().longValue()){
 			throw new BaseException("流程名称已定义，请重新输入其他名称！", "流程名称已定义，请重新输入其他名称！");
 		}
 		if (isCollectionEmpty(userNames) && isCollectionEmpty(groupNames)){
 			throw new BaseException("用户组和用户不能同时为空，必须选择一项以上！", "用户组和用户不能同时为空，必须选择一项以上！");
 		}
 		setUpReviewUserAndGroup(reviewProcess, userNames, groupNames);
+		reviewProcess.setPrevProcess(entity.getPrevProcess());
+		reviewProcess.setNextProcess(entity.getNextProcess());
 		reviewProcessDAO.merge(reviewProcess);
 		return reviewProcess.getId();
 	}
