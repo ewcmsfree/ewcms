@@ -5,7 +5,7 @@
 
 <html>
 	<head>
-		<title>Bean数据源设置</title>
+		<title>报表分类设置</title>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'></link>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
