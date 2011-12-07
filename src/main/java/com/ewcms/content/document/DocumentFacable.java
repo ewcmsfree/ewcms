@@ -221,7 +221,7 @@ public interface DocumentFacable {
 	 * @param groupName 用户组
 	 * @return Map
 	 */
-	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName);
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, List<String> groupNames);
 	
 	/**
 	 * 新增文章信息

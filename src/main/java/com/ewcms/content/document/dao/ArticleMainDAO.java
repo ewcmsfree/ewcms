@@ -75,10 +75,15 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     }
     
     @SuppressWarnings("unchecked")
-	public Map<Integer, Long> findBeApprovalArticleMain(String userName, String groupName){
+	public Map<Integer, Long> findBeApprovalArticleMain(String userName, List<String> groupNames){
     	Map<Integer, Long> map = new HashMap<Integer, Long>();
-    	String hql = "Select o.channelId, Count(o) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where r.delete=false And r.status=? And (u.userName=? Or g.groupName In (?)) Group By o.channelId";
-    	List<Object> list = this.getJpaTemplate().find(hql, ArticleStatus.REVIEW, userName, groupName);
+    	String hql = "Select o.channelId, Count(o) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where r.delete=false And r.status=? And (u.userName=? ";
+    	if (groupNames != null && !groupNames.isEmpty()){
+    		for (String groupName : groupNames)
+    			hql += " Or g.groupName='" + groupName + "' ";
+    	}
+    	hql += ") Group By o.channelId ";
+    	List<Object> list = this.getJpaTemplate().find(hql, ArticleStatus.REVIEW, userName);
     	for (int i=0; i < list.size(); i++){
     		Object[] obj = (Object[])list.get(i);
     		Integer channelId = (Integer)obj[0];

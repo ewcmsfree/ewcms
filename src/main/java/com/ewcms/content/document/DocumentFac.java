@@ -188,8 +188,8 @@ public class DocumentFac implements DocumentFacable {
 	}
 	
 	@Override
-	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName){
-		return articleMainService.findBeApprovalArticleMain(userName, groupName);
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, List<String> groupNames){
+		return articleMainService.findBeApprovalArticleMain(userName, groupNames);
 	}
 	
 	@Override

@@ -7,7 +7,6 @@
 package com.ewcms.content.document.web;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -277,12 +276,10 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void beApproval(){
 		String userName = EwcmsContextUtil.getUserName();
-		String groupName = "";
-		Collection<String> groupNames = EwcmsContextUtil.getGroupnames();
-		for (String name : groupNames){
-			groupName += name + ",";
-		}
-		Map<Channel, Long> map = documentFac.findBeApprovalArticleMain(userName, groupName);
+		
+		List<String> groupNames = (List<String>) EwcmsContextUtil.getGroupnames();
+		
+		Map<Channel, Long> map = documentFac.findBeApprovalArticleMain(userName, groupNames);
 		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		if (!map.isEmpty()){

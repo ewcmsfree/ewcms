@@ -584,9 +584,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public Map<Channel, Long> findBeApprovalArticleMain(String userName, String groupName) {
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName, List<String> groupNames) {
 		Map<Channel, Long> result = new HashMap<Channel, Long>();
-		Map<Integer, Long> map = articleMainDAO.findBeApprovalArticleMain(userName, groupName);
+		Map<Integer, Long> map = articleMainDAO.findBeApprovalArticleMain(userName, groupNames);
 		if (!map.isEmpty()){
 			Set<Integer> keySets = map.keySet();
 			for (Integer key : keySets){
