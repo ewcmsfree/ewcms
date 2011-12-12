@@ -29,6 +29,7 @@
 	    	insertURL = '<s:url action="insert" namespace="/resource"/>';
 	    	userName = '<sec:authentication property="name"/>';
 	    	voteURL = '<s:url action="article" namespace="/vote/questionnaire"/>';
+	    	treeURL = "<s:url namespace='/site/channel' action='tree'/>";
 	    	<s:property value="javaScript"/>
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  
@@ -80,7 +81,7 @@
 				        			<td width="100%" style="border: 0px solid;">
 				        				<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: middle;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
 					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: middle;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
-					           	 		<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;使用内部标题</label>
+					           	 		<!--<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;使用内部标题</label>-->
 					           	 	</td>
 				           	 	</tr>
 				           	 </table>
@@ -98,6 +99,16 @@
 			        	<td id="tdSubTitle" colspan="3" class="formFieldError">
 			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.subTitle'}" /></s:fielderror>
+			        	</td>
+			        </tr>
+			        <tr>
+			        	<td width="6%">内部标题：</td>
+			        	<td width="44%">
+			        		<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;&nbsp;</label>
+			        	</td>
+			        	<td width="6%">频道选择：</td>
+			        	<td width="44%">
+			        		<select id="cc_channel" style="width:200px;"></select>
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_1" style="display:none">
