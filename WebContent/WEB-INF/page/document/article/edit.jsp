@@ -71,10 +71,11 @@
 				<table id="inputBarTable" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;" class="formtable" >
 			    	<tr >
 			        	<td width="6%">标题：</td>
-			        	<td width="50%" id="tdTitle" class="formFieldError" colspan="2">
+			        	<td width="44%" id="tdTitle" class="formFieldError">
 			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
 			        		<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
 						</td>
+						<td width="6%"></td>
 						<td width="44%" style="vertical-align: middle;">
 							<table width="100%" style="border: 0px solid;">
 			        			<tr>
