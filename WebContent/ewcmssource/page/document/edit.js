@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var categoryURL, insertURL, voteURL;
+var categoryURL, insertURL, voteURL, treeURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
@@ -73,6 +73,24 @@ $(function() {
 		panelWidth:200
 	});
     
+	$('#cc_channel').combotree({  
+	    url:treeURL,
+	    onLoadSuccess: function(node,data){
+	    	var channelId = $('#channelId').val();
+	    	$('#cc_channel').combotree('setValue', channelId);
+	    },
+	    onClick : function(node){
+	    	var rootnode = $('#cc_channel').combotree('tree').tree('getRoot');;
+	    	if (node.id == rootnode.id){
+	    		var channelId = $('#channelId').val();
+	    		$('#cc_channel').combotree('setValue', channelId);
+	    		$.messager.alert('提示', '不能选择根频道', 'info');
+				return;
+	    	}
+	    	$('#channelId').attr('value', node.id);
+	    }
+	});
+	
 	ewcmsCookiesInit(userName);
 	
 	window_resize();
