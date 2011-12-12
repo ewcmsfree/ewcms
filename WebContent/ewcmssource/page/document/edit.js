@@ -92,7 +92,7 @@ $(function() {
 	});
 	
 	ewcmsCookiesInit(userName);
-	
+	initChannel();
 	window_resize();
 });
 //绑定窗体改变大小事件
@@ -338,6 +338,7 @@ function saveArticle(){
 		}
 	}
 	
+	loadingEnable();
 	if ($("#ShowShortTitle").attr("checked") == false || $.trim($("#articleShortTitle").val()) == ""){
 		$("#articleShortTitle").attr("value","");
 		$("#articleShortTitleStyle").attr("value","");
@@ -346,7 +347,6 @@ function saveArticle(){
 		$("#articleSubTitle").attr("value","");
 		$("#articleSubTitleStyle").attr("value","");
 	}
-	loadingEnable();
 	var params=$('#articleSave').serialize();
 	$.post("save.do" ,params ,function(data){
 		if (data == "false"){
@@ -363,6 +363,7 @@ function saveArticle(){
 			$("#summary").attr("value", data.summary);
 			$("#saveTime_general").html("<font color='#FF0000'>" + data.modified + "</font>");
 			$("#saveTime_title").html("<font color='#FF0000'>" + data.modified + "</font>");
+			initChannel();
 			window.opener.window.articleReload();
 			$.messager.alert('提示','文章保存成功','info');
 		}
@@ -600,6 +601,7 @@ function auto_save() {
 					$("#summary").attr("value", data.summary);
 					$("#saveTime_general").html("<font color='#0000FF'>" + data.modified + "</font>");
 					$("#saveTime_title").html("<font color='#0000FF'>" + data.modified + "</font>");
+					initChannel();
 					window.opener.window.articleReload();
 				}
 			});
@@ -740,4 +742,12 @@ function writeEmbed(cls, cb, mt, p) {
 	h += '></embed></object>';
 
 	return h;
+}
+
+function initChannel(){
+	if ($('#articleMainId').val() != ''){
+		$('#cc_channel').combotree('disable');
+	}else{
+		$('#cc_channel').combotree('enable');
+	}
 }
