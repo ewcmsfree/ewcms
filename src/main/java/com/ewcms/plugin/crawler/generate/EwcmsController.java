@@ -10,6 +10,7 @@ import static com.ewcms.common.lang.EmptyUtil.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -28,7 +29,9 @@ import com.ewcms.plugin.crawler.generate.crawler4j.frontier.Frontier;
 import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
 import com.ewcms.plugin.crawler.manager.CrawlerFacable;
 import com.ewcms.plugin.crawler.model.Domain;
+import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
+import com.ewcms.plugin.crawler.model.MatchBlock;
 
 /**
  * 
@@ -112,9 +115,9 @@ public class EwcmsController implements EwcmsControllerable {
 			ewcmsWebCrawler.setIncludeBinaryContent(gather.getDownloadFile());
 			
 			ewcmsWebCrawler.setArticleMainService(articleMainService);
-			ewcmsWebCrawler.setCrawlDomains(crawlDomains);
-			ewcmsWebCrawler.setCrawlerFac(crawlerFac);
 			ewcmsWebCrawler.setGather(gather);
+			ewcmsWebCrawler.setMatchRegex(initMatchBlock(gatherId));
+			ewcmsWebCrawler.setFilterRegex(initFilterBlock(gatherId));
 			
 			controller.start(ewcmsWebCrawler, numberOfCrawlers);
 		}catch(IOException e){
@@ -135,4 +138,92 @@ public class EwcmsController implements EwcmsControllerable {
 			controller = null;
 		}
 	}
+	
+	private String initMatchBlock(Long gatherId){
+		List<String> matchRegexs = new ArrayList<String>();
+		
+		List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gatherId);
+		for (MatchBlock parent : parents){
+			String regex = "";
+			String matchRegex = parent.getRegex();
+			if (matchRegex != null && matchRegex.length() > 0){
+				regex = matchRegex;
+			}
+			childrenMatchBlock(gatherId, regex, parent, matchRegexs);
+		}
+		
+		if (matchRegexs.isEmpty()) return "*";
+		
+		String regex = "";
+		for (String matchRegex : matchRegexs){
+			if (matchRegex == null || matchRegex.trim().length() == 0) continue;
+			regex += matchRegex + ", ";
+		}
+		if (regex.length() > 0){
+			regex = regex.substring(0, regex.length() - 2);
+		}
+		
+		return regex;
+	}
+		
+	private void childrenMatchBlock(Long gatherId, String regex, MatchBlock parent, List<String> matchRegexs){
+		List<MatchBlock> childrens = crawlerFac.findChildMatchBlockByParentId(gatherId, parent.getId());
+		if (childrens.isEmpty()){
+			matchRegexs.add(regex);
+		}else{
+			for (MatchBlock children : childrens){
+				String childrenRegex = regex;
+				String matchRegex = children.getRegex();
+				if (matchRegex != null && matchRegex.length() > 0){
+					childrenRegex += " > " + matchRegex;
+				}
+				childrenMatchBlock(gatherId, childrenRegex, children, matchRegexs);
+				
+			}
+		}
+	}
+	
+	private String initFilterBlock(Long gatherId){
+		List<String> filterRegexs = new ArrayList<String>();
+		
+		List<FilterBlock> parents = crawlerFac.findParentFilterBlockByGatherId(gatherId);
+		for (FilterBlock parent : parents){
+			String regex = "";
+			String filterRegex = parent.getRegex();
+			if (filterRegex != null && filterRegex.length() > 0){
+				regex = filterRegex;
+			}
+			childrenFilterBlock(gatherId, regex, parent, filterRegexs);
+		}
+		
+		if (filterRegexs.isEmpty()) return "";
+		
+		String regex = "";
+		for (String filterRegex : filterRegexs){
+			if (filterRegex == null || filterRegex.trim().length() == 0) continue;
+			regex += filterRegex + ", ";
+		}
+		if (regex.length() > 0){
+			regex = regex.substring(0, regex.length() - 2);
+		}
+		
+		return regex;
+	}
+		
+	private void childrenFilterBlock(Long gatherId, String regex, FilterBlock parent, List<String> filterRegexs){
+		List<FilterBlock> childrens = crawlerFac.findChildFilterBlockByParentId(gatherId, parent.getId());
+		if (childrens.isEmpty()){
+			filterRegexs.add(regex);
+		}else{
+			for (FilterBlock children : childrens){
+				String childrenRegex = regex;
+				String filterRegex = children.getRegex();
+				if (filterRegex != null && filterRegex.length() > 0){
+					childrenRegex += " > " + filterRegex;
+				}
+				childrenFilterBlock(gatherId, childrenRegex, children, filterRegexs);
+			}
+		}
+	}
+
 }

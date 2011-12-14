@@ -6,8 +6,6 @@
 
 package com.ewcms.plugin.crawler.generate;
 
-import static com.ewcms.common.lang.EmptyUtil.isCollectionNotEmpty;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +23,7 @@ import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.plugin.crawler.generate.crawler4j.crawler.Page;
 import com.ewcms.plugin.crawler.generate.crawler4j.crawler.WebCrawler;
 import com.ewcms.plugin.crawler.generate.crawler4j.url.WebURL;
-import com.ewcms.plugin.crawler.manager.CrawlerFacable;
-import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
-import com.ewcms.plugin.crawler.model.MatchBlock;
 import com.ewcms.plugin.crawler.util.CrawlerUserName;
 
 /**
@@ -43,20 +38,28 @@ public class EwcmsWebCrawler extends WebCrawler {
 	Pattern filters = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
 	private Gather gather;
-	private String[] crawlDomains;
-	private CrawlerFacable crawlerFac;
+	private String matchRegex;
+	private String filterRegex;
 	private ArticleMainServiceable articleMainService;
 
 	public void setGather(Gather gather) {
 		this.gather = gather;
 	}
 
-	public void setCrawlDomains(String[] crawlDomains) {
-		this.crawlDomains = crawlDomains;
+	public String getMatchRegex() {
+		return matchRegex;
 	}
 
-	public void setCrawlerFac(CrawlerFacable crawlerFac) {
-		this.crawlerFac = crawlerFac;
+	public void setMatchRegex(String matchRegex) {
+		this.matchRegex = matchRegex;
+	}
+
+	public String getFilterRegex() {
+		return filterRegex;
+	}
+
+	public void setFilterRegex(String filterRegex) {
+		this.filterRegex = filterRegex;
 	}
 
 	public void setArticleMainService(ArticleMainServiceable articleMainService) {
@@ -78,11 +81,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 		if (filters.matcher(href).matches()) return false;
 		String htmlType = gather.getHtmlType();
 		if (href.indexOf(htmlType) > -1){
-			for (String domain : crawlDomains) {
-				if (href.startsWith(domain)) {
-					return true;
-				}
-			}
+			return true;
 		}
 		return false;
 	}
@@ -94,7 +93,6 @@ public class EwcmsWebCrawler extends WebCrawler {
 	public void visit(Page page) {
 		try {
 			page.setDefaultEncoding(gather.getEncoding());
-
 			Document doc = Jsoup.connect(page.getWebURL().getURL()).timeout(gather.getTimeOutWait().intValue() * 1000).get();
 
 			String title = doc.title();
@@ -108,43 +106,37 @@ public class EwcmsWebCrawler extends WebCrawler {
 				}
 			}
 
-			List<MatchBlock> parents = crawlerFac
-					.findParentMatchBlockByGatherId(gather.getId());
-			if (isCollectionNotEmpty(parents)) {
-				StringBuffer sbHtml = new StringBuffer();
-				childrenMatchBlock(gather.getId(), doc, parents, sbHtml);
-				doc = Jsoup.parse(sbHtml.toString());
+			if (title != null && title.trim().length() > 0){
+				Elements elements = doc.select(getMatchRegex());
+				if (getFilterRegex() != null && getFilterRegex().trim().length() > 0){
+					elements = elements.not(getFilterRegex());
+				}
+				if (!elements.isEmpty()){
+					String subHtml = elements.html();
+					Document blockDoc = Jsoup.parse(subHtml);
+					String contentText = blockDoc.html();
+		
+					if (gather.getRemoveHref()) {
+						Document moveDoc = Jsoup.parse(contentText);
+						Elements moveEles = moveDoc.select("*").not("a");
+						contentText = moveEles.html();
+					}
+					if (gather.getRemoveHtmlTag())
+						contentText = doc.text();
+		
+					Content content = new Content();
+					content.setDetail(contentText);
+					content.setPage(1);
+					List<Content> contents = new ArrayList<Content>();
+					contents.add(content);
+			
+					Article article = new Article();
+					article.setTitle(title);
+					article.setContents(contents);
+			
+					articleMainService.addArticleMainByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
+				}
 			}
-
-			List<FilterBlock> filterParents = crawlerFac
-					.findParentFilterBlockByGatherId(gather.getId());
-			if (isCollectionNotEmpty(filterParents)) {
-				StringBuffer sbHtml = new StringBuffer();
-				childrenFilterBlock(gather.getId(), doc, filterParents, sbHtml);
-				doc = Jsoup.parse(sbHtml.toString());
-			}
-
-			String contentText = doc.html();
-
-			if (gather.getRemoveHref()) {
-				Document moveDoc = Jsoup.parse(contentText);
-				Elements moveEles = moveDoc.select("*").not("a");
-				contentText = moveEles.html();
-			}
-			if (gather.getRemoveHtmlTag())
-				contentText = doc.text();
-
-			Content content = new Content();
-			content.setDetail(contentText);
-			content.setPage(1);
-			List<Content> contents = new ArrayList<Content>();
-			contents.add(content);
-
-			Article article = new Article();
-			article.setTitle(title);
-			article.setContents(contents);
-
-			articleMainService.addArticleMainByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
 		} catch (IOException e) {
 			logger.warn(e.getLocalizedMessage());
 		}
@@ -164,44 +156,8 @@ public class EwcmsWebCrawler extends WebCrawler {
 	@Override
 	public void onBeforeExit() {
 		gather = null;
-		crawlDomains = null;
-		crawlerFac = null;
+		matchRegex = null;
+		filterRegex = null;
 		articleMainService = null;
-	}
-
-	private void childrenMatchBlock(Long gatherId, Document doc,
-			List<MatchBlock> matchBlocks, StringBuffer sbHtml) {
-		for (MatchBlock matchBlock : matchBlocks) {
-			String regex = matchBlock.getRegex();
-			Elements elements = doc.select(regex);
-			String subHtml = elements.html();
-
-			List<MatchBlock> childrens = crawlerFac.findChildMatchBlockByParentId(gatherId, matchBlock.getId());
-			if (!childrens.isEmpty()) {
-				Document subDoc = Jsoup.parse(subHtml);
-				childrenMatchBlock(gatherId, subDoc, childrens, sbHtml);
-			}
-
-			sbHtml.append(subHtml);
-		}
-	}
-
-	private void childrenFilterBlock(Long gatherId, Document doc,
-			List<FilterBlock> filterBlocks, StringBuffer sbHtml) {
-		for (FilterBlock filterBlock : filterBlocks) {
-			String regex = filterBlock.getRegex();
-			Elements elements = doc.select("*").not(regex);
-			String subHtml = elements.html();
-
-			List<FilterBlock> childrens = crawlerFac
-					.findChildFilterBlockByParentId(gatherId,
-							filterBlock.getId());
-			if (!childrens.isEmpty()) {
-				Document subDoc = Jsoup.parse(subHtml);
-				childrenFilterBlock(gatherId, subDoc, childrens, sbHtml);
-			}
-
-			sbHtml.append(subHtml);
-		}
 	}
 }
