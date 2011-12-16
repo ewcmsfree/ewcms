@@ -8,10 +8,8 @@ package com.ewcms.plugin.crawler.generate;
 
 import static com.ewcms.common.lang.EmptyUtil.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,12 +24,12 @@ import com.ewcms.plugin.crawler.generate.crawler4j.crawler.CrawlController;
 import com.ewcms.plugin.crawler.generate.crawler4j.crawler.PageFetcher;
 import com.ewcms.plugin.crawler.generate.crawler4j.frontier.DocIDServer;
 import com.ewcms.plugin.crawler.generate.crawler4j.frontier.Frontier;
-import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
 import com.ewcms.plugin.crawler.manager.CrawlerFacable;
 import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.plugin.crawler.model.MatchBlock;
+import com.ewcms.plugin.crawler.util.CrawlerUtil;
 
 /**
  * 
@@ -43,8 +41,6 @@ import com.ewcms.plugin.crawler.model.MatchBlock;
 public class EwcmsController implements EwcmsControllerable {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
-	
-	public static final String ROOT_FOLDER = "/tmp/crawler/";
 	
 	@Autowired
 	private CrawlerFacable crawlerFac;
@@ -76,27 +72,22 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		
-		Long timestamp = Calendar.getInstance().getTime().getTime();
-		String gatherFolderPath = ROOT_FOLDER + "/" + timestamp;
-		
-		PageFetcher pageFetcher;
-		DocIDServer docIDServer;
-		Frontier frontier;
+		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId;
+//		try{
+//			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
+//			if (gatherFolder.exists()) IO.deleteFolderContents(gatherFolder);
+//		}catch(Exception e){
+//		}
+			
+		PageFetcher pageFetcher = new PageFetcher();
+		DocIDServer docIDServer = new DocIDServer();
+		Frontier frontier = new Frontier();
 		CrawlController controller;
 		EwcmsWebCrawler ewcmsWebCrawler;
 		try{
-			pageFetcher = new PageFetcher();
-			docIDServer = new DocIDServer();
-			frontier = new Frontier();
-			
 			controller = new CrawlController(gatherFolderPath, pageFetcher, docIDServer, frontier);
 			
-			String[] crawlDomains = new String[urlLevels.size()];
-			for (int index = 0; index < urlLevels.size(); index++){
-				crawlDomains[index] = urlLevels.get(index).getUrl();
-				controller.addSeed(crawlDomains[index]);
-			}
-			
+			controller.addSeed(gather.getBaseURI());
 			controller.setPolitenessDelay(200);
 			
 			//设置抓取的页面的最大数量，默认值是-1无限深度
@@ -118,6 +109,7 @@ public class EwcmsController implements EwcmsControllerable {
 			ewcmsWebCrawler.setGather(gather);
 			ewcmsWebCrawler.setMatchRegex(initMatchBlock(gatherId));
 			ewcmsWebCrawler.setFilterRegex(initFilterBlock(gatherId));
+			ewcmsWebCrawler.setDomainUrls(conversionDomain(gather.getDomains()));
 			
 			controller.start(ewcmsWebCrawler, numberOfCrawlers);
 		}catch(IOException e){
@@ -125,12 +117,6 @@ public class EwcmsController implements EwcmsControllerable {
 		}catch(Exception e){
 			logger.error(e.getLocalizedMessage());
 		}finally{
-			try{
-				File gatherFolder = new File(gatherFolderPath);
-				if (gatherFolder.exists()) IO.deleteFolder(gatherFolder);
-			}catch(Exception e){
-				logger.error(e.getLocalizedMessage());
-			}
 			ewcmsWebCrawler = null;
 			docIDServer = null;
 			frontier = null;
@@ -226,4 +212,13 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 	}
 
+	private List<String> conversionDomain(List<Domain> domains){
+		List<String> domainURLs = new ArrayList<String>();
+		if (domains != null && !domains.isEmpty()){
+			for (Domain domain : domains){
+				domainURLs.add(domain.getUrl());
+			}
+		}
+		return domainURLs;
+	}
 }

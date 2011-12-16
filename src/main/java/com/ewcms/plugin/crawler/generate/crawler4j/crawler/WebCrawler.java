@@ -229,7 +229,7 @@ public class WebCrawler implements Runnable {
 			}
 			visit(page);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			logger.error(e.getMessage() + ", while processing: " + curURL.getURL());
 		}
 		return PROCESS_OK;

@@ -43,6 +43,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>removeHref:移除内容中的链接</li>
  * <li>removeHtmlTag:移除内容中的HTML标签</li>
  * <li>channelId:采集到此频道</li>
+ * <li>baseURI:域名地址</li>
  * <li>domains:URL层级对象集合</li>
  * <li>matchBlocks:匹配块对象集合</li>
  * <li>filterBlocks:过滤块对象集合</li>
@@ -94,14 +95,16 @@ public class Gather implements Serializable {
 	private Boolean removeHtmlTag;
 	@Column(name = "channel_id")
 	private Integer channelId;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Domain.class)
+	@Column(name = "base_uri")
+	private String baseURI;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Domain.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	@OrderBy(value = "level")
 	private List<Domain> domains = new ArrayList<Domain>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MatchBlock.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MatchBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<MatchBlock> matchBlocks = new ArrayList<MatchBlock>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = FilterBlock.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = FilterBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<FilterBlock> filterBlocks = new ArrayList<FilterBlock>();
 	@Column(name = "html_type")
@@ -231,6 +234,14 @@ public class Gather implements Serializable {
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public String getBaseURI() {
+		return baseURI;
+	}
+
+	public void setBaseURI(String baseURI) {
+		this.baseURI = baseURI;
 	}
 
 	@JsonIgnore

@@ -6,6 +6,7 @@
 
 package com.ewcms.plugin.crawler.manager.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.plugin.BaseException;
+import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
 import com.ewcms.plugin.crawler.manager.dao.DomainDAO;
 import com.ewcms.plugin.crawler.manager.dao.GatherDAO;
 import com.ewcms.plugin.crawler.manager.web.BlockTreeGridNode;
@@ -22,7 +24,7 @@ import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.plugin.crawler.model.MatchBlock;
-import com.ewcms.plugin.crawler.util.CrawlerUserName;
+import com.ewcms.plugin.crawler.util.CrawlerUtil;
 
 /**
  * 
@@ -79,14 +81,12 @@ public class GatherService implements GatherServiceable {
 			if (!unique){
 				throw new BaseException("不能设置相同的URL地址","不能设置相同的URL地址");
 			}
+			Long maxLevel = domainDAO.findMaxDomainByGatherId(gatherId);
+			maxLevel++;
+			domain.setLevel(maxLevel);
+			domainDAO.persist(domain);
+			domainDAO.flush(domain);
 		}
-		
-		Long maxLevel = domainDAO.findMaxDomainByGatherId(gatherId);
-		maxLevel++;
-		domain.setLevel(maxLevel);
-		
-		domainDAO.persist(domain);
-		domainDAO.flush(domain);
 		
 		List<Domain> domains = gather.getDomains();
 		domains.add(domain);
@@ -456,10 +456,16 @@ public class GatherService implements GatherServiceable {
 
 	@Override
 	public void delGatherData(Long gatherId) {
-		Gather gather = gatherDAO.get(gatherId);
-		Assert.notNull(gather);
+		try{
+			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
+			if (gatherFolder.exists()) IO.deleteFolderContents(gatherFolder);
 		
-		Integer channelId = gather.getChannelId();
-		articleMainService.delArticleMainByCrawler(channelId, CrawlerUserName.USER_NAME);
+			Gather gather = gatherDAO.get(gatherId);
+			Assert.notNull(gather);
+			
+			Integer channelId = gather.getChannelId();
+			articleMainService.delArticleMainByCrawler(channelId, CrawlerUtil.USER_NAME);
+		}catch(Exception e){
+		}
 	}
 }

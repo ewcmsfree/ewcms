@@ -11,6 +11,9 @@ package com.ewcms.plugin.crawler.util;
  * @author wu_zhijun
  *
  */
-public final class CrawlerUserName {
+public final class CrawlerUtil {
+	//用户名
 	public final static String USER_NAME = "crawler-gather";
+	//使用地址
+	public static final String ROOT_FOLDER = "/tmp/crawler/";
 }

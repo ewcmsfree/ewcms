@@ -24,7 +24,7 @@ import com.ewcms.plugin.crawler.generate.crawler4j.crawler.Page;
 import com.ewcms.plugin.crawler.generate.crawler4j.crawler.WebCrawler;
 import com.ewcms.plugin.crawler.generate.crawler4j.url.WebURL;
 import com.ewcms.plugin.crawler.model.Gather;
-import com.ewcms.plugin.crawler.util.CrawlerUserName;
+import com.ewcms.plugin.crawler.util.CrawlerUtil;
 
 /**
  * 
@@ -40,6 +40,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 	private Gather gather;
 	private String matchRegex;
 	private String filterRegex;
+	private List<String> domainUrls;
 	private ArticleMainServiceable articleMainService;
 
 	public void setGather(Gather gather) {
@@ -62,6 +63,14 @@ public class EwcmsWebCrawler extends WebCrawler {
 		this.filterRegex = filterRegex;
 	}
 
+	public List<String> getDomainUrls() {
+		return domainUrls;
+	}
+
+	public void setDomainUrls(List<String> domainUrls) {
+		this.domainUrls = domainUrls;
+	}
+
 	public void setArticleMainService(ArticleMainServiceable articleMainService) {
 		this.articleMainService = articleMainService;
 	}
@@ -80,9 +89,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 		String href = url.getURL();
 		if (filters.matcher(href).matches()) return false;
 		String htmlType = gather.getHtmlType();
-		if (href.indexOf(htmlType) > -1){
-			return true;
-		}
+		if (href.indexOf(htmlType) > -1) return true;
 		return false;
 	}
 
@@ -92,49 +99,60 @@ public class EwcmsWebCrawler extends WebCrawler {
 	@Override
 	public void visit(Page page) {
 		try {
-			page.setDefaultEncoding(gather.getEncoding());
-			Document doc = Jsoup.connect(page.getWebURL().getURL()).timeout(gather.getTimeOutWait().intValue() * 1000).get();
-
-			String title = doc.title();
-			if (gather.getTitleExternal() && gather.getTitleRegex() != null && gather.getTitleRegex().length() > 0) {
-				Elements titleEles = doc.select(gather.getTitleRegex());
-				if (!titleEles.isEmpty()) {
-					String tempTitle = titleEles.text();
-					if (tempTitle != null && tempTitle.length() > 0) {
-						title = tempTitle;
-					}
+			String url = page.getWebURL().getURL();
+			Boolean matchUrl = false;
+			for (String domainUrl : domainUrls){
+				if (url.startsWith(domainUrl)){
+					matchUrl = true;
+					break;
 				}
 			}
-
-			if (title != null && title.trim().length() > 0){
-				Elements elements = doc.select(getMatchRegex());
-				if (getFilterRegex() != null && getFilterRegex().trim().length() > 0){
-					elements = elements.not(getFilterRegex());
-				}
-				if (!elements.isEmpty()){
-					String subHtml = elements.html();
-					Document blockDoc = Jsoup.parse(subHtml);
-					String contentText = blockDoc.html();
-		
-					if (gather.getRemoveHref()) {
-						Document moveDoc = Jsoup.parse(contentText);
-						Elements moveEles = moveDoc.select("*").not("a");
-						contentText = moveEles.html();
+			
+			if (matchUrl){
+				page.setDefaultEncoding(gather.getEncoding());
+				Document doc = Jsoup.connect(url).timeout(gather.getTimeOutWait().intValue() * 1000).get();
+	
+				String title = doc.title();
+				if (gather.getTitleExternal() && gather.getTitleRegex() != null && gather.getTitleRegex().length() > 0) {
+					Elements titleEles = doc.select(gather.getTitleRegex());
+					if (!titleEles.isEmpty()) {
+						String tempTitle = titleEles.text();
+						if (tempTitle != null && tempTitle.length() > 0) {
+							title = tempTitle;
+						}
 					}
-					if (gather.getRemoveHtmlTag())
-						contentText = doc.text();
-		
-					Content content = new Content();
-					content.setDetail(contentText);
-					content.setPage(1);
-					List<Content> contents = new ArrayList<Content>();
-					contents.add(content);
+				}
+	
+				if (title != null && title.trim().length() > 0){
+					Elements elements = doc.select(getMatchRegex());
+					if (getFilterRegex() != null && getFilterRegex().trim().length() > 0){
+						elements = elements.not(getFilterRegex());
+					}
+					if (!elements.isEmpty()){
+						String subHtml = elements.html();
+						Document blockDoc = Jsoup.parse(subHtml);
+						String contentText = blockDoc.html();
 			
-					Article article = new Article();
-					article.setTitle(title);
-					article.setContents(contents);
+						if (gather.getRemoveHref()) {
+							Document moveDoc = Jsoup.parse(contentText);
+							Elements moveEles = moveDoc.select("*").not("a");
+							contentText = moveEles.html();
+						}
+						if (gather.getRemoveHtmlTag())
+							contentText = doc.text();
 			
-					articleMainService.addArticleMainByCrawler(article, CrawlerUserName.USER_NAME, gather.getChannelId());
+						Content content = new Content();
+						content.setDetail(contentText);
+						content.setPage(1);
+						List<Content> contents = new ArrayList<Content>();
+						contents.add(content);
+				
+						Article article = new Article();
+						article.setTitle(title);
+						article.setContents(contents);
+				
+						articleMainService.addArticleMainByCrawler(article, CrawlerUtil.USER_NAME, gather.getChannelId());
+					}
 				}
 			}
 		} catch (IOException e) {

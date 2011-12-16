@@ -45,7 +45,7 @@ public class HTMLParser {
 	public void parse(String htmlContent, String contextURL) {
 		urls = new HashSet<String>();
 		char[] chars = htmlContent.toCharArray();
-
+		
 		bulletParser.setCallback(textExtractor);
 		bulletParser.parse(chars);
 		text = textExtractor.text.toString().trim();
@@ -63,6 +63,7 @@ public class HTMLParser {
 		int urlCount = 0;
 		while (it.hasNext()) {
 			String href = it.next();
+			if (href == null) continue;
 			href = href.trim();
 			if (href.length() == 0) {
 				continue;
