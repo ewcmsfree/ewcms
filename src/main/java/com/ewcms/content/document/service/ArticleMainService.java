@@ -39,7 +39,7 @@ import com.ewcms.content.document.search.ExtractKeywordAndSummary;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
-import com.ewcms.plugin.crawler.util.CrawlerUserName;
+import com.ewcms.plugin.crawler.util.CrawlerUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -506,7 +506,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		articleMainDAO.persist(articleMain);
 		articleMainDAO.flush(articleMain);
 		
-		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "通过采集器创建。", "", CrawlerUserName.USER_NAME, "网络爬虫");
+		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "通过采集器创建。", "", CrawlerUtil.USER_NAME, "网络爬虫");
 
 		return articleMain.getId();
 	}
