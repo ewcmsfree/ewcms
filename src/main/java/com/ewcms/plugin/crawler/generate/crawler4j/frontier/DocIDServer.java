@@ -23,7 +23,7 @@ public class DocIDServer {
 	private static final Logger logger = LoggerFactory.getLogger(DocIDServer.class.getName());
 	private Object mutex = "DocIDServer_Mutex";
 
-	private static int lastDocID;
+	private int lastDocID;
 	private static boolean resumable;
 
 	public void init(Environment env, boolean resumable) throws DatabaseException {

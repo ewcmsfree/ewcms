@@ -117,11 +117,11 @@ public class EwcmsController implements EwcmsControllerable {
 		}catch(Exception e){
 			logger.error(e.getLocalizedMessage());
 		}finally{
-			ewcmsWebCrawler = null;
 			docIDServer = null;
 			frontier = null;
 			pageFetcher = null;
 			controller = null;
+			ewcmsWebCrawler = null;
 		}
 	}
 	

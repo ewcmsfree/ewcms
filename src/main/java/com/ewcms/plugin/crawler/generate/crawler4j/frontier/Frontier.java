@@ -171,6 +171,7 @@ public class Frontier {
 	public void close() {
 		sync();
 		workQueues.close();
+		inprocessPages.close();
 		docIDServer.close();
 	}
 

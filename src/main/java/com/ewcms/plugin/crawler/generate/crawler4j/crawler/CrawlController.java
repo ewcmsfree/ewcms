@@ -20,6 +20,7 @@ import com.ewcms.plugin.crawler.generate.crawler4j.robotstxt.RobotstxtServer;
 import com.ewcms.plugin.crawler.generate.crawler4j.url.URLCanonicalizer;
 import com.ewcms.plugin.crawler.generate.crawler4j.url.WebURL;
 import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
+import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
 
@@ -167,6 +168,14 @@ public class CrawlController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally{
+			try{
+				if (env != null){
+					env.cleanLog();
+					env.close();
+				}
+			}catch(DatabaseException  e){
+				logger.warn(e.getLocalizedMessage());
+			}
 		}
 	}
 	
