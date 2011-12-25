@@ -12,7 +12,10 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 public class EwcmsMessageSource extends ResourceBundleMessageSource {
     
     public EwcmsMessageSource (){
-        this.setBasenames(new String[]{"com.ewcms.security.messages"});
+        this.setBasenames(new String[]{
+                "com.ewcms.security.messages",
+                "com.ewcms.publication.messages",
+                "com.ewcms.publication.preview.service.article"});
     }
     
     public static MessageSourceAccessor getAccessor() {
