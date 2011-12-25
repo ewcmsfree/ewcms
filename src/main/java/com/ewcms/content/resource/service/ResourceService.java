@@ -30,8 +30,7 @@ import com.ewcms.content.resource.model.Resource.State;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.resource.operator.FileOperator;
 import com.ewcms.publication.resource.operator.ResourceOperatorable;
-import com.ewcms.publication.uri.ResourceUriRule;
-import com.ewcms.publication.uri.ThumbResourceUriRule;
+import com.ewcms.publication.uri.UriRules;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -125,7 +124,7 @@ public class ResourceService implements ResourceServiceable {
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
         String name = getFilename(path);
-        String uri = operator.write(new FileInputStream(file), new ResourceUriRule(getResourceContext()),getSuffix(name));
+        String uri = operator.write(new FileInputStream(file), UriRules.newResource(getResourceContext()),getSuffix(name));
         Resource resource = new Resource();
         resource.setUri(uri);
         resource.setSize(file.length());
@@ -181,7 +180,7 @@ public class ResourceService implements ResourceServiceable {
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
         String name = getFilename(path);
-        String uri = operator.write(new FileInputStream(file), new ThumbResourceUriRule(getResourceContext()),getSuffix(name));
+        String uri = operator.write(new FileInputStream(file), UriRules.newResourceThumb(getResourceContext()),getSuffix(name));
         resource.setThumbUri(uri);
         resourceDao.persist(resource);
         

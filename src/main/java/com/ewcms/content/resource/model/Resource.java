@@ -58,7 +58,7 @@ public class Resource implements Serializable {
 
     /**
      * 资源状态
-     * 
+     * TODO 更改名称为status
      * @author wangwei
      */
     public enum State {
