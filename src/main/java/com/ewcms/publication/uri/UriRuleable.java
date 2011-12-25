@@ -3,7 +3,6 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-
 package com.ewcms.publication.uri;
 
 import java.util.Map;
@@ -16,14 +15,6 @@ import com.ewcms.publication.PublishException;
  * @author wangwei
  */
 public interface UriRuleable {
-    
-    /**
-     * 解析uri模板
-     * 
-     * @param patter uri模板
-     * @throws PublishException
-     */
-    void parse(String patter)throws PublishException;
     
     /**
      * 设置参数集合

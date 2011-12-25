@@ -12,17 +12,10 @@ import com.ewcms.publication.PublishException;
 
 /**
  * 空的生成规则
- * <br>
- * 预览模板模板样式用
  * 
  * @author wangwei
  */
 public class NullUriRule implements UriRuleable {
-
-    @Override
-    public void parse(String patter) throws PublishException {
-        
-    }
 
     @Override
     public void setParameters(Map<String, Object> parameters) {
@@ -36,7 +29,6 @@ public class NullUriRule implements UriRuleable {
 
     @Override
     public String getUri() throws PublishException {
-        return "#";
+        return "";
     }
-
 }

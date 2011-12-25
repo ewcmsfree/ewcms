@@ -9,14 +9,13 @@ package com.ewcms.publication.uri;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -37,22 +36,18 @@ public class UriRule implements UriRuleable{
     private static final DecimalFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat("#");
     private static final Map<String,String> ALIAS_PARAMETERS = initAliasParameters();
     
-    private String uriPatter;
-    private List<String[]> variables ;
+    private final RuleParseable ruleParse ;
     private Map<String,Object> parameters = initParameters();
+    
+    public UriRule(RuleParseable ruleParse){
+        this.ruleParse = ruleParse;
+    }
     
     @Override
     public void setParameters(Map<String,Object> ps){
         parameters.putAll(ps);
     }
-    
-    @Override
-    public void parse(String patter)throws PublishException{
-        Assert.notNull(patter);
-        uriPatter = patter;
-        variables = parseVariables(patter);
-    }
-    
+        
     @Override
     public void putParameter(String parameter,Object value){
         parameters.put(parameter, value);
@@ -61,30 +56,25 @@ public class UriRule implements UriRuleable{
     @Override
     public String getUri()throws PublishException {
         Assert.notNull(parameters);
-        
-        String uri = uriPatter;
-        if(uri == null){
-            logger.error("Patter must setting");
-            throw new PublishException("First call \"parse\" method");
-        }
-        
+
+        Map<String,String> variables = ruleParse.getVariables();
         if(variables.isEmpty()){
-            return uri;
+            return ruleParse.getPatter();
         }
         
-        for(String[] var : variables){
-            Object value = getVariableValue(var[0],parameters);
-            String format = formatValue(value,var[1]);
-            String exp ;
-            if(var[1] == null){
-                exp = "${"+var[0]+"}";
-            }else{
-                exp = "${"+var[0]+"?"+var[1]+"}";
-            }
-            uri = StringUtils.replace(uri, exp, format);
+        String uri = ruleParse.getPatter();
+        for(String name : variables.keySet()){
+            String format = variables.get(name);
+            String exp = 
+                (format == null ?
+                        String.format("${%s}", name): 
+                        String.format("${%s?%s}", name,format));
+            Object value = getVariableValue(name,parameters);
+            String formatValue = formatValue(value,format);
+            uri = StringUtils.replace(uri, exp, formatValue);
         }
         
-        return uri;
+        return FilenameUtils.normalize(uri);
     }
     
     /**
@@ -95,38 +85,6 @@ public class UriRule implements UriRuleable{
         map.put("now", new Date());
         
         return map;
-    }
-    
-    /**
-     * 解析Uri模板得到变量名和数据显示格式
-     * 
-     * @param patter
-     * @return
-     */
-    List<String[]> parseVariables(String patter)throws PublishException{
-        
-        String[] tokens = StringUtils.splitPreserveAllTokens(patter, "$");
-        List<String[]> variables = new ArrayList<String[]>();
-        for(String token : tokens){
-           logger.debug("Token with \"$\" {}",token);
-           if(StringUtils.startsWith(token, "{")) {
-               if(token.length()< 3 || token.indexOf("}")< 0){
-                   logger.error("Uri {} is error",token);
-                   throw new PublishException("Uri patter is error.");
-               }
-               token = StringUtils.substring(token,1);
-               String name = StringUtils.splitByWholeSeparator(token, "}")[0];
-               String format = null;
-               if(StringUtils.indexOf(name, "?") > 0){
-                   String[] s = StringUtils.splitByWholeSeparator(name, "?");
-                   name = s[0];
-                   format = s[1];
-               }
-               
-               variables.add(new String[]{name,format});
-           }
-        }
-        return variables;
     }
     
     /**
@@ -199,22 +157,22 @@ public class UriRule implements UriRuleable{
     private static Map<String,String> initAliasParameters(){
         Map<String,String> map = new HashMap<String,String>();
         
-        map.put("a", GlobalVariable.DOCUMENT.toString());
+        map.put("a", GlobalVariable.ARTICLE.toString());
         map.put("c", GlobalVariable.CHANNEL.toString());
         map.put("s", GlobalVariable.SITE.toString());
         map.put("p", GlobalVariable.PAGE_NUMBER.toString());
         
-        map.put("article", GlobalVariable.DOCUMENT.toString());
+        map.put("article", GlobalVariable.ARTICLE.toString());
         map.put("channel", GlobalVariable.CHANNEL.toString());
         map.put("site", GlobalVariable.SITE.toString());
         map.put("page", GlobalVariable.PAGE_NUMBER.toString());
         
-        map.put("文章", GlobalVariable.DOCUMENT.toString());
+        map.put("文章", GlobalVariable.ARTICLE.toString());
         map.put("频道", GlobalVariable.CHANNEL.toString());
         map.put("站点", GlobalVariable.SITE.toString());
         map.put("页数", GlobalVariable.PAGE_NUMBER.toString());
         
-        map.put(GlobalVariable.DOCUMENT.toString(), GlobalVariable.DOCUMENT.toString());
+        map.put(GlobalVariable.ARTICLE.toString(), GlobalVariable.ARTICLE.toString());
         map.put(GlobalVariable.CHANNEL.toString(), GlobalVariable.CHANNEL.toString());
         map.put(GlobalVariable.SITE.toString(), GlobalVariable.SITE.toString());
         map.put(GlobalVariable.PAGE_NUMBER.toString(), GlobalVariable.PAGE_NUMBER.toString());
