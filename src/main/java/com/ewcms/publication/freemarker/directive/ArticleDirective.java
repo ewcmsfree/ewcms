@@ -40,7 +40,7 @@ public class ArticleDirective extends PropertyDirective{
 
     @Override
     protected String defaultValueParamValue(){
-        return GlobalVariable.DOCUMENT.toString();
+        return GlobalVariable.ARTICLE.toString();
     }
     
     @SuppressWarnings("rawtypes")

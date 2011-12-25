@@ -11,7 +11,7 @@ package com.ewcms.publication.freemarker;
  *
  * SITE:当前站点
  * CHANNEL:当前频道
- * DOCUMENT:当前文章
+ * ARTICLE:当前文章
  * DEBUG:调试模式
  * PAGE_NUMBER:页数
  * PAGE_COUNT:总页数
@@ -25,7 +25,7 @@ public enum GlobalVariable {
 
     SITE("ewcms_current_site"),
     CHANNEL("ewcms_current_channel"),
-    DOCUMENT("ewcms_current_document"),
+    ARTICLE("ewcms_current_article"),
     DEBUG("ewcms_debug"),
     PAGE_NUMBER("ewcms_page_number"),
     PAGE_COUNT("ewcms_page_count"),

@@ -219,7 +219,7 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     @SuppressWarnings("rawtypes")
     private String getNameValue(final Map params) throws TemplateException {
         String value = FreemarkerUtil.getString(params, nameParam);
-        return value == null ? GlobalVariable.DOCUMENT.toString() : value;
+        return value == null ? GlobalVariable.ARTICLE.toString() : value;
     }
 
     /**
