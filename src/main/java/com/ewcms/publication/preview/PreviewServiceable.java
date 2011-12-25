@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import com.ewcms.publication.PublishException;
 
 /**
- * 模板预览接口
+ * 预览接口
  * 
  * @author wangwei
  */
