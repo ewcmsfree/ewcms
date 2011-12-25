@@ -15,15 +15,8 @@ import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
-import com.ewcms.publication.freemarker.html.DetailGenerator;
-import com.ewcms.publication.freemarker.html.Generatorable;
-import com.ewcms.publication.freemarker.html.HomeGenerator;
-import com.ewcms.publication.freemarker.html.ListGenerator;
-import com.ewcms.publication.output.OutputFactory;
-import com.ewcms.publication.output.OutputResource;
 import com.ewcms.publication.resource.ResourcePublish;
 import com.ewcms.publication.resource.ResourcePublishable;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -32,10 +25,8 @@ import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.service.SitePublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
-import com.ewcms.publication.task.ChannelPublishTask;
 import com.ewcms.publication.task.MemoryTaskRegistry;
 import com.ewcms.publication.task.TaskRegistryable;
-import com.ewcms.publication.task.Taskable;
 
 import freemarker.template.Configuration;
 
@@ -108,11 +99,11 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      * @param resources   发布的页面资源
      * @throws PublishException
      */
-    private void outputHtml(Site site,List<OutputResource> resources)throws PublishException{
-        SiteServer server = site.getSiteServer();
-        OutputFactory.factory(server.getOutputType()).out(server, resources);
-    }
-    
+//    private void outputHtml(Site site,List<OutputResource> resources)throws PublishException{
+//        SiteServer server = site.getSiteServer();
+//       // DeployOperatorFactory.factory(server.getOutputType()).copy(server, resources);
+//    }
+//    
     /**
      * 发布频道文章
      * 
@@ -124,9 +115,9 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 	private void publishDetail(Site site, Channel channel, List<Template> templates)throws PublishException {
 		for(Template template  :  templates){
 			if (template.getType() == TemplateType.DETAIL) {
-				Generatorable generator = new DetailGenerator(cfg, articleService);
-				List<OutputResource> resources = generator.process(site, channel,template);
-				outputHtml(site, resources);
+//				//Generatorable generator = new DetailGenerator(cfg, articleService);
+//				List<OutputResource> resources = generator.process(site, channel,template);
+//				outputHtml(site, resources);
 			}
 		}
 	}
@@ -157,10 +148,10 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 	private void publishList(Site site,Channel channel,List<Template> templates)throws PublishException{
 		for(Template template  :  templates){
 			if(template.getType() == TemplateType.LIST){
-				boolean createHome = !hasHome(templates);
-				Generatorable generator = new ListGenerator(cfg, articleService,createHome);
-				List<OutputResource> resources = generator.process(site, channel,template);
-				outputHtml(site, resources);
+//				boolean createHome = !hasHome(templates);
+//				Generatorable generator = new ListGenerator(cfg, articleService,createHome);
+//				List<OutputResource> resources = generator.process(site, channel,template);
+//				outputHtml(site, resources);
 			}
 		}
 	}
@@ -176,9 +167,9 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
 	private void publishHome(Site  site,Channel channel,List<Template> templates)throws PublishException{
 		for(Template template  :  templates){
 			if(template.getType() == TemplateType.HOME){
-				Generatorable generator = new HomeGenerator(cfg);
-				List<OutputResource> resources = generator.process(site, channel,template);
-				outputHtml(site, resources);
+//				Generatorable generator = new HomeGenerator(cfg);
+//				List<OutputResource> resources = generator.process(site, channel,template);
+//				outputHtml(site, resources);
 			}
 		}
 	}
@@ -191,11 +182,11 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      */
     protected synchronized boolean isPublishingNow(Channel channel){
         
-        Integer id = channel.getId();
-        if(taskRegistry.alreadyExistTask(id)){
-            return true;
-        }
-        
+//        Integer id = channel.getId();
+//        if(taskRegistry.hasTask(id)){
+//            return true;
+//        }
+//        
         return false;
     }
     
@@ -206,8 +197,8 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      * 删除频道发布任务
      */
     protected synchronized void publishFinish(Channel channel){
-        Integer id = channel.getId();
-        taskRegistry.removeTask(id);
+//        Integer id = channel.getId();
+//        taskRegistry.removeTask(id);
     }
     
     /**
@@ -218,10 +209,10 @@ public class SchedulingPublish implements SchedulingPublishable,InitializingBean
      */
     private synchronized void registerNewTask(Channel channel){
         
-        Integer id = channel.getId();
-        Site site = channel.getSite();
-        Taskable task = new ChannelPublishTask(site,channel);
-        taskRegistry.registerNewTask(id, task);
+//        Integer id = channel.getId();
+//        Site site = channel.getSite();
+//        Taskable task = new ChannelTask(site,channel);
+//        taskRegistry.registerNewTask(id, task);
     }
 	
     /**
