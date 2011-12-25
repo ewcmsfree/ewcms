@@ -6,6 +6,9 @@
 
 package com.ewcms.core.site.model;
 
+import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.output.DeployOperatorFactory;
+
 /**
  * 输出服务类型
  * 
@@ -25,4 +28,7 @@ public enum OutputType {
 		return description;
 	}
 	
+	public DeployOperatorable deployOperator(SiteServer server){
+	    return DeployOperatorFactory.factory(server);
+	}
 }
