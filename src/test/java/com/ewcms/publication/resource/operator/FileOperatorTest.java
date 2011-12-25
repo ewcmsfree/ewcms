@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.Assert;
 
-import com.ewcms.publication.uri.ResourceUriRule;
+import com.ewcms.publication.uri.UriRules;
 
 /**
  * FileoPerator单元测试
@@ -28,7 +28,7 @@ public class FileOperatorTest {
         String root = System.getProperty("java.io.tmpdir","/tmp");
         
         FileOperator operator = new FileOperator(root);
-        String uri = operator.write(FileOperatorTest.class.getResourceAsStream("write.jpg"), new ResourceUriRule("resource"),"jpg");
+        String uri = operator.write(FileOperatorTest.class.getResourceAsStream("write.jpg"), UriRules.newResource("resource"),"jpg");
         Assert.assertTrue(StringUtils.contains(uri, ".jpg"));
         File file = new File(root + uri);
         Assert.assertTrue(file.exists());
@@ -50,7 +50,7 @@ public class FileOperatorTest {
         String root = System.getProperty("java.io.tmpdir","/tmp");
         
         FileOperator operator = new FileOperator(root);
-        String uri = operator.write(FileOperatorTest.class.getResourceAsStream("write.jpg"), new ResourceUriRule("resource"),"jpg");
+        String uri = operator.write(FileOperatorTest.class.getResourceAsStream("write.jpg"), UriRules.newResource("resource"),"jpg");
         Assert.assertTrue((new File(root + uri)).exists());
         
         operator.delete(uri);

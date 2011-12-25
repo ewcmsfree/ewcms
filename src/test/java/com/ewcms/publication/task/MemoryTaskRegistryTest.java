@@ -5,13 +5,13 @@
  */
 package com.ewcms.publication.task;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.After;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -20,64 +20,143 @@ import org.junit.Test;
  * @author wangwei
  */
 public class MemoryTaskRegistryTest {
-
-    private Integer id = 1;
-    
-    @Before
-    public void defore(){
+ 
+    @Test
+    public void testTaskExecuteSiteTaskIsRunning()throws TaskException{
         MemoryTaskRegistry register = new MemoryTaskRegistry();
+        MemoryTaskRegistry.SiteTasks siteTasks = register.new SiteTasks(Integer.MAX_VALUE);
+        Taskable task1 = mock(Taskable.class);
+        when(task1.isRunning()).thenReturn(false);
+        siteTasks.addTask(task1);
+        Taskable task2 = mock(Taskable.class);
+        when(task2.isRunning()).thenReturn(false);
+        siteTasks.addTask(task2);
         
-        Taskable task = mock(Taskable.class);
-        when(task.isOwnerSite(any(Integer.class))).thenReturn(true);
-        register.registerNewTask(id, task);
+        Taskable t = siteTasks.getWaitTask();
+        t.execute();
+        
+        Assert.assertTrue(siteTasks.isRunning());
     }
     
-    @After
-    public void after(){
+    @Test
+    public void testDependencesExecuteSiteTaskIsRunning()throws TaskException{
+        Taskable task = mock(Taskable.class);
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        when(task.isRunning()).thenReturn(false);
+        List<Taskable> dependences = new ArrayList<Taskable>();
+        Taskable depend = mock(Taskable.class);
+        dependences.add(depend);
+        when(task.getDependences()).thenReturn(dependences);
+        
         MemoryTaskRegistry register = new MemoryTaskRegistry();
-        register.removeTask(id);
+        MemoryTaskRegistry.SiteTasks siteTasks = register.new SiteTasks(Integer.MAX_VALUE);
+        siteTasks.addTask(task);
+        Taskable t = siteTasks.getWaitTask();
+        t.getDependences().get(0).execute();
+        
+        Assert.assertTrue(siteTasks.isRunning());
+    }
+    
+    @Test
+    public void testCloseTasksSiteTaskIsWait()throws TaskException{
+        MemoryTaskRegistry register = new MemoryTaskRegistry();
+        MemoryTaskRegistry.SiteTasks siteTasks = register.new SiteTasks(Integer.MAX_VALUE);
+        Taskable task1 = mock(Taskable.class);
+        when(task1.isRunning()).thenReturn(false);
+        List<Taskable> dependences = new ArrayList<Taskable>();
+        Taskable depend = mock(Taskable.class);
+        dependences.add(depend);
+        when(task1.getDependences()).thenReturn(dependences);
+        siteTasks.addTask(task1);
+        
+        Taskable task2 = mock(Taskable.class);
+        when(task2.isRunning()).thenReturn(false);
+        siteTasks.addTask(task2);
+        
+        Taskable t = null;
+        while((t = siteTasks.getWaitTask())!=null){
+            for(Taskable d : t.getDependences()){
+                d.execute();
+                d.close();
+            }
+            t.execute();
+            t.close();
+        }
+       
+        Assert.assertFalse(siteTasks.isRunning());
     }
     
     @Test
     public void testRegisterNewTask(){
+        Taskable task = mock(Taskable.class);
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        
         MemoryTaskRegistry register = new MemoryTaskRegistry();
-        Assert.assertTrue(register.alreadyExistTask(id));
+        register.registerNewTask(task);
+        Assert.assertTrue(register.containsTask(task));
     }
-    
+     
     @Test
-    public void testGetTask(){
+    public void testRemoveTaskNotExistTask(){
+        Taskable task = mock(Taskable.class);
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
         MemoryTaskRegistry register = new MemoryTaskRegistry();
-        Assert.assertNotNull(register.getTask(id));
+        register.removeTask(task);
+        Assert.assertFalse(register.containsTask(task));
     }
     
     @Test
     public void testRemoveTask(){
+        Taskable task = mock(Taskable.class);
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
         MemoryTaskRegistry register = new MemoryTaskRegistry();
+        register.registerNewTask(task);
         
-        register.removeTask(id);
-        Assert.assertFalse(register.alreadyExistTask(id));
+        register.removeTask(task);
+        Assert.assertFalse( register.containsTask(task));
     }
     
     @Test
-    public void testGetAllTask(){
-        MemoryTaskRegistry register = new MemoryTaskRegistry();
-        
+    public void testGetWaitSite(){
         Taskable task = mock(Taskable.class);
-        register.registerNewTask(2, task);
-        Assert.assertEquals(2, register.getAllTasks().size());
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        MemoryTaskRegistry register = new MemoryTaskRegistry();
+        register.registerNewTask(task);
         
-        register.removeTask(2);
+        Integer siteId = register.getWaitSite();
+        Assert.assertEquals(Integer.MAX_VALUE,siteId.intValue());
     }
     
     @Test
-    public void testGetOwnerSiteTask(){
-        MemoryTaskRegistry register = new MemoryTaskRegistry();
-        
+    public void testGetTaskOfSite(){
         Taskable task = mock(Taskable.class);
-        when(task.isOwnerSite(any(Integer.class))).thenReturn(false);
-        register.registerNewTask(2, task);
-        Assert.assertEquals(1, register.getOwnerSiteTasks(1).size());
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        when(task.isRunning()).thenReturn(false);
+        MemoryTaskRegistry register = new MemoryTaskRegistry();
+        register.registerNewTask(task);
+        Integer siteId = register.getWaitSite();
+        Taskable t = register.getTaskOfSite(siteId);
+        Assert.assertNotNull(t);
+        Assert.assertTrue(t instanceof MemoryTaskRegistry.TaskWrapper);
+    }
+    
+    @Test
+    public void testGetSiteTasks(){
+        Taskable task = mock(Taskable.class);
+        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        when(task.isRunning()).thenReturn(false);
+        List<Taskable> dependences = new ArrayList<Taskable>();
+        Taskable depend = mock(Taskable.class);
+        dependences.add(depend);
+        when(task.getDependences()).thenReturn(dependences);
         
-        register.removeTask(2);
+        MemoryTaskRegistry register = new MemoryTaskRegistry();
+        register.registerNewTask(task);
+        Integer siteId = register.getWaitSite();
+        List<Taskable> ts = register.getSiteTasks(siteId);
+        Assert.assertNotNull(ts);
+        Assert.assertEquals(1, ts.size());
+        Assert.assertTrue(ts.get(0) instanceof MemoryTaskRegistry.TaskInfoClone);
+        Assert.assertEquals(1, ts.get(0).getDependences().size());
     }
 }

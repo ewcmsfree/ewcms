@@ -116,7 +116,7 @@ public class ArticleDirectiveTest extends FreemarkerTest{
         Map<Object,Object> params= new HashMap<Object,Object>();
         Article article = new Article();
         article.setTitle("标题");
-        params.put(GlobalVariable.DOCUMENT.toString(),article);
+        params.put(GlobalVariable.ARTICLE.toString(),article);
         String value = this.process(template, params);
         
         value = StringUtils.deleteWhitespace(value);

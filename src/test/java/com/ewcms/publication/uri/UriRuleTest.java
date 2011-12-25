@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -29,47 +28,13 @@ import com.ewcms.publication.freemarker.GlobalVariable;
 public class UriRuleTest {
     
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    @Test
-    public void testNoneVariableParseVariables()throws Exception{
-        String patter = "home/index.html";
-        
-        UriRule rule = new UriRule();
-        List<String[]> variables = rule.parseVariables(patter);
-        Assert.assertTrue(variables.isEmpty());
-    }
-    
-    @Test
-    public void testPatterErrorParseVariables(){
-        
-        try{
-            String patter = "home/${index.html";
-            UriRule rule = new UriRule();
-            rule.parseVariables(patter);
-            Assert.fail();
-        }catch(PublishException e){
-            
-        }
-    }
-    
-    @Test
-    public void testParseVariables()throws Exception{
-        String patter = "news/cn/${now?yyyy-MM-dd}/${a.id}.html";
-        
-        UriRule rule = new UriRule();
-        List<String[]> variables = rule.parseVariables(patter);
-        Assert.assertEquals(2, variables.size());
-        Assert.assertEquals("now", variables.get(0)[0]);
-        Assert.assertEquals("yyyy-MM-dd", variables.get(0)[1]);
-        Assert.assertEquals("a.id", variables.get(1)[0]);
-        Assert.assertNull(variables.get(1)[1]);
-    }
     
     @Test
     public void testParameterIsNoneGetVariableValue()throws Exception{
         Map<String,Object> parameters =new HashMap<String,Object>();
         
         try{
-            UriRule rule = new UriRule();
+            UriRule rule = new UriRule(new RuleParse(""));
             rule.getVariableValue("a.id", parameters);
             Assert.fail();
         }catch(PublishException e){
@@ -80,7 +45,7 @@ public class UriRuleTest {
     public void testGetVariableValue()throws Exception{
        Map<String,Object> parameters = new HashMap<String,Object>();
        parameters.put("o", initObjectBean()); 
-       UriRule rule = new UriRule();
+       UriRule rule = new UriRule(new RuleParse(""));
        Object value =rule.getVariableValue("o.title", parameters);        
        Assert.assertEquals("root", value);
        
@@ -91,7 +56,7 @@ public class UriRuleTest {
     @Test
     public void testStringTypeFormatValue(){
         
-        UriRule rule = new UriRule();
+        UriRule rule = new UriRule(new RuleParse(""));
         String value = rule.formatValue("test", null);
         Assert.assertEquals("test",value);
     }
@@ -99,7 +64,7 @@ public class UriRuleTest {
     @Test
     public void testDateTypeFormatValue(){
         
-        UriRule rule = new UriRule();
+        UriRule rule = new UriRule(new RuleParse(""));
         Calendar calendar = Calendar.getInstance();
         calendar.set(2011, 0, 1);
         
@@ -113,7 +78,7 @@ public class UriRuleTest {
     @Test
     public void testNumberTypeFormatValue(){
         
-        UriRule rule = new UriRule();
+        UriRule rule = new UriRule(new RuleParse(""));
         
         Integer number = Integer.valueOf(1099);
         String value = rule.formatValue(number, null);
@@ -129,8 +94,7 @@ public class UriRuleTest {
         String patter = "news/cn/${o.id}.html";
         Map<String,Object> parameters = new HashMap<String,Object>();
         parameters.put("o", initObjectBean()); 
-        UriRule rule = new UriRule();
-        rule.parse(patter);
+        UriRule rule = new UriRule(new RuleParse(patter));
         rule.setParameters(parameters);
         String uri = rule.getUri();
         Assert.assertEquals("news/cn/1.html", uri);
@@ -143,8 +107,7 @@ public class UriRuleTest {
         parameters.put(GlobalVariable.CHANNEL.toString(), initObjectBean()); 
         parameters.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(1));
         
-        UriRule rule = new UriRule();
-        rule.parse(patter);
+        UriRule rule = new UriRule(new RuleParse(patter));
         rule.setParameters(parameters);
         String uri = rule.getUri();
         String expected ="news/cn/"+ dateFormat.format(new Date()) + "/1_1.html";
