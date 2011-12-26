@@ -19,6 +19,7 @@ import com.ewcms.plugin.report.model.TextReport;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
+import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
 import com.ewcms.scheduling.generate.job.report.EwcmsJobReportFacable;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
 import com.ewcms.scheduling.manager.SchedulingFacable;
@@ -101,10 +102,13 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 			JobInfo jobInfo = schedulingFac.getScheduledJob(pk);
 			pageDisplayVo = ConversionUtil.constructPageVo(jobInfo);
 			
+			pageDisplayVo.setIsJobChannel(false);
+			pageDisplayVo.setIsJobReport(false);
+			pageDisplayVo.setIsJobCrawler(false);
+			
 			if (jobInfo instanceof EwcmsJobChannel){
 				setSubChannel(((EwcmsJobChannel)jobInfo).getSubChannel());
 				pageDisplayVo.setIsJobChannel(true);
-				pageDisplayVo.setIsJobReport(false);
 			}else if (jobInfo instanceof EwcmsJobReport){
 				TextReport textReport = ((EwcmsJobReport) jobInfo).getTextReport();
 				ChartReport chartReport = ((EwcmsJobReport) jobInfo).getChartReport();
@@ -121,11 +125,12 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 					pageDisplayVo.setReportType("chart");
 					pageDisplayVo.setPageShowParams(ConversionUtil.coversionParameterFromPage(ewcmsJobReportFac.findByJobReportParameterById(jobInfo.getId()), chartFactory.chartParameters(chartReport)));
 				}
-				pageDisplayVo.setIsJobChannel(false);
 				pageDisplayVo.setIsJobReport(true);
 				
 				setPageDisplayVo(pageDisplayVo);
 				setPageShowParams(pageDisplayVo.getPageShowParams());
+			}else if (jobInfo instanceof EwcmsJobCrawler){
+				pageDisplayVo.setIsJobCrawler(true);
 			}
 		} catch (BaseException e) {
 		}
@@ -189,30 +194,41 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 		}catch(BaseException e){
 			addActionMessage(e.getPageMessage());
 		}finally{
+			getPageDisplayVo().setIsJobChannel(false);
+			getPageDisplayVo().setIsJobReport(false);
+			getPageDisplayVo().setIsJobCrawler(false);
 			if (jobInfo instanceof EwcmsJobChannel){
 				setSubChannel(((EwcmsJobChannel)jobInfo).getSubChannel());
 				getPageDisplayVo().setIsJobChannel(true);
-				getPageDisplayVo().setIsJobReport(false);
 			}else if (jobInfo instanceof EwcmsJobReport){
-				getPageDisplayVo().setIsJobChannel(false);
 				getPageDisplayVo().setIsJobReport(true);
+			}else if (jobInfo instanceof EwcmsJobCrawler){
+				getPageDisplayVo().setIsJobCrawler(true);
 			}
 		}
 		return SUCCESS;
 	}
 	
 	public List<JobClass> getAllJobClassList() {
-		List<JobClass> alqcJobClassList = new ArrayList<JobClass>();
+		List<JobClass> jobClasses = new ArrayList<JobClass>();
 		try {
-			alqcJobClassList = schedulingFac.findByAllJobClass();
-			if (getPageDisplayVo().getIsJobChannel()==false){
-				JobClass alqcJobClass = schedulingFac.findByJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
-				alqcJobClassList.remove(alqcJobClass);
+			jobClasses = schedulingFac.findByAllJobClass();
+			if (!getPageDisplayVo().getIsJobChannel()){
+				JobClass jobClass = schedulingFac.findByJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
+				jobClasses.remove(jobClass);
+			}
+			if (!getPageDisplayVo().getIsJobReport()){
+				JobClass jobClass = schedulingFac.findByJobClassByClassEntity(JobClassEntity.JOB_REPORT);
+				jobClasses.remove(jobClass);
+			}
+			if (!getPageDisplayVo().getIsJobCrawler()){
+				JobClass jobClass = schedulingFac.findByJobClassByClassEntity(JobClassEntity.JOB_CRAWLER);
+				jobClasses.remove(jobClass);
 			}
 		} catch (BaseException e) {
 			e.printStackTrace();
 		}
-		return alqcJobClassList;
+		return jobClasses;
 	}
 	
 	private Integer jobId;

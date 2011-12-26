@@ -37,11 +37,21 @@ public interface ArticleMainServiceable {
 	 * 新增文章主体信息(通过采集器采集数据)
 	 * 
 	 * @param article 文章信息对象
-	 * @param userName 用户名
 	 * @param channelId 频道编号
+	 * @param userName 用户名
 	 * @return Long 文章主体编号
 	 */
-	public Long addArticleMainByCrawler(Article article, String userName, Integer channelId);
+	public Long addArticleMainByCrawler(Article article, Integer channelId, String userName);
+	
+	/**
+	 * 
+	 * 查询文章主体数量(通过采集器采集数据)
+	 * 
+	 * @param channelId 频道编号
+	 * @param userName 用户名
+	 * @return Long 文章主体数量
+	 */
+	public Long findArticleMainCountByCrawler(Integer channelId, String userName);
 	
 	/**
 	 * 修改文章主体信息

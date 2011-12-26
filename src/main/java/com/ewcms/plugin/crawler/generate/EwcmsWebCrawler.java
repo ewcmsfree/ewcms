@@ -151,7 +151,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 						article.setTitle(title);
 						article.setContents(contents);
 				
-						articleMainService.addArticleMainByCrawler(article, CrawlerUtil.USER_NAME, gather.getChannelId());
+						articleMainService.addArticleMainByCrawler(article, gather.getChannelId(), CrawlerUtil.USER_NAME);
 					}
 				}
 			}

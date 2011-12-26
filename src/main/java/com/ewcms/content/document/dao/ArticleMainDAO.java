@@ -94,4 +94,20 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     	}
     	return map;
     }
+    
+    @SuppressWarnings("unchecked")
+	public Boolean findArticleTitleIsEntityByCrawler(String title, Integer channelId, String userName){
+    	String hql = "Select o From ArticleMain c Left Join c.article o Where o.title=? And c.channelId=? And o.owner=? And c.reference=false";
+    	List<Article> list = this.getJpaTemplate().find(hql, title, channelId, userName);
+    	if (list.isEmpty()) return false;
+    	return true;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Long findArticleMainCountByCrawler(Integer channelId, String userName){
+    	String hql = "Select Count(c.id) From ArticleMain As c Left Join c.article As o Where c.channelId=? And o.owner=? And c.reference=false";
+    	List<Long> list = this.getJpaTemplate().find(hql, channelId,  userName);
+    	if (list.isEmpty()) return 0L;
+    	return list.get(0);
+    }
 }

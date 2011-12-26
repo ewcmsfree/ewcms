@@ -8,6 +8,7 @@ package com.ewcms.plugin.crawler.generate;
 
 import static com.ewcms.common.lang.EmptyUtil.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.ewcms.plugin.crawler.generate.crawler4j.crawler.CrawlController;
 import com.ewcms.plugin.crawler.generate.crawler4j.crawler.PageFetcher;
 import com.ewcms.plugin.crawler.generate.crawler4j.frontier.DocIDServer;
 import com.ewcms.plugin.crawler.generate.crawler4j.frontier.Frontier;
+import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
 import com.ewcms.plugin.crawler.manager.CrawlerFacable;
 import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
@@ -73,11 +75,11 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 		
 		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId;
-//		try{
-//			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
-//			if (gatherFolder.exists()) IO.deleteFolderContents(gatherFolder);
-//		}catch(Exception e){
-//		}
+		try{
+			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
+			if (gatherFolder.exists()) IO.deleteFolderContents(gatherFolder);
+		}catch(Exception e){
+		}
 			
 		PageFetcher pageFetcher = new PageFetcher();
 		DocIDServer docIDServer = new DocIDServer();
@@ -91,7 +93,7 @@ public class EwcmsController implements EwcmsControllerable {
 			controller.setPolitenessDelay(200);
 			
 			//设置抓取的页面的最大数量，默认值是-1无限深度
-			controller.setMaximumPagesToFetch(gather.getMaxPage());
+			controller.setMaximumPagesToFetch(gather.getMaxPage().intValue());
 			//并发线程数
 			int numberOfCrawlers = gather.getThreadCount();
 			//代理

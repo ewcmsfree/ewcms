@@ -80,7 +80,7 @@ public class Gather implements Serializable {
 	@Column(name = "status")
 	private Boolean status;
 	@Column(name = "max_page")
-	private Integer maxPage;
+	private Long maxPage;
 	@Column(name = "depth")
 	private Integer depth;
 	@Column(name = "threadcount")
@@ -127,7 +127,7 @@ public class Gather implements Serializable {
 	private String titleRegex;
 
 	public Gather(){
-		maxPage = -1;
+		maxPage = -1L;
 		depth = -1;
 		threadCount = 30;
 		timeOutWait = 10;
@@ -172,11 +172,11 @@ public class Gather implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getMaxPage() {
+	public Long getMaxPage() {
 		return maxPage;
 	}
 
-	public void setMaxPage(Integer maxPage) {
+	public void setMaxPage(Long maxPage) {
 		this.maxPage = maxPage;
 	}
 

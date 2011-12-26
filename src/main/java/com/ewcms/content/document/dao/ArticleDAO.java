@@ -29,10 +29,10 @@ import com.ewcms.content.document.model.ArticleStatus;
 public class ArticleDAO extends JpaDAO<Long, Article> {
 	
     @SuppressWarnings("unchecked")
-	public Integer findArticleReleseMaxSize(Integer channelId){
+	public Long findArticleReleseMaxSize(Integer channelId){
     	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=? And m.article.status=?";
-    	List<Integer> list = this.getJpaTemplate().find(hql, channelId, ArticleStatus.RELEASE);
-    	if (list.isEmpty()) return 0;
+    	List<Long> list = this.getJpaTemplate().find(hql, channelId, ArticleStatus.RELEASE);
+    	if (list.isEmpty()) return 0L;
     	return list.get(0);
     }
     

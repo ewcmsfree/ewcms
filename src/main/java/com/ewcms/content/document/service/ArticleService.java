@@ -44,11 +44,11 @@ public class ArticleService implements ArticlePublishServiceable {
 		Channel channel = channelDAO.get(channelId);
 		Assert.notNull(channel);
 		int maxSize = channel.getMaxSize();
-		int releaseMaxSize = articleDAO.findArticleReleseMaxSize(channelId);
+		long releaseMaxSize = articleDAO.findArticleReleseMaxSize(channelId);
 		if (maxSize < releaseMaxSize){
 			return maxSize;
 		}else{
-			return releaseMaxSize;
+			return (int)releaseMaxSize;
 		}
 	}
 

@@ -48,6 +48,8 @@ public class PageDisplayVO implements Serializable {
 	private Boolean isJobChannel = false;
 	//是否是报表
 	private Boolean isJobReport = false;
+	//是否是采集器
+	private Boolean isJobCrawler = false;
 	// 报表信息 //	
 	private Long reportId;
 	private String reportName;
@@ -253,6 +255,14 @@ public class PageDisplayVO implements Serializable {
 
 	public void setIsJobReport(Boolean isJobReport) {
 		this.isJobReport = isJobReport;
+	}
+
+	public Boolean getIsJobCrawler() {
+		return isJobCrawler;
+	}
+
+	public void setIsJobCrawler(Boolean isJobCrawler) {
+		this.isJobCrawler = isJobCrawler;
 	}
 
 	public Long getReportId() {
