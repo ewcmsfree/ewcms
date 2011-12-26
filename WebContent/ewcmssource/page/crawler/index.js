@@ -4,16 +4,16 @@ $(function() {
 	ewcmsBOBJ = new EwcmsBase();
 	ewcmsBOBJ.setQueryURL(queryURL);
 
-	ewcmsBOBJ.addToolItem('URL层级', 'icon-levels', domainOperate, 'btnDomain');
-	ewcmsBOBJ.addToolItem('匹配', 'icon-match', matchOperate, 'btnMatch');
-	ewcmsBOBJ.addToolItem('过滤', 'icon-filter', filterOperate, 'btnFilter');
+	ewcmsBOBJ.addToolItem('地址区配', 'icon-levels', domainOperate, 'btnDomain');
+	ewcmsBOBJ.addToolItem('内容匹配', 'icon-match', matchOperate, 'btnMatch');
+	ewcmsBOBJ.addToolItem('内容过滤', 'icon-filter', filterOperate, 'btnFilter');
 	ewcmsBOBJ.addToolItem('立刻执行', 'icon-run', runCrawlOperate, 'btnCrawlRun');
 	ewcmsBOBJ.addToolItem('定时设置', 'icon-scheduler-set', timeCrawlOperate, 'btnCrawlTime');
 	ewcmsBOBJ.addToolItem('清空采集数据','icon-delgatherdata', delGatherDataOperate, 'btnDelGatherData')
 	//ewcmsBOBJ.addToolItem('帮助', 'icon-help', helpOperate,'btnHelp');
 	
 	ewcmsBOBJ.setWinWidth(900);
-	ewcmsBOBJ.setWinHeight(600);
+	ewcmsBOBJ.setWinHeight(620);
 
 	ewcmsBOBJ.openDataGrid('#tt', {
 		singleSelect : true,
