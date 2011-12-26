@@ -29,7 +29,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
     
     private static final String SCHEDULER_FACTORY = "ewcmsJobCrawlerFac";
     
-    private static final String CRAWL_FACTORY = "ewcmsCrawl";
+    private static final String CRAWL_FACTORY = "ewcmsController";
 
     protected EwcmsJobCrawler jobDetails;
     
@@ -59,7 +59,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
     	ewcmsSchedulingFac.findJobCrawlerByGatherId(gather.getId());
     	if (gather.getStatus()){
     		logger.info("定时采集 " + gather_name + " 地址开始...");
-    		getEwcmsCrawl().crawl(gather.getId());
+    		getEwcmsController().crawl(gather.getId());
     		logger.info("定时采集 " + gather_name + " 地址结束.");
     	}
     }
@@ -81,7 +81,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
         return (EwcmsJobCrawlerFacable) applicationContext.getBean(SCHEDULER_FACTORY);
     }
     
-    protected EwcmsControllerable getEwcmsCrawl(){
+    protected EwcmsControllerable getEwcmsController(){
     	return (EwcmsControllerable) applicationContext.getBean(CRAWL_FACTORY); 
     }
 }

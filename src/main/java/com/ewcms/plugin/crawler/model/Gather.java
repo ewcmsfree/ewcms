@@ -97,14 +97,14 @@ public class Gather implements Serializable {
 	private Integer channelId;
 	@Column(name = "base_uri")
 	private String baseURI;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Domain.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Domain.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	@OrderBy(value = "level")
 	private List<Domain> domains = new ArrayList<Domain>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MatchBlock.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = MatchBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<MatchBlock> matchBlocks = new ArrayList<MatchBlock>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = FilterBlock.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = FilterBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<FilterBlock> filterBlocks = new ArrayList<FilterBlock>();
 	@Column(name = "html_type")
