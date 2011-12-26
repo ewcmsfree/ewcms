@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
@@ -29,18 +30,21 @@ public class TemplateSourceTaskTest {
     @Test
     public void testBuildTask(){
         TemplateSourcePublishServiceable service = mock(TemplateSourcePublishServiceable.class);
-        TemplateSourceTask task = new TemplateSourceTask.Builder(service, Integer.MAX_VALUE)
-                .forceAgain()
-                .setSourceId(Integer.MIN_VALUE)
-                .setUsername("user")
-                .setDescription("publish source")
-                .builder();
+        Site site = new Site();
+        site.setId(Integer.MAX_VALUE);
+        site.setSiteName("主站");
+        TemplateSourceTask task = 
+            new TemplateSourceTask.Builder(service, site).
+            forceAgain().
+            setSourceId(Integer.MIN_VALUE).
+            setUsername("user").
+            builder();
         
         Assert.assertNotNull(task);
         Assert.assertEquals("user", task.getUsername());
         Assert.assertTrue(task.isAgain());
         Assert.assertEquals(Integer.MIN_VALUE, task.getSourceId().intValue());
-        Assert.assertEquals("publish source",task.getDescription());
+        Assert.assertEquals("主站-模版资源发布(重新)",task.getDescription());
     }
     
     @Test
@@ -57,9 +61,13 @@ public class TemplateSourceTaskTest {
         sources.add(source);
         TemplateSourcePublishServiceable service = mock(TemplateSourcePublishServiceable.class);
         when(service.findNotReleaseTemplateSources(siteId)).thenReturn(sources);
-        TemplateSourceTask task = new TemplateSourceTask
-                .Builder(service, Integer.MAX_VALUE)
-                .builder();
+        Site site = new Site();
+        site.setId(Integer.MAX_VALUE);
+        site.setSiteName("主站");
+        TemplateSourceTask task = 
+            new TemplateSourceTask.
+            Builder(service, site).
+            builder();
         
         
         List<TaskProcessable> processes = task.getTaskProcesses();
@@ -94,11 +102,14 @@ public class TemplateSourceTaskTest {
         when(service.getTemplateSourceChildren(sourceId3)).thenReturn(new ArrayList<TemplateSource>());
         
         Integer siteId = Integer.MAX_VALUE;
-        TemplateSourceTask task = new TemplateSourceTask
-                .Builder(service, siteId)
-                .setSourceId(sourceId)
-                .builder();
-        
+        Site site = new Site();
+        site.setId(siteId);
+        site.setSiteName("主站");
+        TemplateSourceTask task = 
+            new TemplateSourceTask.
+            Builder(service, site).
+            setSourceId(sourceId).
+            builder();
         
         List<TaskProcessable> processes = task.getTaskProcesses();
         Assert.assertEquals(1,processes.size());
@@ -132,12 +143,15 @@ public class TemplateSourceTaskTest {
         when(service.getTemplateSourceChildren(sourceId3)).thenReturn(new ArrayList<TemplateSource>());
         
         Integer siteId = Integer.MAX_VALUE;
-        TemplateSourceTask task = new TemplateSourceTask
-                .Builder(service, siteId)
-                .setSourceId(sourceId)
-                .forceAgain()
-                .builder();
-        
+        Site site = new Site();
+        site.setId(siteId);
+        site.setSiteName("主站");
+        TemplateSourceTask task = 
+            new TemplateSourceTask.
+            Builder(service, site).
+            setSourceId(sourceId).
+            forceAgain().
+            builder();
         
         List<TaskProcessable> processes = task.getTaskProcesses();
         Assert.assertEquals(2,processes.size());

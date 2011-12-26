@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.ewcms.content.resource.model.Resource;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.impl.process.ResourceProcess;
@@ -31,9 +32,11 @@ public class ResourceTaskTest {
     public void testBuildTask(){
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
-        ResourceTask task =new ResourceTask.Builder(service, siteId).
+        Site site = new Site();
+        site.setId(Integer.MAX_VALUE);
+        site.setSiteName("主站");
+        ResourceTask task =new ResourceTask.Builder(service, site).
             forceAgain().
-            setDescription("site's  resource publish").
             setResourceIds(new Integer[]{}).
             setUsername("test").
             builder();
@@ -41,7 +44,7 @@ public class ResourceTaskTest {
         Assert.assertTrue(task.isAgain());
         Assert.assertEquals(siteId, task.getSiteId());
         Assert.assertNotNull(task.getResourceIds());
-        Assert.assertEquals("site's  resource publish", task.getDescription());
+        Assert.assertEquals("主站-资源发布(重新)", task.getDescription());
         Assert.assertEquals("test", task.getUsername());
     }
     
@@ -62,7 +65,10 @@ public class ResourceTaskTest {
     public void testGetTaskProcessesBySiteId()throws TaskException{
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
-        ResourceTask task =new ResourceTask.Builder(service, siteId).builder();
+        Site site = new Site();
+        site.setId(siteId);
+        site.setSiteName("主站");
+        ResourceTask task =new ResourceTask.Builder(service, site).builder();
         List<Resource> resources = new ArrayList<Resource>();
         resources.add(newResource(0,false,Resource.State.NORMAL));
         resources.add(newResource(1,true,Resource.State.NORMAL));
@@ -91,7 +97,10 @@ public class ResourceTaskTest {
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
         Integer[] resourceIds = new Integer[]{0,1,2,3};
-        ResourceTask task =new ResourceTask.Builder(service, siteId).setResourceIds(resourceIds).builder();
+        Site site = new Site();
+        site.setId(siteId);
+        site.setSiteName("主站");
+        ResourceTask task =new ResourceTask.Builder(service, site).setResourceIds(resourceIds).builder();
         when(service.getResource(0)).thenReturn(newResource(0,true,Resource.State.NORMAL));
         when(service.getResource(1)).thenReturn(newResource(1,false,Resource.State.INIT));
         when(service.getResource(2)).thenReturn(newResource(2,false,Resource.State.DELETE));
@@ -108,8 +117,10 @@ public class ResourceTaskTest {
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
         Integer[] resourceIds = new Integer[]{0,1,2,3};
-        ResourceTask task =
-            new ResourceTask.Builder(service, siteId).
+        Site site = new Site();
+        site.setId(siteId);
+        site.setSiteName("主站");
+        ResourceTask task = new ResourceTask.Builder(service, site).
             setResourceIds(resourceIds).
             forceAgain().
             builder();
