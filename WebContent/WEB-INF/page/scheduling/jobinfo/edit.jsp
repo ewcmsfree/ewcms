@@ -37,11 +37,11 @@
 				<tr>
 					<td width="10%">调度作业选择：</td>
 					<td colspan="3" class="formFieldError">
-						<s:if test="((pageDisplayVo.isJobChannel==true)||(pageDisplayVo.isJobReport==true))">
+						<s:if test="((pageDisplayVo.isJobChannel==true)||(pageDisplayVo.isJobReport==true)||(pageDisplayVo.isJobCrawler==true))">
 							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" disabled="true" cssClass="inputtext"></s:select>
 							<s:hidden name="pageDisplayVo.jobClassId"></s:hidden>
 						</s:if>
-						<s:if test="(pageDisplayVo.isJobChannel==false)&&(pageDisplayVo.isJobReport==false)">
+						<s:if test="(pageDisplayVo.isJobChannel==false)&&(pageDisplayVo.isJobReport==false)&&(pageDisplayVo.isJobCrawler==false)">
 							<s:select list="allJobClassList" name="pageDisplayVo.jobClassId" listKey="id" listValue="className" cssClass="inputtext"></s:select>
 						</s:if>
 						<s:fielderror><s:param value="%{'pageDisplayVo.jobClassId'}" /></s:fielderror>

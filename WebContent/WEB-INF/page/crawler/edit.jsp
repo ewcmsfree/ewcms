@@ -105,6 +105,13 @@
 					</td>
 				</tr>
 				<tr>
+					<td>网站地址：</td>
+					<td class="formFieldError">
+						<s:textfield id="baseURI" name="gatherVo.baseURI" size="50"/><font color="red">*</font>
+						<s:fielderror><s:param value="%{'gatherVo.baseURI'}" /></s:fielderror>
+					</td>
+				</tr>
+				<tr>
 					<td>使用其他标题：</td>
 					<td>
 						<s:checkbox id="titleExternal" name="gatherVo.titleExternal" cssStyle="vertical-align:middle;"/>&nbsp;&nbsp;表达式：<s:textfield id="titleRegex" name="gatherVo.titleRegex" readonly="true" size="30"></s:textfield>&nbsp;<a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a>
