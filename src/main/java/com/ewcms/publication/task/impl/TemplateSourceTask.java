@@ -6,12 +6,14 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 import com.ewcms.publication.task.TaskException;
@@ -27,22 +29,22 @@ import com.ewcms.publication.task.impl.process.TemplateSourceProcess;
  */
 public class TemplateSourceTask extends TaskBase {
     private final static Logger logger = LoggerFactory.getLogger(TemplateSourceTask.class);
-    private final static String DEFAULT_DESCRIPTION="publish template source";
     
     public static class Builder{
         private final TemplateSourcePublishServiceable templateSourceService;
         private final Integer siteId;
+        private final String name;
         private String username = DEFAULT_USERNAME;
         private Integer sourceId;
-        private String description = DEFAULT_DESCRIPTION;
         private boolean again = false;
         
-        public Builder(TemplateSourcePublishServiceable templateSourceService,Integer siteId){
+        public Builder(TemplateSourcePublishServiceable templateSourceService,Site site){
             Assert.notNull(templateSourceService,"Template source service is null");
-            Assert.notNull(siteId,"Site id is null");
+            Assert.notNull(site,"Site is null");
             
             this.templateSourceService = templateSourceService;
-            this.siteId = siteId;
+            this.siteId = site.getId();
+            this.name = site.getSiteName();
         }
 
         public Builder setSourceId(Integer sourceId) {
@@ -55,16 +57,16 @@ public class TemplateSourceTask extends TaskBase {
             return this;
         }
         
+        Builder setAgain(boolean again){
+            this.again = again;
+            return this;
+        }
+        
         public Builder setUsername(String username){
             this.username = username;
             return this;
         }
         
-        public Builder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
         public TemplateSourceTask builder(){
             return new  TemplateSourceTask(this);
         }
@@ -79,7 +81,9 @@ public class TemplateSourceTask extends TaskBase {
 
     @Override
     public String getDescription() {
-        return builder.description;
+        String description = String.format("%s-模版资源发布%s",
+                builder.name,getAgainMessage(builder.again)) ;
+        return description;
     }
 
     @Override
@@ -102,7 +106,7 @@ public class TemplateSourceTask extends TaskBase {
     
     @Override
     public List<Taskable> getDependences() {
-        return new ArrayList<Taskable>(0);
+        return Collections.unmodifiableList(new ArrayList<Taskable>(0));
     }
 
     @Override

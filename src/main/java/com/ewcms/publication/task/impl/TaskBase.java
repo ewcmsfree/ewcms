@@ -96,6 +96,16 @@ public abstract class TaskBase implements Taskable{
     }
     
     /**
+     * 得到再次发布提示信息
+     * 
+     * @param again
+     * @return
+     */
+    protected String getAgainMessage(boolean again){
+       return again ? "(重新)" : "";
+    }
+    
+    /**
      * 创建任务编号
      * 
      * @return

@@ -6,6 +6,7 @@
 package com.ewcms.publication.task.impl;
  
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.xwork.StringUtils;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.freemarker.generator.ListGenerator;
 import com.ewcms.publication.generator.Generatorable;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -43,6 +45,7 @@ public class ListTask extends TaskBase{
         private final Site site;
         private final Channel channel;
         private final String path;
+        private final String name;
         private String username;
         private String uriRulePatter;
         private boolean independence = true;
@@ -51,14 +54,15 @@ public class ListTask extends TaskBase{
         public Builder(Configuration cfg,
                 TemplateSourcePublishServiceable templateSourceService,
                 ArticlePublishServiceable articleService,
-                Site site,Channel channel,String path){
+                Site site,Channel channel,Template template){
             
             this.cfg = cfg;
             this.templateSourceService = templateSourceService;
             this.articleService = articleService;
             this.site = site;
             this.channel = channel;
-            this.path = path;
+            this.path = template.getUniquePath();
+            this.name = template.getName();
         }
         
         public Builder setUsername(String username){
@@ -79,9 +83,7 @@ public class ListTask extends TaskBase{
         private List<Taskable> getDependenceTasks(){
             List<Taskable> dependences = new ArrayList<Taskable>();
             if(independence){
-                dependences.add(new  TemplateSourceTask.Builder(
-                        templateSourceService, site.getId()).
-                        builder());
+                dependences.add(new  TemplateSourceTask.Builder(templateSourceService, site).builder());
             }
             return dependences;
         }
@@ -101,8 +103,8 @@ public class ListTask extends TaskBase{
     
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
-        return null;
+        String description = String.format("%s-页面发布",builder.name) ;
+        return description;
     }
 
     @Override
@@ -117,7 +119,7 @@ public class ListTask extends TaskBase{
 
     @Override
     public List<Taskable> getDependences() {
-        return builder.dependences;
+        return Collections.unmodifiableList(builder.dependences);
     }
 
     @Override

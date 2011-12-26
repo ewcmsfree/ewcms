@@ -7,6 +7,7 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.resource.model.Resource;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.Taskable;
@@ -28,19 +30,19 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  */
 public class ResourceTask extends TaskBase{
     private final static Logger logger = LoggerFactory.getLogger(ResourceTask.class);
-    private final static String DEFAULT_DESCRIPTION="publish resouce";
     
     public static class Builder{
         private final ResourcePublishServiceable resourceService;
         private final Integer siteId;
+        private final String name;
         private String username = DEFAULT_USERNAME;
         private Integer[] resourceIds;
-        private String description = DEFAULT_DESCRIPTION;
         private boolean again = false;
         
-        public Builder(ResourcePublishServiceable resourceService,Integer siteId){
+        public Builder(ResourcePublishServiceable resourceService,Site site){
             this.resourceService = resourceService;
-            this.siteId = siteId;
+            this.siteId = site.getId();
+            this.name = site.getSiteName();
         }
         
         public Builder setUsername(String username){
@@ -53,13 +55,13 @@ public class ResourceTask extends TaskBase{
             return this;
         }
         
-        public Builder setDescription(String description){
-            this.description = description;
+        public Builder forceAgain(){
+            this.again = true;
             return this;
         }
         
-        public Builder forceAgain(){
-            this.again = true;
+        Builder setAgain(boolean again){
+            this.again = again;
             return this;
         }
         
@@ -77,7 +79,9 @@ public class ResourceTask extends TaskBase{
     
     @Override
     public String getDescription() {
-        return builder.description;
+        String description = String.format("%s-资源发布%s",
+                builder.name,getAgainMessage(builder.again)) ;
+        return description;
     }
 
     @Override
@@ -100,7 +104,7 @@ public class ResourceTask extends TaskBase{
     
     @Override
     public List<Taskable> getDependences() {
-        return new ArrayList<Taskable>(0);
+        return Collections.unmodifiableList(new ArrayList<Taskable>(0));
     }
 
     @Override

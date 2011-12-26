@@ -7,6 +7,7 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -103,31 +104,28 @@ public class ChannelTask extends TaskBase{
         }
         
         private void addResourceAndTemplateSourceTask(List<Taskable> dependences){
-            dependences.add(
-                    new  TemplateSourceTask.Builder(templateSourceService,site.getId()).builder());
-            dependences.add(
-                    new ResourceTask.Builder(resourceService,site.getId()).builder());
+            dependences.add(new  TemplateSourceTask.Builder(templateSourceService,site).builder());
+            dependences.add(new ResourceTask.Builder(resourceService,site).builder());
         }
         
-        private Taskable newHomeTask(String path,String uriRulePatter){
-            return new HomeTask.Builder(cfg,templateSourceService,site,channel,path).
+        private Taskable newHomeTask(Template template,String uriRulePatter){
+            return new HomeTask.Builder(cfg,templateSourceService,site,channel,template).
                     setUsername(username).
                     setUriRulePatter(uriRulePatter).
                     dependence().
                     build();
         }
         
-        private Taskable newListTask(String path,String uriRulePatter){
-            return new ListTask.Builder(cfg,templateSourceService,articleService,site,channel,path).
+        private Taskable newListTask(Template template,String uriRulePatter){
+            return new ListTask.Builder(cfg,templateSourceService,articleService,site,channel,template).
                     setUsername(username).
                     setUriRulePatter(uriRulePatter).
                     dependence().
                     build();    
         }
         
-        private Taskable newDetailTask(String path,String uriRulePatter){
-            return new DetailTask.Builder(
-                    cfg,templateSourceService,resourceService,articleService,site,channel,path).
+        private Taskable newDetailTask(Template template,String uriRulePatter){
+            return new DetailTask.Builder(cfg,templateSourceService,resourceService,articleService,site,channel,template).
                     setUsername(username).
                     setUriRulePatter(uriRulePatter).
                     setAgain(again).
@@ -138,19 +136,18 @@ public class ChannelTask extends TaskBase{
         private void addTemplateTask(List<Taskable> dependences){
             List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
             for(Template template : templates){
-                String path = template.getUniquePath();
-                String uriRulePatter = 
-                    StringUtils.isBlank(template.getUriPattern()) ? null : template.getUriPattern();
+                String uriRulePatter =StringUtils.isBlank(template.getUriPattern()) ?
+                        null : template.getUriPattern();
                 Taskable task;
                 switch(template.getType()){
                 case HOME:
-                    task = newHomeTask(path,uriRulePatter);
+                    task = newHomeTask(template,uriRulePatter);
                     break;
                 case LIST:
-                    task = newListTask(path,uriRulePatter);
+                    task = newListTask(template,uriRulePatter);
                     break;
                 case DETAIL:
-                    task = newDetailTask(path,uriRulePatter);
+                    task = newDetailTask(template,uriRulePatter);
                     break;
                     default:
                         task = null;
@@ -207,8 +204,9 @@ public class ChannelTask extends TaskBase{
 
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
-        return null;
+        String description = String.format("%s-频道发布%s",
+                builder.channel.getName(),getAgainMessage(builder.again)) ;
+        return description;
     }
 
     @Override
@@ -223,7 +221,7 @@ public class ChannelTask extends TaskBase{
     
     @Override
     public List<Taskable> getDependences() {        
-        return builder.dependences;
+        return Collections.unmodifiableList(builder.dependences);
     }
 
     @Override
@@ -234,8 +232,6 @@ public class ChannelTask extends TaskBase{
 
     @Override
     protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        // None task processes
-        return new ArrayList<TaskProcessable>(0);
+        return Collections.unmodifiableList(new ArrayList<TaskProcessable>(0));
     }
-    
 }

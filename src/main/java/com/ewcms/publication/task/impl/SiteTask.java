@@ -6,6 +6,7 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.ewcms.core.site.model.Channel;
@@ -69,17 +70,19 @@ public class SiteTask extends TaskBase {
         
         private List<Taskable> getDependences(){
             List<Taskable> dependences = new ArrayList<Taskable>();
-            dependences.add(
-                    new  TemplateSourceTask.Builder(templateSourceService,site.getId()).builder());
-            dependences.add(
-                    new ResourceTask.Builder(resourceService,site.getId()).builder());
+            dependences.add(new  TemplateSourceTask.Builder(templateSourceService,site).
+                    setAgain(again).
+                    builder());
+            dependences.add(new ResourceTask.Builder(resourceService,site).
+                    setAgain(again).
+                    builder());
             Channel root = channelService.getChannelRoot(site.getId());
-            dependences.add(new ChannelTask.Builder(
-                    cfg, templateService, templateSourceService, resourceService,
+            dependences.add(new ChannelTask.Builder(cfg, templateService, 
+                    templateSourceService, resourceService,
                     articleService, channelService,site,root).
                     setAgain(again).
                     dependence().
-                    setPublishChildren(true).
+                    publishChildren().
                     build());
             return dependences;
         }
@@ -99,8 +102,9 @@ public class SiteTask extends TaskBase {
     
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
-        return null;
+        String description = String.format("%s-站点发布%s",
+                builder.site.getSiteName(),getAgainMessage(builder.again)) ;
+        return description;
     }
 
     @Override
@@ -115,7 +119,7 @@ public class SiteTask extends TaskBase {
 
     @Override
     public List<Taskable> getDependences() {
-        return builder.dependences;
+        return Collections.unmodifiableList(builder.dependences);
     }
 
     @Override
@@ -125,7 +129,6 @@ public class SiteTask extends TaskBase {
 
     @Override
     protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        return new ArrayList<TaskProcessable>(0);
+        return Collections.unmodifiableList(new ArrayList<TaskProcessable>(0));
     }
-
 }

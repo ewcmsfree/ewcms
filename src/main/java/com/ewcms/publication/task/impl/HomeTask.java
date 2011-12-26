@@ -6,13 +6,14 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.freemarker.generator.HomeGenerator;
 import com.ewcms.publication.generator.Generatorable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
@@ -40,32 +41,28 @@ public class HomeTask extends TaskBase{
         private final Site site;
         private final Channel channel;
         private final String path;
-        private String description;
+        private final String name;
         private String username = DEFAULT_USERNAME;
-        private String uriRulePatter ;
+        private UriRuleable uriRule= UriRules.newHome() ;
         private boolean independence = true;
-        private List<Taskable> depencences;
+        private List<Taskable> dependences;
         
         public Builder(Configuration cfg,
                 TemplateSourcePublishServiceable templateSourceService,
-                Site site,Channel channel,String path){
+                Site site,Channel channel,Template template){
             
             Assert.notNull(cfg,"Freemark Configuration is null");
             Assert.notNull(templateSourceService,"Template source is null");
             Assert.notNull(site,"Site is null");
             Assert.notNull(channel,"Channel is null");
-            Assert.notNull(path,"Template path is null");
+            Assert.notNull(template,"Template is null");
             
             this.cfg = cfg;
             this.templateSourceService= templateSourceService;
             this.site = site;
             this.channel = channel;
-            this.path = path;
-        }
-        
-        public Builder setDescription(String description){
-            this.description = description;
-            return this;
+            this.path = template.getUniquePath();
+            this.name = template.getName();
         }
         
         public Builder setUsername(String username){
@@ -74,7 +71,7 @@ public class HomeTask extends TaskBase{
         }
         
         public Builder setUriRulePatter(String uriRulePatter){
-            this.uriRulePatter = uriRulePatter;
+            uriRule =  UriRules.newUriRuleBy(uriRulePatter);
             return this;
         }
         
@@ -86,15 +83,13 @@ public class HomeTask extends TaskBase{
         private List<Taskable> getDependenceTasks(){
             List<Taskable> dependences = new ArrayList<Taskable>();
             if(independence){
-                dependences.add(new  TemplateSourceTask.Builder(
-                        templateSourceService, site.getId()).
-                        builder());
+                dependences.add(new  TemplateSourceTask.Builder(templateSourceService, site).builder());
             }
             return dependences;
         }
         
         public HomeTask build(){
-            depencences = getDependenceTasks();
+            dependences = getDependenceTasks();
             return new HomeTask(this);
         }
     }
@@ -108,7 +103,8 @@ public class HomeTask extends TaskBase{
 
     @Override
     public String getDescription() {
-        return builder.description;
+        String description = String.format("%s-页面发布",builder.name) ;
+        return description;
     }
 
     @Override
@@ -129,8 +125,8 @@ public class HomeTask extends TaskBase{
         return builder.path;
     }
     
-    String getUriRulePatter(){
-        return builder.uriRulePatter;
+    UriRuleable getUriRule(){
+        return builder.uriRule;
     }
     
     Channel getChannel(){
@@ -141,9 +137,13 @@ public class HomeTask extends TaskBase{
         return builder.site;
     }
     
+    boolean isIndependence(){
+        return builder.independence;
+    }
+    
     @Override
     public List<Taskable> getDependences() {
-        return builder.depencences;
+        return Collections.unmodifiableList(builder.dependences);
     }
 
     @Override
@@ -154,9 +154,8 @@ public class HomeTask extends TaskBase{
     @Override
     protected List<TaskProcessable> getTaskProcesses() throws TaskException {
             List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
-            UriRuleable uriRule = (StringUtils.isBlank(builder.uriRulePatter) ? 
-                    UriRules.newHome() : UriRules.newUriRuleBy(builder.uriRulePatter));
-            Generatorable generator =  new HomeGenerator(builder.cfg,builder.site,builder.channel,uriRule);   
+            Generatorable generator = 
+                new HomeGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule);   
             TaskProcessable process = new GeneratorProcess(generator,builder.path);
             process.registerEvent(new CompleteEvent(this));
             processes.add(process);
