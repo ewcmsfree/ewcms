@@ -31,4 +31,9 @@ public class NullUriRule implements UriRuleable {
     public String getUri() throws PublishException {
         return "";
     }
+
+    @Override
+    public String getPatter() {
+        return "";
+    }
 }

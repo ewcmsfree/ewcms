@@ -54,6 +54,11 @@ public class UriRule implements UriRuleable{
     }
     
     @Override
+    public String getPatter(){
+        return ruleParse.getPatter();
+    }
+    
+    @Override
     public String getUri()throws PublishException {
         Assert.notNull(parameters);
 

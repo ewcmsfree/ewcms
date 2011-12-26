@@ -55,7 +55,7 @@ public class RuleParse implements RuleParseable {
         }
         String[] tokens = StringUtils.splitByWholeSeparator(patter, VARIABLE_START);
         for (String token : tokens) {
-            logger.debug("Token with \"$\" {}", token);
+            logger.debug("Token with ${{}", token);
             if (!StringUtils.contains(token, "}")) {
                 logger.warn("\"{}\" is not closed", token);
                 continue;
@@ -65,6 +65,7 @@ public class RuleParse implements RuleParseable {
                 logger.warn("Variable's nam is null");
                 continue;
             }
+            logger.debug("variable is {}", value);
             String[] s = StringUtils.splitByWholeSeparator(value,VARIABLE_FORMAT);
             if (s.length == 1) {
                 variables.put(s[0], null);

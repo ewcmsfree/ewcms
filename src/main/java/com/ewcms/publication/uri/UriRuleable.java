@@ -30,7 +30,14 @@ public interface UriRuleable {
      * @param value 参数值
      */
     void putParameter(String parameter,Object value);
-         
+    
+    /**
+     * 得到uri规则模版
+     * 
+     * @return
+     */
+    String getPatter();
+    
     /**
      * 得到通一资源地址
      * 
