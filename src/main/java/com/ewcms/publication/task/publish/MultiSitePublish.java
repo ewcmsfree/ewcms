@@ -6,7 +6,6 @@
 
 package com.ewcms.publication.task.publish;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
@@ -60,18 +59,11 @@ public class MultiSitePublish extends SitePublish{
     }
     
     @Override
-    public void publish(final Taskable task) throws TaskException {
-        List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
-        getTaskProcesses(processes,task);
-        if (processes.isEmpty()) {
-            logger.debug("\"{}\" publish is empty",task.getDescription());
-            return;
-        }
-
+    protected void execute(Taskable task)throws TaskException{
+        List<TaskProcessable> processes =  task.execute();
         CompletionService<Boolean> completionService = 
             new ExecutorCompletionService<Boolean>(executorService);
         submitTaskProcesses(completionService,processes);
-        
         try{
             int count = processes.size();
             for(int i = 0 ; i < count ; i++){

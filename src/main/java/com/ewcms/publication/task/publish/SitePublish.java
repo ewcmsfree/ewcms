@@ -6,7 +6,6 @@
 
 package com.ewcms.publication.task.publish;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,43 +25,33 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
 public class SitePublish implements SitePublishable{
     private static final Logger logger = LoggerFactory.getLogger(SitePublish.class);
     
-    protected final SiteServer server;
     protected final DeployOperatorable operator;
 
     public SitePublish(SiteServer server) {
-        this.server=server; 
-        this.operator = 
-            server.getOutputType().deployOperator(server);
+        this.operator = server.getOutputType().deployOperator(server);
     }
 
     /**
-     * 得到需要发布任务过程
+     * 执行发布任务
      * 
-     *TODO 按照依赖任务递归发布，如果一次查询出所有任务过程，当任务交多时可能出现memory out错误。
-     * 
-     * @param processes 任务过程集合
-     * @param task 任务
+     * @param task 任务对象
      * @throws TaskException
      */
-    protected void getTaskProcesses(List<TaskProcessable> processes,Taskable task)throws TaskException{
-        for (Taskable dependency : task.getDependences()) {
-            getTaskProcesses(processes,dependency);
-        }
-        processes.addAll(task.execute());
-    }
-    
-    
-    @Override
-    public void publish(final Taskable task) throws TaskException {
-        List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
-        getTaskProcesses(processes,task);
-        if (processes.isEmpty()) {
-            logger.debug("\"{}\" publish is empty",task.getDescription());
-            return;
-        }
+    protected void execute(Taskable task)throws TaskException{
+        List<TaskProcessable> processes = task.execute();
         for(TaskProcessable process: processes){
             Boolean success =process.execute(operator);
             logger.debug("publish success is {}",success);
         }
+    }
+    
+    @Override
+    public void publish(Taskable task) throws TaskException {
+        List<Taskable> dependences = task.getDependences();
+        for(Taskable dependence :  dependences) {
+            logger.debug("\"{}\" publish", task.getDescription());
+            publish(dependence);
+        }
+        execute(task);
     }
 }
