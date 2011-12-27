@@ -12,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
@@ -39,7 +39,6 @@ import com.ewcms.plugin.crawler.util.CrawlerUtil;
  *
  */
 @Service
-@Scope("prototype")
 public class EwcmsController implements EwcmsControllerable {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
@@ -63,7 +62,7 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("采集的为停用状态，不能执行！","采集的为停用状态，不能执行！");
 		}
 		
-		List<Domain> urlLevels = gather.getDomains();
+		Set<Domain> urlLevels = gather.getDomains();
 		if (isCollectionEmpty(urlLevels)){
 			logger.error("采集的URL地址未设定！");
 			throw new BaseException("采集的URL地址未设定！","采集的URL地址未设定！");
@@ -77,8 +76,16 @@ public class EwcmsController implements EwcmsControllerable {
 		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId;
 		try{
 			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
-			if (gatherFolder.exists()) IO.deleteFolderContents(gatherFolder);
+			if (gatherFolder.exists()){ 
+				boolean delete = IO.deleteFolderContents(gatherFolder);
+				if (!delete){
+					logger.info("采集器正在运行中，无须再运行！");
+					throw new BaseException("采集器正在运行中，无须再运行！","采集器正在运行中，无须再运行！");
+				}
+			}
 		}catch(Exception e){
+			logger.error("目录删除失败！");
+			throw new BaseException("采集器正在运行中，无须再运行！","采集器正在运行中，无须再运行！");
 		}
 			
 		PageFetcher pageFetcher = new PageFetcher();
@@ -214,7 +221,7 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 	}
 
-	private List<String> conversionDomain(List<Domain> domains){
+	private List<String> conversionDomain(Set<Domain> domains){
 		List<String> domainURLs = new ArrayList<String>();
 		if (domains != null && !domains.isEmpty()){
 			for (Domain domain : domains){

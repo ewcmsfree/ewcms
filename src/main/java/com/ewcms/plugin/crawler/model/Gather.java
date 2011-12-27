@@ -8,7 +8,9 @@ package com.ewcms.plugin.crawler.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -100,11 +102,11 @@ public class Gather implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Domain.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	@OrderBy(value = "level")
-	private List<Domain> domains = new ArrayList<Domain>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = MatchBlock.class, orphanRemoval = true)
+	private Set<Domain> domains = new HashSet<Domain>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = MatchBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<MatchBlock> matchBlocks = new ArrayList<MatchBlock>();
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = FilterBlock.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = FilterBlock.class, orphanRemoval = true)
 	@JoinColumn(name = "gather_id")
 	private List<FilterBlock> filterBlocks = new ArrayList<FilterBlock>();
 	@Column(name = "html_type")
@@ -245,11 +247,11 @@ public class Gather implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<Domain> getDomains() {
+	public Set<Domain> getDomains() {
 		return domains;
 	}
 
-	public void setDomains(List<Domain> domains) {
+	public void setDomains(Set<Domain> domains) {
 		this.domains = domains;
 	}
 	

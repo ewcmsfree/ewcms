@@ -8,7 +8,9 @@ package com.ewcms.plugin.crawler.manager.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +90,7 @@ public class GatherService implements GatherServiceable {
 			domainDAO.flush(domain);
 		}
 		
-		List<Domain> domains = gather.getDomains();
+		Set<Domain> domains = gather.getDomains();
 		domains.add(domain);
 		gather.setDomains(domains);
 		
@@ -105,7 +107,7 @@ public class GatherService implements GatherServiceable {
 		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
-		List<Domain> domains = gather.getDomains();
+		Set<Domain> domains = gather.getDomains();
 		Assert.notEmpty(domains);
 		
 		domains.remove(domain);
@@ -127,13 +129,14 @@ public class GatherService implements GatherServiceable {
 		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
-		List<Domain> domains = gather.getDomains();
+		Set<Domain> domains = gather.getDomains();
 		Assert.notEmpty(domains);
+		List<Domain> domainList = Arrays.asList(domains.toArray(new Domain[0]));
 		
-		int index = domains.indexOf(domain);
+		int index = domainList.indexOf(domain);
 		if (index > 0 && index <= domains.size() - 1){
 			int targetIndex = index - 1;
-			Domain targetVo = domains.get(targetIndex);
+			Domain targetVo = domainList.get(targetIndex);
 			Long tempLevel = domain.getLevel();
 			
 			domain.setLevel(targetVo.getLevel());
@@ -156,13 +159,14 @@ public class GatherService implements GatherServiceable {
 		Domain domain = domainDAO.findDomainById(domainId);
 		Assert.notNull(domain);
 		
-		List<Domain> domains = gather.getDomains();
+		Set<Domain> domains = gather.getDomains();
 		Assert.notEmpty(domains);
+		List<Domain> domainList = Arrays.asList(domains.toArray(new Domain[0]));
 		
-		int index = domains.indexOf(domain);
+		int index = domainList.indexOf(domain);
 		if (index >= 0 && index < domains.size() - 1){
 			int targetIndex = index + 1;
-			Domain targetVo = domains.get(targetIndex);
+			Domain targetVo = domainList.get(targetIndex);
 			Long tempLevel = domain.getLevel();
 			
 			domain.setLevel(targetVo.getLevel());
