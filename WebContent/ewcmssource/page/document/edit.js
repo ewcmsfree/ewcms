@@ -5,7 +5,7 @@
  * 
  * author wu_zhijun
  */
-var categoryURL, insertURL, voteURL, treeURL;
+var categoryURL, insertURL, voteURL, treeURL, saveURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
@@ -348,7 +348,7 @@ function saveArticle(){
 		$("#articleSubTitleStyle").attr("value","");
 	}
 	var params=$('#articleSave').serialize();
-	$.post("save.do" ,params ,function(data){
+	$.post(saveURL ,params ,function(data){
 		if (data == "false"){
 			$.messager.alert("提示","文章保存失败","info");
 		}else if (data == "system-false"){
@@ -592,7 +592,7 @@ function auto_save() {
 		}
 		if (autoSave){
 			var params=$('#articleSave').serialize();
-			$.post("save.do" ,params ,function(data){
+			$.post(saveURL ,params ,function(data){
 				if (data != "false" && data != "system-false" && data != "accessdenied" && data != ""){
 					$("#state").attr("value", data.state);
 					$('#articleMainId').attr('value',data.articleMainId);

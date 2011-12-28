@@ -45,7 +45,7 @@ function addOperate(){
 	 }
 	 ewcmsBOBJ.openWindow('#edit-window',{width:650,height:150,title:title,url:url});
 }
-function saveMatchOperate(){
+function saveBlockOperate(){
 	window.frames['editifr'].document.forms[0].submit();
 	$('#tt').treegrid('reload');
 }
