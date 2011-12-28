@@ -70,41 +70,6 @@ public class PageFetcher {
 	public void setPolitenessDelay(long politenessDelay) {
 		this.politenessDelay = politenessDelay;
 	}
-
-	static {
-//		HttpParams params = new BasicHttpParams();
-//		HttpProtocolParamBean paramsBean = new HttpProtocolParamBean(params);
-//		paramsBean.setVersion(HttpVersion.HTTP_1_1);
-//		paramsBean.setContentCharset("UTF-8");
-//		paramsBean.setUseExpectContinue(false);
-//
-//		params.setParameter("http.useragent", Configurations.getStringProperty("fetcher.user_agent",
-//				"crawler4j (http://code.google.com/p/crawler4j/)"));
-//
-//		params.setIntParameter("http.socket.timeout", Configurations.getIntProperty("fetcher.socket_timeout", 20000));
-//
-//		params.setIntParameter("http.connection.timeout",
-//				Configurations.getIntProperty("fetcher.connection_timeout", 30000));
-//
-//		params.setBooleanParameter("http.protocol.handle-redirects", false);
-//
-//		ConnPerRouteBean connPerRouteBean = new ConnPerRouteBean();
-//		connPerRouteBean.setDefaultMaxPerRoute(Configurations.getIntProperty("fetcher.max_connections_per_host", 100));
-//		ConnManagerParams.setMaxConnectionsPerRoute(params, connPerRouteBean);
-//		ConnManagerParams.setMaxTotalConnections(params,
-//				Configurations.getIntProperty("fetcher.max_total_connections", 100));
-//
-//		SchemeRegistry schemeRegistry = new SchemeRegistry();
-//		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-//
-//		if (Configurations.getBooleanProperty("fetcher.crawl_https", false)) {
-//			schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-//		}
-//
-//		connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
-//		//logger.setLevel(Level.INFO);
-//		httpclient = new DefaultHttpClient(connectionManager, params);
-	}
 	
 	private synchronized void initConnectionManager(){
 		HttpParams params = new BasicHttpParams();

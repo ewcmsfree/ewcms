@@ -62,10 +62,9 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("采集的为停用状态，不能执行！","采集的为停用状态，不能执行！");
 		}
 		
-		Set<Domain> urlLevels = gather.getDomains();
-		if (isCollectionEmpty(urlLevels)){
-			logger.error("采集的URL地址未设定！");
-			throw new BaseException("采集的URL地址未设定！","采集的URL地址未设定！");
+		if (isNull(gather.getBaseURI()) || gather.getBaseURI().trim().length() == 0){
+			logger.error("采集的网站地址未设定！");
+			throw new BaseException("采集的网站地址未设定！","采集的网站地址未设定！");
 		}
 		
 		if (isNull(gather.getChannelId())){
