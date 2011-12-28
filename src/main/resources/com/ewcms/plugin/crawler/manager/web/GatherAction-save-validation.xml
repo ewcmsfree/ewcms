@@ -15,6 +15,12 @@
             <message>网页类型不能为空</message>
         </field-validator>
     </field>
+    <field name="gatherVo.baseURI">
+        <field-validator type="requiredstring">
+        	<param name="trim">true</param>
+            <message>网站地址不能为空</message>
+        </field-validator>
+    </field>
     <field name="gatherVo.maxPage">
     	<field-validator type="required">
     		<message>最大采集数不能为空</message>
