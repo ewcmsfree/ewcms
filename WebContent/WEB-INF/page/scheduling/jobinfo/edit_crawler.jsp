@@ -15,15 +15,10 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/scheduling/jobinfo/edit.js"/>'></script>
         <script type="text/javascript">
-    		function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
-        </script>	
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	        });        
+	    </script>	
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
 	<body onload="tipMessage();">

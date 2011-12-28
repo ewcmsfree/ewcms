@@ -16,44 +16,38 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/scheduling/jobinfo/edit.js"/>'></script>
         <script type="text/javascript">
-		function checkBoxValue(name){
-			var strValue = '';
-			var list = document.getElementsByName(name);
-			for (var i = 0; i < list.length; i++){
-				if (list[i].type == 'checkbox'){
-					if (list[i].checked == true) {
-						listValue = list[i].value;
-						if(strValue != '')strValue += ',';
-						if (isNumber(listValue)){
-							strValue += listValue;
-						}
-						else{
-							strValue += "'" + listValue + "'";
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	        });
+	        function checkBoxValue(name){
+				var strValue = '';
+				var list = document.getElementsByName(name);
+				for (var i = 0; i < list.length; i++){
+					if (list[i].type == 'checkbox'){
+						if (list[i].checked == true) {
+							listValue = list[i].value;
+							if(strValue != '')strValue += ',';
+							if (isNumber(listValue)){
+								strValue += listValue;
+							}
+							else{
+								strValue += "'" + listValue + "'";
+							}
 						}
 					}
 				}
+				obName = "paraMap['" + name + "']";
+				document.all[obName].value = strValue;
 			}
-			obName = "paraMap['" + name + "']";
-			document.all[obName].value = strValue;
-		}
-		
-		function isNumber(str){
-		  var patrn=/^\d*$/;    
-		  if(patrn.test(str))   {  
-		  	return true;    
-		  }else{  
-		  	return false;  
-		  }   
-		}
-    		function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
+				
+			function isNumber(str){
+			  var patrn=/^\d*$/;    
+			  if(patrn.test(str)) {  
+			  	return true;    
+			  }else{  
+			  	return false;  
+			  }   
 			}
-            <s:property value="javaScript"/>
-            
         </script>	
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
