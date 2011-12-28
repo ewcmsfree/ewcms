@@ -16,6 +16,8 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
         	$(function() {
+    	        <s:include value="../alertMessage.jsp"/>
+    	        
         		if ($("#proxy").attr("checked") == 'checked') {
     				$("#trProxy").show();
     			} else {
@@ -41,13 +43,6 @@
             		}
         		});
         	})
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
             function selectOperate(){
             	ewcmsBOBJ = new EwcmsBase();
             	$('#tt').tree( {
@@ -71,10 +66,9 @@
         		$('#channelName').val(selected.text);
         		$('#channel-window').window('close');
             }
-            <s:property value="javaScript"/>
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/crawler">
 			<table class="formtable" >
 				<tr>

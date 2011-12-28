@@ -30,6 +30,7 @@
 	    	userName = '<sec:authentication property="name"/>';
 	    	voteURL = '<s:url action="article" namespace="/vote/questionnaire"/>';
 	    	treeURL = "<s:url namespace='/site/channel' action='tree'/>";
+	    	saveURL = "<s:url action='save' namespace='/document/article'/>";
 	    	<s:property value="javaScript"/>
 			function tipMessage(){
 			    <s:if test="hasActionMessages()">  

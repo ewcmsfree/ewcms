@@ -15,17 +15,12 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	        });
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/crawler/filter">
 			<table class="formtable" >
 				<tr>
