@@ -32,7 +32,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class HomeTask extends TaskBase{
+class HomeTask extends TaskBase{
 
     public static class Builder {
         
@@ -77,6 +77,11 @@ public class HomeTask extends TaskBase{
         
         public Builder dependence(){
             this.independence = false;
+            return this;
+        }
+        
+        Builder setIndependence(boolean independence){
+            this.independence = independence;
             return this;
         }
         

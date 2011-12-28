@@ -38,7 +38,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class DetailTask extends TaskBase{
+class DetailTask extends TaskBase{
     private final static Logger logger = LoggerFactory.getLogger(DetailTask.class);
     
     private final static int MAX_PUBLISH_SIZE = 50000;
@@ -102,6 +102,11 @@ public class DetailTask extends TaskBase{
         
         public Builder dependence(){
             this.independence = false;
+            return this;
+        }
+        
+        Builder setIndependence(boolean independence){
+            this.independence = independence;
             return this;
         }
         

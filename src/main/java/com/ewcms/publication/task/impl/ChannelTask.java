@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
@@ -108,54 +106,16 @@ public class ChannelTask extends TaskBase{
             dependences.add(new ResourceTask.Builder(resourceService,site).builder());
         }
         
-        private Taskable newHomeTask(Template template,String uriRulePatter){
-            return new HomeTask.Builder(cfg,templateSourceService,site,channel,template).
-                    setUsername(username).
-                    setUriRulePatter(uriRulePatter).
-                    dependence().
-                    build();
-        }
-        
-        private Taskable newListTask(Template template,String uriRulePatter){
-            return new ListTask.Builder(cfg,templateSourceService,articleService,site,channel,template).
-                    setUsername(username).
-                    setUriRulePatter(uriRulePatter).
-                    dependence().
-                    build();    
-        }
-        
-        private Taskable newDetailTask(Template template,String uriRulePatter){
-            return new DetailTask.Builder(cfg,templateSourceService,resourceService,articleService,site,channel,template).
-                    setUsername(username).
-                    setUriRulePatter(uriRulePatter).
-                    setAgain(again).
-                    dependence().
-                    build();
-        }
-        
         private void addTemplateTask(List<Taskable> dependences){
             List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
             for(Template template : templates){
-                String uriRulePatter =StringUtils.isBlank(template.getUriPattern()) ?
-                        null : template.getUriPattern();
-                Taskable task;
-                switch(template.getType()){
-                case HOME:
-                    task = newHomeTask(template,uriRulePatter);
-                    break;
-                case LIST:
-                    task = newListTask(template,uriRulePatter);
-                    break;
-                case DETAIL:
-                    task = newDetailTask(template,uriRulePatter);
-                    break;
-                    default:
-                        task = null;
-                }
-                
-                if(task != null){
+                Taskable task = new TemplateTask.Builder(
+                        cfg, templateSourceService, resourceService,
+                        articleService, site, channel, template).
+                        dependence().
+                        setAgain(again).
+                        build();
                     dependences.add(task);
-                }
             }
         }
         

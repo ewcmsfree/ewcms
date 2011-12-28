@@ -35,7 +35,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class ListTask extends TaskBase{
+class ListTask extends TaskBase{
     private static final Logger logger = LoggerFactory.getLogger(ListTask.class);
     
     public static class Builder{
@@ -77,6 +77,11 @@ public class ListTask extends TaskBase{
         
         public Builder dependence(){
             this.independence = true;
+            return this;
+        }
+        
+        Builder setIndependence(boolean independence){
+            this.independence = independence;
             return this;
         }
         

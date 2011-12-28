@@ -60,7 +60,7 @@ public class ResourceTask extends TaskBase{
             return this;
         }
         
-        Builder setAgain(boolean again){
+        public Builder setAgain(boolean again){
             this.again = again;
             return this;
         }

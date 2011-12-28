@@ -35,7 +35,7 @@ public class TemplateSourceTask extends TaskBase {
         private final Integer siteId;
         private final String name;
         private String username = DEFAULT_USERNAME;
-        private Integer sourceId;
+        private Integer[] sourceIds;
         private boolean again = false;
         
         public Builder(TemplateSourcePublishServiceable templateSourceService,Site site){
@@ -47,8 +47,8 @@ public class TemplateSourceTask extends TaskBase {
             this.name = site.getSiteName();
         }
 
-        public Builder setSourceId(Integer sourceId) {
-            this.sourceId = sourceId;
+        public Builder setSourceIds(Integer[] sourceIds) {
+            this.sourceIds = sourceIds;
             return this;
         }
 
@@ -57,7 +57,7 @@ public class TemplateSourceTask extends TaskBase {
             return this;
         }
         
-        Builder setAgain(boolean again){
+        public Builder setAgain(boolean again){
             this.again = again;
             return this;
         }
@@ -100,8 +100,8 @@ public class TemplateSourceTask extends TaskBase {
         return builder.again;
     }
     
-    protected Integer getSourceId(){
-        return builder.sourceId;
+    protected Integer[] getSourceIds(){
+        return builder.sourceIds;
     }
     
     @Override
@@ -173,20 +173,21 @@ public class TemplateSourceTask extends TaskBase {
     private List<TemplateSource> publishTemplateSources()throws TaskException{
         
         TemplateSourcePublishServiceable templateSourceService = builder.templateSourceService;
-        if(builder.sourceId == null){
+        if(builder.sourceIds == null){
             List<TemplateSource> sources =
                 templateSourceService.findNotReleaseTemplateSources(builder.siteId);
             return removeDirectory(sources);
         }
         
         List<TemplateSource> sources = new ArrayList<TemplateSource>();
-        TemplateSource source = templateSourceService.getTemplateSource(builder.sourceId);
-        if(source == null){
-            logger.debug("TemplateSource id = {} is not exist",id);
-            throw new TaskException("TemplateSource is not exits");
+        for(Integer id : builder.sourceIds){
+            TemplateSource source = templateSourceService.getTemplateSource(id);
+            if(source == null){
+                logger.warn("TemplateSource id = {} is not exist",id);
+                continue;
+            }
+            getTemplateSourceChildren(sources,source);
         }
-        getTemplateSourceChildren(sources,source);
-        
         return removeDirectory(sources);
     }
     
