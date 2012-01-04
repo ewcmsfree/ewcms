@@ -61,10 +61,10 @@
 		<quartz.version>1.8.5</quartz.version>
 		
 		<!-- Crawler -->
-		<httpcomponents.version>4.0.1</httpcomponents.version>
-		<dsiutils.version>1.0.10</dsiutils.version>
-		<fastutil.version>6.4.1</fastutil.version>
+		<httpcomponents.httpcore.version>4.1.4</httpcomponents.httpcore.version>
+		<httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
 		<je.version>4.0.92</je.version>
+		<tika.parsers.version>1.0</tika.parsers.version>
 		<jsoup.version>1.6.1</jsoup.version>
 		
 		<!-- Text reports and Chart reports -->
@@ -367,22 +367,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>${httpcomponents.version}</version>
+			<version>${httpcomponents.httpcore.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${httpcomponents.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>dsiutils</artifactId>
-			<version>${dsiutils.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>fastutil</artifactId>
-			<version>${fastutil.version}</version>
+			<version>${httpcomponents.httpclient.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sleepycat</groupId>
@@ -393,6 +383,57 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+			<version>${tika.parsers.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>poi-ooxml-schemas</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi-ooxml</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi-scratchpad</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>fontbox</artifactId>
+					<groupId>org.apache.pdfbox</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>pdfbox</artifactId>
+					<groupId>org.apache.pdfbox</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>netcdf</artifactId>
+					<groupId>edu.ucar</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jdom</artifactId>
+					<groupId>jdom</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>rome</artifactId>
+					<groupId>rome</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk15</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk15</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
