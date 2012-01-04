@@ -9,8 +9,8 @@ package com.ewcms.plugin.crawler.generate;
 import static com.ewcms.common.lang.EmptyUtil.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -21,11 +21,12 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.plugin.BaseException;
-import com.ewcms.plugin.crawler.generate.crawler4j.crawler.CrawlController;
-import com.ewcms.plugin.crawler.generate.crawler4j.crawler.PageFetcher;
-import com.ewcms.plugin.crawler.generate.crawler4j.frontier.DocIDServer;
-import com.ewcms.plugin.crawler.generate.crawler4j.frontier.Frontier;
-import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
+import com.ewcms.plugin.crawler.generate.crawler.CrawlConfig;
+import com.ewcms.plugin.crawler.generate.crawler.CrawlController;
+import com.ewcms.plugin.crawler.generate.fetcher.PageFetcher;
+import com.ewcms.plugin.crawler.generate.robotstxt.RobotstxtConfig;
+import com.ewcms.plugin.crawler.generate.robotstxt.RobotstxtServer;
+import com.ewcms.plugin.crawler.generate.util.IO;
 import com.ewcms.plugin.crawler.manager.CrawlerFacable;
 import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
@@ -47,9 +48,10 @@ public class EwcmsController implements EwcmsControllerable {
 	private CrawlerFacable crawlerFac;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
+	private CrawlController controller = null;
 	
 	@Override
-	public void crawl(Long gatherId) throws BaseException{
+	public void start(Long gatherId) throws BaseException{
 		Gather gather = crawlerFac.findGather(gatherId);
 		
 		if (isNull(gather)){
@@ -87,49 +89,51 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("采集器正在运行中，无须再运行！","采集器正在运行中，无须再运行！");
 		}
 			
-		PageFetcher pageFetcher = new PageFetcher();
-		DocIDServer docIDServer = new DocIDServer();
-		Frontier frontier = new Frontier();
-		CrawlController controller;
-		EwcmsWebCrawler ewcmsWebCrawler;
+		CrawlConfig config = new CrawlConfig();
+		config.setCrawlStorageFolder(gatherFolderPath);
+		config.setPolitenessDelay(2000);
+		//设置抓取的页面的最大数量，默认值是-1无限深度
+		config.setMaxPagesToFetch(gather.getMaxPage().intValue());
+		if (gather.getProxy()){
+			config.setProxyHost(gather.getProxyHost());
+			config.setProxyPort(gather.getProxyPort());
+			config.setProxyUsername(gather.getProxyUserName());
+			config.setProxyPassword(gather.getProxyPassWord());
+		}
+		config.setMaxDepthOfCrawling(gather.getDepth().shortValue());
+		config.setIncludeBinaryContentInCrawling(gather.getDownloadFile());
+		config.setResumableCrawling(true);
+		
+		PageFetcher pageFetcher = new PageFetcher(config);
+		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+		
+		HashMap<String,Object> passingParameters = new HashMap<String,Object>();
+		passingParameters.put("articleMainService", articleMainService);
+		passingParameters.put("gather", gather);
+		passingParameters.put("matchRegex", initMatchBlock(gatherId));
+		passingParameters.put("FilterRegex",initFilterBlock(gatherId));
+		
 		try{
-			controller = new CrawlController(gatherFolderPath, pageFetcher, docIDServer, frontier);
-			
+			controller = new CrawlController(config, pageFetcher, robotstxtServer, passingParameters);
+			String[] crawlerDomains = conversionDomain(gather.getDomains());
+			if (crawlerDomains != null) controller.setCustomData(crawlerDomains);
 			controller.addSeed(gather.getBaseURI());
-			controller.setPolitenessDelay(200);
 			
-			//设置抓取的页面的最大数量，默认值是-1无限深度
-			controller.setMaximumPagesToFetch(gather.getMaxPage().intValue());
 			//并发线程数
 			int numberOfCrawlers = gather.getThreadCount();
-			//代理
-			if (gather.getProxy()){
-				controller.setProxy(gather.getProxyHost(), gather.getProxyPort(), gather.getProxyUserName(), gather.getProxyPassWord());
-			}
-			
-			ewcmsWebCrawler = new EwcmsWebCrawler();
-			//设置最大爬行深度，默认值是-1无限深度
-			ewcmsWebCrawler.setMaximumCrawlDepth(gather.getDepth().shortValue());
-			//是否包含二进制文件
-			ewcmsWebCrawler.setIncludeBinaryContent(gather.getDownloadFile());
-			
-			ewcmsWebCrawler.setArticleMainService(articleMainService);
-			ewcmsWebCrawler.setGather(gather);
-			ewcmsWebCrawler.setMatchRegex(initMatchBlock(gatherId));
-			ewcmsWebCrawler.setFilterRegex(initFilterBlock(gatherId));
-			ewcmsWebCrawler.setDomainUrls(conversionDomain(gather.getDomains()));
-			
-			controller.start(ewcmsWebCrawler, numberOfCrawlers);
-		}catch(IOException e){
-			logger.error(e.getLocalizedMessage());
+			controller.startNonBlocking(EwcmsWebCrawler.class, numberOfCrawlers);
+			controller.waitUntilFinish();
 		}catch(Exception e){
-			logger.error(e.getLocalizedMessage());
-		}finally{
-			docIDServer = null;
-			frontier = null;
-			pageFetcher = null;
-			controller = null;
-			ewcmsWebCrawler = null;
+			logger.error("网络采集器运行失败！");
+		}
+	}
+	
+	@Override
+	public void interrupt() throws BaseException{
+		if (controller != null){
+			controller.Shutdown();
+			controller.waitUntilFinish();
 		}
 	}
 	
@@ -220,13 +224,16 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 	}
 
-	private List<String> conversionDomain(Set<Domain> domains){
-		List<String> domainURLs = new ArrayList<String>();
+	private String[] conversionDomain(Set<Domain> domains){
 		if (domains != null && !domains.isEmpty()){
+			String[] crawlerDomain = new String[domains.size()];
+			int i = 0;
 			for (Domain domain : domains){
-				domainURLs.add(domain.getUrl());
+				crawlerDomain[i] = domain.getUrl();
+				i++;
 			}
+			return crawlerDomain;
 		}
-		return domainURLs;
+		return null;
 	}
 }

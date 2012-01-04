@@ -100,11 +100,20 @@ public class GatherAction extends CrudBaseAction<Gather, Long> {
 	public void crawlRun(){
 		if (getSelections() != null && getSelections().size() == 1){
 			try {
-				ewcmsCrawl.crawl(getSelections().get(0));
+				ewcmsCrawl.start(getSelections().get(0));
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			} catch (BaseException e) {
 				Struts2Util.renderJson(JSONUtil.toJSON(e.getPageMessage()));
 			}
+		}
+	}
+	
+	public void crawlInterrupt(){
+		try {
+			ewcmsCrawl.interrupt();
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (BaseException e) {
+			Struts2Util.renderJson("中断失败");
 		}
 	}
 	

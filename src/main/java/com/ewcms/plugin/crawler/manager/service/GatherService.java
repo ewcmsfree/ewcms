@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.plugin.BaseException;
-import com.ewcms.plugin.crawler.generate.crawler4j.util.IO;
+import com.ewcms.plugin.crawler.generate.util.IO;
 import com.ewcms.plugin.crawler.manager.dao.DomainDAO;
 import com.ewcms.plugin.crawler.manager.dao.GatherDAO;
 import com.ewcms.plugin.crawler.manager.web.BlockTreeGridNode;
