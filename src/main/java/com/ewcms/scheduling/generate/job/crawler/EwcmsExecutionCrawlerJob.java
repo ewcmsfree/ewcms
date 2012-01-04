@@ -59,7 +59,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
     	ewcmsSchedulingFac.findJobCrawlerByGatherId(gather.getId());
     	if (gather.getStatus()){
     		logger.info("定时采集 " + gather_name + " 地址开始...");
-    		getEwcmsController().crawl(gather.getId());
+    		getEwcmsController().start(gather.getId());
     		logger.info("定时采集 " + gather_name + " 地址结束.");
     	}
     }
