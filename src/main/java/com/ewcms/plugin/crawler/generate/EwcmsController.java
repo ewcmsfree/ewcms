@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.content.resource.ResourceFacable;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.crawler.generate.crawler.CrawlConfig;
 import com.ewcms.plugin.crawler.generate.crawler.CrawlController;
@@ -34,6 +35,7 @@ import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.plugin.crawler.model.MatchBlock;
 import com.ewcms.plugin.crawler.util.CrawlerUtil;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * 
@@ -94,14 +96,17 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 			
 		CrawlConfig config = new CrawlConfig();
-		config.setCrawlStorageFolder(gatherFolderPath + "/frontier");
+		config.setCrawlStorageFolder(gatherFolderPath);
 		
 		HashMap<String,Object> passingParameters = new HashMap<String,Object>();
 		if (gather.getType() == Gather.Type.RESOURCE){
+			Site site = EwcmsContextUtil.getCurrentSite();
+			
 			config.setIncludeBinaryContentInCrawling(true);
 			
 			passingParameters.put("resourceFac", resourceFac);
 			passingParameters.put("storageFolderName", gatherFolderPath + "/resource");
+			passingParameters.put("site", site);
 			passingParameters.put("isImage", true);
 			passingParameters.put("isFlash", true);
 			passingParameters.put("isVideo", true);
