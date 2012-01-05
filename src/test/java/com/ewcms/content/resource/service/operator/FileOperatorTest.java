@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.resource.operator;
+package com.ewcms.content.resource.service.operator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.Assert;
 
+import com.ewcms.content.resource.service.operator.FileOperator;
 import com.ewcms.publication.uri.UriRules;
 
 /**

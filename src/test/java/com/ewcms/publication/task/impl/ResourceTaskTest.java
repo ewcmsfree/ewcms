@@ -37,7 +37,7 @@ public class ResourceTaskTest {
         site.setSiteName("主站");
         ResourceTask task =new ResourceTask.Builder(service, site).
             forceAgain().
-            setResourceIds(new Integer[]{}).
+            setResourceIds(new int[]{}).
             setUsername("test").
             builder();
         
@@ -96,7 +96,7 @@ public class ResourceTaskTest {
     public void testTaskProcessByResourceIds()throws TaskException{
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
-        Integer[] resourceIds = new Integer[]{0,1,2,3};
+        int[] resourceIds = new int[]{0,1,2,3};
         Site site = new Site();
         site.setId(siteId);
         site.setSiteName("主站");
@@ -116,7 +116,7 @@ public class ResourceTaskTest {
     public void testTaskProcessAgainByResourceIds()throws TaskException{
         Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
-        Integer[] resourceIds = new Integer[]{0,1,2,3};
+        int[] resourceIds = new int[]{0,1,2,3};
         Site site = new Site();
         site.setId(siteId);
         site.setSiteName("主站");

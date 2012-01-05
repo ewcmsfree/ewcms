@@ -97,22 +97,32 @@ public class MemoryTaskRegistryTest {
     }
      
     @Test
-    public void testRemoveTaskNotExistTask(){
+    public void testRemoveTaskNotExistTask() throws TaskException{
+        Integer siteId = 0;
+        String taskId = "0";
+        String username="test";
         Taskable task = mock(Taskable.class);
-        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        when(task.getSiteId()).thenReturn(siteId);
+        when(task.getId()).thenReturn(taskId);
+        when(task.getUsername()).thenReturn(username);
         MemoryTaskRegistry register = new MemoryTaskRegistry();
-        register.removeTask(task);
+        register.removeTask(siteId,taskId,username);
         Assert.assertFalse(register.containsTask(task));
     }
     
     @Test
-    public void testRemoveTask(){
+    public void testRemoveTask() throws TaskException{
+        Integer siteId = 0;
+        String taskId = "0";
+        String username="test";
         Taskable task = mock(Taskable.class);
-        when(task.getSiteId()).thenReturn(Integer.MAX_VALUE);
+        when(task.getSiteId()).thenReturn(siteId);
+        when(task.getId()).thenReturn(taskId);
+        when(task.getUsername()).thenReturn(username);
         MemoryTaskRegistry register = new MemoryTaskRegistry();
         register.registerNewTask(task);
         
-        register.removeTask(task);
+        register.removeTask(siteId,taskId,username);
         Assert.assertFalse( register.containsTask(task));
     }
     

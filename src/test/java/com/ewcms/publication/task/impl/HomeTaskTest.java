@@ -40,10 +40,10 @@ public class HomeTaskTest {
         String path = "/test/index.html";
         TemplateSourcePublishServiceable templateSourceService = mock(TemplateSourcePublishServiceable.class);
         Template template = newTemplate(path);
+        template.setUriPattern("${a}");
         HomeTask task = new HomeTask.Builder(
                 new Configuration(),templateSourceService, new Site(), new Channel(), template).
                 setUsername("test").
-                setUriRulePatter("${a}").
                 dependence().
                 build();
         

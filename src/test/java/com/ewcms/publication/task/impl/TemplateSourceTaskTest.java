@@ -36,14 +36,14 @@ public class TemplateSourceTaskTest {
         TemplateSourceTask task = 
             new TemplateSourceTask.Builder(service, site).
             forceAgain().
-            setSourceId(Integer.MIN_VALUE).
+            setSourceIds(new int[]{Integer.MIN_VALUE}).
             setUsername("user").
             builder();
         
         Assert.assertNotNull(task);
         Assert.assertEquals("user", task.getUsername());
         Assert.assertTrue(task.isAgain());
-        Assert.assertEquals(Integer.MIN_VALUE, task.getSourceId().intValue());
+        Assert.assertEquals(Integer.MIN_VALUE, task.getSourceIds()[0]);
         Assert.assertEquals("主站-模版资源发布(重新)",task.getDescription());
     }
     
@@ -108,7 +108,7 @@ public class TemplateSourceTaskTest {
         TemplateSourceTask task = 
             new TemplateSourceTask.
             Builder(service, site).
-            setSourceId(sourceId).
+            setSourceIds(new int[]{sourceId}).
             builder();
         
         List<TaskProcessable> processes = task.getTaskProcesses();
@@ -149,7 +149,7 @@ public class TemplateSourceTaskTest {
         TemplateSourceTask task = 
             new TemplateSourceTask.
             Builder(service, site).
-            setSourceId(sourceId).
+            setSourceIds(new int[]{sourceId}).
             forceAgain().
             builder();
         
