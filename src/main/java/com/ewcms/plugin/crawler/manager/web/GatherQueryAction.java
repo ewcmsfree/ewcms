@@ -24,9 +24,21 @@ public class GatherQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = 646183126823561961L;
 
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,	String cacheKey, int rows, int page, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Gather.class).setPage(page).setRow(rows).orderAsc("id");
+    	
+    	query.eq("type", Gather.Type.valueOf(getType()));
     	
     	Long id = getParameterValue(Long.class,"id", "查询编号错误，应该是整型");
     	if (isNotNull(id)) query.eq("id", id);
@@ -41,6 +53,9 @@ public class GatherQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Gather.class).setPage(page).setRow(rows).orderAsc("id");
+    	
+    	query.eq("type", Gather.Type.valueOf(getType()));
+    	
         query.in("id", getIds(Long.class));
         return query.queryResult();    
 	}

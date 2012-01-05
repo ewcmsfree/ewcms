@@ -15,7 +15,7 @@ import com.ewcms.plugin.BaseException;
  */
 public interface EwcmsControllerable {
 	
-	public void start(Long gatherId) throws BaseException;
+	public void startCrawl(Long gatherId) throws BaseException;
 	
-	public void interrupt() throws BaseException;
+	public void interruptCrawl() throws BaseException;
 }

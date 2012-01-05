@@ -15,6 +15,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -58,6 +60,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>encoding:页面编码格式</li>
  * <li>titleExternal:外部标题(true:自定义内容标题,false:使用html内容中的title标题)</li>
  * <li>titleRegex:标题表达式</li>
+ * <li>type:采集类型</li>
  * <li>
  * </ul>
  * 
@@ -70,6 +73,20 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class Gather implements Serializable {
 
 	private static final long serialVersionUID = -6421132072889992004L;
+	
+    public enum Type {
+        CONTENT("内容"), RESOURCE("资源");
+        
+    	private String description;
+    	
+    	private Type(String description){
+    		this.description = description;
+    	}
+    	
+    	public String getDescription(){
+    		return description;
+    	}
+   }
 
 	@Id
 	@GeneratedValue(generator = "seq_cwl_gather", strategy = GenerationType.SEQUENCE)
@@ -127,6 +144,9 @@ public class Gather implements Serializable {
 	private Boolean titleExternal;
 	@Column(name = "title_regex")
 	private String titleRegex;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+	private Type type;
 
 	public Gather(){
 		maxPage = -1L;
@@ -140,6 +160,7 @@ public class Gather implements Serializable {
 		removeHtmlTag = false;
 		encoding = "UTF-8";
 		titleExternal = false;
+		type = Type.CONTENT;
 	}
 	
 	public Long getId() {
@@ -343,6 +364,14 @@ public class Gather implements Serializable {
 
 	public void setTitleRegex(String titleRegex) {
 		this.titleRegex = titleRegex;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@Override

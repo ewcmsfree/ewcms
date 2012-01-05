@@ -31,14 +31,13 @@ import com.ewcms.plugin.crawler.util.CrawlerUtil;
  * @author wu_zhijun
  * 
  */
-public class EwcmsWebCrawler extends WebCrawler {
+public class EwcmsContentCrawler extends WebCrawler {
 
-	private static final Logger logger = LoggerFactory.getLogger(EwcmsWebCrawler.class);
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsContentCrawler.class);
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 	
-	private String[] myCrawlDomains;
-	
+	private String[] crawlDomains;
 	private ArticleMainServiceable articleMainService;
 	private Gather gather;
 	private String matchRegex;
@@ -48,7 +47,7 @@ public class EwcmsWebCrawler extends WebCrawler {
 	@Override
 	public void onStart() {
 		super.onStart();
-		myCrawlDomains = (String[]) myController.getCustomData();
+		crawlDomains = (String[]) myController.getCustomData();
 		articleMainService = (ArticleMainServiceable)getPassingParameters().get("articleMainService");
 		matchRegex = (String)getPassingParameters().get("matchRegex");
 		filterRegex = (String)getPassingParameters().get("filterRegex");
@@ -62,12 +61,13 @@ public class EwcmsWebCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		if (FILTERS.matcher(href).matches()) {
-			return false;
-		}
-		for (String crawlDomain : myCrawlDomains) {
-			if (href.startsWith(crawlDomain) && href.indexOf(htmlType) > -1) {
-				return true;
+		if (FILTERS.matcher(href).matches()) return false;
+		if (href.lastIndexOf("." + htmlType) == -1)	return false;
+		if (crawlDomains != null && crawlDomains.length > 0){
+			for (String crawlDomain : crawlDomains) {
+				if (href.startsWith(crawlDomain)) {
+					return true;
+				}
 			}
 		}
 		return false;

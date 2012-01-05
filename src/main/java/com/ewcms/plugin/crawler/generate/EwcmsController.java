@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.service.ArticleMainServiceable;
+import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.crawler.generate.crawler.CrawlConfig;
 import com.ewcms.plugin.crawler.generate.crawler.CrawlController;
@@ -48,10 +49,13 @@ public class EwcmsController implements EwcmsControllerable {
 	private CrawlerFacable crawlerFac;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
+	@Autowired
+	private ResourceFacable resourceFac;
+	
 	private CrawlController controller = null;
 	
 	@Override
-	public void start(Long gatherId) throws BaseException{
+	public void startCrawl(Long gatherId) throws BaseException{
 		Gather gather = crawlerFac.findGather(gatherId);
 		
 		if (isNull(gather)){
@@ -69,14 +73,14 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("采集的网站地址未设定！","采集的网站地址未设定！");
 		}
 		
-		if (isNull(gather.getChannelId())){
+		if (gather.getType() == Gather.Type.CONTENT && isNull(gather.getChannelId())){
 			logger.error("收集的频道未设定！");
 			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		
 		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId;
 		try{
-			File gatherFolder = new File(CrawlerUtil.ROOT_FOLDER + gatherId + "/frontier");
+			File gatherFolder = new File(gatherFolderPath);
 			if (gatherFolder.exists()){ 
 				boolean delete = IO.deleteFolderContents(gatherFolder);
 				if (!delete){
@@ -90,7 +94,27 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 			
 		CrawlConfig config = new CrawlConfig();
-		config.setCrawlStorageFolder(gatherFolderPath);
+		config.setCrawlStorageFolder(gatherFolderPath + "/frontier");
+		
+		HashMap<String,Object> passingParameters = new HashMap<String,Object>();
+		if (gather.getType() == Gather.Type.RESOURCE){
+			config.setIncludeBinaryContentInCrawling(true);
+			
+			passingParameters.put("resourceFac", resourceFac);
+			passingParameters.put("storageFolderName", gatherFolderPath + "/resource");
+			passingParameters.put("isImage", true);
+			passingParameters.put("isFlash", true);
+			passingParameters.put("isVideo", true);
+		}else{
+			config.setIncludeBinaryContentInCrawling(gather.getDownloadFile());
+			
+			passingParameters.put("articleMainService", articleMainService);
+			passingParameters.put("gather", gather);
+			passingParameters.put("matchRegex", initMatchBlock(gatherId));
+			passingParameters.put("filterRegex",initFilterBlock(gatherId));
+			
+		}
+		
 		config.setPolitenessDelay(2000);
 		//设置抓取的页面的最大数量，默认值是-1无限深度
 		config.setMaxPagesToFetch(gather.getMaxPage().intValue());
@@ -101,18 +125,11 @@ public class EwcmsController implements EwcmsControllerable {
 			config.setProxyPassword(gather.getProxyPassWord());
 		}
 		config.setMaxDepthOfCrawling(gather.getDepth().shortValue());
-		config.setIncludeBinaryContentInCrawling(gather.getDownloadFile());
 		config.setResumableCrawling(true);
 		
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-		
-		HashMap<String,Object> passingParameters = new HashMap<String,Object>();
-		passingParameters.put("articleMainService", articleMainService);
-		passingParameters.put("gather", gather);
-		passingParameters.put("matchRegex", initMatchBlock(gatherId));
-		passingParameters.put("FilterRegex",initFilterBlock(gatherId));
 		
 		try{
 			controller = new CrawlController(config, pageFetcher, robotstxtServer, passingParameters);
@@ -122,15 +139,22 @@ public class EwcmsController implements EwcmsControllerable {
 			
 			//并发线程数
 			int numberOfCrawlers = gather.getThreadCount();
-			controller.startNonBlocking(EwcmsWebCrawler.class, numberOfCrawlers);
+			if (gather.getType() == Gather.Type.RESOURCE){
+				controller.startNonBlocking(EwcmsResourceCrawler.class, numberOfCrawlers);
+			}else{
+				controller.startNonBlocking(EwcmsContentCrawler.class, numberOfCrawlers);
+			}
 			controller.waitUntilFinish();
 		}catch(Exception e){
 			logger.error("网络采集器运行失败！");
+		}finally{
+			passingParameters.clear();
+			passingParameters = null;
 		}
 	}
 	
 	@Override
-	public void interrupt() throws BaseException{
+	public void interruptCrawl() throws BaseException{
 		if (controller != null){
 			controller.Shutdown();
 			controller.waitUntilFinish();
