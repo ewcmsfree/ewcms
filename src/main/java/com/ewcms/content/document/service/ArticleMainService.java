@@ -40,7 +40,7 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.history.History;
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.WebPublishable;
+import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -57,11 +57,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Autowired
 	private OperateTrackServiceable operateTrackService;
 	@Autowired
-	private WebPublishable webPublish;
+	private WebPublishFacable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
 	
-	public void setWebPublish(WebPublishable webPublish) {
+	public void setWebPublish(WebPublishFacable webPublish) {
 		this.webPublish = webPublish;
 	}
 
@@ -250,7 +250,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
 		if (isNotNull(channelId)) {
-			webPublish.publishChannel(channelId, recursion);
+			webPublish.publishChannel(channelId,false,recursion);
 		}
 	}
 	
