@@ -11,13 +11,14 @@ package com.ewcms.core.site.web;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.publication.output.OutputFactory;
-import com.ewcms.publication.output.Outputable;
+import com.ewcms.publication.output.DeployOperatorable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -235,13 +236,13 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 	public void testSiteServer() {
 		try {
 			SiteServer siteServer = getSiteVo().getSiteServer();
-			Outputable output = OutputFactory.factory(getSiteVo().getSiteServer().getOutputType());
+			DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
 			if(siteServer.getPassword() == null||siteServer.getPassword().length() == 0){
 				if(siteServer.getId() != null){
 					siteServer.setPassword(siteFac.getSite(getSiteVo().getId()).getSiteServer().getPassword());
 				}
 			}
-			output.test(siteServer);
+			output.test();
 			Struts2Util.renderJson(JSONUtil.toJSON("服务器连接成功"));
 		} catch (Exception e) {
 			String errorMSG = "连接异常";

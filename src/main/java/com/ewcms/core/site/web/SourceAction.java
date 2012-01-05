@@ -20,11 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
-import com.ewcms.publication.WebPublishable;
+import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -41,7 +43,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	@Autowired
 	private SiteFac siteFac;
 	@Autowired
-	private WebPublishable webPublish;
+	private WebPublishFacable webPublish;
 	private File sourceFile;
 	private String sourceFileFileName;
 	private String sourceFileContentType;
@@ -381,7 +383,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 
 	public void pubSource() {
 		try {
-			webPublish.publishResourceAgain(getSourceVo().getId(), true);
+		    webPublish.publishTemplateSources(new int[]{getSourceVo().getId()});
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			outputInfo(e.toString());
