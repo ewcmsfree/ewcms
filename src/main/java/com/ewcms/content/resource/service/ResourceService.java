@@ -27,9 +27,10 @@ import com.ewcms.content.resource.dao.ResourceDAO;
 import com.ewcms.content.resource.dao.ResourceDAOable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.Resource.State;
-import com.ewcms.content.resource.service.operator.FileOperator;
-import com.ewcms.content.resource.service.operator.ResourceOperatorable;
+import com.ewcms.content.resource.model.Resource.Type;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.resource.operator.FileOperator;
+import com.ewcms.publication.resource.operator.ResourceOperatorable;
 import com.ewcms.publication.uri.UriRules;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -131,6 +132,27 @@ public class ResourceService implements ResourceServiceable {
         resource.setName(name);
         resource.setDescription(name);
         resource.setType(type);
+        resource.setSite(site);
+        if (type == Resource.Type.IMAGE) {
+            resource.setThumbUri(imageCompression(site,uri,file.getPath()));
+        }
+        resourceDao.persist(resource);
+
+        return resource;
+    }
+    
+    @Override
+    public Resource upload(Site site, File file, String path, Type type) throws IOException{
+        ResourceOperatorable operator = new FileOperator(site.getResourceDir());
+        String name = getFilename(path);
+        String uri = operator.write(new FileInputStream(file), UriRules.newResource(getResourceContext()),getSuffix(name));
+        Resource resource = new Resource();
+        resource.setUri(uri);
+        resource.setSize(file.length());
+        resource.setName(name);
+        resource.setDescription(name);
+        resource.setType(type);
+        resource.setState(State.NORMAL);
         resource.setSite(site);
         if (type == Resource.Type.IMAGE) {
             resource.setThumbUri(imageCompression(site,uri,file.getPath()));

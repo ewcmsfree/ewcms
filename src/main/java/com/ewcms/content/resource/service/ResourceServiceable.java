@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.Resource.Type;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 
 /**
@@ -32,6 +33,18 @@ public interface ResourceServiceable extends ResourcePublishServiceable {
      * @throws IOException
      */
     Resource uplaod(File file,String path,Type type)throws IOException;
+    
+    /**
+     * 上传资源(网络采集器使用)
+     * 
+     * @param site 站点对象
+     * @param file 资源文件
+     * @param path 资源类型
+     * @param type 资源对象
+     * @return
+     * @throws IOException
+     */
+    Resource upload(Site site, File file, String path, Type type) throws IOException;
     
     /**
      * 更新资源

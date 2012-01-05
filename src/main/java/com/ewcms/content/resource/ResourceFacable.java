@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.ewcms.content.resource.model.Resource;
+import com.ewcms.content.resource.model.Resource.Type;
+import com.ewcms.core.site.model.Site;
 
 /**
  * 资源管理接口
@@ -31,6 +33,17 @@ public interface ResourceFacable {
      */
     Resource uploadResource(File file,String fullName,Resource.Type type)throws IOException;
 
+    /**
+     * 上传资源(网络采集器使用)
+     * 
+     * @param site 站点对象
+     * @param file 资源文件
+     * @param path 资源类型
+     * @param type 资源对象
+     * @return
+     * @throws IOException
+     */
+    Resource uploadResource(Site site, File file, String path, Type type) throws IOException;
     /**
      * 更新资源
      * 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.Resource.Type;
 import com.ewcms.content.resource.service.ResourceServiceable;
+import com.ewcms.core.site.model.Site;
 
 /**
  * 实现资源管理门面接口
@@ -34,7 +35,12 @@ public class ResourceFac implements ResourceFacable {
     public Resource uploadResource(File file, String fullName, Resource.Type type) throws IOException {
         return resourceService.uplaod(file, fullName, type);
     }
-
+    
+    @Override
+    public Resource uploadResource(Site site, File file, String path, Type type) throws IOException{
+    	return resourceService.upload(site, file, path, type);
+    }
+    
     @Override
     public Resource updateResource(Integer id, File file, String fullName,Type type) throws IOException {
         return resourceService.update(id, file, fullName, type);
