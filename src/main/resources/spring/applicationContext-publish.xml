@@ -7,8 +7,12 @@
         <property name="defaultEncoding" value = "UTF-8"/>
     </bean>
     
-    <bean id="preview" class="com.ewcms.publication.preview.PreviewService" autowire="byType"/>
-    <bean id="schedulingPublish" class="com.ewcms.publication.SchedulingPublish" autowire="byType"/>
-    <bean id="webPublish" class="com.ewcms.publication.WebPublish" autowire="byType"/>
+    <bean id="preview" class="com.ewcms.publication.preview.PreviewServiceFactoryBean" autowire="byType"/>
+    
+    <bean id="publishService" class="com.ewcms.publication.PublishServiceFactoryBean" autowire="byType"/>
+    
+    <bean id="schedulePublishFac" class="com.ewcms.publication.SchedulePublishFac" autowire="byType"/>
+    
+    <bean id="webPublishFac" class="com.ewcms.publication.WebPublishFac" autowire="byType"/>
     
 </beans>
