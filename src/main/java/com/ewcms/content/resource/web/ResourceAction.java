@@ -8,7 +8,6 @@ package com.ewcms.content.resource.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Controller;
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.WebPublishable;
+import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.web.JsonBaseAction;
 import com.opensymphony.xwork2.Action;
 
@@ -34,9 +33,10 @@ import com.opensymphony.xwork2.Action;
  */
 @Controller("resource.resource.action")
 public class ResourceAction extends JsonBaseAction {
-    
-    private static final Logger logger = LoggerFactory.getLogger(ResourceAction.class);
-    
+
+    private static final Logger logger = LoggerFactory
+            .getLogger(ResourceAction.class);
+
     private Integer id = Integer.MIN_VALUE;
     private boolean multi = true;
     private String context;
@@ -47,24 +47,25 @@ public class ResourceAction extends JsonBaseAction {
     private String type;
 
     private int[] selections;
-    private Map<Integer,String> descriptions = new HashMap<Integer,String>();
-    
+    private Map<Integer, String> descriptions = new HashMap<Integer, String>();
+
     @Autowired
     private ResourceFacable resourceFac;
-    
+
     @Autowired
-    private WebPublishable webpublish;
-    
-    public String input(){
+    private WebPublishFacable webpublish;
+
+    public String input() {
         context = ServletActionContext.getRequest().getContextPath();
         context = StringUtils.removeEnd(context, "/");
-        Resource.Type resType = Resource.Type.valueOf(StringUtils.upperCase(type));
-        fileDesc =resType.getFileDesc();
+        Resource.Type resType = Resource.Type.valueOf(StringUtils
+                .upperCase(type));
+        fileDesc = resType.getFileDesc();
         fileExt = resType.getFileExt();
         return Action.SUCCESS;
     }
-    
-    private boolean isNewAdd(){
+
+    private boolean isNewAdd() {
         return id == Integer.MIN_VALUE;
     }
 
@@ -73,21 +74,25 @@ public class ResourceAction extends JsonBaseAction {
      */
     public void receive() {
         try {
-            logger.debug("Resource name is {} and type is {}",myUploadFileName,type);
-            Resource.Type resType = Resource.Type.valueOf(StringUtils.upperCase(type));
+            logger.debug("Resource name is {} and type is {}",
+                    myUploadFileName, type);
+            Resource.Type resType = Resource.Type.valueOf(StringUtils
+                    .upperCase(type));
             Resource resource;
-            if(isNewAdd()){
-                resource = resourceFac.uploadResource(myUpload, myUploadFileName, resType);            
-            }else{
-                resource = resourceFac.updateResource(id,myUpload, myUploadFileName, resType);            
+            if (isNewAdd()) {
+                resource = resourceFac.uploadResource(myUpload,
+                        myUploadFileName, resType);
+            } else {
+                resource = resourceFac.updateResource(id, myUpload,
+                        myUploadFileName, resType);
             }
             renderSuccess(resource);
         } catch (IOException e) {
-            logger.error("Upload resource is error:{}",e);
+            logger.error("Upload resource is error:{}", e);
             renderError(e.toString());
         }
     }
-    
+
     /**
      * 删除资源，只是标识资源为删除状态
      */
@@ -100,22 +105,12 @@ public class ResourceAction extends JsonBaseAction {
      * 发布资源
      */
     public void publish() {
-        
-        List<Integer> errors = new ArrayList<Integer>();
-        
-        for(int id : selections){
-            try{
-                webpublish.publishResourceAgain(id, false);
-            }catch(PublishException e){
-                logger.error("resource publish fail {}",e);
-                errors.add(id);
-            }
-        }
-        
-        if(errors.isEmpty()){
+        try {
+            webpublish.publishResources(selections);
             renderSuccess();
-        }else{
-            String message =String.format("资源编号[%s]发布失败!", StringUtils.join(errors, ","));
+        } catch (PublishException e) {
+            logger.error("resource publish fail {}", e);
+            String message = String.format("资源编号发布失败");
             renderError(message);
         }
     }
@@ -127,7 +122,7 @@ public class ResourceAction extends JsonBaseAction {
         List<Resource> resources = resourceFac.saveResource(descriptions);
         renderSuccess(resources);
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -147,7 +142,7 @@ public class ResourceAction extends JsonBaseAction {
     public String getContext() {
         return this.context;
     }
-    
+
     public String getFileDesc() {
         return fileDesc;
     }
@@ -164,31 +159,31 @@ public class ResourceAction extends JsonBaseAction {
         this.myUploadFileName = uploadFileName;
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getType() {
         return type;
     }
-    
+
     public void setSelections(int[] selects) {
         this.selections = selects;
     }
-    
-    public void setDescriptions(Map<Integer,String> infos) {
+
+    public void setDescriptions(Map<Integer, String> infos) {
         this.descriptions = infos;
     }
 
-    public Map<Integer,String> getDescriptions() {
+    public Map<Integer, String> getDescriptions() {
         return descriptions;
     }
-    
+
     public void setResourceFac(ResourceFacable fac) {
         resourceFac = fac;
     }
-    
-    public void setWebpublish(WebPublishable webpublish) {
+
+    public void setWebpublish(WebPublishFacable webpublish) {
         this.webpublish = webpublish;
     }
 }
