@@ -28,7 +28,7 @@ import freemarker.template.Configuration;
  * @author wangwei
  */
 @Service
-public class PreviewServiceFactory implements FactoryBean<PreviewServiceable>,InitializingBean,MessageSourceAware{
+public class PreviewServiceFactoryBean implements FactoryBean<PreviewServiceable>,InitializingBean,MessageSourceAware{
 
     @Autowired
     private Configuration configuration;
