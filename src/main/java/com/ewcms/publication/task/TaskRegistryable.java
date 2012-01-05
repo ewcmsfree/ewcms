@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface TaskRegistryable {
     
+    public static final String MANAGER_USERNAME = "ewcms_system_manager";
+    
     /**
      * 注册新的任务
      * 
@@ -24,10 +26,13 @@ public interface TaskRegistryable {
     
     /**
      * 移除任务
+     * <br/>
      * 
-     * @param task 移除任务
+     * @param siteId 站点编号
+     * @param id 任务编号
+     * @param username  用户名
      */
-    void removeTask(Taskable task);
+    void removeTask(Integer siteId,String id,String username)throws TaskException;
     
     /**
      * 得到等待处理的站点

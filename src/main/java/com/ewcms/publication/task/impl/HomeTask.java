@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.Channel;
@@ -32,7 +33,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-class HomeTask extends TaskBase{
+public class HomeTask extends TaskBase{
 
     public static class Builder {
         
@@ -63,15 +64,13 @@ class HomeTask extends TaskBase{
             this.channel = channel;
             this.path = template.getUniquePath();
             this.name = template.getName();
+            if(StringUtils.isNotBlank(template.getUriPattern())){
+                uriRule =  UriRules.newUriRuleBy(template.getUriPattern());
+            }
         }
         
         public Builder setUsername(String username){
             this.username = username;
-            return this;
-        }
-        
-        public Builder setUriRulePatter(String uriRulePatter){
-            uriRule =  UriRules.newUriRuleBy(uriRulePatter);
             return this;
         }
         

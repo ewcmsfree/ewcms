@@ -36,7 +36,7 @@ public class ResourceTask extends TaskBase{
         private final Integer siteId;
         private final String name;
         private String username = DEFAULT_USERNAME;
-        private Integer[] resourceIds;
+        private int[] resourceIds;
         private boolean again = false;
         
         public Builder(ResourcePublishServiceable resourceService,Site site){
@@ -50,7 +50,7 @@ public class ResourceTask extends TaskBase{
             return this;
         }
         
-        public Builder setResourceIds(Integer[] ids){
+        public Builder setResourceIds(int[] ids){
             this.resourceIds = ids;
             return this;
         }
@@ -98,7 +98,7 @@ public class ResourceTask extends TaskBase{
         return builder.again;
     }
     
-    protected Integer[] getResourceIds(){
+    protected int[] getResourceIds(){
         return builder.resourceIds;
     }
     

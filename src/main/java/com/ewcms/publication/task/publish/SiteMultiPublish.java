@@ -28,18 +28,18 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  * 
  * @author wangwei
  */
-public class MultiSitePublish extends SitePublish{
+public class SiteMultiPublish extends SitePublish{
 
-    private static final Logger logger = LoggerFactory.getLogger(MultiSitePublish.class);
+    private static final Logger logger = LoggerFactory.getLogger(SiteMultiPublish.class);
     private static final int DEFAULT_TASK_NUMBER = 8;
 
     private final ExecutorService executorService;
     
-    public MultiSitePublish(SiteServer server) {
+    public SiteMultiPublish(SiteServer server) {
         this(server, DEFAULT_TASK_NUMBER);
     }
 
-    public MultiSitePublish(SiteServer server, int taskNumber) {
+    public SiteMultiPublish(SiteServer server, int taskNumber) {
         super(server);
         this.executorService = Executors.newFixedThreadPool(taskNumber);
     }

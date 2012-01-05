@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.ewcms.publication.task.impl.process.TaskProcessable;
-
 
 /**
  * 内存任务注册
@@ -33,6 +33,7 @@ public class MemoryTaskRegistry implements TaskRegistryable{
     private static final Logger logger = LoggerFactory.getLogger(MemoryTaskRegistry.class);
     
     private final Map<Integer, SiteTasks> taskPool =Collections.synchronizedMap(new LinkedHashMap<Integer,SiteTasks>());
+    private final  Semaphore semaphore = new Semaphore(1);
     
     @Override
     public void registerNewTask(Taskable task) {
@@ -46,20 +47,19 @@ public class MemoryTaskRegistry implements TaskRegistryable{
                 taskPool.put(siteId, siteTasks);
             }
             siteTasks.addTask(task);
+            semaphore.release();
         }
     }
 
     @Override
-    public void removeTask(Taskable task) {
-        Assert.notNull(task,"task is null");
+    public void removeTask(Integer siteId,String id,String username)throws TaskException {
         synchronized(taskPool){
-            final Integer siteId = task.getSiteId();
             SiteTasks siteTasks = taskPool.get(siteId);
             if(siteTasks == null){
                 logger.debug("Site's task object is not exist,site id is {}",siteId);
                 return ;
             }
-            siteTasks.removeTask(task);
+            siteTasks.removeTask(id,username);
         }
     }
 
@@ -67,23 +67,31 @@ public class MemoryTaskRegistry implements TaskRegistryable{
     @Override
     public Integer getWaitSite() {
         synchronized(taskPool){
-            Iterator<Integer> iterator = taskPool.keySet().iterator();
-            for(;iterator.hasNext();){
-                Integer siteId = iterator.next();
-                SiteTasks siteTasks = taskPool.get(siteId);
-                logger.debug("Site's id is {},task running state is {}",siteId,siteTasks.isRunning());
-                if(!siteTasks.isRunning()){
-                    return siteId;
+            try {
+                semaphore.acquire();
+                Iterator<Integer> iterator = taskPool.keySet().iterator();
+                for(;iterator.hasNext();){
+                    Integer siteId = iterator.next();
+                    SiteTasks siteTasks = taskPool.get(siteId);
+                    logger.debug("Site's id is {},task running state is {}",siteId,siteTasks.isRunning());
+                    if(!siteTasks.isRunning()){
+                        semaphore.release();
+                        return siteId;
+                    }
                 }
+            } catch (InterruptedException e) {
+                semaphore.release();
+                logger.debug("Semaphore is fail:{}",e);
             }
         }
+        
         return null;
     }
 
 
     @Override
     public Taskable getTaskOfSite(Integer siteId) {
-        Assert.notNull(siteId,"site id is null");
+        Assert.notNull(siteId,"Site id is null");
         synchronized(taskPool){
             SiteTasks siteTask = taskPool.get(siteId);
             if(siteTask == null){
@@ -142,9 +150,27 @@ public class MemoryTaskRegistry implements TaskRegistryable{
             }
         }
         
-        public void removeTask(Taskable task){
-            synchronized(task){
-                tasks.remove(task);
+        public void removeTask(String id,String username)throws TaskException{
+            synchronized(tasks){
+                Taskable current = null;
+                for(Taskable task : tasks){
+                    if(task.getId().equals(id)){
+                        current = task;
+                        break;
+                    }
+                }
+                if(current == null){
+                    return ;
+                }
+                if(!current.getUsername().equals(username) && 
+                        !current.getUsername().equals(MANAGER_USERNAME)){
+                    logger.debug("{} is owner of task,{} does not operator",current.getUsername(),username);
+                    throw new TaskException("The task is not owner of it");
+                }
+                if(current.isRunning()){
+                    runningNum.decrementAndGet();
+                }
+                tasks.remove(current);
             }
         }
         
@@ -244,6 +270,7 @@ public class MemoryTaskRegistry implements TaskRegistryable{
                     tasks.remove(task);
                 }
             }
+            semaphore.release();
             task.close();
         }
 

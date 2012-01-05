@@ -35,7 +35,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-class ListTask extends TaskBase{
+public class ListTask extends TaskBase{
     private static final Logger logger = LoggerFactory.getLogger(ListTask.class);
     
     public static class Builder{
@@ -47,7 +47,7 @@ class ListTask extends TaskBase{
         private final String path;
         private final String name;
         private String username;
-        private String uriRulePatter;
+        private UriRuleable uriRule= UriRules.newList() ;
         private boolean independence = true;
         private List<Taskable> dependences;
         
@@ -63,15 +63,13 @@ class ListTask extends TaskBase{
             this.channel = channel;
             this.path = template.getUniquePath();
             this.name = template.getName();
+            if(StringUtils.isNotBlank(template.getUriPattern())){
+                uriRule =UriRules.newUriRuleBy(template.getUriPattern());
+            }
         }
         
         public Builder setUsername(String username){
             this.username = username;
-            return this;
-        }
-        
-        public Builder setUriRulePatter(String patter){
-            this.uriRulePatter = patter;
             return this;
         }
         
@@ -151,11 +149,9 @@ class ListTask extends TaskBase{
         int pageCount = getPageCount(builder.channel.getId(),builder.channel.getListSize());
         logger.debug("Page count is {}",pageCount);
         List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
-        UriRuleable uriRule = (StringUtils.isBlank(builder.uriRulePatter) ? 
-                UriRules.newList() : UriRules.newUriRuleBy(builder.uriRulePatter));
         for(int page = 0 ; page < pageCount ; page++){
             Generatorable generator = 
-                new ListGenerator(builder.cfg,builder.site,builder.channel,uriRule,page,pageCount);
+                new ListGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule,page,pageCount);
             TaskProcessable process = new GeneratorProcess(generator,builder.path);
             process.registerEvent(new CompleteEvent(this));
             processes.add(process);

@@ -38,7 +38,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-class DetailTask extends TaskBase{
+public class DetailTask extends TaskBase{
     private final static Logger logger = LoggerFactory.getLogger(DetailTask.class);
     
     private final static int MAX_PUBLISH_SIZE = 50000;
@@ -54,8 +54,8 @@ class DetailTask extends TaskBase{
         private final String name;
         private String username = DEFAULT_USERNAME;
         private boolean again = false;
-        private Long[] articleIds;
-        private String uriRulePatter;
+        private long[] articleIds;
+        private UriRuleable uriRule= UriRules.newDetail() ;
         private boolean independence = true;
         private List<Taskable> dependences;
         
@@ -73,6 +73,9 @@ class DetailTask extends TaskBase{
             this.channel = channel;
             this.path = template.getUniquePath();
             this.name = template.getName();
+            if(StringUtils.isNotBlank(template.getUriPattern())){
+                uriRule =  UriRules.newUriRuleBy(template.getUriPattern());
+            }
         }
         
         public Builder setUsername(String username){
@@ -80,7 +83,7 @@ class DetailTask extends TaskBase{
             return this;
         }
         
-        public Builder setArticleIds(Long[] ids){
+        public Builder setArticleIds(long[] ids){
             this.articleIds = ids;
             return this;
         }
@@ -92,11 +95,6 @@ class DetailTask extends TaskBase{
         
         Builder setAgain(boolean again){
             this.again = again;
-            return this;
-        }
-        
-        public Builder setUriRulePatter(String patter){
-            this.uriRulePatter = patter;
             return this;
         }
         
@@ -197,8 +195,6 @@ class DetailTask extends TaskBase{
         
         List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
         List<Article> articles = getPublishArticles();
-        UriRuleable uriRule = (StringUtils.isBlank(builder.uriRulePatter) ? 
-                UriRules.newDetail() : UriRules.newUriRuleBy(builder.uriRulePatter));
         for(Article article : articles){
             final int total = article.getContentTotal();
             if(total ==  0){
@@ -207,7 +203,7 @@ class DetailTask extends TaskBase{
             Generatorable[] generators = new Generatorable[total];
             for(int page = 0 ; page < total ; page++ ){
                 generators[page] = new DetailGenerator(
-                        builder.cfg,builder.site,builder.channel,uriRule,article,page);
+                        builder.cfg,builder.site,builder.channel,builder.uriRule,article,page);
             }
             TaskProcessable process = new GeneratorProcess(generators,builder.path);
             process.registerEvent(new DetailEvent(this,builder.articleService,article));

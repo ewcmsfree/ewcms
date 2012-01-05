@@ -68,6 +68,11 @@ public class SiteTask extends TaskBase {
             return this;
         }
         
+        public Builder setAgain(boolean again){
+            this.again = again;
+            return this;
+        }
+        
         private List<Taskable> getDependences(){
             List<Taskable> dependences = new ArrayList<Taskable>();
             dependences.add(new  TemplateSourceTask.Builder(templateSourceService,site).

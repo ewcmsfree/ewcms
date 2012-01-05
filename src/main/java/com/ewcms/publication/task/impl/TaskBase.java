@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ewcms.publication.task.TaskException;
+import com.ewcms.publication.task.TaskRegistryable;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 
@@ -21,7 +22,7 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  */
 public abstract class TaskBase implements Taskable{
     
-    protected static final String DEFAULT_USERNAME = "ewcms_system_manager";
+    protected static final String DEFAULT_USERNAME = TaskRegistryable.MANAGER_USERNAME;
     protected static final Random random = initRandom();
     
     protected final String id;

@@ -35,7 +35,7 @@ public class TemplateSourceTask extends TaskBase {
         private final Integer siteId;
         private final String name;
         private String username = DEFAULT_USERNAME;
-        private Integer[] sourceIds;
+        private int[] sourceIds;
         private boolean again = false;
         
         public Builder(TemplateSourcePublishServiceable templateSourceService,Site site){
@@ -47,7 +47,7 @@ public class TemplateSourceTask extends TaskBase {
             this.name = site.getSiteName();
         }
 
-        public Builder setSourceIds(Integer[] sourceIds) {
+        public Builder setSourceIds(int[] sourceIds) {
             this.sourceIds = sourceIds;
             return this;
         }
@@ -100,7 +100,7 @@ public class TemplateSourceTask extends TaskBase {
         return builder.again;
     }
     
-    protected Integer[] getSourceIds(){
+    protected int[] getSourceIds(){
         return builder.sourceIds;
     }
     

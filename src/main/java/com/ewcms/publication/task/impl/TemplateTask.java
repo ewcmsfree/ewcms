@@ -7,8 +7,6 @@ package com.ewcms.publication.task.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
@@ -84,45 +82,44 @@ public class TemplateTask extends TaskBase{
             return this;
         }
         
-        private Taskable newHomeTask(Template template,String uriRulePatter){
-            return new HomeTask.Builder(cfg,templateSourceService,site,channel,template).
+        private Taskable newHomeTask(){
+            return new HomeTask.Builder(
+                    cfg,templateSourceService,site,channel,template).
                     setUsername(username).
-                    setUriRulePatter(uriRulePatter).
                     setIndependence(independence).
                     build();
         }
         
-        private Taskable newListTask(Template template,String uriRulePatter){
-            return new ListTask.Builder(cfg,templateSourceService,articleService,site,channel,template).
+        private Taskable newListTask(){
+            return new ListTask.Builder(
+                    cfg,templateSourceService,articleService,
+                    site,channel,template).
                     setUsername(username).
-                    setUriRulePatter(uriRulePatter).
                     setIndependence(independence).
-                    dependence().
                     build();    
         }
         
-        private Taskable newDetailTask(Template template,String uriRulePatter){
-            return new DetailTask.Builder(cfg,templateSourceService,resourceService,articleService,site,channel,template).
+        private Taskable newDetailTask(){
+            return new DetailTask.Builder(
+                    cfg,templateSourceService,resourceService,
+                    articleService,site,channel,template).
                     setUsername(username).
-                    setUriRulePatter(uriRulePatter).
                     setIndependence(independence).
                     setAgain(again).
-                    dependence().
                     build();
         }
         
         private Taskable getTemplateTaskBy(TemplateType type,String patter) {
-            String uriRulePatter = StringUtils.isBlank(patter) ?null : patter;
             Taskable task;
             switch (template.getType()) {
             case HOME:
-                task = newHomeTask(template, uriRulePatter);
+                task = newHomeTask();
                 break;
             case LIST:
-                task = newListTask(template, uriRulePatter);
+                task = newListTask();
                 break;
             case DETAIL:
-                task = newDetailTask(template, uriRulePatter);
+                task = newDetailTask();
                 break;
             default:
                 task = new NoneTask();

@@ -76,7 +76,7 @@ public class ChannelTask extends TaskBase{
             return this;
         }
         
-        Builder setAgain(boolean again){
+        public Builder setAgain(boolean again){
             this.again = again;
             return this;
         }
@@ -96,7 +96,7 @@ public class ChannelTask extends TaskBase{
             return this;
         }
         
-        Builder setPublishChildren(boolean publishChildren){
+        public Builder setPublishChildren(boolean publishChildren){
             this.publishChildren = publishChildren;
             return this;
         }
