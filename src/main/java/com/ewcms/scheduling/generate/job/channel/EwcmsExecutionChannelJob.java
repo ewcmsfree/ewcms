@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.SchedulingPublishable;
+import com.ewcms.publication.SchedulePublishFacable;
 import com.ewcms.scheduling.generate.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
 
@@ -29,7 +29,7 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionChannelJob.class);
     
     private static final String SCHEDULER_FACTORY = "ewcmsJobChannelFac";
-    private static final String PUBLISH_CHANNEL_FACTORY = "schedulingPublish";
+    private static final String PUBLISH_CHANNEL_FACTORY = "schedulePublish";
 
     protected EwcmsJobChannel jobDetails;
     
@@ -84,8 +84,8 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
         return jobChannel;
     }
 
-    protected SchedulingPublishable getSchedulingPublishable(){
-    	return (SchedulingPublishable) applicationContext.getBean(PUBLISH_CHANNEL_FACTORY);
+    protected SchedulePublishFacable getSchedulingPublishable(){
+    	return (SchedulePublishFacable) applicationContext.getBean(PUBLISH_CHANNEL_FACTORY);
     }
     
     protected EwcmsJobChannelFacable getEwcmsSchedulingFac() {
