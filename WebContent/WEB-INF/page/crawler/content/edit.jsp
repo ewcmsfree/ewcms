@@ -69,7 +69,7 @@
         </script>		
 	</head>
 	<body>
-		<s:form action="save" namespace="/crawler">
+		<s:form action="save" namespace="/crawler/content">
 			<table class="formtable" >
 				<tr>
 					<td width="20%">名称：</td>
@@ -200,6 +200,7 @@
 				</tr>
 			</table>
 			<s:hidden name="gatherVo.id"/>
+			<s:hidden name="gatherVo.type" value="CONTENT"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

@@ -17,8 +17,8 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/crawler/index.js"/>'></script>
 		<script type="text/javascript">
-			queryURL = '<s:url namespace="/crawler" action="query"/>';
-			inputURL = '<s:url namespace="/crawler" action="input"/>';
+			queryURL = '<s:url namespace="/crawler" action="query"/>?type=CONTENT';
+			inputURL = '<s:url namespace="/crawler/content" action="input"/>';
 			deleteURL = '<s:url namespace="/crawler" action="delete"/>';
 			delGatherDataURL = '<s:url namespace="/crawler" action="delGatherData"/>';
 			matchIndexURL = '<s:url namespace="/crawler/match" action="index"/>';
@@ -33,7 +33,7 @@
 		<div region="center" style="padding:2px;" border="false">
 	 		<table id="tt" fit="true"></table>	
 	 	</div>
-        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;网络采集器属性" style="display:none;">
+        <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" title="&nbsp;内容采集属性" style="display:none;">
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>

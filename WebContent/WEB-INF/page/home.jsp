@@ -122,12 +122,6 @@
                             <span>文章分类</span>
                         </a>
                     </div>
-                    <div class="nav-item">
-                        <a href="javascript:_home.addTab('采集器','crawler/index.do')">
-                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
-                            <span>采集器</span>
-                        </a>
-                    </div>
                 </div>
                 <div title="权限管理" style="overflow:auto;">
                    <div class="nav-item">
@@ -214,6 +208,22 @@
                         <a href="javascript:_home.addTab('资源回收站','resource/manage/recycle.do')">
                             <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
+                        </a>
+                    </div>
+                </div>
+                </sec:authorize>
+                <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                <div title="网络采集" style="overflow:auto;">
+                    <div class="nav-item">
+                        <a href="javascript:_home.addTab('内容采集','crawler/content/index.do')">
+                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
+                            <span>内容采集</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="javascript:_home.addTab('资源采集','crawler/resource/index.do')">
+                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
+                            <span>资源采集</span>
                         </a>
                     </div>
                 </div>
