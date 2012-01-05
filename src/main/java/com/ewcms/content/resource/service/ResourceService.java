@@ -27,9 +27,9 @@ import com.ewcms.content.resource.dao.ResourceDAO;
 import com.ewcms.content.resource.dao.ResourceDAOable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.Resource.State;
+import com.ewcms.content.resource.service.operator.FileOperator;
+import com.ewcms.content.resource.service.operator.ResourceOperatorable;
 import com.ewcms.core.site.model.Site;
-import com.ewcms.publication.resource.operator.FileOperator;
-import com.ewcms.publication.resource.operator.ResourceOperatorable;
 import com.ewcms.publication.uri.UriRules;
 import com.ewcms.web.util.EwcmsContextUtil;
 
