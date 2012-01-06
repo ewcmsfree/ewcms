@@ -18,7 +18,7 @@ import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
