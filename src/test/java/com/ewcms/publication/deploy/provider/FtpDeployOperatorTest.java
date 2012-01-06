@@ -4,34 +4,39 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output.provider;
+package com.ewcms.publication.deploy.provider;
 
 import org.apache.commons.vfs2.FileObject;
-import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.util.Assert;
+
+import com.ewcms.publication.deploy.DeployOperatorable;
+import com.ewcms.publication.deploy.provider.FtpDeployOperator;
 
 /**
- * SftpDeployOperator单元测试
+ * FtpDeployOperator单元测试
  * 
  * @author wangwei
- *
  */
-public class SftpDeployOperatorTest {
-
+public class FtpDeployOperatorTest {
+    
     @Test
     public void testGetTargtRoot()throws Exception{
         String hostname = "127.0.0.1";
-        String username = "wangwei";
-        String password = "hhywangwei";
+        String username = "user";
+        String password = "user";
         String path = "/tmp";
-        SftpDeployOperator operator = (SftpDeployOperator)new SftpDeployOperator
+        
+        DeployOperatorable operator = new FtpDeployOperator
                 .Builder(hostname, path)
                 .setUsername(username)
                 .setPassword(password)
                 .build();
         
-        FileObject target = operator.getRootFileObject();
-        Assert.assertNotNull(target);
+        FtpDeployOperator ftpOperator = (FtpDeployOperator)operator;
+        
+        FileObject target = ftpOperator.getRootFileObject();
+        Assert.notNull(target);
         target.close();
     }
 }

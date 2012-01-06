@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output.provider;
+package com.ewcms.publication.deploy.provider;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -25,7 +25,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
+import com.ewcms.publication.deploy.provider.DeployOperatorBase;
 
 /**
  * DeployOperatorBase单元测试

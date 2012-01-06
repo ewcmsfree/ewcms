@@ -4,13 +4,14 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output.provider;
+package com.ewcms.publication.deploy.provider;
 
 import org.apache.commons.vfs2.FileObject;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
+import com.ewcms.publication.deploy.provider.LocalDeployOperator;
 
 /**
  * LocalDeployOperator单元测试

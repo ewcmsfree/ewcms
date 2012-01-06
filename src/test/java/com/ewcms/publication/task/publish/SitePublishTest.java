@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.event.TaskEventable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
