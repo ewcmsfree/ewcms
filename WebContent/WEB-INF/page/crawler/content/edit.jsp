@@ -16,7 +16,7 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
         	$(function() {
-    	        <s:include value="../alertMessage.jsp"/>
+    	        <s:include value="../../alertMessage.jsp"/>
     	        
         		if ($("#proxy").attr("checked") == 'checked') {
     				$("#trProxy").show();

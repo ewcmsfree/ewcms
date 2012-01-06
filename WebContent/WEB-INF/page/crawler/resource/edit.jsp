@@ -16,17 +16,17 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript">
         	$(function() {
-    	        <s:include value="../alertMessage.jsp"/>
+    	        <s:include value="../../alertMessage.jsp"/>
     	        
         		if ($("#proxy").attr("checked") == 'checked') {
     				$("#trProxy").show();
     			} else {
     				$("#trProxy").hide();
     			}
-        		if ($('#titleExternal').attr('checked') == 'checked'){
-        			$('#titleRegex').attr('readonly',false);
+        		if ($('#isAnnex').attr('checked') == 'checked'){
+        			$("#annexType_span").show();
         		}else{
-        			$('#titleRegex').attr('readonly',true);
+        			$("#annexType_span").hide();
         		}
         		$("#proxy").click(function() {
         			if ($("#proxy").attr("checked") == 'checked') {
@@ -35,7 +35,14 @@
         				$("#trProxy").hide();
         			}
         		});
-        	})
+        		$('#isAnnex').click(function(){
+            		if ($('#isAnnex').attr('checked') == 'checked'){
+            			$("#annexType_span").show();
+            		}else{
+            			$("#annexType_span").hide();
+            		}
+        		});
+       	})
         </script>		
 	</head>
 	<body>
@@ -55,8 +62,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td>类型：</td>
+					<td>资源类型：</td>
 					<td>
+						<s:checkbox id="isImage" name="gatherVo.isImage" cssStyle="vertical-align: middle;"/><label for="isImage">图片</label>&nbsp;
+						<s:checkbox id="isFlash" name="gatherVo.isFlash" cssStyle="vertical-align: middle;"/><label for="isFlash">Flash</label>&nbsp;
+						<s:checkbox id="isVideo" name="gatherVo.isVideo" cssStyle="vertical-align: middle;"/><label for="isVideo">视频</label>&nbsp;
+						<s:checkbox id="isAnnex" name="gatherVo.isAnnex" cssStyle="vertical-align: middle;"/><label for="isAnnex">附件</label>&nbsp;[<span id="annexType_span">类型：<s:textfield id="annexType" name="gatherVo.annexType" size="10"></s:textfield>(以文件扩展名书写，多项文件中间以"|"隔开，例如：rar|zip)</span>]
 					</td>
 				</tr>
 				<tr>

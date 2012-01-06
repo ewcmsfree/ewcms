@@ -216,13 +216,13 @@
                 <div title="网络采集" style="overflow:auto;">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('内容采集','crawler/content/index.do')">
-                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/crawler_content.png" style="border:0"/><br/>
                             <span>内容采集</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('资源采集','crawler/resource/index.do')">
-                            <img src="ewcmssource/image/crawler.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/crawler_resource.png" style="border:0"/><br/>
                             <span>资源采集</span>
                         </a>
                     </div>
