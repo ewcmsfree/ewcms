@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output.provider;
+package com.ewcms.publication.deploy.provider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 
 /**
  * 发布指定的资源

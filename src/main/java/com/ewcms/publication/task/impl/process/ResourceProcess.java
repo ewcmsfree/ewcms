@@ -8,7 +8,7 @@ package com.ewcms.publication.task.impl.process;
 import org.springframework.util.Assert;
 
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 
 /**
  * 内容资源发布过程

@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output;
+package com.ewcms.publication.deploy;
 
 import java.io.File;
 

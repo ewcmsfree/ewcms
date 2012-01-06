@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;

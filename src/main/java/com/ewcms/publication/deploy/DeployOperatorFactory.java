@@ -4,13 +4,13 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.publication.output;
+package com.ewcms.publication.deploy;
 
 import com.ewcms.core.site.model.SiteServer;
-import com.ewcms.publication.output.provider.FtpDeployOperator;
-import com.ewcms.publication.output.provider.FtpsDeployOperator;
-import com.ewcms.publication.output.provider.LocalDeployOperator;
-import com.ewcms.publication.output.provider.SftpDeployOperator;
+import com.ewcms.publication.deploy.provider.FtpDeployOperator;
+import com.ewcms.publication.deploy.provider.FtpsDeployOperator;
+import com.ewcms.publication.deploy.provider.LocalDeployOperator;
+import com.ewcms.publication.deploy.provider.SftpDeployOperator;
 
 /**
  * 发布资源工厂类

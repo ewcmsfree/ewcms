@@ -6,7 +6,7 @@
 package com.ewcms.publication.task.impl.process;
 
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 
 /**
  * 模版资源发布过程

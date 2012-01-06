@@ -6,7 +6,7 @@
 package com.ewcms.publication.task.impl.process;
 
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.output.DeployOperatorable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.task.impl.event.NoneEvent;
 import com.ewcms.publication.task.impl.event.TaskEventable;
 

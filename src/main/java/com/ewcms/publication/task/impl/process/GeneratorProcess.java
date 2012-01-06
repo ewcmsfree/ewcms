@@ -8,8 +8,8 @@ package com.ewcms.publication.task.impl.process;
 import java.io.File;
 
 import com.ewcms.publication.PublishException;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.generator.Generatorable;
-import com.ewcms.publication.output.DeployOperatorable;
 
 /**
  * 生成页面发布过程
