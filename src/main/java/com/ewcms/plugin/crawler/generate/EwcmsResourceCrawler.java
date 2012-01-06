@@ -20,17 +20,18 @@ import com.ewcms.plugin.crawler.generate.util.IO;
  *
  */
 public class EwcmsResourceCrawler extends WebCrawler {
-	private static final Pattern filters = Pattern.compile(".*(\\.(css|js|pdf|zip|rar|gz))$");
-
-	private static final Pattern imgPatterns = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?))$");
-	private static final Pattern flashPatterns = Pattern.compile(".*(\\.(swf|flv))$");
-	private static final Pattern videoPatterns = Pattern.compile(".*(\\.(mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|rm|smil|wmv|wma))$");
+	
+	private static final Pattern IMG_PATTERNS = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?))$");
+	private static final Pattern FLASH_PATTERNS = Pattern.compile(".*(\\.(swf|flv))$");
+	private static final Pattern VIDEO_PATTERNS = Pattern.compile(".*(\\.(mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|rm|smil|wmv|wma))$");
 	
 	private String[] crawlDomains;
 	private String storageFolderName;
-	private Boolean isImage;
-	private Boolean isFlash;
-	private Boolean isVideo;
+	private Boolean isImage = false;
+	private Boolean isFlash = false;
+	private Boolean isVideo = false;
+	private Boolean isAnnex = false;
+	private Pattern annex_patterns;
 	private Site site;
 	private ResourceFacable resourceFac;
 	
@@ -47,6 +48,15 @@ public class EwcmsResourceCrawler extends WebCrawler {
 		isImage = (Boolean)getPassingParameters().get("isImage");
 		isFlash = (Boolean)getPassingParameters().get("isFlash");
 		isVideo = (Boolean)getPassingParameters().get("isVideo");
+		isAnnex = (Boolean)getPassingParameters().get("isAnnex");
+		String annexType = (String)getPassingParameters().get("annexType");
+		if (isAnnex){
+			if (annexType == null || annexType.trim().length() == 0){
+				annex_patterns = Pattern.compile(".*(\\.(*))$");
+			}else{
+				annex_patterns = Pattern.compile(".*(\\.(" + annexType + "))$");
+			}
+		}
 		
 		storageFolderName = (String)getPassingParameters().get("storageFolderName");
 		storageFolder = new File(storageFolderName);
@@ -58,10 +68,10 @@ public class EwcmsResourceCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		if (filters.matcher(href).matches()) return false;
-		if (isImage && imgPatterns.matcher(href).matches()) return true;
-		if (isFlash && flashPatterns.matcher(href).matches()) return true;
-		if (isVideo && videoPatterns.matcher(href).matches()) return true;
+		if (isImage && IMG_PATTERNS.matcher(href).matches()) return true;
+		if (isFlash && FLASH_PATTERNS.matcher(href).matches()) return true;
+		if (isVideo && VIDEO_PATTERNS.matcher(href).matches()) return true;
+		if (isAnnex && annex_patterns.matcher(href).matches()) return true;
 		if (crawlDomains != null && crawlDomains.length > 0){
 			for (String domain : crawlDomains) {
 				if (href.startsWith(domain)) {
@@ -76,35 +86,43 @@ public class EwcmsResourceCrawler extends WebCrawler {
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
 
-		// We are only interested in processing images
 		if (!(page.getParseData() instanceof BinaryParseData)) return;
-		//if (!imgPatterns.matcher(url).matches()) return;
-		// Not interested in very small images
-		if (page.getContentData().length < 10 * 1024) return;
+		//除了附件资源以外，不处理下载小于1k的资源
+		if (!annex_patterns.matcher(url).matches() && page.getContentData().length < 10 * 1024) return;
 
-		// get a unique name for storing this image
+		// 获取唯一的名称
 		String extension = url.substring(url.lastIndexOf("."));
 		String hashedName = Cryptography.MD5(url) + extension;
 		
 		String destination = storageFolder.getAbsolutePath() + "/" + hashedName;
-		// store image
+		// 保存文件
 		IO.writeBytesToFile(page.getContentData(), destination);
 		System.out.println("Stored: " + url);
 		
 		File file = new File(destination);
 		
 		Resource.Type type = Resource.Type.ANNEX;
-		if (imgPatterns.matcher(url).matches())
-			type = Resource.Type.IMAGE;
-		else if (flashPatterns.matcher(url).matches())
-			type = Resource.Type.FLASH;
-		else if (videoPatterns.matcher(url).matches())
-			type = Resource.Type.VIDEO;
-
+		if (IMG_PATTERNS.matcher(url).matches()) type = Resource.Type.IMAGE;
+		else if (FLASH_PATTERNS.matcher(url).matches()) type = Resource.Type.FLASH;
+		else if (VIDEO_PATTERNS.matcher(url).matches())	type = Resource.Type.VIDEO;
+		
 		try {
 			resourceFac.uploadResource(site, file, url, type);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void onBeforeExit() {
+		crawlDomains = null;
+		storageFolderName = null;
+		isImage = null;
+		isFlash = null;
+		isVideo = null;
+		isAnnex = null;
+		annex_patterns = null;
+		site = null;
+		resourceFac = null;
 	}
 }

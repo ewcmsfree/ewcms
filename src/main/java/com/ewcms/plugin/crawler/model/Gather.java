@@ -61,7 +61,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>titleExternal:外部标题(true:自定义内容标题,false:使用html内容中的title标题)</li>
  * <li>titleRegex:标题表达式</li>
  * <li>type:采集类型</li>
- * <li>
+ * <li>isImage:图片资源</li>
+ * <li>isFlash:Flash资源</li>
+ * <li>isVideo:视频资源</li>
+ * <li>isAnnex:附件资源<li>
+ * <li>annexType:附件类型</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -147,6 +151,16 @@ public class Gather implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
 	private Type type;
+    @Column(name = "isImage")
+    private Boolean isImage;
+    @Column(name = "isFlash")
+    private Boolean isFlash;
+    @Column(name = "isVideo")
+    private Boolean isVideo;
+    @Column(name = "isAnnex")
+    private Boolean isAnnex;
+    @Column(name = "annexType")
+    private String annexType;
 
 	public Gather(){
 		maxPage = -1L;
@@ -161,6 +175,10 @@ public class Gather implements Serializable {
 		encoding = "UTF-8";
 		titleExternal = false;
 		type = Type.CONTENT;
+		isImage = false;
+		isFlash = false;
+		isVideo = false;
+		isAnnex = false;
 	}
 	
 	public Long getId() {
@@ -372,6 +390,46 @@ public class Gather implements Serializable {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public Boolean getIsImage() {
+		return isImage;
+	}
+
+	public void setIsImage(Boolean isImage) {
+		this.isImage = isImage;
+	}
+
+	public Boolean getIsFlash() {
+		return isFlash;
+	}
+
+	public void setIsFlash(Boolean isFlash) {
+		this.isFlash = isFlash;
+	}
+
+	public Boolean getIsVideo() {
+		return isVideo;
+	}
+
+	public void setIsVideo(Boolean isVideo) {
+		this.isVideo = isVideo;
+	}
+
+	public Boolean getIsAnnex() {
+		return isAnnex;
+	}
+
+	public void setIsAnnex(Boolean isAnnex) {
+		this.isAnnex = isAnnex;
+	}
+
+	public String getAnnexType() {
+		return annexType;
+	}
+
+	public void setAnnexType(String annexType) {
+		this.annexType = annexType;
 	}
 
 	@Override

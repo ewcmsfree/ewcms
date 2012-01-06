@@ -107,9 +107,11 @@ public class EwcmsController implements EwcmsControllerable {
 			passingParameters.put("resourceFac", resourceFac);
 			passingParameters.put("storageFolderName", gatherFolderPath + "/resource");
 			passingParameters.put("site", site);
-			passingParameters.put("isImage", true);
-			passingParameters.put("isFlash", true);
-			passingParameters.put("isVideo", true);
+			passingParameters.put("isImage", gather.getIsImage());
+			passingParameters.put("isFlash", gather.getIsFlash());
+			passingParameters.put("isVideo", gather.getIsVideo());
+			passingParameters.put("isAnnex", gather.getIsAnnex());
+			passingParameters.put("annexType", gather.getAnnexType());
 		}else{
 			config.setIncludeBinaryContentInCrawling(gather.getDownloadFile());
 			
