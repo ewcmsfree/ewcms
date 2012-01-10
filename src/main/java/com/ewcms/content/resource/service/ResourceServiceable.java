@@ -35,7 +35,7 @@ public interface ResourceServiceable extends ResourcePublishServiceable {
     Resource uplaod(File file,String path,Type type)throws IOException;
     
     /**
-     * 上传资源(网络采集器使用)
+     * 上传资源(网络采集器使用/报表资源使用)
      * 
      * @param site 站点对象
      * @param file 资源文件

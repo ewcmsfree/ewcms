@@ -34,7 +34,7 @@ public interface ResourceFacable {
     Resource uploadResource(File file,String fullName,Resource.Type type)throws IOException;
 
     /**
-     * 上传资源(网络采集器使用)
+     * 上传资源(网络采集器使用/报表资源使用)
      * 
      * @param site 站点对象
      * @param file 资源文件
