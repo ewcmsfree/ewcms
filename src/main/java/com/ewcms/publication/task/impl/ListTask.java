@@ -126,7 +126,7 @@ public class ListTask extends TaskBase{
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         // do not instance
         
     }

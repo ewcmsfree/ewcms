@@ -101,4 +101,13 @@ public interface WebPublishFacable{
      * @throws PublishException
      */
     void publishArticles(int channelId,long[] ids)throws PublishException;
+    
+    /**
+     * 关闭当前的站点发布。
+     * <br>
+     * 当站点的发布设置发生改变时，必需关闭该站点的发布，只有这样下次发布时新的设置才能生效。
+     * 
+     * @throws PublishException
+     */
+    void closePublish()throws PublishException;
 }

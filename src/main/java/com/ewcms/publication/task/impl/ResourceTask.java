@@ -108,7 +108,7 @@ public class ResourceTask extends TaskBase{
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         // do not instance
     }
 

@@ -154,7 +154,7 @@ public class DetailTask extends TaskBase{
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         // do not instance
     }
 

@@ -8,6 +8,8 @@ package com.ewcms.publication.task;
 
 import java.util.List;
 
+import com.ewcms.core.site.model.Site;
+
 /**
  * 注册任务
  * 
@@ -22,7 +24,7 @@ public interface TaskRegistryable {
      * 
      * @param task 任务
      */
-    void registerNewTask(Taskable task);
+    void registerNewTask(Site site,Taskable task);
     
     /**
      * 移除任务
@@ -35,27 +37,20 @@ public interface TaskRegistryable {
     void removeTask(Integer siteId,String id,String username)throws TaskException;
     
     /**
-     * 得到等待处理的站点
-     * </p>
-     * 站点所属的任务没有在运行
-     * 
-     * @return
-     */
-    Integer getWaitSite();
-    
-    /**
-     * 得到站点任务
-     * 
-     * @param siteId 站点编号
-     * @return 任务
-     */
-    Taskable getTaskOfSite(Integer siteId);
-    
-    /**
      * 获得站点所以任务
      * 
      * @param siteId 站点编号
      * @return
      */
     List<Taskable> getSiteTasks(Integer siteId);
+    
+    /**
+     * 关闭站点任务
+     * <br>
+     * 当站点配置发生改变，需要关闭注册中的服务，是新配置生效。
+     * 
+     * @param siteId 站点编号
+     */
+    void closeSite(Integer siteId);
+    
 }

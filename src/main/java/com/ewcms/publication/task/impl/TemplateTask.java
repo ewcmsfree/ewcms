@@ -161,7 +161,7 @@ public class TemplateTask extends TaskBase{
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         builder.task.close();
     }
 

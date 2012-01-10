@@ -28,7 +28,6 @@ import freemarker.template.Configuration;
  * @author wangwei
  */
 public class PublishServiceFactoryBean implements InitializingBean,FactoryBean<PublishServiceable>{
-    private final static int DEFAULT_MAX_SITE = 5;
     
     private ChannelPublishServiceable channelService;
     private ArticlePublishServiceable articleService;
@@ -39,9 +38,6 @@ public class PublishServiceFactoryBean implements InitializingBean,FactoryBean<P
     private Configuration cfg;
     private TaskRegistryable taskRegistry;
     private  PublishService service ;
-    private PublishRunner runner;
-    private int maxSite = DEFAULT_MAX_SITE;
-    private boolean multi = true;
     
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -64,8 +60,6 @@ public class PublishServiceFactoryBean implements InitializingBean,FactoryBean<P
         service.setConfiguration(cfg);
         taskRegistry = (taskRegistry == null ? new MemoryTaskRegistry() : taskRegistry);
         service.setTaskRegistry(taskRegistry);
-        runner = (runner == null ? new PublishRunner(siteService,taskRegistry,maxSite,multi) : runner);
-        runner.run();
     }
     
     @Override
@@ -114,17 +108,5 @@ public class PublishServiceFactoryBean implements InitializingBean,FactoryBean<P
     
     public void setConfiguration(Configuration cfg){
         this.cfg = cfg;
-    }
-    
-    public void setPublishRunner(PublishRunner runner){
-        this.runner = runner;
-    }
-    
-    public void setMaxSite(int maxSite){
-        this.maxSite = maxSite;
-    }
-    
-    public void setMulti(boolean multi){
-        this.multi = multi;
     }
 }

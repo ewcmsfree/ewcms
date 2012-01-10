@@ -89,8 +89,6 @@ public interface Taskable {
     
     /**
      * 关闭任务
-     * 
-     * @throws TaskException
      */
-    public void close()throws TaskException;
+    public void close();
 }

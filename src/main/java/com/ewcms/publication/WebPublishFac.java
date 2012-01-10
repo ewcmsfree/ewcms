@@ -127,6 +127,12 @@ public class WebPublishFac  implements WebPublishFacable {
         publishService.publishArticle(channelId, ids, getCurrentUsername());
     }
     
+    @Override
+    public void closePublish()throws PublishException {
+        Integer siteId = getCurrentSiteId();
+        publishService.closeSitePublish(siteId);
+    }
+    
     public void setPublishService(PublishServiceable publishService){
         this.publishService = publishService;
     }

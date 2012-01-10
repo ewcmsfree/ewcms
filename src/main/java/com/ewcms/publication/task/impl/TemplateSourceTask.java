@@ -110,7 +110,7 @@ public class TemplateSourceTask extends TaskBase {
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         //not instance
     }
     

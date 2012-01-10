@@ -151,7 +151,7 @@ public class HomeTask extends TaskBase{
     }
 
     @Override
-    public void close() throws TaskException {
+    public void close() {
         //do not instance
     }
 

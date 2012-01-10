@@ -8,18 +8,19 @@ package com.ewcms.publication.task;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.ewcms.publication.task.impl.process.TaskProcessable;
+import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.SiteServer;
+import com.ewcms.publication.task.publish.SitePublish;
+import com.ewcms.publication.task.publish.SitePublishable;
 
 /**
  * 内存任务注册
@@ -31,334 +32,105 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
 public class MemoryTaskRegistry implements TaskRegistryable{
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryTaskRegistry.class);
+    private static final int DEFAULT_MAX_RUNNNING = 5;
     
-    private final Map<Integer, SiteTasks> taskPool =Collections.synchronizedMap(new LinkedHashMap<Integer,SiteTasks>());
-    private final  Semaphore semaphore = new Semaphore(1);
+    private final Map<Integer, SiteTaskRunnerable> taskPool =
+        Collections.synchronizedMap(new LinkedHashMap<Integer,SiteTaskRunnerable>());
+    private final  Semaphore limit;
+    
+    public MemoryTaskRegistry(){
+        this(DEFAULT_MAX_RUNNNING);
+    }
+    
+    public MemoryTaskRegistry(int maxRunning){
+        limit = new Semaphore(maxRunning);
+    }
     
     @Override
-    public void registerNewTask(Taskable task) {
+    public void registerNewTask(Site site,Taskable task) {
         Assert.notNull(task,"task is null");
         synchronized(taskPool){
             final Integer siteId = task.getSiteId();
-            SiteTasks siteTasks = taskPool.get(siteId);
-            if(siteTasks == null){
-                logger.debug("create site tasks,site id is {}",siteId);
-                siteTasks = new SiteTasks(siteId);
-                taskPool.put(siteId, siteTasks);
+            SiteTaskRunnerable running = taskPool.get(siteId);
+            if(running == null){
+                logger.debug("create site running,site id is {}",siteId);
+                SiteServer server = site.getSiteServer();
+                //TODO server add multi property
+                SitePublishable publish = new SitePublish(server);
+                running = new SiteTaskOrderRunner(publish,limit);
+                taskPool.put(siteId, running);
+                //启动站点发布运行
+                Thread t = new Thread(running);
+                t.start();
             }
-            siteTasks.addTask(task);
-            semaphore.release();
+            running.add(task);
         }
     }
 
     @Override
     public void removeTask(Integer siteId,String id,String username)throws TaskException {
         synchronized(taskPool){
-            SiteTasks siteTasks = taskPool.get(siteId);
-            if(siteTasks == null){
-                logger.debug("Site's task object is not exist,site id is {}",siteId);
+            SiteTaskRunnerable runner = taskPool.get(siteId);
+            if(runner == null){
+                logger.debug("Site's runner is not exist,site id is {}",siteId);
                 return ;
             }
-            siteTasks.removeTask(id,username);
-        }
-    }
-
-
-    @Override
-    public Integer getWaitSite() {
-        synchronized(taskPool){
-            try {
-                semaphore.acquire();
-                Iterator<Integer> iterator = taskPool.keySet().iterator();
-                for(;iterator.hasNext();){
-                    Integer siteId = iterator.next();
-                    SiteTasks siteTasks = taskPool.get(siteId);
-                    logger.debug("Site's id is {},task running state is {}",siteId,siteTasks.isRunning());
-                    if(!siteTasks.isRunning()){
-                        semaphore.release();
-                        return siteId;
-                    }
-                }
-            } catch (InterruptedException e) {
-                semaphore.release();
-                logger.debug("Semaphore is fail:{}",e);
+            Taskable task = runner.get(id);
+            if(task == null){
+                logger.debug("Task is not exist,task id is {}.",id);
+                return ;
             }
-        }
-        
-        return null;
-    }
-
-
-    @Override
-    public Taskable getTaskOfSite(Integer siteId) {
-        Assert.notNull(siteId,"Site id is null");
-        synchronized(taskPool){
-            SiteTasks siteTask = taskPool.get(siteId);
-            if(siteTask == null){
-                return null;
+            if(!task.getUsername().equals(username) && 
+                    !task.getUsername().equals(MANAGER_USERNAME)){
+                logger.debug("{} is owner of task,{} does not operator",task.getUsername(),username);
+                throw new TaskException("The task is not owner of it");
             }
-            return siteTask.getWaitTask();
+            runner.remov(task);
         }
     }
 
     @Override
     public List<Taskable> getSiteTasks(Integer siteId) {
         
-        List<Taskable> tasks = new ArrayList<Taskable>();
-        
-        SiteTasks siteTasks;
+        SiteTaskRunnerable runner;
         synchronized(taskPool){
-            siteTasks = taskPool.get(siteId);
+            runner = taskPool.get(siteId);
         }
-        if(siteTasks == null){
-            logger.debug("Site tasks is not exist,site id is {}",siteId);
-            return tasks;
+        if(runner == null){
+            logger.debug("Site's runner is not exist,site id is {}",siteId);
+            return new ArrayList<Taskable>();
         }
-        for(Taskable task : siteTasks.tasks){
-            tasks.add(new TaskInfoClone(task));
-        }
-        return tasks;
+        return runner.getTasks();
     }
     
+    /**
+     * 判断任务是否存在
+     * 
+     * @param task 任务
+     * @return
+     */
     protected boolean containsTask(Taskable task){
         synchronized(taskPool){
             Integer siteId = task.getSiteId();
-            SiteTasks siteTasks = taskPool.get(siteId);
-            if(siteTasks == null){
+            SiteTaskRunnerable runner = taskPool.get(siteId);
+            if(runner == null){
+                logger.debug("Site runner is not exist,site id is {}.",siteId);
                 return false;
             }
-            return siteTasks.containsTask(task);
+            return runner.contains(task);
         }
     }
-    
-    class SiteTasks{
-        private final int id;
-        private final List<Taskable> tasks = Collections.synchronizedList(new ArrayList<Taskable>());
-        private final AtomicInteger runningNum = new AtomicInteger(0);
-        
-        SiteTasks(int id){
-            this.id = id;
-        }
-        
-        public Integer getId(){
-            return this.id;
-        }
-        
-        public void addTask(Taskable task){
-            synchronized(tasks){
-                tasks.add(task);
+
+    @Override
+    public void closeSite(Integer siteId) {
+        synchronized(taskPool){
+            SiteTaskRunnerable runner = taskPool.get(siteId);
+            if(runner == null){
+                logger.debug("Site runner is not exist,site id is {}.",siteId);
+                return ;
             }
-        }
-        
-        public void removeTask(String id,String username)throws TaskException{
-            synchronized(tasks){
-                Taskable current = null;
-                for(Taskable task : tasks){
-                    if(task.getId().equals(id)){
-                        current = task;
-                        break;
-                    }
-                }
-                if(current == null){
-                    return ;
-                }
-                if(!current.getUsername().equals(username) && 
-                        !current.getUsername().equals(MANAGER_USERNAME)){
-                    logger.debug("{} is owner of task,{} does not operator",current.getUsername(),username);
-                    throw new TaskException("The task is not owner of it");
-                }
-                if(current.isRunning()){
-                    runningNum.decrementAndGet();
-                }
-                tasks.remove(current);
-            }
-        }
-        
-        public boolean containsTask(Taskable task){
-            synchronized(task){
-                return tasks.contains(task);
-            }
-        }
-        
-        public Taskable getWaitTask(){
-            synchronized(tasks){
-                if (tasks.isEmpty()) {
-                    return null;
-                }
-                for (final Taskable task : tasks) {
-                    if (!task.isRunning()) {
-                        return new TaskWrapper(tasks,task,runningNum);
-                    }
-                }
-                return null;
-            }
-        }
-        
-        public boolean isRunning(){
-            return runningNum.get() != 0;
-        }
-    }
-    
-    class TaskWrapper implements Taskable{
-        private final List<Taskable> tasks;
-        private final Taskable task;
-        private final AtomicInteger runningNum;
-        private final List<Taskable> dependences= new ArrayList<Taskable>();
-        
-        TaskWrapper(List<Taskable> tasks,Taskable task,AtomicInteger runningNum){
-            this.tasks = tasks;
-            this.task = task;
-            this.runningNum = runningNum;
-            if(task.getDependences() != null && !task.getDependences().isEmpty()){
-                for(Taskable d : task.getDependences()){
-                    dependences.add(new TaskWrapper(new ArrayList<Taskable>(),d,runningNum));
-                }
-            }
-        }
-        
-        @Override
-        public Object getId() {
-            return task.getId();
-        }
-
-        @Override
-        public String getDescription() {
-            return task.getDescription();
-        }
-
-        @Override
-        public Integer getSiteId() {
-            return task.getSiteId();
-        }
-
-        @Override
-        public String getUsername() {
-            return task.getUsername();
-        }
-
-        @Override
-        public boolean isRunning() {
-            return task.isRunning();
-        }
-
-        @Override
-        public int getProgress() {
-            return task.getProgress();
-        }
-
-        @Override
-        public boolean isCompleted() {
-            return task.isCompleted();
-        }
-
-        @Override
-        public List<Taskable> getDependences() {
-            return dependences;
-        }
-
-        @Override
-        public List<TaskProcessable> execute() throws TaskException {
-            runningNum.getAndIncrement();
-            return task.execute();
-        }
-
-        @Override
-        public void close() throws TaskException {
-            runningNum.getAndDecrement();
-            synchronized(this.tasks){
-                if(tasks.contains(task)){
-                    tasks.remove(task);
-                }
-            }
-            semaphore.release();
-            task.close();
-        }
-
-        @Override
-        public void completeProcess() {
-           task.completeProcess();
-        }
-    }
-  
-    class TaskInfoClone implements Taskable{
-        private final Object id;
-        private final String description;
-        private final Integer siteId;
-        private final boolean running;
-        private final boolean completed;
-        private final String username;
-        private final int progress;
-        private final List<Taskable> dependences = new ArrayList<Taskable>();
-        
-        public TaskInfoClone(Taskable task){
-            this.id = task.getId();
-            this.description = task.getDescription();
-            this.siteId = task.getSiteId();
-            this.running = task.isRunning();
-            this.completed = task.isCompleted();
-            this.username = task.getUsername();
-            this.progress = task.getProgress();
-            if(task.getDependences() != null && !task.getDependences().isEmpty()){
-                for(Taskable d : task.getDependences()){
-                    TaskInfoClone dc = new TaskInfoClone(d);
-                    dependences.add(dc);
-                }
-            }
-        }
-        
-        @Override
-        public Object getId() {
-            return id;
-        }
-
-        @Override
-        public String getDescription() {
-            return description;
-        }
-
-        @Override
-        public Integer getSiteId() {
-            return siteId;
-        }
-
-        @Override
-        public String getUsername() {
-            return username;
-        }
-
-        @Override
-        public boolean isRunning() {
-            return running;
-        }
-
-        @Override
-        public int getProgress() {
-            return progress;
-        }
-
-        @Override
-        public boolean isCompleted() {
-            return completed;
-        }
-
-        @Override
-        public List<Taskable> getDependences() {
-            return dependences;
-        }
-
-        @Override
-        public void close() throws TaskException {
-            throw new RuntimeException("it's not instance.");
-        }
-
-        @Override
-        public List<TaskProcessable> execute() throws TaskException {
-            throw new RuntimeException("it's not instance.");
-        }
-
-        @Override
-        public void completeProcess() {
-            throw new RuntimeException("it's not instance.");
+            runner.close();
+            taskPool.remove(siteId);
         }
     }
 }

@@ -79,7 +79,7 @@ public class PublishService implements PublishServiceable {
             setUsername(username).
             forceAgain().
             builder();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class PublishService implements PublishServiceable {
             setAgain(again).
             setUsername(username).
             builder();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PublishService implements PublishServiceable {
             setResourceIds(ids).
             setUsername(username).
             builder();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class PublishService implements PublishServiceable {
             setAgain(again).
             setUsername(username).
             builder();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class PublishService implements PublishServiceable {
                     setAgain(again).
                     setUsername(username).
                     build();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
     
     private Channel getChannel(Integer channelId)throws PublishException{
@@ -158,7 +158,7 @@ public class PublishService implements PublishServiceable {
                 setAgain(again).
                 setUsername(username).
                 build();
-       taskRegistry.registerNewTask(task);
+       taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class PublishService implements PublishServiceable {
                 setUsername(username).
                 setAgain(again).
                 build();
-        taskRegistry.registerNewTask(task);
+        taskRegistry.registerNewTask(site,task);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class PublishService implements PublishServiceable {
                     setUsername(username).
                     forceAgain().
                     build();
-            taskRegistry.registerNewTask(task);
+            taskRegistry.registerNewTask(site,task);
         }
     }
 
@@ -202,6 +202,11 @@ public class PublishService implements PublishServiceable {
         }catch(TaskException e){
             throw new PublishException(e);
         }
+    }
+    
+    @Override
+    public void closeSitePublish(Integer siteId) {
+        taskRegistry.closeSite(siteId);
     }
     
     public void setArticleService(ArticlePublishServiceable articleService) {
