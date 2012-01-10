@@ -6,8 +6,6 @@
 
 package com.ewcms.scheduling.generate.job.history;
 
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,28 +20,21 @@ import com.ewcms.scheduling.generate.job.BaseEwcmsExecutionJob;
 public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionHistoryJob.class);
-	
+
 	private static final String SCHEDULER_FACTORY = "historyModelFac";
-	
+
 	@Override
-	protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
-        try {
-        	logger.info("定时清除历史记录开始...");
-            getHistoryModelFac().delHistoryModelBeforeDate();
-            logger.info("定时清除历史记录结束.");
-        } catch (Exception e) {
-        	logger.error("发生异常");
-        	throw new JobExecutionException(e);
-        } finally {
-            this.clear();
-        }
+	protected void jobExecute() throws Exception {
+		logger.info("定时清除历史记录开始...");
+		getHistoryModelFac().delHistoryModelBeforeDate();
+		logger.info("定时清除历史记录结束.");
 	}
 
 	@Override
 	protected void jobClear() {
 	}
 
-    protected HistoryModelFacable getHistoryModelFac() {
-        return (HistoryModelFacable) applicationContext.getBean(SCHEDULER_FACTORY);
-    }
+	protected HistoryModelFacable getHistoryModelFac() {
+		return (HistoryModelFacable) applicationContext.getBean(SCHEDULER_FACTORY);
+	}
 }

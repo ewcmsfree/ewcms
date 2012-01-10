@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,30 +35,16 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionReportJob.class);
     
-    private static final String SCHEDULER_FACTORY = "ewcmsJobReportFac";
+    private static final String JOB_REPORT_FACTORY = "ewcmsJobReportFac";
     private static final String REPORT_FACTORY = "reportFac";
-    private static final String REPORT_ENGINE_CHART_FACTORY = "chartFactory";
-    private static final String REPORT_ENGINE_REPORT_FACTORY = "textFactory";
+    private static final String CHART_FACTORY = "chartFactory";
+    private static final String TEXT_FACTORY = "textFactory";
 
     protected EwcmsJobReport jobDetails;
 
-    protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
+    protected void jobExecute() throws Exception {
     	logger.info("生成报表开始...");
-        try {
-            excuteReport();
-        } catch (JobExecutionException e) {
-        	throw new JobExecutionException(e);
-        } catch (SchedulerException e) {
-            throw new JobExecutionException(e);
-        } catch (Exception e) {
-        	throw new JobExecutionException(e);
-        } finally {
-            this.clear();
-        }
-    	logger.info("生成报表结束.");
-    }
-
-    protected void excuteReport() throws Exception {
+    	
         jobDetails = getJobDetails();
 
         String outputFormat = jobDetails.getOutputFormat();
@@ -77,6 +60,7 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
         }else{
         	attachOutput(null, label, description);
         }
+        logger.info("生成报表结束.");
     }
 
     protected void attachOutput(Integer iOutput, String label, String description) throws Exception {
@@ -123,16 +107,16 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
     }
 
     protected EwcmsJobReport getJobDetails() {
-    	EwcmsJobReportFacable jobReportService = getEwcmsJobReportFac();
+    	EwcmsJobReportFacable ewcmsJobReportFac = getEwcmsJobReportFac();
         JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
 
         int jobId = jobDataMap.getInt(JOB_DATA_KEY_DETAILS_ID);
-        EwcmsJobReport jobReport = jobReportService.getScheduledJobReport(jobId);
-        return jobReport;
+        EwcmsJobReport ewcmsJobReport = ewcmsJobReportFac.getScheduledJobReport(jobId);
+        return ewcmsJobReport;
     }
 
     protected EwcmsJobReportFacable getEwcmsJobReportFac(){
-    	return (EwcmsJobReportFacable) applicationContext.getBean(SCHEDULER_FACTORY);
+    	return (EwcmsJobReportFacable) applicationContext.getBean(JOB_REPORT_FACTORY);
     }
     
     protected ReportFacable getReportFac(){
@@ -140,11 +124,11 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
     }
     
     protected ChartFactoryable getChartFactory() {
-        return (ChartFactoryable) applicationContext.getBean(REPORT_ENGINE_CHART_FACTORY);
+        return (ChartFactoryable) applicationContext.getBean(CHART_FACTORY);
     }
 
     protected TextFactoryable getTextFactory() {
-        return (TextFactoryable) applicationContext.getBean(REPORT_ENGINE_REPORT_FACTORY);
+        return (TextFactoryable) applicationContext.getBean(TEXT_FACTORY);
     }
     
     protected TextType conversionToEnum(Integer iOutput) {

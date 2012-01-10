@@ -15,7 +15,7 @@ import com.ewcms.scheduling.generate.job.report.EwcmsExecutionReportJob;
  * 
  * @author 吴智俊
  */
-public class JobClassEntity {
+public final class JobClassEntity {
 	//频道执行JOB
 	public static final String JOB_CHANNEL = EwcmsExecutionChannelJob.class.getName().toString();
 	//采集器执行JOB

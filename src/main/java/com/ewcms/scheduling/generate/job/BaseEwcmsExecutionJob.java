@@ -37,15 +37,20 @@ public abstract class BaseEwcmsExecutionJob implements Job {
         try {
             this.jobContext = context;
             this.schedulerContext = jobContext.getScheduler().getContext();
-
-            this.applicationContext = (ApplicationContext) schedulerContext.get(SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
-            
-            jobExecute(context);
+            this.applicationContext = (ApplicationContext) schedulerContext.get(SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);           
+            jobExecute();
         } catch (JobExecutionException e) {
+        	logger.error("工作任务异常");
         	throw new JobExecutionException(e);
         } catch (SchedulerException e) {
+        	logger.error("定时器异常");
             throw new JobExecutionException(e);
-        } 
+        } catch (Exception e) {
+        	logger.error("发生异常");
+        	throw new JobExecutionException(e);
+        } finally {
+            clear();
+        }
         logger.info("定时器结束.");
     }
     
@@ -55,7 +60,7 @@ public abstract class BaseEwcmsExecutionJob implements Job {
         jobClear();
     }
 
-    protected abstract void jobExecute(JobExecutionContext context) throws JobExecutionException;
+    protected abstract void jobExecute() throws Exception;
 
     protected abstract void jobClear();
 }
