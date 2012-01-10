@@ -22,6 +22,7 @@
 			
 			ewcmsBOBJ.delToolItem('新增');
 			ewcmsBOBJ.delToolItem('修改');
+			ewcmsBOBJ.addToolItem('发布资源', 'icon-publish', publishResource, 'btnPub');
 
 			ewcmsBOBJ.openDataGrid('#tt',{
                 columns:[[
@@ -45,6 +46,27 @@
 		});
 		function download(id){
 			window.open('<s:url namespace="/report/repository" action="download"/>?repositoryId=' + id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+		}
+		function publishResource(){
+			var rows = $('#tt').datagrid('getSelections');
+			if (rows.length == 0) {
+				$.messager.alert('提示', '请选择发布的资源记录', 'info');
+				return;
+			}
+			var parameter = 'selections=' + rows[0].id;
+			var rows = $('#tt').datagrid('getSelections');
+			for ( var i = 1; i < rows.length - 1; i++) {
+				parameter = parameter + '&selections=' + rows[i].id;
+			}
+			$.post('<s:url namespace="/report/repository" action="publish"/>', parameter, function(data) {
+				if (data == 'true') {
+					$.messager.alert('提示', '资源发布成功', 'info');
+				} else if (data == 'notinstate') {
+					$.messager.alert('提示', '资源发布失败', 'info');
+				}
+				return;
+			});
+			return false;
 		}
 		</script>		
 	</head>

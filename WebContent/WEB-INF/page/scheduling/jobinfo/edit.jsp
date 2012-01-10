@@ -99,7 +99,7 @@
 					  </s:if>		
 					  <s:if test='type.name().equals("SESSION")'>
 					    <s:if test='value.get("0").equals("SPRING_SECURITY_CONTEXT")'>
-					      <s:textfield name="paraMap['<s:property value="enName"/>']"  value='<sec:authentication property="principal.username"/>' readonly="true"/>
+					      <s:textfield name="paraMap['%{enName}']"  value='<sec:authentication property="principal.username"/>' readonly="true"/>
 					    </s:if>
 					    <s:else>
 					      <s:textfield name="paraMap['%{enName}']" value='%{#session[value.get("0")]}'/>
