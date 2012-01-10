@@ -47,6 +47,7 @@
 		<action name="delete" class="com.ewcms.plugin.report.manager.web.RepositoryAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.RepositoryQueryAction" method="query"/>
 		<action name="download" class="com.ewcms.plugin.report.manager.web.RepositoryAction" method="download"/>
+		<action name="publish" class="com.ewcms.plugin.report.manager.web.RepositoryAction" method="publish"/>
 	</package>
 	<package name="report.parameter" extends="struts-default" namespace="/report/parameter">
 		<action name="index" class="com.ewcms.plugin.report.manager.web.ParameterAction">
