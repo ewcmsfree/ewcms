@@ -68,7 +68,7 @@
                      <div style="float:left;width:646px;padding-top: 8px;text-align: right;">
                          <div style="width:100%;">
                             <span style="color:yellow;font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span>
-                            <span id="forecasts" style="color:red;font-size:13px;"></span>
+                            <span id="tipMessage" style="color:red;font-size:13px;"></span>
                          </div>
                      </div>
                      <div style="float:right;width:30px">

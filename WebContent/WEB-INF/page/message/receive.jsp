@@ -111,7 +111,7 @@
 				        html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【<img src="./ewcmssource/image/msg/msg_new.gif"/>新消息(' + tiplength + ')】</a>';
 				      }
 				      html += '</span>';
-				      $(html).appendTo('#tipMessage');
+				      parent.parent.$('#tipMessage').append(html);
 				  }
 			  });
 		}
