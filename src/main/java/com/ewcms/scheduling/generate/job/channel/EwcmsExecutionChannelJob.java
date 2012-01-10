@@ -7,9 +7,6 @@
 package com.ewcms.scheduling.generate.job.channel;
 
 import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,41 +25,24 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionChannelJob.class);
     
-    private static final String SCHEDULER_FACTORY = "ewcmsJobChannelFac";
-    private static final String PUBLISH_CHANNEL_FACTORY = "schedulePublish";
+    private static final String JOB_CHANNEL_FACTORY = "ewcmsJobChannelFac";
+    private static final String PUBLISH_FACTORY = "schedulePublishFac";
 
     protected EwcmsJobChannel jobDetails;
     
-    protected void jobExecute(JobExecutionContext context) throws JobExecutionException {
-        try {
-            excutePublic();
-        } catch (JobExecutionException e) {
-        	logger.error("工作任务异常");
-        	throw new JobExecutionException(e);
-        } catch (SchedulerException e) {
-        	logger.error("定时器异常");
-            throw new JobExecutionException(e);
-        } catch (Exception e) {
-        	logger.error("发生异常");
-        	throw new JobExecutionException(e);
-        } finally {
-            this.clear();
-        }
-    }
-
-    protected void excutePublic() throws Exception {
+    protected void jobExecute() throws Exception {
         jobDetails = getJobDetails();
         Channel channel = jobDetails.getChannel();
         String channelName = "【" + channel.getName() + "】";
         
         Boolean subChannel = jobDetails.getSubChannel();
-    	EwcmsJobChannelFacable ewcmsSchedulingFac = getEwcmsSchedulingFac();
+    	EwcmsJobChannelFacable ewcmsSchedulingFac = getEwcmsJobChannelFac();
     	EwcmsJobChannel jobChannel = ewcmsSchedulingFac.findJobChannelByChannelId(channel.getId());
     	if (jobChannel != null && jobChannel.getId().intValue() > 0){
     		if (channel.getPublicenable()){
 				logger.info("定时发布 " + channelName + " 频道开始...");
 				try{
-					getSchedulingPublishable().publishChannel(channel.getId(), subChannel);
+					getSchedulePublishFacable().publishChannel(channel.getId(), subChannel);
 				}catch (PublishException e){
 					logger.error("定时发布 " + channelName + " 频道发布异常");
 				}
@@ -76,19 +56,19 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
     }
 
     protected EwcmsJobChannel getJobDetails() {
-        EwcmsJobChannelFacable ewcmsSchedulingService = getEwcmsSchedulingFac();
+        EwcmsJobChannelFacable ewcmsJobChannelFac = getEwcmsJobChannelFac();
         JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
 
         int jobId = jobDataMap.getInt(JOB_DATA_KEY_DETAILS_ID);
-        EwcmsJobChannel jobChannel = ewcmsSchedulingService.getScheduledJobChannel(jobId);
-        return jobChannel;
+        EwcmsJobChannel ewcmsJobChannel = ewcmsJobChannelFac.getScheduledJobChannel(jobId);
+        return ewcmsJobChannel;
     }
 
-    protected SchedulePublishFacable getSchedulingPublishable(){
-    	return (SchedulePublishFacable) applicationContext.getBean(PUBLISH_CHANNEL_FACTORY);
+    protected SchedulePublishFacable getSchedulePublishFacable(){
+    	return (SchedulePublishFacable) applicationContext.getBean(PUBLISH_FACTORY);
     }
     
-    protected EwcmsJobChannelFacable getEwcmsSchedulingFac() {
-        return (EwcmsJobChannelFacable) applicationContext.getBean(SCHEDULER_FACTORY);
+    protected EwcmsJobChannelFacable getEwcmsJobChannelFac() {
+        return (EwcmsJobChannelFacable) applicationContext.getBean(JOB_CHANNEL_FACTORY);
     }
 }
