@@ -81,12 +81,9 @@
 					  </s:else>
 					</td>
 					<td colspan="3">
-					  <s:if test='type.name().equals("TEXT")'>
+					  <s:if test='(type.name().equals("TEXT")) || (type.name().equals("BOOLEAN")) || (type.name().equals("SQL")) || (type.name().equals("SESSION"))'>
 					    <s:textfield name="paraMap['%{enName}']" value="%{defaultValue}"/>
 					  </s:if>
-					  <s:if test='type.name().equals("BOOLEAN")'>
-						<s:checkbox name="paraMap['%{enName}']" value="%{defaultValue}"/>
-					  </s:if>	
 					  <s:if test='type.name().equals("LIST")'>
 					    <s:select list="value" name="paraMap['%{enName}']"/>
 					  </s:if>		
@@ -97,17 +94,6 @@
 					  <s:if test='type.name().equals("DATE")'>
 						<ewcms:datepicker name="paraMap['%{enName}']"/>
 					  </s:if>		
-					  <s:if test='type.name().equals("SESSION")'>
-					    <s:if test='value.get("0").equals("SPRING_SECURITY_CONTEXT")'>
-					      <s:textfield name="paraMap['%{enName}']"  value='<sec:authentication property="principal.username"/>' readonly="true"/>
-					    </s:if>
-					    <s:else>
-					      <s:textfield name="paraMap['%{enName}']" value='%{#session[value.get("0")]}'/>
-					    </s:else>
-					  </s:if>		
-					  <s:if test='type.name().equals("SQL")'>
-					    <s:textfield name="paraMap['%{enName}']" value="%{defaultValue}"/>
-					  </s:if>																																																													
 					</td>
 				  </tr>
 				</s:iterator>

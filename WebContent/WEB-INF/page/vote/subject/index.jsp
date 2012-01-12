@@ -20,8 +20,19 @@
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/subject" action="query"/>?questionnaireId=' + $('#questionnaireId').val() + '');
 
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+				
+				ewcmsBOBJ.addToolItem('新增','icon-add', addOperate);
+				ewcmsBOBJ.addToolItem('修改','icon-edit',updOperate);
+				ewcmsBOBJ.addToolItem('删除','icon-remove',delCallBack);
 				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate);
 				ewcmsBOBJ.addToolItem('下移','icon-down',downOperate);
+				ewcmsBOBJ.addToolItem('查询','icon-search',queryCallBack);
+				ewcmsBOBJ.addToolItem('缺省查询','icon-back',defQueryCallBack);
 				
 				ewcmsBOBJ.setWinWidth(500);
 				ewcmsBOBJ.setWinHeight(160);
@@ -105,6 +116,14 @@
 					$("#tt_subject").datagrid('reload');
 	            });
 	            return false;
+			}
+			function updOperate(){
+				$('#save_span').attr("style","");
+				updCallBack();
+			}
+			function addOperate(){
+				$('#save_span').attr("style","");
+				addCallBack();
 			}
 			function queryOperate(){
 				$('#tt_subject').datagrid('clearSelections');

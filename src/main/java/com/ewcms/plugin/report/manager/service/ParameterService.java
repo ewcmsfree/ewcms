@@ -26,4 +26,9 @@ public class ParameterService implements ParameterServiceable {
 	public Parameter findParameterById(Long parameterId) {
 		return parameterDAO.get(parameterId);
 	}
+
+	@Override
+	public Boolean findSessionIsEntityByParameterIdAndUserName(Long parameterId, String userName) {
+		return parameterDAO.findSessionIsEntityByParameterIdAndUserName(parameterId, userName);
+	}
 }

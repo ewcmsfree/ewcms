@@ -7,6 +7,7 @@ package com.ewcms.plugin.report.manager;
 
 import java.util.List;
 
+import com.ewcms.core.site.model.Site;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.ChartReport;
@@ -217,5 +218,21 @@ public interface ReportFacable {
      * @param repositoryId 存储编号
      */
     public void delRepository(Long repositoryId);
-
+    
+    /**
+     * 发布存储报表
+     * 
+     * @param repositoryIds 存储编号集合
+     * @param site 站点对象 
+     */
+    public void publishRepository(List<Long> repositoryIds, Site site);
+    
+	/**
+	 * 查询Session组用是否设置参数
+	 * 
+	 * @param parameterId
+	 * @param userName
+	 * @return
+	 */
+	public Boolean findSessionIsEntityByParameterIdAndUserName(Long parameterId, String userName);
 }

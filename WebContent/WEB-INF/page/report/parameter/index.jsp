@@ -21,7 +21,7 @@
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/report/parameter" action="query"/>?reportId=<s:property value="reportId"/>&reportType=<s:property value="reportType"/>');
 	
 				ewcmsBOBJ.setWinWidth(700);
-				ewcmsBOBJ.setWinHeight(160);
+				ewcmsBOBJ.setWinHeight(240);
 				
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('删除');

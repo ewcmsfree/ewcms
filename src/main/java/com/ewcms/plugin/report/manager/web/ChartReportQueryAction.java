@@ -8,6 +8,8 @@ package com.ewcms.plugin.report.manager.web;
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
+import java.text.SimpleDateFormat;
+
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -22,6 +24,8 @@ import com.ewcms.web.QueryBaseAction;
 public class ChartReportQueryAction extends QueryBaseAction{
 
 	private static final long serialVersionUID = -1268766311745288459L;
+	
+	private SimpleDateFormat DataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
@@ -34,7 +38,10 @@ public class ChartReportQueryAction extends QueryBaseAction{
         String name = getParameterValue(String.class, "name", "");
         if (isStringNotEmpty(name)) query.likeAnywhere("name", name);
         
+        setDateFormat(DataFormat);
+        
     	entityOrder(query, order);
+    	
     	return query.queryCacheResult(cacheKey);
 	}
 
@@ -43,6 +50,7 @@ public class ChartReportQueryAction extends QueryBaseAction{
     	EntityQueryable query =  queryFactory.createEntityQuery(ChartReport.class).setPage(page).setRow(rows).orderAsc("id");
         
         query.in("id", getIds(Long.class));
+        setDateFormat(DataFormat);
         
         return query.queryResult();    
 	}

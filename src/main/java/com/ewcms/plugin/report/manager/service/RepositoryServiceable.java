@@ -5,6 +5,9 @@
  */
 package com.ewcms.plugin.report.manager.service;
 
+import java.util.List;
+
+import com.ewcms.core.site.model.Site;
 import com.ewcms.plugin.report.model.Repository;
 
 /**
@@ -43,4 +46,12 @@ public interface RepositoryServiceable {
      * @param repositoryId 存储编号
      */
     public void delRepository(Long repositoryId);
+    
+    /**
+     * 发布存储报表
+     * 
+     * @param repositoryIds 存储编号集合 
+     * @param site 站点对象
+     */
+    public void publishRepository(List<Long> repositoryIds, Site site);
 }

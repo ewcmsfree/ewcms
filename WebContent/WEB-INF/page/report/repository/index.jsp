@@ -27,9 +27,10 @@
 			ewcmsBOBJ.openDataGrid('#tt',{
                 columns:[[
 						{field:'id',title:'编号',width:50,sortable:true},
-		                {field:'name',title:'名称',width:100},
-		                {field:'type',title:'类型',width:100},
+		                {field:'name',title:'名称',width:300},
+		                {field:'type',title:'类型',width:50},
 		                {field:'updateDate',title:'更新时间',width:125},
+		                {field:'publishDate',title:'发布时间',width:125},
 		                {field:'description',title:'说明',width:300},
 		                {field:'download',title:'下载',width:30,
 		                	formatter:function(val,rec){
@@ -53,13 +54,14 @@
 				$.messager.alert('提示', '请选择发布的资源记录', 'info');
 				return;
 			}
-			var parameter = 'selections=' + rows[0].id;
+			var parameter = '';
 			var rows = $('#tt').datagrid('getSelections');
-			for ( var i = 1; i < rows.length - 1; i++) {
+			for ( var i = 0; i < rows.length; i++) {
 				parameter = parameter + '&selections=' + rows[i].id;
 			}
 			$.post('<s:url namespace="/report/repository" action="publish"/>', parameter, function(data) {
 				if (data == 'true') {
+					$('#tt').datagrid('reload');
 					$.messager.alert('提示', '资源发布成功', 'info');
 				} else if (data == 'notinstate') {
 					$.messager.alert('提示', '资源发布失败', 'info');

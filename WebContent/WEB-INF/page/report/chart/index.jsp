@@ -34,6 +34,8 @@
 	                columns:[[
 							{field:'id',title:'编号',width:50,sortable:true},
 			                {field:'name',title:'名称',width:100},
+			                {field:'createDate',title:'创建时间',width:145},
+			                {field:'updateDate',title:'更新时间',width:145},
 			                {field:'typeDescription',title:'图型类型',width:200},
 			                {field:'dsName',title:'数据源名称',width:200,
 			                	formatter:function(val,rec){

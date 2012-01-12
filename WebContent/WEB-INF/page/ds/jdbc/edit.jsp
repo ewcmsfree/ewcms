@@ -56,9 +56,8 @@
 				</tr>
 				<tr>
 					<td>密码：</td>
-					<td class="formFieldError">
+					<td>
 						<s:textfield name="jdbcDSVo.passWord" cssClass="inputtext" size="70" maxlength="127" />
-						<s:fielderror><s:param value="%{'jdbcDSVo.passWord'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 				<tr>

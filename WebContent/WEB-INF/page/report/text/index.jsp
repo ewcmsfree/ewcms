@@ -16,7 +16,7 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/ext/datagrid-detailview.js'/>"></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
-			<script type="text/javascript">
+		<script type="text/javascript">
 			var parameterURL = "<s:url namespace='/report/parameter' action='index'/>";
 			var schedulingURL = "<s:url namespace='/scheduling/jobreport' action='index'/>";
 			$(function(){
@@ -33,7 +33,8 @@
 	                columns:[[
 							{field:'id',title:'编号',width:50,sortable:true},
 			                {field:'name',title:'名称',width:200},
-			                {field:'uploadDate',title:'更新时间',width:145},
+			                {field:'createDate',title:'创建时间',width:145},
+			                {field:'updateDate',title:'更新时间',width:145},
 			                {field:'dsName',title:'数据源名称',width:200,
 			                	formatter:function(val,rec){
 			                		if (rec.baseDS == null){

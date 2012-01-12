@@ -7,6 +7,8 @@ package com.ewcms.plugin.report.manager.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,6 +72,8 @@ public class TextReportService implements TextReportServiceable {
 		entity.setName(textReport.getName());
 		entity.setHidden(textReport.getHidden());
 		entity.setRemarks(textReport.getRemarks());
+		
+		entity.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
 		
 		byte[] reportFile = textReport.getTextEntity();
 		if (reportFile != null && reportFile.length > 0) {

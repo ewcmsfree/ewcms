@@ -19,4 +19,13 @@ public interface ParameterServiceable {
 	 * @return Parameter 参数对象
 	 */
 	public Parameter findParameterById(Long parameterId);
+	
+	/**
+	 * 查询Session组用是否设置参数
+	 * 
+	 * @param parameterId
+	 * @param userName
+	 * @return
+	 */
+	public Boolean findSessionIsEntityByParameterIdAndUserName(Long parameterId, String userName);
 }

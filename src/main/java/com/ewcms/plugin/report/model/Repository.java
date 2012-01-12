@@ -47,6 +47,9 @@ public class Repository implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "updatedate")
 	private Date updateDate;
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@Column(name = "publishdate")
+	private Date publishDate;
 
 	public Long getId() {
 		return id;
@@ -95,6 +98,14 @@ public class Repository implements Serializable {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
 
 	@Override

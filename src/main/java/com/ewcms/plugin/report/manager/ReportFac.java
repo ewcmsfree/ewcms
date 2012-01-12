@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.core.site.model.Site;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.manager.service.CategoryReportServiceable;
 import com.ewcms.plugin.report.manager.service.ChartReportServiceable;
@@ -168,5 +169,15 @@ public class ReportFac implements ReportFacable {
 	public Boolean findChartIsEntityByChartAndCategory(Long chartId,
 			Long categoryId) {
 		return categoryReportService.findChartIsEntityByChartAndCategory(chartId, categoryId);
+	}
+
+	@Override
+	public void publishRepository(List<Long> repositoryIds, Site site){
+		repositoryService.publishRepository(repositoryIds, site);
+	}
+	
+	@Override
+	public Boolean findSessionIsEntityByParameterIdAndUserName(Long parameterId, String userName) {
+		return parameterService.findSessionIsEntityByParameterIdAndUserName(parameterId, userName);
 	}
 }

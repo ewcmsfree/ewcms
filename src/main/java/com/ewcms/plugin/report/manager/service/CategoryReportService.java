@@ -36,6 +36,16 @@ public class CategoryReportService implements CategoryReportServiceable {
 
 	@Override
 	public Long addOrUpdCategoryReport(CategoryReport categoryReport){
+		if (categoryReport.getId() != null){
+			Long categoryReportId = categoryReport.getId();
+			CategoryReport source = categoryReportDAO.get(categoryReportId);
+			if (source.getCharts() != null && !source.getCharts().isEmpty()){
+				categoryReport.setCharts(source.getCharts());
+			}
+			if (source.getTexts() != null && !source.getTexts().isEmpty()){
+				categoryReport.setTexts(source.getTexts());
+			}
+		}
 		categoryReportDAO.merge(categoryReport);
 		return categoryReport.getId();
 	}

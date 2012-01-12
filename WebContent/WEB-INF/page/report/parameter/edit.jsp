@@ -13,17 +13,38 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
         <script type="text/javascript">
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
+	    	$(function() {
+	            <s:include value="../../alertMessage.jsp"/>
+	    		$('#userName').combobox({
+	    			url: '<s:url namespace="/report/parameter" action="sessionInfo"><s:param name="parameterId" value="parameterVo.id"></s:param></s:url>',
+	    			valueField:'id',
+	    	        textField:'text',
+	    			editable:false,
+	    			multiple:true,
+	    			cascadeCheck:false,
+	    			panelWidth:130,
+	    			panelHeight:100
+	    		});
+	    		if ($('#parametersType').val() == 'SESSION'){
+	    			$('#userName_span').show();
+    				$('#defaultvalue_span').hide();
+		    	}else{
+					$('#userName_span').hide();
+					$('#defaultvalue_span').show();
+				}
+	    		$('#parametersType').click(function() {
+	    			if ($('#parametersType').val() == 'SESSION'){
+	    				$('#userName_span').show();
+	    				$('#defaultvalue_span').hide();
+	    			}else{
+	    				$('#userName_span').hide();
+	    				$('#defaultvalue_span').show();
+	    			}
+	    		});
+	    	})
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/report/parameter">
 			<table class="formtable" >
 				<tr>
@@ -42,8 +63,9 @@
 						<s:textfield name="parameterVo.cnName" cssClass="inputtext" />
 					</td>
 					<td>默认值：</td>
-					<td>
-						<s:textfield name="parameterVo.defaultValue" cssClass="inputtext"/>
+					<td >
+						<span id="defaultvalue_span"><s:textfield id="defaultValue" name="parameterVo.defaultValue" cssClass="inputtext"/></span>
+						<span id="userName_span"><input id="userName" name="sessionValue"></input></span>
 					</td>
 				</tr>
 				<tr>

@@ -98,19 +98,6 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 
 	@Override
 	protected Long saveOperator(ReviewProcess vo, boolean isUpdate) {
-//		List<String> userNames = new ArrayList<String>();
-//		if (getReviewUserNames() != null){
-//			for (int i = 0; i< getReviewUserNames().length; i++){
-//				String userName = reviewUserNames[i];
-//				userNames.add(userName);
-//			}
-//		}
-//		List<String> groupNames = new ArrayList<String>();
-//		for (int i = 0; i< reviewGroupNames.length; i++){
-//			String groupName = reviewGroupNames[i];
-//			groupNames.add(groupName);
-//			
-//		}
 		List<String> userNames = new ArrayList<String>();
 		if (getReviewUserNames() != null){
 			userNames = Arrays.asList(getReviewUserNames());

@@ -61,6 +61,7 @@
 			<result name="input">/WEB-INF/page/report/parameter/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.ParameterQueryAction" method="query"/>
+		<action name="sessionInfo" class="com.ewcms.plugin.report.manager.web.ParameterAction" method="sessionInfo"/>
 	</package>
 	<package name="report.category" extends="struts-default" namespace="/report/category">
 		<action name="index" class="com.ewcms.plugin.report.manager.web.CategoryReportAction">

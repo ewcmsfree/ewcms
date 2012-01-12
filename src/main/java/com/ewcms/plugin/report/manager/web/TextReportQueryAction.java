@@ -45,9 +45,8 @@ public class TextReportQueryAction extends QueryBaseAction{
 	}
 
 	@Override
-	protected Resultable querySelectionsResult(QueryFactory queryFactory,
-			int rows, int page, String[] selections, Order order) {
-    	EntityQueryable query =  queryFactory.createEntityQuery(TextReport.class).setPage(page).setRow(rows).orderAsc("id");
+	protected Resultable querySelectionsResult(QueryFactory queryFactory,int rows, int page, String[] selections, Order order) {
+    	EntityQueryable query = queryFactory.createEntityQuery(TextReport.class).setPage(page).setRow(rows).orderAsc("id");
         
         query.in("id", getIds(Long.class));
         setDateFormat(DataFormat);

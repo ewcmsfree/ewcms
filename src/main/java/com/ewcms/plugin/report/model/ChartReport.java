@@ -6,6 +6,8 @@
 package com.ewcms.plugin.report.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -24,6 +26,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -66,6 +70,8 @@ import com.ewcms.plugin.datasource.model.BaseDS;
  * <li>bgColorB:背景蓝</li>
  * <li>remakrs:备注</li>
  * <li>categories:分类集合</li>
+ * <li>createDate:创建时间</li>
+ * <li>updateDate:更新时间</li>
  * </ul>
  * 
  * @author 吴智俊
@@ -151,7 +157,17 @@ public class ChartReport implements Serializable {
     @JoinColumn(name = "chart_id")
     @OrderBy("id")
     private Set<Parameter> parameters = new LinkedHashSet<Parameter>();
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdate")
+    private Date createDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updatedate")
+    private Date updateDate;
 
+    public ChartReport() {
+    	createDate = new Date(Calendar.getInstance().getTime().getTime());
+	}
+    
     public Long getId() {
         return id;
     }
@@ -433,6 +449,22 @@ public class ChartReport implements Serializable {
     public void setParameters(Set<Parameter> parameters) {
         this.parameters = parameters;
     }
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 
 	@Override
     public int hashCode() {

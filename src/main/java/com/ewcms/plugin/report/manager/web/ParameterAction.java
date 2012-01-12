@@ -5,14 +5,22 @@
  */
 package com.ewcms.plugin.report.manager.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.common.query.jpa.EntityQueryable;
+import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.model.Parameter;
+import com.ewcms.plugin.report.model.ParametersType;
+import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
+import com.ewcms.web.vo.ComboBoxUserAndGroup;
 
 /**
  * 
@@ -25,8 +33,11 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 
 	@Autowired
 	private ReportFacable reportFac;
+	@Autowired
+	private QueryFactory queryFactory;
 	private String reportType;
 	private Long reportId;
+	private String sessionValue;
 	
 	public Long getReportId() {
 		return reportId;
@@ -42,6 +53,14 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 
 	public void setReportType(String reportType) {
 		this.reportType = reportType;
+	}
+
+	public String getSessionValue() {
+		return sessionValue;
+	}
+
+	public void setSessionValue(String sessionValue) {
+		this.sessionValue = sessionValue;
 	}
 
 	public List<Long> getSelections() {
@@ -67,7 +86,11 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 
 	@Override
 	protected Parameter getOperator(Long pk) {
-		return reportFac.findParameterById(pk);
+		Parameter parameter = reportFac.findParameterById(pk);
+		if (parameter.getType() == ParametersType.SESSION){
+			setSessionValue(parameter.getDefaultValue());
+		}
+		return parameter;
 	}
 
 	@Override
@@ -78,6 +101,9 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 	protected Long saveOperator(Parameter vo, boolean isUpdate) {
 		if (getReportId() != null && vo.getId() != null){
 			try{
+				if (vo.getType() == ParametersType.SESSION){
+					vo.setDefaultValue(getSessionValue());
+				}
 				if (reportType.equals("text"))
 					return reportFac.updTextReportParameter(getReportId(), vo);
 				if (reportType.equals("chart"))
@@ -92,6 +118,36 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 	@Override
 	protected Parameter createEmptyVo() {
 		return null;
+	}
+
+	private Long parameterId;
+	
+	public Long getParameterId() {
+		return parameterId;
+	}
+
+	public void setParameterId(Long parameterId) {
+		this.parameterId = parameterId;
+	}
+
+	public void sessionInfo(){
+		EntityQueryable query = queryFactory.createEntityQuery(User.class);
+		List<Object> resultList = query.queryResult().getResultList();
+		List<ComboBoxUserAndGroup> comboBoxUsers = new ArrayList<ComboBoxUserAndGroup>();
+		ComboBoxUserAndGroup comboBoxUser = null;
+		for (Object object : resultList){
+			comboBoxUser = new ComboBoxUserAndGroup();
+			User user = (User)object;
+			comboBoxUser.setId(user.getUsername());
+			comboBoxUser.setText(user.getUserInfo().getName());
+			if (getParameterId() != null){
+				Boolean isEntity = reportFac.findSessionIsEntityByParameterIdAndUserName(getParameterId(), user.getUsername());
+				if (isEntity) comboBoxUser.setSelected(true);
+			}
+			
+			comboBoxUsers.add(comboBoxUser);
+		}
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUserAndGroup[0])));
 	}
 
 }

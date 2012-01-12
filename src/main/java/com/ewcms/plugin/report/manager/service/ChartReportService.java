@@ -5,6 +5,8 @@
  */
 package com.ewcms.plugin.report.manager.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,6 +87,7 @@ public class ChartReportService implements ChartReportServiceable {
 		entity.setBgColorG(chartReport.getBgColorG());
 		entity.setBgColorR(chartReport.getBgColorR());
 		entity.setRemarks(chartReport.getRemarks());
+		entity.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
 		
 		if (!entity.getChartSql().equals(chartReport.getChartSql())) {
 			entity.setChartSql(chartReport.getChartSql());

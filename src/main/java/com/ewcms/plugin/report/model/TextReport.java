@@ -39,7 +39,8 @@ import com.ewcms.plugin.datasource.model.BaseDS;
  * <li>name:报表名</li>
  * <li>type:报表类型</li>
  * <li>textEntity:报表实体</li>
- * <li>uploadDate:上传日期</li>
+ * <li>createDate:创建时间</li>
+ * <li>updateDate:更新时间</li>
  * <li>hidden:隐藏</li>
  * <li>remarks:备注</li>
  * <li>parameters:参数列表（与Parameters对象一对多关联）</li>
@@ -64,8 +65,11 @@ public class TextReport implements Serializable {
     @Column(name = "textentity")
     private byte[] textEntity;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "uploaddate")
-    private Date uploadDate;
+    @Column(name = "createdate")
+    private Date createDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updatedate")
+    private Date updateDate;
     @Column(name = "hidden", nullable = false)
     private Boolean hidden;
     @Column(name = "remarks",columnDefinition = "text")
@@ -79,7 +83,7 @@ public class TextReport implements Serializable {
     private BaseDS baseDS = new BaseDS();
     
     public TextReport(){
-    	uploadDate = new Date(Calendar.getInstance().getTime().getTime());
+    	createDate = new Date(Calendar.getInstance().getTime().getTime());
     	hidden = false;
     }
 
@@ -108,12 +112,20 @@ public class TextReport implements Serializable {
         this.textEntity = textEntity;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public Boolean getHidden() {
