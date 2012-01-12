@@ -27,7 +27,7 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
     private final SitePublishable sitePublish;
     private final Semaphore limit;
     private Taskable taskRunning;
-    private volatile boolean stop = false;
+    private volatile boolean closed = false;
     
     public SiteTaskOrderRunner(SitePublishable sitePublish,Semaphore limit){
         this.limit = limit;
@@ -51,16 +51,14 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
             sitePublish.publish(task);
         } catch (TaskException e) {
             logger.debug("Task published fail:{}",e);
-        }finally{
-            task.close();
         }
     }
     
     @Override
     public void run() {
         while(true){
-            if(stop) break;
             try {
+                if(closed) break;
                 taskRunning = queue.take();
                 limit.acquire();
                 publish(taskRunning);
@@ -80,7 +78,7 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
     @Override
     public boolean remov(Taskable task) {
         if(task.equals(taskRunning)){
-            taskRunning.close();
+            sitePublish.cancelPublish();
             return true;
         }
         return queue.remove(task);
@@ -105,16 +103,15 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
     
     @Override
     public void close() {
-        stop = true;
+        closed = true;
         if(this.taskRunning != null){
-            taskRunning.close();
+            sitePublish.cancelPublish();
         }
     }
     
     class TaskInfoClone implements Taskable{
-        private final Object id;
+        private final String id;
         private final String description;
-        private final Integer siteId;
         private final boolean running;
         private final boolean completed;
         private final String username;
@@ -124,7 +121,6 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
         public TaskInfoClone(Taskable task){
             this.id = task.getId();
             this.description = task.getDescription();
-            this.siteId = task.getSiteId();
             this.running = task.isRunning();
             this.completed = task.isCompleted();
             this.username = task.getUsername();
@@ -138,18 +134,13 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
         }
         
         @Override
-        public Object getId() {
+        public String getId() {
             return id;
         }
 
         @Override
         public String getDescription() {
             return description;
-        }
-
-        @Override
-        public Integer getSiteId() {
-            return siteId;
         }
 
         @Override
@@ -178,17 +169,7 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
         }
 
         @Override
-        public void close() {
-            throw new RuntimeException("it's not instance.");
-        }
-
-        @Override
-        public List<TaskProcessable> execute() throws TaskException {
-            throw new RuntimeException("it's not instance.");
-        }
-
-        @Override
-        public void completeProcess() {
+        public List<TaskProcessable> toTaskProcess() throws TaskException {
             throw new RuntimeException("it's not instance.");
         }
     }

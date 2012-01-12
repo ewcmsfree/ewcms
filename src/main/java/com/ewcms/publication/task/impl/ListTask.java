@@ -111,11 +111,6 @@ public class ListTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.site.getId();
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -123,12 +118,6 @@ public class ListTask extends TaskBase{
     @Override
     public List<Taskable> getDependences() {
         return Collections.unmodifiableList(builder.dependences);
-    }
-
-    @Override
-    public void close() {
-        // do not instance
-        
     }
 
     /**TaskProcessable
@@ -153,7 +142,7 @@ public class ListTask extends TaskBase{
             Generatorable generator = 
                 new ListGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule,page,pageCount);
             TaskProcessable process = new GeneratorProcess(generator,builder.path);
-            process.registerEvent(new CompleteEvent(this));
+            process.registerEvent(new CompleteEvent(complete));
             processes.add(process);
         }
         return processes;

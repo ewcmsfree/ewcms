@@ -26,6 +26,7 @@ public class SitePublish implements SitePublishable{
     private static final Logger logger = LoggerFactory.getLogger(SitePublish.class);
     
     protected final DeployOperatorable operator;
+    private volatile boolean cancelled = false;
 
     public SitePublish(SiteServer server) {
         this.operator = server.getOutputType().deployOperator(server);
@@ -38,8 +39,12 @@ public class SitePublish implements SitePublishable{
      * @throws TaskException
      */
     protected void execute(Taskable task)throws TaskException{
-        List<TaskProcessable> processes = task.execute();
+        List<TaskProcessable> processes = task.toTaskProcess();
         for(TaskProcessable process: processes){
+            if(cancelled){
+                logger.info("Task was closed");
+                break;
+            }
             Boolean success =process.execute(operator);
             logger.debug("publish success is {}",success);
         }
@@ -47,11 +52,19 @@ public class SitePublish implements SitePublishable{
     
     @Override
     public void publish(Taskable task) throws TaskException {
+        cancelled = false;
         List<Taskable> dependences = task.getDependences();
         for(Taskable dependence :  dependences) {
             logger.debug("\"{}\" publish", task.getDescription());
             publish(dependence);
         }
-        execute(task);
+        if(cancelled){
+            execute(task);
+        }
+    }
+
+    @Override
+    public void cancelPublish() {
+        cancelled = true;
     }
 }

@@ -26,10 +26,8 @@ public abstract class TaskBase implements Taskable{
     protected static final Random random = initRandom();
     
     protected final String id;
-    protected final AtomicInteger runningNum = new AtomicInteger(0);
-    protected final AtomicInteger countProcess = new AtomicInteger(0);
-    protected final AtomicInteger completeProcess = new AtomicInteger(0);
-    protected volatile boolean running = false;
+    protected final AtomicInteger complete = new AtomicInteger(0);
+    protected volatile int count = -1;
 
     /**
      * 创建随机数对象
@@ -47,55 +45,44 @@ public abstract class TaskBase implements Taskable{
     }
     
     @Override
-    public Object getId() {
+    public String getId() {
         return id;
     }
 
     @Override
     public boolean isRunning() {
-        return running;
+        return count != -1;
     }
 
     @Override
     public int getProgress() {
-        if(countProcess.get() == 0){
+        if(count == 0){
             return 100;
         }
-        return (completeProcess.get() * 100 / countProcess.get());
+        return (complete.get() * 100 / count);
     }
 
     @Override
     public boolean isCompleted() {
-        return countProcess.get()== completeProcess.get();
+        return count == complete.get();
     }
     
     @Override
-    public List<TaskProcessable> execute() throws TaskException {
-        //running only one 
-        if(runningNum.incrementAndGet() != 1){
-           throw new TaskException("Task is already run");
-       }
-        
+    public List<TaskProcessable> toTaskProcess() throws TaskException {
        List<TaskProcessable> taskProcesses = getTaskProcesses();
-       running =true;
-       countProcess.set(taskProcesses.size());
+       count = taskProcesses.size();
        
        return taskProcesses;
     }
     
     /**
-     * 得到发布的任务过程集合
+     * 得到要发布任务过程集合
      * 
      * @return 任务过程集合
      * @throws
      */
     protected abstract List<TaskProcessable> getTaskProcesses()throws TaskException;
 
-    @Override
-    public void completeProcess() {
-        completeProcess.incrementAndGet();
-    }
-    
     /**
      * 得到再次发布提示信息
      * 

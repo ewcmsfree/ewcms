@@ -112,11 +112,6 @@ public class HomeTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.site.getId();
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -151,17 +146,12 @@ public class HomeTask extends TaskBase{
     }
 
     @Override
-    public void close() {
-        //do not instance
-    }
-
-    @Override
     protected List<TaskProcessable> getTaskProcesses() throws TaskException {
             List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
             Generatorable generator = 
                 new HomeGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule);   
             TaskProcessable process = new GeneratorProcess(generator,builder.path);
-            process.registerEvent(new CompleteEvent(this));
+            process.registerEvent(new CompleteEvent(complete));
             processes.add(process);
             return processes;
     }

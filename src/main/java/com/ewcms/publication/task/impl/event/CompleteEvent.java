@@ -6,9 +6,9 @@
 
 package com.ewcms.publication.task.impl.event;
 
-import org.springframework.util.Assert;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ewcms.publication.task.Taskable;
+import org.springframework.util.Assert;
 
 /**
  * 实现完成事件
@@ -17,16 +17,16 @@ import com.ewcms.publication.task.Taskable;
  */
 public class CompleteEvent implements TaskEventable{
 
-    protected final Taskable task;
+    protected final AtomicInteger completeNumber;
     
-    public CompleteEvent(Taskable task){
-        Assert.notNull(task,"Task is null");
-        this.task = task;
+    public CompleteEvent(AtomicInteger completeNumber){
+        Assert.notNull(completeNumber,"Complete number is null");
+        this.completeNumber = completeNumber;
     }
     
     @Override
     public void success(String uri) {
-        task.completeProcess();
+        completeNumber.incrementAndGet();
         successAfter(uri);
     }
 
@@ -39,7 +39,7 @@ public class CompleteEvent implements TaskEventable{
     
     @Override
     public void error(Throwable e) {
-        task.completeProcess();
+        completeNumber.incrementAndGet();
         errorAfter(e);
     }
     

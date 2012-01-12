@@ -139,11 +139,6 @@ public class DetailTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.site.getId();
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -151,11 +146,6 @@ public class DetailTask extends TaskBase{
     @Override
     public List<Taskable> getDependences() {
         return Collections.unmodifiableList(builder.dependences);
-    }
-
-    @Override
-    public void close() {
-        // do not instance
     }
 
     /**
@@ -206,7 +196,7 @@ public class DetailTask extends TaskBase{
                         builder.cfg,builder.site,builder.channel,builder.uriRule,article,page);
             }
             TaskProcessable process = new GeneratorProcess(generators,builder.path);
-            process.registerEvent(new DetailEvent(this,builder.articleService,article));
+            process.registerEvent(new DetailEvent(complete,builder.articleService,article));
             processes.add(process);
         }
         return processes;

@@ -23,4 +23,9 @@ public interface SitePublishable {
      * @throws TaskException
      */
     public void publish(Taskable task) throws TaskException;
+    
+    /**
+     * 关闭当前的发布过程
+     */
+    public void cancelPublish();
 }

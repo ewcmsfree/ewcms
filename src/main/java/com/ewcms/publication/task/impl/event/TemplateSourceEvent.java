@@ -6,11 +6,12 @@
 
 package com.ewcms.publication.task.impl.event;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.springframework.util.Assert;
 
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
-import com.ewcms.publication.task.Taskable;
 
 /**
  * 发布模板资源事件
@@ -21,9 +22,9 @@ public class TemplateSourceEvent extends CompleteEvent {
     private final TemplateSource source;
     private final TemplateSourcePublishServiceable service;
     
-    public TemplateSourceEvent(Taskable task,TemplateSource source,
-            TemplateSourcePublishServiceable service){
-        super(task);
+    public TemplateSourceEvent(AtomicInteger completeNumber,
+            TemplateSource source,TemplateSourcePublishServiceable service){
+        super(completeNumber);
         Assert.notNull(source,"Template source is null");
         Assert.notNull(service,"Template source service is null");
         this.source = source;

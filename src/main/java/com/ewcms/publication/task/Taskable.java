@@ -23,7 +23,7 @@ public interface Taskable {
      * 
      * @return
      */
-    Object getId();
+    String getId();
     
     /**
      * 得到任务描述
@@ -31,13 +31,6 @@ public interface Taskable {
      * @return
      */
     String getDescription();
-    
-    /**
-     * 所属站点编号
-     * 
-     * @return 站点编号
-     */
-    Integer getSiteId();
     
     /**
      * 创建任务的用户名
@@ -75,20 +68,10 @@ public interface Taskable {
     List<Taskable> getDependences();
     
     /**
-     * 执行任务得到任务列表
+     * 要处理的任务列表
      * 
      * @return
      * @throws TaskException
      */
-    public List<TaskProcessable> execute()throws TaskException;
-    
-    /**
-     * 每个任务过程完成后调用方法，如完成进度计算，发布状态设置等。
-     */
-    public void completeProcess();
-    
-    /**
-     * 关闭任务
-     */
-    public void close();
+    public List<TaskProcessable> toTaskProcess()throws TaskException;
 }

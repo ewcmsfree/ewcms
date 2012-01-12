@@ -50,7 +50,7 @@ public class MemoryTaskRegistry implements TaskRegistryable{
     public void registerNewTask(Site site,Taskable task) {
         Assert.notNull(task,"task is null");
         synchronized(taskPool){
-            final Integer siteId = task.getSiteId();
+            final Integer siteId = site.getId();
             SiteTaskRunnerable running = taskPool.get(siteId);
             if(running == null){
                 logger.debug("create site running,site id is {}",siteId);
@@ -59,7 +59,7 @@ public class MemoryTaskRegistry implements TaskRegistryable{
                 SitePublishable publish = new SitePublish(server);
                 running = new SiteTaskOrderRunner(publish,limit);
                 taskPool.put(siteId, running);
-                //启动站点发布运行
+                //start publish
                 Thread t = new Thread(running);
                 t.start();
             }
@@ -109,15 +109,13 @@ public class MemoryTaskRegistry implements TaskRegistryable{
      * @param task 任务
      * @return
      */
-    protected boolean containsTask(Taskable task){
+    boolean containsTask(Taskable task){
         synchronized(taskPool){
-            Integer siteId = task.getSiteId();
-            SiteTaskRunnerable runner = taskPool.get(siteId);
-            if(runner == null){
-                logger.debug("Site runner is not exist,site id is {}.",siteId);
-                return false;
+            boolean contains = false;
+            for(SiteTaskRunnerable runner :taskPool.values()){
+                contains = contains || runner.contains(task);
             }
-            return runner.contains(task);
+            return contains;
         }
     }
 

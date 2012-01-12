@@ -30,11 +30,6 @@ public class NoneTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return -1;
-    }
-
-    @Override
     public String getUsername() {
         return DEFAULT_USERNAME;
     }
@@ -42,12 +37,6 @@ public class NoneTask extends TaskBase{
     @Override
     public List<Taskable> getDependences() {
         return Collections.unmodifiableList(new ArrayList<Taskable>(0));
-    }
-
-    @Override
-    public void close() {
-        // do not instance
-        
     }
 
     @Override

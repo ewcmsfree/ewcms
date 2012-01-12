@@ -87,11 +87,6 @@ public class TemplateSourceTask extends TaskBase {
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.siteId;
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -109,11 +104,6 @@ public class TemplateSourceTask extends TaskBase {
         return Collections.unmodifiableList(new ArrayList<Taskable>(0));
     }
 
-    @Override
-    public void close() {
-        //not instance
-    }
-    
     /**
      * 递归得到子模版资源
      * 
@@ -199,8 +189,7 @@ public class TemplateSourceTask extends TaskBase {
             TemplateSourceProcess process = new TemplateSourceProcess(
                         source.getPath(),source.getSourceEntity().getSrcEntity());
             process.registerEvent(
-                    new TemplateSourceEvent(
-                            this,source,builder.templateSourceService));
+                    new TemplateSourceEvent(complete,source,builder.templateSourceService));
             taskProcesses.add(process);
         }
         return taskProcesses;

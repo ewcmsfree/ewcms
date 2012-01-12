@@ -6,9 +6,10 @@
 
 package com.ewcms.publication.task.impl.event;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.ewcms.content.document.model.Article;
 import com.ewcms.publication.service.ArticlePublishServiceable;
-import com.ewcms.publication.task.Taskable;
 
 /**
  * 发布文章事件
@@ -20,11 +21,11 @@ public class DetailEvent extends CompleteEvent {
     private final ArticlePublishServiceable service;
     private final Article article;
     
-    public DetailEvent(Taskable task,
+    public DetailEvent(AtomicInteger completeNumber,
             ArticlePublishServiceable service,
             Article article){
         
-        super(task);
+        super(completeNumber);
         this.service = service;
         this.article = article;
     }

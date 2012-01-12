@@ -85,11 +85,6 @@ public class ResourceTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.siteId;
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -105,11 +100,6 @@ public class ResourceTask extends TaskBase{
     @Override
     public List<Taskable> getDependences() {
         return Collections.unmodifiableList(new ArrayList<Taskable>(0));
-    }
-
-    @Override
-    public void close() {
-        // do not instance
     }
 
     /**
@@ -171,7 +161,7 @@ public class ResourceTask extends TaskBase{
                 uris = new String[]{resource.getUri()};
             }
             TaskProcessable process = new ResourceProcess(paths,uris);
-            process.registerEvent(new ResourceEvent(this,resource,builder.resourceService));
+            process.registerEvent(new ResourceEvent(complete,resource,builder.resourceService));
             processes.add(process);
         }
         

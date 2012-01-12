@@ -6,11 +6,12 @@
 
 package com.ewcms.publication.task.impl.event;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.springframework.util.Assert;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.publication.service.ResourcePublishServiceable;
-import com.ewcms.publication.task.Taskable;
 
 /**
  * 发布资源事件
@@ -22,8 +23,9 @@ public class ResourceEvent extends CompleteEvent {
     private final Resource resource;
     private final ResourcePublishServiceable service;
     
-    public ResourceEvent(Taskable task,Resource resource,ResourcePublishServiceable service){
-        super(task);
+    public ResourceEvent(AtomicInteger completeNumber,
+            Resource resource,ResourcePublishServiceable service){
+        super(completeNumber);
         Assert.notNull(resource,"resource is null");
         Assert.notNull(service,"resource publish service is null");
         this.resource = resource;

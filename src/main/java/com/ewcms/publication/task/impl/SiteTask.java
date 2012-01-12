@@ -113,11 +113,6 @@ public class SiteTask extends TaskBase {
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.site.getId();
-    }
-
-    @Override
     public String getUsername() {
         return builder.username;
     }
@@ -125,11 +120,6 @@ public class SiteTask extends TaskBase {
     @Override
     public List<Taskable> getDependences() {
         return Collections.unmodifiableList(builder.dependences);
-    }
-
-    @Override
-    public void close() {
-        // do not instance
     }
 
     @Override

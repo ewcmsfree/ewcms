@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.task.publish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
@@ -31,7 +32,8 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
 public class SiteMultiPublish extends SitePublish{
 
     private static final Logger logger = LoggerFactory.getLogger(SiteMultiPublish.class);
-    private static final int DEFAULT_TASK_NUMBER = 8;
+    private static final int DEFAULT_TASK_NUMBER = 4;
+    private List<Future<Boolean>> tasks;
 
     private final ExecutorService executorService;
     
@@ -44,23 +46,26 @@ public class SiteMultiPublish extends SitePublish{
         this.executorService = Executors.newFixedThreadPool(taskNumber);
     }
 
-    private void submitTaskProcesses(
+    private List<Future<Boolean>> submitTaskProcesses(
             CompletionService<Boolean> completionService,
             List<TaskProcessable> processes) throws TaskException {
       
+        tasks = new ArrayList<Future<Boolean>>();
         for (final TaskProcessable process : processes) {
-            completionService.submit(new Callable<Boolean>() {
+            Future<Boolean> task= completionService.submit(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
                     return process.execute(operator);
                 }
             });
+            tasks.add(task);
         }
+        return tasks;
     }
     
     @Override
     protected void execute(Taskable task)throws TaskException{
-        List<TaskProcessable> processes =  task.execute();
+        List<TaskProcessable> processes =  task.toTaskProcess();
         CompletionService<Boolean> completionService = 
             new ExecutorCompletionService<Boolean>(executorService);
         submitTaskProcesses(completionService,processes);
@@ -84,6 +89,20 @@ public class SiteMultiPublish extends SitePublish{
                 throw (Error)t;
             }else{
                 throw new IllegalStateException("Not unchecked",t);
+            }
+        }finally{
+            tasks = null;
+        }
+    }
+    
+    @Override
+    public void cancelPublish() {
+        if(tasks != null){
+            for(Future<Boolean> t :  tasks){
+                if(t.isCancelled() ||  t.isDone()){
+                    continue;
+                }
+                t.cancel(false);
             }
         }
     }

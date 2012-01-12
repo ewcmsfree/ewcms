@@ -146,11 +146,6 @@ public class TemplateTask extends TaskBase{
     }
 
     @Override
-    public Integer getSiteId() {
-        return builder.task.getSiteId();
-    }
-
-    @Override
     public String getUsername() {
         return builder.task.getUsername();
     }
@@ -158,11 +153,6 @@ public class TemplateTask extends TaskBase{
     @Override
     public List<Taskable> getDependences() {
         return builder.task.getDependences();
-    }
-
-    @Override
-    public void close() {
-        builder.task.close();
     }
 
     @Override
