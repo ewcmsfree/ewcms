@@ -28,7 +28,7 @@ public class MultiSitePublishTest extends SitePublishTest {
         SiteServer server = initSiteServer();
         SiteMultiPublish publish = new SiteMultiPublish(server);
         Taskable task = mock(Taskable.class);
-        when(task.execute()).thenReturn(initTaskProcesses("multi"));
+        when(task.toTaskProcess()).thenReturn(initTaskProcesses("multi"));
         publish.publish(task);
     }
 }

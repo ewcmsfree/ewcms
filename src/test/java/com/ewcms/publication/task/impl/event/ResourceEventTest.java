@@ -9,22 +9,23 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.Test;
 
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.publication.service.ResourcePublishServiceable;
-import com.ewcms.publication.task.Taskable;
 
 public class ResourceEventTest {
 
     @Test
     public void testSuccessAfter(){
-        Taskable task = mock(Taskable.class);
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
         Resource resource = new Resource();
         resource.setId(Integer.MAX_VALUE);
         
-        ResourceEvent event = new ResourceEvent(task,resource,service);
+        AtomicInteger completeNumber = new AtomicInteger(0);
+        ResourceEvent event = new ResourceEvent(completeNumber,resource,service);
         event.successAfter("");
         
         verify(service,times(1)).publishResource(Integer.MAX_VALUE);

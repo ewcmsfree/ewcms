@@ -39,7 +39,7 @@ public class SitePublishTest {
         SiteServer server = initSiteServer();
         SitePublish publish = new SitePublish(server);
         Taskable task = mock(Taskable.class);
-        when(task.execute()).thenReturn(initTaskProcesses("single"));
+        when(task.toTaskProcess()).thenReturn(initTaskProcesses("single"));
         publish.publish(task);
     }
     

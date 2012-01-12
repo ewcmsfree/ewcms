@@ -30,7 +30,6 @@ public class ResourceTaskTest {
 
     @Test
     public void testBuildTask(){
-        Integer siteId = Integer.MAX_VALUE;
         ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
         Site site = new Site();
         site.setId(Integer.MAX_VALUE);
@@ -42,7 +41,6 @@ public class ResourceTaskTest {
             builder();
         
         Assert.assertTrue(task.isAgain());
-        Assert.assertEquals(siteId, task.getSiteId());
         Assert.assertNotNull(task.getResourceIds());
         Assert.assertEquals("主站-资源发布(重新)", task.getDescription());
         Assert.assertEquals("test", task.getUsername());

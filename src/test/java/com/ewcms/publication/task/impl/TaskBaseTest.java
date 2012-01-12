@@ -31,67 +31,42 @@ public class TaskBaseTest {
     }
     
     @Test
-    public void testMutilExecuteFail(){
+    public void testNewTask()throws TaskException{
         String id = TaskBaseImpl.newTaskId();
         List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
         Taskable task = new TaskBaseImpl(id,processes);
         
-        try{
-            task.execute();
-            task.execute();
-            
-            Assert.fail();
-        }catch(TaskException e){
-            
-        }
-    }
-    
-    @Test
-    public void testZeroTaskProcessExecute()throws TaskException{
-        String id = TaskBaseImpl.newTaskId();
-        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
-        Taskable task = new TaskBaseImpl(id,processes);
-        
-        task.execute();
-        
-        Assert.assertTrue(task.isRunning());
-        Assert.assertTrue(task.isCompleted());
-        Assert.assertEquals(100, task.getProgress());
-    }
-    
-    @Test
-    public void testExecute()throws TaskException{
-        
-        String id = TaskBaseImpl.newTaskId();
-        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
-        processes.add(mock(TaskProcessable.class));
-        processes.add(mock(TaskProcessable.class));
-        Taskable task = new TaskBaseImpl(id,processes);
-        task.execute();
-        
-        Assert.assertTrue(task.isRunning());
+        Assert.assertFalse(task.isRunning());
         Assert.assertFalse(task.isCompleted());
         Assert.assertEquals(0, task.getProgress());
     }
     
     @Test
-    public void testCompleteProcess()throws TaskException{
+    public void testZeroToTaskProcess()throws TaskException{
+        String id = TaskBaseImpl.newTaskId();
+        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
+        Taskable task = new TaskBaseImpl(id,processes);
+        
+        task.toTaskProcess();
+        
+        Assert.assertTrue(task.isRunning());
+        Assert.assertTrue(task.isCompleted());
+        Assert.assertEquals(100, task.getProgress());
+    }
+    
+    @Test
+    public void testToTaskProcess()throws TaskException{
+        
         String id = TaskBaseImpl.newTaskId();
         List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
         processes.add(mock(TaskProcessable.class));
         processes.add(mock(TaskProcessable.class));
         Taskable task = new TaskBaseImpl(id,processes);
-        task.execute();
+        task.toTaskProcess();
         
-        task.completeProcess();
         Assert.assertTrue(task.isRunning());
         Assert.assertFalse(task.isCompleted());
-        Assert.assertEquals(50, task.getProgress());
-        
-        task.completeProcess();
-        Assert.assertTrue(task.isRunning());
-        Assert.assertTrue(task.isCompleted());
-        Assert.assertEquals(100, task.getProgress());
+        Assert.assertEquals(0, task.getProgress());
     }
     
     private class TaskBaseImpl extends TaskBase{
@@ -109,12 +84,6 @@ public class TaskBaseTest {
         }
 
         @Override
-        public Integer getSiteId() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
         public String getUsername() {
             // TODO Auto-generated method stub
             return null;
@@ -124,12 +93,6 @@ public class TaskBaseTest {
         public List<Taskable> getDependences() {
             // TODO Auto-generated method stub
             return null;
-        }
-
-        @Override
-        public void close() throws TaskException {
-            // TODO Auto-generated method stub
-            
         }
 
         @Override

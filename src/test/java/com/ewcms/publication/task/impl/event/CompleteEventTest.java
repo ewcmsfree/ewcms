@@ -6,14 +6,13 @@
 
 package com.ewcms.publication.task.impl.event;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.ewcms.publication.task.TaskException;
-import com.ewcms.publication.task.Taskable;
 
 /**
  * CompleteEvent单元测试
@@ -24,17 +23,17 @@ public class CompleteEventTest {
     
     @Test
     public void testSuccess(){
-        Taskable task = mock(Taskable.class);
-        CompleteEvent event = new CompleteEvent(task);
+        AtomicInteger completeNumber = new AtomicInteger(0);
+        CompleteEvent event = new CompleteEvent(completeNumber);
         event.success("");
-        verify(task,times(1)).completeProcess();
+        Assert.assertEquals(1, completeNumber.get());
     }
     
     @Test
     public void error(){
-        Taskable task = mock(Taskable.class);
-        CompleteEvent event = new CompleteEvent(task);
+        AtomicInteger completeNumber = new AtomicInteger(0);
+        CompleteEvent event = new CompleteEvent(completeNumber);
         event.error(new TaskException("test exception"));
-        verify(task,times(1)).completeProcess();
+        Assert.assertEquals(1, completeNumber.get());
     }
 }
