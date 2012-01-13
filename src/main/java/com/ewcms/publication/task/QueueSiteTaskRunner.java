@@ -13,6 +13,7 @@ import java.util.concurrent.Semaphore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ewcms.publication.task.impl.NoneTask;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 import com.ewcms.publication.task.publish.SitePublishable;
 /**
@@ -23,10 +24,10 @@ import com.ewcms.publication.task.publish.SitePublishable;
 public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
     private static final Logger logger = LoggerFactory.getLogger(QueueSiteTaskRunner.class);
     
-    private final LinkedBlockingQueue<Taskable> queue = new LinkedBlockingQueue<Taskable>();
+    protected final LinkedBlockingQueue<Taskable> queue = new LinkedBlockingQueue<Taskable>();
     private final SitePublishable sitePublish;
     private final Semaphore limit;
-    private Taskable taskRunning;
+    private volatile Taskable taskRunning;
     private volatile boolean closed = false;
     
     public QueueSiteTaskRunner(SitePublishable sitePublish,Semaphore limit){
@@ -56,12 +57,17 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
     
     @Override
     public void run() {
+        logger.info("Site's runner start");
         while(true){
             try {
-                if(closed) break;
                 taskRunning = queue.take();
+                if(closed){
+                    taskRunning = null;
+                    break;
+                }
                 limit.acquire();
                 publish(taskRunning);
+                taskRunning = null;
             } catch (InterruptedException e) {
                 logger.debug("Task runned  fail:{}",e);
             } finally{
@@ -78,7 +84,9 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
     @Override
     public boolean remov(Taskable task) {
         if(task.equals(taskRunning)){
+            logger.info("Task is running.");
             sitePublish.cancelPublish();
+            taskRunning = null;
             return true;
         }
         return queue.remove(task);
@@ -86,13 +94,17 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
 
     @Override
     public Taskable get(String id){
-        for(Taskable task : this.queue){
-            if(task.getId().equals(id)){
+        logger.info("it will be getting task by {}",id);
+        for(Taskable task : queue){
+            if(task.getId() != null && task.getId().equals(id)){
                 return task;
             }
         }
-        if(this.taskRunning.equals(id)){
-            return taskRunning;
+        if(taskRunning != null ){
+            logger.info("Task's {} is running ",taskRunning.getId());
+            if(taskRunning.getId().equals(id)){
+                return taskRunning;
+            }
         }
         return null;
     }
@@ -106,6 +118,10 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
         closed = true;
         if(this.taskRunning != null){
             sitePublish.cancelPublish();
+        }
+        //skip break
+        if(queue.isEmpty()){
+           queue.add(new NoneTask()); 
         }
     }
     
