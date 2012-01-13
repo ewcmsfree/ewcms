@@ -110,7 +110,8 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
     }
     
     public boolean contains(Taskable task){
-        return queue.contains(task) || taskRunning.equals(task);
+        return queue.contains(task)  ||
+                (taskRunning != null && taskRunning.equals(task));
     }
     
     @Override
