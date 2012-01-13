@@ -20,8 +20,8 @@ import com.ewcms.publication.task.publish.SitePublishable;
  * 
  * @author wangwei
  */
-public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
-    private static final Logger logger = LoggerFactory.getLogger(SiteTaskOrderRunner.class);
+public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
+    private static final Logger logger = LoggerFactory.getLogger(QueueSiteTaskRunner.class);
     
     private final LinkedBlockingQueue<Taskable> queue = new LinkedBlockingQueue<Taskable>();
     private final SitePublishable sitePublish;
@@ -29,7 +29,7 @@ public class SiteTaskOrderRunner  implements SiteTaskRunnerable{
     private Taskable taskRunning;
     private volatile boolean closed = false;
     
-    public SiteTaskOrderRunner(SitePublishable sitePublish,Semaphore limit){
+    public QueueSiteTaskRunner(SitePublishable sitePublish,Semaphore limit){
         this.limit = limit;
         this.sitePublish = sitePublish;
     }

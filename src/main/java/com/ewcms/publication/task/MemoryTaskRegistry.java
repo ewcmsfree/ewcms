@@ -57,7 +57,7 @@ public class MemoryTaskRegistry implements TaskRegistryable{
                 SiteServer server = site.getSiteServer();
                 //TODO server add multi property
                 SitePublishable publish = new SitePublish(server);
-                running = new SiteTaskOrderRunner(publish,limit);
+                running = new QueueSiteTaskRunner(publish,limit);
                 taskPool.put(siteId, running);
                 //start publish
                 Thread t = new Thread(running);
