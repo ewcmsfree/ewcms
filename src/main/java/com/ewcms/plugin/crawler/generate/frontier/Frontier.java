@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
+ * @author wu_zhijun
  */
 
 public class Frontier extends Configurable {

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.ewcms.plugin.crawler.generate.crawler.Page;
+import com.ewcms.plugin.crawler.generate.fetcher.PageFetchResult;
 import com.ewcms.plugin.crawler.generate.fetcher.PageFetchStatus;
 import com.ewcms.plugin.crawler.generate.fetcher.PageFetcher;
 import com.ewcms.plugin.crawler.generate.url.WebURL;
@@ -66,11 +67,12 @@ public class RobotstxtServer {
 		WebURL robotsTxtUrl = new WebURL();
 		robotsTxtUrl.setURL("http://" + host + "/robots.txt");
 		HostDirectives directives = null;
+		PageFetchResult fetchResult = null;
 		try {
-			int statusCode = pageFetcher.fetchHeader(robotsTxtUrl);
-			if (statusCode == PageFetchStatus.OK) {
+			fetchResult = pageFetcher.fetchHeader(robotsTxtUrl);
+			if (fetchResult.getStatusCode() == PageFetchStatus.OK) {
 				Page page = new Page(robotsTxtUrl);
-				pageFetcher.fetchContent(page);
+				fetchResult.fetchContent(page);
 				if (Util.hasPlainTextContent(page.getContentType())) {
 					try {
 						String content;
@@ -86,7 +88,7 @@ public class RobotstxtServer {
 				}
 			}
 		} finally {
-			pageFetcher.discardContentIfNotConsumed();
+			fetchResult.discardContentIfNotConsumed();
 		}
 		if (directives == null) {
 			// We still need to have this object to keep track of the time we
@@ -109,5 +111,4 @@ public class RobotstxtServer {
 		}
 		return directives;
 	}
-
 }

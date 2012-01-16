@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * the crawler threads and monitors their progress.
  *
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
+ * @author wu_zhijun
  */
 public class CrawlController extends Configurable {
 	
