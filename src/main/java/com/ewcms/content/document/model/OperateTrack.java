@@ -35,14 +35,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "doc_operate_track")
-@SequenceGenerator(name = "seq_doc_operate_track", sequenceName = "seq_doc_operate_track_id", allocationSize = 1)
+@Table(name = "content_operate_track")
+@SequenceGenerator(name = "seq_content_operate_track", sequenceName = "seq_content_operate_track_id", allocationSize = 1)
 public class OperateTrack implements Serializable {
 
 	private static final long serialVersionUID = -1094223279369849132L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_operate_track", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_content_operate_track", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "articlemain_id")

@@ -35,14 +35,14 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "doc_article_main")
-@SequenceGenerator(name = "seq_doc_article_main", sequenceName = "seq_doc_article_main_id", allocationSize = 1)
+@Table(name = "content_article_main")
+@SequenceGenerator(name = "seq_content_article_main", sequenceName = "seq_content_article_main_id", allocationSize = 1)
 public class ArticleMain implements Serializable {
 
 	private static final long serialVersionUID = 2777654709107575772L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_article_main", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_content_article_main", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "channel_id", nullable = false)

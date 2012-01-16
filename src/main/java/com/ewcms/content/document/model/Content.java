@@ -28,8 +28,8 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "doc_content")
-@SequenceGenerator(name = "seq_doc_content", sequenceName = "seq_doc_content_id", allocationSize = 1)
+@Table(name = "content_content")
+@SequenceGenerator(name = "seq_content_content", sequenceName = "seq_content_content_id", allocationSize = 1)
 public class Content implements Serializable {
 
 	private static final long serialVersionUID = -4505457961298597538L;

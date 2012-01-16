@@ -66,14 +66,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "doc_article")
-@SequenceGenerator(name = "seq_doc_article", sequenceName = "seq_doc_article_id", allocationSize = 1)
+@Table(name = "content_article")
+@SequenceGenerator(name = "seq_content_article", sequenceName = "seq_content_article_id", allocationSize = 1)
 public class Article implements Serializable {
 
 	private static final long serialVersionUID = -5809802652492615658L;
 
 	@Id
-    @GeneratedValue(generator = "seq_doc_article",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_content_article",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "title", nullable = false, length = 100)

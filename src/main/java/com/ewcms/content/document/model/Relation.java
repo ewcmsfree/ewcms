@@ -34,14 +34,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "doc_relation")
-@SequenceGenerator(name = "seq_doc_relation", sequenceName = "seq_doc_relation_id", allocationSize = 1)
+@Table(name = "content_relation")
+@SequenceGenerator(name = "seq_content_relation", sequenceName = "seq_content_relation_id", allocationSize = 1)
 public class Relation implements Serializable {
 
 	private static final long serialVersionUID = -4281309365714981737L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_relation", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_content_relation", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "sort")
