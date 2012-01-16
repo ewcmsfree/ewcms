@@ -80,8 +80,8 @@ public class MemoryTaskRegistry implements TaskRegistryable{
                 logger.debug("Task is not exist,task id is {}.",id);
                 return ;
             }
-            if(!task.getUsername().equals(username) && 
-                    !task.getUsername().equals(MANAGER_USERNAME)){
+            if(!username.equals(task.getUsername()) && 
+                    !username.equals(MANAGER_USERNAME)){
                 logger.debug("{} is owner of task,{} does not operator",task.getUsername(),username);
                 throw new TaskException("The task is not owner of it");
             }
@@ -119,6 +119,18 @@ public class MemoryTaskRegistry implements TaskRegistryable{
         }
     }
 
+    /**
+     * 判断站点是否已运行
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    boolean containsSite(Integer siteId){
+        synchronized(taskPool){
+            return taskPool.containsKey(siteId);
+        }
+    }
+    
     @Override
     public void closeSite(Integer siteId) {
         synchronized(taskPool){
