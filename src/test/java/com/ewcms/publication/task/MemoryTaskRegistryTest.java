@@ -5,8 +5,10 @@
  */
 package com.ewcms.publication.task;
 
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -68,4 +70,83 @@ public class MemoryTaskRegistryTest {
         Assert.assertFalse( register.containsTask(task));
     }
     
+    @Test
+    public void testDifferentUserRemoveTask(){
+        Integer siteId = 1;
+        String taskId = "0";
+        String username="test";
+        Taskable task = mock(Taskable.class);
+        when(task.getId()).thenReturn(taskId);
+        when(task.getUsername()).thenReturn(username);
+        MemoryTaskRegistry register = new MemoryTaskRegistry(0);
+        Site site = new Site();
+        site.setId(siteId);
+        SiteServer server = new SiteServer();
+        server.setOutputType(OutputType.LOCAL);
+        site.setSiteServer(server);
+        register.registerNewTask(site,task);
+        
+        try{
+            register.removeTask(siteId,taskId,"test1");
+            Assert.assertFalse( register.containsTask(task));
+            Assert.fail();
+        }catch(TaskException e){
+            Assert.assertTrue(register.containsTask(task));
+        }
+    }
+    
+    @Test
+    public void testManagerUserRemove(){
+        Integer siteId = 1;
+        String taskId = "0";
+        String username="test";
+        Taskable task = mock(Taskable.class);
+        when(task.getId()).thenReturn(taskId);
+        when(task.getUsername()).thenReturn(username);
+        MemoryTaskRegistry register = new MemoryTaskRegistry(0);
+        Site site = new Site();
+        site.setId(siteId);
+        SiteServer server = new SiteServer();
+        server.setOutputType(OutputType.LOCAL);
+        site.setSiteServer(server);
+        register.registerNewTask(site,task);
+        
+        try{
+            register.removeTask(siteId,taskId,TaskRegistryable.MANAGER_USERNAME);
+            Assert.assertFalse( register.containsTask(task));
+        }catch(TaskException e){
+            Assert.fail();
+        }
+    }
+    
+    @Test
+    public void testGetSiteTasks(){
+        Integer siteId = 1;
+        MemoryTaskRegistry register = new MemoryTaskRegistry(0);
+        Site site = new Site();
+        site.setId(siteId);
+        SiteServer server = new SiteServer();
+        server.setOutputType(OutputType.LOCAL);
+        site.setSiteServer(server);
+        register.registerNewTask(site, mock(Taskable.class));
+        register.registerNewTask(site, mock(Taskable.class));
+        List<Taskable> tasks = register.getSiteTasks(siteId);
+        Assert.assertEquals(2, tasks.size());
+    }
+    
+    @Test
+    public void testCloseSite(){
+        Integer siteId = 1;
+        MemoryTaskRegistry register = new MemoryTaskRegistry(0);
+        Site site = new Site();
+        site.setId(siteId);
+        SiteServer server = new SiteServer();
+        server.setOutputType(OutputType.LOCAL);
+        site.setSiteServer(server);
+        register.registerNewTask(site, mock(Taskable.class));
+        register.registerNewTask(site, mock(Taskable.class));
+        
+        register.closeSite(siteId);
+        Assert.assertFalse(register.containsSite(siteId));
+    }
 }
