@@ -23,7 +23,7 @@ import com.ewcms.scheduling.model.JobInfo;
  *
  */
 @Entity
-@Table(name = "job_crawler_gather")
+@Table(name = "job_crawler")
 @PrimaryKeyJoinColumn(name = "info_id")
 public class EwcmsJobCrawler extends JobInfo {
 

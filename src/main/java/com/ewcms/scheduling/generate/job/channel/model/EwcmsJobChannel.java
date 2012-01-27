@@ -29,7 +29,7 @@ import com.ewcms.scheduling.model.JobInfo;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "job_info_channel")
+@Table(name = "job_channel")
 @PrimaryKeyJoinColumn(name = "info_id")
 public class EwcmsJobChannel extends JobInfo {
 
