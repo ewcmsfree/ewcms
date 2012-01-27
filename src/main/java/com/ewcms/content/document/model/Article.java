@@ -159,7 +159,7 @@ public class Article implements Serializable {
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = Category.class)
-	@JoinTable(name = "doc_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+	@JoinTable(name = "content_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
 	private List<Category> categories = new ArrayList<Category>();
 	@Column(name = "total")

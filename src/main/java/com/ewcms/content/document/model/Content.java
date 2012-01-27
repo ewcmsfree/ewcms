@@ -35,7 +35,7 @@ public class Content implements Serializable {
 	private static final long serialVersionUID = -4505457961298597538L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_content", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_content_content", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "detail", columnDefinition = "text")
