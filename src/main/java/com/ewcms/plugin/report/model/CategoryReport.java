@@ -52,11 +52,11 @@ public class CategoryReport implements Serializable {
     @Column(name = "remarks",columnDefinition = "text")
     private String remarks;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, targetEntity = TextReport.class)
-    @JoinTable(name = "repo_category_text", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "text_id", referencedColumnName = "id"))
+    @JoinTable(name = "plugin_report_category_text", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "text_id", referencedColumnName = "id"))
     @OrderBy("id")
     private Set<TextReport> texts = new LinkedHashSet<TextReport>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, targetEntity = ChartReport.class)
-    @JoinTable(name = "repo_category_chart", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "chart_id", referencedColumnName = "id"))
+    @JoinTable(name = "plugin_report_category_chart", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "chart_id", referencedColumnName = "id"))
     @OrderBy("id")
     private Set<ChartReport> charts = new LinkedHashSet<ChartReport>();
 
