@@ -15,10 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import com.ewcms.content.vote.dao.PersonDAO;
-import com.ewcms.content.vote.dao.QuestionnaireDAO;
-import com.ewcms.content.vote.model.Questionnaire;
-import com.ewcms.content.vote.model.QuestionnaireStatus;
+import com.ewcms.plugin.vote.manager.dao.PersonDAO;
+import com.ewcms.plugin.vote.manager.dao.QuestionnaireDAO;
+import com.ewcms.plugin.vote.manager.service.QuestionnaireService;
+import com.ewcms.plugin.vote.model.Questionnaire;
 
 /**
  * 
@@ -55,6 +55,6 @@ public class QuestionnaireServiceTest {
 		assertEquals(questionnaire.getNumber().longValue(), 0L);
 		assertFalse(questionnaire.getVerifiCode());
 		assertFalse(questionnaire.getVoteEnd());
-		assertEquals(questionnaire.getQuestionnaireStatus(), QuestionnaireStatus.VIEW);
+		assertEquals(questionnaire.getStatus(), Questionnaire.Status.VIEW);
 	}
 }

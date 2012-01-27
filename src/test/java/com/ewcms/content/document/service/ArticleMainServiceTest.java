@@ -27,8 +27,8 @@ import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.content.document.model.ArticleType;
+import com.ewcms.content.document.model.Article.Status;
+import com.ewcms.content.document.model.Article.Type;
 import com.ewcms.security.manage.service.UserServiceable;
 
 /**
@@ -55,7 +55,7 @@ public class ArticleMainServiceTest {
 		Integer channelId = 1;
 		Article article = new Article();
 		article.setTitle("addTest");
-		article.setType(ArticleType.GENERAL);
+		article.setType(Type.GENERAL);
 		
 		articleMainService.addArticleMain(article, channelId, null);
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
@@ -68,7 +68,7 @@ public class ArticleMainServiceTest {
 		Integer channelId = 1;
 		Article article = new Article();
 		article.setTitle("updTest");
-		article.setType(ArticleType.GENERAL);
+		article.setType(Type.GENERAL);
 		
 		ArticleMain articleMain = initArticleMain();
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
@@ -169,7 +169,7 @@ public class ArticleMainServiceTest {
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
 		assertFalse(argument.getValue().getArticle().getDelete());
-		assertEquals(argument.getValue().getArticle().getStatus(), ArticleStatus.REEDIT);
+		assertEquals(argument.getValue().getArticle().getStatus(), Status.REEDIT);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -190,19 +190,19 @@ public class ArticleMainServiceTest {
 	@Test
 	public void submitReviewArticleMainIsReturnTrue() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
-		articleMain.getArticle().setStatus(ArticleStatus.DRAFT);
+		articleMain.getArticle().setStatus(Status.DRAFT);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
 		articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO).merge(argument.capture());
 		assertNotNull(argument.getValue().getArticle().getPublished());
-		assertEquals(argument.getValue().getArticle().getStatus(), ArticleStatus.REVIEW);
+		assertEquals(argument.getValue().getArticle().getStatus(), Status.REVIEW);
 	}
 	
 	@Test
 	public void submitReviewArticleMainIsReturnFalse() throws BaseException{
 		ArticleMain articleMain = initArticleMain();
-		articleMain.getArticle().setStatus(ArticleStatus.RELEASE);
+		articleMain.getArticle().setStatus(Status.RELEASE);
 		when(articleMainDAO.findArticleMainByArticleMainAndChannel(articleMain.getId(), articleMain.getChannelId())).thenReturn(articleMain);
 		articleMainService.submitReviewArticleMain(articleMain.getId(), articleMain.getChannelId());
 		
@@ -231,7 +231,7 @@ public class ArticleMainServiceTest {
 	@Test
 	public void reviewArticleMainPass(){
 		ArticleMain articleMain_1 = initArticleMain();
-		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
+		articleMain_1.getArticle().setStatus(Status.REVIEW);
 		
 //		ArticleMain articleMain_2 = new ArticleMain();
 //		articleMain_2.setId(2L);
@@ -265,14 +265,14 @@ public class ArticleMainServiceTest {
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(3)).merge(argument.capture());
-		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), ArticleStatus.PRERELEASE.getDescription());
+		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), Status.PRERELEASE.getDescription());
 		//assertEquals(argument.getValue().getArticle().getAuditReal(), "wuzhijun");
 	}
 	
 	@Test
 	public void reviewArticleMainNotPass(){
 		ArticleMain articleMain_1 = initArticleMain();
-		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
+		articleMain_1.getArticle().setStatus(Status.REVIEW);
 		
 //		ArticleMain articleMain_2 = new ArticleMain();
 //		articleMain_2.setId(2L);
@@ -306,7 +306,7 @@ public class ArticleMainServiceTest {
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(3)).merge(argument.capture());
-		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), ArticleStatus.REEDIT.getDescription());
+		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), Status.REEDIT.getDescription());
 		//assertEquals(argument.getValue().getArticle().getAuditReal(), "wuzhijun");
 	}
 	
@@ -318,13 +318,13 @@ public class ArticleMainServiceTest {
 	@Test
 	public void reviewArticleMainHasNull(){
 		ArticleMain articleMain_1 = initArticleMain();
-		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
+		articleMain_1.getArticle().setStatus(Status.REVIEW);
 		
 		articleMainService.reviewArticleMain(articleMain_1.getId(), 1, 0, "");
 		
 		ArgumentCaptor<ArticleMain> argument = ArgumentCaptor.forClass(ArticleMain.class);
 		verify(articleMainDAO, times(1)).merge(argument.capture());
-		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), ArticleStatus.PRERELEASE.getDescription());
+		assertEquals(argument.getValue().getArticle().getStatus().getDescription(), Status.PRERELEASE.getDescription());
 	}
 	
 	@Test
@@ -363,7 +363,7 @@ public class ArticleMainServiceTest {
 	@Test
 	public void clearArticleMainSort(){
 		ArticleMain articleMain_1 = initArticleMain();
-		articleMain_1.getArticle().setStatus(ArticleStatus.REVIEW);
+		articleMain_1.getArticle().setStatus(Status.REVIEW);
 		
 		ArticleMain articleMain_2 = new ArticleMain();
 		articleMain_2.setId(2L);
@@ -371,7 +371,7 @@ public class ArticleMainServiceTest {
 		articleMain_2.setSort(1L);
 		Article article_2 = new Article();
 		article_2.setId(3L);
-		article_2.setStatus(ArticleStatus.PRERELEASE);
+		article_2.setStatus(Status.PRERELEASE);
 		article_2.setTitle("test3");
 		articleMain_2.setArticle(article_2);
 		
@@ -381,7 +381,7 @@ public class ArticleMainServiceTest {
 		articleMain_3.setSort(2L);
 		Article article_3 = new Article();
 		article_3.setId(4L);
-		article_3.setStatus(ArticleStatus.RELEASE);
+		article_3.setStatus(Status.RELEASE);
 		article_3.setTitle("test4");
 		articleMain_3.setArticle(article_3);
 		

@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.content.notes.service.MemorandaService;
-import com.ewcms.content.notes.service.MemorandaServiceable;
+import com.ewcms.plugin.notes.manager.service.MemorandaService;
+import com.ewcms.plugin.notes.manager.service.MemorandaServiceable;
 
 
 public class NotesWeekTest {
