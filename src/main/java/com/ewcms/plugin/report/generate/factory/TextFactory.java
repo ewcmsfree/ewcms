@@ -40,7 +40,7 @@ import com.ewcms.plugin.report.generate.util.ParamConversionPage;
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextType;
+import com.ewcms.plugin.report.model.TextReport.Type;
 
 /**
  * @author 吴智俊
@@ -79,7 +79,7 @@ public class TextFactory implements TextFactoryable {
     }
 
     @SuppressWarnings("unchecked")
-	public byte[] export(Map<String, String> parameters, TextReport report, TextType type, HttpServletResponse response, HttpServletRequest request) {
+	public byte[] export(Map<String, String> parameters, TextReport report, Type type, HttpServletResponse response, HttpServletRequest request) {
         EwcmsDataSourceServiceable service = null;
         try {
             if (report == null) {

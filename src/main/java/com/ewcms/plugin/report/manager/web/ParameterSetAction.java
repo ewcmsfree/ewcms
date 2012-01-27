@@ -25,7 +25,7 @@ import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextType;
+import com.ewcms.plugin.report.model.TextReport.Type;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ParameterSetAction extends ActionSupport {
@@ -39,18 +39,18 @@ public class ParameterSetAction extends ActionSupport {
 	@Autowired
 	private ChartFactoryable chartFactory;
 
-	private TextType fileFormat;
+	private Type fileFormat;
 	private Long reportId;
 	private String reportType;
 	private Map<String, String> paraMap;
 	private List<PageShowParam> parameters;
 	
-	public void setFileFormat(TextType fileFormat) {
+	public void setFileFormat(Type fileFormat) {
 		this.fileFormat = fileFormat;
 	}
 
-	public List<TextType> getFileFormatList() {
-		return Arrays.asList(TextType.values());
+	public List<Type> getFileFormatList() {
+		return Arrays.asList(Type.values());
 	}
 
 	public Long getReportId() {

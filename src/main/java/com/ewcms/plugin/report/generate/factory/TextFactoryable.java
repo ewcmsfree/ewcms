@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextType;
+import com.ewcms.plugin.report.model.TextReport.Type;
 
 /**
  * 文字报表生成器
@@ -32,7 +32,7 @@ public interface TextFactoryable {
      * @param request
      * @return byte
      */
-    public byte[] export(Map<String, String> parameters, TextReport report, TextType type, HttpServletResponse response, HttpServletRequest request);
+    public byte[] export(Map<String, String> parameters, TextReport report, Type type, HttpServletResponse response, HttpServletRequest request);
 
     /**
      * 查询报表参数并转换成PageShowParam对象集合

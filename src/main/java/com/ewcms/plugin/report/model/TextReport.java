@@ -56,6 +56,32 @@ import com.ewcms.plugin.externalds.model.BaseDS;
 public class TextReport implements Serializable {
 
     private static final long serialVersionUID = 2289611908936617074L;
+    
+    /**
+     * 报表类型枚举
+     * 
+     * @author wuzhijun
+     *
+     */
+    public enum Type {
+
+        HTML("HTML"), PDF("PDF"), XLS("XLS"), RTF("RTF"), XML("XML");
+        
+        private String description;
+
+        private Type(String description) {
+            this.description = description;
+        }
+
+        /**
+         * 描述状态
+         *
+         * @return
+         */
+        public String getDescription() {
+            return this.description;
+        }
+    }
 	@Id
     @GeneratedValue(generator = "seq_plugin_report_text",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")

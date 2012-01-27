@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.plugin.BaseRuntimeException;
-import com.ewcms.plugin.report.model.TextType;
+import com.ewcms.plugin.report.model.TextReport.Type;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -33,7 +33,7 @@ public abstract class BaseTextGenerateServiceable {
 
 	private static final Logger logger = LoggerFactory.getLogger(BaseTextGenerateServiceable.class);
 
-	public byte[] export(InputStream in, TextType type,	Map<String, Object> parameters, HttpServletResponse response,HttpServletRequest request) {
+	public byte[] export(InputStream in, Type type,	Map<String, Object> parameters, HttpServletResponse response,HttpServletRequest request) {
 		try {
 			JasperDesign design = JRXmlLoader.load(in);
 			JasperReport jasperReport = JasperCompileManager.compileReport(design);
