@@ -40,14 +40,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "aspect_history")
-@SequenceGenerator(name = "seq_aspect_history", sequenceName = "seq_aspect_history_id", allocationSize = 1)
+@Table(name = "history_model")
+@SequenceGenerator(name = "seq_history_model", sequenceName = "seq_history_model_id", allocationSize = 1)
 public class HistoryModel implements Serializable {
 
 	private static final long serialVersionUID = 5018412502893297348L;
 
 	@Id
-	@GeneratedValue(generator = "seq_aspect_history", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_history_model", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "class_name", nullable = false)
