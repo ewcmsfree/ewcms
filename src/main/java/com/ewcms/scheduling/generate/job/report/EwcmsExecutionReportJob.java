@@ -21,7 +21,7 @@ import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.Repository;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextType;
+import com.ewcms.plugin.report.model.TextReport.Type;
 import com.ewcms.scheduling.generate.job.BaseEwcmsExecutionJob;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobParameter;
 import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
@@ -79,7 +79,7 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
         byte[] bytes = null;
         if (textReport != null) {
             TextFactoryable reportEngine = getTextFactory();
-            TextType textEnum = conversionToEnum(iOutput);
+            Type textEnum = conversionToEnum(iOutput);
             bytes = reportEngine.export(parameters, textReport, textEnum, null, null);
             fileType = textEnum.getDescription();
         }
@@ -131,19 +131,19 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
         return (TextFactoryable) applicationContext.getBean(TEXT_FACTORY);
     }
     
-    protected TextType conversionToEnum(Integer iOutput) {
-        if (iOutput.intValue() == TextType.HTML.ordinal()) {
-            return TextType.HTML;
-        } else if (iOutput.intValue() == TextType.PDF.ordinal()) {
-            return TextType.PDF;
-        } else if (iOutput.intValue() == TextType.XLS.ordinal()) {
-            return TextType.XLS;
-        } else if (iOutput.intValue() == TextType.RTF.ordinal()) {
-            return TextType.RTF;
-        } else if (iOutput.intValue() == TextType.XML.ordinal()) {
-            return TextType.XML;
+    protected Type conversionToEnum(Integer iOutput) {
+        if (iOutput.intValue() == Type.HTML.ordinal()) {
+            return Type.HTML;
+        } else if (iOutput.intValue() == Type.PDF.ordinal()) {
+            return Type.PDF;
+        } else if (iOutput.intValue() == Type.XLS.ordinal()) {
+            return Type.XLS;
+        } else if (iOutput.intValue() == Type.RTF.ordinal()) {
+            return Type.RTF;
+        } else if (iOutput.intValue() == Type.XML.ordinal()) {
+            return Type.XML;
         } else {
-            return TextType.PDF;
+            return Type.PDF;
         }
     }
 
