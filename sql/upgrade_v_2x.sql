@@ -52,7 +52,7 @@ ALTER TABLE doc_articlermc ADD COLUMN top boolean;
 -- 更新doc_article表记录
 UPDATE doc_article AS a 
 SET total = 1,
-    delete = b.delete_flag,
+    "delete" = b.delete_flag,
     inside = false,
     modified = b.modified,
     published = b.published,
