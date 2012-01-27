@@ -28,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "plugin_report_data")
-@SequenceGenerator(name = "seq_repo_data", sequenceName = "seq_plugin_report_data_id", allocationSize = 1)
+@SequenceGenerator(name = "seq_plugin_report_data", sequenceName = "seq_plugin_report_data_id", allocationSize = 1)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Data implements Serializable {
 

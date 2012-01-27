@@ -63,7 +63,7 @@ public class Parameter implements Serializable {
     }
     
 	@Id
-    @GeneratedValue(generator = "seq_repo_parameter",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_plugin_report_parameter",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
     @Column(name = "enname", nullable = false)
