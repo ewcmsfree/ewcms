@@ -48,6 +48,10 @@ public class Parameter implements Serializable {
 
     private static final long serialVersionUID = 2283573904816876354L;
     
+    /**
+     * 参数类型
+     * @author wuzhijun
+     */
     public enum Type{
         BOOLEAN("布尔型"), TEXT("文本型"), LIST("列表型"), CHECK("选择型"), DATE("日期型"), SESSION("登录用户型"), SQL("SQL语句");
         

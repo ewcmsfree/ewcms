@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * <ul>
  * <li>id:编号</li>
  * <li>title:选项标题</li>
- * <li>subjectItemStatus:问卷调查主题明细状态</li>
+ * <li>status:问卷调查主题明细状态</li>
  * <li>sort:排序</li>
  * <li>content:内容</li>
  * <li>voteNumber:票数</li>
@@ -39,6 +39,10 @@ public class SubjectItem implements Serializable {
 
 	private static final long serialVersionUID = 8605463440202838775L;
 
+	/**
+	 * 问卷调查主题明细枚举
+	 * @author wuzhijun
+	 */
 	public enum Status{
 		CHOOSE("选项"),SINGLETEXT("单行文本"),MULTITEXT("多行文本");
 		

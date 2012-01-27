@@ -58,10 +58,8 @@ public class TextReport implements Serializable {
     private static final long serialVersionUID = 2289611908936617074L;
     
     /**
-     * 报表类型枚举
-     * 
+     * 文字报表类型枚举
      * @author wuzhijun
-     *
      */
     public enum Type {
 

@@ -23,14 +23,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "doc_reviewgroup")
-@SequenceGenerator(name = "seq_doc_reviewgroup", sequenceName = "seq_doc_reviewgroup_id", allocationSize = 1)
+@Table(name = "content_review_group")
+@SequenceGenerator(name = "seq_content_review_group", sequenceName = "seq_content_review_group_id", allocationSize = 1)
 public class ReviewGroup implements Serializable {
 
 	private static final long serialVersionUID = 5703561985089566858L;
 
 	@Id
-    @GeneratedValue(generator = "seq_doc_reviewgroup",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_content_review_group",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "groupName")

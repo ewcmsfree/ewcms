@@ -56,6 +56,10 @@ public class Questionnaire implements Serializable {
 
 	private static final long serialVersionUID = -6666565689620227616L;
 
+	/**
+	 * 查看状态枚举
+	 * @author wuzhijun
+	 */
 	public enum Status{
 		VIEW("直接查看"),VOTEVIEW("投票后查看"),NOVIEW("不允许查看");
 		

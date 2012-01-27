@@ -50,6 +50,10 @@ public class MsgSend implements Serializable {
 
 	private static final long serialVersionUID = 8470154441934582608L;
 
+	/**
+	 * 消息类型枚举
+	 * @author wuzhijun
+	 */
 	public enum Type{
 		GENERAL("消息"),	NOTICE("公告"),SUBSCRIPTION("订阅");
 		

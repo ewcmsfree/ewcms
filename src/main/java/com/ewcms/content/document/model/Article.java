@@ -72,6 +72,10 @@ public class Article implements Serializable {
 
 	private static final long serialVersionUID = -5809802652492615658L;
 
+	/**
+	 * 文章类型枚举
+	 * @author wuzhijun
+	 */
 	public enum Type {
 		GENERAL("普通新闻"),TITLE("标题新闻");
 		
@@ -87,6 +91,10 @@ public class Article implements Serializable {
 
 	}
 	
+	/**
+	 * 文章状态枚举
+	 * @author wuzhijun
+	 */
 	public enum Status {
 		DRAFT("初稿"),REEDIT("重新编辑"),REVIEW("审核中"),REVIEWBREAK("审核中断"),PRERELEASE("发布版"),RELEASE("已发布");
 		
@@ -134,10 +142,6 @@ public class Article implements Serializable {
 	private Type type;
 	@Column(name = "owner")
 	private String owner;
-//	@Column(name = "reviewprocess_id")
-//	private Long reviewProcessId;
-//	@Column(name = "reviewprocess_name")
-//	private String reviewProcessName;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "published")
 	private Date published;
@@ -291,14 +295,6 @@ public class Article implements Serializable {
 	public void setType(Type type) {
 		this.type = type;
 	}
-
-//	public Long getReviewProcessId() {
-//		return reviewProcessId;
-//	}
-//
-//	public void setReviewProcessId(Long reviewProcessId) {
-//		this.reviewProcessId = reviewProcessId;
-//	}
 
 	public String getOwner() {
 		return owner;

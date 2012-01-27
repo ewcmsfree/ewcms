@@ -83,6 +83,10 @@ public class ChartReport implements Serializable {
 
     private static final long serialVersionUID = -2358576914939775115L;
     
+    /**
+     * 图型报表类型枚举
+     * @author wuzhijun
+     */
     public enum Type{
         VERTBAR("垂直柱状图"), 
         VERTBAR3D("垂直3D柱状图"), 

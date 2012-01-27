@@ -43,14 +43,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "doc_reviewprocess")
-@SequenceGenerator(name = "seq_doc_reviewprocess", sequenceName = "seq_doc_reviewprocess_id", allocationSize = 1)
+@Table(name = "content_review_process")
+@SequenceGenerator(name = "seq_content_review_process", sequenceName = "seq_content_review_process_id", allocationSize = 1)
 public class ReviewProcess implements Serializable {
 
 	private static final long serialVersionUID = 4540829300109250778L;
 
 	@Id
-	@GeneratedValue(generator = "seq_doc_reviewprocess", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_content_review_process", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "channel_id", nullable = false)

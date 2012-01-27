@@ -47,6 +47,10 @@ public class Memoranda implements Serializable {
 
 	private static final long serialVersionUID = -6072138684705920059L;
 	
+	/**
+	 * 提前时间段枚举
+	 * @author wuzhijun
+	 */
 	public enum BeforeStatus {
 		NONE("正点"), ONE("1分钟"), FIVE("5分钟"), TEN("10分钟"), FIFTEEN("15分钟"), TWENTY("20分钟"), TWENTYFIVE("25分钟"), THIRTY("30分钟"), FORTYFIVE("45分钟"), ONEHOUR("1小时"), TWOHOUR("2小时"), THREEHOUR("3小时"), TWELVEHOUR("12小时"), TWENTYFOUR("24小时"), TWODAY("2天"), ONEWEEK("1周");
 
@@ -62,6 +66,10 @@ public class Memoranda implements Serializable {
 
 	}
 
+	/**
+	 * 提醒频率枚举
+	 * @author wuzhijun
+	 */
 	public enum FrequencyStatus {
 		SINGLE("单次"), EVERYDAY("每天"), EVERYWEEK("每周"), EVERYMONTHWEEK("每月(星期)"), EVERYMONTH("每月(日)"), EVERYYEAR("每年");
 

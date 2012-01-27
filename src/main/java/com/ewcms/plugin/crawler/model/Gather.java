@@ -78,6 +78,10 @@ public class Gather implements Serializable {
 
 	private static final long serialVersionUID = -6421132072889992004L;
 	
+	/**
+	 * 采集类型枚举
+	 * @author wuzhijun
+	 */
     public enum Type {
         CONTENT("内容"), RESOURCE("资源");
         

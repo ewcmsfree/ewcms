@@ -33,7 +33,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <ul>
  * <li>id:编号</li>
  * <li>title:标题</li>
- * <li>subjectStatus:选项状态</li>
+ * <li>status:选项状态</li>
  * <li>subjectItems:问卷调查明细列表对象集合</li>
  * <li>sort:排序</li>
  * </ul>
@@ -47,6 +47,10 @@ public class Subject implements Serializable {
 
 	private static final long serialVersionUID = 3724785214252997515L;
 
+	/**
+	 * 选项状态枚举
+	 * @author wuzhijun
+	 */
 	public enum Status{
 		RADIO("单选"),OPTION("多选"),INPUT("录入");
 		
