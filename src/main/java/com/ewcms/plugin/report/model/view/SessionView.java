@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_view_session")
+@Table(name = "plugin_report_view_session")
 @PrimaryKeyJoinColumn(name = "view_id")
 public class SessionView extends ComponentView {
 

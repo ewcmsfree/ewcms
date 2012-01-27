@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.Article.Status;
 
 /**
  * 文章信息DAO
@@ -31,7 +31,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     @SuppressWarnings("unchecked")
 	public Long findArticleReleseMaxSize(Integer channelId){
     	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=? And m.article.status=?";
-    	List<Long> list = this.getJpaTemplate().find(hql, channelId, ArticleStatus.RELEASE);
+    	List<Long> list = this.getJpaTemplate().find(hql, channelId, Status.RELEASE);
     	if (list.isEmpty()) return 0L;
     	return list.get(0);
     }
@@ -45,7 +45,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 					return new ArrayList<Article>();
 				}
 				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? And m.reference=false";
-				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.PRERELEASE).setMaxResults(limit).getResultList();
+				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, Status.PRERELEASE).setMaxResults(limit).getResultList();
 			}
     	});
     	return (List<Article>)result;
@@ -60,7 +60,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 					return new ArrayList<Article>();
 				}
 				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? And m.top=? Order By Case When m.top Is Null Then 1 Else 0 End, m.top Desc, m.sort Asc, Case When m.article.published Is Null Then 1 Else 0 End, m.article.published Desc, Case When m.article.modified Is Null Then 1 Else 0 End, m.article.modified Desc, m.id";
-				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.RELEASE).setParameter(3, top).getResultList();
+				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, Status.RELEASE).setParameter(3, top).getResultList();
 			}
     	});
     	return (List<Article>)result;
@@ -75,7 +75,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 					return new ArrayList<ArticleMain>();
 				}
 				String hql = "From ArticleMain As m Where m.channelId=? And m.article.status=?";
-				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, ArticleStatus.RELEASE).getResultList();
+				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, Status.RELEASE).getResultList();
 			}
     	});
     	return (List<ArticleMain>)result;

@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 public class RuleSet extends TreeSet<String> {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3232259659058346633L;
 
 	@Override
 	public boolean add(String str) {

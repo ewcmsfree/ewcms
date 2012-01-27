@@ -18,8 +18,8 @@ import org.springframework.util.Assert;
 
 import com.ewcms.common.message.EwcmsMessageSource;
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.content.document.model.ArticleType;
+import com.ewcms.content.document.model.Article.Status;
+import com.ewcms.content.document.model.Article.Type;
 import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -132,8 +132,8 @@ public class ArticlePublishServiceWrapper implements ArticlePublishServiceable,M
         article.setDelete(false);
         article.setModified(now);
         article.setPublished(now);
-        article.setStatus(ArticleStatus.RELEASE);
-        article.setType(ArticleType.GENERAL);
+        article.setStatus(Status.RELEASE);
+        article.setType(Type.GENERAL);
         article.setUrl("#");
         
         List<Category> categories = new ArrayList<Category>();

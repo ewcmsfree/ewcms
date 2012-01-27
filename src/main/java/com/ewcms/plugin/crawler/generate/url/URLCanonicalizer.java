@@ -22,7 +22,6 @@ import java.util.TreeMap;
  */
 public class URLCanonicalizer {
 
-
 	public static String getCanonicalURL(String url) {
 		URL canonicalURL = getCanonicalURL(url, null);
 		if (canonicalURL != null) {

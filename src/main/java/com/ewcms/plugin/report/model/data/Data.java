@@ -27,14 +27,14 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_data")
-@SequenceGenerator(name = "seq_repo_data", sequenceName = "seq_repo_data_id", allocationSize = 1)
+@Table(name = "plugin_report_data")
+@SequenceGenerator(name = "seq_repo_data", sequenceName = "seq_plugin_report_data_id", allocationSize = 1)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Data implements Serializable {
 
     private static final long serialVersionUID = -4261767148281294408L;
 	@Id
-    @GeneratedValue(generator = "seq_repo_data",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_plugin_report_data",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
 

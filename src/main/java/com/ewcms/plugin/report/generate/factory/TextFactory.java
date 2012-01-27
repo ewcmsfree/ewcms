@@ -26,10 +26,10 @@ import org.springframework.util.Assert;
 
 import com.ewcms.common.convert.ConvertFactory;
 import com.ewcms.plugin.BaseRuntimeException;
-import com.ewcms.plugin.datasource.generate.factory.DataSourceFactoryable;
-import com.ewcms.plugin.datasource.generate.factory.init.EwcmsDataSourceFactoryable;
-import com.ewcms.plugin.datasource.generate.service.EwcmsDataSourceServiceable;
-import com.ewcms.plugin.datasource.model.BaseDS;
+import com.ewcms.plugin.externalds.generate.factory.DataSourceFactoryable;
+import com.ewcms.plugin.externalds.generate.factory.init.EwcmsDataSourceFactoryable;
+import com.ewcms.plugin.externalds.generate.service.EwcmsDataSourceServiceable;
+import com.ewcms.plugin.externalds.model.BaseDS;
 import com.ewcms.plugin.report.generate.service.text.BaseTextGenerateServiceable;
 import com.ewcms.plugin.report.generate.service.text.HtmlGenerateService;
 import com.ewcms.plugin.report.generate.service.text.PdfGenerateService;

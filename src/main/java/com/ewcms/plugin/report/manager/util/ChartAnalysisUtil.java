@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.ewcms.plugin.report.model.Parameter;
-import com.ewcms.plugin.report.model.ParametersType;
 
 /**
  * @author 吴智俊
@@ -55,7 +54,7 @@ public class ChartAnalysisUtil {
 						}else if (name.equals("dv")){
 							parameter.setDefaultValue(value);
 						}
-						parameter.setType(ParametersType.TEXT);
+						parameter.setType(Parameter.Type.TEXT);
 					}
 				}
 				beginIndex = endIndex = 0;

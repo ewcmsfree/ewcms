@@ -37,14 +37,14 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_category")
-@SequenceGenerator(name = "seq_repo_category", sequenceName = "seq_repo_category_id", allocationSize = 1)
+@Table(name = "plugin_report_category")
+@SequenceGenerator(name = "seq_plugin_report_category", sequenceName = "seq_plugin_report_category_id", allocationSize = 1)
 public class CategoryReport implements Serializable {
 
     private static final long serialVersionUID = 6590119941274234278L;
     
 	@Id
-    @GeneratedValue(generator = "seq_repo_category",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_plugin_report_category",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
     @Column(name = "name", nullable = false, length = 50, unique = true)

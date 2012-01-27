@@ -20,11 +20,12 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_data_static")
+@Table(name = "plugin_report_data_static")
 @PrimaryKeyJoinColumn(name = "data_id")
 public class StaticData extends Data {
 
     private static final long serialVersionUID = 358643064266693606L;
+    
     @Column(name = "value")
     private String value;
 

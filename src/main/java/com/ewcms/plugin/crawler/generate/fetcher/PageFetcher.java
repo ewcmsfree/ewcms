@@ -8,6 +8,7 @@ package com.ewcms.plugin.crawler.generate.fetcher;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -141,16 +142,12 @@ public class PageFetcher extends Configurable {
 						if (header != null) {
 							String movedToUrl = header.getValue();
 							movedToUrl = URLCanonicalizer.getCanonicalURL(movedToUrl, toFetchURL).toExternalForm();
-							webUrl.setURL(movedToUrl);
-						} else {
-							webUrl.setURL(null);
-						}
-						fetchResult.setStatusCode(PageFetchStatus.Moved);
+							fetchResult.setMovedToUrl(movedToUrl);
+						} 
+						fetchResult.setStatusCode(statusCode);
 						return fetchResult;
 					}
 					logger.info("Failed: " + response.getStatusLine().toString() + ", while fetching " + toFetchURL);
-				} else if (config.isShow404PagesInLogs()) {
-					logger.info("Not Found: " + toFetchURL + " (Link found in doc#: " + webUrl.getParentDocid() + ")");
 				}
 				fetchResult.setStatusCode(response.getStatusLine().getStatusCode());
 				return fetchResult;
@@ -178,11 +175,11 @@ public class PageFetcher extends Configurable {
 					}
 				}
 				if (size > config.getMaxDownloadSize()) {
-					fetchResult.setStatusCode(PageFetchStatus.PageTooBig);
+					fetchResult.setStatusCode(CustomFetchStatus.PageTooBig);
 					return fetchResult;
 				}
 
-				fetchResult.setStatusCode(PageFetchStatus.OK);
+				fetchResult.setStatusCode(HttpStatus.SC_OK);
 				return fetchResult;
 
 			} else {
@@ -191,7 +188,7 @@ public class PageFetcher extends Configurable {
 		} catch (IOException e) {
 			logger.error("Fatal transport error: " + e.getMessage() + " while fetching " + toFetchURL
 					+ " (link found in doc #" + webUrl.getParentDocid() + ")");
-			fetchResult.setStatusCode(PageFetchStatus.FatalTransportError);
+			fetchResult.setStatusCode(CustomFetchStatus.FatalTransportError);
 			return fetchResult;
 		} catch (IllegalStateException e) {
 			// ignoring exceptions that occur because of not registering https
@@ -211,7 +208,7 @@ public class PageFetcher extends Configurable {
 				e.printStackTrace();
 			}
 		}
-		fetchResult.setStatusCode(PageFetchStatus.UnknownError);
+		fetchResult.setStatusCode(CustomFetchStatus.UnknownError);
 		return fetchResult;
 	}
 
@@ -220,6 +217,10 @@ public class PageFetcher extends Configurable {
 			connectionManager.shutdown();
 			connectionMonitorThread.shutdown();
 		}
+	}
+	
+	public HttpClient getHttpClient() {
+		return httpClient;
 	}
 
 	private static class GzipDecompressingEntity extends HttpEntityWrapper {

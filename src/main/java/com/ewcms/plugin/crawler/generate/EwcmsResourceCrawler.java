@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpStatus;
+
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
@@ -124,5 +126,16 @@ public class EwcmsResourceCrawler extends WebCrawler {
 		annex_patterns = null;
 		site = null;
 		resourceFac = null;
+	}
+	
+	@Override
+	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
+		if (statusCode != HttpStatus.SC_OK) {
+			if (statusCode == HttpStatus.SC_NOT_FOUND) {
+				System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page with docid: " + webUrl.getParentDocid());
+			} else {
+				System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
+			}
+		}
 	}
 }

@@ -20,8 +20,8 @@ import org.springframework.security.acls.model.Permission;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
-import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.content.document.model.ArticleType;
+import com.ewcms.content.document.model.Article.Status;
+import com.ewcms.content.document.model.Article.Type;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -137,10 +137,10 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			}
 		}
 		if (isStringNotEmpty(articleStatus) && !articleStatus.equals("-1")){
-			query.setParameter("articleStatus", ArticleStatus.valueOf(articleStatus));
+			query.setParameter("articleStatus", Status.valueOf(articleStatus));
 		}
 		if (isStringNotEmpty(articleType) && !articleType.equals("-1")){
-			query.setParameter("articleType", ArticleType.valueOf(articleType));
+			query.setParameter("articleType", Type.valueOf(articleType));
 		}
 		if (!isPermissionIsChannel){
 			query.setParameter("owner", EwcmsContextUtil.getUserName());

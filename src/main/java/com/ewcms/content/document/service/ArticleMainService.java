@@ -29,8 +29,8 @@ import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.OperateTrack;
-import com.ewcms.content.document.model.ArticleStatus;
-import com.ewcms.content.document.model.ArticleType;
+import com.ewcms.content.document.model.Article.Status;
+import com.ewcms.content.document.model.Article.Type;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
@@ -123,18 +123,18 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
-		if (article.getStatus() == ArticleStatus.DRAFT || article.getStatus() == ArticleStatus.REEDIT) {
+		if (article.getStatus() == Status.DRAFT || article.getStatus() == Status.REEDIT) {
 			ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
 			if (reviewProcess == null ){
 				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "发布版。", "");
 
-				article.setStatus(ArticleStatus.PRERELEASE);
+				article.setStatus(Status.PRERELEASE);
 //				article.setReviewProcessId(null);
 				article.setReviewProcess(null);
 			}else{
 				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
 
-				article.setStatus(ArticleStatus.REVIEW);
+				article.setStatus(Status.REVIEW);
 //				article.setReviewProcessId(reviewProcess.getId());
 				article.setReviewProcess(reviewProcess);
 			}
@@ -166,9 +166,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (target_channelId != source_channelId) {
 					Article target_article = new Article();
 
-					target_article.setStatus(ArticleStatus.DRAFT);
+					target_article.setStatus(Status.DRAFT);
 					target_article.setPublished(null);
-					if (article.getType() == ArticleType.TITLE){
+					if (article.getType() == Type.TITLE){
 						target_article.setUrl(article.getUrl());
 					}else{
 						target_article.setUrl(null);
@@ -261,7 +261,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (isNull(articleMain)) return false;
 		Article article = articleMain.getArticle();
 		if (isNull(article)) return false;
-		if (article.getStatus() == ArticleStatus.REVIEW){
+		if (article.getStatus() == Status.REVIEW){
 			ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcess().getId(), channelId);
 			List<ReviewUser> reviewUsers = rp.getReviewUsers();
 			List<ReviewGroup> reviewGroups = rp.getReviewGroups();
@@ -297,7 +297,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		if (isNull(articleMain)) return;
 		article = articleMain.getArticle();
 		if (isNull(article)) return;
-		if (article.getStatus() == ArticleStatus.REVIEW) {
+		if (article.getStatus() == Status.REVIEW) {
 			ReviewProcess rp = reviewProcessDAO.findReviewProcessByIdAndChannel(article.getReviewProcess().getId(), channelId);
 			String currentStatus = article.getStatusDescription();
 			String caption = "";
@@ -310,13 +310,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 						article.setReviewProcess(rp.getNextProcess());
 						caption += "，已提交到【" + rp.getNextProcess().getName() + "】进行审核。";
 					}else{
-						article.setStatus(ArticleStatus.PRERELEASE);
+						article.setStatus(Status.PRERELEASE);
 						//article.setReviewProcessId(null);
 						article.setReviewProcess(null);
 						caption += "，可以进行发布。";
 					}
 				}else{
-					article.setStatus(ArticleStatus.REVIEWBREAK);
+					article.setStatus(Status.REVIEWBREAK);
 					caption = "审核流程已改变，不能再进行审核。请联系频道管理员恢复到重新编辑状态。";
 				}
 			}else if (review == 1){// 不通过
@@ -328,13 +328,13 @@ public class ArticleMainService implements ArticleMainServiceable {
 						article.setReviewProcess(rp.getPrevProcess());
 						caption += "，已退回到【" + rp.getPrevProcess().getName() + "】进行重新审核。";
 					}else{
-						article.setStatus(ArticleStatus.REEDIT);
+						article.setStatus(Status.REEDIT);
 //						article.setReviewProcessId(null);
 						article.setReviewProcess(null);
 						caption += "，已退回到重新编辑状态。";
 					}
 				}else{
-					article.setStatus(ArticleStatus.REVIEWBREAK);
+					article.setStatus(Status.REVIEWBREAK);
 					caption = "审核流程已改变，不能再进行审核。请联系频道管理员章恢复到重新编辑状态。";
 				}
 			}
@@ -409,11 +409,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
 		Assert.notNull(article);
-		if (article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.REVIEWBREAK){
+		if (article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.RELEASE || article.getStatus() == Status.REVIEWBREAK){
 
 			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "已退回到重新编辑状态。", "");
 			
-			article.setStatus(ArticleStatus.REEDIT);
+			article.setStatus(Status.REEDIT);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 		}else{
@@ -432,7 +432,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void delArticleMainByCrawler(Integer channelId, String userName) {
 		List<ArticleMain> articleMains = articleMainDAO.findArticleMainByChannelIdAndUserName(channelId, userName);
 		for (ArticleMain articleMain : articleMains){
-			if (articleMain.getArticle().getStatus() == ArticleStatus.RELEASE) continue;
+			if (articleMain.getArticle().getStatus() == Status.RELEASE) continue;
 			articleMainDAO.remove(articleMain);
 		}
 	}
@@ -471,7 +471,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}
 
 		article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
-		if (article.getType() == ArticleType.TITLE){
+		if (article.getType() == Type.TITLE){
 			titleArticleContentNull(article);
 		}else{
 			keywordAndSummary(article);
@@ -526,15 +526,15 @@ public class ArticleMainService implements ArticleMainServiceable {
 			article.setPublished(published);
 		}
 
-		if (article.getStatus() == ArticleStatus.RELEASE || article.getStatus() == ArticleStatus.PRERELEASE || article.getStatus() == ArticleStatus.REVIEW) {
+		if (article.getStatus() == Status.RELEASE || article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.REVIEW) {
 			// throw new BaseException("error.document.article.notupdate","只能在初稿或重新编辑下才能修改");
 		} else {
 			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);
-			if (article.getType() == ArticleType.GENERAL) {
+			if (article.getType() == Type.GENERAL) {
 				article.setUrl(null);
 				keywordAndSummary(article);
-			} else if (article.getType() == ArticleType.TITLE) {
+			} else if (article.getType() == Type.TITLE) {
 				article.setKeyword("");
 				article.setSummary("");
 				if (article_old.getContents() != null && !article_old.getContents().isEmpty()) {

@@ -42,14 +42,28 @@ import com.ewcms.plugin.report.model.view.ComponentView;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_parameter")
-@SequenceGenerator(name = "seq_repo_text_parameter", sequenceName = "seq_repo_text_parameter_id", allocationSize = 1)
+@Table(name = "plugin_report_parameter")
+@SequenceGenerator(name = "seq_plugin_report_parameter", sequenceName = "seq_plugin_report_parameter_id", allocationSize = 1)
 public class Parameter implements Serializable {
 
     private static final long serialVersionUID = 2283573904816876354L;
     
+    public enum Type{
+        BOOLEAN("布尔型"), TEXT("文本型"), LIST("列表型"), CHECK("选择型"), DATE("日期型"), SESSION("登录用户型"), SQL("SQL语句");
+        
+        private String description;
+
+        private Type(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+    }
+    
 	@Id
-    @GeneratedValue(generator = "seq_repo_text_parameter",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_repo_parameter",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
     @Column(name = "enname", nullable = false)
@@ -62,7 +76,7 @@ public class Parameter implements Serializable {
     private String cnName;
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ParametersType type;
+    private Type type;
     @Column(name = "defaultvalue")
     private String defaultValue;
     @Column(name = "value")
@@ -114,7 +128,7 @@ public class Parameter implements Serializable {
         this.cnName = cnName;
     }
 
-    public ParametersType getType() {
+    public Type getType() {
         return type;
     }
 
@@ -122,11 +136,11 @@ public class Parameter implements Serializable {
 		if (type != null){
 			return type.getDescription();
 		}else{
-			return ParametersType.TEXT.getDescription();
+			return Type.TEXT.getDescription();
 		}
 	}
 	
-    public void setType(ParametersType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

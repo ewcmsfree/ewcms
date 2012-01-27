@@ -43,26 +43,24 @@ public class CrawlController extends Configurable {
 	 */
 	protected Object customData;
 
-    /**
-     * Once the crawling session finishes the controller
-     * collects the local data of the crawler threads and stores
-     * them in this List.
-     */
-    protected List<Object> crawlersLocalData = new ArrayList<Object>();
+	/**
+	 * Once the crawling session finishes the controller collects the local data
+	 * of the crawler threads and stores them in this List.
+	 */
+	protected List<Object> crawlersLocalData = new ArrayList<Object>();
 
-    /**
-     * Is the crawling of this session finished?
-     */
-    protected boolean finished;
+	/**
+	 * Is the crawling of this session finished?
+	 */
+	protected boolean finished;
 
-    /**
-     * Is the crawling session set to 'shutdown'.
-     * Crawler threads monitor this flag and when it is set
-     * they will no longer process new pages.
-     */
-    protected boolean shuttingDown;
+	/**
+	 * Is the crawling session set to 'shutdown'. Crawler threads monitor this
+	 * flag and when it is set they will no longer process new pages.
+	 */
+	protected boolean shuttingDown;
 
-    protected PageFetcher pageFetcher;
+	protected PageFetcher pageFetcher;
 	protected RobotstxtServer robotstxtServer;
 	protected Frontier frontier;
 	protected DocIDServer docIdServer;
@@ -78,8 +76,8 @@ public class CrawlController extends Configurable {
 		File folder = new File(config.getCrawlStorageFolder());
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
-                throw new Exception("Couldn't create this folder: " + folder.getAbsolutePath());
-            }
+				throw new Exception("Couldn't create this folder: " + folder.getAbsolutePath());
+			}
 		}
 
 		boolean resumable = config.isResumableCrawling();
@@ -92,13 +90,13 @@ public class CrawlController extends Configurable {
 		File envHome = new File(config.getCrawlStorageFolder() + "/frontier");
 		if (!envHome.exists()) {
 			if (!envHome.mkdir()) {
-                throw new Exception("Couldn't create this folder: " + envHome.getAbsolutePath());
-            }
+				throw new Exception("Couldn't create this folder: " + envHome.getAbsolutePath());
+			}
 		}
 		if (!resumable) {
 			IO.deleteFolderContents(envHome);
 		}
-		
+
 		env = new Environment(envHome, envConfig);
 		docIdServer = new DocIDServer(env, config);
 		frontier = new Frontier(env, config, docIdServer);
@@ -110,24 +108,24 @@ public class CrawlController extends Configurable {
 		shuttingDown = false;
 	}
 
-    /**
-     * Start the crawling session and wait for it to finish.
-     *
-     * @param _c  the class that implements the logic for crawler threads
-     * @param numberOfCrawlers the number of concurrent threads that will be
-     *                         contributing in this crawling session.
-     */
+	/**
+	 * Start the crawling session and wait for it to finish.
+	 * 
+	 * @param _c the class that implements the logic for crawler threads
+	 * @param numberOfCrawlers the number of concurrent threads that will be contributing in
+	 *            this crawling session.
+	 */
 	public <T extends WebCrawler> void start(final Class<T> _c, final int numberOfCrawlers) {
 		this.start(_c, numberOfCrawlers, true);
 	}
 
-    /**
-     * Start the crawling session and return immediately.
-     *
-     * @param _c  the class that implements the logic for crawler threads
-     * @param numberOfCrawlers the number of concurrent threads that will be
-     *                         contributing in this crawling session.
-     */
+	/**
+	 * Start the crawling session and return immediately.
+	 * 
+	 * @param _c the class that implements the logic for crawler threads
+	 * @param numberOfCrawlers the number of concurrent threads that will be contributing in
+	 *            this crawling session.
+	 */
 	public <T extends WebCrawler> void startNonBlocking(final Class<T> _c, final int numberOfCrawlers) {
 		this.start(_c, numberOfCrawlers, false);
 	}
@@ -252,9 +250,9 @@ public class CrawlController extends Configurable {
 		}
 	}
 
-    /**
-     * Wait until this crawling session finishes.
-     */
+	/**
+	 * Wait until this crawling session finishes.
+	 */
 	public void waitUntilFinish() {
 		try{
 			while (!finished) {
@@ -282,12 +280,11 @@ public class CrawlController extends Configurable {
 		}
 	}
 
-    /**
-     * Once the crawling session finishes the controller
-     * collects the local data of the crawler threads and stores
-     * them in a List. This function returns the reference to this
-     * list.
-     */
+	/**
+	 * Once the crawling session finishes the controller collects the local data
+	 * of the crawler threads and stores them in a List. This function returns
+	 * the reference to this list.
+	 */
 	public List<Object> getCrawlersLocalData() {
 		return crawlersLocalData;
 	}
@@ -299,34 +296,94 @@ public class CrawlController extends Configurable {
 		}
 	}
 
-    /**
-     * Adds a new seed URL. A seed URL is a URL that
-     * is fetched by the crawler to extract new URLs
-     * in it and follow them for crawling.
-     *
-     * @param pageUrl the URL of the seed
-     */
+	/**
+	 * Adds a new seed URL. A seed URL is a URL that is fetched by the crawler
+	 * to extract new URLs in it and follow them for crawling.
+	 * 
+	 * @param pageUrl
+	 *            the URL of the seed
+	 */
 	public void addSeed(String pageUrl) {
+		addSeed(pageUrl, -1);
+	}
+
+	/**
+	 * Adds a new seed URL. A seed URL is a URL that is fetched by the crawler
+	 * to extract new URLs in it and follow them for crawling. You can also
+	 * specify a specific document id to be assigned to this seed URL. This
+	 * document id needs to be unique. Also, note that if you add three seeds
+	 * with document ids 1,2, and 7. Then the next URL that is found during the
+	 * crawl will get a doc id of 8. Also you need to ensure to add seeds in
+	 * increasing order of document ids.
+	 * 
+	 * Specifying doc ids is mainly useful when you have had a previous crawl
+	 * and have stored the results and want to start a new crawl with seeds
+	 * which get the same document ids as the previous crawl.
+	 * 
+	 * @param pageUrl
+	 *            the URL of the seed
+	 * @param docId
+	 *            the document id that you want to be assigned to this seed URL.
+	 * 
+	 */
+	public void addSeed(String pageUrl, int docId) {
 		String canonicalUrl = URLCanonicalizer.getCanonicalURL(pageUrl);
 		if (canonicalUrl == null) {
 			logger.error("Invalid seed URL: " + pageUrl);
 			return;
 		}
-		int docid = docIdServer.getDocId(canonicalUrl);
-		if (docid > 0) {
-			// This URL is already seen.
-			return;
+		if (docId < 0) {
+			docId = docIdServer.getDocId(canonicalUrl);
+			if (docId > 0) {
+				// This URL is already seen.
+				return;
+			}
+			docId = docIdServer.getNewDocID(canonicalUrl);
+		} else {
+			try {
+				docIdServer.addUrlAndDocId(canonicalUrl, docId);
+			} catch (Exception e) {
+				logger.error("Could not add seed: " + e.getMessage());
+			}
 		}
 
 		WebURL webUrl = new WebURL();
 		webUrl.setURL(canonicalUrl);
-		docid = docIdServer.getNewDocID(canonicalUrl);
-		webUrl.setDocid(docid);
+		webUrl.setDocid(docId);
 		webUrl.setDepth((short) 0);
 		if (!robotstxtServer.allows(webUrl)) {
 			logger.info("Robots.txt does not allow this seed: " + pageUrl);
 		} else {
 			frontier.schedule(webUrl);
+		}
+	}
+
+	/**
+	 * This function can called to assign a specific document id to a url. This
+	 * feature is useful when you have had a previous crawl and have stored the
+	 * Urls and their associated document ids and want to have a new crawl which
+	 * is aware of the previously seen Urls and won't re-crawl them.
+	 * 
+	 * Note that if you add three seen Urls with document ids 1,2, and 7. Then
+	 * the next URL that is found during the crawl will get a doc id of 8. Also
+	 * you need to ensure to add seen Urls in increasing order of document ids. 
+	 * 
+	 * @param pageUrl
+	 *            the URL of the page
+	 * @param docId
+	 *            the document id that you want to be assigned to this URL.
+	 * 
+	 */
+	public void addSeenUrl(String url, int docId) {
+		String canonicalUrl = URLCanonicalizer.getCanonicalURL(url);
+		if (canonicalUrl == null) {
+			logger.error("Invalid Url: " + url);
+			return;
+		}
+		try {
+			docIdServer.addUrlAndDocId(canonicalUrl, docId);
+		} catch (Exception e) {
+			logger.error("Could not add seen url: " + e.getMessage());
 		}
 	}
 
@@ -378,11 +435,11 @@ public class CrawlController extends Configurable {
 		return shuttingDown;
 	}
 
-    /**
-     * Set the current crawling session set to 'shutdown'.
-     * Crawler threads monitor the shutdown flag and when it is set
-     * to true, they will no longer process new pages.
-     */
+	/**
+	 * Set the current crawling session set to 'shutdown'. Crawler threads
+	 * monitor the shutdown flag and when it is set to true, they will no longer
+	 * process new pages.
+	 */
 	public void Shutdown() {
 		logger.info("Shutting down...");
 		this.shuttingDown = true;
@@ -396,4 +453,5 @@ public class CrawlController extends Configurable {
 	public void setPassingParameters(Map<String, Object> passingParameters) {
 		this.passingParameters = passingParameters;
 	}
+
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class HtmlContentHandler extends DefaultHandler {
-
+	
 	private enum Element {
 		A, AREA, LINK, IFRAME, FRAME, EMBED, IMG, BASE, META, BODY
     }
@@ -142,5 +142,4 @@ public class HtmlContentHandler extends DefaultHandler {
 	public String getBaseUrl() {
 		return base;
 	}
-
 }

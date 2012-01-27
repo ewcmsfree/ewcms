@@ -53,5 +53,4 @@ public class HtmlParseData implements ParseData {
 	public String toString() {
 		return text;
 	}
-
 }

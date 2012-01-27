@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
@@ -154,9 +154,9 @@ public class DetailTask extends TaskBase{
      * @param status 文章状态
      * @return true 需要发布
      */
-    private boolean isPublish(ArticleStatus status){
-        return (status == ArticleStatus.PRERELEASE) || 
-                (status==ArticleStatus.RELEASE && builder.again);
+    private boolean isPublish(Status status){
+        return (status == Status.PRERELEASE) || 
+                (status==Status.RELEASE && builder.again);
     }
     
     private List<Article> getPublishArticles(){

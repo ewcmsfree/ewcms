@@ -139,5 +139,4 @@ public class Parser extends Configurable {
 		return true;
 
 	}
-
 }

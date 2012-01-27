@@ -72,8 +72,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * 
  */
 @Entity
-@Table(name = "cwl_gather")
-@SequenceGenerator(name = "seq_cwl_gather", sequenceName = "seq_cwl_gather_id", allocationSize = 1)
+@Table(name = "plugin_crawler_gather")
+@SequenceGenerator(name = "seq_plugin_crawler_gather", sequenceName = "seq_plugin_crawler_gather_id", allocationSize = 1)
 public class Gather implements Serializable {
 
 	private static final long serialVersionUID = -6421132072889992004L;
@@ -93,7 +93,7 @@ public class Gather implements Serializable {
    }
 
 	@Id
-	@GeneratedValue(generator = "seq_cwl_gather", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_plugin_crawler_gather", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "name", nullable = false, length = 100)

@@ -26,7 +26,6 @@ import com.ewcms.plugin.report.manager.util.ParameterSetValueUtil;
 import com.ewcms.plugin.report.manager.util.TextDesignUtil;
 import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.Parameter;
-import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.plugin.report.model.TextReport;
 
 /**
@@ -196,11 +195,11 @@ public class TextReportService implements TextReportServiceable {
 	 *            类型名
 	 * @return InputControlEnum 枚举
 	 */
-	private ParametersType Conversion(String className) {
+	private Parameter.Type Conversion(String className) {
 		if (className.toLowerCase().indexOf("boolean") > -1) {
-			return ParametersType.BOOLEAN;
+			return Parameter.Type.BOOLEAN;
 		}
-		return ParametersType.TEXT;
+		return Parameter.Type.TEXT;
 	}
 
 }

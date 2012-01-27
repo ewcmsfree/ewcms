@@ -13,7 +13,6 @@ import java.util.Set;
 
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.plugin.report.model.Parameter;
-import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.plugin.report.model.data.StaticData;
 import com.ewcms.plugin.report.model.view.ComponentView;
 import com.ewcms.plugin.report.model.view.SessionView;
@@ -36,18 +35,18 @@ public class ParamConversionPage {
         if (paramSet != null && paramSet.size() > 0) {
             for (Parameter param : paramSet) {
                 Map<String, String> showValue = new HashMap<String, String>();
-                if (param.getType() == ParametersType.SESSION) {
+                if (param.getType() == Parameter.Type.SESSION) {
                     ComponentView componentView = param.getComponentView();
                     if (componentView != null) {
                         SessionView sessionView = (SessionView) componentView;
                         showValue.put("0", sessionView.getName());
                     }
-                } else if (param.getType() == ParametersType.LIST || param.getType() == ParametersType.CHECK) {
+                } else if (param.getType() == Parameter.Type.LIST || param.getType() == Parameter.Type.CHECK) {
                     StaticData staticData = (StaticData) param.getData();
                     if (staticData != null) {
                         showValue = AnalysisUtil.analysis(staticData.getValue());
                     }
-                } else if (param.getType() == ParametersType.BOOLEAN) {
+                } else if (param.getType() == Parameter.Type.BOOLEAN) {
                     showValue.put("true", "true");
                     showValue.put("false", "false");
                 }

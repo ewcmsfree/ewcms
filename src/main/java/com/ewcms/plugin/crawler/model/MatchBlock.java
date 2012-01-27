@@ -34,14 +34,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "cwl_matchblock")
-@SequenceGenerator(name = "seq_cwl_matchblock", sequenceName = "seq_cwl_matchblock_id", allocationSize = 1)
+@Table(name = "plugin_crawler_matchblock")
+@SequenceGenerator(name = "seq_plugin_crawler_matchblock", sequenceName = "seq_plugin_crawler_matchblock_id", allocationSize = 1)
 public class MatchBlock implements Serializable {
 
 	private static final long serialVersionUID = 27792816081447537L;
 
 	@Id
-	@GeneratedValue(generator = "seq_cwl_matchblock", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_plugin_crawler_matchblock", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "regex")

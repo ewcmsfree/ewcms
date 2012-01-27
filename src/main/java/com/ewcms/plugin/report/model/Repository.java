@@ -26,14 +26,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * 
  */
 @Entity
-@Table(name = "repo_repository")
-@SequenceGenerator(name = "seq_repo_repository", sequenceName = "seq_repo_repository_id", allocationSize = 1)
+@Table(name = "plugin_report_repository")
+@SequenceGenerator(name = "seq_plugin_report_repository", sequenceName = "seq_plugin_report_repository_id", allocationSize = 1)
 public class Repository implements Serializable {
 
 	private static final long serialVersionUID = -1166379145505781440L;
 
 	@Id
-	@GeneratedValue(generator = "seq_repo_repository", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_plugin_report_repository", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "name", nullable = false)

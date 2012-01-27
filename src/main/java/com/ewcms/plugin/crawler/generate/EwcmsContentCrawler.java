@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpStatus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -148,5 +149,16 @@ public class EwcmsContentCrawler extends WebCrawler {
 		matchRegex = null;
 		filterRegex = null;
 		articleMainService = null;
+	}
+	
+	@Override
+	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
+		if (statusCode != HttpStatus.SC_OK) {
+			if (statusCode == HttpStatus.SC_NOT_FOUND) {
+				System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page with docid: " + webUrl.getParentDocid());
+			} else {
+				System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
+			}
+		}
 	}
 }

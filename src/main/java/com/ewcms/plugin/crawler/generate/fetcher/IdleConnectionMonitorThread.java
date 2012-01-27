@@ -43,6 +43,5 @@ public class IdleConnectionMonitorThread extends Thread {
             notifyAll();
         }
     }
-    
 }
 

@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.ewcms.plugin.datasource.model.BaseDS;
+import com.ewcms.plugin.externalds.model.BaseDS;
 
 /**
  * 图表
@@ -77,23 +77,54 @@ import com.ewcms.plugin.datasource.model.BaseDS;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_chart")
-@SequenceGenerator(name = "seq_repo_chart", sequenceName = "seq_repo_chart_id", allocationSize = 1)
+@Table(name = "plugin_report_chart")
+@SequenceGenerator(name = "seq_plugin_report_chart", sequenceName = "seq_plugin_report_chart_id", allocationSize = 1)
 public class ChartReport implements Serializable {
 
     private static final long serialVersionUID = -2358576914939775115L;
     
+    public enum Type{
+        VERTBAR("垂直柱状图"), 
+        VERTBAR3D("垂直3D柱状图"), 
+        HORIZBAR("水平柱状图"), 
+        HORIZBAR3D("水平3D柱状图"), 
+        STACKEDVERTBAR("垂直堆叠柱状图"), 
+        STACKEDVERTBAR3D("垂直3D堆叠柱状图"), 
+        STACKEDHORIZBAR("水平堆叠柱状图"), 
+        STACKEDHORIZBAR3D("水平3D堆叠柱状图"), 
+        VERTLINE("垂直线图"), 
+        HORIZLINE("水平线图"), 
+        VERTAREA("垂直区域图"), 
+        HORIZAREA("水平区域图"), 
+        VERTSTACKEDAREA("垂直堆叠区域图"), 
+        HORIZSTACKEDAREA("水平堆叠区域图"), 
+        PIEBYCOLUMN("以数据行显示饼图"), 
+        PIEBYROW("以数据列显示饼图"), 
+        PIEBYCOLUMN3D("以数据行显示3D饼图"), 
+        PIEBYROW3D("以数据列显示3D饼图");
+        
+        private String description;
+
+        private Type(String description) {
+        	this.description = description;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+    }
+    
 	@Id
-    @GeneratedValue(generator = "seq_repo_chart",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_plugin_report_chart",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Long id;
     @Column(name = "name", nullable = false, length = 50, unique = true)
     private String name;
     @Column(name = "chartsql", columnDefinition = "text")
     private String chartSql;
-    @Column(name = "chartType")
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private ChartType chartType;
+    private Type type;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = BaseDS.class)
     @JoinColumn(name = "base_ds_id")
     private BaseDS baseDS;
@@ -192,20 +223,20 @@ public class ChartReport implements Serializable {
         this.chartSql = chartSql;
     }
 
-    public ChartType getChartType() {
-        return chartType;
+    public Type getType() {
+        return type;
     }
     
 	public String getTypeDescription(){
-		if (chartType != null){
-			return chartType.getDescription();
+		if (type != null){
+			return type.getDescription();
 		}else{
-			return ChartType.VERTBAR.getDescription();
+			return Type.VERTBAR.getDescription();
 		}
 	}
 
-    public void setChartType(ChartType chartType) {
-        this.chartType = chartType;
+    public void setType(Type chartType) {
+        this.type = chartType;
     }
 
     public BaseDS getBaseDS() {

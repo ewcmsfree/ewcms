@@ -25,10 +25,10 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.plugin.BaseException;
-import com.ewcms.plugin.datasource.manager.BaseDSFacable;
-import com.ewcms.plugin.datasource.model.BaseDS;
+import com.ewcms.plugin.externalds.manager.BaseDSFacable;
+import com.ewcms.plugin.externalds.model.BaseDS;
 import com.ewcms.plugin.report.manager.ReportFacable;
-import com.ewcms.plugin.report.model.ParametersType;
+import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.TextReport;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -151,7 +151,7 @@ public class TextReportAction extends CrudBaseAction<TextReport, Long> {
 	public void parameterType() {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
-		for (ParametersType paramEnum : ParametersType.values()) {
+		for (Parameter.Type paramEnum : Parameter.Type.values()) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("name", paramEnum.name());
 			map.put("text", paramEnum.getDescription());

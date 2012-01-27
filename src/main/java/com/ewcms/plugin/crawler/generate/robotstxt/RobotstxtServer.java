@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.http.HttpStatus;
+
 import com.ewcms.plugin.crawler.generate.crawler.Page;
 import com.ewcms.plugin.crawler.generate.fetcher.PageFetchResult;
-import com.ewcms.plugin.crawler.generate.fetcher.PageFetchStatus;
 import com.ewcms.plugin.crawler.generate.fetcher.PageFetcher;
 import com.ewcms.plugin.crawler.generate.url.WebURL;
 import com.ewcms.plugin.crawler.generate.util.Util;
@@ -70,7 +71,7 @@ public class RobotstxtServer {
 		PageFetchResult fetchResult = null;
 		try {
 			fetchResult = pageFetcher.fetchHeader(robotsTxtUrl);
-			if (fetchResult.getStatusCode() == PageFetchStatus.OK) {
+			if (fetchResult.getStatusCode() == HttpStatus.SC_OK) {
 				Page page = new Page(robotsTxtUrl);
 				fetchResult.fetchContent(page);
 				if (Util.hasPlainTextContent(page.getContentType())) {

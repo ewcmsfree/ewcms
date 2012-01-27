@@ -33,14 +33,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "cwl_filterblock")
-@SequenceGenerator(name = "seq_cwl_filterblock", sequenceName = "seq_cwl_filterblock_id", allocationSize = 1)
+@Table(name = "plugin_crawler_filterblock")
+@SequenceGenerator(name = "seq_plugin_crawler_filterblock", sequenceName = "seq_plugin_crawler_filterblock_id", allocationSize = 1)
 public class FilterBlock implements Serializable {
 
 	private static final long serialVersionUID = -3035720659241458188L;
 
 	@Id
-	@GeneratedValue(generator = "seq_cwl_filterblock", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_plugin_crawler_filterblock", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "regex")

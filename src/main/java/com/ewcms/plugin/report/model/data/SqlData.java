@@ -21,11 +21,12 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_data_sql")
+@Table(name = "plugin_report_data_sql")
 @PrimaryKeyJoinColumn(name = "data_id")
 public class SqlData extends Data {
 
     private static final long serialVersionUID = -3843273844436408123L;
+    
     @Column(name = "language")
     private String language;
     @Column(name = "sqlquery", columnDefinition = "text", nullable = false)

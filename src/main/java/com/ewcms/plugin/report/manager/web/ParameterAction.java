@@ -15,7 +15,6 @@ import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.model.Parameter;
-import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -87,7 +86,7 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 	@Override
 	protected Parameter getOperator(Long pk) {
 		Parameter parameter = reportFac.findParameterById(pk);
-		if (parameter.getType() == ParametersType.SESSION){
+		if (parameter.getType() == Parameter.Type.SESSION){
 			setSessionValue(parameter.getDefaultValue());
 		}
 		return parameter;
@@ -101,7 +100,7 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 	protected Long saveOperator(Parameter vo, boolean isUpdate) {
 		if (getReportId() != null && vo.getId() != null){
 			try{
-				if (vo.getType() == ParametersType.SESSION){
+				if (vo.getType() == Parameter.Type.SESSION){
 					vo.setDefaultValue(getSessionValue());
 				}
 				if (reportType.equals("text"))

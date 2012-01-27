@@ -21,5 +21,4 @@ public class TextParseData implements ParseData {
 	public String toString() {
 		return textContent;
 	}
-	
 }

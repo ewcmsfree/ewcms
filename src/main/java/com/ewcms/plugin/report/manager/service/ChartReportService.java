@@ -58,7 +58,7 @@ public class ChartReportService implements ChartReportServiceable {
 		
 		entity.setName(chartReport.getName());
 		entity.setBaseDS(chartReport.getBaseDS());
-		entity.setChartType(chartReport.getChartType());
+		entity.setType(chartReport.getType());
 		entity.setShowTooltips(chartReport.getShowTooltips());
 		entity.setChartTitle(chartReport.getChartTitle());
 		entity.setFontName(chartReport.getFontName());

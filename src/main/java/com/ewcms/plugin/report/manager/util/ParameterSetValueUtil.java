@@ -6,7 +6,6 @@
 package com.ewcms.plugin.report.manager.util;
 
 import com.ewcms.plugin.report.model.Parameter;
-import com.ewcms.plugin.report.model.ParametersType;
 import com.ewcms.plugin.report.model.data.SqlData;
 import com.ewcms.plugin.report.model.data.StaticData;
 import com.ewcms.plugin.report.model.view.BooleanView;
@@ -27,38 +26,38 @@ public class ParameterSetValueUtil {
 	 * @return
 	 */
 	public static Parameter setParametersValue(Parameter parameter) {
-		if (parameter.getType() == ParametersType.TEXT) {
+		if (parameter.getType() == Parameter.Type.TEXT) {
 			StaticData sd = new StaticData();
 			sd.setValue(parameter.getValue());
 			TextView tv = new TextView();
 			parameter.setData(sd);
 			parameter.setComponentView(tv);
-		} else if (parameter.getType() == ParametersType.BOOLEAN) {
+		} else if (parameter.getType() == Parameter.Type.BOOLEAN) {
 			BooleanView bv = new BooleanView();
 			parameter.setData(null);
 			parameter.setComponentView(bv);
-		} else if (parameter.getType() == ParametersType.CHECK) {
+		} else if (parameter.getType() == Parameter.Type.CHECK) {
 			StaticData sd = new StaticData();
 			sd.setValue(parameter.getValue());
 			CheckView cv = new CheckView();
 			parameter.setData(sd);
 			parameter.setComponentView(cv);
-		} else if (parameter.getType() == ParametersType.DATE) {
+		} else if (parameter.getType() == Parameter.Type.DATE) {
 			DateView dv = new DateView();
 			parameter.setData(null);
 			parameter.setComponentView(dv);
-		} else if (parameter.getType() == ParametersType.LIST) {
+		} else if (parameter.getType() == Parameter.Type.LIST) {
 			StaticData sd = new StaticData();
 			sd.setValue(parameter.getValue());
 			ListView lv = new ListView();
 			parameter.setData(sd);
 			parameter.setComponentView(lv);
-		} else if (parameter.getType() == ParametersType.SESSION) {
+		} else if (parameter.getType() == Parameter.Type.SESSION) {
 			SessionView sv = new SessionView();
 			sv.setName(parameter.getValue());
 			parameter.setData(null);
 			parameter.setComponentView(sv);
-		} else if (parameter.getType() == ParametersType.SQL) {
+		} else if (parameter.getType() == Parameter.Type.SQL) {
 			SqlData sd = new SqlData();
 			sd.setSqlQuery(parameter.getValue());
 			parameter.setData(sd);

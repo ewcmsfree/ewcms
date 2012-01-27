@@ -145,5 +145,4 @@ public class Page {
 	public void setContentCharset(String contentCharset) {
 		this.contentCharset = contentCharset;
 	}
-
 }

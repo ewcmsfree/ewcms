@@ -72,6 +72,35 @@ public class Article implements Serializable {
 
 	private static final long serialVersionUID = -5809802652492615658L;
 
+	public enum Type {
+		GENERAL("普通新闻"),TITLE("标题新闻");
+		
+		private String description;
+		
+		private Type(String description){
+			this.description = description;
+		}
+		
+		public String getDescription(){
+			return description;
+		}
+
+	}
+	
+	public enum Status {
+		DRAFT("初稿"),REEDIT("重新编辑"),REVIEW("审核中"),REVIEWBREAK("审核中断"),PRERELEASE("发布版"),RELEASE("已发布");
+		
+		private String description;
+		
+		private Status(String description){
+			this.description = description;
+		}
+		
+		public String getDescription(){
+			return description;
+		}
+	}
+	
 	@Id
     @GeneratedValue(generator = "seq_content_article",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
@@ -102,7 +131,7 @@ public class Article implements Serializable {
 	private Boolean comment;
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private ArticleType type;
+	private Type type;
 	@Column(name = "owner")
 	private String owner;
 //	@Column(name = "reviewprocess_id")
@@ -117,7 +146,7 @@ public class Article implements Serializable {
 	private Date modified;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private ArticleStatus status;
+	private Status status;
 	@Column(name = "url", columnDefinition = "text")
 	private String url;
 	@Column(name = "delete")
@@ -143,8 +172,8 @@ public class Article implements Serializable {
 	
 	public Article() {
 		comment = false;
-		type = ArticleType.GENERAL;
-		status = ArticleStatus.DRAFT;
+		type = Type.GENERAL;
+		status = Status.DRAFT;
 		createTime = new Date(Calendar.getInstance().getTime().getTime());
 		delete = false;
 		inside = false;
@@ -247,7 +276,7 @@ public class Article implements Serializable {
 		this.comment = comment;
 	}
 	
-	public ArticleType getType() {
+	public Type getType() {
 		return type;
 	}
 	
@@ -255,11 +284,11 @@ public class Article implements Serializable {
 		if (type != null){
 			return type.getDescription();
 		}else{
-			return ArticleType.GENERAL.getDescription();
+			return Type.GENERAL.getDescription();
 		}
 	}
 
-	public void setType(ArticleType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -299,11 +328,11 @@ public class Article implements Serializable {
 		return status.getDescription();
 	}
 	
-	public ArticleStatus getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(ArticleStatus status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

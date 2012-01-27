@@ -54,15 +54,14 @@ import org.springframework.util.Assert;
 import com.ewcms.common.convert.ConvertException;
 import com.ewcms.common.convert.ConvertFactory;
 import com.ewcms.plugin.BaseException;
-import com.ewcms.plugin.datasource.generate.factory.DataSourceFactoryable;
-import com.ewcms.plugin.datasource.generate.factory.init.EwcmsDataSourceFactoryable;
-import com.ewcms.plugin.datasource.generate.service.EwcmsDataSourceServiceable;
-import com.ewcms.plugin.datasource.model.BaseDS;
+import com.ewcms.plugin.externalds.generate.factory.DataSourceFactoryable;
+import com.ewcms.plugin.externalds.generate.factory.init.EwcmsDataSourceFactoryable;
+import com.ewcms.plugin.externalds.generate.service.EwcmsDataSourceServiceable;
+import com.ewcms.plugin.externalds.model.BaseDS;
 import com.ewcms.plugin.report.generate.service.chart.ChartGenerationService;
 import com.ewcms.plugin.report.generate.util.ParamConversionPage;
 import com.ewcms.plugin.report.generate.vo.PageShowParam;
 import com.ewcms.plugin.report.model.ChartReport;
-import com.ewcms.plugin.report.model.ChartType;
 import com.ewcms.plugin.report.model.Parameter;
 
 /**
@@ -147,7 +146,7 @@ public class ChartFactory implements ChartFactoryable {
         Boolean showLegend = report.getShowLegend();
         Boolean showTooltips = report.getShowTooltips();
         Boolean drillThroughEnabled = false;
-        ChartType chartType = report.getChartType();
+        ChartReport.Type chartType = report.getType();
 
         CategoryURLGenerator urlGenerator = null;
 
@@ -245,7 +244,7 @@ public class ChartFactory implements ChartFactoryable {
                 renderer.setBaseItemLabelGenerator(new LabelGenerator(0.0));
                 renderer.setBaseItemLabelFont(dataFont);
                 renderer.setBaseItemLabelsVisible(true);
-                if (chartType == ChartType.VERTLINE || chartType == ChartType.HORIZLINE) {
+                if (chartType == ChartReport.Type.VERTLINE || chartType == ChartReport.Type.HORIZLINE) {
                     LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) categoryPlot.getRenderer();
                     lineRenderer.setBaseShapesVisible(true);
                     lineRenderer.setDrawOutlines(true);

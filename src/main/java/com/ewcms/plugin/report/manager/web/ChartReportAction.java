@@ -14,13 +14,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.plugin.datasource.manager.BaseDSFacable;
-import com.ewcms.plugin.datasource.model.BaseDS;
+import com.ewcms.plugin.externalds.manager.BaseDSFacable;
+import com.ewcms.plugin.externalds.model.BaseDS;
 import com.ewcms.plugin.report.manager.ReportFacable;
 import com.ewcms.plugin.report.manager.util.ChartUtil;
 import com.ewcms.plugin.report.model.ChartReport;
-import com.ewcms.plugin.report.model.ChartType;
-import com.ewcms.plugin.report.model.ParametersType;
+import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -103,7 +102,7 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 	public void parameterType() {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
-		for (ParametersType paramEnum : ParametersType.values()) {
+		for (Parameter.Type paramEnum : Parameter.Type.values()) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("name", paramEnum.name());
 			map.put("text", paramEnum.getDescription());
@@ -118,8 +117,8 @@ public class ChartReportAction extends CrudBaseAction<ChartReport, Long> {
 	 * 
 	 * @return 记录集
 	 */
-	public List<ChartType> getChartTypeList() {
-		return Arrays.asList(ChartType.values());
+	public List<ChartReport.Type> getChartTypeList() {
+		return Arrays.asList(ChartReport.Type.values());
 	}
 
 	public Map<String, String> getFontNameMap() {

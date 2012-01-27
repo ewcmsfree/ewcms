@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_view_text")
+@Table(name = "plugin_report_view_text")
 @PrimaryKeyJoinColumn(name = "view_id")
 public class TextView extends ComponentView {
 

@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_view_date")
+@Table(name = "plugin_report_view_date")
 @PrimaryKeyJoinColumn(name = "view_id")
 public class DateView extends ComponentView {
 

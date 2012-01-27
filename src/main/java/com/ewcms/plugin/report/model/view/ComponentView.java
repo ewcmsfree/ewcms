@@ -28,14 +28,14 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_view")
-@SequenceGenerator(name = "seq_repo_view", sequenceName = "seq_repo_view_id", allocationSize = 1)
+@Table(name = "plugin_report_view")
+@SequenceGenerator(name = "seq_plugin_report_view", sequenceName = "seq_plugin_report_view_id", allocationSize = 1)
 public class ComponentView implements Serializable {
 
     private static final long serialVersionUID = 6470965538592594049L;
     
 	@Id
-    @GeneratedValue(generator = "seq_repo_view",strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_plugin_report_view",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
     private Integer id = null;
     @Column(name = "mandatory")

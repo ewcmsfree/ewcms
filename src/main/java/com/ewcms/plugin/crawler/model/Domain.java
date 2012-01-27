@@ -30,14 +30,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "cwl_domain")
-@SequenceGenerator(name = "seq_cwl_domain", sequenceName = "seq_cwl_domain_id", allocationSize = 1)
+@Table(name = "plugin_crawler_domain")
+@SequenceGenerator(name = "seq_plugin_crawler_domain", sequenceName = "seq_plugin_crawler_domain_id", allocationSize = 1)
 public class Domain implements Serializable {
 
 	private static final long serialVersionUID = 464355707059434413L;
 
 	@Id
-	@GeneratedValue(generator = "seq_cwl_domain", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seq_plugin_crawler_domain", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "url")

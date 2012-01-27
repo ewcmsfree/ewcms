@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import com.ewcms.content.document.dao.ArticleDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -81,7 +81,7 @@ public class ArticleService implements ArticlePublishServiceable {
 			operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "从发布变成预发布。", "");
 			
 			article.setUrl("");
-			article.setStatus(ArticleStatus.PRERELEASE);
+			article.setStatus(Status.PRERELEASE);
 			
 			articleDAO.merge(article);
 		}

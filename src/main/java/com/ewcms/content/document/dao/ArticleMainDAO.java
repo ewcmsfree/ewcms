@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.Article.Status;
 
 /**
  * 文章主体DAO
@@ -83,7 +83,7 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     			hql += " Or g.groupName='" + groupName + "' ";
     	}
     	hql += ") Group By o.channelId ";
-    	List<Object> list = this.getJpaTemplate().find(hql, ArticleStatus.REVIEW, userName);
+    	List<Object> list = this.getJpaTemplate().find(hql, Status.REVIEW, userName);
     	for (int i=0; i < list.size(); i++){
     		Object[] obj = (Object[])list.get(i);
     		Integer channelId = (Integer)obj[0];

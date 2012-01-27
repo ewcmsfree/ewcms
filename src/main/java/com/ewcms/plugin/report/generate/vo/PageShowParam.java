@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.ewcms.plugin.report.model.ParametersType;
+import com.ewcms.plugin.report.model.Parameter.Type;
 
 /**
  * 参数对象（由页面调用）
@@ -32,7 +32,7 @@ public class PageShowParam implements Serializable {
     private String enName = null;
     private String cnName = null;
     private String defaultValue = null;
-    private ParametersType type = ParametersType.TEXT;
+    private Type type = Type.TEXT;
     private Map<String, String> value = null;
 
     public Long getId() {
@@ -67,11 +67,11 @@ public class PageShowParam implements Serializable {
         this.defaultValue = defaultValue;
     }
 
-    public ParametersType getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(ParametersType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

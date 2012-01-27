@@ -15,8 +15,8 @@ import com.sleepycat.persist.model.PrimaryKey;
  */
 @Entity
 public class WebURL implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -9219968169849360566L;
 	
 	@PrimaryKey
 	private String url;

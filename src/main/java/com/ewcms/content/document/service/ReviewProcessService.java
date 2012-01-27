@@ -20,7 +20,7 @@ import com.ewcms.content.document.dao.ArticleMainDAO;
 import com.ewcms.content.document.dao.ReviewProcessDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.ArticleStatus;
+import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.content.document.model.ReviewGroup;
 import com.ewcms.content.document.model.ReviewProcess;
 import com.ewcms.content.document.model.ReviewUser;
@@ -100,7 +100,7 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 				operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "审核流程【" + vo.getName()  + "】已经被删除。", "");
 
 				article.setReviewProcess(null);
-				article.setStatus(ArticleStatus.REVIEWBREAK);
+				article.setStatus(Status.REVIEWBREAK);
 				
 				articleMain.setArticle(article);
 				articleMainDAO.merge(articleMain);

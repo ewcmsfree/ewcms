@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author 吴智俊
  */
 @Entity
-@Table(name = "repo_view_list")
+@Table(name = "plugin_report_view_list")
 @PrimaryKeyJoinColumn(name = "view_id")
 public class ListView extends ComponentView {
 
