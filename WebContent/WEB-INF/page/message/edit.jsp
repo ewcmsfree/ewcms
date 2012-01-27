@@ -61,7 +61,7 @@
 				<tr>
 				    <td>类型：</td>
 				    <td>
-				        <s:select list="@com.ewcms.content.message.model.MsgType@values()" listValue="description" name="msgSendVo.type" id="type" onchange="selType(this);"></s:select>  
+				        <s:select list="@com.ewcms.plugin.message.model.MsgSend.Type@values()" listValue="description" name="msgSendVo.type" id="type" onchange="selType(this);"></s:select>  
 				    </td>
 				</tr>
 				<tr id="trUserName">

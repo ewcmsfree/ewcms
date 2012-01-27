@@ -38,7 +38,7 @@
 				<tr>
 					<td>查看方式：</td>
 					<td>
-						<s:radio list="@com.ewcms.content.vote.model.QuestionnaireStatus@values()" listValue="description" name="questionnaireVo.questionnaireStatus" id="questionnaireVo_questionnaireStatus"></s:radio>
+						<s:radio list="@com.ewcms.plugin.vote.model.Questionnaire.Status@values()" listValue="description" name="questionnaireVo.status" id="questionnaireVo_status"></s:radio>
 					</td>
 				</tr>
 				<tr>

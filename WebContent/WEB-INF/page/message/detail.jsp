@@ -65,7 +65,7 @@
 		    </td>
 		  </tr>
 		</table>
-		<s:hidden id="msgType" name="msgType"/>
+		<s:hidden id="type" name="type"/>
 		<s:hidden id="id" name="id"/>
 	</body>
 </html>

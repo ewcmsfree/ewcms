@@ -126,7 +126,7 @@
 			        <tr id="trShowHide_2" style="display:none">
 			        	<td>文章类型：</td>
 			        	<td>
-			        		<s:select list="@com.ewcms.content.document.model.ArticleType@values()" listValue="description" name="articleVo.type" id="articleVo_type" onchange="changeType()"></s:select>
+			        		<s:select list="@com.ewcms.content.document.model.Article.Type@values()" listValue="description" name="articleVo.type" id="articleVo_type" onchange="changeType()"></s:select>
 			        	</td>
 			        	<td>来源：</td>
 			        	<td>

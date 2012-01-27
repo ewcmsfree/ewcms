@@ -71,11 +71,11 @@
                         <tr>
                             <td class="tdtitle">状态：</td>
                             <td class="tdinput">
-                                <s:select list="@com.ewcms.content.document.model.ArticleStatus@values()" listValue="description" name="articleStatus" id="articleStatus" headerKey="-1" headerValue="------请选择------"></s:select>
+                                <s:select list="@com.ewcms.content.document.model.Article.Status@values()" listValue="description" name="articleStatus" id="articleStatus" headerKey="-1" headerValue="------请选择------"></s:select>
                             </td>
                             <td class="tdtitle">类型：</td>
                             <td class="tdinput">
-                                <s:select list="@com.ewcms.content.document.model.ArticleType@values()" listValue="description" name="articleType" id="articleType" headerKey="-1" headerValue="------请选择------"></s:select>
+                                <s:select list="@com.ewcms.content.document.model.Article.Type@values()" listValue="description" name="articleType" id="articleType" headerKey="-1" headerValue="------请选择------"></s:select>
                             </td>
                         </tr>
                		</table>

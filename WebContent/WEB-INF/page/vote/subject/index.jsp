@@ -43,7 +43,7 @@
                               {field:'id',title:'编号',width:60},
                               {field:'title',title:'主题名称',width:500,
                               	formatter:function(val,rec){
-                              		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.subjectStatusDescription + '\');">' + val + '</a>';
+                              		return '<a href="javascript:void(0);" onclick="showSubjectItem(' + rec.id + ',\'' + val +  '\',\'' + rec.statusDescription + '\');">' + val + '</a>';
                               	}
                               },
                               {field:'subjectStatusDescription',title:'主题选择方式',width:100}

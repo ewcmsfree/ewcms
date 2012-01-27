@@ -35,13 +35,13 @@
                 _home.setPopInterval(popInterval);
                 
                 var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
-                var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=notice'
+                var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?type=notice'
                 _home.getNotice(noticeUrl, noticeDetailUrl);
                 var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "','" + noticeDetailUrl + "')",60000);
                 _home.setNoticeInterval(noticeInterval);
                 
                 var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
-                var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?msgType=subscription'
+                var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?type=subscription'
                 _home.getSubscription(subscriptionUrl, subscriptionDetailUrl);
                 var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl  + "','" + subscriptionDetailUrl +  "')",60000);
                 _home.setSubscriptionInterval(subscriptionInterval);

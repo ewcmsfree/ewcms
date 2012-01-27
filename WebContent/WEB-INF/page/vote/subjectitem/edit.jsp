@@ -36,7 +36,7 @@
 				<tr>
 					<td>选项方式：</td>
 					<td>
-						<s:radio list="@com.ewcms.content.vote.model.SubjectItemStatus@values()" listValue="description" name="subjectItemVo.subjectItemStatus" id="subjectItemVo_subjectItemStatus"></s:radio>
+						<s:radio list="@com.ewcms.plugin.vote.model.SubjectItem.Status@values()" listValue="description" name="subjectItemVo.status" id="subjectItemVo_status"></s:radio>
 					</td>
 				</tr>
 				<tr>

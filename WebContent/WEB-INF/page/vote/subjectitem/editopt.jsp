@@ -29,8 +29,8 @@
 				<tr>
 					<td width="17%" height="21px">选项方式：</td>
 					<td width="83%" height="21px">
-						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
-						<s:radio list="#{'MULTITEXT':'多行文本'}" name="subjectItemVo.subjectItemStatus"></s:radio>
+						<s:radio list="#{'SINGLETEXT':'单行文本'}" name="subjectItemVo.status"></s:radio>
+						<s:radio list="#{'MULTITEXT':'多行文本'}" name="subjectItemVo.status"></s:radio>
 					</td>
 				</tr>
 				<tr>

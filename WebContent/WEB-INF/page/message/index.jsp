@@ -37,7 +37,7 @@
 			});
 		  });
 		  function showRecord(id){
-			url = '<s:url namespace="/message/detail" action="index"/>?msgType=message&id=' + id;
+			url = '<s:url namespace="/message/detail" action="index"/>?type=message&id=' + id;
 			$('#editifr_detail').attr('src',url);
 			ewcmsBOBJ.openWindow('#detail-window',{width:700,height:400,title:'内容'});
 			receiveifr.initOperateQuery();

@@ -30,7 +30,7 @@
                     columns:[[
                               {field:'id',title:'编号',width:60},
                               {field:'title',title:'选项名称',width:500},
-                              {field:'subjectItemStatusDescription',title:'选择方式',width:100},
+                              {field:'statusDescription',title:'选择方式',width:100},
                               {field:'voteNumber',title:'票数',width:60}
                       ]]
 				});
