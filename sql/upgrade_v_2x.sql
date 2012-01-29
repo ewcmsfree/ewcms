@@ -132,12 +132,31 @@ DROP TABLE doc_sharearticle;
 ---- resource
 ALTER TABLE res_resource RENAME TO content_resource;
 ALTER TABLE content_resource ADD COLUMN create_time timestamp without time zone;
+ALTER TABLE content_resource ADD COLUMN publish_time timestamp without time zone;
 UPDATE content_resource SET create_time = upload_time;
 ALTER TABLE content_resource ALTER COLUMN create_time SET NOT NULL;
+UPDATE content_resource SET publish_time = upload_time;
 ALTER TABLE content_resource RENAME COLUMN upload_time TO update_time;
 ALTER TABLE content_resource DROP COLUMN new_name;
 ALTER TABLE content_resource RENAME COLUMN resource_path TO path;
 ALTER TABLE content_resource RENAME COLUMN resource_releasepath TO uri;
+ALTER TABLE content_resource RENAME COLUMN resource_pathzip TO thumb_path;
+ALTER TABLE content_resource RENAME COLUMN resource_releasepathzip TO thumb_uri;
+ALTER TABLE content_resource ALTER COLUMN resource_type TYPE varchar(20);
+ALTER TABLE content_resource ALTER COLUMN site_id TYPE integer SET NOT NULL;
+ALTER TABLE content_resource RENAME COLUMN resource_size TO size;
+ALTER TABLE content_resource RENAME COLUMN title TO "name";
+ALTER TABLE content_resource DROP COLUMN user_id;
+ALTER TABLE content_resource ADD COLUMN state varchar(20);
+UPDATE content_resource SET state = 'RELEASED' WHERE "release"=true;
+UPDATE content_resource SET state = 'DELETE' WHERE delete_flag=true;
+UPDATE content_resource SET state = 'NORMAL' WHERE delete_flag=false AND "release"=false;
+ALTER TABLE content_resource DROP COLUMN delete_flag;
+ALTER TABLE content_resource DROP COLUMN "release";
+ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (path);
+
+
+
 
 
 
