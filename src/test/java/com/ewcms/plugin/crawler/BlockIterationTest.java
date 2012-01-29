@@ -6,9 +6,11 @@
 
 package com.ewcms.plugin.crawler;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,34 @@ public class BlockIterationTest {
 		gatherService = new GatherService();
 		gatherDAO = mock(GatherDAO.class);
 		gatherService.setGatherDAO(gatherDAO);
+	}
+	
+	@Test
+	public void testRegex(){
+		String matchRegex = "div#test > div#test1";
+		assertEquals(matchRegex.substring(matchRegex.length() - 3).equals(" > "), false);
+		
+		matchRegex = "div#test > div#test1 > ";
+		if (matchRegex.substring(matchRegex.length() - 3).equals(" > ")){
+			matchRegex = matchRegex.substring(0, matchRegex.length() - 3);
+			assertEquals(matchRegex.length(), "div#test > div#test1".length());
+		}
+		
+		matchRegex = "div#test2, div#tets3, ";
+		assertEquals(matchRegex.substring(0, matchRegex.length() - 2).length(), "div#test2, div#tets3".length());
+	}
+	
+	@Test
+	public void testJsoup(){
+		try {
+			Document doc = Jsoup.connect("http://sports.sina.com.cn/k/2011-12-14/00395867392.shtml").get();
+			Elements elements = doc.select("h1#artibodyTitle, div#artibody");
+			System.out.println(elements.html());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	@Test
