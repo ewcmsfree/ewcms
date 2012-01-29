@@ -73,13 +73,13 @@
                             <tr>
                                 <td>重复频率：</td>
                                 <td>
-                                    <s:select list="@com.ewcms.plugin.notes.model.Memoranda.FrequencyStatus@values()" listValue="description" name="memorandaVo.frequency" id="frequencyStatus"></s:select>  
+                                    <s:select list="@com.ewcms.plugin.notes.model.Memoranda$FrequencyStatus@values()" listValue="description" name="memorandaVo.frequency" id="frequencyStatus"></s:select>  
                                 </td>
                             </tr>
                             <tr>
                                 <td>提前：</td>
                                 <td>
-                                    <s:select list="@com.ewcms.plugin.notes.model.Memoranda.BeforeStatus@values()" listValue="description" name="memorandaVo.before" id="beforeStatus"></s:select>  
+                                    <s:select list="@com.ewcms.plugin.notes.model.Memoranda$BeforeStatus@values()" listValue="description" name="memorandaVo.before" id="beforeStatus"></s:select>  
                                 </td>
                             </tr>
                             <tr>

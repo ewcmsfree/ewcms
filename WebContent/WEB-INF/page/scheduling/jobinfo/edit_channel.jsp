@@ -21,7 +21,7 @@
         </script>	
         <ewcms:datepickerhead></ewcms:datepickerhead>	
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/scheduling/jobchannel">
 			<table class="formtable" align="center">
 				<tr>

@@ -150,11 +150,11 @@
                         <tr>
                             <td class="tdtitle">提醒频率：</td>
                             <td class="tdinput">
-                                <s:select list="@com.ewcms.plugin.notes.model.Memoranda.FrequencyStatus@values()" listValue="description" name="frequencyStatus" id="frequencyStatus" headerKey="-1" headerValue="------请选择------"></s:select>
+                                <s:select list="@com.ewcms.plugin.notes.model.Memoranda$FrequencyStatus@values()" listValue="description" name="frequencyStatus" id="frequencyStatus" headerKey="-1" headerValue="------请选择------"></s:select>
                             </td>
                             <td class="tdtitle">提前时间：</td>
                             <td class="tdinput">
-                                <s:select list="@com.ewcms.plugin.notes.model.Memoranda.BeforeStatus@values()" listValue="description" name="beforeStatus" id="beforeStatus" headerKey="-1" headerValue="------请选择------"></s:select>
+                                <s:select list="@com.ewcms.plugin.notes.model.Memoranda$BeforeStatus@values()" listValue="description" name="beforeStatus" id="beforeStatus" headerKey="-1" headerValue="------请选择------"></s:select>
                             </td>
                         </tr>
                         <tr>
