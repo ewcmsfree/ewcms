@@ -6,26 +6,26 @@
 
 <struts>
 	<package name="notes" extends="struts-default" namespace="/notes">
-		<action name="index" class="com.ewcms.content.notes.web.MemorandaAction" method="index">
+		<action name="index" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="index">
 			<result>/WEB-INF/page/notes/index.jsp</result>
 		</action>
-		<action name="delete" class="com.ewcms.content.notes.web.MemorandaAction" method="delete"/>
-		<action name="input" class="com.ewcms.content.notes.web.MemorandaAction" method="input">
+		<action name="delete" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="input">
 			<result name="input">/WEB-INF/page/notes/edit.jsp</result>
 		</action>
-		<action name="save" class="com.ewcms.content.notes.web.MemorandaAction" method="save">
+		<action name="save" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="save">
 			<result>/WEB-INF/page/notes/edit.jsp</result>
 			<result name="input">/WEB-INF/page/notes/edit.jsp</result>
 		</action>
-		<action name="changeDate" class="com.ewcms.content.notes.web.MemorandaAction" method="changeDate">
+		<action name="changeDate" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="changeDate">
 			<result>/WEB-INF/page/notes/index.jsp</result>
 		</action>
-		<action name="toDay" class="com.ewcms.content.notes.web.MemorandaAction" method="toDay"/>
-		<action name="drop" class="com.ewcms.content.notes.web.MemorandaAction" method="drop"/>
-		<action name="notesRemind" class="com.ewcms.content.notes.web.MemorandaAction" method="notesRemind"/>
+		<action name="toDay" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="toDay"/>
+		<action name="drop" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="drop"/>
+		<action name="notesRemind" class="com.ewcms.plugin.notes.manager.web.MemorandaAction" method="notesRemind"/>
 		<action name="list">
 			<result>/WEB-INF/page/notes/list.jsp</result>
 		</action>
-		<action name="query" class="com.ewcms.content.notes.web.MemorandaQueryAction" method="query"/>
+		<action name="query" class="com.ewcms.plugin.notes.manager.web.MemorandaQueryAction" method="query"/>
 	</package>
 </struts>	
