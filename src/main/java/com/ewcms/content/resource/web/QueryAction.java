@@ -21,7 +21,7 @@ import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.resource.model.Resource;
 import com.ewcms.content.resource.model.Resource.Type;
-import com.ewcms.content.resource.model.Resource.State;
+import com.ewcms.content.resource.model.Resource.Status;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -70,10 +70,10 @@ public class QueryAction extends QueryBaseAction {
 
         query.eq("site", getSite());
         if(removeEvent){
-            query.eq("state", State.DELETE);    
+            query.eq("status", Status.DELETE);    
         }else{
             query.eq("type", Type.valueOf(StringUtils.upperCase(type)));
-            query.in("state", new State[]{State.NORMAL,State.RELEASED});    
+            query.in("status", new Status[]{Status.NORMAL,Status.RELEASED});    
         }
         
         String name = getParameterValue(String.class, "name");
