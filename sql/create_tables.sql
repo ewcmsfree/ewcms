@@ -1,213 +1,216 @@
 -- ACL Schema SQL for PostgreSQL
 
--- drop table acl_entry;
--- drop table acl_object_identity;
--- drop table acl_class;
--- drop table acl_sid;
+/*
+DROP TABLE acl_entry;
+DROP TABLE acl_object_identity;
+DROP TABLE acl_class;
+DROP TABLE acl_sid;
+*/
 
-create table acl_sid(
-    id bigserial not null primary key,
-    principal boolean not null,
-    sid varchar(100) not null,
-    constraint unique_uk_1 unique(sid,principal)
+CREATE TABLE acl_sid(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    principal BOOLEAN NOT NULL,
+    sid VARCHAR(100) NOT NULL,
+    CONSTRAINT unique_uk_1 UNIQUE(sid,principal)
 );
 
-create table acl_class(
-    id bigserial not null primary key,
-    class varchar(100) not null,
-    constraint unique_uk_2 unique(class)
+CREATE TABLE acl_class(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    class VARCHAR(100) NOT NULL,
+    CONSTRAINT unique_uk_2 UNIQUE(class)
 );
 
-create table acl_object_identity(
-    id bigserial primary key,
-    object_id_class bigint not null,
-    object_id_identity bigint not null,
-    parent_object bigint,
-    owner_sid bigint,
-    entries_inheriting boolean not null,
-    constraint unique_uk_3 unique(object_id_class,object_id_identity),
-    constraint foreign_fk_1 foreign key(parent_object)references acl_object_identity(id),
-    constraint foreign_fk_2 foreign key(object_id_class)references acl_class(id),
-    constraint foreign_fk_3 foreign key(owner_sid)references acl_sid(id)
+CREATE TABLE acl_object_identity(
+    id BIGSERIAL PRIMARY KEY,
+    object_id_class BIGINT NOT NULL,
+    object_id_identity BIGINT NOT NULL,
+    parent_object BIGINT,
+    owner_sid BIGINT,
+    entries_inheriting BOOLEAN NOT NULL,
+    CONSTRAINT unique_uk_3 UNIQUE(object_id_class,object_id_identity),
+    CONSTRAINT foreign_fk_1 FOREIGN KEY(parent_object)REFERENCES acl_object_identity(id),
+    CONSTRAINT foreign_fk_2 FOREIGN KEY(object_id_class)REFERENCES acl_class(id),
+    CONSTRAINT foreign_fk_3 FOREIGN KEY(owner_sid)REFERENCES acl_sid(id)
 );
 
-create table acl_entry(
-    id bigserial primary key,
-    acl_object_identity bigint not null,
-    ace_order int not null,
-    sid bigint not null,
-    mask integer not null,
-    granting boolean not null,
-    audit_success boolean not null,
-    audit_failure boolean not null,
-    constraint unique_uk_4 unique(acl_object_identity,ace_order),
-    constraint foreign_fk_4 foreign key(acl_object_identity) references acl_object_identity(id),
-    constraint foreign_fk_5 foreign key(sid) references acl_sid(id)
+CREATE TABLE acl_entry(
+    id BIGSERIAL PRIMARY KEY,
+    acl_object_identity BIGINT NOT NULL,
+    ace_order INT NOT NULL,
+    sid bigint NOT NULL,
+    mask INTEGER NOT NULL,
+    granting BOOLEAN NOT NULL,
+    audit_success BOOLEAN NOT NULL,
+    audit_failure BOOLEAN NOT NULL,
+    CONSTRAINT unique_uk_4 UNIQUE(acl_object_identity,ace_order),
+    CONSTRAINT foreign_fk_4 FOREIGN KEY(acl_object_identity) REFERENCES acl_object_identity(id),
+    CONSTRAINT foreign_fk_5 FOREIGN KEY(sid) REFERENCES acl_sid(id)
 );
 
 -- Quartz Schema SQL for PostgreSQL
 
---DROP TABLE qrtz_job_listeners;
---DROP TABLE qrtz_trigger_listeners;
---DROP TABLE qrtz_fired_triggers;
---DROP TABLE QRTZ_PAUSED_TRIGGER_GRPS;
---DROP TABLE QRTZ_SCHEDULER_STATE;
---DROP TABLE QRTZ_LOCKS;
---DROP TABLE qrtz_simple_triggers;
---DROP TABLE qrtz_cron_triggers;
---DROP TABLE QRTZ_BLOB_TRIGGERS;
---DROP TABLE qrtz_triggers;
---DROP TABLE qrtz_job_details;
---DROP TABLE qrtz_calendars;
+/*
+DROP TABLE qrtz_job_listeners;
+DROP TABLE qrtz_trigger_listeners;
+DROP TABLE qrtz_fired_triggers;
+DROP TABLE qrtz_paused_trigger_grps;
+DROP TABLE qrtz_scheduler_state;
+DROP TABLE qrtz_locks;
+DROP TABLE qrtz_simple_triggers;
+DROP TABLE qrtz_cron_triggers;
+DROP TABLE qrtz_blob_triggers;
+DROP TABLE qrtz_triggers;
+DROP TABLE qrtz_job_details;
+DROP TABLE qrtz_calendars;
+*/
 
 CREATE TABLE qrtz_job_details
   (
-    JOB_NAME  VARCHAR(200) NOT NULL,
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    JOB_CLASS_NAME   VARCHAR(250) NOT NULL, 
-    IS_DURABLE BOOL NOT NULL,
-    IS_VOLATILE BOOL NOT NULL,
-    IS_STATEFUL BOOL NOT NULL,
-    REQUESTS_RECOVERY BOOL NOT NULL,
-    JOB_DATA BYTEA NULL,
-    PRIMARY KEY (JOB_NAME,JOB_GROUP)
+    job_name  VARCHAR(200) NOT NULL,
+    job_group VARCHAR(200) NOT NULL,
+    description VARCHAR(250) NULL,
+    job_class_name   VARCHAR(250) NOT NULL, 
+    is_durable BOOL NOT NULL,
+    is_volatile BOOL NOT NULL,
+    is_stateful BOOL NOT NULL,
+    requests_recovery BOOL NOT NULL,
+    job_data BYTEA NULL,
+    PRIMARY KEY (job_name,job_group)
 );
 
 CREATE TABLE qrtz_job_listeners
   (
-    JOB_NAME  VARCHAR(200) NOT NULL, 
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    JOB_LISTENER VARCHAR(200) NOT NULL,
-    PRIMARY KEY (JOB_NAME,JOB_GROUP,JOB_LISTENER),
-    FOREIGN KEY (JOB_NAME,JOB_GROUP) 
-    REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP) 
+    job_name  VARCHAR(200) NOT NULL, 
+    job_group VARCHAR(200) NOT NULL,
+    job_listener VARCHAR(200) NOT NULL,
+    PRIMARY KEY (job_name,job_group,job_listener),
+    FOREIGN KEY (job_name,job_group) 
+	REFERENCES qrtz_job_details(job_name,job_group) 
 );
 
 CREATE TABLE qrtz_triggers
   (
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    JOB_NAME  VARCHAR(200) NOT NULL, 
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    IS_VOLATILE BOOL NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    NEXT_FIRE_TIME BIGINT NULL,
-    PREV_FIRE_TIME BIGINT NULL,
-    PRIORITY INTEGER NULL,
-    TRIGGER_STATE VARCHAR(16) NOT NULL,
-    TRIGGER_TYPE VARCHAR(8) NOT NULL,
-    START_TIME BIGINT NOT NULL,
-    END_TIME BIGINT NULL,
-    CALENDAR_NAME VARCHAR(200) NULL,
-    MISFIRE_INSTR SMALLINT NULL,
-    JOB_DATA BYTEA NULL,
-    PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (JOB_NAME,JOB_GROUP) 
-    REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP) 
+    trigger_name VARCHAR(200) NOT NULL,
+    trigger_group VARCHAR(200) NOT NULL,
+    job_name  VARCHAR(200) NOT NULL, 
+    job_group VARCHAR(200) NOT NULL,
+    is_volatile BOOL NOT NULL,
+    description VARCHAR(250) NULL,
+    next_fire_time BIGINT NULL,
+    prev_fire_time BIGINT NULL,
+    priority INTEGER NULL,
+    trigger_state VARCHAR(16) NOT NULL,
+    trigger_type VARCHAR(8) NOT NULL,
+    start_time BIGINT NOT NULL,
+    end_time BIGINT NULL,
+    calendar_name VARCHAR(200) NULL,
+    misfire_instr SMALLINT NULL,
+    job_data bytea NULL,
+    PRIMARY KEY (trigger_name,trigger_group),
+    FOREIGN KEY (job_name,job_group) 
+	REFERENCES qrtz_job_details(job_name,job_group) 
 );
 
 CREATE TABLE qrtz_simple_triggers
   (
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    REPEAT_COUNT BIGINT NOT NULL,
-    REPEAT_INTERVAL BIGINT NOT NULL,
-    TIMES_TRIGGERED BIGINT NOT NULL,
-    PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) 
-    REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+    trigger_name VARCHAR(200) NOT NULL,
+    trigger_group VARCHAR(200) NOT NULL,
+    repeat_count BIGINT NOT NULL,
+    repeat_interval BIGINT NOT NULL,
+    times_triggered BIGINT NOT NULL,
+    PRIMARY KEY (trigger_name,trigger_group),
+    FOREIGN KEY (trigger_name,trigger_group) 
+	REFERENCES qrtz_triggers(trigger_name,trigger_group)
 );
 
 CREATE TABLE qrtz_cron_triggers
   (
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    CRON_EXPRESSION VARCHAR(120) NOT NULL,
-    TIME_ZONE_ID VARCHAR(80),
-    PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) 
-    REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+    trigger_name VARCHAR(200) NOT NULL,
+    trigger_group VARCHAR(200) NOT NULL,
+    cron_expression VARCHAR(120) NOT NULL,
+    time_zone_id VARCHAR(80),
+    PRIMARY KEY (trigger_name,trigger_group),
+    FOREIGN KEY (trigger_name,trigger_group) 
+	REFERENCES qrtz_triggers(trigger_name,trigger_group)
 );
 
 CREATE TABLE qrtz_blob_triggers
   (
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    BLOB_DATA BYTEA NULL,
-    PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) 
-        REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+    trigger_name VARCHAR(200) NOT NULL,
+    trigger_group VARCHAR(200) NOT NULL,
+    blob_data BYTEA NULL,
+    PRIMARY KEY (trigger_name,trigger_group),
+    FOREIGN KEY (trigger_name,trigger_group) 
+    REFERENCES qrtz_triggers(trigger_name,trigger_group)
 );
 
 CREATE TABLE qrtz_trigger_listeners
   (
-    TRIGGER_NAME  VARCHAR(200) NOT NULL, 
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    TRIGGER_LISTENER VARCHAR(200) NOT NULL,
-    PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER),
-    FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) 
-    REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP)
+    trigger_name  VARCHAR(200) NOT NULL, 
+    trigger_group VARCHAR(200) NOT NULL,
+    trigger_listener VARCHAR(200) NOT NULL,
+    PRIMARY KEY (trigger_name,trigger_group,trigger_listener),
+    FOREIGN KEY (trigger_name,trigger_group) 
+	REFERENCES qrtz_triggers(trigger_name,trigger_group)
 );
 
 
 CREATE TABLE qrtz_calendars
   (
-    CALENDAR_NAME  VARCHAR(200) NOT NULL, 
-    CALENDAR BYTEA NOT NULL,
-    PRIMARY KEY (CALENDAR_NAME)
+    calendar_name  VARCHAR(200) NOT NULL, 
+    calendar BYTEA NOT NULL,
+    PRIMARY KEY (calendar_name)
 );
 
 
 CREATE TABLE qrtz_paused_trigger_grps
   (
-    TRIGGER_GROUP  VARCHAR(200) NOT NULL, 
-    PRIMARY KEY (TRIGGER_GROUP)
+    trigger_group  VARCHAR(200) NOT NULL, 
+    PRIMARY KEY (trigger_group)
 );
 
 CREATE TABLE qrtz_fired_triggers 
   (
-    ENTRY_ID VARCHAR(95) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    IS_VOLATILE BOOL NOT NULL,
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    FIRED_TIME BIGINT NOT NULL,
-    PRIORITY INTEGER NOT NULL,
-    STATE VARCHAR(16) NOT NULL,
-    JOB_NAME VARCHAR(200) NULL,
-    JOB_GROUP VARCHAR(200) NULL,
-    IS_STATEFUL BOOL NULL,
-    REQUESTS_RECOVERY BOOL NULL,
-    PRIMARY KEY (ENTRY_ID)
+    entry_id VARCHAR(95) NOT NULL,
+    trigger_name VARCHAR(200) NOT NULL,
+    trigger_group VARCHAR(200) NOT NULL,
+    is_volatile BOOL NOT NULL,
+    instance_name VARCHAR(200) NOT NULL,
+    fired_time BIGINT NOT NULL,
+    priority INTEGER NOT NULL,
+    state VARCHAR(16) NOT NULL,
+    job_name VARCHAR(200) NULL,
+    job_group VARCHAR(200) NULL,
+    is_stateful BOOL NULL,
+    requests_recovery BOOL NULL,
+    PRIMARY KEY (entry_id)
 );
 
 CREATE TABLE qrtz_scheduler_state 
   (
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    LAST_CHECKIN_TIME BIGINT NOT NULL,
-    CHECKIN_INTERVAL BIGINT NOT NULL,
-    PRIMARY KEY (INSTANCE_NAME)
+    instance_name VARCHAR(200) NOT NULL,
+    last_checkin_time BIGINT NOT NULL,
+    checkin_interval BIGINT NOT NULL,
+    PRIMARY KEY (instance_name)
 );
 
 CREATE TABLE qrtz_locks
   (
-    LOCK_NAME  VARCHAR(40) NOT NULL, 
-    PRIMARY KEY (LOCK_NAME)
+    lock_name  VARCHAR(40) NOT NULL, 
+    PRIMARY KEY (lock_name)
 );
 
-CREATE INDEX idx_qrtz_j_req_recovery on qrtz_job_details(REQUESTS_RECOVERY);
-CREATE INDEX idx_qrtz_t_next_fire_time on qrtz_triggers(NEXT_FIRE_TIME);
-CREATE INDEX idx_qrtz_t_state on qrtz_triggers(TRIGGER_STATE);
-CREATE INDEX idx_qrtz_t_nft_st on qrtz_triggers(NEXT_FIRE_TIME,TRIGGER_STATE);
-CREATE INDEX idx_qrtz_t_volatile on qrtz_triggers(IS_VOLATILE);
-CREATE INDEX idx_qrtz_ft_trig_name on qrtz_fired_triggers(TRIGGER_NAME);
-CREATE INDEX idx_qrtz_ft_trig_group on qrtz_fired_triggers(TRIGGER_GROUP);
-CREATE INDEX idx_qrtz_ft_trig_nm_gp on qrtz_fired_triggers(TRIGGER_NAME,TRIGGER_GROUP);
-CREATE INDEX idx_qrtz_ft_trig_volatile on qrtz_fired_triggers(IS_VOLATILE);
-CREATE INDEX idx_qrtz_ft_trig_inst_name on qrtz_fired_triggers(INSTANCE_NAME);
-CREATE INDEX idx_qrtz_ft_job_name on qrtz_fired_triggers(JOB_NAME);
-CREATE INDEX idx_qrtz_ft_job_group on qrtz_fired_triggers(JOB_GROUP);
-CREATE INDEX idx_qrtz_ft_job_stateful on qrtz_fired_triggers(IS_STATEFUL);
-CREATE INDEX idx_qrtz_ft_job_req_recovery on qrtz_fired_triggers(REQUESTS_RECOVERY);
-
+CREATE INDEX idx_qrtz_j_req_recovery ON qrtz_job_details(requests_recovery);
+CREATE INDEX idx_qrtz_t_next_fire_time ON qrtz_triggers(next_fire_time);
+CREATE INDEX idx_qrtz_t_state ON qrtz_triggers(trigger_state);
+CREATE INDEX idx_qrtz_t_nft_st ON qrtz_triggers(next_fire_time,trigger_state);
+CREATE INDEX idx_qrtz_t_volatile ON qrtz_triggers(is_volatile);
+CREATE INDEX idx_qrtz_ft_trig_name ON qrtz_fired_triggers(trigger_name);
+CREATE INDEX idx_qrtz_ft_trig_group ON qrtz_fired_triggers(trigger_group);
+CREATE INDEX idx_qrtz_ft_trig_nm_gp ON qrtz_fired_triggers(trigger_name,trigger_group);
+CREATE INDEX idx_qrtz_ft_trig_volatile ON qrtz_fired_triggers(is_volatile);
+CREATE INDEX idx_qrtz_ft_trig_inst_name ON qrtz_fired_triggers(instance_name);
+CREATE INDEX idx_qrtz_ft_job_name ON qrtz_fired_triggers(job_name);
+CREATE INDEX idx_qrtz_ft_job_group ON qrtz_fired_triggers(job_group);
+CREATE INDEX idx_qrtz_ft_job_stateful ON qrtz_fired_triggers(is_stateful);
+CREATE INDEX idx_qrtz_ft_job_req_recovery ON qrtz_fired_triggers(requests_recovery);

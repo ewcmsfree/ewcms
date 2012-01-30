@@ -46,29 +46,29 @@ DROP TABLE component_interaction_speak;
 
 
 --Update content
-ALTER TABLE doc_article ALTER COLUMN id type bigint;
-ALTER TABLE doc_article RENAME COLUMN comment_flag TO comment;
+ALTER TABLE doc_article ALTER COLUMN id TYPE BIGINT;
+ALTER TABLE doc_article RENAME COLUMN comment_flag TO "comment";
 ALTER TABLE doc_article RENAME COLUMN link_addr TO url;
-ALTER TABLE doc_article ADD COLUMN total integer;
-ALTER TABLE doc_article ADD COLUMN delete boolean;
-ALTER TABLE doc_article ADD COLUMN inside boolean;
-ALTER TABLE doc_article ADD COLUMN modified timestamp without time zone;
-ALTER TABLE doc_article ADD COLUMN reviewprocess_id bigint;
-ALTER TABLE doc_article ADD COLUMN published timestamp without time zone;
-ALTER TABLE doc_article ADD COLUMN status character varying(255);
-ALTER TABLE doc_article ADD COLUMN createtime timestamp without time zone;
+ALTER TABLE doc_article ADD COLUMN total INTEGER;
+ALTER TABLE doc_article ADD COLUMN "delete" BOOLEAN;
+ALTER TABLE doc_article ADD COLUMN inside BOOLEAN;
+ALTER TABLE doc_article ADD COLUMN modified TIMESTAMP WITHOUT TIME ZONE;
+ALTER TABLE doc_article ADD COLUMN reviewprocess_id X;
+ALTER TABLE doc_article ADD COLUMN published TIMESTAMP WITHOUT TIME ZONE;
+ALTER TABLE doc_article ADD COLUMN status VARYING(255);
+ALTER TABLE doc_article ADD COLUMN createtime TIMESTAMP WITHOUT TIME ZONE;
 
 -- 新增/修改doc_articlermc字段
-ALTER TABLE doc_articlermc ALTER COLUMN id type bigint;
-ALTER TABLE doc_articlermc ADD COLUMN reference boolean;
-ALTER TABLE doc_articlermc ADD COLUMN sort bigint;
-ALTER TABLE doc_articlermc ADD COLUMN top boolean;
+ALTER TABLE doc_articlermc ALTER COLUMN id TYPE BIGINT;
+ALTER TABLE doc_articlermc ADD COLUMN reference BOOLEAN;
+ALTER TABLE doc_articlermc ADD COLUMN sort BIGINT;
+ALTER TABLE doc_articlermc ADD COLUMN top BOOLEAN;
 
 -- 更新doc_article表记录
 UPDATE doc_article AS a 
 SET total = 1,
     "delete" = b.delete_flag,
-    inside = false,
+    inside = FALSE,
     modified = b.modified,
     published = b.published,
     status = b.status,
