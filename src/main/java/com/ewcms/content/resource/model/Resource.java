@@ -53,7 +53,7 @@ import com.ewcms.core.site.model.Site;
  */
 @Entity
 @Table(name = "content_resource")
-@SequenceGenerator(name = "seq_res_resource", sequenceName = "seq_res_resource_id", allocationSize = 1)
+@SequenceGenerator(name = "seq_content_resource", sequenceName = "seq_content_resource_id", allocationSize = 1)
 public class Resource implements Serializable {
 
     /**
@@ -95,7 +95,7 @@ public class Resource implements Serializable {
     }
     
     @Id
-    @GeneratedValue(generator = "seq_res_resource", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_content_resource", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(length = 100, nullable = false)
     private String name;
@@ -105,11 +105,11 @@ public class Resource implements Serializable {
     private String path;
     @Column(name = "thumb_path",length = 300)
     private String thumbPath;
-    @Column(name = "uri", nullable = false)
+    @Column(name = "uri", nullable = false,length = 300)
     private String uri;
-    @Column(name = "thumb_uri")
+    @Column(name = "thumb_uri",length = 300)
     private String thumbUri;
-    @Column(name = "resource_type", nullable = false)
+    @Column(length = 20,nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
     @Column(length = 200)
@@ -117,6 +117,7 @@ public class Resource implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, targetEntity = Site.class)
     @JoinColumn(name = "site_id")
     private Site site;
+    @Column(length=20,nullable=false)
     @Enumerated(EnumType.STRING)
     private State state = State.INIT;
     @Temporal(TemporalType.TIMESTAMP)
