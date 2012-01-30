@@ -5,7 +5,6 @@
  */
 package com.ewcms.plugin.crawler.generate.url;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -75,13 +74,8 @@ public class URLCanonicalizer {
 			final String queryString;
 
 			if (params != null && params.size() > 0) {
-				for (final Map.Entry<String, String> entry : params.entrySet()) {
-					final String key = entry.getKey();
-					if (key.contains("session")) {
-						params.remove(key);
-					}
-				}
-				queryString = "?" + canonicalize(params);
+				String canonicalParams = canonicalize(params);
+				queryString = (canonicalParams.isEmpty() ? "" : "?" + canonicalParams);
 			} else {
 				queryString = "";
 			}
@@ -167,6 +161,10 @@ public class URLCanonicalizer {
 
 		final StringBuffer sb = new StringBuffer(100);
 		for (Map.Entry<String, String> pair : sortedParamMap.entrySet()) {
+			final String key = pair.getKey().toLowerCase();
+			if (key.equals("jsessionid") || key.equals("phpsessid") || key.equals("aspsessionid")) {
+				continue;
+			}
 			if (sb.length() > 0) {
 				sb.append('&');
 			}
@@ -194,7 +192,7 @@ public class URLCanonicalizer {
 			string = URLDecoder.decode(string, "UTF-8");
 			string = URLEncoder.encode(string, "UTF-8");
 			return string.replace("+", "%20").replace("*", "%2A").replace("%7E", "~");
-		} catch (UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			return string;
 		}
 	}
