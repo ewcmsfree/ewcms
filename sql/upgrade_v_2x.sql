@@ -1,4 +1,21 @@
--- Delete plugin tables
+-- drop sequences
+DROP SEQUENCE seq_component_comment_id；
+DROP SEQUENCE seq_component_comment_reply_id;
+DROP SEQUENCE seq_component_counter_log_id;
+DROP SEQUENCE seq_component_interaction_id;
+DROP SEQUENCE seq_component_interaction_speak_id;
+DROP SEQUENCE seq_plugin_citizen_id;
+DROP SEQUENCE seq_plugin_leader_id;
+DROP SEQUENCE seq_plugin_leaderchannel_id;
+DROP SEQUENCE seq_plugin_matter_annex_id;
+DROP SEQUENCE seq_plugin_matter_id;
+DROP SEQUENCE seq_plugin_member_artilce_id;
+DROP SEQUENCE seq_plugin_position_id;
+DROP SEQUENCE seq_plugin_online_advisory_id;
+DROP SEQUENCE seq_plugin_workingbody_id;
+DROP SEQUENCE seq_doc_article_organ_id;
+
+-- drop tables
 DROP TABLE plugin_leaderchannel_articlermc;
 DROP TABLE plugin_leaderchannel;
 DROP TABLE plugin_matter_annex;
@@ -6,8 +23,6 @@ DROP TABLE plugin_matter_citizen;
 DROP TABLE plugin_online_advisory;
 DROP TABLE plugin_position_leader;
 DROP TABLE plugin_position;
-DROP TABLE plugin_leaderchannel_articlermc;
-DROP TABLE plugin_leaderchannel;
 DROP TABLE plugin_workingbody_articlermc;
 DROP TABLE plugin_workingbody_matter;
 DROP TABLE plugin_workingbody_organ;
@@ -70,7 +85,6 @@ WHERE a.article_id = b.id;
 
 -- 删除doc_article字段
 ALTER TABLE doc_article DROP COLUMN annex_flag;
-ALTER TABLE doc_article DROP COLUMN comment_flag;
 ALTER TABLE doc_article DROP COLUMN copy_flag;
 ALTER TABLE doc_article DROP COLUMN copyout_flag;
 ALTER TABLE doc_article DROP COLUMN hot_flag;
@@ -107,7 +121,7 @@ ALTER TABLE seq_doc_articlermc_id RENAME TO seq_content_article_main_id;
 -- 表doc_content重命名为content_content
 ALTER TABLE doc_content RENAME TO content_content;
 -- 序列seq_doc_content_id重命名为seq_content_content_id
-ALTER TABLE seq_doc_articlermc_id RENAME TO seq_content_content_id;
+ALTER TABLE seq_doc_content_id RENAME TO seq_content_content_id;
 
 -- 表doc_related重命名为content_relation
 ALTER TABLE doc_related RENAME TO content_relation;
@@ -144,9 +158,9 @@ ALTER TABLE content_resource RENAME COLUMN resource_releasepath TO uri;
 ALTER TABLE content_resource RENAME COLUMN resource_pathzip TO thumb_path;
 ALTER TABLE content_resource RENAME COLUMN resource_releasepathzip TO thumb_uri;
 ALTER TABLE content_resource ALTER COLUMN resource_type TYPE varchar(20);
-ALTER TABLE content_resource ALTER COLUMN site_id TYPE integer SET NOT NULL;
+ALTER TABLE content_resource ALTER COLUMN site_id TYPE integer;
+ALTER TABLE content_resource ALTER COLUMN site_id SET NOT NULL;
 ALTER TABLE content_resource RENAME COLUMN resource_size TO size;
-ALTER TABLE content_resource RENAME COLUMN title TO "name";
 ALTER TABLE content_resource RENAME COLUMN resource_type TO "type";
 ALTER TABLE content_resource ALTER COLUMN "type" SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN user_id;
