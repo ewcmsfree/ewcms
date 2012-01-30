@@ -26,7 +26,7 @@ import com.ewcms.common.io.ImageUtil;
 import com.ewcms.content.resource.dao.ResourceDAO;
 import com.ewcms.content.resource.dao.ResourceDAOable;
 import com.ewcms.content.resource.model.Resource;
-import com.ewcms.content.resource.model.Resource.State;
+import com.ewcms.content.resource.model.Resource.Status;
 import com.ewcms.content.resource.model.Resource.Type;
 import com.ewcms.content.resource.service.operator.FileOperator;
 import com.ewcms.content.resource.service.operator.ResourceOperatorable;
@@ -152,7 +152,7 @@ public class ResourceService implements ResourceServiceable {
         resource.setName(name);
         resource.setDescription(name);
         resource.setType(type);
-        resource.setState(State.NORMAL);
+        resource.setStatus(Status.NORMAL);
         resource.setSite(site);
         if (type == Resource.Type.IMAGE) {
             resource.setThumbUri(imageCompression(site,uri,file.getPath()));
@@ -185,7 +185,7 @@ public class ResourceService implements ResourceServiceable {
             }
         }
         
-        resource.setState(State.NORMAL);
+        resource.setStatus(Status.NORMAL);
         resource.setUpdateTime(new Date(System.currentTimeMillis()));
         resource.setName(getFilename(path));
         resourceDao.persist(resource);
@@ -218,11 +218,11 @@ public class ResourceService implements ResourceServiceable {
         List<Resource> resources = new ArrayList<Resource>();
         for (Integer id : descriptions.keySet()) {
             Resource resource = resourceDao.get(id);
-            if(resource == null || resource.getState() == State.DELETE){
+            if(resource == null || resource.getStatus() == Status.DELETE){
                 continue;
             }
             String desc = descriptions.get(id);
-            resource.setState(State.NORMAL);
+            resource.setStatus(Status.NORMAL);
             resource.setDescription(desc);
             resourceDao.persist(resource);
             resources.add(resource);
@@ -251,7 +251,7 @@ public class ResourceService implements ResourceServiceable {
             deleteResourceFile(resource);
             resourceDao.remove(resource);
             
-            if(resource.getState() == Resource.State.RELEASED){
+            if(resource.getStatus() == Resource.Status.RELEASED){
               //TODO 写入删除日志，下架该资源
             }    
         }
@@ -275,7 +275,7 @@ public class ResourceService implements ResourceServiceable {
     public void softDelete(int[] ids) {
         for(int id : ids){
             Resource resource = getResource(id);
-            resource.setState(Resource.State.DELETE);
+            resource.setStatus(Resource.Status.DELETE);
             
             resourceDao.persist(resource);
         }
@@ -295,8 +295,8 @@ public class ResourceService implements ResourceServiceable {
     public void revert(int[] ids) {
         for(int id : ids){
             Resource resource = getResource(id);
-            if(resource.getState() == Resource.State.DELETE){
-                resource.setState(Resource.State.NORMAL);
+            if(resource.getStatus() == Resource.Status.DELETE){
+                resource.setStatus(Resource.Status.NORMAL);
                 resourceDao.persist(resource);
             }
         }
@@ -310,7 +310,7 @@ public class ResourceService implements ResourceServiceable {
     @Override
     public void publishResource(Integer id) {
         Resource resource = resourceDao.get(id);
-        resource.setState(Resource.State.RELEASED);
+        resource.setStatus(Resource.Status.RELEASED);
         resource.setPublishTime(new Date(System.currentTimeMillis()));
         resourceDao.persist(resource);
     }

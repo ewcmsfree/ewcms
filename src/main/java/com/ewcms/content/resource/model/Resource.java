@@ -58,10 +58,9 @@ public class Resource implements Serializable {
 
     /**
      * 资源状态
-     * TODO 更改名称为status
      * @author wangwei
      */
-    public enum State {
+    public enum Status {
         INIT,DELETE,NORMAL,RELEASED;
     }
     
@@ -119,7 +118,7 @@ public class Resource implements Serializable {
     private Site site;
     @Column(length=20,nullable=false)
     @Enumerated(EnumType.STRING)
-    private State state = State.INIT;
+    private Status status = Status.INIT;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time",nullable = false)
     private Date createTime ;
@@ -209,12 +208,12 @@ public class Resource implements Serializable {
         this.site = site;
     }
 
-    public State getState() {
-        return state;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Date getCreateTime() {
@@ -257,7 +256,7 @@ public class Resource implements Serializable {
         if(StringUtils.isNotBlank(thumbUri)){
             thumbPath = resourcePath(site,thumbUri);
         }
-        if(state != State.RELEASED){
+        if(status != Status.RELEASED){
             publishTime = null;
         }
     }

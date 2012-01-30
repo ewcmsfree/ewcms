@@ -31,7 +31,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
      */
     @Override
     public void remove(Resource resource){
-        if(resource.getState() == Resource.State.DELETE){
+        if(resource.getStatus() == Resource.Status.DELETE){
             super.remove(resource);
         }
     }
@@ -44,7 +44,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
                 String hql = "From Resource o Where o.site.id= ? And o.state = ?";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
-                query.setParameter(2, Resource.State.DELETE);
+                query.setParameter(2, Resource.Status.DELETE);
                 return query.getResultList();
             }
         });
@@ -57,7 +57,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
                 String hql = "From Resource o Where o.site.id= ? And o.state = ?";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
-                query.setParameter(2, Resource.State.NORMAL);
+                query.setParameter(2, Resource.Status.NORMAL);
                 return query.getResultList();
             }
         });
@@ -69,9 +69,9 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 String hql = "Update Resource o Set o.state=? Where o.site.id= ? And o.state = ?";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
-                query.setParameter(1, Resource.State.NORMAL);
+                query.setParameter(1, Resource.Status.NORMAL);
                 query.setParameter(2, siteId);
-                query.setParameter(3, Resource.State.RELEASED);
+                query.setParameter(3, Resource.Status.RELEASED);
                 query.executeUpdate();
                 return null;
             }
