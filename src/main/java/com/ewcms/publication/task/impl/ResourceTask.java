@@ -108,9 +108,9 @@ public class ResourceTask extends TaskBase{
      * @param state 资源状态
      * @return true 需要发布
      */
-    private boolean isPublish(Resource.State state){
-        return (state == Resource.State.NORMAL) || 
-                (state==Resource.State.RELEASED && builder.again);
+    private boolean isPublish(Resource.Status state){
+        return (state == Resource.Status.NORMAL) || 
+                (state==Resource.Status.RELEASED && builder.again);
     }
     
     private List<Resource> publishResources(){
@@ -127,7 +127,7 @@ public class ResourceTask extends TaskBase{
                     logger.warn("Resource is null,Id is {}.",id);
                     continue;
                 }
-                if(isPublish(resource.getState())){
+                if(isPublish(resource.getStatus())){
                     resources.add(resource);
                 }
             }
