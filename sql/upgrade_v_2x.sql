@@ -130,6 +130,7 @@ DROP TABLE doc_citizen;
 DROP TABLE doc_sharearticle;
 
 ---- resource
+ALTER TABLE seq_res_resource_id RENAME TO seq_content_resource_id;
 ALTER TABLE res_resource RENAME TO content_resource;
 ALTER TABLE content_resource ADD COLUMN create_time timestamp without time zone;
 ALTER TABLE content_resource ADD COLUMN publish_time timestamp without time zone;
@@ -146,11 +147,14 @@ ALTER TABLE content_resource ALTER COLUMN resource_type TYPE varchar(20);
 ALTER TABLE content_resource ALTER COLUMN site_id TYPE integer SET NOT NULL;
 ALTER TABLE content_resource RENAME COLUMN resource_size TO size;
 ALTER TABLE content_resource RENAME COLUMN title TO "name";
+ALTER TABLE content_resource RENAME COLUMN resource_type TO "type";
+ALTER TABLE content_resource ALTER COLUMN "type" SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN user_id;
-ALTER TABLE content_resource ADD COLUMN state varchar(20);
-UPDATE content_resource SET state = 'RELEASED' WHERE "release"=true;
-UPDATE content_resource SET state = 'DELETE' WHERE delete_flag=true;
-UPDATE content_resource SET state = 'NORMAL' WHERE delete_flag=false AND "release"=false;
+ALTER TABLE content_resource ADD COLUMN status varchar(20);
+UPDATE content_resource SET status = 'RELEASED' WHERE "release"=true;
+UPDATE content_resource SET status = 'DELETE' WHERE delete_flag=true;
+UPDATE content_resource SET status = 'NORMAL' WHERE delete_flag=false AND "release"=false;
+ALTER TABLE content_resource ALTER COLUMN status SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN delete_flag;
 ALTER TABLE content_resource DROP COLUMN "release";
 ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (path);
