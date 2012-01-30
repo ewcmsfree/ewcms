@@ -48,7 +48,6 @@ public class PublishServiceFactoryBean implements InitializingBean,FactoryBean<P
         Assert.notNull(resourceService,"resourceService must setting");
         Assert.notNull(templateSourceService,"templateSourceService must setting");
         Assert.notNull(cfg,"Templcat configuration must setting");
-        Assert.notNull(taskRegistry,"TaskRegistry must setting");
         
         service = new PublishService();
         service.setChannelService(channelService);
