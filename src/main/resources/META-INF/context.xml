@@ -1,6 +1,0 @@
-<Context reloadable="false" privileged="true" tldValidation="false">
-    <Valve className="org.apache.catalina.valves.AccessLogValve" prefix="ewcms_access_log." suffix=".txt"  pattern="common"/>
- <!--
-    <Valve className="org.apache.catalina.valves.RemoteAddrValve" deny="192\.168\.1\.\d+"/>
- -->
-</Context>
