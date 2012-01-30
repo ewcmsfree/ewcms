@@ -46,17 +46,15 @@
 	right:5px;
 	top:4px;
 }
-.panel-tool div{
-	display:block;
-	float:right;
+.panel-tool a{
+	display:inline-block;
 	width:16px;
 	height:16px;
-	margin-left:2px;
-	cursor:pointer;
 	opacity:0.6;
 	filter:alpha(opacity=60);
+	margin-left:2px;
 }
-.panel-tool div.panel-tool-over{
+.panel-tool a:hover{
 	opacity:1;
 	filter:alpha(opacity=100);
 }

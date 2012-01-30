@@ -1,5 +1,5 @@
 ﻿/**
- * jQuery EasyUI 1.2.4
+ * jQuery EasyUI 1.2.5
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
@@ -87,6 +87,7 @@ _f.window("destroy");
 },100);
 }});
 _f.window("window").addClass("messager-window");
+_f.children("div.messager-button").children("a:first").focus();
 return _f;
 };
 $.messager={show:function(_11){
@@ -170,6 +171,7 @@ return false;
 }
 };
 var win=_b(_1a,_1b,_1c);
+win.children("input.messager-input").focus();
 },progress:function(_1d){
 var _1e=$.extend({title:"",msg:"",text:undefined,interval:300},_1d||{});
 var _1f={bar:function(){

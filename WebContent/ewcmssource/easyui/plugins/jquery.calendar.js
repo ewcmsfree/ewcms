@@ -1,5 +1,5 @@
 ﻿/**
- * jQuery EasyUI 1.2.4
+ * jQuery EasyUI 1.2.5
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us

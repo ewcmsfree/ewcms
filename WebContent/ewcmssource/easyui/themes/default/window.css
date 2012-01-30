@@ -3,7 +3,6 @@
 	position:absolute;
 	overflow:hidden;
 	background:transparent url('images/panel_title.png');
-	background1:#878787;
 	padding:5px;
 	border:1px solid #99BBE8;
 	border-radius:5px;
@@ -63,7 +62,6 @@
 	filter:alpha(opacity=40);
 	opacity:0.40;
 	background:#ccc;
-	display1:none;
 	font-size:1px;
 	*zoom:1;
 	overflow:hidden;

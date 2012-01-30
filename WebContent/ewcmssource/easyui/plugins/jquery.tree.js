@@ -1,5 +1,5 @@
 ﻿/**
- * jQuery EasyUI 1.2.4
+ * jQuery EasyUI 1.2.5
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
@@ -96,12 +96,19 @@ var p=$("<div class=\"tree-node-proxy tree-dnd-no\"></div>").appendTo("body");
 p.html($(_19).find(".tree-title").html());
 p.hide();
 return p;
-},deltaX:15,deltaY:15,onBeforeDrag:function(){
+},deltaX:15,deltaY:15,onBeforeDrag:function(e){
+if(e.which!=1){
+return false;
+}
 $(this).next("ul").find("div.tree-node").droppable({accept:"no-accept"});
 },onStartDrag:function(){
 $(this).draggable("proxy").css({left:-10000,top:-10000});
 },onDrag:function(e){
+var x1=e.pageX,y1=e.pageY,x2=e.data.startX,y2=e.data.startY;
+var d=Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+if(d>3){
 $(this).draggable("proxy").show();
+}
 this.pageY=e.pageY;
 },onStopDrag:function(){
 $(this).next("ul").find("div.tree-node").droppable({accept:"div.tree-node"});
@@ -771,7 +778,9 @@ _cd.options=_ce;
 _ce=$.extend({},$.fn.tree.defaults,$.fn.tree.parseOptions(this),_cb);
 $.data(this,"tree",{options:_ce,tree:_1(this)});
 var _cf=_4(this);
-_47(this,this,_cf);
+if(_cf.length&&!_ce.data){
+_ce.data=_cf;
+}
 }
 if(_ce.data){
 _47(this,this,_ce.data);

@@ -63,7 +63,6 @@
 	height:100%;
 	border:1px solid #eee;
 	font-size:12px;
-	padding1:5px;
 }
 .calendar-body th,.calendar-body td{
 	text-align:center;
@@ -71,7 +70,6 @@
 .calendar-body th{
 	background:#fafafa;
 	color:#888;
-	border-bottom1:1px solid #ccc;
 }
 .calendar-day{
 	color:#222;

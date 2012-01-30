@@ -68,3 +68,6 @@ a:hover.l-btn-disabled{
 a:hover.l-btn-disabled span.l-btn-left{
 	background-position:top left;
 }
+a.l-btn .l-btn-focus{
+	outline:#000 dotted thin;
+}

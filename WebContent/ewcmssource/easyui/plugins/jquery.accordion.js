@@ -1,5 +1,5 @@
 ﻿/**
- * jQuery EasyUI 1.2.4
+ * jQuery EasyUI 1.2.5
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
@@ -104,14 +104,14 @@ _1e.find(".accordion-collapse").triggerHandler("click");
 }
 var _1e=pp.panel("header");
 _1e.addClass("accordion-header-selected");
-_1e.find("div.accordion-collapse").removeClass("accordion-expand");
+_1e.find(".accordion-collapse").removeClass("accordion-expand");
 },onExpand:function(){
 var _1f=$.data(_1a,"accordion").options;
 _1f.onSelect.call(_1a,pp.panel("options").title);
 },onBeforeCollapse:function(){
 var _20=pp.panel("header");
 _20.removeClass("accordion-header-selected");
-_20.find("div.accordion-collapse").addClass("accordion-expand");
+_20.find(".accordion-collapse").addClass("accordion-expand");
 }}));
 pp.panel("body").addClass("accordion-body");
 pp.panel("header").addClass("accordion-header").click(function(){
@@ -146,6 +146,7 @@ function add(_2b,_2c){
 var _2d=$.data(_2b,"accordion").options;
 var _2e=$.data(_2b,"accordion").panels;
 _28(_2b);
+_2c.collapsed=_2c.selected==undefined?true:_2c.selected;
 var pp=$("<div></div>").appendTo(_2b);
 _2e.push(pp);
 _19(_2b,pp,_2c);

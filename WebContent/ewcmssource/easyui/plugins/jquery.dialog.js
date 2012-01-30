@@ -1,5 +1,5 @@
 ﻿/**
- * jQuery EasyUI 1.2.4
+ * jQuery EasyUI 1.2.5
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
@@ -67,6 +67,12 @@ var _c=_6.href;
 var _d=_6.content;
 _6.href=null;
 _6.content=null;
+_7.panel({closed:_6.closed,href:_c,content:_d,onLoad:function(){
+if(_6.height=="auto"){
+$(_5).window("resize");
+}
+_6.onLoad.apply(_5,arguments);
+}});
 $(_5).window($.extend({},_6,{onOpen:function(){
 _7.panel("open");
 if(_6.onOpen){
@@ -74,18 +80,14 @@ _6.onOpen.call(_5);
 }
 },onResize:function(_e,_f){
 var _10=$(_5).panel("panel").find(">div.panel-body");
+_7.panel("panel").show();
 _7.panel("resize",{width:_10.width(),height:(_f=="auto")?"auto":_10.height()-_10.find(">div.dialog-toolbar").outerHeight()-_10.find(">div.dialog-button").outerHeight()});
 if(_6.onResize){
 _6.onResize.call(_5,_e,_f);
 }
 }}));
-_7.panel({closed:_6.closed,href:_c,content:_d,onLoad:function(){
-if(_6.height=="auto"){
-$(_5).window("resize");
-}
-_6.onLoad.apply(_5,arguments);
-}});
 _6.href=_c;
+_6.content=_d;
 };
 function _11(_12,_13){
 var _14=$.data(_12,"dialog").contentPanel;

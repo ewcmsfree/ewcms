@@ -13,7 +13,6 @@
 	overflow:hidden;
 	left:0px;
 	top:0px;
-	border-right1:1px solid #ccc;
 }
 .datagrid-view2{
 	position:absolute;
@@ -32,7 +31,6 @@
 }
 .datagrid-mask-msg{
 	position:absolute;
-	cursor1:wait;
 	left:100px;
 	top:50px;
 	width:auto;
@@ -97,6 +95,7 @@
 	overflow:hidden;
 	background:#fafafa url('images/datagrid_header_bg.gif') repeat-x left bottom;
 	border-bottom:1px solid #ccc;
+	cursor:default;
 }
 .datagrid-header-inner{
 	float:left;
@@ -211,7 +210,6 @@
 }
 .datagrid-row-over{
 	background:#D0E5F5;
-	background1:#FBEC88;
 	cursor:default;
 }
 .datagrid-row-selected{

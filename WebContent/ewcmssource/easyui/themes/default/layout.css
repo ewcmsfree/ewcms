@@ -10,11 +10,9 @@
 }
 .layout-panel-east,.layout-panel-west{
 	z-index:2;
-	background1:#fff;
 }
 .layout-panel-north,.layout-panel-south{
 	z-index:3;
-	background1:#fff;
 }
 .layout-button-up{
 	background:url('images/layout_button_up.gif') no-repeat;
