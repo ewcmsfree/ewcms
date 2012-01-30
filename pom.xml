@@ -51,14 +51,14 @@
 		
 		<!-- Word Analyzer -->
 		<lucene.version>3.0.2</lucene.version>
-		<nekohtml.version>1.9.6.2</nekohtml.version>
+		<nekohtml.version>1.9.15</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>
 		
 		<!-- verification code -->
 		<jcaptcha.version>1.0</jcaptcha.version>
 		
 		<!-- Quartz -->
-		<quartz.version>1.8.5</quartz.version>
+		<quartz.version>1.8.6</quartz.version>
 		
 		<!-- Crawler -->
 		<httpcomponents.httpcore.version>4.1.4</httpcomponents.httpcore.version>
@@ -227,21 +227,6 @@
 		
 		<dependency>
 			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-core</artifactId>
-			<version>${struts2.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-test</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>tools</artifactId>
-					<groupId>com.sun</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-spring-plugin</artifactId>
 			<version>${struts2.version}</version>
 		</dependency>
@@ -282,6 +267,22 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-vfs2</artifactId>
 			<version>${commons.vfs2.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>maven-scm-api</artifactId>
+					<groupId>org.apache.maven.scm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						maven-scm-provider-svn-commons
+					</artifactId>
+					<groupId>org.apache.maven.scm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>maven-scm-provider-svnexe</artifactId>
+					<groupId>org.apache.maven.scm</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-net</groupId>
@@ -330,7 +331,7 @@
 			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>nekohtml</groupId>
+			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
 			<version>${nekohtml.version}</version>
 		</dependency>
@@ -444,6 +445,26 @@
 				<exclusion>
 					<artifactId>log4j</artifactId>
 					<groupId>log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bctsp-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
