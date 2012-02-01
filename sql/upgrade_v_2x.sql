@@ -69,9 +69,9 @@ ALTER TABLE doc_article ADD COLUMN total INTEGER;
 ALTER TABLE doc_article ADD COLUMN "delete" BOOLEAN;
 ALTER TABLE doc_article ADD COLUMN inside BOOLEAN;
 ALTER TABLE doc_article ADD COLUMN modified TIMESTAMP WITHOUT TIME ZONE;
-ALTER TABLE doc_article ADD COLUMN reviewprocess_id X;
+ALTER TABLE doc_article ADD COLUMN reviewprocess_id BIGINT;
 ALTER TABLE doc_article ADD COLUMN published TIMESTAMP WITHOUT TIME ZONE;
-ALTER TABLE doc_article ADD COLUMN status VARYING(255);
+ALTER TABLE doc_article ADD COLUMN status VARCHAR(25);
 ALTER TABLE doc_article ADD COLUMN createtime TIMESTAMP WITHOUT TIME ZONE;
 
 -- 新增/修改doc_articlermc字段
