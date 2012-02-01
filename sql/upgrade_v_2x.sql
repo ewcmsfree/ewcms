@@ -1,20 +1,3 @@
--- drop sequences
-DROP SEQUENCE seq_component_comment_id；
-DROP SEQUENCE seq_component_comment_reply_id;
-DROP SEQUENCE seq_component_counter_log_id;
-DROP SEQUENCE seq_component_interaction_id;
-DROP SEQUENCE seq_component_interaction_speak_id;
-DROP SEQUENCE seq_plugin_citizen_id;
-DROP SEQUENCE seq_plugin_leader_id;
-DROP SEQUENCE seq_plugin_leaderchannel_id;
-DROP SEQUENCE seq_plugin_matter_annex_id;
-DROP SEQUENCE seq_plugin_matter_id;
-DROP SEQUENCE seq_plugin_member_artilce_id;
-DROP SEQUENCE seq_plugin_position_id;
-DROP SEQUENCE seq_plugin_online_advisory_id;
-DROP SEQUENCE seq_plugin_workingbody_id;
-DROP SEQUENCE seq_doc_article_organ_id;
-
 -- drop tables
 DROP TABLE plugin_leaderchannel_articlermc;
 DROP TABLE plugin_leaderchannel;
@@ -42,8 +25,41 @@ DROP TABLE component_interaction;
 DROP TABLE component_interaction_backratio;
 DROP TABLE component_interaction_speak;
 
---Update core
+-- drop sequences
+DROP SEQUENCE seq_component_comment_id;
+DROP SEQUENCE seq_component_comment_reply_id;
+DROP SEQUENCE seq_component_counter_log_id;
+DROP SEQUENCE seq_component_interaction_id;
+DROP SEQUENCE seq_component_interaction_speak_id;
+DROP SEQUENCE seq_plugin_citizen_id;
+DROP SEQUENCE seq_plugin_leader_id;
+DROP SEQUENCE seq_plugin_leaderchannel_id;
+DROP SEQUENCE seq_plugin_matter_annex_id;
+DROP SEQUENCE seq_plugin_matter_id;
+DROP SEQUENCE seq_plugin_member_artilce_id;
+DROP SEQUENCE seq_plugin_position_id;
+DROP SEQUENCE seq_plugin_online_advisory_id;
+DROP SEQUENCE seq_plugin_workingbody_id;
+DROP SEQUENCE seq_doc_article_organ_id;
 
+--Update core
+CREATE TABLE site_siteserver
+(
+  id integer NOT NULL,
+  hostname varchar(20),
+  outputtype varchar(15),
+  "password" varchar(20),
+  path varchar(100),
+  port varchar(5),
+  username varchar(30),
+  CONSTRAINT site_siteserver_pkey PRIMARY KEY (id)
+);
+ALTER TABLE site_site ADD COLUMN serverid integer;
+ALTER TABLE site_site
+  ADD CONSTRAINT fke0362d3fc0d57f89 FOREIGN KEY (serverid)
+      REFERENCES site_siteserver (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE site_site DROP COLUMN serverdir;
 
 --Update content
 ALTER TABLE doc_article ALTER COLUMN id TYPE BIGINT;
@@ -172,9 +188,3 @@ ALTER TABLE content_resource ALTER COLUMN status SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN delete_flag;
 ALTER TABLE content_resource DROP COLUMN "release";
 ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (path);
-
-
-
-
-
-
