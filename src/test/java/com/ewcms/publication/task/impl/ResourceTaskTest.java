@@ -46,7 +46,7 @@ public class ResourceTaskTest {
         Assert.assertEquals("test", task.getUsername());
     }
     
-    private Resource newResource(Integer id,boolean thumb,Resource.State state){
+    private Resource newResource(Integer id,boolean thumb,Resource.Status status){
         Resource resource = new Resource();
         resource.setId(1);
         if(thumb){
@@ -55,7 +55,7 @@ public class ResourceTaskTest {
         }
         resource.setPath("/root/test.txt");
         resource.setUri("/resource/test.txt");
-        resource.setState(state);
+        resource.setStatus(status);
         return resource;
     }
     
@@ -68,8 +68,8 @@ public class ResourceTaskTest {
         site.setSiteName("主站");
         ResourceTask task =new ResourceTask.Builder(service, site).builder();
         List<Resource> resources = new ArrayList<Resource>();
-        resources.add(newResource(0,false,Resource.State.NORMAL));
-        resources.add(newResource(1,true,Resource.State.NORMAL));
+        resources.add(newResource(0,false,Resource.Status.NORMAL));
+        resources.add(newResource(1,true,Resource.Status.NORMAL));
         when(service.findNotReleaseResources(siteId)).thenReturn(resources);
         
         List<TaskProcessable> processes =task.getTaskProcesses();
@@ -99,10 +99,10 @@ public class ResourceTaskTest {
         site.setId(siteId);
         site.setSiteName("主站");
         ResourceTask task =new ResourceTask.Builder(service, site).setResourceIds(resourceIds).builder();
-        when(service.getResource(0)).thenReturn(newResource(0,true,Resource.State.NORMAL));
-        when(service.getResource(1)).thenReturn(newResource(1,false,Resource.State.INIT));
-        when(service.getResource(2)).thenReturn(newResource(2,false,Resource.State.DELETE));
-        when(service.getResource(3)).thenReturn(newResource(3,false,Resource.State.RELEASED));
+        when(service.getResource(0)).thenReturn(newResource(0,true,Resource.Status.NORMAL));
+        when(service.getResource(1)).thenReturn(newResource(1,false,Resource.Status.INIT));
+        when(service.getResource(2)).thenReturn(newResource(2,false,Resource.Status.DELETE));
+        when(service.getResource(3)).thenReturn(newResource(3,false,Resource.Status.RELEASED));
         
         List<TaskProcessable> processes =task.getTaskProcesses();
         Assert.assertEquals(1, processes.size());
@@ -123,10 +123,10 @@ public class ResourceTaskTest {
             forceAgain().
             builder();
         
-        when(service.getResource(0)).thenReturn(newResource(0,true,Resource.State.NORMAL));
-        when(service.getResource(1)).thenReturn(newResource(1,false,Resource.State.INIT));
-        when(service.getResource(2)).thenReturn(newResource(2,false,Resource.State.DELETE));
-        when(service.getResource(3)).thenReturn(newResource(3,false,Resource.State.RELEASED));
+        when(service.getResource(0)).thenReturn(newResource(0,true,Resource.Status.NORMAL));
+        when(service.getResource(1)).thenReturn(newResource(1,false,Resource.Status.INIT));
+        when(service.getResource(2)).thenReturn(newResource(2,false,Resource.Status.DELETE));
+        when(service.getResource(3)).thenReturn(newResource(3,false,Resource.Status.RELEASED));
         
         List<TaskProcessable> processes =task.getTaskProcesses();
         Assert.assertEquals(2, processes.size());
