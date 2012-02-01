@@ -24,6 +24,7 @@ DROP TABLE component_counter_log;
 DROP TABLE component_interaction;
 DROP TABLE component_interaction_backratio;
 DROP TABLE component_interaction_speak;
+DROP TABLE log_release;
 
 -- drop sequences
 DROP SEQUENCE seq_component_comment_id;
@@ -41,6 +42,7 @@ DROP SEQUENCE seq_plugin_position_id;
 DROP SEQUENCE seq_plugin_online_advisory_id;
 DROP SEQUENCE seq_plugin_workingbody_id;
 DROP SEQUENCE seq_doc_article_organ_id;
+DROP SEQUENCE seq_log_release_id;
 
 --Update core
 CREATE TABLE site_siteserver
@@ -188,3 +190,6 @@ ALTER TABLE content_resource ALTER COLUMN status SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN delete_flag;
 ALTER TABLE content_resource DROP COLUMN "release";
 ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (path);
+
+--修改admin密码
+UPDATE auth_user SET password='b594510740d2ac4261c1b2fe87850d08' WHERE username='admin';
