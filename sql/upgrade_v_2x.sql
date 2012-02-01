@@ -25,6 +25,13 @@ DROP TABLE component_interaction;
 DROP TABLE component_interaction_backratio;
 DROP TABLE component_interaction_speak;
 DROP TABLE log_release;
+DROP TABLE certificate;
+DROP TABLE com_enrollment;
+DROP TABLE doc_articlermc_refchannel;
+DROP TABLE doc_recommend;
+DROP TABLE doc_articlermc_citizen;
+DROP TABLE doc_citizen;
+DROP TABLE doc_sharearticle;
 
 -- drop sequences
 DROP SEQUENCE seq_component_comment_id;
@@ -42,7 +49,11 @@ DROP SEQUENCE seq_plugin_position_id;
 DROP SEQUENCE seq_plugin_online_advisory_id;
 DROP SEQUENCE seq_plugin_workingbody_id;
 DROP SEQUENCE seq_doc_article_organ_id;
+DROP SEQUENCE seq_doc_citizen_id;
+DROP SEQUENCE seq_doc_content_history_id;
+DROP SEQUENCE seq_doc_recommend_id;
 DROP SEQUENCE seq_log_release_id;
+DROP SEQUENCE seq_sev_sharearticle_id;
 
 --Update core
 CREATE TABLE site_siteserver
@@ -56,7 +67,7 @@ CREATE TABLE site_siteserver
   username varchar(30),
   CONSTRAINT site_siteserver_pkey PRIMARY KEY (id)
 );
-ALTER TABLE site_site ADD COLUMN serverid integer;
+ALTER TABLE site_site ADD COLUMN serverid INTEGER;
 ALTER TABLE site_site
   ADD CONSTRAINT fke0362d3fc0d57f89 FOREIGN KEY (serverid)
       REFERENCES site_siteserver (id) MATCH SIMPLE
@@ -136,6 +147,11 @@ ALTER TABLE doc_articlermc RENAME TO content_article_main;
 -- 序列seq_doc_articlermc_id重命名为seq_content_srticle_id
 ALTER TABLE seq_doc_articlermc_id RENAME TO seq_content_article_main_id;
 
+-- 表aspect_history重命名为history_model
+ALTER TABLE aspect_history RENAME TO history_model;
+-- 序列seq_aspect_history_id重命名为seq_history_model_id
+ALTER TABLE seq_aspect_history_id RENAME TO seq_history_model_id;
+
 -- 表doc_content重命名为content_content
 ALTER TABLE doc_content RENAME TO content_content;
 -- 序列seq_doc_content_id重命名为seq_content_content_id
@@ -146,26 +162,14 @@ ALTER TABLE doc_related RENAME TO content_relation;
 -- 序列seq_doc_related_id重命名为seq_content_relation_id
 ALTER TABLE seq_doc_related_id RENAME TO seq_content_relation_id;
 
--- 删除doc_articlermc_refchannel表
-DROP TABLE doc_articlermc_refchannel;
-
--- 删除doc_recommend表
-DROP TABLE doc_recommend;
-
--- 删除doc_articlermc_citizen表;
-DROP TABLE doc_articlermc_citizen;
-
--- 删除doc_citizen表
-DROP TABLE doc_citizen;
-
--- 删除doc_sharearticle表
-DROP TABLE doc_sharearticle;
+-- 表job_info_channel重命名为job_channel
+ALTER TABLE job_info_channel RENAME TO job_channel;
 
 ---- resource
 ALTER TABLE seq_res_resource_id RENAME TO seq_content_resource_id;
 ALTER TABLE res_resource RENAME TO content_resource;
-ALTER TABLE content_resource ADD COLUMN create_time timestamp without time zone;
-ALTER TABLE content_resource ADD COLUMN publish_time timestamp without time zone;
+ALTER TABLE content_resource ADD COLUMN create_time TIMESTAMP WITHOUT TIME ZONE;
+ALTER TABLE content_resource ADD COLUMN publish_time TIMESTAMP WITHOUT TIME ZONE;
 UPDATE content_resource SET create_time = upload_time;
 ALTER TABLE content_resource ALTER COLUMN create_time SET NOT NULL;
 UPDATE content_resource SET publish_time = upload_time;
@@ -175,14 +179,14 @@ ALTER TABLE content_resource RENAME COLUMN resource_path TO path;
 ALTER TABLE content_resource RENAME COLUMN resource_releasepath TO uri;
 ALTER TABLE content_resource RENAME COLUMN resource_pathzip TO thumb_path;
 ALTER TABLE content_resource RENAME COLUMN resource_releasepathzip TO thumb_uri;
-ALTER TABLE content_resource ALTER COLUMN resource_type TYPE varchar(20);
-ALTER TABLE content_resource ALTER COLUMN site_id TYPE integer;
+ALTER TABLE content_resource ALTER COLUMN resource_type TYPE VARCHAR(20);
+ALTER TABLE content_resource ALTER COLUMN site_id TYPE INTEGER;
 ALTER TABLE content_resource ALTER COLUMN site_id SET NOT NULL;
 ALTER TABLE content_resource RENAME COLUMN resource_size TO size;
 ALTER TABLE content_resource RENAME COLUMN resource_type TO "type";
 ALTER TABLE content_resource ALTER COLUMN "type" SET NOT NULL;
 ALTER TABLE content_resource DROP COLUMN user_id;
-ALTER TABLE content_resource ADD COLUMN status varchar(20);
+ALTER TABLE content_resource ADD COLUMN status VARCHAR(20);
 UPDATE content_resource SET status = 'RELEASED' WHERE "release"=true;
 UPDATE content_resource SET status = 'DELETE' WHERE delete_flag=true;
 UPDATE content_resource SET status = 'NORMAL' WHERE delete_flag=false AND "release"=false;
@@ -193,3 +197,11 @@ ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (pa
 
 --修改admin密码
 UPDATE auth_user SET password='b594510740d2ac4261c1b2fe87850d08' WHERE username='admin';
+
+-- 修改job_class中的classentity值
+UPDATE job_class SET classentity='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE classentity='com.ewcms.scheduling.job.channel.EwcmsExecutionChannelJob';
+UPDATE job_class SET classentity='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE classentity='com.ewcms.scheduling.job.leadingwindow.EwcmsExecutionLeadingWindowJob';
+
+-- 修改qrtz_job_details中的job_class_name值
+UPDATE qrtz_job_details SET job_class_name='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE job_class_name='com.ewcms.scheduling.job.channel.EwcmsExecutionChannelJob';
+UPDATE qrtz_job_details SET job_class_name='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE job_class_name='com.ewcms.scheduling.job.leadingwindow.EwcmsExecutionLeadingWindowJob';
