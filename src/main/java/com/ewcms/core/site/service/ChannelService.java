@@ -93,7 +93,7 @@ public class ChannelService implements ChannelServiceable{
     @Override
     public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable) {
         List<ChannelNode> nodes = new ArrayList<ChannelNode>();
-        List<Channel> channels = channelDao.getChannelChildren(id,getCurSite().getId());
+        List<Channel> channels = channelDao.getChannelChildren(id);
         for (Channel channel : channels) {
             if (publicenable && !channel.getPublicenable()) {
                 continue;
@@ -185,7 +185,11 @@ public class ChannelService implements ChannelServiceable{
      * @param siteId 站点编号
      */
     private void updAbsUrlAndPubPath(int channelId,int siteId) {
-        List<Channel> children = channelDao.getChannelChildren(channelId, siteId);
+        Channel channel = channelDao.get(channelId);
+        if(channel == null || (int)channel.getSite().getId() != siteId){
+            return;
+        }
+        List<Channel> children = channelDao.getChannelChildren(channelId);
         for (Channel child : children ) {
             child.setAbsUrl(null);
             child.setPubPath(null);
@@ -218,7 +222,7 @@ public class ChannelService implements ChannelServiceable{
 
 	@Override
 	public List<Channel> getChannelChildren(Integer id) {
-		return channelDao.getChannelChildren(id,getCurSite().getId());
+		return channelDao.getChannelChildren(id);
 	}
 
 	@Override
