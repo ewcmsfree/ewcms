@@ -39,10 +39,9 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 				if (parentId == null)
 					return null;
 
-				String hql = "From Channel o Where o.parent.id=? and o.site.id=? Order By o.id";
+				String hql = "From Channel o Where o.parent.id=? Order By o.id";
 				Query query = em.createQuery(hql);
 				query.setParameter(1, parentId);
-				query.setParameter(2, siteId);
 				return query.getResultList();
 
 			}
