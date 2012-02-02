@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.orm.jpa.JpaCallback;
@@ -41,7 +42,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
             public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Resource o Where o.site.id= ? And o.status = ?";
+                String hql = "From Resource o Where o.site.id= ?1 And o.status = ?2";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
                 query.setParameter(2, Resource.Status.DELETE);
@@ -54,7 +55,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
             public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Resource o Where o.site.id= ? And o.status = ?";
+                String hql = "From Resource o Where o.site.id= ?1 And o.status = ?2";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
                 query.setParameter(2, Resource.Status.NORMAL);
@@ -67,8 +68,8 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         getJpaTemplate().execute(new JpaCallback<Object>() {
             @Override
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "Update Resource o Set o.status=? Where o.site.id= ? And o.status = ?";
-                TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
+                String hql = "Update Resource o Set o.status=?1 Where o.site.id= ?2 And o.status = ?3";
+                Query query = em.createQuery(hql);
                 query.setParameter(1, Resource.Status.NORMAL);
                 query.setParameter(2, siteId);
                 query.setParameter(3, Resource.Status.RELEASED);
@@ -84,7 +85,7 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         List<Resource> list = getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
             public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Resource o Where o.site.id= ? And (o.uri = ? or o.thumbUri = ?)";
+                String hql = "From Resource o Where o.site.id= ?1 And (o.uri = ?2 or o.thumbUri = ?3)";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
                 query.setParameter(2, uri);
