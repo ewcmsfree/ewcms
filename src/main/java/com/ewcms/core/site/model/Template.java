@@ -11,12 +11,12 @@ package com.ewcms.core.site.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +29,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Formula;
@@ -76,7 +77,7 @@ public class Template implements Serializable {
     @ManyToOne(cascade = {CascadeType.REFRESH}, targetEntity = Template.class)
     @JoinColumn(name = "parent_id", nullable = true)
     private Template parent;
-	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = TemplateEntity.class, fetch = FetchType.LAZY)
+	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = TemplateEntity.class)
 	@JoinColumn(name = "tplEntityId", nullable = true)
 	private TemplateEntity templateEntity;
 	@Formula(value = "(Select count(o.id) From site_template o Where o.parent_id= id)")
