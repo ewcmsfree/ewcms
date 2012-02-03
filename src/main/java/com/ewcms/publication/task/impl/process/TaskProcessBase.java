@@ -5,6 +5,9 @@
  */
 package com.ewcms.publication.task.impl.process;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.task.impl.event.NoneEvent;
@@ -16,6 +19,8 @@ import com.ewcms.publication.task.impl.event.TaskEventable;
  * @author wangwei
  */
 public abstract class TaskProcessBase implements TaskProcessable{
+    private final static Logger logger = LoggerFactory.getLogger(TaskProcessBase.class);
+    
     private TaskEventable event =new NoneEvent();
     
     @Override
@@ -25,6 +30,7 @@ public abstract class TaskProcessBase implements TaskProcessable{
             event.success(uri);
             return Boolean.TRUE;
         }catch(Exception e){
+            logger.error("task execute {}",e);
             event.error(e);
             return Boolean.FALSE;
         }
