@@ -11,7 +11,6 @@ package com.ewcms.core.site.service;
 
 import java.util.List;
 
-import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 
