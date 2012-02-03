@@ -37,7 +37,6 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	}
 	
 	public Integer updTemplateSource(TemplateSource vo){
-		templateSourceDao.merge(vo);
 		updPubPath(vo);
 		return vo.getId();
 	}
@@ -148,7 +147,7 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	public void publishTemplateSource(Integer id) {
 		TemplateSource vo = getTemplateSource(id);
 		vo.setRelease(true);
-		updTemplateSource(vo);
+		templateSourceDao.persist(vo);
 	}
 
 	@Override
