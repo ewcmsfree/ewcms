@@ -58,7 +58,7 @@ public class SitePublish implements SitePublishable{
             logger.debug("\"{}\" publish", task.getDescription());
             publish(dependence);
         }
-        if(cancelled){
+        if(!cancelled){
             execute(task);
         }
     }
