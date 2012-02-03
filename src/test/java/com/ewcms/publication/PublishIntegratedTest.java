@@ -1,0 +1,123 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
+
+package com.ewcms.publication;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.jpa.JpaCallback;
+import org.springframework.orm.jpa.JpaTemplate;
+
+import com.ewcms.content.document.model.Article;
+import com.ewcms.content.resource.model.Resource;
+
+/**
+ * 发布服务测试，该测试主要测试集成后发布是否成功和性能。
+ * 
+ * 该测试涉及到多线程测试，而junit对多线程测试不支持，所以使用了应用程序测试。
+ * 
+ * @author wangwei
+ */
+public class PublishIntegratedTest {
+    private final static Logger logger = LoggerFactory.getLogger(PublishIntegratedTest.class);
+    
+    private final static ApplicationContext context;
+    
+    static{
+        context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+    }
+    
+    private JpaTemplate createJpaTemplate() {
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory)context.getBean("entityManagerFactory");
+        return new JpaTemplate(entityManagerFactory);
+    }
+    
+    private PublishServiceable getPublishService(){
+        return (PublishServiceable)context.getBean("publishService");
+    }
+    
+    private void updateTemplateSourceStutas(){
+        JpaTemplate template = createJpaTemplate();
+        template.execute(new JpaCallback<Object>() {
+            @Override
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                em.getTransaction().begin();
+                String hql = "Update TemplateSource o Set o.release= ?1 Where o.release = ?2";
+                Query query = em.createQuery(hql);
+                query.setParameter(1, Boolean.FALSE);
+                query.setParameter(2, Boolean.TRUE);
+                query.executeUpdate();
+                em.getTransaction().commit();
+                return null;
+            }
+        });
+    }
+    
+    private void updateResourceStutas(){
+        JpaTemplate template = createJpaTemplate();
+        template.execute(new JpaCallback<Object>() {
+            @Override
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                em.getTransaction().begin();
+                String hql = "Update Resource o Set o.status= ?1 Where o.status = ?2";
+                Query query = em.createQuery(hql);
+                query.setParameter(1, Resource.Status.NORMAL);
+                query.setParameter(2, Resource.Status.RELEASED);
+                query.executeUpdate();
+                em.getTransaction().commit();
+                return null;
+            }
+        });
+    }
+    
+    private void updateArticleStutas(){
+        JpaTemplate template = createJpaTemplate();
+        template.execute(new JpaCallback<Object>() {
+            @Override
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                em.getTransaction().begin();
+                String hql = "Update Article o Set o.status=?1 Where o.status = ?2";
+                Query query = em.createQuery(hql);
+                query.setParameter(1, Article.Status.PRERELEASE);
+                query.setParameter(2, Article.Status.RELEASE);
+                query.executeUpdate();
+                em.getTransaction().commit();
+                return null;
+            }
+        });
+    }
+    
+    public void runPublishSite()throws Exception{
+        updateTemplateSourceStutas();
+        updateResourceStutas();
+        updateArticleStutas();
+        
+        PublishServiceable publishService = getPublishService();
+        publishService.publishSite(-2, true, "admin");
+    }
+
+    public static void main(String[] args){
+        try{
+            PublishIntegratedTest test = new PublishIntegratedTest();
+            test.runPublishSite();
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testPublish(){
+        logger.info("测试程序使用了多线程，请使用main运行方式。");
+    }
+}
