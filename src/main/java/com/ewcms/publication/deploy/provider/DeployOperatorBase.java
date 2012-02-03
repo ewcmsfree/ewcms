@@ -185,13 +185,21 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
     
     @Override
     public void copy(File sourceFile,String targetPath)throws PublishException {
+        
+        if(!sourceFile.exists()){
+            logger.debug("Source file path's {} is not exists.",sourceFile.getPath());
+            return ;
+        }
+        
         String targetFullPath = targetFullPath(builder.getPath(),targetPath);
         logger.debug("Server file's path is {}", targetFullPath);
         logger.debug("Source file's path is {}  ",sourceFile.getPath());
         
+        FileObject root =null;
+        FileObject target = null;
         try {
-            FileObject root = getRootFileObject();
-            FileObject target = getTargetFileObject(root, targetFullPath);
+            root = getRootFileObject();
+            target = getTargetFileObject(root, targetFullPath);
             FileContent fileContent = target.getContent();
             
             OutputStream out = fileContent.getOutputStream();
@@ -207,14 +215,23 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
             in.close();
             out.close();
             fileContent.close();
-            target.close();
-            root.close();
         } catch (FileSystemException e) {
             logger.error("Copy {} is error:{}", targetFullPath,e);
             throw new PublishException(e);
         } catch (IOException e) {
             logger.error("Copy {} is error:{}", targetFullPath,e);
             throw new PublishException(e);
+        } finally{
+            try{
+                if(root != null){
+                    root.close();
+                }
+                if(target != null){
+                    target.close();
+                }    
+            }catch(Exception e){
+                logger.error("vfs close is error:{}",e.toString());
+            }
         }
     }
     
@@ -224,9 +241,11 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
         String targetFullPath = targetFullPath(builder.getPath(),targetPath);
         logger.debug("Server file's path is {}", targetFullPath);
 
+        FileObject root =null;
+        FileObject target = null;
         try {
-            FileObject root = getRootFileObject();
-            FileObject target = getTargetFileObject(root, targetFullPath);
+            root = getRootFileObject();
+            target = getTargetFileObject(root, targetFullPath);
             FileContent fileContent = target.getContent();
             OutputStream stream = fileContent.getOutputStream();
             stream.write(content);
@@ -242,6 +261,17 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
         } catch (IOException e) {
             logger.error("Copy {} is error:{}", targetFullPath,e);
             throw new PublishException(e);
+        } finally{
+            try{
+                if(root != null){
+                    root.close();
+                }
+                if(target != null){
+                    target.close();
+                }    
+            }catch(Exception e){
+                logger.error("vfs close is error:{}",e.toString());
+            }
         }
     }
     
