@@ -253,9 +253,6 @@ public class Resource implements Serializable {
     @PreUpdate
     public void preUpdate() {
         updateTime = new Date(System.currentTimeMillis());
-        if(StringUtils.isNotBlank(thumbUri)){
-            thumbPath = resourcePath(site,thumbUri);
-        }
         if(status != Status.RELEASED){
             publishTime = null;
         }

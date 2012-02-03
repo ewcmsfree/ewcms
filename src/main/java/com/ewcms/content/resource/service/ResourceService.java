@@ -198,17 +198,20 @@ public class ResourceService implements ResourceServiceable {
         Resource resource = resourceDao.get(id);
         Assert.notNull(resource,"Resourc is not exist,id = " + id);
 
-        String oldThumbPath = resource.getThumbPath();
+        String thumbPath = resource.getThumbPath();
         Site site = getCurrentSite();
         ResourceOperatorable operator = new FileOperator(site.getResourceDir());
-        String name = getFilename(path);
-        String uri = operator.write(new FileInputStream(file), UriRules.newResourceThumb(getResourceContext()),getSuffix(name));
-        resource.setThumbUri(uri);
-        resourceDao.persist(resource);
-        
-        if(!StringUtils.isBlank(oldThumbPath)){
-            FileUtils.forceDeleteOnExit(new File(oldThumbPath));    
+        if(StringUtils.isBlank(thumbPath)){
+            String name = getFilename(path);
+            String uri = operator.write(new FileInputStream(file), UriRules.newResourceThumb(getResourceContext()),getSuffix(name));
+            resource.setThumbUri(uri);
+            resource.setThumbPath(Resource.resourcePath(site, uri));
+        }else{
+            FileUtils.copyFile(file, new File(thumbPath));
         }
+        
+        resource.setStatus(Status.NORMAL);
+        resourceDao.persist(resource);    
         
         return resource;
     }
