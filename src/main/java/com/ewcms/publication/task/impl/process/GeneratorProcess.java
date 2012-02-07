@@ -7,6 +7,9 @@ package com.ewcms.publication.task.impl.process;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.generator.Generatorable;
@@ -17,6 +20,8 @@ import com.ewcms.publication.generator.Generatorable;
  * @author wangwei
  */
 public class GeneratorProcess extends TaskProcessBase{
+    private static final Logger logger = LoggerFactory.getLogger(GeneratorProcess.class);
+    
     private final Generatorable[] generators;
     private final String path;
     
@@ -46,12 +51,24 @@ public class GeneratorProcess extends TaskProcessBase{
         int length = generators.length;
         String firstUri = null ;
         for(int i = 0 ; i < length ; i++){
-            Generatorable generator = generators[i];
-            File source = generator.process(path);
-            String uri = generator.getUri();
-            operator.copy(source, uri);
-            if(i == 0){
-                firstUri = uri;
+            File source = null;
+            try{
+                Generatorable generator = generators[i];
+                source = generator.process(path);
+                String uri = generator.getUri();
+                operator.copy(source, uri);
+                if(i == 0){
+                    firstUri = uri;
+                }    
+            }catch(PublishException e){
+                throw e;
+            }catch(Exception e){
+                throw new PublishException(e);
+            }finally{
+                if(source != null){
+                    logger.debug("Temp file path's {} by deleted",source.getPath());
+                    source.delete();
+                }
             }
         }
         return firstUri;
