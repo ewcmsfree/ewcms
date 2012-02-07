@@ -7,6 +7,7 @@
 package com.ewcms.web.filter.render;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,6 +78,18 @@ public class PreviewRender implements Renderable{
         return value == null;
     }
     
+    /**
+     * 输出错误到预览页面
+     * 
+     * @param response 
+     * @param e
+     * @throws 
+     */
+    private void renderError(OutputStream stream,Exception e)throws IOException{
+        stream.write(e.getMessage().getBytes());
+        stream.flush();
+    }
+    
     @Override
     public boolean render(HttpServletRequest request,HttpServletResponse response) throws IOException {
        
@@ -84,20 +97,22 @@ public class PreviewRender implements Renderable{
             return false;
         }
         
+        OutputStream stream = response.getOutputStream();
         Integer templateId = getTemplateId(request);
         try{
             if(templateId != null){
                 Boolean mock = isMock(request);
-                preview.viewTemplate(response.getOutputStream(), templateId, mock);
+                preview.viewTemplate(stream, templateId, mock);
             }else{
                 Integer channelId = getChannelId(request);
                 Long articleId = getArticleId(request);
                 Integer pageNumber = getPageNumber(request);
-                preview.viewArticle(response.getOutputStream(), channelId, articleId, pageNumber);
+                preview.viewArticle(stream, channelId, articleId, pageNumber);
             }
             return true;
         }catch(PublishException e){
             logger.error("Preview is error:{}",e.toString());
+            renderError(stream,e);
             return false;
         }
     }
