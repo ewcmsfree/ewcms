@@ -69,6 +69,7 @@ public class ArticleService implements ArticlePublishServiceable {
 		Article article = articleDAO.get(id);
 		Assert.notNull(article);
 		article.setUrl(url);
+		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);
 	}
 
