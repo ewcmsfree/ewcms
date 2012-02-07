@@ -154,19 +154,18 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         }
 
         String value = FreemarkerUtil.getString(params, name);
-        logger.debug("Directive {} property is {}",name,value);
         if (EmptyUtil.isStringNotEmpty(value)) {
-            channel = (Channel) FreemarkerUtil.getBean(params, value);
-            if(EmptyUtil.isNotNull(channel)){
+            logger.debug("Directive {} property is {}",name,value);
+            channel = (Channel) FreemarkerUtil.getBean(env, value);
+            if (EmptyUtil.isNotNull(channel)) {
                 logger.debug("Channel is {}",channel.toString());
                 return channel;
             }
-            
-            String path = UriFormat.formatChannelPath(value);
-            channel = channelService.getChannelByUrlOrPath(siteId, path);
+            value = UriFormat.formatChannelPath(value);
+            channel = channelService.getChannelByUrlOrPath(siteId, value);
             if(channel == null){
-                logger.warn("Channel's path or variable is {},it is not exist.",path);
-                throw new TemplateModelException("Channel's path or variable is "+path+",it is not exist");
+                logger.warn("Channel's path or variable is {},it is not exist.",value);
+                throw new TemplateModelException("Channel's path or variable is "+value+",it is not exist");
             }
             return channel;
         }
@@ -177,7 +176,6 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             logger.error("Default channel is null");
             throw new TemplateModelException("Default channel is null");
         }
-        logger.debug("Channel is {}",channel.toString());
         return channel;
     }
    
