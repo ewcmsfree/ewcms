@@ -50,7 +50,10 @@ public class LengthDirectiveOut implements DirectiveOutable {
         if(length == NOT_LIMIT_LENGTH){
             return s;
         }else{
-            return s.substring(0, length) + getMark(params);
+            if(s.length() > length){
+                return s.substring(0, length) + getMark(params);    
+            }
+            return s;
         }
     }
     
