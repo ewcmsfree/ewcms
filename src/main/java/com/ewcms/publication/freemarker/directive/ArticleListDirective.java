@@ -141,19 +141,14 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     private Channel getChannel(Environment env,Map params,int siteId)throws TemplateException{
         final String name = channelParam;
         
-        Channel channel = (Channel) FreemarkerUtil.getBean(params, name);
-        if(EmptyUtil.isNotNull(channel)){
-            logger.debug("Channel is {}",channel.toString());
-            return channel;
-        }
-        
+        Channel channel =null;
         Integer id = FreemarkerUtil.getInteger(params, name);
         if (EmptyUtil.isNotNull(id)) {
             logger.debug("Channel's id is {}",id);
             channel = channelService.getChannel(siteId,id);
             if(channel == null){
                 logger.warn("Channel's id is {},it is not exist.",id);
-                throw new TemplateModelException("Channel is null");
+                throw new TemplateModelException("Channel id is "+id+",it is not exist");
             }
             return channel;
         }
@@ -161,23 +156,29 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         String value = FreemarkerUtil.getString(params, name);
         logger.debug("Directive {} property is {}",name,value);
         if (EmptyUtil.isStringNotEmpty(value)) {
-            String path = UriFormat.formatChannelPath(value);
-            channel = channelService.getChannelByUrlOrPath(siteId, path);
+            channel = (Channel) FreemarkerUtil.getBean(params, value);
             if(EmptyUtil.isNotNull(channel)){
                 logger.debug("Channel is {}",channel.toString());
                 return channel;
             }
-        }
-        
-        value = (value == null ? GlobalVariable.CHANNEL.toString() : value);
-        channel = (Channel) FreemarkerUtil.getBean(env, value);
-        if (EmptyUtil.isNotNull(channel)) {
-            logger.debug("Channel is {}",channel.toString());
+            
+            String path = UriFormat.formatChannelPath(value);
+            channel = channelService.getChannelByUrlOrPath(siteId, path);
+            if(channel == null){
+                logger.warn("Channel's path or variable is {},it is not exist.",path);
+                throw new TemplateModelException("Channel's path or variable is "+path+",it is not exist");
+            }
             return channel;
         }
-        logger.warn("Channel is null");
         
-        throw new TemplateModelException("Channel is null");
+        value = GlobalVariable.CHANNEL.toString();
+        channel = (Channel) FreemarkerUtil.getBean(env, value);
+        if (channel == null) {
+            logger.error("Default channel is null");
+            throw new TemplateModelException("Default channel is null");
+        }
+        logger.debug("Channel is {}",channel.toString());
+        return channel;
     }
    
     /**
