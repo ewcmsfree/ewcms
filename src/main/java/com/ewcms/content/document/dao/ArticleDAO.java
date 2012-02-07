@@ -59,8 +59,9 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 				if (channelId == null){
 					return new ArrayList<Article>();
 				}
+				int startRow = page * row;
 				String hql = "Select m.article From ArticleMain As m Where m.channelId=? And m.article.status=? And m.top=? Order By Case When m.top Is Null Then 1 Else 0 End, m.top Desc, m.sort Asc, Case When m.article.published Is Null Then 1 Else 0 End, m.article.published Desc, Case When m.article.modified Is Null Then 1 Else 0 End, m.article.modified Desc, m.id";
-				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, Status.RELEASE).setParameter(3, top).getResultList();
+				return em.createQuery(hql).setParameter(1, channelId).setParameter(2, Status.RELEASE).setParameter(3, top).setFirstResult(startRow).setMaxResults(row).getResultList();
 			}
     	});
     	return (List<Article>)result;
