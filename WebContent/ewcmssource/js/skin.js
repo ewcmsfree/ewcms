@@ -18,6 +18,16 @@ function switchStylestyle(styleName){
 		if (this.getAttribute('title') == styleName) this.disabled = false;
 	});
 	
+	$("iframe").contents().find('iframe').contents().find('link[rel=stylesheet][title]').each(function(i){
+		this.disabled = true;
+		if (this.getAttribute('title') == styleName) this.disabled = false;
+	});
+	
+	$("iframe").contents().find('iframe').contents().find('iframe').contents().find('link[rel=stylesheet][title]').each(function(i){
+		this.disabled = true;
+		if (this.getAttribute('title') == styleName) this.disabled = false;
+	});
+	
 	createCookie('style', styleName, 365);
 }
 //cookie
