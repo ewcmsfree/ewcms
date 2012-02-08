@@ -149,6 +149,7 @@
 			}
 			
 			function initOperateQuery(){
+				$('#tt').datagrid('clearSelections');
 				var url='<s:url namespace="/document/recyclebin" action="query"/>';
 				url = url + "?channelId=" + channelId;
 				$("#tt").datagrid({
@@ -158,6 +159,7 @@
 			}
 
 			function querySearch_Article(){
+				$('#tt').datagrid('clearSelections');
                 var value = $("#queryform").serialize();
                 value = "parameters['" + value;
                 value = value.replace(/\=/g,"']=");
