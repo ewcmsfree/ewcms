@@ -191,9 +191,14 @@ public abstract class GeneratorBase implements Generatorable {
     }
     
     @Override
-    public String getUri()throws PublishException{
+    public String getPublishUri()throws PublishException{
         Map<String,Object> parameters =constructParameters(site,channel);
         setUriRuleParameters(this.uriRule,parameters);
         return uriRule.getUri();
+    }
+    
+    @Override
+    public String[] getPublishAdditionUris()throws PublishException{
+        return new String[0];
     }
 }

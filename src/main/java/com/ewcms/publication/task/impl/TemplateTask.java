@@ -13,6 +13,7 @@ import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ResourcePublishServiceable;
+import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.Taskable;
@@ -29,6 +30,7 @@ public class TemplateTask extends TaskBase{
     
     public static class Builder{
         private final Configuration cfg;
+        private final TemplatePublishServiceable templateService;
         private final TemplateSourcePublishServiceable templateSourceService;
         private final ResourcePublishServiceable resourceService;
         private final ArticlePublishServiceable articleService;
@@ -44,6 +46,7 @@ public class TemplateTask extends TaskBase{
                 TemplateSourcePublishServiceable templateSourceService,
                 ResourcePublishServiceable resourceService,
                 ArticlePublishServiceable articleService,
+                TemplatePublishServiceable templateService,
                 Site site,
                 Channel channel,
                 Template template){
@@ -52,6 +55,7 @@ public class TemplateTask extends TaskBase{
             this.templateSourceService = templateSourceService;
             this.resourceService = resourceService;
             this.articleService = articleService;
+            this.templateService = templateService;
             this.site = site;
             this.channel = channel;
             this.template = template;
@@ -90,12 +94,30 @@ public class TemplateTask extends TaskBase{
                     build();
         }
         
+        /**
+         * 判断是否需要创建栏目首页
+         * 
+         * @return
+         */
+        private boolean isCreateHome(){
+            List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
+            boolean home = true;
+            for(Template template : templates){
+                if(template.getType() == TemplateType.HOME){
+                    home = false;
+                    break;
+                }
+            }
+            return home;
+        }
+        
         private Taskable newListTask(){
             return new ListTask.Builder(
                     cfg,templateSourceService,articleService,
                     site,channel,template).
                     setUsername(username).
                     setIndependence(independence).
+                    setCreateHome(isCreateHome()).
                     build();    
         }
         

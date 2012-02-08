@@ -129,7 +129,7 @@ public class PublishService implements PublishServiceable {
         Taskable task = 
             new TemplateTask.Builder(
                     cfg,templateSourceService,resourceService,
-                    articleService,site,channel,template).
+                    articleService,templateService,site,channel,template).
                     setAgain(again).
                     setUsername(username).
                     build();

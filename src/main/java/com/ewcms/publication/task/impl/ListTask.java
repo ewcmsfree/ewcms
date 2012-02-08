@@ -49,6 +49,7 @@ public class ListTask extends TaskBase{
         private String username;
         private UriRuleable uriRule= UriRules.newList() ;
         private boolean independence = true;
+        private boolean createHome = false;
         private List<Taskable> dependences;
         
         public Builder(Configuration cfg,
@@ -70,6 +71,11 @@ public class ListTask extends TaskBase{
         
         public Builder setUsername(String username){
             this.username = username;
+            return this;
+        }
+        
+        public Builder setCreateHome(boolean createHome){
+            this.createHome = createHome;
             return this;
         }
         
@@ -140,7 +146,7 @@ public class ListTask extends TaskBase{
         List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
         for(int page = 0 ; page < pageCount ; page++){
             Generatorable generator = 
-                new ListGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule,page,pageCount);
+                new ListGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule,page,pageCount,builder.createHome);
             TaskProcessable process = new GeneratorProcess(generator,builder.path);
             process.registerEvent(new CompleteEvent(complete));
             processes.add(process);

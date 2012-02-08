@@ -111,7 +111,7 @@ public class ChannelTask extends TaskBase{
             for(Template template : templates){
                 Taskable task = new TemplateTask.Builder(
                         cfg, templateSourceService, resourceService,
-                        articleService, site, channel, template).
+                        articleService, templateService, site, channel, template).
                         dependence().
                         setAgain(again).
                         build();

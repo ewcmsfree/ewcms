@@ -55,11 +55,13 @@ public class GeneratorProcess extends TaskProcessBase{
             try{
                 Generatorable generator = generators[i];
                 source = generator.process(path);
-                String uri = generator.getUri();
+                String uri = generator.getPublishUri();
+                if (i == 0) { firstUri = uri; }    
                 operator.copy(source, uri);
-                if(i == 0){
-                    firstUri = uri;
-                }    
+                String[] additionUris = generator.getPublishAdditionUris();
+                for(String additionUri : additionUris){
+                    operator.copy(source, additionUri);
+                }
             }catch(PublishException e){
                 throw e;
             }catch(Exception e){

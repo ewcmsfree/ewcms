@@ -9,8 +9,14 @@ package com.ewcms.publication.freemarker.generator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.uri.UriRuleable;
 import com.ewcms.publication.uri.UriRules;
@@ -23,9 +29,12 @@ import freemarker.template.Configuration;
  * @author wangwei
  */
 public class ListGenerator extends GeneratorBase {
+    private final static Logger logger = LoggerFactory.getLogger(ListGenerator.class);
+    private final static String DEFAULT_HOME_NAME = "index";
     
     private final int pageNumber;
     private final int pageCount;
+    private final boolean createHome;
     
    /**
      * 生成List页面构造函数
@@ -51,9 +60,25 @@ public class ListGenerator extends GeneratorBase {
      * @param pageCount 总页数
      */
     public ListGenerator(Configuration cfg, Site site, Channel channel,UriRuleable rule,int pageNumber,int pageCount) {
+         this(cfg, site, channel,rule,pageNumber,pageCount,false);
+    }
+    
+    /**
+     * 生成List页面构造函数
+     * 
+     * @param cfg freemarker 配置对象
+     * @param site 站点
+     * @param channel 频道
+     * @param rule uri生成规则
+     * @param pageNumber 页数
+     * @param pageCount 总页数
+     * @param createHome 是否创建首页
+     */
+    public ListGenerator(Configuration cfg, Site site, Channel channel,UriRuleable rule,int pageNumber,int pageCount,boolean createHome) {
         super(cfg, site, channel,rule);
         this.pageCount = pageCount;
         this.pageNumber = pageNumber;
+        this.createHome = createHome;
     }
     
     @Override
@@ -67,5 +92,23 @@ public class ListGenerator extends GeneratorBase {
         params.put(GlobalVariable.DEBUG.toString(), debug);
         
         return params;
+    }
+    
+    @Override
+    public String[] getPublishAdditionUris()throws PublishException{
+        String[] additionUris = new String[0];
+        if(createHome && pageNumber == 0){
+            logger.debug("Start create home uri");
+            String uri = getPublishUri();
+            logger.debug("List page first uri is {}",uri);
+            String extension = FilenameUtils.getExtension(uri);
+            if(StringUtils.isNotBlank(extension)){
+                extension = "." + extension;
+            }
+            String homeUri = FilenameUtils.getFullPath(uri) + DEFAULT_HOME_NAME + extension;
+            additionUris = new String[]{homeUri };
+            logger.debug("Home page uri is {}",additionUris[0]);
+        }
+        return additionUris;
     }
 }

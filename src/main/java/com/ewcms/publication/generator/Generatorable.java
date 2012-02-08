@@ -47,10 +47,20 @@ public interface Generatorable {
     public void debugEnable();
     
     /**
-     * 得到生成页面发布的Uri地址
+     * 得到生成页面发布地址
      * 
      * @return uri地址
      * @throws PublishException
      */
-    public String getUri()throws PublishException;
+    public String getPublishUri()throws PublishException;
+    
+    /**
+     * 得到生成页面附加的发布地址
+     * <br>
+     * 实现一个页面发布到多个位置功能（如：缺省首页）
+     * 
+     * @return 
+     * @throws PublishException
+     */
+    public String[] getPublishAdditionUris()throws PublishException;
 }
