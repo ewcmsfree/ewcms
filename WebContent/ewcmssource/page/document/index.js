@@ -247,10 +247,12 @@ function delOperate() {
 }
 //缺省查询
 function initOperateQuery() {
+	$('#tt').datagrid('clearSelections');
 	articleReload();
 }
 //有条件查询
 function querySearch_Article(url) {
+	$('#tt').datagrid('clearSelections');
 	var value = $('#queryform').serialize();
 	value = 'parameters[\'' + value;
 	value = value.replace(/\=/g, '\']=');
