@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -105,9 +104,9 @@ public class Parser extends Configurable {
 				hrefWithoutProtocol = href.substring(7);
 			}
 			if (!hrefWithoutProtocol.contains("javascript:") && !hrefWithoutProtocol.contains("@")) {
-				URL url = URLCanonicalizer.getCanonicalURL(href, contextURL);
+				String url = URLCanonicalizer.getCanonicalURL(href, contextURL);
 				if (url != null) {
-					urls.add(url.toExternalForm());
+					urls.add(url);
 					urlCount++;
 					if (urlCount > config.getMaxOutgoingLinksToFollow()) {
 						break;

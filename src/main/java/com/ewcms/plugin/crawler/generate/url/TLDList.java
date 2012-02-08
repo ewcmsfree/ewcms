@@ -16,7 +16,7 @@ public class TLDList {
 	
 	static {
 		tldSet = new HashSet<String>();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(TLDList.class.getClassLoader().getResourceAsStream("tld-names.txt")));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(TLDList.class.getClassLoader().getResourceAsStream("META-INF/tld-names.txt")));
 		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
