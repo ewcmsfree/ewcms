@@ -16,7 +16,6 @@
 		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>"></link>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.min.js'/>"></script>
 	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/jquery.easyui.min.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/locale/easyui-lang-zh_CN.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/easyui/ext/datagrid-detailview.js'/>"></script>
