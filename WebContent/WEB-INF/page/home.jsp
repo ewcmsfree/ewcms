@@ -69,16 +69,12 @@
     <body class="easyui-layout">
         <div region="north" split="true" class="head">
 			<div id="top">
-			<img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0
-			 <div id="toppiz">
-			   <div class="huanying"><span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span> </div>
+				<img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0
+			    <div id="toppiz">
+			   <div class="huanying">
+			       <span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span>
+			   </div>
 			   <div class="anniu">
-			   		<div class="bb">
-                            <span id="tipMessage" style="color:red;font-size:13px;"></span>
-                            <a id="button-main" href="#" style="border:0;padding:2;">
-                              <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="18" height="18" border=0/>
-                            </a>&nbsp;
-                     </div>
 			   		<div class="bs">
 						<a class="styleswitch a1" style="cursor: pointer" title="橘黄色" rel="sunny"></a>
 						<a class="styleswitch a2" style="cursor: pointer" title="天蓝色" rel="cupertino"></a>
@@ -86,6 +82,12 @@
 						<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
 						<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
 					</div>
+					<div class="bb">
+                        <span id="tipMessage" style="color:red;font-size:13px;"></span>
+                        <a id="button-main" href="#" style="border:0;padding:0;">
+                          <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="18" height="18" border=0/>
+                        </a>
+                     </div>
 			   </div>
 			 </div>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
