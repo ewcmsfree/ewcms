@@ -52,7 +52,7 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 
     protected static final Logger logger = LoggerFactory.getLogger(JobsQuartzScheduler.class);
     
-    private static final String GROUP = "Jobs";
+    private static final String GROUP = "jobs";
     private static final String TRIGGER_LISTENER_NAME = "schedulerTriggerListener";
     private static final String JOB_DATA_KEY_DETAILS_ID = "jobDetailsID";
     
