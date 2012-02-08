@@ -75,12 +75,12 @@ $(function() {
     
 	$('#cc_channel').combotree({  
 	    url:treeURL,
-	    onLoadSuccess: function(node,data){
-	    	var channelId = $('#channelId').val();
-	    	$('#cc_channel').combotree('setValue', channelId);
+	    value:$('#channelId').val(), // the initialized value
+	    onLoadSuccess:function(){
+	    	//$('#cc_channel').combotree('setValue', {id:$('#channelId').val(),text:'图片报道'});
 	    },
 	    onClick : function(node){
-	    	var rootnode = $('#cc_channel').combotree('tree').tree('getRoot');;
+	    	var rootnode = $('#cc_channel').combotree('tree').tree('getRoot');
 	    	if (node.id == rootnode.id){
 	    		var channelId = $('#channelId').val();
 	    		$('#cc_channel').combotree('setValue', channelId);
@@ -90,6 +90,8 @@ $(function() {
 	    	$('#channelId').attr('value', node.id);
 	    }
 	});
+	$('#cc_channel').combotree('setValue', $('#channelId').val());
+	
 	
 	ewcmsCookiesInit(userName);
 	initChannel();

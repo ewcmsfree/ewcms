@@ -6,6 +6,7 @@
 	<head>
 		<title>表达式使用说明</title>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
+	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
 	</head>
 	<body>
 		<font color="#0066FF"><b>表达式似于CSS（或JQuery）的选择器语法，来实现非常强大和灵活的查找功能。</b></font><p/>

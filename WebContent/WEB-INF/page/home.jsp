@@ -9,11 +9,15 @@
         <title>EWCMS 站群内容管理平台</title>
         <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
         <script type="text/javascript" src='<s:url value="/ewcmssource/iepngfix/unitpngfix.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>' rel="stylesheet" title="default"/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
@@ -21,6 +25,9 @@
         <script type="text/javascript">
             var _home = new home();
             $(function(){
+            	var clock = new Clock();
+            	clock.display(document.getElementById("clock"));
+            	
                 ewcmsBOBJ = new EwcmsBase();
                 _home.init({
                     user:'<s:url action="user" namespace="/account"/>',
@@ -60,24 +67,25 @@
     </head>
     <body class="easyui-layout">
         <div region="north" split="true" class="head">
-             <div style="padding: 10px;">
-                  <div style="float:left;width:120px;">
-                      <img src="<s:url value="/ewcmssource/image/ewcms.png"/>" alt="ewcms.png"/>
-                  </div>
-                  <div  style="float:right;width:680px;padding-top:20px;height: 60px;">
-                     <div style="float:left;width:646px;padding-top: 8px;text-align: right;">
-                         <div style="width:100%;">
-                            <span style="color:yellow;font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span>
+			<div id="top">
+			<img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0
+			 <div id="toppiz">
+			   <div class="huanying"><span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span> </div>
+			   <div class="anniu">
+			   		<div class="bb">
                             <span id="tipMessage" style="color:red;font-size:13px;"></span>
-                         </div>
+                            <a id="button-main" href="#" style="border:0;padding:2;">
+                              <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="18" height="18" border=0/>
+                            </a>&nbsp;
                      </div>
-                     <div style="float:right;width:30px">
-                         <a id="button-main"  href="#" style="border:0;padding:2;">
-                            <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="24" height="24" border=0/>
-                         </a>
-                     </div>
-                  </div>
-             </div>
+			   		<div class="bs">
+						<a class="styleswitch a1" style="cursor: pointer" title="橘黄色" rel="sunny"></a>
+						<a class="styleswitch a3" style="cursor: pointer" title="天蓝色" rel="default"></a>	
+						<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
+						<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
+					</div>
+			   </div>
+			 </div>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
                 <div  id="switch-menu" iconCls="icon-switch">站点切换</div>
                 <div class="menu-sep"></div>
@@ -85,6 +93,7 @@
                 <div id="password-menu" iconCls="icon-password">修改密码</div>
                 <div class="menu-sep"></div>
                 <div id="exit-menu" iconCls="icon-exit">退出</div>
+             </div>
              </div>
         </div>
         <div region="south" style="height:2px;background:#efefef;overflow:hidden;"></div>

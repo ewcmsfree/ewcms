@@ -6,13 +6,17 @@
 <head>
     <title>用户</title>
     <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/ext/datagrid-detailview.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/page/security/user/index.js"/>'></script>
-    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>'/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>' rel="stylesheet" title="default"/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
+    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
     <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
     <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
     

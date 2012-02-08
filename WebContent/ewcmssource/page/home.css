@@ -1,10 +1,10 @@
 @CHARSET "UTF-8";
 
- .nav-item{text-align:center; background:#fff; height:80px;}
+ .nav-item{text-align:center; height:80px;}
  .nav-item img{border:0;}
  a:link {text-decoration: none;color: #1B5978;}
  a:visited {text-decoration: none;color: #1B5978;}
  a:hover {text-decoration: underline;color: red;}
  p{line-height:200%;}
- .head{height:65px;padding:0px;overflow:hidden;background:url('../image/vistaBlue.jpg') #1E4176}
+ .head{height:65px;padding:0px;overflow:hidden;}
  .ellipsis{display:block;width:900px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
