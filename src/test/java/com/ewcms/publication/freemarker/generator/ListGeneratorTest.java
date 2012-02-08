@@ -13,7 +13,9 @@ import org.junit.Test;
 
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.GlobalVariable;
+import com.ewcms.publication.uri.UriRules;
 
 import freemarker.template.Configuration;
 
@@ -39,4 +41,32 @@ public class ListGeneratorTest {
         Assert.assertEquals(5,parameters.get(GlobalVariable.PAGE_NUMBER.toString()));        
     }
   
+    @Test
+    public void testGetPublishAdditionUris()throws PublishException{
+        Site site = new Site();
+        Channel channel = new Channel();
+        ListGenerator generator = new ListGenerator(new Configuration(),site,channel,UriRules.newList(),0,200,true){
+           @Override
+           public String getPublishUri()throws PublishException{
+               return "/test/0.html";
+           }
+        };
+        String[] additionUris = generator.getPublishAdditionUris();
+        Assert.assertEquals(additionUris.length, 1);
+        Assert.assertEquals(additionUris[0], "/test/index.html");
+    }
+    
+    @Test
+    public void testNotFirstGetPublishAdditionUris()throws PublishException{
+        Site site = new Site();
+        Channel channel = new Channel();
+        ListGenerator generator = new ListGenerator(new Configuration(),site,channel,UriRules.newList(),1,200,true){
+           @Override
+           public String getPublishUri()throws PublishException{
+               return "/test/0.html";
+           }
+        };
+        String[] additionUris = generator.getPublishAdditionUris();
+        Assert.assertEquals(additionUris.length, 0);
+    }
 }

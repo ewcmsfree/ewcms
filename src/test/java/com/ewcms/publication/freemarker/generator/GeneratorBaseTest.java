@@ -43,8 +43,8 @@ public class GeneratorBaseTest extends FreemarkerTest {
     public void testGetUri()throws Exception{
         UriRuleable rule = mock(UriRuleable.class);
         GeneratorBaseImpl html = new GeneratorBaseImpl(rule);
-        when(html.getUri()).thenReturn("/index.html");
-        String uri = html.getUri();
+        when(html.getPublishUri()).thenReturn("/index.html");
+        String uri = html.getPublishUri();
         
         Assert.assertEquals("/index.html", uri);
     }
