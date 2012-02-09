@@ -73,6 +73,9 @@
 			   	<div class="huanying">
 			       <span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span>
 			   	</div>
+			   <div style="float:right;margin-top:6px;margin-right:10px;">
+		       <a id="button-main" href="#" style="border:0;padding:0;"><img src="<s:url value='/ewcmssource/image/exit.png'/>" width="17" height="17" style="border:0;"/></a>
+		       </div>
 			   	<div class="anniu">
 			   		<div class="bs">
 						<a class="styleswitch a1" style="cursor: pointer" title="橘黄色" rel="sunny"></a>
@@ -83,9 +86,6 @@
 					</div>
 					<div class="bb">
                         <span id="tipMessage" style="color:red;font-size:13px;"></span>
-                        <a id="button-main" href="#" style="border:0;padding:0;">
-                          <img src='<s:url value="/ewcmssource/image/exit.png"/>' width="18" height="18" border=0/>
-                        </a>
                      </div>
 			   </div>
 			 </div>
