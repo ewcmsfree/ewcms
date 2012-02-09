@@ -8,7 +8,6 @@
     <head>
         <title>EWCMS 站群内容管理平台</title>
         <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/iepngfix/unitpngfix.js"/>'></script>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
         <!-- <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>' rel="stylesheet" title="default"/> -->
@@ -71,10 +70,10 @@
 			<div id="top">
 				<img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0
 			    <div id="toppiz">
-			   <div class="huanying">
+			   	<div class="huanying">
 			       <span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span>
-			   </div>
-			   <div class="anniu">
+			   	</div>
+			   	<div class="anniu">
 			   		<div class="bs">
 						<a class="styleswitch a1" style="cursor: pointer" title="橘黄色" rel="sunny"></a>
 						<a class="styleswitch a2" style="cursor: pointer" title="天蓝色" rel="cupertino"></a>
