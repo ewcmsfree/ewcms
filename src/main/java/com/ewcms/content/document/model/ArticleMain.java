@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 文章主体
  * 
@@ -46,6 +48,7 @@ public class ArticleMain implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "channel_id", nullable = false)
+	@Index(name="idx_articlemain_channel_id")
 	private Integer channelId;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Article.class)
 	@JoinColumn(name = "article_id")
@@ -55,6 +58,7 @@ public class ArticleMain implements Serializable {
 	@Column(name = "sort")
 	private Long sort;
 	@Column(name = "top")
+	@Index(name="idx_articlemain_top")
 	private Boolean top;
 	
 	public ArticleMain(){

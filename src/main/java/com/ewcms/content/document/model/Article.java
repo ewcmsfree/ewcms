@@ -31,6 +31,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Index;
 
 /**
  * 文章信息
@@ -144,12 +145,14 @@ public class Article implements Serializable {
 	private String owner;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "published")
+	@Index(name="idx_article_published")
 	private Date published;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified", nullable = false)
 	private Date modified;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Index(name="idx_article_status")
 	private Status status;
 	@Column(name = "url", columnDefinition = "text")
 	private String url;
