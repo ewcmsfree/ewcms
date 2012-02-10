@@ -15,7 +15,10 @@
         <title>Ewcms用户登录</title>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/login.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'/>
+        <!-- <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'/>-->
+        <link href='<s:url value="/ewcmssource/page/login/default.css"/>' type="text/css" rel="stylesheet"/>
+        <link href='<s:url value="/ewcmssource/page/login/xtree.css"/>' type="text/css" rel="stylesheet"/>
+        <link href='<s:url value="/ewcmssource/page/login/user_login.css"/>'  type="text/css" rel="stylesheet"/>
         <script type="text/javascript">
             $(function() {
                 var _login = new login('<s:url value = "/checkcode.jpg"/>');
@@ -23,78 +26,90 @@
             });
         </script>
     </head>
-    <body>
-        <div align="center">
-            <div class="main">
-                <div>
-                    <div class="main_icon" align="left" ><img src="<s:url value="/ewcmssource/image/ewcms.png"/>" alt="ewcms.png"/><span class="main_title">内容管理系统</span></div>
-                </div>
-                <div class="left" align="left">
-                     <div>
-                        <div class="main_detail" align="left">EWCMS 的开发理念是：可更加高效生成站点，内容管理更加简单。EWCMS 具有以下特点： </div>
-                    </div>
-                    <div>
-                        <div class="preface_icon"><img src="<s:url value="/ewcmssource/image/login/login01.jpg"/>" alt="login01.jpg"/></div>
-                        <div class="preface_info">方便、简单的创建门户网站，支持多站点。</div>
-                    </div>
-                    <div>
-                        <div class="preface_icon"><img src="<s:url value="/ewcmssource/image/login/login02.jpg"/>" alt="login02.jpg"/></div>
-                        <div class="preface_info">更多安全保障</div>
-                    </div>
-                </div>
-                <div class="right" align="left">
-                    <s:form  action="/j_spring_security_check" method="post">
-                        <div class="wapper">
-                            <label class="title">用户名:</label>
-                            <%String username=(String)session.getAttribute("j_username");
-                            if(username== null){
-                                username="";
-                            }%>
-                            <input type="text" name="j_username" class="input" value="<%=username%>"/>
-                        </div>
-                        <div class="wapper">
-                            <label class="title">密码:</label>
-                            <input type="password" name="j_password" class="input"/>
-                        </div>
-                        <div class="wapper">
-                            <label class="title">&nbsp;</label>
-                            <s:checkbox name="_spring_security_remember_me" id="_spring_security_remember_me" value="falses"/>
-                            <label class="title" for="_spring_security_remember_me">记住我</label>
-                        </div>
-                        <div class="wapper">
-                            <label class="title">验证码:</label>
-                            <img id="id_checkcode" width="180px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张"/>
-                            <br/>
-                            <label class="title">&nbsp;</label>
-                            <input type="text" name="j_checkcode" class="checkcode"/>
-                            <p class="inputtxt">验证码不区分大小写</p>
-                        </div>
-                        <div class="wapper">
-                            <label class="title">&nbsp;</label>
-                            <span id="id_error_msg" class="error">
-                                <%
-                                String error = request.getParameter("error");
-                                AuthenticationException authException = null;
-                                if (error != null) {
-                                    authException = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-                                    if (authException == null) {
-                                        authException = (AuthenticationException) request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-                                    }
-                                }
-                                String errorMsg = "";
-                                if (authException != null) {
-                                    errorMsg = authException.getMessage()+"。";
-                                }
-                                %>
-                                <%=errorMsg%>
-                            </span>
-                        </div>
-                        <div class="wapper" align="center">
-                            <input type="button" class=""  id="id_login_btn" value="登录"/>
-                        </div>
-                    </s:form>
-                </div>
-            </div>
-        </div>
-    </body>
+    <body id="userlogin_body">
+    	<div></div>
+		<div id="user_login">
+			<dl>
+		  		<dd id="user_top">
+			  		<ul>
+			    		<li class="user_top_l"></li>
+			    		<li class="user_top_c"></li>
+			    		<li class="user_top_r"></li>
+			    	</ul>
+		    	</dd>
+		    	<s:form action="/j_spring_security_check" method="post">
+		  		<dd id="user_main">
+			  		<ul>
+			    		<li class="user_main_l"></li>
+			    		<li class="user_main_c">
+			    			<div class="user_main_box">
+			    				<ul>
+			      					<li class="user_main_text">用户名：</li>
+			      					<%
+			      						String username=(String)session.getAttribute("j_username");
+										if(username== null){
+                                			username="";
+                            			}
+                            		%>
+			      					<li class="user_main_input"><input class="txtusernamecssclass" type="text" name="j_username" value="<%=username%>"/></li>
+			      				</ul>
+			    				<ul>
+			      					<li class="user_main_text">密&nbsp;&nbsp;&nbsp;&nbsp;码：</li>
+			      					<li class="user_main_input"><input class="txtpasswordcssclass" type="password" name="j_password"/></li>
+			      				</ul>
+			    				<ul>
+			      					<li class="user_main_text">记住我：</li>
+			      					<li class="user_main_input">
+			      						<s:checkbox name="_spring_security_remember_me" id="_spring_security_remember_me" value="false"/>
+			        				</li>
+			        			</ul>
+			    				<ul>
+			      					<li class="user_main_text">验证码：</li>
+			      					<li class="user_main_input">
+                            			<input type="text" name="j_checkcode" class="checkcode" size="4"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            			<img id="id_checkcode" width="80px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="float:right"/>
+			        				</li>
+			        			</ul>
+			        			<ul>
+									<li class="user_main_text">
+			                            <span id="id_error_msg">
+			                                <%
+			                                String error = request.getParameter("error");
+			                                AuthenticationException authException = null;
+			                                if (error != null) {
+			                                    authException = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+			                                    if (authException == null) {
+			                                        authException = (AuthenticationException) request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+			                                    }
+			                                }
+			                                String errorMsg = "";
+			                                if (authException != null) {
+			                                    errorMsg = authException.getMessage()+"。";
+			                                }
+			                                %>
+			                                <%=errorMsg%>
+			                            </span>			 
+	                            	</li>       			
+			        			</ul>
+			        		</div>
+			        	</li>
+			    		<li class="user_main_r">
+			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" onclick='javascript:webform_dopostbackwithoptions(new webform_postbackoptions("ibtnenter", "", true, "", "", false, false))' type=image src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
+			    		</li>
+			    	</ul>
+		    	</dd>
+		    	</s:form>
+			    <dd id="user_bottom">
+				  	<ul>
+				    	<li class="user_bottom_l"></li>
+				    	<li class="user_bottom_c"></li>
+					    <li class="user_bottom_r"></li>
+					</ul>
+				</dd>
+			</dl>
+		</div>
+		<span id=valrusername style="display: none; color: red"></span><span id=valrpassword style="display: none; color: red"></span><span id=valrvalidatecode style="display: none; color: red"></span>
+		<div id=validationsummary1 style="display: none; color: red"></div>
+		<div></div>
+     </body>
 </html>
