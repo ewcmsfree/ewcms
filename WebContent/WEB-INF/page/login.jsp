@@ -71,8 +71,8 @@
 			        				</li>
 			        			</ul>
 			        			<ul>
-									<li class="user_main_text">
-			                            <span id="id_error_msg">
+									<li class="user_main_input">
+			                            <span class="error">
 			                                <%
 			                                String error = request.getParameter("error");
 			                                AuthenticationException authException = null;
