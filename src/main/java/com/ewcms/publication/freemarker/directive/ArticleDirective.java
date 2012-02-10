@@ -9,6 +9,7 @@ package com.ewcms.publication.freemarker.directive;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -49,6 +50,10 @@ public class ArticleDirective extends PropertyDirective{
         DirectiveOutable out = getDirectiveOut(propertyName);
         Object propertyValue = getValue(objectValue, propertyName);
         if(EmptyUtil.isNull(propertyValue)){
+            return null;
+        }
+        if(propertyValue instanceof String 
+                && StringUtils.isBlank((String)propertyValue)){
             return null;
         }
         return out.loopValue(propertyValue, env, params);

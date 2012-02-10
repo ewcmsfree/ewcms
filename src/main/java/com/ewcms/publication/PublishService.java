@@ -209,6 +209,11 @@ public class PublishService implements PublishServiceable {
         taskRegistry.closeSite(siteId);
     }
     
+    @Override
+    public List<Taskable> getSitePublishTasks(Integer siteId) {
+        return taskRegistry.getSiteTasks(siteId);
+    }
+    
     public void setArticleService(ArticlePublishServiceable articleService) {
         this.articleService = articleService;
     }

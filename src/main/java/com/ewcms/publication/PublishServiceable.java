@@ -6,6 +6,10 @@
 
 package com.ewcms.publication;
 
+import java.util.List;
+
+import com.ewcms.publication.task.Taskable;
+
 /**
  * 发布服务接口
  * 
@@ -122,4 +126,12 @@ public interface PublishServiceable {
      * @param siteId 站点编号
      */
     void closeSitePublish(Integer siteId);
+    
+    /**
+     * 得到站点的发布任务
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    List<Taskable> getSitePublishTasks(Integer siteId) ;
 }

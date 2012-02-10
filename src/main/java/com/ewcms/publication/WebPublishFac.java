@@ -6,6 +6,8 @@
 
 package com.ewcms.publication;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,7 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
+import com.ewcms.publication.task.Taskable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -133,6 +136,13 @@ public class WebPublishFac  implements WebPublishFacable {
         publishService.closeSitePublish(siteId);
     }
     
+    @Override
+    public List<Taskable> getSitePublishTasks(Integer siteId) {
+        List<Taskable> tasks = publishService.getSitePublishTasks(siteId);
+        //TODO 控制用户任务显示，超级权限用户显示所有发布任务，其他用户只显示自己任务
+        return tasks;
+    }
+    
     public void setPublishService(PublishServiceable publishService){
         this.publishService = publishService;
     }
@@ -144,4 +154,5 @@ public class WebPublishFac  implements WebPublishFacable {
     public void setTemplateService(TemplatePublishServiceable templateService){
         this.templateService = templateService;
     }
+ 
 }

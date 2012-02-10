@@ -5,6 +5,10 @@
  */
 package com.ewcms.publication;
 
+import java.util.List;
+
+import com.ewcms.publication.task.Taskable;
+
 /**
  * 管理平台发布服务接口
  * 
@@ -110,4 +114,12 @@ public interface WebPublishFacable{
      * @throws PublishException
      */
     void closePublish()throws PublishException;
+    
+    /**
+     * 得到站点的发布任务
+     * 
+     * @param siteId 站点编号
+     * @return
+     */
+    List<Taskable> getSitePublishTasks(Integer siteId) ;
 }
