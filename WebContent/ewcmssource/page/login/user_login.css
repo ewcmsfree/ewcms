@@ -1,5 +1,5 @@
 #userlogin_body {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(../../image/login/user_all_bg.gif) #226cc5 repeat-x 50% top; PADDING-BOTTOM: 0px; MARGIN: 110px 0px 0px; FONT: 12px/150% Arial, 宋体 ,Helvetica,sans-serif; PADDING-TOP: 0px; TEXT-DECORATION: none
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(../../image/login/user_all_bg.gif) #226cc5 repeat-x 50% top; PADDING-BOTTOM: 0px; MARGIN: 210px 0px 0px; FONT: 12px/150% Arial, 宋体 ,Helvetica,sans-serif; PADDING-TOP: 0px; TEXT-DECORATION: none
 }
 #user_login {
 	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
@@ -140,13 +140,13 @@ user_main_c {
 	HEIGHT: 116px
 }
 .user_main_r {
-	HEIGHT: 139px
+	HEIGHT: 169px
 }
 .user_main_c {
-	HEIGHT: 139px
+	HEIGHT: 169px
 }
 .user_main_l {
-	HEIGHT: 139px
+	HEIGHT: 169px
 }
 .user_main_r {
 	LINE-HEIGHT: 139px
@@ -199,3 +199,4 @@ user_main_c {
 .IbtnEnterCssClass {
 	WIDTH: 111px; HEIGHT: 122px
 }
+.error{font-size: 12px;color:red;margin: 0;padding: 0;}
