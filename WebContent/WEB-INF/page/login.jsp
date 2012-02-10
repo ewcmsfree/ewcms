@@ -16,8 +16,6 @@
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/login.js"/>'></script>
         <!-- <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/login.css"/>'/>-->
-        <link href='<s:url value="/ewcmssource/page/login/default.css"/>' type="text/css" rel="stylesheet"/>
-        <link href='<s:url value="/ewcmssource/page/login/xtree.css"/>' type="text/css" rel="stylesheet"/>
         <link href='<s:url value="/ewcmssource/page/login/user_login.css"/>'  type="text/css" rel="stylesheet"/>
         <script type="text/javascript">
             $(function() {
@@ -58,17 +56,17 @@
 			      					<li class="user_main_input"><input class="txtpasswordcssclass" type="password" name="j_password"/></li>
 			      				</ul>
 			    				<ul>
-			      					<li class="user_main_text">记住我：</li>
+			      					<li class="user_main_text">验证码：</li>
+			      					<li class="user_main_input">
+                            			<input class="txtvalidatecodecssclass" type="text" name="j_checkcode"/>
+			        				</li>
+                            		<img id="id_checkcode" width="65px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 5px;" />
+			        			</ul>
+			    				<ul>
+			      					<li class="user_main_text">记&nbsp;&nbsp;&nbsp;&nbsp;住：</li>
 			      					<li class="user_main_input">
 			      						<s:checkbox name="_spring_security_remember_me" id="_spring_security_remember_me" value="false"/>
 			        				</li>
-			        			</ul>
-			    				<ul>
-			      					<li class="user_main_text">验证码：</li>
-			      					<li class="user_main_input">
-                            			<input type="text" name="j_checkcode" size="4"/>&nbsp;&nbsp;
-			        				</li>
-                            		<img id="id_checkcode" width="80px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 20px;" />
 			        			</ul>
 			        			<ul>
 									<li class="user_main_input">
@@ -94,7 +92,7 @@
 			        		</div>
 			        	</li>
 			    		<li class="user_main_r">
-			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" onclick='javascript:webform_dopostbackwithoptions(new webform_postbackoptions("ibtnenter", "", true, "", "", false, false))' type="image" src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
+			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" type="image" src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
 			    		</li>
 			    	</ul>
 		    	</dd>
