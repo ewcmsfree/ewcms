@@ -1,202 +1,202 @@
 #userlogin_body {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(../../image/login/user_all_bg.gif) #226cc5 repeat-x 50% top; PADDING-BOTTOM: 0px; MARGIN: 210px 0px 0px; FONT: 12px/150% Arial, 宋体 ,Helvetica,sans-serif; PADDING-TOP: 0px; TEXT-DECORATION: none
+	padding-right: 0px; padding-left: 0px; background: url(../../image/login/user_all_bg.gif) #226cc5 repeat-x 50% top; padding-bottom: 0px; margin: 110px 0px 0px; font: 12px/150% arial, 宋体 ,helvetica,sans-serif; padding-top: 0px; text-decoration: none
 }
 #user_login {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_top {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_main {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_bottom {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_login DL {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_login dl {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_login DD {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_login dd {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_top {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_main {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_bottom {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_top UL {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_top ul {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_main UL {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_main ul {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_bottom UL {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_bottom ul {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_top LI {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_top li {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_main LI {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_main li {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-#user_bottom LI {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+#user_bottom li {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-FORM {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+form {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
 #user_login {
-	MARGIN: 0px auto; WIDTH: 590px
+	margin: 0px auto; width: 590px
 }
 #user_top {
-	CLEAR: both
+	clear: both
 }
 #user_main {
-	CLEAR: both
+	clear: both
 }
 #user_bottom {
-	CLEAR: both
+	clear: both
 }
-#user_top LI {
-	FLOAT: left; LIST-STYLE-TYPE: none
+#user_top li {
+	float: left; list-style-type: none
 }
-#user_main LI {
-	FLOAT: left; LIST-STYLE-TYPE: none
+#user_main li {
+	float: left; list-style-type: none
 }
-#user_bottom LI {
-	FLOAT: left; LIST-STYLE-TYPE: none
+#user_bottom li {
+	float: left; list-style-type: none
 }
 .user_top_r {
-	BACKGROUND: url(../../image/login/user_top_r.gif) no-repeat 50% top
+	background: url(../../image/login/user_top_r.gif) no-repeat 50% top
 }
 .user_top_c {
-	BACKGROUND: url(../../image/login/user_top_c.gif) no-repeat 50% top
+	background: url(../../image/login/user_top_c.gif) no-repeat 50% top
 }
 .user_top_l {
-	BACKGROUND: url(../../image/login/user_top_l.gif) no-repeat 50% top
+	background: url(../../image/login/user_top_l.gif) no-repeat 50% top
 }
 .user_main_r {
-	BACKGROUND: url(../../image/login/user_main_r.gif) #bec5cc no-repeat 50% top
+	background: url(../../image/login/user_main_r.gif) #bec5cc no-repeat 50% top
 }
 .user_main_c {
-	BACKGROUND: url(../../image/login/user_main_c.gif) #bec5cc no-repeat 50% top; WIDTH: 280px
+	background: url(../../image/login/user_main_c.gif) #bec5cc no-repeat 50% top; width: 280px
 }
 .user_main_l {
-	BACKGROUND: url(../../image/login/user_main_l.gif) #bec5cc no-repeat 50% top
+	background: url(../../image/login/user_main_l.gif) #bec5cc no-repeat 50% top
 }
 .user_bottom_r {
-	BACKGROUND: url(../../image/login/user_bottom_r.gif) no-repeat 50% top
+	background: url(../../image/login/user_bottom_r.gif) no-repeat 50% top
 }
 .user_bottom_c {
-	BACKGROUND: url(../../image/login/user_bottom_c.gif) no-repeat 50% top; COLOR: #fff; LINE-HEIGHT: 117px; PADDING-TOP: 20px; TEXT-ALIGN: right
+	background: url(../../image/login/user_bottom_c.gif) no-repeat 50% top; color: #fff; line-height: 117px; padding-top: 20px; text-align: right
 }
-.user_bottom_c A {
-	COLOR: yellow; TEXT-DECORATION: underline
+.user_bottom_c a {
+	color: yellow; text-decoration: underline
 }
-.user_bottom_c A:hover {
-	COLOR: #c00
+.user_bottom_c a:hover {
+	color: #c00
 }
 .user_bottom_l {
-	BACKGROUND: url(../../image/login/user_bottom_l.gif) no-repeat 50% top
+	background: url(../../image/login/user_bottom_l.gif) no-repeat 50% top
 }
 .user_top_r {
-	FLOAT: left; WIDTH: 180px
+	float: left; width: 180px
 }
 .user_main_r {
-	FLOAT: left; WIDTH: 180px
+	float: left; width: 180px
 }
 .user_bottom_r {
-	FLOAT: left; WIDTH: 180px
+	float: left; width: 180px
 }
 user_main_c {
-	FLOAT: left; WIDTH: 280px
+	float: left; width: 280px
 }
 .user_top_c {
-	FLOAT: left; WIDTH: 280px
+	float: left; width: 280px
 }
 .user_bottom_c {
-	FLOAT: left; WIDTH: 280px
+	float: left; width: 280px
 }
 .user_top_l {
-	FLOAT: left; WIDTH: 129px
+	float: left; width: 129px
 }
 .user_main_l {
-	FLOAT: left; WIDTH: 129px
+	float: left; width: 129px
 }
 .user_bottom_l {
-	FLOAT: left; WIDTH: 129px
+	float: left; width: 129px
 }
 .user_top_r {
-	HEIGHT: 116px
+	height: 116px
 }
 .user_top_c {
-	HEIGHT: 116px
+	height: 116px
 }
 .user_top_l {
-	HEIGHT: 116px
+	height: 116px
 }
 .user_main_r {
-	HEIGHT: 169px
+	height: 169px
 }
 .user_main_c {
-	HEIGHT: 169px
+	height: 169px
 }
 .user_main_l {
-	HEIGHT: 169px
+	height: 169px
 }
 .user_main_r {
-	LINE-HEIGHT: 139px
+	line-height: 139px
 }
 .user_bottom_r {
-	HEIGHT: 117px
+	height: 117px
 }
 .user_bottom_c {
-	HEIGHT: 117px
+	height: 117px
 }
 .user_bottom_l {
-	HEIGHT: 117px
+	height: 117px
 }
 .user_main_box {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-.user_main_box UL {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+.user_main_box ul {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-.user_main_box LI {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+.user_main_box li {
+	padding-right: 0px; padding-left: 0px; padding-bottom: 0px; margin: 0px; padding-top: 0px
 }
-.user_main_box UL {
-	CLEAR: both
+.user_main_box ul {
+	clear: both
 }
-.user_main_box LI {
-	FLOAT: left; LIST-STYLE-TYPE: none
+.user_main_box li {
+	float: left; list-style-type: none
 }
 .user_main_box .user_main_text {
-	HEIGHT: 34px
+	height: 34px
 }
 .user_main_box .user_main_input {
-	HEIGHT: 34px
+	height: 34px
 }
 .user_main_box .user_main_text {
-	WIDTH: 60px; COLOR: #000
+	width: 60px; color: #000
 }
-.user_main_box .user_main_input IMG {
-	MARGIN-BOTTOM: -2px; MARGIN-LEFT: -25px
+.user_main_box .user_main_input img {
+	margin-bottom: -2px; margin-left: -25px
 }
-.TxtUserNameCssClass {
-	BORDER-TOP-WIDTH: 0px; PADDING-LEFT: 25px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: url(../../image/login/user_login_name.gif) no-repeat; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 165px; LINE-HEIGHT: 20px; HEIGHT: 21px; BORDER-RIGHT-WIDTH: 0px
+.txtusernamecssclass {
+	border-top-width: 0px; padding-left: 25px; border-left-width: 0px; background: url(../../image/login/user_login_name.gif) no-repeat; border-bottom-width: 0px; width: 165px; line-height: 20px; height: 21px; border-right-width: 0px
 }
-.TxtPasswordCssClass {
-	BORDER-TOP-WIDTH: 0px; PADDING-LEFT: 25px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: url(../../image/login/user_login_password.gif) no-repeat; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 165px; LINE-HEIGHT: 20px; HEIGHT: 21px; BORDER-RIGHT-WIDTH: 0px
+.txtpasswordcssclass {
+	border-top-width: 0px; padding-left: 25px; border-left-width: 0px; background: url(../../image/login/user_login_password.gif) no-repeat; border-bottom-width: 0px; width: 165px; line-height: 20px; height: 21px; border-right-width: 0px
 }
-.TxtValidateCodeCssClass {
-	BORDER-TOP-WIDTH: 0px; PADDING-LEFT: 25px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: url(../../image/login/user_login_validatecode.gif) no-repeat; IME-MODE: disabled; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 91px; LINE-HEIGHT: 20px; HEIGHT: 21px; BORDER-RIGHT-WIDTH: 0px
+.txtvalidatecodecssclass {
+	border-top-width: 0px; padding-left: 25px; border-left-width: 0px; background: url(../../image/login/user_login_validatecode.gif) no-repeat; ime-mode: disabled; border-bottom-width: 0px; width: 66px; line-height: 20px; height: 21px; border-right-width: 0px
 }
-.IbtnEnterCssClass {
-	WIDTH: 111px; HEIGHT: 122px
+.ibtnentercssclass {
+	width: 111px; height: 122px
 }
 .error{font-size: 12px;color:red;margin: 0;padding: 0;}
