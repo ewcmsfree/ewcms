@@ -57,9 +57,6 @@ public abstract class TaskBase implements Taskable{
         if(count.get()== 0){
             return 100;
         }
-        if((count.get() != -1)){
-            System.out.println(count);
-        }
         return (complete.get() * 100 / count.get());
     }
 
