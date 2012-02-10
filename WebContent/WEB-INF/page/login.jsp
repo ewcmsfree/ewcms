@@ -66,9 +66,9 @@
 			    				<ul>
 			      					<li class="user_main_text">验证码：</li>
 			      					<li class="user_main_input">
-                            			<input type="text" name="j_checkcode" class="checkcode" size="4"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            			<img id="id_checkcode" width="80px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="float:right"/>
+                            			<input type="text" name="j_checkcode" size="4"/>&nbsp;&nbsp;
 			        				</li>
+                            		<img id="id_checkcode" width="80px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 20px;" />
 			        			</ul>
 			        			<ul>
 									<li class="user_main_input">
@@ -94,7 +94,7 @@
 			        		</div>
 			        	</li>
 			    		<li class="user_main_r">
-			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" onclick='javascript:webform_dopostbackwithoptions(new webform_postbackoptions("ibtnenter", "", true, "", "", false, false))' type=image src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
+			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" onclick='javascript:webform_dopostbackwithoptions(new webform_postbackoptions("ibtnenter", "", true, "", "", false, false))' type="image" src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
 			    		</li>
 			    	</ul>
 		    	</dd>
@@ -108,8 +108,5 @@
 				</dd>
 			</dl>
 		</div>
-		<span id=valrusername style="display: none; color: red"></span><span id=valrpassword style="display: none; color: red"></span><span id=valrvalidatecode style="display: none; color: red"></span>
-		<div id=validationsummary1 style="display: none; color: red"></div>
-		<div></div>
      </body>
 </html>
