@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ewcms.publication.task.TaskException;
-import com.ewcms.publication.task.TaskRegistryable;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 
@@ -22,12 +21,11 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  */
 public abstract class TaskBase implements Taskable{
     
-    protected static final String DEFAULT_USERNAME = TaskRegistryable.MANAGER_USERNAME;
     protected static final Random random = initRandom();
     
     protected final String id;
     protected final AtomicInteger complete = new AtomicInteger(0);
-    protected volatile int count = -1;
+    protected final AtomicInteger count = new AtomicInteger(-1);
 
     /**
      * 创建随机数对象
@@ -51,26 +49,29 @@ public abstract class TaskBase implements Taskable{
 
     @Override
     public boolean isRunning() {
-        return count != -1;
+        return count.get() != -1;
     }
 
     @Override
     public int getProgress() {
-        if(count == 0){
+        if(count.get()== 0){
             return 100;
         }
-        return (complete.get() * 100 / count);
+        if((count.get() != -1)){
+            System.out.println(count);
+        }
+        return (complete.get() * 100 / count.get());
     }
 
     @Override
     public boolean isCompleted() {
-        return count == complete.get();
+        return count.get() == complete.get();
     }
     
     @Override
     public List<TaskProcessable> toTaskProcess() throws TaskException {
        List<TaskProcessable> taskProcesses = getTaskProcesses();
-       count = taskProcesses.size();
+       count.set(taskProcesses.size());
        
        return taskProcesses;
     }

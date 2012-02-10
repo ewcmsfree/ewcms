@@ -26,7 +26,7 @@ import freemarker.template.Configuration;
  * 
  * @author wangwei
  */
-public class TemplateTask extends TaskBase{
+public class TemplateTask implements Taskable{
     
     public static class Builder{
         private final Configuration cfg;
@@ -158,8 +158,12 @@ public class TemplateTask extends TaskBase{
     private final Builder builder;
 
     public TemplateTask(Builder builder){
-        super(builder.task.getId().toString());
         this.builder = builder;
+    }
+    
+    @Override
+    public String getId() {
+        return builder.task.getId();
     }
     
     @Override
@@ -178,7 +182,23 @@ public class TemplateTask extends TaskBase{
     }
 
     @Override
-    protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        return ((TaskBase)builder.task).getTaskProcesses();
+    public List<TaskProcessable> toTaskProcess() throws TaskException {
+        return builder.task.toTaskProcess();
     }
+
+    @Override
+    public boolean isRunning() {
+        return builder.task.isRunning();
+    }
+
+    @Override
+    public int getProgress() {
+        return builder.task.getProgress();
+    }
+
+    @Override
+    public boolean isCompleted() {
+        return builder.task.isCompleted();
+    }
+  
 }

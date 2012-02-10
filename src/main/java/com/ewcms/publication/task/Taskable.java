@@ -18,6 +18,8 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  */
 public interface Taskable {
 
+   public static final String DEFAULT_USERNAME = TaskRegistryable.MANAGER_USERNAME;
+
     /**
      * 得到任务编号
      * 

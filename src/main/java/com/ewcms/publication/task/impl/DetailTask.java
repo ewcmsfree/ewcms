@@ -201,4 +201,14 @@ public class DetailTask extends TaskBase{
         }
         return processes;
     }
+    
+    public int getProgress() {
+        if(count.get()== 0){
+            return 100;
+        }
+        if((builder.channel.getId() == 223 || builder.channel.getId() == 377)){
+            System.out.println(count);
+        }
+        return (complete.get() * 100 / count.get());
+    }
 }
