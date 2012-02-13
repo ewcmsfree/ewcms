@@ -35,16 +35,13 @@ public class SkipNumberDirective extends SkipBaseDirective {
     private static final Logger logger = LoggerFactory.getLogger(SkipNumberDirective.class);
     
     private static final int DEFAULT_MAX_LENGTH = 5;
-    private static final boolean DEFAULT_ACTIVE = false;
     private static final String DEFAULT_LABEL = "..";
     
     private static final String MAXLENGTH_PARAM_NAME = "max";
     private static final String LABEL_PARAM_NAME = "label";
-    private static final String ACTIVE_PARAM_NAME = "active";
 
     private String maxParam = MAXLENGTH_PARAM_NAME;
     private String labelParam = LABEL_PARAM_NAME;
-    private String activeParam = ACTIVE_PARAM_NAME;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -60,16 +57,8 @@ public class SkipNumberDirective extends SkipBaseDirective {
         int max = getMaxValue(params);
         String label = getLabelValue(params);
         
-        boolean active = getActiveValue(params);
-        
-        List<PageOut>  pages;
-        if(active){
-            pages = new ArrayList<PageOut>();
-            pages.add(new PageOut(pageCount,pageNumber));
-        }else{
-            UriRuleable rule = getUriRule(env);
-            pages = getPageOuts(rule,pageCount, pageNumber, max,label);
-        }
+        UriRuleable rule = getUriRule(env);
+        List<PageOut> pages = getPageOuts(rule,pageCount, pageNumber, max,label);
 
         if (EmptyUtil.isArrayNotEmpty(loopVars)) {
             if(pages.size() == 1){
@@ -82,7 +71,7 @@ public class SkipNumberDirective extends SkipBaseDirective {
             }else{
                 body.render(env.getOut());    
             }
-        } else {
+        } else if(EmptyUtil.isNotNull(body)){
             Writer writer = env.getOut();
             for (PageOut page : pages) {
                 FreemarkerUtil.setVariable(env, GlobalVariable.PAGE_OUT.toString(),page);
@@ -90,6 +79,13 @@ public class SkipNumberDirective extends SkipBaseDirective {
                 FreemarkerUtil.removeVariable(env,GlobalVariable.PAGE_OUT.toString());
             }
             writer.flush();
+        }else{
+            String outValue = constructOut(pages);
+            if(EmptyUtil.isNotNull(outValue)){
+                Writer out = env.getOut();
+                out.write(outValue.toString());
+                out.flush();
+            }
         }
     }
 
@@ -126,20 +122,6 @@ public class SkipNumberDirective extends SkipBaseDirective {
         return value == null ? DEFAULT_LABEL : value;
     }
     
-    /**
-     * 得到是否显示当前页
-     * 
-     * @param params
-     *            参数集合
-     * @return
-     * @throws TemplateException
-     */
-    @SuppressWarnings("rawtypes")
-    private Boolean getActiveValue(Map params)throws TemplateException{
-        Boolean value = FreemarkerUtil.getBoolean(params, activeParam);
-        return value == null ? DEFAULT_ACTIVE : value;
-    }
-
     /**
      * 显示跳转页的集合
      * 
@@ -213,14 +195,5 @@ public class SkipNumberDirective extends SkipBaseDirective {
      */
     public void setLabelParam(String labelParam) {
         this.labelParam = labelParam;
-    }
-
-    /**
-     * 设置标签当前页输出参数名
-     * 
-     * @param activeParam 参数名
-     */
-    public void setActiveParam(String activeParam) {
-        this.activeParam = activeParam;
     }
 }

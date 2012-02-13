@@ -8,7 +8,9 @@ package com.ewcms.publication.freemarker.directive.page;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -68,11 +70,20 @@ public class SkipDirective extends SkipBaseDirective{
                 body.render(env.getOut());
                 env.getOut().flush();    
             }
-        } else {
+        } else if(EmptyUtil.isNotNull(body)){
             Writer writer = env.getOut();
             FreemarkerUtil.setVariable(env, GlobalVariable.PAGE_OUT.toString(),pageOut);
             body.render(writer);
             FreemarkerUtil.removeVariable(env, GlobalVariable.PAGE_OUT.toString());
+        }else{
+            List<PageOut> pages = new ArrayList<PageOut>();
+            pages.add(pageOut);
+            String outValue = constructOut(pages);
+            if(EmptyUtil.isNotNull(outValue)){
+                Writer out = env.getOut();
+                out.write(outValue.toString());
+                out.flush();
+            }
         }
     }
     

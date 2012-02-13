@@ -6,9 +6,10 @@
 
 package com.ewcms.publication.freemarker.directive.page;
 
+import java.util.List;
+
 import org.springframework.util.Assert;
 
-import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.FreemarkerUtil;
 import com.ewcms.publication.freemarker.GlobalVariable;
@@ -29,9 +30,6 @@ import freemarker.template.TemplateModelException;
  */
 public abstract class SkipBaseDirective implements TemplateDirectiveModel {
 
-    private static final Integer DEFAULT_PAGE_COUNT = 1;
-    private static final Integer DEFAULT_PAGE_NUMBER = 0;
-
     /**
      * 得到当前页数
      * 
@@ -41,8 +39,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     protected Integer getPageNumberValue(Environment env)throws TemplateException {
-        Integer value = FreemarkerUtil.getInteger(env,GlobalVariable.PAGE_NUMBER.toString());
-        return EmptyUtil.isNull(value) ? DEFAULT_PAGE_NUMBER : value;
+        return PageUtil.getPageNumberValue(env);
     }
 
     /**
@@ -54,8 +51,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
      * @throws TemplateModelException
      */
     protected Integer getPageCountValue(Environment env)throws TemplateException {
-        Integer value = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_COUNT.toString());
-        return EmptyUtil.isNull(value) ? DEFAULT_PAGE_COUNT : value;
+        return PageUtil.getPageCountValue(env);
     }
 
     /**
@@ -67,6 +63,28 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
      */
     protected UriRuleable getUriRule(Environment env)throws TemplateException{
         return (UriRuleable)FreemarkerUtil.getBean(env, GlobalVariable.URI_RULE.toString());
+    }
+    
+    /**
+     * 默认输出
+     * 
+     * @param pages 页面输出对象集合
+     * 
+     * @return
+     */
+    protected String constructOut(List<PageOut>  pages){
+       StringBuilder builder = new StringBuilder();
+       for(PageOut page : pages){
+           if(page.isActive()){
+               builder.append("<a href='").append(page.getUrl()).append("' target='_blank'>")
+                         .append(page.getLabel())
+                         .append("</a>")
+                         .append("&nbsp;");
+           }else{
+               builder.append(page.getLabel()).append("&nbsp;");
+           }
+       }
+       return builder.toString();
     }
     
     static class GeneratorUrl{

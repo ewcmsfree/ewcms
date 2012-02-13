@@ -135,10 +135,23 @@ public class PropertyDirective implements TemplateDirectiveModel {
     /**
      * 缺省值对象在freemarker变量中的名称
      * 
-     * @return 
+     * @return
      */
     protected String defaultValueParamValue(){
         return null;
+    }
+    
+    /**
+     * 缺省对象值
+     * 
+     * @param env 环境变量
+     * @param param 参数列表
+     * @return 
+     * @throws TemplateModelException
+     */
+    @SuppressWarnings("rawtypes")
+    protected Object defaultObjectValue(Environment env, Map params)throws TemplateException{
+       return null; 
     }
     
     /**
@@ -173,6 +186,11 @@ public class PropertyDirective implements TemplateDirectiveModel {
                 logger.debug("Get value is {}",object);
                 return object;
             }
+        }
+        
+        object = defaultObjectValue(env,params);
+        if(object != null){
+            return object;
         }
         
         logger.error("\"{}\"  has not value",valueParam);

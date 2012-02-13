@@ -45,15 +45,13 @@ public class PageOutDirective extends PropertyDirective {
         Boolean active = getActiveValue(params);
         if(active == null){
             super.execute(env, params, loopVars, body);
-        }else{
-            Object objectValue = getObjectValue(env, params);
-            if(objectValue == null || !(objectValue instanceof PageOut)){
-                return ;
-            }
-            if(((PageOut)objectValue).isActive().booleanValue() == active.booleanValue()){
+            return;
+        }
+        Object objectValue = getObjectValue(env, params);
+        if(objectValue != null && objectValue instanceof PageOut){
+            PageOut page = (PageOut)objectValue;
+            if(page.isActive().booleanValue() == active.booleanValue()){
                 body.render(env.getOut());
-            }else{
-                return ;
             }
         }
     }
@@ -68,6 +66,38 @@ public class PageOutDirective extends PropertyDirective {
     @SuppressWarnings("rawtypes")
     private Boolean getActiveValue(Map params) throws TemplateException {
         return FreemarkerUtil.getBoolean(params, activeParam);
+    }
+    
+    @Override
+    @SuppressWarnings("rawtypes")
+    protected Object defaultObjectValue(Environment env, Map params)throws TemplateException{
+        Integer count = this.getPageCountValue(env);
+        Integer number = this.getPageNumberValue(env);
+        return new PageOut(count,number);
+     }
+    
+    /**
+     * 得到当前页数
+     * 
+     * @param env 
+     *         Freemarker 环境变量
+     * @return
+     * @throws TemplateModelException
+     */
+    private Integer getPageNumberValue(Environment env)throws TemplateException {
+        return PageUtil.getPageNumberValue(env);
+    }
+
+    /**
+     * 得到总页数
+     * 
+     * @param env 
+     *         Freemarker 环境变量
+     * @return
+     * @throws TemplateModelException
+     */
+    private Integer getPageCountValue(Environment env)throws TemplateException {
+        return PageUtil.getPageCountValue(env);
     }
     
     @Override
