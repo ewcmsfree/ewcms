@@ -139,14 +139,25 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
     }
     
     @Test
-    public void testNumberActiveTemplate()throws Exception{
-        Template template = cfg.getTemplate(getTemplatePath("numberactive.html"));
+    public void testNumberDefaultTemplate()throws Exception{
+        Template template = cfg.getTemplate(getTemplatePath("numberdefault.html"));
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(10));
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(20));
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
-        value = StringUtils.deleteWhitespace(value);
-        String expected="11/20";
-        Assert.assertEquals(expected, value);
+        StringBuilder expected = new StringBuilder();
+        expected.append("..")
+                      .append("<a href='' target='_blank'>8</a>")
+                      .append("<a href='' target='_blank'>9</a>")
+                      .append("<a href='' target='_blank'>10</a>")
+                      .append("11")
+                      .append("<a href='' target='_blank'>12</a>")
+                      .append("<a href='' target='_blank'>13</a>")
+                      .append("..");
+        System.out.println(value);
+        Assert.assertEquals(expected.toString(), value);
     }
 }
