@@ -10,7 +10,6 @@
         <script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>          
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/default/easyui.css"/>' rel="stylesheet" title="default"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'/>
@@ -80,7 +79,6 @@
 			   		<div class="bs">
 						<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
 						<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
-						<a class="styleswitch a3" style="cursor: pointer" title="天蓝色" rel="default"></a>	
 						<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
 						<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
 					</div>
