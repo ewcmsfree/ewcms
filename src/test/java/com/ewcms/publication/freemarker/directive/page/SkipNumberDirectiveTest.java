@@ -150,12 +150,12 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         String value = this.process(template, params);
         StringBuilder expected = new StringBuilder();
         expected.append("..")
-                      .append("<a href='' target='_blank'>8</a>")
-                      .append("<a href='' target='_blank'>9</a>")
-                      .append("<a href='' target='_blank'>10</a>")
+                      .append("<a href=''>8</a>")
+                      .append("<a href=''>9</a>")
+                      .append("<a href=''>10</a>")
                       .append("11")
-                      .append("<a href='' target='_blank'>12</a>")
-                      .append("<a href='' target='_blank'>13</a>")
+                      .append("<a href=''>12</a>")
+                      .append("<a href=''>13</a>")
                       .append("..");
         System.out.println(value);
         Assert.assertEquals(expected.toString(), value);
