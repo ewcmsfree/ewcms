@@ -28,12 +28,9 @@ class SkipPageLast implements SkipPageable{
             label = DEFAULT_LABEL;
         }
         int last = count -1;
-        String url = null;
-        if(number != last){
-            GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
-            url = generatorUrl.getUriValue(last);
-        }
-        return new PageOut(count,last,label,url);
-
+        boolean active = (number != last);
+        GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
+        String url = generatorUrl.getUriValue(last);
+        return new PageOut(count,last,label,url,active);
     }
 }

@@ -127,7 +127,7 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
         
         ArticlePublishServiceable service = new ArticlePublishServiceWrapper(articleService,mock);
         Configuration cfg =  getConfiguration(service,mock);
-        Generatorable  generator = new ListGenerator(cfg,channel.getSite(),channel,1,100);
+        Generatorable  generator = new ListGenerator(cfg,channel.getSite(),channel,0,100);
         generator.debugEnable();
         generator.process(out,template.getUniquePath());
     }
@@ -150,7 +150,7 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
         ArticlePublishServiceable service = new ArticlePublishServiceWrapper(articleService,mock);
         Configuration cfg =  getConfiguration(service,mock);
         Article  article = service.getArticle(null);
-        Generatorable  generator = new DetailGenerator(cfg,channel.getSite(),channel,article,1);
+        Generatorable  generator = new DetailGenerator(cfg,channel.getSite(),channel,article,0);
         generator.debugEnable();
         generator.process(out,template.getUniquePath());
     }

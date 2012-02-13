@@ -65,7 +65,7 @@ public class SkipNumberDirective extends SkipBaseDirective {
         List<PageOut>  pages;
         if(active){
             pages = new ArrayList<PageOut>();
-            pages.add(new PageOut(pageCount,pageNumber,null));
+            pages.add(new PageOut(pageCount,pageNumber));
         }else{
             UriRuleable rule = getUriRule(env);
             pages = getPageOuts(rule,pageCount, pageNumber, max,label);
@@ -151,6 +151,8 @@ public class SkipNumberDirective extends SkipBaseDirective {
      *            当前页数
      * @param max
      *            最大显页数
+     * @param
+     *            省略号标签           
      * @return
      */
     List<PageOut> getPageOuts(UriRuleable rule,int count, int number, int max,String label)throws TemplateException {
@@ -180,7 +182,8 @@ public class SkipNumberDirective extends SkipBaseDirective {
         for (int i = 0; i < len; i++) {
             int p = start + i;
             String url = generatorUrl.getUriValue(p);
-            pageOuts.add(new PageOut(count, p, url));
+            boolean active = (p != number);
+            pageOuts.add(new PageOut(count, p, url,active));
         }
         
         if ((start + len) < (count - 1)) {

@@ -29,12 +29,15 @@ class SkipPagePrevious implements SkipPageable{
         }
         int prev = number -1;
         String url = null;
+        boolean active =true;
         if(prev < 0){
             prev = 0;
+            active = false;
+            url = "#";
         }else{
             GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
             url = generatorUrl.getUriValue(prev);
         }
-        return new PageOut(count,prev,label,url);
+        return new PageOut(count,prev,label,url,active);
     }
 }

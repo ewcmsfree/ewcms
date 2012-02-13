@@ -6,6 +6,7 @@
 
 package com.ewcms.publication.freemarker.directive.page;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.publication.freemarker.FreemarkerUtil;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.freemarker.directive.PropertyDirective;
 
 import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
@@ -28,8 +32,43 @@ import freemarker.template.TemplateModelException;
 public class PageOutDirective extends PropertyDirective {
 
     private static final Logger logger = LoggerFactory.getLogger(PageOutDirective.class);
-    
+    private static final String ACTIVE_PARAM_NAME = "active";
+
+    private String activeParam = ACTIVE_PARAM_NAME;
     private Map<String,String> aliasProperties = initDefaultAliasProperties();
+    
+    @Override
+    @SuppressWarnings("rawtypes") 
+    public void execute(Environment env, Map params, TemplateModel[] loopVars,
+            TemplateDirectiveBody body) throws TemplateException, IOException {
+        
+        Boolean active = getActiveValue(params);
+        if(active == null){
+            super.execute(env, params, loopVars, body);
+        }else{
+            Object objectValue = getObjectValue(env, params);
+            if(objectValue == null || !(objectValue instanceof PageOut)){
+                return ;
+            }
+            if(((PageOut)objectValue).isActive().booleanValue() == active.booleanValue()){
+                body.render(env.getOut());
+            }else{
+                return ;
+            }
+        }
+    }
+    
+    /**
+     * 得到是否激活页面数
+     * 
+     * @param params 参数集合
+     * @return
+     * @throws TemplateException
+     */
+    @SuppressWarnings("rawtypes")
+    private Boolean getActiveValue(Map params) throws TemplateException {
+        return FreemarkerUtil.getBoolean(params, activeParam);
+    }
     
     @Override
     protected String defaultValueParamValue(){
@@ -69,5 +108,9 @@ public class PageOutDirective extends PropertyDirective {
         map.put("url", "url");
         
         return map;
+    }
+    
+    public void setActiveParam(String activeParam){
+        this.activeParam = activeParam;
     }
 }

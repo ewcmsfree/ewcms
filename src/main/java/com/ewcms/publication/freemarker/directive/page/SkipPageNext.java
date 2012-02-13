@@ -29,13 +29,16 @@ class SkipPageNext implements SkipPageable{
        }
        int next = number + 1;
        String url = null;
+       boolean active = true;
        if(next < count){
            GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
            url = generatorUrl.getUriValue(next);
        }else{
            next = count -1;
+           active = false;
+           url = "#";
        }
        
-       return new PageOut(count,next,label,url);
+       return new PageOut(count,next,label,url,active);
     }
 }

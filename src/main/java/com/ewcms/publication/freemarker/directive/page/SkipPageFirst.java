@@ -28,11 +28,9 @@ class SkipPageFirst implements SkipPageable{
             label = DEFAULT_LABEL;
         }
         int first = 0;
-        String url = null;
-        if(number != first){
-            GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
-            url = generatorUrl.getUriValue(first);
-        }
-        return new PageOut(count,first,label,url);
+        boolean active = (number != first);
+        GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
+        String url = generatorUrl.getUriValue(first);
+        return new PageOut(count,first,label,url,active);
     }
 }
