@@ -6,11 +6,17 @@
 
 package com.ewcms.publication;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +27,7 @@ import org.springframework.orm.jpa.JpaTemplate;
 
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.resource.model.Resource;
+import com.ewcms.publication.task.Taskable;
 
 /**
  * 发布服务测试，该测试主要测试集成后发布是否成功和性能。
@@ -33,9 +40,14 @@ public class PublishIntegratedTest {
     private final static Logger logger = LoggerFactory.getLogger(PublishIntegratedTest.class);
     
     private final static ApplicationContext context;
+    private  static String SPACE;
     
     static{
         context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        SPACE = "";
+        for(int i = 0 ; i < 10 ; i ++){
+            SPACE = SPACE + "----------";    
+        }
     }
     
     private JpaTemplate createJpaTemplate() {
@@ -98,13 +110,47 @@ public class PublishIntegratedTest {
         });
     }
     
+    private void writerDepender(FileWriter writer,Taskable task,int level)throws IOException{
+        String space = SPACE.substring(0,level*2);
+        if(task.getProgress() != 100){
+            String info = String.format("%s%s，完成 %d",space,task.getDescription(),task.getProgress());
+            writer.append(info).append("\n");
+            writer.flush();    
+        }
+        List<Taskable> children = task.getDependences();
+        level = level + 1;
+        for(Taskable child : children){
+            writerDepender(writer,child,level);
+        }
+        level=level -1;
+    }
+    
     public void runPublishSite()throws Exception{
-        updateTemplateSourceStutas();
-        updateResourceStutas();
+//        updateTemplateSourceStutas();
+//        updateResourceStutas();
         updateArticleStutas();
         
         PublishServiceable publishService = getPublishService();
         publishService.publishSite(-2, true, "admin");
+        
+        int seq = 0;
+        File file = new File("/tmp/progress/");
+        FileUtils.deleteQuietly(file);
+        file.mkdir();
+        while(true){
+            FileWriter  writer = new FileWriter("/tmp/progress/"+String.valueOf(seq)+".txt");
+            List<Taskable> tasks = publishService.getSitePublishTasks(-2);
+            if(tasks.isEmpty()){
+                publishService.closeSitePublish(-2);
+            }
+            for(Taskable task : tasks){
+                writerDepender(writer,task,0);
+            }
+            writer.flush();
+            writer.close();
+            seq++;
+            Thread.sleep(1000*30);
+        }
     }
 
     public static void main(String[] args){

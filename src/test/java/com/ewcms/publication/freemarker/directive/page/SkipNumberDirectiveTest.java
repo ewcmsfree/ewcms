@@ -39,6 +39,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         List<PageOut> pages = directive.getPageOuts(rule,5, 0, 1, "..");
         Assert.assertEquals(2, pages.size());
         Assert.assertEquals(pages.get(0).getLabel(), "1");
+        Assert.assertFalse(pages.get(0).isActive());
         Assert.assertEquals(pages.get(1).getLabel(),"..");
     }
     
@@ -50,7 +51,9 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         List<PageOut> pages = directive.getPageOuts(rule,5, 0, 6, "");
         Assert.assertEquals(5, pages.size());
         Assert.assertEquals(pages.get(0).getLabel(), "1");
+        Assert.assertFalse(pages.get(0).isActive());
         Assert.assertEquals(pages.get(4).getLabel(),"5");
+        Assert.assertTrue(pages.get(4).isActive());
     }
     
     @Test
@@ -116,7 +119,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
         params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
-        String expected="..8910111213..";
+        String expected="..8-9-10-1112-13-..";
         Assert.assertEquals(expected, value);
     }
     
