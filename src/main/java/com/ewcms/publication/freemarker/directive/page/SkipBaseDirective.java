@@ -76,7 +76,7 @@ public abstract class SkipBaseDirective implements TemplateDirectiveModel {
        StringBuilder builder = new StringBuilder();
        for(PageOut page : pages){
            if(page.isActive()){
-               builder.append("<a href='").append(page.getUrl()).append("' target='_blank'>")
+               builder.append("<a href='").append(page.getUrl()).append("'>")
                          .append(page.getLabel())
                          .append("</a>")
                          .append("&nbsp;");
