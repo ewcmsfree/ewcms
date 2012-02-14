@@ -6,6 +6,8 @@
 
 package com.ewcms.publication.freemarker.directive.page;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 页面显示对象
  *
@@ -23,24 +25,19 @@ public class PageOut {
         this(count,number,"");
     }
     
-    public PageOut(Integer count ,Integer number,String url){
-        this(count,number,null, url);
+    public PageOut(Integer count,Integer number,String label){
+        this(count,number,label,"",Boolean.FALSE);
     }
     
     public PageOut(Integer count ,Integer number,String url,boolean active){
-        this(count,number,null, url,active);
-    }
-    
-    public PageOut(Integer count,Integer number,String label,String url){
-        this(count,number,label,url,Boolean.FALSE);
-        
+        this(count,number,"", url,active);
     }
     
     public PageOut(Integer count,Integer number,String label,String url,boolean active){
         this.count = count;
-        this.number = number + 1;
-        this.label = label;
-        this.url = url;
+        this.number = (++number);
+        this.label =(StringUtils.isBlank(label)? number.toString() : label);
+        this.url = (url == null ? "" : url);
         this.active = active;
     }
     
@@ -53,7 +50,7 @@ public class PageOut {
     }
 
     public String getLabel() {
-        return label == null ? number.toString() : label;
+        return  label;
     }
 
     public String getUrl() {

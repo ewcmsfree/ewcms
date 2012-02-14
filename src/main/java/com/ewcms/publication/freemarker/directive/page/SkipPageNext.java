@@ -24,20 +24,11 @@ class SkipPageNext implements SkipPageable{
 
     @Override
     public PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException{
-       if(StringUtils.isBlank(label)){
-           label = DEFAULT_LABEL;
-       }
-       int next = number + 1;
-       String url = null;
-       boolean active = true;
-       if(next < count){
-           GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
-           url = generatorUrl.getUriValue(next);
-       }else{
-           next = count -1;
-           active = false;
-           url = "#";
-       }
+       label = StringUtils.isBlank(label) ? DEFAULT_LABEL : label;
+       int next = (++number)>= count ? count -1 : number;
+       boolean active = (next < count);
+       GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
+       String url = generatorUrl.getUriValue(next);
        
        return new PageOut(count,next,label,url,active);
     }

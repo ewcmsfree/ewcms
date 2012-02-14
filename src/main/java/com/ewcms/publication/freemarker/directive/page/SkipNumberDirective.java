@@ -176,7 +176,7 @@ public class SkipNumberDirective extends SkipBaseDirective {
     }
 
     private PageOut createMissPage(int count,String label) {
-        return new PageOut(count, -1, label, null);
+        return new PageOut(count, -1, label);
     }
 
     /**
