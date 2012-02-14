@@ -24,13 +24,13 @@ class SkipPageFirst implements SkipPageable{
 
     @Override
     public PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException{
-        if(StringUtils.isBlank(label)){
-            label = DEFAULT_LABEL;
-        }
+        
+        label = StringUtils.isBlank(label) ? DEFAULT_LABEL : label;
         int first = 0;
         boolean active = (number != first);
         GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
         String url = generatorUrl.getUriValue(first);
+        
         return new PageOut(count,first,label,url,active);
     }
 }

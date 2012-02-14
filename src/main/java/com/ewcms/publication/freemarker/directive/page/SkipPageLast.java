@@ -24,13 +24,13 @@ class SkipPageLast implements SkipPageable{
     
     @Override
     public PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException{
-        if(StringUtils.isBlank(label)){
-            label = DEFAULT_LABEL;
-        }
+        
+        label = StringUtils.isBlank(label) ? DEFAULT_LABEL : label;
         int last = count -1;
         boolean active = (number != last);
         GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
         String url = generatorUrl.getUriValue(last);
+        
         return new PageOut(count,last,label,url,active);
     }
 }
