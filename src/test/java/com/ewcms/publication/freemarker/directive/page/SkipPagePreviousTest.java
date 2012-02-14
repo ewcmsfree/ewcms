@@ -25,10 +25,10 @@ public class SkipPagePreviousTest {
     public void testNumberIsFirst() throws Exception{
         SkipPagePrevious skip = new SkipPagePrevious();
         UriRuleable rule = mock(UriRuleable.class);
-        when(rule.getUri()).thenReturn("");
+        when(rule.getUri()).thenReturn("/first.html");
         PageOut page = skip.skip(10,0,"prev",rule);
         Assert.assertEquals("prev",page.getLabel());
-        Assert.assertEquals(page.getUrl(),null);
+        Assert.assertEquals(page.getUrl(),"/first.html");
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
     }
     
@@ -38,10 +38,7 @@ public class SkipPagePreviousTest {
         SkipPagePrevious skip = new SkipPagePrevious();
         UriRuleable rule = mock(UriRuleable.class);
         when(rule.getUri()).thenReturn(url);
-        PageOut page = skip.skip(10,0,"prev",rule);
-        Assert.assertEquals("prev",page.getLabel());
-        Assert.assertEquals(page.getUrl(),null);
-        page = skip.skip(10,1,"prev",rule);
+        PageOut page = skip.skip(10,1,"prev",rule);
         Assert.assertEquals(page.getUrl(),url);
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
         

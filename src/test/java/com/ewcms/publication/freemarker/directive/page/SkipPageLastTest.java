@@ -28,7 +28,7 @@ public class SkipPageLastTest {
         when(rule.getUri()).thenReturn("");
         PageOut page = skip.skip(10,9,"last",rule);
         Assert.assertEquals("last", page.getLabel());
-        Assert.assertEquals(null,page.getUrl());
+        Assert.assertEquals("",page.getUrl());
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
     }
     

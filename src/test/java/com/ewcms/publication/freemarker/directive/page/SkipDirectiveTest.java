@@ -93,10 +93,13 @@ public class SkipDirectiveTest extends FreemarkerTest {
 
     @Test
     public void testLoopTemplate() throws Exception {
-        Template template = cfg.getTemplate(getTemplatePath("loop.html"));
+        Template template = cfg.getTemplate(getTemplatePath("skiploop.html"));
         Map<String,Object> params = new HashMap<String,Object>();
         params.put(GlobalVariable.PAGE_NUMBER.toString(), Integer.valueOf(0));
         params.put(GlobalVariable.PAGE_COUNT.toString(), Integer.valueOf(5));
+        UriRuleable rule = mock(UriRuleable.class);
+        when(rule.getUri()).thenReturn("");
+        params.put(GlobalVariable.URI_RULE.toString(), rule);
         String value = this.process(template, params);
         value = StringUtils.deleteWhitespace(value);
         Assert.assertEquals("第一页loop|5|1",value);

@@ -25,10 +25,10 @@ public class SkipPageNextTest {
     public void testNumberIsLast()throws Exception{
         SkipPageNext skip = new SkipPageNext();
         UriRuleable rule = mock(UriRuleable.class);
-        when(rule.getUri()).thenReturn("");
+        when(rule.getUri()).thenReturn("/last.html");
         PageOut page = skip.skip(10,9,"next",rule);
         Assert.assertEquals("next",page.getLabel());
-        Assert.assertEquals(page.getUrl(),null);
+        Assert.assertEquals(page.getUrl(),"/last.html");
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
     }
     
