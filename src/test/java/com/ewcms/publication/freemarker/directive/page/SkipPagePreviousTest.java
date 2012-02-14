@@ -30,6 +30,7 @@ public class SkipPagePreviousTest {
         Assert.assertEquals("prev",page.getLabel());
         Assert.assertEquals(page.getUrl(),"/first.html");
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
+        Assert.assertFalse(page.isActive());
     }
     
     @Test
@@ -41,8 +42,10 @@ public class SkipPagePreviousTest {
         PageOut page = skip.skip(10,1,"prev",rule);
         Assert.assertEquals(page.getUrl(),url);
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
+        Assert.assertTrue(page.isActive());
         
         page = skip.skip(10,2,"prev",rule);
         Assert.assertEquals(Integer.valueOf(2), page.getNumber());
+        Assert.assertTrue(page.isActive());
     }
 }

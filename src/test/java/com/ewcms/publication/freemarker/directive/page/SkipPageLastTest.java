@@ -30,6 +30,7 @@ public class SkipPageLastTest {
         Assert.assertEquals("last", page.getLabel());
         Assert.assertEquals("",page.getUrl());
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
+        Assert.assertFalse(page.isActive());
     }
     
     @Test
@@ -42,5 +43,6 @@ public class SkipPageLastTest {
         Assert.assertEquals("未页", page.getLabel());
         Assert.assertEquals(url,page.getUrl());
         Assert.assertEquals(Integer.valueOf(10), page.getNumber());
+        Assert.assertTrue(page.isActive());
     }
 }

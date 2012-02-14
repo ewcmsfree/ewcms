@@ -30,6 +30,7 @@ public class SkipPageFirstTest {
         Assert.assertEquals("first", page.getLabel());
         Assert.assertEquals(page.getUrl(), "/test");
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
+        Assert.assertFalse(page.isActive());
     }
     
     @Test
@@ -41,5 +42,6 @@ public class SkipPageFirstTest {
         Assert.assertEquals("首页", page.getLabel());
         Assert.assertEquals("http://test.com/dddd_0.html",page.getUrl());
         Assert.assertEquals(Integer.valueOf(1), page.getNumber());
+        Assert.assertTrue(page.isActive());
     }
 }
