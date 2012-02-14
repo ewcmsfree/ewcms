@@ -26,8 +26,9 @@ class SkipPagePrevious implements SkipPageable{
     public PageOut skip(Integer count,Integer number,String label,UriRuleable rule)throws TemplateException{
         
         label = StringUtils.isBlank(label) ? DEFAULT_LABEL : label;
-        int prev = (--number) <= 0 ? 0 : (number);
-        boolean active =(prev > 0);
+        --number;
+        boolean active =(number >= 0);
+        int prev = number <= 0 ? 0 : (number);
         GeneratorUrl generatorUrl = new GeneratorUrl(rule,number);
         String   url = generatorUrl.getUriValue(prev);
         

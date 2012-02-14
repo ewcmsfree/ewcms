@@ -42,16 +42,19 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     
     private static final Integer DEFAULT_ROW = 20;
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
+    private static final Boolean DEFAULT_ABSOLUTE = Boolean.FALSE;
     
     private static final String CHANNEL_PARAM_NAME = "channel";
     private static final String ROW_PARAM_NAME = "row";
     private static final String NAME_PARAM_NAME = "name";
     private static final String TOP_PARAM_NAME = "top";
+    private static final String ABSOLUTE_PARAM_NAME = "absolute ";
     
     private String channelParam = CHANNEL_PARAM_NAME;
     private String rowParam = ROW_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
     private String topParam = TOP_PARAM_NAME;
+    private String absoluteParam = ABSOLUTE_PARAM_NAME;
 
     private ArticlePublishServiceable articleService;
     private ChannelPublishServiceable channelService;
@@ -67,6 +70,10 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         Integer siteId = getSiteIdValue(env);
 
         Channel channel = getChannel(env, params, siteId);
+        Channel currentChannel = getCurrentChannel(env);
+        if(channel == null){
+            channel = currentChannel;
+        }
         
         boolean debug = FreemarkerUtil.isDebug(env);
         if (!debug && !channel.getPublicenable()) {
@@ -75,7 +82,9 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         }
 
         Integer row = getRowValue(params,channel,env);
-        Integer pageNumber = getPageNumberValue(env);
+        Integer pageNumber =getPageNumberValue(env
+                    ,channel.equals(currentChannel)
+                    ,getAbsoluteValue(params));
         Boolean top = getTopValue(params);
 
         List<Article> articles = articleService.findReleaseArticlePage(channel.getId(), pageNumber, row,top); 
@@ -170,15 +179,26 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             return channel;
         }
         
-        value = GlobalVariable.CHANNEL.toString();
-        channel = (Channel) FreemarkerUtil.getBean(env, value);
+        return channel;
+    }
+   
+    /**
+     * 得到当前频道
+     *
+     * @param env Environment
+     * @return
+     * @throws TemplateModelException
+     */
+    private Channel getCurrentChannel(final Environment env) throws TemplateException {
+        String value = GlobalVariable.CHANNEL.toString();
+        Channel channel = (Channel) FreemarkerUtil.getBean(env, value);
         if (channel == null) {
             logger.error("Default channel is null");
             throw new TemplateModelException("Default channel is null");
         }
         return channel;
     }
-   
+    
     /**
      * 得到显示行数
      *
@@ -238,14 +258,37 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     }
 
     /**
+     * 得到是否按照绝对位置查询，忽略页数。
+     *<br>
+     * 解决在当前频道中只想显示当前频道指定的文章列表，不会随着页面改变而改变。
+     * 
+     *  @param params
+     *            标签参数集合
+     * @return
+     * @throws TemplateException
+     */
+    @SuppressWarnings("rawtypes")
+    private Boolean getAbsoluteValue(Map params) throws TemplateException {
+        Boolean value = FreemarkerUtil.getBoolean(params, absoluteParam);
+        return value == null ? DEFAULT_ABSOLUTE : value;
+    }
+    
+    /**
      * 得到显示页面数
      *
      * @param env
      *          Freemarker环境
+     * @param current 
+     *          但前频道
+     *  @param absolute 
+     *           绝对位置
      * @return
      * @throws TemplateException
      */
-    private Integer getPageNumberValue(Environment env) throws TemplateException {
+    private Integer getPageNumberValue(Environment env,boolean current,boolean absolute) throws TemplateException {
+        if(!current || absolute){
+            return DEFAULT_PAGE_NUMBER;
+        }
         Integer number = FreemarkerUtil.getInteger(env, GlobalVariable.PAGE_NUMBER.toString());
         logger.debug("Page is {}",number);
         return number == null ? DEFAULT_PAGE_NUMBER : number;
@@ -285,5 +328,14 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      */
     public void setTopParam(String paramName) {
         this.topParam = paramName;
+    }
+
+    /**
+     * 设置标签绝对位置参数名
+     * 
+     * @param paramName
+     */
+    public void setAbsoluteParam(String absoluteParam) {
+        this.absoluteParam = absoluteParam;
     }
 }
