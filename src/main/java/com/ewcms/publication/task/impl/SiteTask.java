@@ -123,6 +123,11 @@ public class SiteTask extends TaskBase {
     }
 
     @Override
+    protected boolean hasTaskProcess(){
+        return false;
+    }
+    
+    @Override
     protected List<TaskProcessable> getTaskProcesses() throws TaskException {
         return Collections.unmodifiableList(new ArrayList<TaskProcessable>(0));
     }

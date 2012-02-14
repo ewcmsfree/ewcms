@@ -54,10 +54,21 @@ public abstract class TaskBase implements Taskable{
 
     @Override
     public int getProgress() {
-        if(count.get()== 0){
-            return 100;
+        List<Taskable> depends = this.getDependences();
+        int sum = 0;
+        int number = 0;
+        for(Taskable depend : depends){
+            int dependProgress = depend.getProgress();
+            sum = sum + dependProgress;
+            ++number;
         }
-        return (complete.get() * 100 / count.get());
+        if(hasTaskProcess()){
+            int current = count.get() == 0 ? 100 : ((complete.get() * 100) / count.get());
+            sum = sum + current;
+            ++number;    
+        }
+        
+        return number == 0 ? 100 : (sum/number);
     }
 
     @Override
@@ -71,6 +82,15 @@ public abstract class TaskBase implements Taskable{
        count.set(taskProcesses.size());
        
        return taskProcesses;
+    }
+    
+    /**
+     * 是否有任务处理过程
+     * 
+     * @return
+     */
+    protected boolean hasTaskProcess(){
+        return true;
     }
     
     /**
