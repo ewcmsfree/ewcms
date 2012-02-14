@@ -90,10 +90,11 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         }else if (EmptyUtil.isNotNull(body)) {
             String name = getNameValue(params);
             Writer writer = env.getOut();
+            int start = pageNumber * row;
             for (int i = 0; i < articles.size(); i++) {
                 Article article = articles.get(i);
                 FreemarkerUtil.setVariable(env, name, article);
-                FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), Integer.valueOf(i+1));
+                FreemarkerUtil.setVariable(env, GlobalVariable.INDEX.toString(), Integer.valueOf(start+i+1));
                 body.render(writer);
                 FreemarkerUtil.removeVariable(env, GlobalVariable.INDEX.toString());
                 FreemarkerUtil.removeVariable(env, name);
