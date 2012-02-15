@@ -130,7 +130,7 @@ public class Article implements Serializable {
 	private String tag;
 	@Column(name = "summary", columnDefinition = "text")
 	private String summary;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Content.class, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Content.class,fetch=FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "page asc")
 	private List<Content> contents = new ArrayList<Content>();
@@ -158,14 +158,14 @@ public class Article implements Serializable {
 	private String url;
 	@Column(name = "delete")
 	private Boolean delete;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Relation.class)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "sort")
 	private List<Relation> relations = new ArrayList<Relation>();
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
 	private Date createTime;
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY, targetEntity = Category.class)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = Category.class)
 	@JoinTable(name = "content_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
 	private List<Category> categories = new ArrayList<Category>();
@@ -173,7 +173,7 @@ public class Article implements Serializable {
 	private Integer contentTotal;
 	@Column(name = "inside")
 	private Boolean inside;
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = ReviewProcess.class)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = ReviewProcess.class)
 	@JoinColumn(name="reviewprocess_id")
 	private ReviewProcess reviewProcess;
 	
