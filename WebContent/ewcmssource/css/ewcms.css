@@ -53,28 +53,12 @@ table.cellspacing { border-collapse: separate; }
     background: url('icons/flash.png') no-repeat;
 }
 
-.icon-leader{
-    background: url('icons/leader.png') no-repeat;
-}
-
 .icon-template{
     background: url('icons/template.png') no-repeat;
 }
 
-.icon-workingbody{
-    background: url('icons/workingbody.png') no-repeat;
-}
-
 .icon-channel{
     background: url('icons/channel.png') no-repeat;
-}
-
-.icon-position{
-    background: url('icons/position.png') no-repeat;
-}
-
-.icon-component{
-    background: url('icons/component.png') no-repeat;
 }
 
 .icon-release{
@@ -85,41 +69,6 @@ table.cellspacing { border-collapse: separate; }
     background: url('icons/disconnect.png') no-repeat;
 }
 
-.icon-matter{
-    background: url('icons/matter.png') no-repeat;
-}
-
-.icon-matter-add{
-    background: url('icons/matter_add.png') no-repeat;
-}
-
-.icon-matter-del{
-    background: url('icons/matter_delete.png') no-repeat;
-}
-
-.icon-organisation{
-    background: url('icons/organisation.png') no-repeat;
-}
-
-.icon-organisation-add{
-    background: url('icons/organisation_add.png') no-repeat;
-}
-
-.icon-organisation-del{
-    background: url('icons/organisation_delete.png') no-repeat;
-}
-
-.icon-citizen{
-    background: url('icons/citizen.png') no-repeat;
-}
-
-.icon-citizen-add{
-    background: url('icons/citizen_add.png') no-repeat;
-}
-
-.icon-citizen-del{
-    background: url('icons/citizen_delete.png') no-repeat;
-}
 .icon-cookies{
     background: url('icons/cookies.png') no-repeat;
 }
