@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 import com.ewcms.content.document.dao.ArticleDAO;
 import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -40,32 +39,32 @@ public class ArticleService implements ArticlePublishServiceable {
 	}
 	
 	@Override
-	public int getArticleCount(Integer channelId){
-		Channel channel = channelDAO.get(channelId);
-		Assert.notNull(channel);
-		int maxSize = channel.getMaxSize();
-		long releaseMaxSize = articleDAO.findArticleReleseMaxSize(channelId);
-		if (maxSize < releaseMaxSize){
-			return maxSize;
-		}else{
-			return (int)releaseMaxSize;
-		}
-	}
+    public int getArticleReleaseCount(Integer channelId){
+        Channel channel = channelDAO.get(channelId);
+        Assert.notNull(channel);
+        int maxSize = channel.getMaxSize();
+        long releaseMaxSize = articleDAO.findArticleReleseMaxSize(channelId);
+        if (maxSize < releaseMaxSize){
+            return maxSize;
+        }else{
+            return (int)releaseMaxSize;
+        }
+    }
 
 	@Override
-	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
-		Channel channel = channelDAO.get(channelId);
-		Assert.notNull(channel);
-		return articleDAO.findArticlePreReleaseByChannelAndLimit(channelId, limit); 
-	}
+    public List<Article> findPublishArticles(Integer channelId, Boolean forceAgain, Integer limit) {
+        Channel channel = channelDAO.get(channelId);
+        Assert.notNull(channel);
+        return articleDAO.findPublishArticles(channelId,forceAgain,limit); 
+    }
 
 	@Override
-	public List<Article> findReleaseArticlePage(Integer channelId, Integer page, Integer row, Boolean top) {
-		return articleDAO.findArticleReleasePage(channelId, page, row, top);
-	}
+    public List<Article> findArticleReleasePage(Integer channelId, Integer page, Integer row, Boolean top) {
+        return articleDAO.findArticleReleasePage(channelId, page, row, top);
+    }
 
 	@Override
-	public void publishArticle(Long id, String url) {
+	public void publishArticleSuccess(Long id, String url) {
 		Article article = articleDAO.get(id);
 		Assert.notNull(article);
 		
@@ -75,20 +74,5 @@ public class ArticleService implements ArticlePublishServiceable {
 		article.setUrl(url);
 		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);
-	}
-
-	@Override
-	public void updatePreRelease(Integer channelId) {
-		List<ArticleMain> articleMains = articleDAO.findArticleMainRelease(channelId);
-		for (ArticleMain articleMain : articleMains){
-			Article article = articleMain.getArticle();
-			if (article == null) continue;
-			operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "从发布变成预发布。", "");
-			
-			article.setUrl("");
-			article.setStatus(Status.PRERELEASE);
-			
-			articleDAO.merge(article);
-		}
 	}
 }
