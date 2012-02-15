@@ -28,7 +28,7 @@
 		<s:form action="saveContent" namespace="/site/template">
 			<table class="formtable" >
 				<tr>
-					<td><s:textarea id="code" name="templateContent" style="height:380px; width:100%;" ></s:textarea></td>
+					<td><s:textarea id="templateContent" name="templateContent" style="height:380px; width:100%;" ></s:textarea></td>
 				</tr>	
 				<tr>
 					<td style="padding:0;">
@@ -50,13 +50,14 @@
 			    	modeName = "xml";
 			    }else if (modeName == "js"){
 			    	modeName = "javascript";
-			   
+			    }
 		    }
-			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+			var editor = CodeMirror.fromTextArea(document.getElementById("templateContent"), {
  				mode: modeName,
   				lineNumbers: true,
   				lineWrapping: true,
-                matchBrackets: true
+                matchBrackets: true,
+                indentUnit: 4
 			});
    		</script>
 	</body>

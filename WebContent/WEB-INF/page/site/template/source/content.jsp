@@ -29,7 +29,7 @@
 		<s:form action="saveContent" namespace="/site/template/source">
 			<table class="formtable" align="center">
 				<tr>
-					<td ><s:textarea id="code" name="sourceContent" style="height:380px; width:100%;" ></s:textarea></td>
+					<td ><s:textarea id="sourceContent" name="sourceContent" style="height:380px; width:100%;" ></s:textarea></td>
 				</tr>	
 				<tr>
 					<td style="padding:0;">
@@ -53,11 +53,12 @@
 			    	modeName = "javascript";
 			    }
 		    }
-			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+			var editor = CodeMirror.fromTextArea(document.getElementById("sourceContent"), {
  				mode: modeName,
   				lineNumbers: true,
   				lineWrapping: true,
-                matchBrackets: true
+                matchBrackets: true,
+                indentUnit: 4
 			});
    		</script>
 	</body>

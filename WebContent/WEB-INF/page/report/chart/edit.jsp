@@ -13,21 +13,32 @@
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
 		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>							
+        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/codemirror/lib/codemirror.css"/>'/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
 	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
-        <script type="text/javascript">
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/lib/codemirror.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/plsql/plsql.js"/>'></script>
+		<style type="text/css">
+	      .CodeMirror {
+	        border: 1px solid #eee;
+	        height: 105px;
+	        width: 400px;
+	      }
+	      .CodeMirror-scroll {
+	        height: 105px;
+	        width: 400px;
+	        overflow-y: auto;
+	        overflow-x: auto;
+	      }
+    	</style>
+    	<script type="text/javascript">
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	        });
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/report/chart">
 			<table class="formtable" >
 				<tr>
@@ -42,11 +53,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td>SQL表达式：</td>
+					<td>SQL表达式：<br/><a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a></td>
 					<td class="formFieldError" colspan="3">
-						<s:textarea	name="chartReportVo.chartSql" cols="60" rows="6"/><a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a>
-						<s:fielderror><s:param value="%{'chartReportVo.chartSql'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
+						<s:textarea id="chartSql" name="chartReportVo.chartSql"/><s:fielderror><s:param value="%{'chartReportVo.chartSql'}" /></s:fielderror>
 					</td>
+					
 				</tr>
 				<tr>
 					<td>图表类型：</td>
@@ -152,5 +163,13 @@
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			
 		</s:form>
+		<script type="text/javascript">
+      		var editor = CodeMirror.fromTextArea(document.getElementById("chartSql"), {
+        		lineNumbers: true,
+        		matchBrackets: true,
+        		indentUnit: 4,
+        		mode: "text/x-plsql"
+      		});
+    	</script>
 	</body>
 </html>

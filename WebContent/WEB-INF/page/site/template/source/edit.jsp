@@ -24,7 +24,15 @@
 							$("#editinfoifr").attr('src',info);
 						}
 						if(title=="内容编辑"){
-							$("#editcontentifr").attr('src',content);
+							var fileName = parent.$('#tt2').tree('getSelected').text;
+							if(fileName.lastIndexOf(".") > 0){
+								 var modeName = fileName.substring(fileName.lastIndexOf(".")+1) ;
+								 if (modeName == "htm" || modeName == "html" || modeName == "css" || modeName == "js"){
+									 $("#editcontentifr").attr('src',content);
+								 }else{
+									 $.messager.alert('提示', '不能对' + fileName +'内容进行编辑', 'warn');
+								 }
+							}
 						}
 					}
 				});
