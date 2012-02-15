@@ -30,16 +30,10 @@ public interface ResourceDAOable extends JpaDAOable<Integer,Resource> {
      * 查询所属站点未发布资源
      * 
      * @param siteId 站点编号
+     * @param forceAgain 再发布
      * @return
      */
-    List<Resource> findNotReleaseResources(Integer siteId);
-    
-    /**
-     * 更新已发布资源成未发布状态。
-     * 
-     * @param siteId 站点编号
-     */
-    void updateNotRelease(Integer siteId);
+    List<Resource> findPublishResources(Integer siteId, Boolean forceAgain);
     
     /**
      * 通过通过站点编号和uri得到资源

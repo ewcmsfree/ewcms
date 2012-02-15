@@ -306,21 +306,16 @@ public class ResourceService implements ResourceServiceable {
     }
     
     @Override
-    public List<Resource> findNotReleaseResources(Integer siteId) {
-        return resourceDao.findNotReleaseResources(siteId);
+    public List<Resource> findPublishResources(Integer siteId, Boolean forceAgain) {
+        return resourceDao.findPublishResources(siteId,forceAgain);
     }
 
     @Override
-    public void publishResource(Integer id) {
+    public void publishResourceSuccess(Integer id) {
         Resource resource = resourceDao.get(id);
         resource.setStatus(Resource.Status.RELEASED);
         resource.setPublishTime(new Date(System.currentTimeMillis()));
         resourceDao.persist(resource);
-    }
-
-    @Override
-    public void updateNotRelease(Integer siteId) {
-        resourceDao.updateNotRelease(siteId);
     }
     
     @Override

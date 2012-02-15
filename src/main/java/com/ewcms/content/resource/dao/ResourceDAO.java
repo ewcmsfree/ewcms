@@ -6,11 +6,11 @@
 
 package com.ewcms.content.resource.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.orm.jpa.JpaCallback;
@@ -51,30 +51,20 @@ public class ResourceDAO extends JpaDAO<Integer, Resource> implements ResourceDA
         });
     }
     
-    public List<Resource> findNotReleaseResources(final Integer siteId) {
+    public List<Resource> findPublishResources(final Integer siteId,final Boolean forceAgain) {
         return getJpaTemplate().execute(new JpaCallback<List<Resource>>() {
             @Override
             public List<Resource> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Resource o Where o.site.id= ?1 And o.status = ?2";
+                String hql = "From Resource o Where o.site.id= ?1 And o.status In (?2)";
                 TypedQuery<Resource> query = em.createQuery(hql, Resource.class);
                 query.setParameter(1, siteId);
-                query.setParameter(2, Resource.Status.NORMAL);
+                List<Resource.Status> status = new ArrayList<Resource.Status>();
+                if(forceAgain){
+                    status.add(Resource.Status.RELEASED);
+                }
+                status.add(Resource.Status.NORMAL);
+                query.setParameter(2,status);    
                 return query.getResultList();
-            }
-        });
-    }
-
-    public void updateNotRelease(final Integer siteId) {
-        getJpaTemplate().execute(new JpaCallback<Object>() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "Update Resource o Set o.status=?1 Where o.site.id= ?2 And o.status = ?3";
-                Query query = em.createQuery(hql);
-                query.setParameter(1, Resource.Status.NORMAL);
-                query.setParameter(2, siteId);
-                query.setParameter(3, Resource.Status.RELEASED);
-                query.executeUpdate();
-                return null;
             }
         });
     }
