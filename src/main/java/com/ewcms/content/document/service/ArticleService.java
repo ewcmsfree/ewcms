@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.document.dao.ArticleDAO;
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.service.ArticlePublishServiceable;
@@ -30,8 +29,6 @@ public class ArticleService implements ArticlePublishServiceable {
 	private ArticleDAO articleDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
-	@Autowired
-	private OperateTrackServiceable operateTrackService;
 	
 	@Override
 	public Article getArticle(Long articleId) {
@@ -67,10 +64,6 @@ public class ArticleService implements ArticlePublishServiceable {
 	public void publishArticleSuccess(Long id, String url) {
 		Article article = articleDAO.get(id);
 		Assert.notNull(article);
-		
-		ArticleMain articleMain = articleDAO.findArticleMainByArticleId(id);
-		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "已发布", "");
-		
 		article.setUrl(url);
 		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);
