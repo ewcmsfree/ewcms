@@ -28,7 +28,9 @@ public interface ArticlePublishServiceable {
     Article getArticle(Long id);
 
     /**
-     * 发布文章
+     * 发布文章成功
+      * <br>
+     * 标示文章为发布状态。
      * 
      * @param id 文章编号
      * @param url 文章链接地址
