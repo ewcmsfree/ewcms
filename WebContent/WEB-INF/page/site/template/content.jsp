@@ -42,16 +42,16 @@
 			<s:hidden name="templateVo.id"/>			
 		</s:form>
 		<script type="text/javascript">
-			var fileName = parent.parent.$('#tt2').tree('getSelected').text;
+			//var fileName = parent.parent.$('#tt2').tree('getSelected').text;
 			var modeName = "xml";
-		    if(fileName.lastIndexOf(".") > 0){
-			    var modeName = fileName.substring(fileName.lastIndexOf(".")+1) ;
-			    if (modeName == "htm" || modeName == "html"){
-			    	modeName = "xml";
-			    }else if (modeName == "js"){
-			    	modeName = "javascript";
-			    }
-		    }
+		    //if(fileName.lastIndexOf(".") > 0){
+			//    var modeName = fileName.substring(fileName.lastIndexOf(".")+1) ;
+			//    if (modeName == "htm" || modeName == "html"){
+			//    	modeName = "xml";
+			//    }else if (modeName == "js"){
+			//    	modeName = "javascript";
+			//    }
+		    //}
 			var editor = CodeMirror.fromTextArea(document.getElementById("templateContent"), {
  				mode: modeName,
   				lineNumbers: true,
