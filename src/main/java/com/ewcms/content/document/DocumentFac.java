@@ -15,19 +15,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.content.document.model.Category;
 import com.ewcms.content.document.model.OperateTrack;
 import com.ewcms.content.document.model.Relation;
 import com.ewcms.content.document.model.ReviewProcess;
-import com.ewcms.content.document.service.CategoryServiceable;
 import com.ewcms.content.document.service.ArticleMainServiceable;
+import com.ewcms.content.document.service.CategoryServiceable;
 import com.ewcms.content.document.service.OperateTrackServiceable;
 import com.ewcms.content.document.service.RelationServiceable;
 import com.ewcms.content.document.service.ReviewProcessServiceable;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
-import com.ewcms.publication.service.ArticlePublishServiceable;
 
 /**
  * 
@@ -42,8 +41,6 @@ public class DocumentFac implements DocumentFacable {
 	private ArticleMainServiceable articleMainService;
 	@Autowired
 	private RelationServiceable relationService;
-	@Autowired
-	private ArticlePublishServiceable articlePublishService;
 	@Autowired
 	private ReviewProcessServiceable reviewProcessService;
 	@Autowired
@@ -236,38 +233,6 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public List<Relation> findRelationByArticle(Long articleId) {
 		return relationService.findRelationByArticle(articleId);
-	}
-
-	@Override
-	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
-		return articlePublishService.findPreReleaseArticles(channelId, limit);
-	}
-
-	@Override
-	public List<Article> findReleaseArticlePage(Integer channelId,
-			Integer page, Integer row, Boolean top) {
-		return articlePublishService.findReleaseArticlePage(channelId, page,
-				row, top);
-	}
-
-	@Override
-	public Article getArticle(Long id) {
-		return articlePublishService.getArticle(id);
-	}
-
-	@Override
-	public int getArticleCount(Integer channelId) {
-		return articlePublishService.getArticleCount(channelId);
-	}
-
-	@Override
-	public void publishArticle(Long id, String url) {
-		articlePublishService.publishArticle(id, url);
-	}
-
-	@Override
-	public void updatePreRelease(Integer channelId) {
-		articlePublishService.updatePreRelease(channelId);
 	}
 
 	@Override

@@ -293,18 +293,6 @@ public interface DocumentFacable {
 	 */
 	public List<Relation> findRelationByArticle(Long articleId);
 	
-	public List<Article> findPreReleaseArticles(Integer channelId, Integer limit);
-
-	public List<Article> findReleaseArticlePage(Integer channelId,	Integer page, Integer row, Boolean top);
-
-	public Article getArticle(Long id);
-
-	public int getArticleCount(Integer channelId);
-
-	public void publishArticle(Long id, String url);
-
-	public void updatePreRelease(Integer channelId);
-	
 	/**
 	 * 新增审核流程
 	 * 
