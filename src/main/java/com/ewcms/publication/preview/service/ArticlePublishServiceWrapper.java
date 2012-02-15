@@ -61,12 +61,12 @@ public class ArticlePublishServiceWrapper implements ArticlePublishServiceable,M
     }
 
     @Override
-    public void publishArticle(Long id, String url) {
+    public void publishArticleSuccess(Long id, String url) {
         throw new RuntimeException("it's not instance.");
     }
 
     @Override
-    public List<Article> findPreReleaseArticles(Integer channelId, Integer limit) {
+    public List<Article> findPublishArticles(Integer channelId, Boolean forceAgain, Integer limit) {
         throw new RuntimeException("it's not instance.");
     }
 
@@ -79,27 +79,22 @@ public class ArticlePublishServiceWrapper implements ArticlePublishServiceable,M
     }
     
     @Override
-    public List<Article> findReleaseArticlePage(Integer channelId, Integer page, Integer row, Boolean top) {
+    public List<Article> findArticleReleasePage(Integer channelId, Integer page, Integer row, Boolean top) {
         if(mock){
            Article article = getArticleMock();
            return releaseArticlesMock(article,row);
         }
-        return service.findReleaseArticlePage(channelId, page, row, top);
+        return service.findArticleReleasePage(channelId, page, row, top);
     }
 
     @Override
-    public int getArticleCount(Integer channelId) {
+    public int getArticleReleaseCount(Integer channelId) {
         if(mock){
             return 1000;
         }
-        return service.getArticleCount(channelId);
+        return service.getArticleReleaseCount(channelId);
     }
 
-    @Override
-    public void updatePreRelease(Integer channelId) {
-        throw new RuntimeException("it's not instance.");
-    }
-    
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messages = new MessageSourceAccessor(messageSource);
