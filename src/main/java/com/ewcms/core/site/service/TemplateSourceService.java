@@ -134,8 +134,8 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	}
 
 	@Override
-	public List<TemplateSource> findNotReleaseTemplateSources(Integer siteId) {
-		return templateSourceDao.getNotReleaseTemplateSource(siteId);
+	public List<TemplateSource> findPublishTemplateSources(Integer siteId, Boolean forceAgain) {
+		return templateSourceDao.getPublishTemplateSources(siteId, forceAgain);
 	}
 
 	@Override
@@ -144,15 +144,10 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	}
 
 	@Override
-	public void publishTemplateSource(Integer id) {
+	public void publishTemplateSourceSuccess(Integer id) {
 		TemplateSource vo = getTemplateSource(id);
 		vo.setRelease(true);
 		templateSourceDao.persist(vo);
-	}
-
-	@Override
-	public void updateNotRelease(Integer siteId) {
-		templateSourceDao.updateNotRelease(siteId);
 	}
 
 	@Override
