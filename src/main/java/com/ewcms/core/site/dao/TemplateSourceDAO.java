@@ -18,8 +18,8 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
+
 import com.ewcms.common.dao.JpaDAO;
-import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
 
 /**
@@ -89,37 +89,25 @@ public class TemplateSourceDAO extends JpaDAO<Integer, TemplateSource> {
 	}
 
 	/**
-	 * 获取站点未 发布模板资源
+	 * 获取需要发布的模板资源
 	 * 
+	 * @param siteId 站点编号
+	 * @param forceAgain 再次发布
+	 * @return
 	 */
-	public List<TemplateSource> getNotReleaseTemplateSource(final Integer siteId) {
-		@SuppressWarnings("unchecked")
-		Object res = this.getJpaTemplate().execute(new JpaCallback() {
+	public List<TemplateSource> getPublishTemplateSources(final Integer siteId,final Boolean forceAgain) {
+		return this.getJpaTemplate().execute(new JpaCallback< List<TemplateSource>>() {
 			@Override
-			public Object doInJpa(EntityManager em) throws PersistenceException {
-				String hql;
-				Query query;
-				hql = "From TemplateSource o Where o.release=false and o.site.id=? Order By o.id";
-				query = em.createQuery(hql);
+			public  List<TemplateSource> doInJpa(EntityManager em) throws PersistenceException {
+				String hql = "From TemplateSource o Where o.release=false And o.site.id=? And o.sourceEntity Is Not null";
+				if(forceAgain){
+				    hql = "From TemplateSource o Where o.site.id=? And o.sourceEntity Is Not null";
+				}
+				TypedQuery<TemplateSource> query = em.createQuery(hql,TemplateSource.class);
 				query.setParameter(1, siteId);
 				return query.getResultList();
 			}
 		});
-		return (List<TemplateSource>) res;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void updateNotRelease(final Integer siteId){
-        this.getJpaTemplate().execute(new JpaCallback() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-            	String hql = "update TemplateSource o set o.release=false Where o.site.id=?";
-                Query query = em.createQuery(hql);
-                query.setParameter(1, siteId);
-                query.executeUpdate();	
-                return null;
-            }
-        });	
 	}
 	
 	public TemplateSource getTemplateSourceByPath(final String path){
