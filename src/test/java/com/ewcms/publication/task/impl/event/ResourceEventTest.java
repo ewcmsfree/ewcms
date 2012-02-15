@@ -28,6 +28,6 @@ public class ResourceEventTest {
         ResourceEvent event = new ResourceEvent(completeNumber,resource,service);
         event.successAfter("");
         
-        verify(service,times(1)).publishResource(Integer.MAX_VALUE);
+        verify(service,times(1)).publishResourceSuccess(Integer.MAX_VALUE);
     }
 }

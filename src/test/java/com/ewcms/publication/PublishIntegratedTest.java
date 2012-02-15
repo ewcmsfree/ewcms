@@ -112,10 +112,11 @@ public class PublishIntegratedTest {
     
     private void writerDepender(FileWriter writer,Taskable task,int level)throws IOException{
         String space = SPACE.substring(0,level*2);
-        if(task.getProgress() != 100){
-            String info = String.format("%s%s，完成 %d",space,task.getDescription(),task.getProgress());
+        int progress = task.getProgress();
+        if(progress != -1){
+            String info = String.format("%s%s，完成 %d",space,task.getDescription(),progress);
             writer.append(info).append("\n");
-            writer.flush();    
+            writer.flush();        
         }
         List<Taskable> children = task.getDependences();
         level = level + 1;
@@ -128,7 +129,7 @@ public class PublishIntegratedTest {
     public void runPublishSite()throws Exception{
 //        updateTemplateSourceStutas();
 //        updateResourceStutas();
-        updateArticleStutas();
+//        updateArticleStutas();
         
         PublishServiceable publishService = getPublishService();
         publishService.publishSite(-2, true, "admin");
@@ -149,7 +150,7 @@ public class PublishIntegratedTest {
             writer.flush();
             writer.close();
             seq++;
-            Thread.sleep(1000*30);
+            Thread.sleep(1000*60);
         }
     }
 

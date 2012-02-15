@@ -156,7 +156,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findReleaseArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
+        when(articleLoaderService.findArticleReleasePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
         
         ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
         cfg.setSharedVariable("alist", directive);
@@ -187,7 +187,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findReleaseArticlePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
+        when(articleLoaderService.findArticleReleasePage(1, 0, 10, false)).thenReturn(createArticleRow(10));
         
         ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
         cfg.setSharedVariable("alist", directive);
@@ -218,7 +218,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findReleaseArticlePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
+        when(articleLoaderService.findArticleReleasePage(1, 0, 25, true)).thenReturn(createArticleRow(25));
         ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);
@@ -250,7 +250,7 @@ public class ArticleListDirectiveTest extends FreemarkerTest {
         when(channelLoaderService.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         
         ArticlePublishServiceable articleLoaderService = mock(ArticlePublishServiceable.class);
-        when(articleLoaderService.findReleaseArticlePage(1, 0, 12, false)).thenReturn(createArticleRow(12));
+        when(articleLoaderService.findArticleReleasePage(1, 0, 12, false)).thenReturn(createArticleRow(12));
         ArticleListDirective directive = new ArticleListDirective(channelLoaderService,articleLoaderService);
         
         cfg.setSharedVariable("alist", directive);

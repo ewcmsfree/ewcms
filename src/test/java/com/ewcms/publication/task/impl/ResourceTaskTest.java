@@ -70,7 +70,7 @@ public class ResourceTaskTest {
         List<Resource> resources = new ArrayList<Resource>();
         resources.add(newResource(0,false,Resource.Status.NORMAL));
         resources.add(newResource(1,true,Resource.Status.NORMAL));
-        when(service.findNotReleaseResources(siteId)).thenReturn(resources);
+        when(service.findPublishResources(siteId, Boolean.FALSE)).thenReturn(resources);
         
         List<TaskProcessable> processes =task.getTaskProcesses();
         Assert.assertEquals(2, processes.size());

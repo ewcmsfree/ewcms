@@ -34,6 +34,6 @@ public class TemplateSourceEventTest {
         TemplateSourceEvent event = new TemplateSourceEvent(completeNumber,source,service);
         event.successAfter("");
         
-        verify(service,times(1)).publishTemplateSource(Integer.MAX_VALUE);
+        verify(service,times(1)).publishTemplateSourceSuccess(Integer.MAX_VALUE);
     }
 }

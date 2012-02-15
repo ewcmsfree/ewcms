@@ -60,7 +60,7 @@ public class TemplateSourceTaskTest {
         source.setSourceEntity(new TemplatesrcEntity());
         sources.add(source);
         TemplateSourcePublishServiceable service = mock(TemplateSourcePublishServiceable.class);
-        when(service.findNotReleaseTemplateSources(siteId)).thenReturn(sources);
+        when(service.findPublishTemplateSources(siteId, Boolean.FALSE)).thenReturn(sources);
         Site site = new Site();
         site.setId(Integer.MAX_VALUE);
         site.setSiteName("主站");

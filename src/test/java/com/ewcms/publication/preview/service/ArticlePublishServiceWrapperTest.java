@@ -84,7 +84,7 @@ public class ArticlePublishServiceWrapperTest {
         try{
             ArticlePublishServiceable mock = mock(ArticlePublishServiceable.class);
             ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,true);
-            service.publishArticle(Long.MAX_VALUE, "");
+            service.publishArticleSuccess(Long.MAX_VALUE, "");
             Assert.fail();
         }catch(RuntimeException e){
             
@@ -96,7 +96,7 @@ public class ArticlePublishServiceWrapperTest {
         try{
             ArticlePublishServiceable mock = mock(ArticlePublishServiceable.class);
             ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,true);
-            service.findPreReleaseArticles(Integer.MAX_VALUE, 1000);
+            service.findPublishArticles(Integer.MAX_VALUE, Boolean.FALSE, 1000);
             Assert.fail();
         }catch(RuntimeException e){
             
@@ -110,7 +110,7 @@ public class ArticlePublishServiceWrapperTest {
         when(mock.getArticle(id)).thenReturn(null);
 
         ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,true);
-        List<Article>articles = service.findReleaseArticlePage(Integer.MAX_VALUE, 1, 20, false);
+        List<Article>articles = service.findArticleReleasePage(Integer.MAX_VALUE, 1, 20, false);
         Assert.assertNotNull(articles);
         Assert.assertEquals(20, articles.size());
         for(Article a : articles){
@@ -134,10 +134,10 @@ public class ArticlePublishServiceWrapperTest {
         int page = 1;
         int row = 20;
         boolean top = false;
-        when(mock.findReleaseArticlePage(channelId, page, row, top)).thenReturn(list);
+        when(mock.findArticleReleasePage(channelId, page, row, top)).thenReturn(list);
         
         ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,false);
-        List<Article>articles = service.findReleaseArticlePage(channelId, page, row, top);
+        List<Article>articles = service.findArticleReleasePage(channelId, page, row, top);
         Assert.assertNotNull(articles);
         Assert.assertEquals(10, articles.size());
         for(int i = 0 ; i < 10 ; i++){
@@ -152,7 +152,7 @@ public class ArticlePublishServiceWrapperTest {
         ArticlePublishServiceable mock = mock(ArticlePublishServiceable.class);
         ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,true);
         
-        Assert.assertEquals(1000, service.getArticleCount(Integer.MAX_VALUE));
+        Assert.assertEquals(1000, service.getArticleReleaseCount(Integer.MAX_VALUE));
     }
     
     @Test
@@ -160,21 +160,9 @@ public class ArticlePublishServiceWrapperTest {
         ArticlePublishServiceable mock = mock(ArticlePublishServiceable.class);
         int channelId = Integer.MAX_VALUE;
         int count = 100;
-        when(mock.getArticleCount(channelId)).thenReturn(count);
+        when(mock.getArticleReleaseCount(channelId)).thenReturn(count);
         ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,false);
         
-        Assert.assertEquals(count, service.getArticleCount(channelId));
-    }
-    
-    @Test
-    public void testUpdatePreRelease()throws PublishException{
-        try{
-            ArticlePublishServiceable mock = mock(ArticlePublishServiceable.class);
-            ArticlePublishServiceWrapper service = new ArticlePublishServiceWrapper(mock,true);
-            service.updatePreRelease(Integer.MAX_VALUE);
-            Assert.fail();
-        }catch(RuntimeException e){
-            
-        }
+        Assert.assertEquals(count, service.getArticleReleaseCount(channelId));
     }
 }
