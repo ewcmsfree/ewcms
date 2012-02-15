@@ -34,6 +34,6 @@ public class ResourceEvent extends CompleteEvent {
     
     @Override
     protected void successAfter(String uri){
-        service.publishResource(resource.getId());
+        service.publishResourceSuccess(resource.getId());
     }
 }

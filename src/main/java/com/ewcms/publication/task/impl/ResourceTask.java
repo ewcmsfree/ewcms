@@ -109,8 +109,8 @@ public class ResourceTask extends TaskBase{
      * @return true 需要发布
      */
     private boolean isPublish(Resource.Status state){
-        return (state == Resource.Status.NORMAL) || 
-                (state==Resource.Status.RELEASED && builder.again);
+        return (state == Resource.Status.NORMAL) 
+                   ||(state==Resource.Status.RELEASED);
     }
     
     private List<Resource> publishResources(){
@@ -118,17 +118,17 @@ public class ResourceTask extends TaskBase{
         List<Resource> resources;
         ResourcePublishServiceable service = builder.resourceService;
         if(builder.resourceIds == null){
-            resources = service.findNotReleaseResources(builder.siteId);
+            resources = service.findPublishResources(builder.siteId,builder.again);
         }else{
             resources = new ArrayList<Resource>();
             for(Integer id : builder.resourceIds){
                 Resource resource = service.getResource(id);
-                if(resource == null){
+                if(resource != null){
+                    if(isPublish(resource.getStatus())){
+                        resources.add(resource);
+                    }
+                }else{
                     logger.warn("Resource is null,Id is {}.",id);
-                    continue;
-                }
-                if(isPublish(resource.getStatus())){
-                    resources.add(resource);
                 }
             }
         }

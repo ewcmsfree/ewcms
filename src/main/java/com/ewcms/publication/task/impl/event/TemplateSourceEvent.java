@@ -33,6 +33,6 @@ public class TemplateSourceEvent extends CompleteEvent {
     
     @Override
     public void successAfter(String uri){
-        service.publishTemplateSource(source.getId());
+        service.publishTemplateSourceSuccess(source.getId());
     }
 }

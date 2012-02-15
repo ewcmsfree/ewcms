@@ -134,7 +134,7 @@ public class ListTask extends TaskBase{
      * @return 总页数
      */
     private int getPageCount(int channelId, int row){
-        Integer count = builder.articleService.getArticleCount(channelId);
+        Integer count = builder.articleService.getArticleReleaseCount(channelId);
         logger.debug("Article count is {}",count);
         return (count + row -1)/row;
     }

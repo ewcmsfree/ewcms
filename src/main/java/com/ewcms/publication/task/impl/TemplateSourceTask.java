@@ -105,53 +105,33 @@ public class TemplateSourceTask extends TaskBase {
     }
 
     /**
-     * 递归得到子模版资源
-     * 
-     * @param sources 资源集合
-     * @param parent 父资源对象
-     */
-    private void getTemplateSourceChildren(List<TemplateSource> sources,TemplateSource parent){
-        
-        if(builder.again || !parent.getRelease()){
-            sources.add(parent);    
-        }
-        
-        List<TemplateSource> children = 
-            builder.templateSourceService.getTemplateSourceChildren(parent.getId());
-        if(children == null || children.isEmpty()){
-            return ;
-        }
-        for(TemplateSource child : children){
-            getTemplateSourceChildren(sources,child);
-        }
-    }
-    
-    /**
-     * 判断是否是模版资源目录
+     * 判断模版资源是否是目录
      * 
      * @param source 模版资源对象
-     * @return
+     * @return true 是目录
      */
     private boolean isDirectory(TemplateSource source){
         return source.getSourceEntity() == null;
     }
     
     /**
-     * 移除模版资源中是目录的对象
+     * 递归得到子模版资源
      * 
-     * @param sources
-     * @return
+     * @param sources 发布的模版资源集合
+     * @param parent 父资源对象
      */
-    private List<TemplateSource> removeDirectory(List<TemplateSource> sources){
-        List<TemplateSource> entities = new ArrayList<TemplateSource>();
-        for(TemplateSource source : sources){
-            if(isDirectory(source)){
-                logger.debug("{} is directory",source.getUniquePath());
-                continue;
-            }
-            entities.add(source);
+    private void getTemplateSourceChildren(List<TemplateSource> sources,TemplateSource parent){
+        
+        if(isDirectory(parent)){
+            sources.add(parent);    
         }
-        return entities;
+        
+        List<TemplateSource> children = 
+            builder.templateSourceService.getTemplateSourceChildren(parent.getId());
+        
+        for(TemplateSource child : children){
+            getTemplateSourceChildren(sources,child);
+        }
     }
     
     /**
@@ -163,22 +143,22 @@ public class TemplateSourceTask extends TaskBase {
     private List<TemplateSource> publishTemplateSources()throws TaskException{
         
         TemplateSourcePublishServiceable templateSourceService = builder.templateSourceService;
+        List<TemplateSource> sources = null;
         if(builder.sourceIds == null){
-            List<TemplateSource> sources =
-                templateSourceService.findNotReleaseTemplateSources(builder.siteId);
-            return removeDirectory(sources);
+            sources =templateSourceService.findPublishTemplateSources(builder.siteId, builder.again);
+        }else{
+            sources = new ArrayList<TemplateSource>();
+            for(Integer id : builder.sourceIds){
+                TemplateSource source = templateSourceService.getTemplateSource(id);
+                if(source != null){
+                    getTemplateSourceChildren(sources,source);
+                }else{
+                    logger.warn("TemplateSource id = {} is not exist",id);
+                }
+            }    
         }
         
-        List<TemplateSource> sources = new ArrayList<TemplateSource>();
-        for(Integer id : builder.sourceIds){
-            TemplateSource source = templateSourceService.getTemplateSource(id);
-            if(source == null){
-                logger.warn("TemplateSource id = {} is not exist",id);
-                continue;
-            }
-            getTemplateSourceChildren(sources,source);
-        }
-        return removeDirectory(sources);
+        return sources;
     }
     
     @Override

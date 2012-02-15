@@ -32,6 +32,6 @@ public class DetailEvent extends CompleteEvent {
     
     @Override
     protected void successAfter(String uri){
-        service.publishArticle(article.getId(), uri);
+        service.publishArticleSuccess(article.getId(), uri);
     }
 }

@@ -155,26 +155,26 @@ public class DetailTask extends TaskBase{
      * @return true 需要发布
      */
     private boolean isPublish(Status status){
-        return (status == Status.PRERELEASE) || 
-                (status==Status.RELEASE && builder.again);
+        return (status == Status.PRERELEASE) ||
+                   (status==Status.RELEASE );
     }
     
     private List<Article> getPublishArticles(){
         
         if(builder.articleIds == null){
-            return builder.articleService.findPreReleaseArticles(
-                    builder.channel.getId(), MAX_PUBLISH_SIZE);
+            return builder.articleService.findPublishArticles(
+                    builder.channel.getId(), builder.again, MAX_PUBLISH_SIZE);
         }
         
         List<Article> articles = new ArrayList<Article>();
         for(Long id : builder.articleIds){
             Article article = builder.articleService.getArticle(id);
-            if(article == null){
+            if(article != null){
+                if(isPublish(article.getStatus())){
+                    articles.add(article);                
+                }
+            }else{
                 logger.warn("Article get by {} is null", id);
-                continue;
-            }
-            if(isPublish(article.getStatus())){
-                articles.add(article);                
             }
         }
         return articles;

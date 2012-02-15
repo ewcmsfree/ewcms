@@ -59,8 +59,10 @@ public abstract class TaskBase implements Taskable{
         int number = 0;
         for(Taskable depend : depends){
             int dependProgress = depend.getProgress();
-            sum = sum + dependProgress;
-            ++number;
+            if(dependProgress != -1){
+                sum = sum + dependProgress;
+                ++number;    
+            }
         }
         if(hasTaskProcess()){
             int current = count.get() == 0 ? 100 : ((complete.get() * 100) / count.get());
@@ -68,7 +70,7 @@ public abstract class TaskBase implements Taskable{
             ++number;    
         }
         
-        return number == 0 ? 100 : (sum/number);
+        return number == 0 ? -1 : (sum/number);
     }
 
     @Override
