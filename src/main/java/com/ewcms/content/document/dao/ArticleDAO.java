@@ -37,6 +37,14 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     }
     
     @SuppressWarnings("unchecked")
+	public ArticleMain findArticleMainByArticleId(Long articleId){
+    	String hql = "Select m From ArticleMain As m Left Join m.article As a Where a.id=? And reference = false";
+    	List<ArticleMain> list = this.getJpaTemplate().find(hql, articleId);
+    	if (list.isEmpty()) return null;
+    	return list.get(0);
+    }
+    
+    @SuppressWarnings("unchecked")
 	public List<Article> findArticlePreReleaseByChannelAndLimit(final Integer channelId, final Integer limit){
     	Object result = this.getJpaTemplate().execute(new JpaCallback<Object>(){
 			@Override

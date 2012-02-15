@@ -68,6 +68,10 @@ public class ArticleService implements ArticlePublishServiceable {
 	public void publishArticle(Long id, String url) {
 		Article article = articleDAO.get(id);
 		Assert.notNull(article);
+		
+		ArticleMain articleMain = articleDAO.findArticleMainByArticleId(id);
+		operateTrackService.addOperateTrack(articleMain.getId(), article.getStatusDescription(), "已发布", "");
+		
 		article.setUrl(url);
 		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);

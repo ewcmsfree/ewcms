@@ -129,13 +129,11 @@ public class ArticleMainService implements ArticleMainServiceable {
 				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "发布版。", "");
 
 				article.setStatus(Status.PRERELEASE);
-//				article.setReviewProcessId(null);
 				article.setReviewProcess(null);
 			}else{
 				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
 
 				article.setStatus(Status.REVIEW);
-//				article.setReviewProcessId(reviewProcess.getId());
 				article.setReviewProcess(reviewProcess);
 			}
 			
@@ -305,13 +303,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (rp != null){
 					caption = "【" + rp.getName() + "】<span style='color:blue;'>通过</span>";
 					if (rp.getNextProcess() != null) {
-//						Long nextReviewProcessId = rp.getNextProcess().getId();
-//						article.setReviewProcessId(nextReviewProcessId);
 						article.setReviewProcess(rp.getNextProcess());
 						caption += "，已提交到【" + rp.getNextProcess().getName() + "】进行审核。";
 					}else{
 						article.setStatus(Status.PRERELEASE);
-						//article.setReviewProcessId(null);
 						article.setReviewProcess(null);
 						caption += "，可以进行发布。";
 					}
@@ -323,13 +318,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 				if (rp != null){
 					caption = "【" + rp.getName() + "】<span style='color:red;'>不通过</span>";
 					if (rp.getPrevProcess() != null){
-//						Long parentId = rp.getPrevProcess().getId();
-//						article.setReviewProcessId(parentId);
 						article.setReviewProcess(rp.getPrevProcess());
 						caption += "，已退回到【" + rp.getPrevProcess().getName() + "】进行重新审核。";
 					}else{
 						article.setStatus(Status.REEDIT);
-//						article.setReviewProcessId(null);
 						article.setReviewProcess(null);
 						caption += "，已退回到重新编辑状态。";
 					}
