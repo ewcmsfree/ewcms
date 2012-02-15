@@ -33,16 +33,19 @@ public interface ArticlePublishServiceable {
      * @param id 文章编号
      * @param url 文章链接地址
      */
-    void publishArticle(Long id, String url);
+    void publishArticleSuccess(Long id, String url);
     
     /**
      * 查询准备发布的文章
+     * <br>
+     * 再发布时会得到所有要发布的文章（PreRelease和Release）。
      * 
      * @param channelId 频道编号 
+     * @param forceAgain 再发布 
      * @param limit 最大文章数
      * @return
      */
-    List<Article> findPreReleaseArticles(Integer channelId,Integer limit);
+    List<Article> findPublishArticles(Integer channelId,Boolean forceAgain, Integer limit);
     
     /**
      * 得到频道指定页面文章
@@ -56,7 +59,7 @@ public interface ArticlePublishServiceable {
      * @param top  顶置文章
      * @return
      */
-    List<Article> findReleaseArticlePage(Integer channelId,Integer page,Integer row,Boolean top);
+    List<Article> findArticleReleasePage(Integer channelId,Integer page,Integer row,Boolean top);
 
     /**
      * 得到频道已经发布的文章总数
@@ -66,12 +69,5 @@ public interface ArticlePublishServiceable {
      * @param channelId 频道编号
      * @return 
      */
-    int getArticleCount(Integer channelId);
-    
-    /**
-     * 把已经发布的文章变成预发布文章。
-     * 
-     * @param channelId 频道编号
-     */
-     void updatePreRelease(Integer channelId);
+    int getArticleReleaseCount(Integer channelId);
 }

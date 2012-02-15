@@ -21,11 +21,14 @@ public interface TemplateSourcePublishServiceable {
 
     /**
      * 查询需要发布的模板资源
+     * <br>
+     * 再发布时会得到所有模版资源。
      * 
      * @param siteId 站点编号
+     * @param forceAgain 再发布 
      * @return 模板资源列表
      */
-    List<TemplateSource> findNotReleaseTemplateSources(Integer siteId);
+    List<TemplateSource> findPublishTemplateSources(Integer siteId, Boolean forceAgain);
     
     /**
      * 得到模板资源
@@ -44,16 +47,11 @@ public interface TemplateSourcePublishServiceable {
     List<TemplateSource> getTemplateSourceChildren(Integer id);
     
     /**
-     * 更新模板资源为发布状态
+     * 发布模板资源成功
+     * <br>
+     * 标示模版资源已经发布，Release = true。
      * 
      * @param id 模板资源编号
      */
-    void publishTemplateSource(Integer id);
-    
-    /**
-     * 把已经发布的模板资源变成未发布的模板资源。
-     *  
-     * @param siteId 站点编号
-     */
-    void updateNotRelease(Integer siteId);
+    void publishTemplateSourceSuccess(Integer id);
 }

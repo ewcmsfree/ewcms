@@ -29,25 +29,21 @@ public interface ResourcePublishServiceable {
     
     /**
      * 查询需要发布的资源
+     * <br>
+     * 再发布时会得到所有要发布的资源（包括：normal和released）。
      * 
      * @param siteId 站点编号
-     * @return
+     * @param forceAgain 再发布 
+     * @return 需要发布的资源
      */
-    List<Resource> findNotReleaseResources(Integer siteId);
+    List<Resource> findPublishResources(Integer siteId, Boolean forceAgain);
 
     /**
-     * 发布资源
+     * 发布资源成功
      * <br>
-     * 更新资源状态到发布状态
+     * 标示资源为发布状态。
      * 
      * @param id 资源编号
      */
-    void publishResource(Integer id);
-    
-    /**
-     * 把已经发布的资源变成未发布资源。
-     *  
-     * @param siteId 站点编号
-     */
-    void updateNotRelease(Integer siteId);
+    void publishResourceSuccess(Integer id);
 }
