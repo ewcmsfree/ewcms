@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<title>模板编辑</title>
-		<s:include value="../taglibs.jsp"/>
+		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript">
 			$(function(){
 				$('#systemtab').tabs({

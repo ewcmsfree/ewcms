@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>模板管理</title>			
-		<s:include value="../taglibs.jsp"/>
+		<s:include value="../../taglibs.jsp"/>
 		<script>
 			var folderparten = /^[0-9A-Za-z_]*$/;
 			var fileparten = /^([a-zA-z0-9])+.(html|htm)$/;

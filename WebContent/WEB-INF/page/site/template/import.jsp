@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>模板导入</title>
-		<s:include value="../taglibs.jsp"/>
+		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript">
 			<s:if test="templateVo.id != null">
 				parent.importLoad();

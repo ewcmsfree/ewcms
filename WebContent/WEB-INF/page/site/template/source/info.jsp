@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>资源信息</title>	
-		<s:include value="../../taglibs.jsp"/>
+		<s:include value="../../../taglibs.jsp"/>
 		<script type="text/javascript"> 
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>

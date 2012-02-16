@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>模板资源上传</title>
-		<s:include value="../../taglibs.jsp"/>
+		<s:include value="../../../taglibs.jsp"/>
 		<script type="text/javascript">
 			<s:if test="sourceVo.id != null">
 				parent.importLoad();

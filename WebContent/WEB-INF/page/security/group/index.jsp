@@ -6,6 +6,7 @@
 <head>
     <title>用户组</title>
 	<s:include value="../../taglibs.jsp"/>
+    <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/ext/datagrid-detailview.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/page/security/group/index.js"/>'></script>
     
      <script type="text/javascript">

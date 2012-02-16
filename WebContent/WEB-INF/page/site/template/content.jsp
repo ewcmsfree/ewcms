@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<title>模板编辑</title>	
-		<s:include value="../taglibs.jsp"/>
+		<s:include value="../../taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/codemirror/lib/codemirror.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/lib/codemirror.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/xml/xml.js"/>'></script>
@@ -13,7 +13,7 @@
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/css/css.js"/>'></script>
         <script type="text/javascript">
 	        $(function(){
-	            <s:include value="../alertMessage.jsp"/>
+	            <s:include value="../../alertMessage.jsp"/>
 	        });
         </script>	
 	</head>
