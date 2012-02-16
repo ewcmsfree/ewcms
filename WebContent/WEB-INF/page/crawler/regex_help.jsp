@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
 <html>
 	<head>
 		<title>表达式使用说明</title>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
+		<s:include value="../taglibs.jsp"/>
 	</head>
 	<body>
 		<font color="#0066FF"><b>表达式似于CSS（或JQuery）的选择器语法，来实现非常强大和灵活的查找功能。</b></font><p/>

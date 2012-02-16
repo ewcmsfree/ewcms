@@ -6,49 +6,37 @@
 <html>
 	<head>
 		<title>Custom数据源</title>	
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
+		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/ds/index.js"/>'></script>
 		<script type="text/javascript">
-		connectTest = "<s:url namespace='/ds/connect' action='test'/>";
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/ds/custom" action="query"/>');
-
-			ewcmsBOBJ.setWinWidth(700);
-			ewcmsBOBJ.setWinHeight(240);
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-						{field:'id',title:'编号',width:50,sortable:true},
-		                {field:'name',title:'名称',width:100},
-		                {field:'customName',title:'Bean名称',width:200},
-		                {field:'customMethod',title:'Bean方法',width:200},
-		                {field:'remarks',title:'说明',width:300},
-		                {field:'connectTest',title:'测试',width:30,
-		                	formatter : function(val, rec) {
-		                		return "&nbsp;<a href='javascript:void(0);' onclick='test(" +  rec.id + ");'><img src='../../ewcmssource/image/ds/connect_test.png' width='13px' height='13px' title='测试' style='border:0'/></a>";
-		                	}
-		                }
-                  ]]
+			connectTest = "<s:url namespace='/ds/connect' action='test'/>";
+			$(function(){
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/ds/custom" action="query"/>');
+	
+				ewcmsBOBJ.setWinWidth(700);
+				ewcmsBOBJ.setWinHeight(240);
+				
+				ewcmsBOBJ.openDataGrid('#tt',{
+	                columns:[[
+							{field:'id',title:'编号',width:50,sortable:true},
+			                {field:'name',title:'名称',width:100},
+			                {field:'customName',title:'Bean名称',width:200},
+			                {field:'customMethod',title:'Bean方法',width:200},
+			                {field:'remarks',title:'说明',width:300},
+			                {field:'connectTest',title:'测试',width:30,
+			                	formatter : function(val, rec) {
+			                		return "&nbsp;<a href='javascript:void(0);' onclick='test(" +  rec.id + ");'><img src='../../ewcmssource/image/ds/connect_test.png' width='13px' height='13px' title='测试' style='border:0'/></a>";
+			                	}
+			                }
+	                  ]]
+				});
+	
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/ds/custom" action="input"/>');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/ds/custom" action="delete"/>');
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/ds/custom" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/ds/custom" action="delete"/>');
-		});
 		</script>		
 	</head>
 	<body class="easyui-layout">

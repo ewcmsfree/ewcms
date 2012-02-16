@@ -5,15 +5,9 @@
 <html>
     <head>
         <title>修改密码</title>
-        <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/page/security/account/digitialspaghetti.password.min.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
+		<s:include value="../../taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/security/account/password.css"/>'/>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/page/security/account/digitialspaghetti.password.min.js"/>'></script>
         <script type="text/javascript">
             $(function(){
                 <s:include value="../../alertMessage.jsp"/>

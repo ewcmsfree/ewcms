@@ -6,18 +6,10 @@
 <html>
 	<head>
 		<title>发送消息</title>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>							
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
+		<s:include value="../taglibs.jsp"/>
         <script type="text/javascript">
         	$(function() {
+        		<s:include value="../alertMessage.jsp"/>
         		$('#userInfo').combobox({
         			url: '<s:url namespace="/message/send" action="userInfo"/>',
         			valueField:'id',
@@ -29,14 +21,6 @@
         			panelHeight:60
         		});
         	})
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
             function selType(obj){
             	if (obj.value != 'GENERAL'){
             		$('#trUserName').hide();
@@ -46,7 +30,7 @@
             }
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form id="notesForm" action="save" namespace="/message/send">
 			<table class="formtable">
 				<tr>

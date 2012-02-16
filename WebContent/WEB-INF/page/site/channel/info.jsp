@@ -4,26 +4,14 @@
 <html>
 	<head>
 		<title>专栏信息设置</title>	
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
+		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript"> 
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-							$.messager.alert('提示','<s:property escape="false"/>');
-			        </s:iterator>  
-		     	</s:if>  
-			}							
+	    	$(function() {
+		        <s:include value="../../alertMessage.jsp"/>
+	    	});
 		</script>
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="saveInfo" namespace="/site/channel"  method="post" enctype="multipart/form-data">
 			<table  class="formtable" align="center">
 				<tr>

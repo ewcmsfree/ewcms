@@ -5,22 +5,15 @@
 <html>
 	<head>
 		<title>模板编辑</title>	
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'/>
+		<s:include value="../taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/codemirror/lib/codemirror.css"/>'/>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/lib/codemirror.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/xml/xml.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/javascript/javascript.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/codemirror/mode/css/css.js"/>'></script>
         <script type="text/javascript">
 	        $(function(){
-	            <s:include value="../../alertMessage.jsp"/>
+	            <s:include value="../alertMessage.jsp"/>
 	        });
         </script>	
 	</head>

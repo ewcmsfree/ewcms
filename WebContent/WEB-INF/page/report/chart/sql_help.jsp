@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %> 
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
 <html>
 	<head>
 		<title>SQL语句使用参数说明</title>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
+		<s:include value="../../taglibs.jsp"/>
 	</head>
 	<body>
 		<font color="#0066FF"><b>SQL语句使用方式</b></font><p/>

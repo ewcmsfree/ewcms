@@ -8,24 +8,12 @@
 <html>
 	<head>
 		<title>文档编辑：</title>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/easyui/themes/icon.css'/>"></link>
-		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/css/ewcms.css'/>"></link>
+		<s:include value="../../taglibs.jsp"/>
 		<link rel="stylesheet" type="text/css" href="<s:url value='/ewcmssource/page/document/article.css'/>"></link>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.min.js'/>"></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/js/jquery.cookies.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/tiny_mce_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config.js'/>"></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/edit.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
@@ -35,18 +23,13 @@
 	    	voteURL = '<s:url action="article" namespace="/vote/questionnaire"/>';
 	    	treeURL = "<s:url namespace='/site/channel' action='tree'/>";
 	    	saveURL = "<s:url action='save' namespace='/document/article'/>";
-	    	<s:property value="javaScript"/>
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>');
-			        </s:iterator>  
-		     	</s:if>  
-			}
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	        });
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form id="articleSave" action="save" namespace="/document/article">
 			<div id="wrapper" >
 				<table id="buttonBarTable" width="100%" border="0" cellpadding="0" cellspacing="0" style="border: #B7D8ED 1px solid;">

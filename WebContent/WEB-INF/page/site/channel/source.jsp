@@ -4,18 +4,7 @@
 <html>
 	<head>
 		<title>专栏资源管理</title>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-	    <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/css/ewcms.css"/>'>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>          
-        <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/home.js"/>'></script>		
+		<s:include value="../../taglibs.jsp"/>
 		<script>
 			$(function(){
 				//创建和设置页面的基本对象 EwcmsBase
@@ -40,7 +29,9 @@
 			});
 			
 			function editTPL(idValue){
-				top.addTab('资源编辑','<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
+				$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
+				ewcmsBOBJ.openWindow("#pop-window",{width:800,height:370,title:"资源编辑"});
+				//top.addTab('资源编辑','<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
 			}
 			
 		</script>
@@ -83,6 +74,13 @@
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
+                </div>
+            </div>
+        </div>
+		<div id="pop-window" class="easyui-window" title="弹出窗口" icon="icon-save" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_pop"  name="editifr_pop" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
                 </div>
             </div>
         </div>

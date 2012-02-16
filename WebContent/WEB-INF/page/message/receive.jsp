@@ -6,119 +6,107 @@
 <html>
 	<head>
 		<title>收件箱</title>	
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.base.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
-		<script>
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/message/receive" action="query"/>');
-			
-			ewcmsBOBJ.delToolItem('新增');
-			ewcmsBOBJ.delToolItem('修改');
-			ewcmsBOBJ.delToolItem('删除');
-			ewcmsBOBJ.delToolItem('查询');
-			ewcmsBOBJ.delToolItem('缺省查询');
-			
-			ewcmsBOBJ.addToolItem('标记为','icon-markread', null, 'btnMark');
-			ewcmsBOBJ.addToolItem('删除', 'icon-remove', delCallBack, 'btnRemove');
-			ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
-			ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-				singleSelect : true,
-                columns:[[
-						 {field:'id',title:'编号',width:60},
-						 {field:'userName',title:'用户',hidden:true},
-						 {field:'read',title:'标记 ',width:32,
-		                	 formatter : function(val, rec) {
-			                	if (val){
-			                	  return "&nbsp;<img src='../../ewcmssource/image/msg/msg_read.gif' width='13px' height='13px' title='接收消息，已读'/>";
-			                	}else{
-			                	  return "&nbsp;<img src='../../ewcmssource/image/msg/msg_unread.gif' width='13px' height='13px' title='接收消息，未读'/>";
-			                	}
-		                	 }
-		                 },
-						 {field:'title',title:'标题',width:800,
-		                	 formatter : function(val, rec){
-		                		 return '<a href="javascript:void(0);" onclick="parent.showRecord(' + rec.id + ')" onfocus="this.blur();">' + rec.msgContent.title + '</a>';
-		                	 }
-		                 },
-		                 {field:'readTime',title:'读取时间',width:125},
-		                 {field:'subscription',title:'订阅',width:32,
-		                	 formatter : function(val, rec) {
-				                if (val){
-				                  return "&nbsp;<img src='../../ewcmssource/theme/icons/ok.png' width='13px' height='13px'/>";
-				                }else{
-				                  return "";
+		<s:include value="../taglibs.jsp"/>
+		<script type="text/javascript">
+			$(function(){
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/message/receive" action="query"/>');
+				
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+				
+				ewcmsBOBJ.addToolItem('标记为','icon-markread', null, 'btnMark');
+				ewcmsBOBJ.addToolItem('删除', 'icon-remove', delCallBack, 'btnRemove');
+				ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
+				ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
+				
+				ewcmsBOBJ.openDataGrid('#tt',{
+					singleSelect : true,
+	                columns:[[
+							 {field:'id',title:'编号',width:60},
+							 {field:'userName',title:'用户',hidden:true},
+							 {field:'read',title:'标记 ',width:32,
+			                	 formatter : function(val, rec) {
+				                	if (val){
+				                	  return "&nbsp;<img src='../../ewcmssource/image/msg/msg_read.gif' width='13px' height='13px' title='接收消息，已读'/>";
+				                	}else{
+				                	  return "&nbsp;<img src='../../ewcmssource/image/msg/msg_unread.gif' width='13px' height='13px' title='接收消息，未读'/>";
+				                	}
+			                	 }
+			                 },
+							 {field:'title',title:'标题',width:800,
+			                	 formatter : function(val, rec){
+			                		 return '<a href="javascript:void(0);" onclick="parent.showRecord(' + rec.id + ')" onfocus="this.blur();">' + rec.msgContent.title + '</a>';
+			                	 }
+			                 },
+			                 {field:'readTime',title:'读取时间',width:125},
+			                 {field:'subscription',title:'订阅',width:32,
+			                	 formatter : function(val, rec) {
+					                if (val){
+					                  return "&nbsp;<img src='../../ewcmssource/theme/icons/ok.png' width='13px' height='13px'/>";
+					                }else{
+					                  return "";
+					                }
 				                }
-			                }
-		                 },
-		                 {field:'sendUserName',title:'发送用户',width:80}
-                  ]]
+			                 },
+			                 {field:'sendUserName',title:'发送用户',width:80}
+	                  ]]
+				});
+	
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/message/receive" action="delete"></s:url>');
+				initSubMenu();
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/message/receive" action="delete"></s:url>');
-			initSubMenu();
-		});
-		function initOperateQuery(){
-			defQueryCallBack();
-			initSubMenu();
-		}
-		function initSubMenu() {
-			$('#btnMark .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnMarkRead'});
-		}
-		function markReadOperate(read){
-			var rows = $("#tt").datagrid("getSelections");
-			if (rows.length == 0){
-				$.messager.alert("提示","请选择标记已读的记录","info");
-				return;
+			function initOperateQuery(){
+				defQueryCallBack();
+				initSubMenu();
 			}
-			if (rows.length > 1){
-				$.messager.alert("提示","只能选择一个记录进行标记已读","info");
-				return;
+			function initSubMenu() {
+				$('#btnMark .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnMarkRead'});
 			}
-			$.post('<s:url namespace="/message/receive" action="markRead"/>', {'selections':rows[0].id,'read':read}, function(data){
-				if (data == "false"){
-					$.messager.alert("提示","标记已读失败","info");
+			function markReadOperate(read){
+				var rows = $("#tt").datagrid("getSelections");
+				if (rows.length == 0){
+					$.messager.alert("提示","请选择标记已读的记录","info");
 					return;
 				}
-				$("#tt").datagrid('reload');
-				refreshTipMessage();
-			});
-            return false;           
-		}
-		function refreshTipMessage(){
-			  $.ajax({
-				  type:'post',
-				  datatype:'json',
-				  cache:false,
-				  url:'<s:url namespace="/message/receive" action="unRead"/>',
-				  data: '',
-				  success:function(message, textStatus){
-					  parent.parent.$('#tipMessage').empty();
-				      var html = '<span id="messageFlash">';
-				      if (message != 'false'){
-				      	var tiplength = message.length;
-				        html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【<img src="./ewcmssource/image/msg/msg_new.gif"/>新消息(' + tiplength + ')】</a>';
-				      }
-				      html += '</span>';
-				      parent.parent.$('#tipMessage').append(html);
-				  }
-			  });
-		}
+				if (rows.length > 1){
+					$.messager.alert("提示","只能选择一个记录进行标记已读","info");
+					return;
+				}
+				$.post('<s:url namespace="/message/receive" action="markRead"/>', {'selections':rows[0].id,'read':read}, function(data){
+					if (data == "false"){
+						$.messager.alert("提示","标记已读失败","info");
+						return;
+					}
+					$("#tt").datagrid('reload');
+					refreshTipMessage();
+				});
+	            return false;           
+			}
+			function refreshTipMessage(){
+				  $.ajax({
+					  type:'post',
+					  datatype:'json',
+					  cache:false,
+					  url:'<s:url namespace="/message/receive" action="unRead"/>',
+					  data: '',
+					  success:function(message, textStatus){
+						  parent.parent.$('#tipMessage').empty();
+					      var html = '<span id="messageFlash">';
+					      if (message != 'false'){
+					      	var tiplength = message.length;
+					        html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【<img src="./ewcmssource/image/msg/msg_new.gif"/>新消息(' + tiplength + ')】</a>';
+					      }
+					      html += '</span>';
+					      parent.parent.$('#tipMessage').append(html);
+					  }
+				  });
+			}
 		</script>		
 	</head>
 	<body class="easyui-layout">

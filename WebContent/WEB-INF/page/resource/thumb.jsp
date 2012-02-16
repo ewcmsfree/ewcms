@@ -6,16 +6,11 @@
 <html>
     <head>
         <title>更新缩略图</title>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-        <script type='text/javascript' src='<s:url value="/ewcmssource/js/jquery.min.js" />'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
+		<s:include value="../taglibs.jsp"/>
+        <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/uploadify/uploadify.css"/>"/>
         <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/jquery.uploadify.min.js"/>'></script>
         <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/swfobject.js"/>'></script>
         <script type='text/javascript' src='<s:url value="/ewcmssource/page/resource/thumb.js"/>'></script>
-        <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/uploadify/uploadify.css"/>"/>
         <script type="text/javascript">
             var _t = new thumb('<s:property  value="id"/>',
                 {uploader:'<s:url value="/ewcmssource/uploadify/medium/uploadify.allglyphs.swf"/>',

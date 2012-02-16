@@ -6,20 +6,12 @@
 <html>
 	<head>
 		<title>报表选择</title>
-		<script type="text/javascript" src="<s:url value='/ewcmssource/js/loading.js'/>"></script>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/cupertino/easyui.css"/>' rel="stylesheet" title="cupertino"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/pepper-grinder/easyui.css"/>' rel="stylesheet" title="pepper-grinder"/>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/sunny/easyui.css"/>' rel="stylesheet" title="sunny"/>
-		<link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/icon.css"/>'></link>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/css/ewcms.css"/>"></link>							
-		<script type="text/javascript" src='<s:url value="/ewcmssource/js/jquery.min.js"/>'></script>
-	    <script type="text/javascript" src='<s:url value="/ewcmssource/js/skin.js"/>'></script>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>	
+		<s:include value="../../../taglibs.jsp"/>
         <script type="text/javascript">
             var textCategoryURL = "<s:url namespace='/report/text' action='findTextReport'/>?categoryId=<s:property value='categoryId'/>";
             var chartCategoryURL = "<s:url namespace='/report/chart' action='findChartReport'/>?categoryId=<s:property value='categoryId'/>";
 	        $(function(){
+	            <s:include value="../../../alertMessage.jsp"/>
 	        	$('#text_categories').combobox({
 	        		url: textCategoryURL,
 	        		valueField:'id',
@@ -42,17 +34,9 @@
 	        	});
 	        })
 
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
-            <s:property value="javaScript"/>
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/report/category/detail">
 			<table class="formtable" >
 				<tr>
