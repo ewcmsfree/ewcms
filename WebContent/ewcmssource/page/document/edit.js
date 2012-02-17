@@ -490,17 +490,17 @@ function changeType(){
 //打开附件页面
 function openAnnexWindow(){
     var url = insertURL + '?type=annex';
-    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地附",url:url});
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"附件选择",url:url});
 }
 //打开Flash页面
 function openFlashWindow(){
     var url = insertURL + '?type=flash';
-    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地Flash",url:url});
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"Flash选择",url:url});
 }
 //打开视频页面
 function openVideoWindow(){
     var url = insertURL + '?type=video';
-    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"本地视频",url:url});
+    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"视频选择",url:url});
 }
 //选择引用图片页面
 function openRefenceImageWindow(){
