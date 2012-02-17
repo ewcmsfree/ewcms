@@ -6,7 +6,7 @@
 <html>
     <head>
         <title>上传资源</title>
-		<s:include value="../../taglibs.jsp"/>
+		<s:include value="../taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href="<s:url value="/ewcmssource/uploadify/uploadify.css"/>"/>
         <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/jquery.uploadify.min.js"/>'></script>
         <script type='text/javascript' src='<s:url value="/ewcmssource/uploadify/swfobject.js"/>'></script>
