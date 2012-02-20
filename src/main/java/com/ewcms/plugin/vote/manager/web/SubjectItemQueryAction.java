@@ -12,6 +12,7 @@ import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
+import com.ewcms.plugin.vote.model.SubjectItem.Status;
 import com.ewcms.web.QueryBaseAction;
 
 /**
@@ -49,6 +50,24 @@ public class SubjectItemQueryAction extends QueryBaseAction {
 			countHql += " And i.title Like :title";
 		}
 		
+    	String status = getParameterValue(String.class, "status");
+		if (isStringNotEmpty(status) && !status.equals("-1")){
+			hql += " And i.status=:status";
+			countHql += " And i.status=:status";
+		}
+		
+		Long voteNumberBegin = getParameterValue(Long.class, "voteNumberBegin");
+		if (isNotNull(voteNumberBegin)) {
+			hql += " And i.voteNumber>=:voteNumberBegin";
+			countHql +=" And i.voteNumber>=:voteNumberBegin";
+		}
+		
+		Long voteNumberEnd = getParameterValue(Long.class, "voteNumberEnd");
+		if (isNotNull(voteNumberEnd)) {
+			hql += " And i.voteNumber<=:voteNumberEnd";
+			countHql +=" And i.voteNumber<=:voteNumberEnd";
+		}
+		
 		hql += " Order By i.sort";
 
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
@@ -58,6 +77,15 @@ public class SubjectItemQueryAction extends QueryBaseAction {
 		}
 		if (isStringNotEmpty(title)){
 			query.setParameter("title", "%" + title + "%");
+		}
+		if (isStringNotEmpty(status) && !status.equals("-1")){
+			query.setParameter("status", Status.valueOf(status));
+		}
+		if (isNotNull(voteNumberBegin)) {
+			query.setParameter("voteNumberBegin", voteNumberBegin);
+		}
+		if (isNotNull(voteNumberEnd)) {
+			query.setParameter("voteNumberEnd", voteNumberEnd);
 		}
 		query.setParameter("subjectId", getSubjectId());
     	

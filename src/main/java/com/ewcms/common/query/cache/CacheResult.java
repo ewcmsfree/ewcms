@@ -16,7 +16,10 @@ import org.springframework.util.Assert;
 import com.ewcms.common.query.Paginationable;
 
 public class CacheResult implements CacheResultable,Paginationable,Serializable{
-    private int row = DEFAULT_ROW;
+	
+	private static final long serialVersionUID = -8968737366176823246L;
+	
+	private int row = DEFAULT_ROW;
     private int page = DEFAULT_PAGE;
     
     private String cacheKey;

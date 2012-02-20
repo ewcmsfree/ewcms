@@ -18,7 +18,6 @@ import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
-import com.ewcms.plugin.notes.model.Memoranda.FrequencyStatus;
 
 public class MsgReceiveQueryAction extends QueryBaseAction {
 
@@ -36,11 +35,11 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 			hql += " And m.id=:id ";
 			countHql += " And m.id=:id";
 		}
-		// String title = getParameterValue(String.class, "title", "");
-		// if (isStringNotEmpty(title)){
-		// hql += " And m.title Like :title";
-		// countHql += " And m.title Like :title";
-		// }
+		 String title = getParameterValue(String.class, "title", "");
+		 if (isStringNotEmpty(title)){
+			 hql += " And m.title Like :title";
+			 countHql += " And m.title Like :title";
+		 }
 		String readTimeStart = getParameterValue(String.class, "readTimeStart", "");
 		if (isStringNotEmpty(readTimeStart)) {
 			hql += " And m.readTime>=:readTimeStart";
@@ -51,10 +50,10 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 			hql += " And m.readTime<=:readTimeEnd";
 			countHql += " And m.readTime<=:readTimeEnd";
 		}
-		String status = getParameterValue(String.class, "status", "");
-		if (isStringNotEmpty(status) && !status.equals("-1")) {
-			hql += " And m.status=:status";
-			countHql += " And m.status=:status";
+		String subscription = getParameterValue(String.class, "subscription");
+		if (isStringNotEmpty(subscription) && !subscription.equals("-1")) {
+			hql += " And q.subscription=:subscription";
+			countHql += " And q.subscription=:subscription";
 		}
 
 		hql += " Order By m.read, m.readTime Desc, m.id Desc";
@@ -62,6 +61,9 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)) {
 			query.setParameter("id", id);
+		}
+		if (isStringNotEmpty(title)){
+			query.setParameter("title", "%" + title + "%");
 		}
 		if (isStringNotEmpty(readTimeStart)) {
 			try {
@@ -77,8 +79,8 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 				e.printStackTrace();
 			}
 		}
-		if (isStringNotEmpty(status) && !status.equals("-1")) {
-			query.setParameter("status", FrequencyStatus.valueOf(status));
+		if (isStringNotEmpty(subscription) && !subscription.equals("-1")){
+			query.setParameter("subscription", Boolean.parseBoolean(subscription));
 		}
 		
 		query.setParameter("userName", EwcmsContextUtil.getUserName());

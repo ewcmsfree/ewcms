@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
-import com.ewcms.plugin.notes.model.Memoranda.FrequencyStatus;
+import com.ewcms.plugin.message.model.MsgSend.Type;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -51,10 +51,10 @@ public class MsgSendQueryAction extends QueryBaseAction {
 			hql += " And m.sendTime<=:sendTimeEnd";
 			countHql += " And m.sendTime<=:sendTimeEnd";
 		}
-		String status = getParameterValue(String.class, "status", "");
-		if (isStringNotEmpty(status) && !status.equals("-1")) {
-			hql += " And m.status=:status";
-			countHql += " And m.status=:status";
+		String type = getParameterValue(String.class, "type", "");
+		if (isStringNotEmpty(type) && !type.equals("-1")) {
+			hql += " And m.type=:type";
+			countHql += " And m.type=:type";
 		}
 
 		hql += " Order By m.sendTime Desc, m.id Desc";
@@ -80,8 +80,8 @@ public class MsgSendQueryAction extends QueryBaseAction {
 				e.printStackTrace();
 			}
 		}
-		if (isStringNotEmpty(status) && !status.equals("-1")) {
-			query.setParameter("status", FrequencyStatus.valueOf(status));
+		if (isStringNotEmpty(type) && !type.equals("-1")) {
+			query.setParameter("type", Type.valueOf(type));
 		}
 
 		query.setParameter("userName", EwcmsContextUtil.getUserName());

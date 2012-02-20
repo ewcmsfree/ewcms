@@ -12,6 +12,7 @@ import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
+import com.ewcms.plugin.vote.model.Subject.Status;
 import com.ewcms.web.QueryBaseAction;
 
 /**
@@ -48,6 +49,11 @@ public class SubjectQueryAction extends QueryBaseAction {
 			hql += " And s.title Like :title";
 			countHql += " And s.title Like :title";
 		}
+    	String status = getParameterValue(String.class, "status");
+		if (isStringNotEmpty(status) && !status.equals("-1")){
+			hql += " And s.status=:status";
+			countHql += " And s.status=:status";
+		}
 		
 		hql += " Order By s.sort";
 
@@ -58,6 +64,9 @@ public class SubjectQueryAction extends QueryBaseAction {
 		}
 		if (isStringNotEmpty(title)){
 			query.setParameter("title", "%" + title + "%");
+		}
+		if (isStringNotEmpty(status) && !status.equals("-1")){
+			query.setParameter("status", Status.valueOf(status));
 		}
 		query.setParameter("questionnaireId", getQuestionnaireId());
     	

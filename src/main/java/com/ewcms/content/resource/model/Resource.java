@@ -56,7 +56,9 @@ import com.ewcms.core.site.model.Site;
 @SequenceGenerator(name = "seq_content_resource", sequenceName = "seq_content_resource_id", allocationSize = 1)
 public class Resource implements Serializable {
 
-    /**
+	private static final long serialVersionUID = -6959680908438751060L;
+
+	/**
      * 资源状态
      * @author wangwei
      */

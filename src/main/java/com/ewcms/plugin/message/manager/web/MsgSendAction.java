@@ -149,7 +149,7 @@ public class MsgSendAction extends CrudBaseAction<MsgSend, Long> {
 			comboBoxUser.setId(user.getUsername());
 			comboBoxUser.setText(user.getUserInfo().getName());
 			if (getReceiveUserNames() != null && getReceiveUserNames().length > 0){
-					comboBoxUser.setSelected(true);
+				comboBoxUser.setSelected(true);
 			}
 			comboBoxUsers.add(comboBoxUser);
 		}

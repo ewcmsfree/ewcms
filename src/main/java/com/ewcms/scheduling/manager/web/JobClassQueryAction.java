@@ -30,8 +30,11 @@ public class JobClassQueryAction extends QueryBaseAction {
         Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
         if (isNotNull(id)) query.eq("id", id);
         
-        String name = getParameterValue(String.class, "className", "");
-        if (isStringNotEmpty(name)) query.likeAnywhere("className", name);
+        String className = getParameterValue(String.class, "className");
+        if (isStringNotEmpty(className)) query.likeAnywhere("className", className);
+        
+        String classEntity = getParameterValue(String.class, "classEntity");
+        if (isStringNotEmpty(classEntity)) query.likeAnywhere("classEntity", classEntity);
         
         entityOrder(query, order);
         return query.queryCacheResult(cacheKey);

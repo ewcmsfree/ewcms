@@ -786,7 +786,7 @@ public class FileUtil {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public static void unZip(File zipf, String targetDir) throws IOException {
         ZipFile zfile = new ZipFile(zipf);
         Enumeration zList = zfile.entries();

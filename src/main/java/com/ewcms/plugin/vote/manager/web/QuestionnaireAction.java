@@ -114,12 +114,12 @@ public class QuestionnaireAction extends CrudBaseAction<Questionnaire, Long> {
 	@Override
 	protected Long saveOperator(Questionnaire vo, boolean isUpdate) {
 		try {
-			if (vo.getStartTime() != null){
+			if (getStartTime() != null){
 				vo.setStartTime(bartDateFormat.parse(getStartTime()));
 			}else{
 				vo.setStartTime(new Date(Calendar.getInstance().getTime().getTime()));
 			}
-			if (vo.getEndTime() != null){
+			if (getEndTime() != null){
 				vo.setEndTime(bartDateFormat.parse(getEndTime()));
 			}
 		} catch (ParseException e) {

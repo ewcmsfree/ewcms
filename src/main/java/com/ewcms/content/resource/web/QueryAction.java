@@ -34,7 +34,9 @@ import com.ewcms.web.util.EwcmsContextUtil;
 @Controller("resource.query.action")
 public class QueryAction extends QueryBaseAction {
 
-    private static final Date MINI_DATE ;
+	private static final long serialVersionUID = 1954472728398024710L;
+
+	private static final Date MINI_DATE ;
     
     private String type;
     private Boolean removeEvent = Boolean.FALSE;

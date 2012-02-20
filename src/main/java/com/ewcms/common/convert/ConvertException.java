@@ -17,7 +17,9 @@ package com.ewcms.common.convert;
  */
 public class ConvertException extends Exception {
 
-    public ConvertException(String string) {
+	private static final long serialVersionUID = -4065582154820315966L;
+
+	public ConvertException(String string) {
         super(string);
     }
 

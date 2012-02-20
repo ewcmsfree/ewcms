@@ -9,7 +9,7 @@ package com.ewcms.scheduling.generate.job.history;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.history.fac.HistoryModelFacable;
+import com.ewcms.content.history.fac.HistoryModelFacable;
 import com.ewcms.scheduling.generate.job.BaseEwcmsExecutionJob;
 
 /**

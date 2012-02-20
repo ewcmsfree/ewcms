@@ -20,7 +20,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("resource.manage.action")
 public class ManageAction extends ActionSupport {
 
-    private String type;
+	private static final long serialVersionUID = -5260508363446311782L;
+	
+	private String type;
     private String context;
 
     public String getType() {

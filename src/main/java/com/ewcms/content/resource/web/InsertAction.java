@@ -20,7 +20,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("resource.insert.action")
 public class InsertAction extends ActionSupport {
 
-    private String type;
+	private static final long serialVersionUID = -669504897835815241L;
+	
+	private String type;
     private boolean multi = true;
     private String context;
     
