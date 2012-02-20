@@ -6,5 +6,8 @@
 
 <struts>
 	<include file="struts2/*.xml"/>
+	<include file="struts2/content/*.xml"/>
+	<include file="struts2/core/*.xml"/>
+	<include file="struts2/plugin/*.xml"/>
 </struts>
 
