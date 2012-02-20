@@ -114,7 +114,7 @@
 
 	<servlet>
 		<servlet-name>voteSubmit</servlet-name>
-		<servlet-class>com.ewcms.content.vote.web.SubmitServlet</servlet-class>
+		<servlet-class>com.ewcms.plugin.vote.manager.web.SubmitServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>voteSubmit</servlet-name>
@@ -123,7 +123,7 @@
 
 	<servlet>
 		<servlet-name>voteView</servlet-name>
-		<servlet-class>com.ewcms.content.vote.web.ViewServlet</servlet-class>
+		<servlet-class>com.ewcms.plugin.vote.manager.web.ViewServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>voteView</servlet-name>
@@ -132,7 +132,7 @@
 
 	<servlet>
 		<servlet-name>voteResult</servlet-name>
-		<servlet-class>com.ewcms.content.vote.web.ResultServlet</servlet-class>
+		<servlet-class>com.ewcms.plugin.vote.manager.web.ResultServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>voteResult</servlet-name>
