@@ -7,15 +7,15 @@
 <struts>
 	<package name="report.text" extends="struts-default" namespace="/report/text">
 		<action name="index">
-			<result>/WEB-INF/page/report/text/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/text/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="delete"/>
 		<action name="input" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="input">
-			<result name="input">/WEB-INF/page/report/text/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/text/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="save">
-			<result>/WEB-INF/page/report/text/edit.jsp</result>
-			<result name="input">/WEB-INF/page/report/text/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/report/text/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/text/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.TextReportQueryAction" method="query"/>
 		<action name="parameterType" class="com.ewcms.plugin.report.manager.web.TextReportAction" method="parameterType"/>
@@ -24,25 +24,25 @@
 	</package>
 	<package name="report.chart" extends="struts-default" namespace="/report/chart">
 		<action name="index">
-			<result>/WEB-INF/page/report/chart/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/chart/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="delete"/>
 		<action name="input" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="input">
-			<result name="input">/WEB-INF/page/report/chart/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/chart/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="save">
-			<result>/WEB-INF/page/report/chart/edit.jsp</result>
-			<result name="input">/WEB-INF/page/report/chart/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/report/chart/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/chart/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.ChartReportQueryAction" method="query"/>
 		<action name="parameterType" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="parameterType"/>
 		<action name="findChartReport" class="com.ewcms.plugin.report.manager.web.ChartReportAction" method="findChartReport" />
 		<action name="help">
-			<result>/WEB-INF/page/report/chart/sql_help.jsp</result>
+			<result>/WEB-INF/page/plugin/report/chart/sql_help.jsp</result>
 		</action>	</package>
 	<package name="report.repository" extends="struts-default" namespace="/report/repository">
 		<action name="index">
-			<result>/WEB-INF/page/report/repository/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/repository/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.report.manager.web.RepositoryAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.RepositoryQueryAction" method="query"/>
@@ -51,51 +51,51 @@
 	</package>
 	<package name="report.parameter" extends="struts-default" namespace="/report/parameter">
 		<action name="index" class="com.ewcms.plugin.report.manager.web.ParameterAction">
-			<result>/WEB-INF/page/report/parameter/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/parameter/index.jsp</result>
 		</action>
 		<action name="input" class="com.ewcms.plugin.report.manager.web.ParameterAction" method="input">
-			<result name="input">/WEB-INF/page/report/parameter/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/parameter/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.report.manager.web.ParameterAction" method="save">
-			<result>/WEB-INF/page/report/parameter/edit.jsp</result>
-			<result name="input">/WEB-INF/page/report/parameter/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/report/parameter/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/parameter/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.ParameterQueryAction" method="query"/>
 		<action name="sessionInfo" class="com.ewcms.plugin.report.manager.web.ParameterAction" method="sessionInfo"/>
 	</package>
 	<package name="report.category" extends="struts-default" namespace="/report/category">
 		<action name="index" class="com.ewcms.plugin.report.manager.web.CategoryReportAction">
-			<result>/WEB-INF/page/report/category/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/category/index.jsp</result>
 		</action>
 		<action name="input" class="com.ewcms.plugin.report.manager.web.CategoryReportAction" method="input">
-			<result name="input">/WEB-INF/page/report/category/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/category/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.report.manager.web.CategoryReportAction" method="save">
-			<result>/WEB-INF/page/report/category/edit.jsp</result>
-			<result name="input">/WEB-INF/page/report/category/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/report/category/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/category/edit.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.report.manager.web.CategoryReportAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.CategoryReportQueryAction" method="query"/>
 	</package>
 	<package name="report.category.detail" extends="struts-default" namespace="/report/category/detail">
 		<action name="index" class="com.ewcms.plugin.report.manager.web.CategoryReportDetailAction">
-			<result>/WEB-INF/page/report/category/detail/index.jsp</result>
+			<result>/WEB-INF/page/plugin/report/category/detail/index.jsp</result>
 		</action>
 		<action name="input" class="com.ewcms.plugin.report.manager.web.CategoryReportDetailAction" method="input">
-			<result name="input">/WEB-INF/page/report/category/detail/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/category/detail/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.report.manager.web.CategoryReportDetailAction" method="save">
-			<result>/WEB-INF/page/report/category/detail/edit.jsp</result>
-			<result name="input">/WEB-INF/page/report/category/detail/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/report/category/detail/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/report/category/detail/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.report.manager.web.CategoryReportDetailQueryAction" method="query"/>
 	</package>
 	<package name="report.show" extends="struts-default" namespace="/report/show">
         <action name="index" class="com.ewcms.plugin.report.manager.web.ShowReportAction">
-            <result>/WEB-INF/page/report/show/index.jsp</result>
+            <result>/WEB-INF/page/plugin/report/show/index.jsp</result>
         </action>
         <action name="paraset" class="com.ewcms.plugin.report.manager.web.ParameterSetAction">
-            <result>/WEB-INF/page/report/show/paraset.jsp</result>
+            <result>/WEB-INF/page/plugin/report/show/paraset.jsp</result>
         </action>
         <action name="build" class="com.ewcms.plugin.report.manager.web.ParameterSetAction" method="build"/>
     </package>

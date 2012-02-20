@@ -7,83 +7,83 @@
 <struts>
 	<package name="vote" extends="struts-default" namespace="/vote">
 		<action name="index">
-			<result>/WEB-INF/page/vote/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/index.jsp</result>
 		</action>
 	</package>	
 	<package name="vote.questionnaire" extends="struts-default" namespace="/vote/questionnaire">
 		<action name="index" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction">
-			<result>/WEB-INF/page/vote/questionnaire/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/questionnaire/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.vote.manager.web.QuestionnaireQueryAction" method="query"/>
 		<action name="input" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="input">
-			<result name="input">/WEB-INF/page/vote/questionnaire/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/questionnaire/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="save">
-			<result>/WEB-INF/page/vote/questionnaire/edit.jsp</result>
-			<result name="input">/WEB-INF/page/vote/questionnaire/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/questionnaire/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/questionnaire/edit.jsp</result>
 		</action>
 		<action name="resultVote" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="resultVote"/>
 		<action name="article" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction">
-			<result>/WEB-INF/page/vote/questionnaire/article.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/questionnaire/article.jsp</result>
 		</action>
 		<action name="stop" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="stop"/>
 		<action name="restore" class="com.ewcms.plugin.vote.manager.web.QuestionnaireAction" method="restore"/>
 	</package>
 	<package name="vote.subject" extends="struts-default" namespace="/vote/subject">
 		<action name="index" class="com.ewcms.plugin.vote.manager.web.SubjectAction">
-			<result>/WEB-INF/page/vote/subject/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subject/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.vote.manager.web.SubjectAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.vote.manager.web.SubjectQueryAction" method="query">
-			<result>/WEB-INF/page/vote/subject/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subject/index.jsp</result>
 		</action>
 		<action name="input" class="com.ewcms.plugin.vote.manager.web.SubjectAction" method="input">
-			<result name="input">/WEB-INF/page/vote/subject/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subject/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.vote.manager.web.SubjectAction" method="save">
-			<result>/WEB-INF/page/vote/subject/edit.jsp</result>
-			<result name="input">/WEB-INF/page/vote/subject/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subject/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subject/edit.jsp</result>
 		</action>
 		<action name="up" class="com.ewcms.plugin.vote.manager.web.SubjectAction" method="up"/>
 		<action name="down" class="com.ewcms.plugin.vote.manager.web.SubjectAction" method="down"/>
 	</package>
 	<package name="vote.subjectitem" extends="struts-default" namespace="/vote/subjectitem">
 		<action name="index" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction">
-			<result>/WEB-INF/page/vote/subjectitem/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subjectitem/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.vote.manager.web.SubjectItemQueryAction" method="query">
-			<result>/WEB-INF/page/vote/subjectitem/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subjectitem/index.jsp</result>
 		</action>
 		<action name="input" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="input">
-			<result name="input">/WEB-INF/page/vote/subjectitem/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subjectitem/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="save">
-			<result>/WEB-INF/page/vote/subjectitem/edit.jsp</result>
-			<result name="input">/WEB-INF/page/vote/subjectitem/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/subjectitem/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subjectitem/edit.jsp</result>
 		</action>
 		<action name="inputopt" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="inputopt">
-			<result name="input">/WEB-INF/page/vote/subjectitem/editopt.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subjectitem/editopt.jsp</result>
 		</action>
 		<action name="saveopt" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="saveopt">
-			<result name="input">/WEB-INF/page/vote/subjectitem/editopt.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/vote/subjectitem/editopt.jsp</result>
 		</action>
 		<action name="up" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="up"/>
 		<action name="down" class="com.ewcms.plugin.vote.manager.web.SubjectItemAction" method="down"/>
 	</package>
 	<package name="vote.person" extends="struts-default" namespace="/vote/person">
 		<action name="index" class="com.ewcms.plugin.vote.manager.web.PersonAction">
-			<result>/WEB-INF/page/vote/person/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/person/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.vote.manager.web.PersonAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.vote.manager.web.PersonQueryAction" method="query">
-			<result>/WEB-INF/page/vote/person/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/person/index.jsp</result>
 		</action>
 	</package>
 	<package name="vote.record" extends="struts-default" namespace="/vote/record">
 		<action name="index" class="com.ewcms.plugin.vote.manager.web.RecordAction">
-			<result>/WEB-INF/page/vote/record/index.jsp</result>
+			<result>/WEB-INF/page/plugin/vote/record/index.jsp</result>
 		</action>
 	</package>
 </struts>	

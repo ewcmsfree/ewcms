@@ -7,20 +7,20 @@
 <struts>
 	<package name="message" extends="struts-default" namespace="/message">
 		<action name="index">
-			<result>/WEB-INF/page/message/index.jsp</result>
+			<result>/WEB-INF/page/plugin/message/index.jsp</result>
 		</action>
 	</package>
 	<package name="message.send" extends="struts-default" namespace="/message/send">
 		<action name="index">
-			<result>/WEB-INF/page/message/send.jsp</result>
+			<result>/WEB-INF/page/plugin/message/send.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.message.manager.web.MsgSendAction" method="delete"/>
 		<action name="input" class="com.ewcms.plugin.message.manager.web.MsgSendAction" method="input">
-			<result name="input">/WEB-INF/page/message/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/message/edit.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.message.manager.web.MsgSendAction" method="save">
-			<result>/WEB-INF/page/message/edit.jsp</result>
-			<result name="input">/WEB-INF/page/message/edit.jsp</result>
+			<result>/WEB-INF/page/plugin/message/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/message/edit.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.message.manager.web.MsgSendQueryAction" method="query"/>
 		<action name="notice" class="com.ewcms.plugin.message.manager.web.MsgSendAction" method="notice"/>
@@ -29,7 +29,7 @@
 	</package>
 	<package name="message.receive" extends="struts-default" namespace="/message/receive">
 		<action name="index">
-			<result>/WEB-INF/page/message/receive.jsp</result>
+			<result>/WEB-INF/page/plugin/message/receive.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.plugin.message.manager.web.MsgReceiveAction" method="delete"/>
 		<action name="query" class="com.ewcms.plugin.message.manager.web.MsgReceiveQueryAction" method="query"/>
@@ -39,22 +39,22 @@
 	<package name="message.content" extends="struts-default" namespace="/message/content">
 		<action name="delete" class="com.ewcms.plugin.message.manager.web.MsgContentAction" method="delete"/>
 		<action name="input" class="com.ewcms.plugin.message.manager.web.MsgContentAction" method="input">
-			<result name="input">/WEB-INF/page/message/edit_subscription.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/message/edit_subscription.jsp</result>
 		</action>
 		<action name="save" class="com.ewcms.plugin.message.manager.web.MsgContentAction" method="save">
-			<result>/WEB-INF/page/message/edit_subscription.jsp</result>
-			<result name="input">/WEB-INF/page/message/edit_subscription.jsp</result>
+			<result>/WEB-INF/page/plugin/message/edit_subscription.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/message/edit_subscription.jsp</result>
 		</action>
 	</package>
 	<package name="message.detail" extends="struts-default" namespace="/message/detail">
 		<action name="index" class="com.ewcms.plugin.message.manager.web.MsgDetailAction">
-			<result>/WEB-INF/page/message/detail.jsp</result>
+			<result>/WEB-INF/page/plugin/message/detail.jsp</result>
 		</action>
 		<action name="subscribe" class="com.ewcms.plugin.message.manager.web.MsgDetailAction" method="subscribe"/>
 	</package>
 	<package name="message.more" extends="struts-default" namespace="/message/more">
 		<action name="index" class="com.ewcms.plugin.message.manager.web.MoreAction">
-			<result>/WEB-INF/page/message/more.jsp</result>
+			<result>/WEB-INF/page/plugin/message/more.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.plugin.message.manager.web.MoreQueryAction" method="query"/>
 	</package>
