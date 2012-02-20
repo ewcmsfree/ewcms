@@ -71,18 +71,16 @@
                 <div region="center" border="false" >
                 <form id="queryform">
                 	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="tdtitle">名称：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="label" name="label" class="inputtext"/>
-                                </td>
-                            </tr>
+                    	<tr>
+                            <td class="tdtitle">编号：</td>
+                            <td class="tdinput">
+                                <input type="text" id="id" name="id" class="inputtext"/>
+                            </td>
+                            <td class="tdtitle">名称：</td>
+                            <td class="tdinput">
+                                <input type="text" id="label" name="label" class="inputtext"/>
+                             </td>
+                        </tr>
                		</table>
                	</form>
                 </div>

@@ -33,7 +33,7 @@
 				<tr>
 					<td>描述：</td>
 					<td>
-						<s:textarea name="alqcJobClassVo.description" cssStyle="height:80px;width:100%;"/>
+						<s:textarea name="alqcJobClassVo.description" cols="40"/>
 					</td>
 				</tr>
 			</table>

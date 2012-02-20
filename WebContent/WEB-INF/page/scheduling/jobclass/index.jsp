@@ -12,13 +12,13 @@
 			ewcmsBOBJ = new EwcmsBase();
 			ewcmsBOBJ.setQueryURL('<s:url namespace="/scheduling/jobclass" action="query"/>');
 
-			ewcmsBOBJ.setWinWidth(700);
-			ewcmsBOBJ.setWinHeight(200);
+			ewcmsBOBJ.setWinWidth(620);
+			ewcmsBOBJ.setWinHeight(210);
 			
 			ewcmsBOBJ.openDataGrid('#tt',{
                 columns:[[
 						{field:'id',title:'编号',width:50,sortable:true},
-		                {field:'className',title:'类名称',width:100},
+		                {field:'className',title:'类名称',width:200},
 		                {field:'classEntity',title:'类实体',width:500},
 		                {field:'description',title:'描述',width:400}
                   ]]
@@ -50,18 +50,22 @@
                 <div region="center" border="false" >
                 <form id="queryform">
                 	<table class="formtable">
-                            <tr>
-                                <td class="tdtitle">编号：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="id" name="id" class="inputtext"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="tdtitle">名称：</td>
-                                <td class="tdinput">
-                                    <input type="text" id="className" name="className" class="inputtext"/>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="tdtitle">编号：</td>
+                            <td class="tdinput">
+                                <input type="text" id="id" name="id" class="inputtext"/>
+                            </td>
+                            <td class="tdtitle">类名称：</td>
+                            <td class="tdinput">
+                                <input type="text" id="className" name="className" class="inputtext"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdtitle">类实体：</td>
+                            <td class="tdinput" colspan="3">
+                                <input type="text" id="classEntity" name="classEntity" class="inputtext" size="80"/>
+                            </td>
+                        </tr>
                		</table>
                	</form>
                 </div>

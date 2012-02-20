@@ -63,14 +63,14 @@
                                 <td class="tdinput">
                                     <input type="text" id="id" name="id" class="inputtext"/>
                                 </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td class="tdtitle">开始时间：</td>
                                 <td class="tdinput">
                                 	<ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd 00:00:00"/>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td class="tdtitle">结束时间：</td>
                                 <td class="tdinput">
                                 	<ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd 23:59:59"/>
