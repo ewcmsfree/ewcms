@@ -26,12 +26,12 @@ public class Dictionary {
 	/*
 	 * 分词器默认字典路径 
 	 */
-	public static final String PATH_DIC_MAIN = "/com/ewcms/analyzer/dic/main.dic";
-	public static final String PATH_DIC_SURNAME = "/com/ewcms/analyzer/dic/surname.dic";
-	public static final String PATH_DIC_QUANTIFIER = "/com/ewcms/analyzer/dic/quantifier.dic";
-	public static final String PATH_DIC_SUFFIX = "/com/ewcms/analyzer/dic/suffix.dic";
-	public static final String PATH_DIC_PREP = "/com/ewcms/analyzer/dic/preposition.dic";
-	public static final String PATH_DIC_STOP = "/com/ewcms/analyzer/dic/stopword.dic";
+	public static final String PATH_DIC_MAIN = "/com/ewcms/content/document/util/analyzer/dic/main.dic";
+	public static final String PATH_DIC_SURNAME = "/com/ewcms/content/document/util/analyzer/dic/surname.dic";
+	public static final String PATH_DIC_QUANTIFIER = "/com/ewcms/content/document/util/analyzer/dic/quantifier.dic";
+	public static final String PATH_DIC_SUFFIX = "/com/ewcms/content/document/util/analyzer/dic/suffix.dic";
+	public static final String PATH_DIC_PREP = "/com/ewcms/content/document/util/analyzer/dic/preposition.dic";
+	public static final String PATH_DIC_STOP = "/com/ewcms/content/document/util/analyzer/dic/stopword.dic";
 	
 	
 	/*

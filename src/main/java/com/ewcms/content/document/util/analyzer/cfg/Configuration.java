@@ -28,7 +28,7 @@ import com.ewcms.content.document.util.analyzer.seg.QuantifierSegmenter;
  */
 public class Configuration {
 	//分词器配置文件路径
-	private static final String FILE_NAME = "/com/ewcms/analyzer/cfg/analyzer.cfg.xml";
+	private static final String FILE_NAME = "/com/ewcms/content/document/util/analyzer/cfg/analyzer.cfg.xml";
 	//配置属性——扩展字典
 	private static final String EXT_DICT = "ext_dict";
 	//配置属性——扩展停止词典
