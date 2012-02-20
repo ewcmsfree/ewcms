@@ -4,7 +4,7 @@
  * http://www.ewcms.com
  */
 
-package com.ewcms.content.document.search;
+package com.ewcms.content.document.util.search;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -19,13 +19,13 @@ import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
-import com.ewcms.analyzer.IKSegmentation;
-import com.ewcms.analyzer.Lexeme;
-import com.ewcms.analyzer.lucene.IKAnalyzer;
-import com.ewcms.analyzer.lucene.IKQueryParser;
 import com.ewcms.common.io.HtmlFileUtil;
 import com.ewcms.common.io.HtmlStringUtil;
 import com.ewcms.common.io.HtmlNumberUtil;
+import com.ewcms.content.document.util.analyzer.IKSegmentation;
+import com.ewcms.content.document.util.analyzer.Lexeme;
+import com.ewcms.content.document.util.analyzer.lucene.IKAnalyzer;
+import com.ewcms.content.document.util.analyzer.lucene.IKQueryParser;
 
 /**
  * 
