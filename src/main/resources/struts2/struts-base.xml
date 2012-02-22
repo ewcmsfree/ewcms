@@ -19,5 +19,8 @@
         <action name="accessDenied" class="com.ewcms.web.AccessDeniedAction">
             <result>/WEB-INF/page/accessDenied.jsp</result>
         </action>
+        <action name="progress" class="com.ewcms.web.EwcmsBaseAction">
+            <result>/WEB-INF/page/progress.jsp</result>
+        </action>
     </package>
 </struts>
