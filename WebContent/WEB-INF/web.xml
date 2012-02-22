@@ -60,7 +60,6 @@
 		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
@@ -72,6 +71,19 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 
+    <filter>
+        <filter-name>cacheControlHeaderFilter</filter-name>
+        <filter-class>com.ewcms.web.filter.CacheControlHeaderFilter</filter-class>
+        <init-param>
+            <param-name>expiresSeconds</param-name>
+            <param-value>31536000</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>cacheControlHeaderFilter</filter-name>
+        <url-pattern>/ewcmssource/*</url-pattern>
+    </filter-mapping>
+    
 	<filter>
 		<filter-name>previewFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -80,7 +92,6 @@
 		<filter-name>previewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 	<filter>
 		<filter-name>error404Filter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -88,19 +99,6 @@
 	<filter-mapping>
 		<filter-name>error404Filter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
-		<filter-name>cacheControlHeaderFilter</filter-name>
-		<filter-class>com.ewcms.web.filter.CacheControlHeaderFilter</filter-class>
-		<init-param>
-			<param-name>expiresSeconds</param-name>
-			<param-value>31536000</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>cacheControlHeaderFilter</filter-name>
-		<url-pattern>/ewcmssource/*</url-pattern>
 	</filter-mapping>
 	
 	<servlet>
@@ -111,6 +109,19 @@
 		<servlet-name>jcaptcha</servlet-name>
 		<url-pattern>/checkcode.jpg</url-pattern>
 	</servlet-mapping>
+
+  <servlet>
+    <servlet-name>pubsub</servlet-name>
+    <servlet-class> com.ewcms.web.pubsub.PubsubServlet</servlet-class>
+    <init-param>
+        <param-name>/pubsub/progress</param-name>
+        <param-value>com.ewcms.web.pubsub.ProgressSender</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pubsub</servlet-name>
+    <url-pattern>/pubsub/*</url-pattern>
+  </servlet-mapping>
 
 	<servlet>
 		<servlet-name>voteSubmit</servlet-name>
