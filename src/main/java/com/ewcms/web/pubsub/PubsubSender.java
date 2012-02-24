@@ -50,20 +50,25 @@ public abstract class PubsubSender  implements PubsubSenderable{
     public void addClient(HttpServletResponse connection){
        synchronized(connections){
            connections.add(connection);
+           String out ="<html><head></head><body>" +  constructOutput();
+           render(out,connection);
        }
     }
     
     @Override
     public void removeClient(HttpServletResponse connection){
         synchronized(connections){
-            connections.remove(connection);
+            if(connections.contains(connection)){
+                String out ="</body></html>" +  constructOutput();
+                render(out,connection);
+                connections.remove(connection);
+            }
         }
     }
 
     @Override
     public void setInitialDelay(long initialDelay) {
         this.initialDelay = initialDelay;
-        
     }
 
     @Override
@@ -77,48 +82,43 @@ public abstract class PubsubSender  implements PubsubSenderable{
             if(alreadyStart){
                 return;
             }
-            executor.scheduleWithFixedDelay(new SendRunner(), initialDelay , delay , TimeUnit.SECONDS);
+            executor.scheduleWithFixedDelay(new Runnable(){
+                @Override
+                public void run() {
+                    synchronized (connections) {
+                        if(connections.isEmpty()){
+                            return ;
+                        }
+                        String out = constructOutput();
+                        logger.debug("Output :{}",out);
+                        for (HttpServletResponse connection : connections) {
+                            render(out,connection);
+                        }
+                    }
+                }
+            },
+            initialDelay ,
+            delay ,
+            TimeUnit.SECONDS);
+            
             alreadyStart = Boolean.TRUE;
         }
     }
     
+    private void render(String m,HttpServletResponse response){
+        try {
+            PrintWriter writer = response.getWriter();
+            writer.println(m);
+            writer.flush();
+        } catch (IOException e) {
+            logger.error(e.toString());
+        }
+    }
+    
     /**
-     * 构造输出Javascritp
+     * 构造输出内容
      * 
      * @return
      */
-    protected abstract String constructJS();
-    
-    private class SendRunner implements Runnable{
-        
-        @Override
-        public void run() {
-            
-            synchronized (connections) {
-                if(connections.isEmpty()){
-                    return ;
-                }
-            }
-            
-            synchronized (connections) {
-                String js = constructJS();
-                logger.debug("Output JS:{}",js);
-                for (HttpServletResponse response : connections) {
-                    render(js,response);
-                }
-            }
-        }
-        
-        private void render(String m,HttpServletResponse response){
-            try {
-                PrintWriter writer = response.getWriter();
-                writer.println(m);
-                writer.flush();
-            } catch (IOException e) {
-                logger.error(e.toString());
-            }
-        }
-    }
-
-   
+    protected abstract String constructOutput();
 }

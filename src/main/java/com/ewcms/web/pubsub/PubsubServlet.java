@@ -7,7 +7,6 @@ package com.ewcms.web.pubsub;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -101,7 +100,6 @@ public class PubsubServlet extends HttpServlet implements CometProcessor {
             logger.debug("Begin for session:{} ", request.getSession(true).getId());
             String fullContentType = "text/html;charset=UTF-8";
             response.setContentType(fullContentType);
-            sayHello(response);
             addConnection(request.getPathInfo(),response);
         } else if (event.getEventType() == CometEvent.EventType.ERROR) {
             logger.debug("Error for session: {}", request.getSession(true).getId());
@@ -124,12 +122,6 @@ public class PubsubServlet extends HttpServlet implements CometProcessor {
                 }
             } while (is.available() > 0);
         }
-    }
-    
-    private void sayHello(HttpServletResponse connection)throws IOException{
-        PrintWriter writer = connection.getWriter();
-        writer.println("<html><head></head><body><h1>hello</h1></body></htm>");
-        writer.flush();
     }
     
     private PubsubSenderable createPubsubSender(String path){

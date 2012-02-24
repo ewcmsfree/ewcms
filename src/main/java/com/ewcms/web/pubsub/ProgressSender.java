@@ -6,6 +6,7 @@
 package com.ewcms.web.pubsub;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletContext;
 
@@ -43,8 +44,11 @@ public class ProgressSender extends PubsubSender{
     private Integer getSiteId(String path){
         String[] s = StringUtils.split(path,"/");
         String value = s[s.length -1];
-        return StringUtils.isNumeric(value) ? 
-                Integer.valueOf(value) : Integer.MIN_VALUE;
+        try{
+            return Integer.valueOf(value);
+        }catch(Exception e){
+            return Integer.MIN_VALUE;
+        }
     }
     
     @Override
@@ -54,21 +58,44 @@ public class ProgressSender extends PubsubSender{
     }
 
     @Override
-    protected String constructJS() {
+    protected String constructOutput() {
         List<Taskable> tasks = publishFac.getSitePublishTasks(siteId);
-        if(tasks.isEmpty()){
-            
-        }
+      
         StringBuilder builder = new StringBuilder();
-        builder.append("<html>");
-        builder.append(" <head>");
+ 
         builder.append(" <script type=\"text/javascript\">");
-        builder.append("parent.progress(\"").append("test").append("\")");
+        builder.append("parent.progress(");
+        AtomicInteger count = new AtomicInteger(0);
+        builder.append("{\"rows\":[");
+        for(Taskable task : tasks){
+            constructTreeGridRows(builder,count,-1,task);
+        }
+        builder.append("]");
+        builder.append(",\"total\":").append(count.get()).append("}");
+        builder.append(");");
         builder.append("</script>");
-        builder.append("</head>");
-        builder.append("<body></body>");
-        builder.append("</html>");
         return builder.toString();
     }
 
+    private void constructTreeGridRows(StringBuilder builder,AtomicInteger count,int partenId,Taskable task){
+        if(task.getProgress() == -1){
+            return ;
+        }
+        
+        int id = count.incrementAndGet();
+        builder.append("{");
+        builder.append("\"id\":").append(id);
+        builder.append(",\"taskId\":\"").append(task.getId()).append("\"");
+        builder.append(",\"name\":\"").append(task.getDescription()).append("\"");
+        builder.append(",\"progress\":").append(task.getProgress());
+        if(partenId != -1){
+            builder.append(",\"_parentId\":").append(partenId);
+        }
+        builder.append("}");
+        
+        for(Taskable child : task.getDependences()){
+            builder.append(",");
+            constructTreeGridRows(builder,count,id,child);
+        }
+    }
 }
