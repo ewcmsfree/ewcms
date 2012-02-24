@@ -151,7 +151,10 @@ function EwcmsBase(){
 		   top:(options.top ? options.top : ($(window).height() - (options.height ? options.height : winHeight))/2),
 		   modal: (options.modal ? options.modal : true),
 		   maximizable:(options.maximizable ? options.maximizable : false),
-		   minimizable:(options.minimizable ? options.minimizable : false)
+		   minimizable:(options.minimizable ? options.minimizable : false),
+		   onClose:(options.onClose?options.onClose:function(){
+		       $(windowID).find("iframe").attr('src','about:blank');
+		   })
 		});
 		if(options.iframeID){
 			$(options.iframeID).attr('src',options.url);
