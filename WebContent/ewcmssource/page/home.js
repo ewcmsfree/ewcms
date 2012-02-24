@@ -61,7 +61,10 @@ home.prototype.init = function(opts){
         if(!item.disabled){
             openWindow(windowId,{width:450,height:280,title:'站点切换',url:opts.siteswitch});            
         }
-    });      
+    });
+    $('#progress-menu').bind('click',function(){
+        openWindow(windowId,{width:550,height:230,title:'发布进度',url:opts.progress}); 
+    });
     $('#exit-menu').bind('click',function(){
         window.location = opts.exit;
     });
