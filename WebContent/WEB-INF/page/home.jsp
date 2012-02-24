@@ -22,6 +22,7 @@
                     password:'<s:url action="password" namespace="/account"/>',
                     exit:'<s:url value="/logout.do"/>',
                     siteswitch:'<s:url action="siteswitch"/>',
+                    progress:'<s:url action="progress"/>',
                     hasSite:<s:property value="hasSite"/>
                 });
                 
@@ -81,6 +82,8 @@
                 <div class="menu-sep"></div>
                 <div id="user-menu" iconCls="icon-edit">修改用户信息</div>
                 <div id="password-menu" iconCls="icon-password">修改密码</div>
+                <div class="menu-sep"></div>
+                <div id="progress-menu">发布进度</div>
                 <div class="menu-sep"></div>
                 <div id="exit-menu" iconCls="icon-exit">退出</div>
              </div>
