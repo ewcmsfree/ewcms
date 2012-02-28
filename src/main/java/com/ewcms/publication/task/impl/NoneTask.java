@@ -18,12 +18,8 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  * 
  * @author wangwei
  */
-public class NoneTask extends TaskBase{
+public class NoneTask implements Taskable{
 
-    public NoneTask(){
-        super(newTaskId());
-    }
-    
     @Override
     public String getDescription() {
         return "None task";
@@ -35,17 +31,27 @@ public class NoneTask extends TaskBase{
     }
 
     @Override
-    public List<Taskable> getDependences() {
+    public List<Taskable> getDependenceTasks() {
         return Collections.unmodifiableList(new ArrayList<Taskable>(0));
     }
 
     @Override
-    protected boolean hasTaskProcess(){
-        return false;
+    public String getId() {
+        return String.valueOf(Long.MIN_VALUE);
     }
-    
+
     @Override
-    protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        return Collections.unmodifiableList(new ArrayList<TaskProcessable>(0));
+    public int getProgress() {
+        return 100;
+    }
+
+    @Override
+    public boolean isCompleted() {
+        return true;
+    }
+
+    @Override
+    public List<TaskProcessable> toTaskProcess() throws TaskException {
+        return new ArrayList<TaskProcessable>(0);
     }
 }

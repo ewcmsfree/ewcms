@@ -39,8 +39,7 @@ public class TemplateTask implements Taskable{
         private final Template template;
         private String username = DEFAULT_USERNAME;
         private boolean again = false;
-        private boolean independence = true;
-        private Taskable task;
+        private boolean dependence = true;
         
         public Builder(Configuration cfg,
                 TemplateSourcePublishServiceable templateSourceService,
@@ -76,22 +75,9 @@ public class TemplateTask implements Taskable{
             return this;
         }
         
-        public Builder dependence(){
-            independence = false;
+        public Builder setDependence(boolean dependence){
+            this.dependence = dependence;
             return this;
-        }
-        
-        Builder setDependence(boolean dependence){
-            this.independence = dependence;
-            return this;
-        }
-        
-        private Taskable newHomeTask(){
-            return new HomeTask.Builder(
-                    cfg,templateSourceService,site,channel,template).
-                    setUsername(username).
-                    setIndependence(independence).
-                    build();
         }
         
         /**
@@ -111,12 +97,20 @@ public class TemplateTask implements Taskable{
             return home;
         }
         
+        private Taskable newHomeTask(){
+            return new HomeTask.Builder(
+                    cfg,templateSourceService,site,channel,template).
+                    setUsername(username).
+                    setDependence(dependence).
+                    build();
+        }
+        
         private Taskable newListTask(){
             return new ListTask.Builder(
                     cfg,templateSourceService,articleService,
                     site,channel,template).
                     setUsername(username).
-                    setIndependence(independence).
+                    setDependence(dependence).
                     setCreateHome(isCreateHome()).
                     build();    
         }
@@ -126,7 +120,7 @@ public class TemplateTask implements Taskable{
                     cfg,templateSourceService,resourceService,
                     articleService,site,channel,template).
                     setUsername(username).
-                    setIndependence(independence).
+                    setDependence(dependence).
                     setAgain(again).
                     build();
         }
@@ -150,55 +144,51 @@ public class TemplateTask implements Taskable{
         }
         
         public TemplateTask build(){
-            task = getTemplateTaskBy(template.getType(),template.getUniquePath());
-            return new TemplateTask(this);
+            Taskable task =
+                getTemplateTaskBy(
+                        template.getType(),template.getUniquePath());
+            return new TemplateTask(task);
         }
     }
     
-    private final Builder builder;
+    private final Taskable task;
 
-    public TemplateTask(Builder builder){
-        this.builder = builder;
+    public TemplateTask(Taskable task){
+        this.task = task;
     }
     
     @Override
     public String getId() {
-        return builder.task.getId();
+        return task.getId();
     }
     
     @Override
     public String getDescription() {
-        return builder.task.getDescription();
+        return task.getDescription();
     }
 
     @Override
     public String getUsername() {
-        return builder.task.getUsername();
+        return task.getUsername();
     }
 
     @Override
-    public List<Taskable> getDependences() {
-        return builder.task.getDependences();
+    public List<Taskable> getDependenceTasks() {
+        return task.getDependenceTasks();
     }
 
     @Override
     public List<TaskProcessable> toTaskProcess() throws TaskException {
-        return builder.task.toTaskProcess();
-    }
-
-    @Override
-    public boolean isRunning() {
-        return builder.task.isRunning();
+        return task.toTaskProcess();
     }
 
     @Override
     public int getProgress() {
-        return builder.task.getProgress();
+        return task.getProgress();
     }
 
     @Override
     public boolean isCompleted() {
-        return builder.task.isCompleted();
+        return task.isCompleted();
     }
-  
 }

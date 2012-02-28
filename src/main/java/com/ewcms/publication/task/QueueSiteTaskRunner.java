@@ -129,7 +129,6 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
     class TaskInfoClone implements Taskable{
         private final String id;
         private final String description;
-        private final boolean running;
         private final boolean completed;
         private final String username;
         private final int progress;
@@ -138,12 +137,11 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
         public TaskInfoClone(Taskable task){
             this.id = task.getId();
             this.description = task.getDescription();
-            this.running = task.isRunning();
             this.completed = task.isCompleted();
             this.username = task.getUsername();
             this.progress = task.getProgress();
-            if(task.getDependences() != null && !task.getDependences().isEmpty()){
-                for(Taskable d : task.getDependences()){
+            if(task.getDependenceTasks() != null && !task.getDependenceTasks().isEmpty()){
+                for(Taskable d : task.getDependenceTasks()){
                     TaskInfoClone dc = new TaskInfoClone(d);
                     dependences.add(dc);
                 }
@@ -166,11 +164,6 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
         }
 
         @Override
-        public boolean isRunning() {
-            return running;
-        }
-
-        @Override
         public int getProgress() {
             return progress;
         }
@@ -181,7 +174,7 @@ public class QueueSiteTaskRunner  implements SiteTaskRunnerable{
         }
 
         @Override
-        public List<Taskable> getDependences() {
+        public List<Taskable> getDependenceTasks() {
             return dependences;
         }
 

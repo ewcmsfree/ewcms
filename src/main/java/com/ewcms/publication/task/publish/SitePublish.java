@@ -53,7 +53,7 @@ public class SitePublish implements SitePublishable{
     @Override
     public void publish(Taskable task) throws TaskException {
         cancelled = false;
-        List<Taskable> dependences = task.getDependences();
+        List<Taskable> dependences = task.getDependenceTasks();
         for(Taskable dependence :  dependences) {
             logger.debug("\"{}\" publish", task.getDescription());
             publish(dependence);

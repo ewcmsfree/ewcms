@@ -7,7 +7,6 @@
 package com.ewcms.publication.task.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.ewcms.core.site.model.Channel;
@@ -18,7 +17,6 @@ import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.service.TemplatePublishServiceable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
-import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 
@@ -33,20 +31,15 @@ import freemarker.template.Configuration;
  */
 public class ChannelTask extends TaskBase{
     
-    public static class Builder{
+    public static class Builder extends BaseBuilder<Builder>{
         private final Configuration cfg;
         private final ChannelPublishServiceable channelService;
         private final TemplatePublishServiceable templateService;
         private final TemplateSourcePublishServiceable templateSourceService;
         private final ResourcePublishServiceable resourceService;
         private final ArticlePublishServiceable articleService;
-        private final Site site;
         private final Channel channel;
-        private String username = DEFAULT_USERNAME;
-        private boolean again = false;
-        private boolean independence = true;
         private boolean publishChildren = false;
-        private List<Taskable> dependences;
         
         public Builder(Configuration cfg,
                 TemplatePublishServiceable templateService,
@@ -56,44 +49,15 @@ public class ChannelTask extends TaskBase{
                 ChannelPublishServiceable channelService,
                 Site site,Channel channel){
             
+            super(site);
+            
             this.cfg = cfg;
             this.templateService = templateService;
             this.templateSourceService = templateSourceService;
             this.resourceService = resourceService;
             this.articleService = articleService;
             this.channelService = channelService;
-            this.site = site;
             this.channel = channel;
-        }
-        
-        public Builder setUsername(String username){
-            this.username = username;
-            return this;
-        }
-        
-        public Builder forceAgain(){
-            again = true;
-            return this;
-        }
-        
-        public Builder setAgain(boolean again){
-            this.again = again;
-            return this;
-        }
-        
-        public Builder dependence(){
-            independence = false;
-            return this;
-        }
-        
-        Builder setDependence(boolean dependence){
-            this.independence = dependence;
-            return this;
-        }
-        
-        public Builder publishChildren(){
-            this.publishChildren = true;
-            return this;
         }
         
         public Builder setPublishChildren(boolean publishChildren){
@@ -101,91 +65,73 @@ public class ChannelTask extends TaskBase{
             return this;
         }
         
-        private void addResourceAndTemplateSourceTask(List<Taskable> dependences){
-            dependences.add(new  TemplateSourceTask.Builder(templateSourceService,site).builder());
-            dependences.add(new ResourceTask.Builder(resourceService,site).builder());
+        @Override
+        public String getDescription() {
+            return String.format("%s频道发布",channel.getName());
         }
         
-        private void addTemplateTask(List<Taskable> dependences){
+        private void dependenceResourceAndTemplateSource(List<Taskable> dependences){
+            dependences.add(
+                    new  TemplateSourceTask
+                    .Builder(templateSourceService,site)
+                    .build());
+            dependences.add(
+                    new ResourceTask
+                    .Builder(resourceService,site)
+                    .build());
+        }
+        
+        private void dependenceTemplate(List<Taskable> dependences){
             List<Template> templates = templateService.getTemplatesInChannel(channel.getId());
             for(Template template : templates){
                 Taskable task = new TemplateTask.Builder(
                         cfg, templateSourceService, resourceService,
                         articleService, templateService, site, channel, template).
-                        dependence().
+                        setDependence(true).
                         setAgain(again).
                         build();
-                    dependences.add(task);
+                 dependences.add(task);
             }
         }
         
-        private void addChildrenTask(List<Taskable> dependences){
+        private void dependenceChildren(List<Taskable> dependences){
             List<Channel> children = channelService.getChannelChildren(channel.getId());
             if(children == null || children.isEmpty()){
                 return ;
             }
             for(Channel child : children){
-                dependences.add(new ChannelTask.Builder(
+                dependences.add(
+                        new ChannelTask.Builder(
                         cfg, templateService, templateSourceService, resourceService,
                         articleService, channelService,site,child).
                         setAgain(again).
-                        dependence().
-                        setPublishChildren(publishChildren).
+                        setDependence(true).
+                        setPublishChildren(true).
                         build());
             }
         }
         
-        private List<Taskable> getDependenceTasks(){
+        public List<Taskable> getDependenceTasks(){
             List<Taskable> dependences = new ArrayList<Taskable>();
-            if(independence){
-                addResourceAndTemplateSourceTask(dependences);
+            if(!dependence){
+                dependenceResourceAndTemplateSource(dependences);
             }
             if(channel.getPublicenable()){
-                addTemplateTask(dependences);    
+                dependenceTemplate(dependences);    
             }
             if(publishChildren){
-                addChildrenTask(dependences);
+                dependenceChildren(dependences);
             }
             return dependences;
         }
-        
-        public ChannelTask build(){
-           dependences = getDependenceTasks();
-            return new ChannelTask(this);
+
+        @Override
+        public List<TaskProcessable> getTaskProcesses() {
+            return new ArrayList<TaskProcessable>(0);
         }
     }
     
-    private final Builder builder;
-    
-    public ChannelTask(Builder builder){
-        super(newTaskId());
-        this.builder = builder;
-    }
-
-    @Override
-    public String getDescription() {
-        String description = String.format("%s-频道发布%s",
-                builder.channel.getName(),getAgainMessage(builder.again)) ;
-        return description;
-    }
-
-    @Override
-    public String getUsername() {
-        return builder.username;
-    }
-    
-    @Override
-    public List<Taskable> getDependences() {        
-        return Collections.unmodifiableList(builder.dependences);
-    }
-
-    @Override
-    protected boolean hasTaskProcess(){
-        return false;
-    }
-    
-    @Override
-    protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        return Collections.unmodifiableList(new ArrayList<TaskProcessable>(0));
+    public ChannelTask(String id,Builder builder){
+        super(id,builder);
     }
 }

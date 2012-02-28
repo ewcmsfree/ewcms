@@ -6,7 +6,6 @@
 package com.ewcms.publication.task.impl;
  
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.xwork.StringUtils;
@@ -20,7 +19,6 @@ import com.ewcms.publication.freemarker.generator.ListGenerator;
 import com.ewcms.publication.generator.Generatorable;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
-import com.ewcms.publication.task.TaskException;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.event.CompleteEvent;
 import com.ewcms.publication.task.impl.process.GeneratorProcess;
@@ -38,40 +36,29 @@ import freemarker.template.Configuration;
 public class ListTask extends TaskBase{
     private static final Logger logger = LoggerFactory.getLogger(ListTask.class);
     
-    public static class Builder{
+    public static class Builder extends BaseBuilder<Builder>{
         private final Configuration cfg;
         private final TemplateSourcePublishServiceable templateSourceService;
         private final ArticlePublishServiceable articleService;
-        private final Site site;
         private final Channel channel;
-        private final String path;
-        private final String name;
-        private String username;
+        private final Template template;
         private UriRuleable uriRule= UriRules.newList() ;
-        private boolean independence = true;
         private boolean createHome = false;
-        private List<Taskable> dependences;
         
         public Builder(Configuration cfg,
                 TemplateSourcePublishServiceable templateSourceService,
                 ArticlePublishServiceable articleService,
                 Site site,Channel channel,Template template){
+            super(site);
             
             this.cfg = cfg;
             this.templateSourceService = templateSourceService;
             this.articleService = articleService;
-            this.site = site;
             this.channel = channel;
-            this.path = template.getUniquePath();
-            this.name = template.getName();
+            this.template = template;
             if(StringUtils.isNotBlank(template.getUriPattern())){
                 uriRule =UriRules.newUriRuleBy(template.getUriPattern());
             }
-        }
-        
-        public Builder setUsername(String username){
-            this.username = username;
-            return this;
         }
         
         public Builder setCreateHome(boolean createHome){
@@ -79,78 +66,54 @@ public class ListTask extends TaskBase{
             return this;
         }
         
-        public Builder dependence(){
-            this.independence = true;
-            return this;
+        @Override
+        protected String getDescription() {
+            return String.format("%s页面发布",  template.getName()) ;
         }
         
-        Builder setIndependence(boolean independence){
-            this.independence = independence;
-            return this;
-        }
-        
-        private List<Taskable> getDependenceTasks(){
+        @Override
+        protected List<Taskable> getDependenceTasks(){
             List<Taskable> dependences = new ArrayList<Taskable>();
-            if(independence){
-                dependences.add(new  TemplateSourceTask.Builder(templateSourceService, site).builder());
+            if(!dependence){
+                dependences.add(
+                        new  TemplateSourceTask
+                        .Builder(templateSourceService, site)
+                        .build());
             }
             return dependences;
         }
         
-        public ListTask build(){
-            dependences = getDependenceTasks();
-            return new ListTask(this);
+        /**TaskProcessable
+         * 得到频道需要发布的页数
+         * 
+         * @param channelId 频道编号
+         * @param row 每页行数builder
+         * @return 总页数
+         */
+        private int getPageCount(int channelId, int row){
+            Integer count = articleService.getArticleReleaseCount(channelId);
+            logger.debug("Article count is {}",count);
+            return (count + row -1)/row;
+        }
+        
+        @Override
+        protected List<TaskProcessable> getTaskProcesses() {
+            
+            int pageCount = getPageCount(channel.getId(),channel.getListSize());
+            logger.debug("Page count is {}",pageCount);
+            List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
+            for(int page = 0 ; page < pageCount ; page++){
+                Generatorable generator = 
+                    new ListGenerator(cfg,site,channel,uriRule,page,pageCount,createHome);
+                TaskProcessable process = new GeneratorProcess(generator, template.getUniquePath());
+                process.registerEvent(new CompleteEvent(complete));
+                processes.add(process);
+            }
+            return processes;
         }
     }
     
-    private final Builder builder;
-    
-    public ListTask(Builder builder){
-        super(newTaskId());
-        this.builder = builder;
-    }
-    
-    @Override
-    public String getDescription() {
-        String description = String.format("%s-页面发布",builder.name) ;
-        return description;
-    }
-
-    @Override
-    public String getUsername() {
-        return builder.username;
-    }
-
-    @Override
-    public List<Taskable> getDependences() {
-        return Collections.unmodifiableList(builder.dependences);
-    }
-
-    /**TaskProcessable
-     * 得到频道需要发布的页数
-     * 
-     * @param channelId 频道编号
-     * @param row 每页行数builder
-     * @return 总页数
-     */
-    private int getPageCount(int channelId, int row){
-        Integer count = builder.articleService.getArticleReleaseCount(channelId);
-        logger.debug("Article count is {}",count);
-        return (count + row -1)/row;
-    }
-    
-    @Override
-    protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-        int pageCount = getPageCount(builder.channel.getId(),builder.channel.getListSize());
-        logger.debug("Page count is {}",pageCount);
-        List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
-        for(int page = 0 ; page < pageCount ; page++){
-            Generatorable generator = 
-                new ListGenerator(builder.cfg,builder.site,builder.channel,builder.uriRule,page,pageCount,builder.createHome);
-            TaskProcessable process = new GeneratorProcess(generator,builder.path);
-            process.registerEvent(new CompleteEvent(complete));
-            processes.add(process);
-        }
-        return processes;
+    public ListTask(String id,Builder builder){
+        super(id,builder);
     }
 }

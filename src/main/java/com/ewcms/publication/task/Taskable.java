@@ -40,13 +40,6 @@ public interface Taskable {
      * @return 用户名
      */
     String getUsername();
-
-    /**
-     * 任务是否在运行
-     * 
-     * @return true 运行
-     */
-    boolean isRunning();
     
     /**
      * 完成进度
@@ -67,7 +60,7 @@ public interface Taskable {
      * 
      * @return
      */
-    List<Taskable> getDependences();
+    List<Taskable> getDependenceTasks();
     
     /**
      * 要处理的任务列表
