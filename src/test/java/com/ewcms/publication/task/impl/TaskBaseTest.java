@@ -5,15 +5,14 @@
  */
 package com.ewcms.publication.task.impl;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
+import junit.framework.Assert;
+
 import org.junit.Test;
 
-import com.ewcms.publication.task.TaskException;
+import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 
@@ -22,82 +21,79 @@ import com.ewcms.publication.task.impl.process.TaskProcessable;
  * 
  * @author wangwei
  */
-public class TaskBaseTest {
+public class TaskBaseTest {  
 
     @Test
-    public void testNewTaskId(){
-        String id = TaskBaseImpl.newTaskId();
-        Assert.assertNotNull(id);
+    public void testGetProgressCountIsZero(){
+        Taskable task = new TaskBaseImpl.Builder(new Site(),0,0,new ArrayList<Taskable>(0)).build();
+        Assert.assertEquals(-1, task.getProgress());
     }
     
     @Test
-    public void testNewTask()throws TaskException{
-        String id = TaskBaseImpl.newTaskId();
-        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
-        Taskable task = new TaskBaseImpl(id,processes);
-        
-        Assert.assertFalse(task.isRunning());
-        Assert.assertFalse(task.isCompleted());
-        Assert.assertEquals(0, task.getProgress());
-    }
-    
+   public void testGetProgress(){
+       List<Taskable> children = new ArrayList<Taskable>();
+       Taskable child =new TaskBaseImpl.Builder(new Site(),10,5,new ArrayList<Taskable>(0)).build();
+       children.add(child);
+       child =new TaskBaseImpl.Builder(new Site(),10,2,new ArrayList<Taskable>(0)).build();
+       children.add(child);
+       child =new TaskBaseImpl.Builder(new Site(),0,0,new ArrayList<Taskable>(0)).build();
+       children.add(child);
+       Taskable task = new TaskBaseImpl.Builder(new Site(),0,0,children).build();
+       
+       Assert.assertEquals(35, task.getProgress());
+   }
+
     @Test
-    public void testZeroToTaskProcess()throws TaskException{
-        String id = TaskBaseImpl.newTaskId();
-        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
-        Taskable task = new TaskBaseImpl(id,processes);
-        
-        task.toTaskProcess();
-        
-        Assert.assertTrue(task.isRunning());
+    public void testIsComplate(){
+        Taskable task = new TaskBaseImpl.Builder(new Site(),0,0,new ArrayList<Taskable>(0)).build();
         Assert.assertTrue(task.isCompleted());
-        Assert.assertEquals(100, task.getProgress());
-    }
-    
-    @Test
-    public void testToTaskProcess()throws TaskException{
         
-        String id = TaskBaseImpl.newTaskId();
-        List<TaskProcessable> processes= new ArrayList<TaskProcessable>();
-        processes.add(mock(TaskProcessable.class));
-        processes.add(mock(TaskProcessable.class));
-        Taskable task = new TaskBaseImpl(id,processes);
-        task.toTaskProcess();
-        
-        Assert.assertTrue(task.isRunning());
+        task = new TaskBaseImpl.Builder(new Site(),2,0,new ArrayList<Taskable>(0)).build();
         Assert.assertFalse(task.isCompleted());
-        Assert.assertEquals(0, task.getProgress());
+        
+        task = new TaskBaseImpl.Builder(new Site(),2,2,new ArrayList<Taskable>(0)).build();
+        Assert.assertTrue(task.isCompleted());
     }
     
-    private class TaskBaseImpl extends TaskBase{
-        private List<TaskProcessable> processes;
+    private static class TaskBaseImpl extends TaskBase{
         
-        public TaskBaseImpl(String id,List<TaskProcessable> processes) {
-            super(id);
-            this.processes = processes;
-        }
+        private static  class Builder extends BaseBuilder<Builder>{
+            
+            private final int initCount;
+            private final int initComplate;
+            private final List<Taskable>  initDependenceTasks;
+            public Builder(Site site,int count,int complate,List<Taskable> dependenceTasks) {
+                super(site);
+                this.initCount = count;
+                this.initComplate = complate;
+                this.initDependenceTasks = dependenceTasks;
+            }
 
-        @Override
-        public String getDescription() {
-            // TODO Auto-generated method stub
-            return null;
-        }
+            @Override
+            protected String getDescription() {
+                return "";
+            }
 
-        @Override
-        public String getUsername() {
-            // TODO Auto-generated method stub
-            return null;
-        }
+            @Override
+            protected List<Taskable> getDependenceTasks() {
+                return dependenceTasks;
+            }
 
-        @Override
-        public List<Taskable> getDependences() {
-            // TODO Auto-generated method stub
-            return null;
+            @Override
+            protected List<TaskProcessable> getTaskProcesses() {
+                return new ArrayList<TaskProcessable>(0);
+            }
+            
+            public Taskable build(){
+                this.count.set(initCount);
+                this.complete.set(initComplate);
+                this.dependenceTasks = initDependenceTasks;
+                return new TaskBaseImpl("1234",this);
+            }
         }
-
-        @Override
-        protected List<TaskProcessable> getTaskProcesses() throws TaskException {
-            return processes;
+        
+        public TaskBaseImpl(String id, Builder builder) {
+            super(id, builder);
         }
     }
 }

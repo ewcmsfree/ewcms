@@ -18,6 +18,7 @@ import com.ewcms.content.resource.model.Resource;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.service.ResourcePublishServiceable;
 import com.ewcms.publication.task.TaskException;
+import com.ewcms.publication.task.Taskable;
 import com.ewcms.publication.task.impl.process.ResourceProcess;
 import com.ewcms.publication.task.impl.process.TaskProcessable;
 
@@ -34,15 +35,13 @@ public class ResourceTaskTest {
         Site site = new Site();
         site.setId(Integer.MAX_VALUE);
         site.setSiteName("主站");
-        ResourceTask task =new ResourceTask.Builder(service, site).
-            forceAgain().
-            setResourceIds(new int[]{}).
+        Taskable task = new ResourceTask.Builder(service, site).
+            setAgain(true).
+            setPublishIds(new int[]{}).
             setUsername("test").
-            builder();
+            build();
         
-        Assert.assertTrue(task.isAgain());
-        Assert.assertNotNull(task.getResourceIds());
-        Assert.assertEquals("主站-资源发布(重新)", task.getDescription());
+        Assert.assertEquals("主站资源发布", task.getDescription());
         Assert.assertEquals("test", task.getUsername());
     }
     
@@ -66,13 +65,13 @@ public class ResourceTaskTest {
         Site site = new Site();
         site.setId(siteId);
         site.setSiteName("主站");
-        ResourceTask task =new ResourceTask.Builder(service, site).builder();
         List<Resource> resources = new ArrayList<Resource>();
         resources.add(newResource(0,false,Resource.Status.NORMAL));
         resources.add(newResource(1,true,Resource.Status.NORMAL));
-        when(service.findPublishResources(siteId, Boolean.FALSE)).thenReturn(resources);
+        when(service.findPublishResources(siteId, false)).thenReturn(resources);
+        Taskable task =new ResourceTask.Builder(service, site).build();
         
-        List<TaskProcessable> processes =task.getTaskProcesses();
+        List<TaskProcessable> processes =task.toTaskProcess();
         Assert.assertEquals(2, processes.size());
         
         ResourceProcess process = (ResourceProcess)processes.get(0);
@@ -98,37 +97,15 @@ public class ResourceTaskTest {
         Site site = new Site();
         site.setId(siteId);
         site.setSiteName("主站");
-        ResourceTask task =new ResourceTask.Builder(service, site).setResourceIds(resourceIds).builder();
         when(service.getResource(0)).thenReturn(newResource(0,true,Resource.Status.NORMAL));
         when(service.getResource(1)).thenReturn(newResource(1,false,Resource.Status.INIT));
         when(service.getResource(2)).thenReturn(newResource(2,false,Resource.Status.DELETE));
         when(service.getResource(3)).thenReturn(newResource(3,false,Resource.Status.RELEASED));
+        Taskable task = new ResourceTask.Builder(service, site).setPublishIds(resourceIds).build();
         
-        List<TaskProcessable> processes =task.getTaskProcesses();
-        Assert.assertEquals(1, processes.size());
+        List<TaskProcessable> processes =task.toTaskProcess();
+        Assert.assertEquals(2, processes.size());
         ResourceProcess process = (ResourceProcess)processes.get(0);
         Assert.assertEquals(2, process.getPaths().length);
-    }
-    
-    @Test
-    public void testTaskProcessAgainByResourceIds()throws TaskException{
-        Integer siteId = Integer.MAX_VALUE;
-        ResourcePublishServiceable service = mock(ResourcePublishServiceable.class);
-        int[] resourceIds = new int[]{0,1,2,3};
-        Site site = new Site();
-        site.setId(siteId);
-        site.setSiteName("主站");
-        ResourceTask task = new ResourceTask.Builder(service, site).
-            setResourceIds(resourceIds).
-            forceAgain().
-            builder();
-        
-        when(service.getResource(0)).thenReturn(newResource(0,true,Resource.Status.NORMAL));
-        when(service.getResource(1)).thenReturn(newResource(1,false,Resource.Status.INIT));
-        when(service.getResource(2)).thenReturn(newResource(2,false,Resource.Status.DELETE));
-        when(service.getResource(3)).thenReturn(newResource(3,false,Resource.Status.RELEASED));
-        
-        List<TaskProcessable> processes =task.getTaskProcesses();
-        Assert.assertEquals(2, processes.size());
     }
 }

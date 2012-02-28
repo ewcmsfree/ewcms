@@ -40,32 +40,29 @@ public class HomeTaskTest {
         String path = "/test/index.html";
         TemplateSourcePublishServiceable templateSourceService = mock(TemplateSourcePublishServiceable.class);
         Template template = newTemplate(path);
+        template.setName("home");
         template.setUriPattern("${a}");
-        HomeTask task = new HomeTask.Builder(
+        Taskable task = new HomeTask.Builder(
                 new Configuration(),templateSourceService, new Site(), new Channel(), template).
                 setUsername("test").
-                dependence().
+                setDependence(true).
                 build();
         
-        Assert.assertNotNull(task.getConfiguration());
-        Assert.assertNotNull(task.getSite());
-        Assert.assertNotNull(task.getChannel());
-        Assert.assertFalse(task.isIndependence());
-        Assert.assertEquals("home-页面发布", task.getDescription());
+        Assert.assertEquals("home页面发布", task.getDescription());
         Assert.assertEquals("test", task.getUsername());
-        Assert.assertEquals("${a}", task.getUriRule().getPatter());
     }
 
     @Test
     public void testGetTaskProcesses()throws Exception{
         String path = "/test/index.html";
-        TemplateSourcePublishServiceable templateSourceService = mock(TemplateSourcePublishServiceable.class);
+        TemplateSourcePublishServiceable templateSourceService =
+            mock(TemplateSourcePublishServiceable.class);
         Template template = newTemplate(path);
-        HomeTask task = new HomeTask.Builder(
+        Taskable task =new HomeTask.Builder(
                 new Configuration(),templateSourceService, new Site(), new Channel(), template).
                 build();
         
-        List<TaskProcessable> processes = task.getTaskProcesses();
+        List<TaskProcessable> processes = task.toTaskProcess();
         Assert.assertEquals(1, processes.size());
     }
     
@@ -74,13 +71,16 @@ public class HomeTaskTest {
         String path = "/test/index.html";
         TemplateSourcePublishServiceable templateSourceService = mock(TemplateSourcePublishServiceable.class);
         Template template = newTemplate(path);
-        HomeTask task = new HomeTask.Builder(
-                new Configuration(),templateSourceService, new Site(), new Channel(), template).
+        Taskable task =new HomeTask.Builder(
+                new Configuration(),
+                templateSourceService,
+                new Site(), 
+                new Channel(),
+                template).
                 build();
         
-        List<Taskable> dependences = task.getDependences();
+        List<Taskable> dependences = task.getDependenceTasks();
         Assert.assertEquals(1, dependences.size());
-        Assert.assertTrue(dependences.get(0) instanceof TemplateSourceTask);
     }
     
     @Test
@@ -88,12 +88,16 @@ public class HomeTaskTest {
         String path = "/test/index.html";
         TemplateSourcePublishServiceable templateSourceService = mock(TemplateSourcePublishServiceable.class);
         Template template = newTemplate(path);
-        HomeTask task = new HomeTask.Builder(
-                new Configuration(),templateSourceService, new Site(), new Channel(), template).
-                dependence().
+        Taskable task =new HomeTask.Builder(
+                new Configuration(),
+                templateSourceService,
+                new Site(),
+                new Channel(),
+                template).
+                setDependence(true).
                 build();
         
-        List<Taskable> dependences = task.getDependences();
+        List<Taskable> dependences = task.getDependenceTasks();
         Assert.assertTrue(dependences.isEmpty());
     }
 }

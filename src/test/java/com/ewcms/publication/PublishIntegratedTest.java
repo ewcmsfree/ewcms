@@ -118,7 +118,7 @@ public class PublishIntegratedTest {
             writer.append(info).append("\n");
             writer.flush();        
         }
-        List<Taskable> children = task.getDependences();
+        List<Taskable> children = task.getDependenceTasks();
         level = level + 1;
         for(Taskable child : children){
             writerDepender(writer,child,level);
