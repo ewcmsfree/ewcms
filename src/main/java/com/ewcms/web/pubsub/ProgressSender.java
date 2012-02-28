@@ -93,7 +93,7 @@ public class ProgressSender extends PubsubSender{
         }
         builder.append("}");
         
-        for(Taskable child : task.getDependences()){
+        for(Taskable child : task.getDependenceTasks()){
             builder.append(",");
             constructTreeGridRows(builder,count,id,child);
         }

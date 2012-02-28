@@ -7,6 +7,7 @@ package com.ewcms.web.pubsub;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +53,17 @@ public abstract class PubsubSender  implements PubsubSenderable{
            connections.add(connection);
            String out ="<html><head></head><body>" +  constructFirstOutput();
            render(out,connection);
+           connections.notifyAll();
        }
+    }
+    
+    /**
+     * 第一次推送内容
+     * 
+     * @return
+     */
+    protected String constructFirstOutput(){
+        return constructOutput();
     }
     
     @Override
@@ -86,9 +97,14 @@ public abstract class PubsubSender  implements PubsubSenderable{
                 @Override
                 public void run() {
                     synchronized (connections) {
-                        if(connections.isEmpty()){
-                            return ;
+                        try{
+                            if(connections.isEmpty()){
+                                connections.wait() ;
+                            }    
+                        }catch(InterruptedException e){
+                            logger.error("Running wait error:{}",e);
                         }
+                        
                         String out = constructOutput();
                         logger.debug("Output :{}",out);
                         for (HttpServletResponse connection : connections) {
@@ -121,8 +137,4 @@ public abstract class PubsubSender  implements PubsubSenderable{
      * @return
      */
     protected abstract String constructOutput();
-    
-    protected String constructFirstOutput(){
-    	return constructOutput();
-    }
 }
