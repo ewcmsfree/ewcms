@@ -10,6 +10,7 @@
         <s:include value="taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.pubsub.js"/>'></script>
         <script type="text/javascript">
             var _home = new home();
             $(function(){
@@ -26,31 +27,12 @@
                     hasSite:<s:property value="hasSite"/>
                 });
                 
-                var popMessageUrl = '<s:url namespace="/notes" action="notesRemind"/>';
-                var popInterval = setInterval("_home.getPopMessage('" + popMessageUrl + "')",60000);
-                _home.setPopInterval(popInterval);
-                
-                var noticeUrl = '<s:url namespace="/message/send" action="notice"/>';
-                var noticeDetailUrl = '<s:url namespace="/message/detail" action="index"/>?type=notice'
-                _home.getNotice(noticeUrl, noticeDetailUrl);
-                var noticeInterval = setInterval("_home.getNotice('" + noticeUrl + "','" + noticeDetailUrl + "')",60000);
-                _home.setNoticeInterval(noticeInterval);
-                
-                var subscriptionUrl = '<s:url namespace="/message/send" action="subscription"/>';
-                var subscriptionDetailUrl = '<s:url namespace="/message/detail" action="index"/>?type=subscription'
-                _home.getSubscription(subscriptionUrl, subscriptionDetailUrl);
-                var subscriptionInterval = setInterval("_home.getSubscription('" + subscriptionUrl  + "','" + subscriptionDetailUrl +  "')",60000);
-                _home.setSubscriptionInterval(subscriptionInterval);
-                
-                var tipMessageUrl = '<s:url namespace="/message/receive" action="unRead"/>';
-                _home.getTipMessage(tipMessageUrl);
-                var tipInterval = setInterval("_home.getTipMessage('" + tipMessageUrl + "')",60000);
-                _home.setTipInterval(tipInterval);
-                
-                var beApprovalUrl = '<s:url namespace="/document/article" action="beApproval"/>';
-                _home.getBeApproval(beApprovalUrl);
-                var beApproval = setInterval("_home.getBeApproval('" + beApprovalUrl + "')",60000);
-                _home.setBeApprovalInterval(beApproval);
+                $(window).unload(function() {
+                    pubsub.onUnload();
+                }).load(function(){
+                    var url = 'pubsub/message/admin?' + new Date();
+                    pubsub.initialize(url);
+                });
             });
         </script>
     </head>
@@ -72,10 +54,10 @@
 						<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
 						<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
 					</div>
-					<div class="bb">
-                        <span id="tipMessage" style="color:red;font-size:13px;"></span>
-                     </div>
 			   </div>
+					<div style="float:right;padding-top:42px;margin-right:10px;">
+                        <span id="tipMessage" style="color:red;font-size:13px;width:100px;"></span>
+                    </div>
 			 </div>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
                 <div  id="switch-menu" iconCls="icon-switch">站点切换</div>
@@ -279,7 +261,7 @@
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                    	<tr id="other_tr">
+                    	<tr id="other_tr" style="display: none;">
                     		<td class="portal-column-td">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
@@ -293,13 +275,13 @@
         						</div>
         					</td>
         				</tr>
-                    	<tr id="notice_tr">
+                    	<tr id="notice_tr" style="display: none;">
                     		<td class="portal-column-td">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
 	        							<div class="panel-header">
 	        								<div class="panel-title">公告栏</div>
-	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('公告栏信息','message/more/index.do?type=NOTICE');return false;" style="text-decoration:none;">更多...</a></div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('公告栏信息','message/more/index.do?type=NOTICE');return false;" style="text-decoration:none;display:inline;">更多...</a></div>
 	        							</div>
 	        							<div style="height: 160px; padding: 5px;" closable="true" collapsible="false" title="" id="notice" class="portal-p panel-body">
 				    					</div>
@@ -307,13 +289,13 @@
         						</div>
         					</td>
         				</tr>
-                    	<tr id="subscription_tr">
+                    	<tr id="subscription_tr" style="display: none;">
                     		<td class="portal-column-td">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
 	        							<div class="panel-header">
 	        								<div class="panel-title">订阅栏</div>
-	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('订阅栏信息','message/more/index.do?type=SUBSCRIPTION');return false;" style="text-decoration:none;">更多...</a></div>
+	        								<div class="panel-tool"><a href="javascript:void(0);" onclick="javascript:_home.addTab('订阅栏信息','message/more/index.do?type=SUBSCRIPTION');return false;" style="text-decoration:none;display:inline;">更多...</a></div>
 	        							</div>
 	        							<div style="height: 160px; padding: 5px;" closable="true" collapsible="false" id="subscription" class="portal-p panel-body">
 				    					</div>
