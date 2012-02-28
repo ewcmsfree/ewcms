@@ -77,187 +77,83 @@ home.prototype.init = function(opts){
     }
 }
 
-home.prototype.getPopMessage=function(url){
-    var popInterval = this._popInterval;
-    var currentAjax = $.ajax({
-        type:'post',
-        datatype:'json',
-        cache:false,
-        url:url + '?clientTime=' + new Date(),
-        data: '',
-        success:function(message, textStatus){
-            if (message != 'false'){
-                for (var i=0;i<message.length;i++){
-                    $.messager.show({title:message[i].title,msg:message[i].content,width:350,height:200,timeout:0,showType:'fade'});
-                }
-            }
-        },
-        beforeSend:function(XMLHttpRequest){
-        },
-        complete:function(XMLHttpRequest, textStatus){
-        },
-        error:function(XMLHttpRequest, textStatus, errorThrown){
-            clearInterval(popInterval);
-            if(currentAjax) {currentAjax.abort();}
-        }
-    });
-}
-
-home.prototype.setPopInterval=function(popInterval){
-    this._popInterval = popInterval;
-}
-
-home.prototype.getNotice = function(url,detailUrl){
-	var noticeInterval = this._noticeInterval;
-	var currentAjax = $.ajax({
-		type:'post',
-		datatype:'json',
-		cache:false,
-		url: url,
-		data: '',
-		success:function(message, textStatus){
-    		if (message != 'false'){
-    			$('#notice .t-list').empty();
-    			var noticesHtml = '<div class="t-list"><table width="100%">';
-    			var pro = [];
-        		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="80%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;" alt="' + message[i].title + '"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="10%">[' + message[i].userName + ']' + '</td><td width="10%" align="right">' + message[i].sendTime + '</td></tr>');
-        		}
-        		var html = pro.join("");
-        		noticesHtml += html + '</table></div>'
-        		$(noticesHtml).appendTo('#notice');
-        		$('#notice_tr').show();
-    		}else{
-    			$('#notice_tr').hide();
-    		}
-		},
-		beforeSend:function(XMLHttpRequest){
-			$('#notice_tr').hide();
-		},
-		complete:function(XMLHttpRequest, textStatus){
-		},
-		error:function(XMLHttpRequest, textStatus, errorThrown){
-			clearInterval(noticeInterval);
-			if(currentAjax) {currentAjax.abort();}
-		}
+home.prototype.getPopMessage=function(jsonPop, reread){
+	if (!reread) return;
+	var dataObj=eval("("+jsonPop+")");
+	$.each(dataObj.pops, function(idx, item){
+	    $.messager.show({title:item.title,msg:item.content,width:350,height:200,timeout:5000,showType:'fade'});
 	});
 }
 
-home.prototype.setNoticeInterval = function(noticeInterval){
-	this._noticeInterval = noticeInterval;
+var detailUrl = "/message/detail/index.do";
+var noticesDetailUrl = detailUrl + "?type=notice";
+home.prototype.getNoticeMessage = function(jsonNotice, reread){
+	if (!reread) return;
+	var dataObj=eval("("+jsonNotice+")");
+	if (dataObj.notices.length > 0){
+		$('#notice .t-list').empty();
+		var noticesHtml = '<div class="t-list"><table width="100%">';
+	    var pro = [];
+	    $.each(dataObj.notices, function(idx, item){
+	    	pro.push('<tr><td width="80%"><a href="javascript:void(0);" onclick="showRecord(\'' + noticesDetailUrl + '\',' + item.id + ');" style="text-decoration:none;" alt="' + item.title + '"><span class="ellipsis">' + item.title + '</span></a></td><td width="10%">[' + item.userName + ']' + '</td><td width="10%" align="right">' + item.sendTime + '</td></tr>');
+	    });
+	    var html = pro.join("");
+	    noticesHtml += html + '</table></div>'
+	    $(noticesHtml).appendTo('#notice');
+	    $('#notice_tr').show();
+    }else{
+    	$('#notice_tr').hide();
+    }
 }
 
-home.prototype.getSubscription = function(url, detailUrl){
-	var subscriptionInterval = this._subscriptionInterval;
-	var currentAjax = $.ajax({
-		type:'post',
-		datatype:'json',
-		cache:false,
-		url: url,
-		data: '',
-		success:function(message, textStatus){
-    		if (message != 'false'){
-    			$('#subscription .t-list').empty();
-    			var subscriptionHtml = '<div class="t-list"><table width="100%">';
-    			var pro = [];
-        		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="80%"><a href="javascript:void(0);" onclick="showRecord(\'' + detailUrl + '\',' + message[i].id + ');" style="text-decoration:none;"><span class="ellipsis">' + message[i].title + '</span></a></td><td width="10%">[' + message[i].userName + ']' + '</td><td width="10%" align="right">' + message[i].sendTime + '</td></tr>');
-        		}
-        		var html = pro.join("");
-        		subscriptionHtml += html + '</table></div>'
-        		$(subscriptionHtml).appendTo('#subscription');
-        		$('#subscription_tr').show();
-    		}else{
-    			$('#subscription_tr').hide();
-    		}
-		},
-		beforeSend:function(XMLHttpRequest){
-			$('#subscription_tr').hide();
-		},
-		complete:function(XMLHttpRequest, textStatus){
-		},
-		error:function(XMLHttpRequest, textStatus, errorThrown){
-			clearInterval(subscriptionInterval);
-			if(currentAjax) {currentAjax.abort();}
-		}
-	});
+var subDetailUrl = detailUrl + "?type=subscription";
+home.prototype.getSubscription = function(jsonSub, reread){
+	if (!reread) return;
+	var dataObj=eval("("+jsonSub+")");
+	if (dataObj.subs.length > 0){
+    	$('#subscription .t-list').empty();
+    	var subscriptionHtml = '<div class="t-list"><table width="100%">';
+    	var pro = [];
+    	$.each(dataObj.subs, function(idx, item){
+        	pro.push('<tr><td width="80%"><a href="javascript:void(0);" onclick="showRecord(\'' + subDetailUrl + '\',' + item.id + ');" style="text-decoration:none;"><span class="ellipsis">' + item.title + '</span></a></td><td width="10%">[' + item.userName + ']' + '</td><td width="10%" align="right">' + item.sendTime + '</td></tr>');
+        });
+        var html = pro.join("");
+        subscriptionHtml += html + '</table></div>'
+        $(subscriptionHtml).appendTo('#subscription');
+        $('#subscription_tr').show();
+    }else{
+    	$('#subscription_tr').hide();
+    }
 }
 
-home.prototype.setSubscriptionInterval = function(subscriptionInterval){
-	this._subscriptionInterval = subscriptionInterval;
+home.prototype.getUnReadMessage=function(count, reread){
+	if (!reread) return;
+	$('#tipMessage').empty();
+	var html = '<span id="messageFlash">';
+	if (count > 0){
+	  	html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;" class="message-unread">【&nbsp;&nbsp;&nbsp;&nbsp;新消息(' + count + ')】</a>';
+	}
+	html += '</span>';
+	$(html).appendTo('#tipMessage');
 }
 
-home.prototype.getTipMessage=function(url){
-    var tipInterval = this._tipInterval;
-    var currentAjax = $.ajax({
-        type:'post',
-        datatype:'json',
-        cache:false,
-        url:url,
-        data: '',
-        success:function(message, textStatus){
-        	$('#tipMessage').empty();
-        	var html = '<span id="messageFlash">';
-            if (message != 'false'){
-            	var tiplength = message.length;
-            	html += '<a href="javascript:void(0);" onclick="javascript:_home.addTab(\'个人消息\',\'message/index.do\');return false;" onfocus="this.blur();" style="color:red;font-size:13px;text-decoration:none;">【<img src="./ewcmssource/image/msg/msg_new.gif"/>新消息(' + tiplength + ')】</a>';
-            }
-            html += '</span>';
-            $(html).appendTo('#tipMessage');
-        },
-        beforeSend:function(XMLHttpRequest){
-        },
-        complete:function(XMLHttpRequest, textStatus){
-        },
-        error:function(XMLHttpRequest, textStatus, errorThrown){
-            clearInterval(tipInterval);
-            if(currentAjax) {currentAjax.abort();}
-        }
-    });
-}
-
-home.prototype.setTipInterval=function(tipInterval){
-    this._tipInterval = tipInterval;
-}
-
-home.prototype.getBeApproval=function(url){
-    var beApproval = this._beApproval;
-	var currentAjax = $.ajax({
-		type:'post',
-		datatype:'json',
-		cache:false,
-		url: url,
-		data: '',
-		success:function(message, textStatus){
-    		if (message != 'false'){
-    			$('#other .t-list').empty();
-    			var subscriptionHtml = '<div class="t-list"><table width="100%">';
-    			var pro = [];
-        		for (var i=0;i<message.length;i++){
-        			pro.push('<tr><td width="50%"><a href="javascript:void(0);" style="text-decoration:none;">栏目：『' + message[i].channelName + '』 共有 ' + message[i].articleCount + ' 条需要审批</a></td></tr>');
-        		}
-        		var html = pro.join("");
-        		subscriptionHtml += html + '</table></div>'
-        		$(subscriptionHtml).appendTo('#other');
-        		$('#other_tr').show();
-    		}else{
-    			$('#other_tr').hide();
-    		}
-		},
-		beforeSend:function(XMLHttpRequest){
-			$('#other_tr').hide();
-		},
-		complete:function(XMLHttpRequest, textStatus){
-		},
-		error:function(XMLHttpRequest, textStatus, errorThrown){
-			clearInterval(beApproval);
-			if(currentAjax) {currentAjax.abort();}
-		}
-	});
-}
-
-home.prototype.setBeApprovalInterval=function(beApproval){
-    this._beApproval = beApproval;
+home.prototype.getBeApproval=function(jsonBeApproval, reread){
+	if (!reread) return;
+	var dataObj=eval("("+jsonBeApproval+")");
+	if (jsonBeApproval.beapprovals.length > 0){
+		$('#other .t-list').empty();
+    	var beApprovalHtml = '<div class="t-list"><table width="100%">';
+    	var pro = [];
+    	$.each(dataObj.beapprovals, function(idx, item){
+   			pro.push('<tr><td width="50%"><a href="javascript:void(0);" style="text-decoration:none;">栏目：『' + item.channelName + '』 共有 ' + item.articleCount + ' 条需要审批</a></td></tr>');
+   		});
+   		var html = pro.join("");
+   		beApprovalHtml += html + '</table></div>'
+   		$(beApprovalHtml).appendTo('#other');
+   		$('#other_tr').show();
+	}else{
+		$('#other_tr').hide();
+	}
 }
 
 function showRecord(url, id){
