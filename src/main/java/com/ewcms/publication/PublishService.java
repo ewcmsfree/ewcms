@@ -70,15 +70,15 @@ public class PublishService implements PublishServiceable {
     }
     
     @Override
-    public void publishTemplateSource(int siteId,int[] ids,String username) throws PublishException {
+    public void publishTemplateSource(int siteId,int[] publishIds,String username) throws PublishException {
         Site site = getSite(siteId);
         Taskable task = 
             new TemplateSourceTask.
             Builder(templateSourceService, site).
-            setSourceIds(ids).
+            setPublishIds(publishIds).
             setUsername(username).
-            forceAgain().
-            builder();
+            setAgain(true).
+            build();
         taskRegistry.registerNewTask(site,task);
     }
 
@@ -90,19 +90,19 @@ public class PublishService implements PublishServiceable {
             Builder(templateSourceService, site).
             setAgain(again).
             setUsername(username).
-            builder();
+            build();
         taskRegistry.registerNewTask(site,task);
     }
 
     @Override
-    public void publishResource(int siteId,int[] ids,String username) throws PublishException {
+    public void publishResource(int siteId,int[] publishIds,String username) throws PublishException {
         Site site = getSite(siteId);
         Taskable task = 
             new ResourceTask.Builder(resourceService, site).
-            forceAgain().
-            setResourceIds(ids).
+            setAgain(true).
+            setPublishIds(publishIds).
             setUsername(username).
-            builder();
+            build();
         taskRegistry.registerNewTask(site,task);
     }
 
@@ -113,7 +113,7 @@ public class PublishService implements PublishServiceable {
             new ResourceTask.Builder(resourceService, site).
             setAgain(again).
             setUsername(username).
-            builder();
+            build();
         taskRegistry.registerNewTask(site,task);
     }
 
@@ -176,7 +176,7 @@ public class PublishService implements PublishServiceable {
     }
 
     @Override
-    public void publishArticle(int channelId, long[] ids, String username)
+    public void publishArticle(int channelId, long[] publishIds, String username)
             throws PublishException {
         Channel channel = getChannel(channelId);
         Site site = channel.getSite();
@@ -189,7 +189,8 @@ public class PublishService implements PublishServiceable {
                     cfg, templateSourceService, resourceService,
                     articleService, site, channel, template).
                     setUsername(username).
-                    forceAgain().
+                    setAgain(true).
+                    setPublishIds(publishIds).
                     build();
             taskRegistry.registerNewTask(site,task);
         }
