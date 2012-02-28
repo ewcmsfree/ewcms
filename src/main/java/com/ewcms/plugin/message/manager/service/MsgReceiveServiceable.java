@@ -19,7 +19,9 @@ public interface MsgReceiveServiceable {
 	
 	public void markReadMsgReceive(Long msgReceiveId, Boolean read);
 	
-	public List<MsgReceive> findMsgReceiveByUnRead();
+	public List<MsgReceive> findMsgReceiveByUnRead(String userName);
+	
+	public Long findUnReadMessageCountByUserName(String userName);
 	
 	public void readMsgReceive(Long msgReceiveId);
 }

@@ -60,8 +60,8 @@ public class MsgReceiveService implements MsgReceiveServiceable {
 	}
 
 	@Override
-	public List<MsgReceive> findMsgReceiveByUnRead() {
-		return msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(EwcmsContextUtil.getUserName());
+	public List<MsgReceive> findMsgReceiveByUnRead(String userName) {
+		return msgReceiveDAO.findMsgReceiveByUserNameAndUnRead(userName);
 	}
 
 	@Override
@@ -71,5 +71,10 @@ public class MsgReceiveService implements MsgReceiveServiceable {
 		msgReceive.setRead(true);
 		msgReceive.setReadTime(new Date(Calendar.getInstance().getTime().getTime()));
 		msgReceiveDAO.merge(msgReceive);
+	}
+
+	@Override
+	public Long findUnReadMessageCountByUserName(String userName) {
+		return msgReceiveDAO.findUnReadMessageCountByUserName(userName);
 	}
 }

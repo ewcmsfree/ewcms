@@ -50,7 +50,7 @@ public abstract class PubsubSender  implements PubsubSenderable{
     public void addClient(HttpServletResponse connection){
        synchronized(connections){
            connections.add(connection);
-           String out ="<html><head></head><body>" +  constructOutput();
+           String out ="<html><head></head><body>" +  constructFirstOutput();
            render(out,connection);
        }
     }
@@ -59,7 +59,7 @@ public abstract class PubsubSender  implements PubsubSenderable{
     public void removeClient(HttpServletResponse connection){
         synchronized(connections){
             if(connections.contains(connection)){
-                String out ="</body></html>" +  constructOutput();
+                String out ="</body></html>";
                 render(out,connection);
                 connections.remove(connection);
             }
@@ -121,4 +121,8 @@ public abstract class PubsubSender  implements PubsubSenderable{
      * @return
      */
     protected abstract String constructOutput();
+    
+    protected String constructFirstOutput(){
+    	return constructOutput();
+    }
 }

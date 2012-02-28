@@ -95,8 +95,8 @@ public class MessageFac implements MessageFacable {
 	}
 
 	@Override
-	public List<MsgReceive> findMsgReceiveByUnRead() {
-		return msgReceiveService.findMsgReceiveByUnRead();
+	public List<MsgReceive> findMsgReceiveByUnRead(String userName) {
+		return msgReceiveService.findMsgReceiveByUnRead(userName);
 	}
 
 	@Override
@@ -107,5 +107,10 @@ public class MessageFac implements MessageFacable {
 	@Override
 	public String subscribeMsg(Long msgSendId) {
 		return msgSendService.subscribeMsg(msgSendId);
+	}
+
+	@Override
+	public Long findUnReadMessageCountByUserName(String userName) {
+		return msgReceiveService.findUnReadMessageCountByUserName(userName);
 	}
 }

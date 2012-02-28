@@ -141,7 +141,7 @@ public class MemorandaService implements MemorandaServiceable {
 			String title = memo.getTitle();
 			String clock = "";
 			if (memo.getWarn()){
-				clock = "<img id='img_clock_" + memo.getId() + "' src='../source/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
+				clock = "<img id='img_clock_" + memo.getId() + "' src='../ewcmssource/image/notes/clock.png' width='13px' height='13px' align='bottom'/>";
 			}
 			if (title.length() > 12){
 				title = title.substring(0, 9) + "..."; 
@@ -341,7 +341,7 @@ public class MemorandaService implements MemorandaServiceable {
 	}
 
 	@Override
-	public List<Memoranda> getMemorandaFireTime(String clientTime){
+	public List<Memoranda> getMemorandaFireTime(String userName, String clientTime){
 		SimpleDateFormat clientDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
 		
 		Calendar c_before = Calendar.getInstance();
@@ -361,7 +361,8 @@ public class MemorandaService implements MemorandaServiceable {
 		
 		List<Memoranda> memorandaMsg = new ArrayList<Memoranda>();
 		
-		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(EwcmsContextUtil.getUserName());
+		List<Memoranda> memorandas = memorandaDAO.findMemorandaByWarn(userName);
+		if (memorandas == null || memorandas.isEmpty()) return new ArrayList<Memoranda>();
 		for (Memoranda memoranda : memorandas){
 			Date fireTime = memoranda.getFireTime();
 			if (fireTime == null){

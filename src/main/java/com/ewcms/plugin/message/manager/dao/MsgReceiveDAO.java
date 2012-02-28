@@ -45,4 +45,12 @@ public class MsgReceiveDAO extends JpaDAO<Long, MsgReceive> {
     	if (list.isEmpty()) return new ArrayList<MsgReceive>();
     	return list;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Long findUnReadMessageCountByUserName(String userName){
+		String hql = "Select Count(r.id) From MsgReceive As r Where r.userName=? And r.read=false";
+		List<Long> list = this.getJpaTemplate().find(hql, userName);
+    	if (list.isEmpty()) return 0L;
+    	return list.get(0);
+	}
 }

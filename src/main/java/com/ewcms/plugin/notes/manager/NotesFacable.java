@@ -71,10 +71,11 @@ public interface NotesFacable {
 	/**
 	 * 根据客户端时间显示备忘录对象集合
 	 * 
+	 * @param userName 用户名
 	 * @param clientTime 客户端时间
 	 * @return List 备忘录对象集合
 	 */
-	public List<Memoranda> getMemorandaFireTime(String clientTime);
+	public List<Memoranda> getMemorandaFireTime(String userName, String clientTime);
 	
 	/**
 	 * 根据登录的用户查询备忘录对象集合

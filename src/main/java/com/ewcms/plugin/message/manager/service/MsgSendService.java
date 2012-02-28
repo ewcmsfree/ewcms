@@ -152,12 +152,26 @@ public class MsgSendService implements MsgSendServiceable {
 
 	@Override
 	public List<MsgSend> findMsgSendByNotice(Integer row) {
-		return msgSendDAO.findMsgSendByType(Type.NOTICE, row);
+		List<MsgSend> notices = new ArrayList<MsgSend>();
+		List<MsgSend> noticeMessages = msgSendDAO.findMsgSendByType(Type.NOTICE, row);
+		if (noticeMessages == null || noticeMessages.isEmpty()) return notices;
+		for (MsgSend msgSend : noticeMessages){
+			msgSend.setMsgReceiveUsers(null);
+			notices.add(msgSend);
+		}
+		return notices;
 	}
 
 	@Override
 	public List<MsgSend> findMsgSendBySubscription(Integer row) {
-		return msgSendDAO.findMsgSendByType(Type.SUBSCRIPTION, row);
+		List<MsgSend> subscriptions = new ArrayList<MsgSend>();
+		List<MsgSend> subscriptionMessages = msgSendDAO.findMsgSendByType(Type.SUBSCRIPTION, row);
+		if (subscriptionMessages == null || subscriptionMessages.isEmpty()) return subscriptions;
+		for (MsgSend msgSend : subscriptionMessages){
+			msgSend.setMsgReceiveUsers(null);
+			subscriptions.add(msgSend);
+		}
+		return subscriptions;
 	}
 
 	@Override

@@ -55,8 +55,8 @@ public class NotesFac implements NotesFacable {
 	}
 
 	@Override
-	public  List<Memoranda> getMemorandaFireTime(String clientTime) {
-		return memorandaService.getMemorandaFireTime(clientTime);
+	public  List<Memoranda> getMemorandaFireTime(String userName, String clientTime) {
+		return memorandaService.getMemorandaFireTime(userName, clientTime);
 	}
 
 	@Override

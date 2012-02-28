@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.plugin.message.manager.MessageFacable;
 import com.ewcms.plugin.message.model.MsgReceive;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -93,7 +94,7 @@ public class MsgReceiveAction extends CrudBaseAction<MsgReceive, Long> {
 	}
 	
 	public void unRead(){
-		List<MsgReceive> msgReceives = messageFac.findMsgReceiveByUnRead();
+		List<MsgReceive> msgReceives = messageFac.findMsgReceiveByUnRead(EwcmsContextUtil.getUserName());
 		if (!msgReceives.isEmpty()){
 			Struts2Util.renderJson(JSONUtil.toJSON(msgReceives));
 		}else{

@@ -40,7 +40,9 @@ public interface MessageFacable {
 	
 	public List<MsgSend> findMsgSendBySubscription(Integer row);
 	
-	public List<MsgReceive> findMsgReceiveByUnRead();
+	public List<MsgReceive> findMsgReceiveByUnRead(String userName);
+	
+	public Long findUnReadMessageCountByUserName(String userName);
 	
 	public void readMsgReceive(Long msgReceiveId);
 	

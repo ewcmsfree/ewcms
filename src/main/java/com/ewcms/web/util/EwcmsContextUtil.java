@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.lang.xwork.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -61,7 +62,11 @@ public class EwcmsContextUtil {
     }
     
     public static UserDetails getUserDetails(){
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	SecurityContext securityContext = SecurityContextHolder.getContext();
+    	Authentication authentication = securityContext.getAuthentication();
+    	Object object = authentication.getPrincipal();
+//		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	UserDetails userDetails = (UserDetails) object;
 		return userDetails;
     }
     
