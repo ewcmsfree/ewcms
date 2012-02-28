@@ -117,6 +117,10 @@
         <param-name>/pubsub/progress</param-name>
         <param-value>com.ewcms.web.pubsub.ProgressSender</param-value>
     </init-param>
+    <init-param>
+    	<param-name>/pubsub/message</param-name>
+    	<param-value>com.ewcms.web.pubsub.MessageSender</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>pubsub</servlet-name>
