@@ -2,6 +2,7 @@
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/easyui/themes/dark-hive/easyui.css"/>' rel="stylesheet" title="dark-hive"/>
@@ -15,48 +16,24 @@
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
     <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
      <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.pubsub.js"/>'></script>  
+     <script type="text/javascript" src='<s:url value="/ewcmssource/page/progress.js"/>'></script>  
        
     <script type="text/javascript">
+    var _progress = new progress('pubsub/progress/<s:property value="currentSite.id"/>');
     $(function(){
-        $('#progress').treegrid({
-            title:'progress',
-            iconCls:'icon-ok',
-            width:500,
-            height:130,
-            rownumbers: true,
-            animate:true,
-            collapsible:true,
-            fitColumns:true,
-            idField:'id',
-            treeField:'name',
-            remoteSort:false,
-            columns:[[
-                {title:'任务',field:'name',width:180},
-                {field:'progress',title:'进度',width:120,rowspan:2,
-                    formatter:function(value){
-                        if (value){
-                            var s = '<div style="width:100%;background:#fff;border:1px solid #ccc">' +
-                                    '<div style="width:' + value + '%;background:red">' + value + '%' + '</div>'
-                                    '</div>';
-                            return s;
-                        } else {
-                            return '';
-                        }
-                    }
-                }
-            ]]
-        });
-        
-        $(window).unload(function() {
-            pubsub.onUnload();
-        }).load(function(){
-            var url = 'pubsub/progress/<s:property value="currentSite.id"/>';
-            pubsub.initialize(url);
+        var username = '<s:property value="userDetails.username"/>';
+        var adminRole = false;
+        <sec:authorize ifAnyGranted="ROLE_ADMIN">
+        adminRole = true; 
+        </sec:authorize>
+        _progress.init({
+            username:username,
+            adminRole:adminRole
         });
     });
     
-    var progress=function(data){
-        $('#progress').treegrid('loadData',data);    
+    var loadData = function(data){
+        _progress.loadData(data);
     }
     </script>
 </head>
