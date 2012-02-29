@@ -140,7 +140,7 @@ home.prototype.getUnReadMessage=function(count, reread){
 home.prototype.getBeApproval=function(jsonBeApproval, reread){
 	if (!reread) return;
 	var dataObj=eval("("+jsonBeApproval+")");
-	if (jsonBeApproval.beapprovals.length > 0){
+	if (dataObj.beapprovals.length > 0){
 		$('#other .t-list').empty();
     	var beApprovalHtml = '<div class="t-list"><table width="100%">';
     	var pro = [];
