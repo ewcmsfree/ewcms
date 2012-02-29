@@ -74,10 +74,12 @@ public class ChannelTask extends TaskBase{
             dependences.add(
                     new  TemplateSourceTask
                     .Builder(templateSourceService,site)
+                    .setUsername(username)
                     .build());
             dependences.add(
                     new ResourceTask
                     .Builder(resourceService,site)
+                    .setUsername(username)
                     .build());
         }
         
@@ -86,10 +88,11 @@ public class ChannelTask extends TaskBase{
             for(Template template : templates){
                 Taskable task = new TemplateTask.Builder(
                         cfg, templateSourceService, resourceService,
-                        articleService, templateService, site, channel, template).
-                        setDependence(true).
-                        setAgain(again).
-                        build();
+                        articleService, templateService, site, channel, template)
+                        .setDependence(true)
+                        .setUsername(username)
+                        .setAgain(again)
+                        .build();
                  dependences.add(task);
             }
         }
@@ -103,11 +106,12 @@ public class ChannelTask extends TaskBase{
                 dependences.add(
                         new ChannelTask.Builder(
                         cfg, templateService, templateSourceService, resourceService,
-                        articleService, channelService,site,child).
-                        setAgain(again).
-                        setDependence(true).
-                        setPublishChildren(true).
-                        build());
+                        articleService, channelService,site,child)
+                        .setAgain(again)
+                        .setUsername(username)
+                        .setDependence(true)
+                        .setPublishChildren(true)
+                        .build());
             }
         }
         

@@ -60,23 +60,28 @@ public class SiteTask extends TaskBase {
         }
         
         private void dependenceResourceAndTemplateSource(List<Taskable> dependences){
-            dependences.add(new  TemplateSourceTask.Builder(templateSourceService,site).
-                    setAgain(again).
-                    build());
-            dependences.add(new ResourceTask.Builder(resourceService,site).
-                    setAgain(again).
-                    build());
+            dependences.add(
+                    new  TemplateSourceTask
+                    .Builder(templateSourceService,site)
+                    .setUsername(username)
+                    .build());
+            dependences.add(
+                    new ResourceTask
+                    .Builder(resourceService,site)
+                    .setUsername(username)
+                    .build());
         }
 
         private void dependenceRootChannel(List<Taskable> dependences){
             Channel root = channelService.getChannelRoot(site.getId());
             dependences.add(new ChannelTask.Builder(cfg, templateService, 
                     templateSourceService, resourceService,
-                    articleService, channelService,site,root).
-                    setAgain(again).
-                    setDependence(true).
-                    setPublishChildren(true).
-                    build());
+                    articleService, channelService,site,root)
+                    .setAgain(again)
+                    .setUsername(username)
+                    .setDependence(true)
+                    .setPublishChildren(true)
+                    .build());
         }
         
         @Override

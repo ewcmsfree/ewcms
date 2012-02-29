@@ -72,6 +72,7 @@ public class HomeTask extends TaskBase{
                 dependences.add(
                         new  TemplateSourceTask
                         .Builder(templateSourceService, site)
+                        .setUsername(username)
                         .build());
             }
             return dependences;

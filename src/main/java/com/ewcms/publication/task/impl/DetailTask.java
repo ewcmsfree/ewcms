@@ -84,10 +84,12 @@ public class DetailTask extends TaskBase{
             dependences.add(
                     new  TemplateSourceTask
                     .Builder(templateSourceService,site)
+                    .setUsername(username)
                     .build());
             dependences.add(
                     new ResourceTask
                     .Builder(resourceService,site)
+                    .setUsername(username)
                     .build());
         }
         
