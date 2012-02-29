@@ -41,7 +41,7 @@ public class EwcmsBaseAction extends ActionSupport{
      * 
      * @return UserDetails
      */
-    public static UserDetails getUserDetails(){
+    public UserDetails getUserDetails(){
         return EwcmsContextUtil.getUserDetails();
     }
 }

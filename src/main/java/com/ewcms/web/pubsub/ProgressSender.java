@@ -64,7 +64,7 @@ public class ProgressSender extends PubsubSender{
         StringBuilder builder = new StringBuilder();
  
         builder.append(" <script type=\"text/javascript\">");
-        builder.append("parent.progress(");
+        builder.append("parent.loadData(");
         AtomicInteger count = new AtomicInteger(0);
         builder.append("{\"rows\":[");
         for(Taskable task : tasks){
@@ -82,11 +82,15 @@ public class ProgressSender extends PubsubSender{
             return ;
         }
         
+        if(count.get() != 0){
+            builder.append(",");
+        }
         int id = count.incrementAndGet();
         builder.append("{");
         builder.append("\"id\":").append(id);
         builder.append(",\"taskId\":\"").append(task.getId()).append("\"");
         builder.append(",\"name\":\"").append(task.getDescription()).append("\"");
+        builder.append(",\"username\":\"").append(task.getUsername()).append("\"");
         builder.append(",\"progress\":").append(task.getProgress());
         if(partenId != -1){
             builder.append(",\"_parentId\":").append(partenId);
@@ -94,7 +98,6 @@ public class ProgressSender extends PubsubSender{
         builder.append("}");
         
         for(Taskable child : task.getDependenceTasks()){
-            builder.append(",");
             constructTreeGridRows(builder,count,id,child);
         }
     }
