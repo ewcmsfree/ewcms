@@ -6,11 +6,7 @@
 
 package com.ewcms.content.document.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,9 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleMain;
-import com.ewcms.core.site.model.Channel;
 import com.ewcms.web.CrudBaseAction;
-import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -273,29 +267,4 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
-	
-	public void beApproval(){
-		String userName = EwcmsContextUtil.getUserName();
-		
-		List<String> groupNames = (List<String>) EwcmsContextUtil.getGroupnames();
-		
-		Map<Channel, Long> map = documentFac.findBeApprovalArticleMain(userName, groupNames);
-		
-		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		if (!map.isEmpty()){
-			Set<Channel> channels = map.keySet();
-			for (Channel channel : channels){
-				Map<String, Object> mapList = new HashMap<String,Object>();
-				Long count = map.get(channel);
-				mapList.put("channelId", channel.getId());
-				mapList.put("channelName", channel.getName());
-				mapList.put("articleCount", count);
-				list.add(mapList);
-			}
-			Struts2Util.renderJson(JSONUtil.toJSON(list));
-		}else{
-			Struts2Util.renderJson(JSONUtil.toJSON("false"));
-		}
-	}
-
 }

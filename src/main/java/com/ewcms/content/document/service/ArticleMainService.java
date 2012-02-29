@@ -18,7 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -41,6 +44,8 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishFacable;
+import com.ewcms.security.manage.service.GroupServiceable;
+import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -60,6 +65,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private WebPublishFacable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private UserServiceable userService;
 	
 	public void setWebPublish(WebPublishFacable webPublish) {
 		this.webPublish = webPublish;
@@ -581,8 +588,20 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public Map<Channel, Long> findBeApprovalArticleMain(String userName, List<String> groupNames) {
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName) {
 		Map<Channel, Long> result = new HashMap<Channel, Long>();
+		
+		List<String> groupNames = new ArrayList<String>();
+		UserDetails user = userService.loadUserByUsername(userName);
+		if (user != null){
+			Collection<GrantedAuthority> authorites = user.getAuthorities();
+	        for(GrantedAuthority auth: authorites){
+	            if(StringUtils.startsWith(auth.getAuthority(),GroupServiceable.GROUP_NAME_PERFIX)){
+	            	groupNames.add(auth.getAuthority());
+	            }
+	        }
+		}
+		
 		Map<Integer, Long> map = articleMainDAO.findBeApprovalArticleMain(userName, groupNames);
 		if (!map.isEmpty()){
 			Set<Integer> keySets = map.keySet();

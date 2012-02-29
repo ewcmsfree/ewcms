@@ -239,8 +239,7 @@ public interface ArticleMainServiceable {
 	 * 待审核文章显示
 	 * 
 	 * @param userName 用户名
-	 * @param groupNames 用户组
 	 * @return Map
 	 */
-	public Map<Channel, Long> findBeApprovalArticleMain(String userName, List<String> groupNames);
+	public Map<Channel, Long> findBeApprovalArticleMain(String userName);
 }

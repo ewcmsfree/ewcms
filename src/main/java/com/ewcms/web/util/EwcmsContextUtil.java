@@ -62,11 +62,7 @@ public class EwcmsContextUtil {
     }
     
     public static UserDetails getUserDetails(){
-    	SecurityContext securityContext = SecurityContextHolder.getContext();
-    	Authentication authentication = securityContext.getAuthentication();
-    	Object object = authentication.getPrincipal();
-//		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	UserDetails userDetails = (UserDetails) object;
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userDetails;
     }
     

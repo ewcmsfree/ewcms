@@ -1,10 +1,7 @@
 package com.ewcms.web.pubsub;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,21 +11,15 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.plugin.message.manager.MessageFacable;
-import com.ewcms.plugin.message.model.MsgReceive;
 import com.ewcms.plugin.message.model.MsgSend;
 import com.ewcms.plugin.notes.manager.NotesFacable;
 import com.ewcms.plugin.notes.model.Memoranda;
-import com.ewcms.security.manage.service.GroupServiceable;
-import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 
 public class MessageSender extends PubsubSender {
@@ -42,8 +33,7 @@ public class MessageSender extends PubsubSender {
 	private Integer popCount = 0;
 	private Integer noticeCount = 0;
 	private Integer subCount = 0;
-	private Integer beApprovalCount = 0;
-	private List<String> groupNames = new ArrayList<String>();
+	private Map<Channel, Long> beApprovals = new HashMap<Channel, Long>();
 	private Boolean isFirst = true;
 
 	public MessageSender(String path, ServletContext context) {
@@ -56,13 +46,11 @@ public class MessageSender extends PubsubSender {
 		notesFac = getNotesFac(context);
 		documentFac = getDocumentFac(context);
 		getPathValues(path);
-		//groupNames = getUserGroups(userName);
 	}
 
 	@Override
 	protected String constructFirstOutput(){
 		isFirst = true;
-//		groupNames = (List<String>)EwcmsContextUtil.getGroupnames();
 		return constructOutput();
 	}
 	
@@ -105,24 +93,41 @@ public class MessageSender extends PubsubSender {
 			builder.append("      parent._home.getSubscription('', false);\n");
 		}
 		
+		Map<Channel, Long> map = documentFac.findBeApprovalArticleMain(userName);
+		builder.append("      parent._home.getBeApproval('{\"beapprovals\":[");
+		StringBuilder temp = new StringBuilder();
+		boolean isRead = false;
+		
+		Set<Channel> channels = map.keySet();
+		if (channels.size() > 0){
+			int channelCount = channels.size();
+			int tempCount = beApprovals.size();
+			if (channelCount != tempCount){
+				isRead = true;
+			}
+			int idx = 0;
+			for (Channel channel : channels){
+				if (!isRead && (beApprovals.get(channel).longValue() != map.get(channel).longValue())){
+					isRead = true;
+				}
+				temp.append("{");
+				temp.append("\"channelId\":").append(channel.getId());
+				temp.append(",\"channelName\":\"").append(channel.getName()).append("\"");
+				temp.append(",\"articleCount\":").append(map.get(channel));
+				temp.append("}");
+			    if (channelCount - 1 > idx){
+			       	temp.append(",");
+			    }
+			    beApprovals.put(channel, map.get(channel));
+			}
+		}else{
+			if (isFirst) isRead = true;
+			beApprovals.clear();
+		}
+		if (!isRead) temp.setLength(0);
+		builder.append(temp.toString() + "]}', " + isRead + ");\n");
+		
 		builder.append(" </script>");
-
-//		Map<Channel, Long> map = documentFac.findBeApprovalArticleMain(userName, groupNames);
-//		if ((map != null && !map.isEmpty()) && (isFirst || map.size() != beApprovalCount)){
-//			beApprovalCount = map.size();
-//		}else{
-//			map = new HashMap<Channel, Long>();
-//		}
-//		builder.append("      parent._home.getBeApproval('{\"beapprovals\":[");
-//		Set<Channel> channels = map.keySet();
-//		for (Channel channel : channels){
-//			builder.append("{");
-//	        builder.append("\"channelId\":").append(channel.getId());
-//	        builder.append(",\"channelName\":\"").append(channel.getName()).append("\"");
-//	        builder.append(",\"articleCount\":").append(map.get(channel));
-//	        builder.append("},");
-//		}
-//		builder.append("      ]}');\n");
 		
 		if (isFirst) isFirst = false;
 		
@@ -160,26 +165,6 @@ public class MessageSender extends PubsubSender {
 		return fac;
 	}
 	
-	private List<String> getUserGroups(String userName){
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<String> names = new ArrayList<String>();
-        
-        UserDetails user = userDetails;
-        if(user == null){
-            return names;
-        }
-        
-        Collection<GrantedAuthority> authorites = user.getAuthorities();
-        for(GrantedAuthority auth: authorites){
-            if(StringUtils.startsWith(auth.getAuthority(),GroupServiceable.GROUP_NAME_PERFIX)){
-                names.add(auth.getAuthority());
-            }
-        }
-        
-        return names;
-
-	}
-
 	private void getPathValues(String path) {
 		String[] s = StringUtils.split(path, "/");
 		String pathValue = s[s.length - 1];
