@@ -63,7 +63,7 @@ home.prototype.init = function(opts){
         }
     });
     $('#progress-menu').bind('click',function(){
-        openWindow(windowId,{width:550,height:230,title:'发布进度',url:opts.progress}); 
+        openWindow(windowId,{width:550,height:300,title:'发布进度',url:opts.progress}); 
     });
     $('#exit-menu').bind('click',function(){
         window.location = opts.exit;
