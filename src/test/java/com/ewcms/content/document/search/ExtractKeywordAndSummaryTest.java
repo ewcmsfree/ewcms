@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.io.HtmlStringUtil;
+import com.ewcms.content.document.util.search.ExtractKeywordAndSummary;
 
 /**
  * @author 吴智俊
