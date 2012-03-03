@@ -121,9 +121,9 @@ public class MessageSender extends PubsubSender {
 			    beApprovals.put(channel, map.get(channel));
 			}
 		}else{
-			if (isFirst) isRead = true;
 			beApprovals.clear();
 		}
+		if (isFirst) isRead = true;
 		if (!isRead) temp.setLength(0);
 		builder.append(temp.toString() + "]}', " + isRead + ");\n");
 		
