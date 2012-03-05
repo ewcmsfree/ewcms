@@ -29,7 +29,7 @@
                 $(window).unload(function() {
                     pubsub.onUnload();
                 }).load(function(){
-                    var url = 'pubsub/message/admin?' + new Date();
+                    var url = 'pubsub/message/<s:property value="userName"/>';
                     pubsub.initialize(url);
                 });
             });

@@ -27,6 +27,7 @@ public class HomeAction extends EwcmsBaseAction {
     private Integer siteId;
     private String siteName;
     private String realName;
+    private String userName;
     private boolean hasSite = true;
     
 	@Autowired
@@ -75,6 +76,7 @@ public class HomeAction extends EwcmsBaseAction {
 		}
 		
 		realName = securityFac.getCurrentUserInfo().getName();
+		userName = securityFac.getCurrentUserInfo().getUsername();
 		
 		return SUCCESS;
 	}
@@ -101,5 +103,9 @@ public class HomeAction extends EwcmsBaseAction {
     
     public Boolean getHasSite(){
         return hasSite;
+    }
+    
+    public String getUserName(){
+    	return userName;
     }
 }
