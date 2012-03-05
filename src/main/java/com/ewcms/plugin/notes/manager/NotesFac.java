@@ -6,6 +6,7 @@
 
 package com.ewcms.plugin.notes.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class NotesFac implements NotesFacable {
 	}
 
 	@Override
-	public  List<Memoranda> getMemorandaFireTime(String userName, String clientTime) {
+	public  List<Memoranda> getMemorandaFireTime(String userName, Date clientTime) {
 		return memorandaService.getMemorandaFireTime(userName, clientTime);
 	}
 

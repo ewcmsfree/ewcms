@@ -341,17 +341,12 @@ public class MemorandaService implements MemorandaServiceable {
 	}
 
 	@Override
-	public List<Memoranda> getMemorandaFireTime(String userName, String clientTime){
-		SimpleDateFormat clientDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
-		
+	public List<Memoranda> getMemorandaFireTime(String userName, Date clientTime){
 		Calendar c_before = Calendar.getInstance();
 		Calendar c_after = Calendar.getInstance();
 		
-		try {
-			c_before.setTime(clientDateFormat.parse(clientTime));
-			c_after.setTime(clientDateFormat.parse(clientTime));
-		} catch (ParseException e) {
-		}
+		c_before.setTime(clientTime);
+		c_after.setTime(clientTime);
 		
 		c_before.add(Calendar.MINUTE, -1);
 		c_after.add(Calendar.MINUTE, 1);

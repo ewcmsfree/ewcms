@@ -28,7 +28,7 @@ public class MessageSender extends PubsubSender {
 	private NotesFacable notesFac;
 	private DocumentFacable documentFac;
 	private String userName;
-	private String clientTime;
+	private Date clientTime;
 	private Long unReadCount = 0L;
 	private Integer popCount = 0;
 	private Integer noticeCount = 0;
@@ -168,13 +168,7 @@ public class MessageSender extends PubsubSender {
 	private void getPathValues(String path) {
 		String[] s = StringUtils.split(path, "/");
 		String pathValue = s[s.length - 1];
-		if (pathValue.startsWith("?")){
-			int i = pathValue.indexOf("?");
-			userName = pathValue.substring(0, i - 1);
-			clientTime = pathValue.substring(i);
-		}else{
-			userName = pathValue;
-			clientTime = (new Date(Calendar.getInstance().getTime().getTime())).toString();
-		}
+		userName = pathValue;
+		clientTime = new Date(Calendar.getInstance().getTime().getTime());
 	}
 }

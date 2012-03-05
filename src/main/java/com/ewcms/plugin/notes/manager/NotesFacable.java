@@ -6,6 +6,7 @@
 
 package com.ewcms.plugin.notes.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ewcms.plugin.notes.model.Memoranda;
@@ -75,7 +76,7 @@ public interface NotesFacable {
 	 * @param clientTime 客户端时间
 	 * @return List 备忘录对象集合
 	 */
-	public List<Memoranda> getMemorandaFireTime(String userName, String clientTime);
+	public List<Memoranda> getMemorandaFireTime(String userName, Date clientTime);
 	
 	/**
 	 * 根据登录的用户查询备忘录对象集合
