@@ -198,6 +198,12 @@ ALTER TABLE content_resource ADD CONSTRAINT content_resource_path_key UNIQUE (pa
 --修改admin密码
 UPDATE auth_user SET password='b594510740d2ac4261c1b2fe87850d08' WHERE username='admin';
 
+DROP TABLE qrtz_job_listeners;
+DROP TABLE qrtz_trigger_listeners;
+
+--删除定时器数据
+DELETE FROM qrtz_locks;
+
 -- 修改job_class中的classentity值
 UPDATE job_class SET classentity='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE classentity='com.ewcms.scheduling.job.channel.EwcmsExecutionChannelJob';
 UPDATE job_class SET classentity='com.ewcms.scheduling.generate.job.channel.EwcmsExecutionChannelJob' WHERE classentity='com.ewcms.scheduling.job.leadingwindow.EwcmsExecutionLeadingWindowJob';

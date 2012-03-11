@@ -35,10 +35,3 @@ INSERT INTO auth_group_members (group_name,username) VALUES ('GROUP_ADMIN','admi
 
 --删除定时器数据
 DELETE FROM qrtz_locks;
-
---初始定时器
-INSERT INTO qrtz_locks VALUES('TRIGGER_ACCESS');
-INSERT INTO qrtz_locks VALUES('JOB_ACCESS');
-INSERT INTO qrtz_locks VALUES('CALENDAR_ACCESS');
-INSERT INTO qrtz_locks VALUES('STATE_ACCESS');
-INSERT INTO qrtz_locks VALUES('MISFIRE_ACCESS');
