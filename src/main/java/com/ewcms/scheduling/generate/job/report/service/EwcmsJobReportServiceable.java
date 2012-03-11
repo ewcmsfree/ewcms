@@ -26,7 +26,7 @@ public interface EwcmsJobReportServiceable {
 	 * @param vo 定时设置对象
 	 * @return 定时工作任务编号
 	 */
-	public Integer saveOrUpdateJobReport(Long reportId, PageDisplayVO vo, String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException;
+	public Long saveOrUpdateJobReport(Long reportId, PageDisplayVO vo, String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException;
 	
 	/**
 	 * 通过任务编号查询报表定时任务对象
@@ -34,7 +34,7 @@ public interface EwcmsJobReportServiceable {
 	 * @param jobId 任务编号
 	 * @return EwcmsJobReport 报表定时任务对象
 	 */
-	public EwcmsJobReport getScheduledJobReport(Integer jobId);
+	public EwcmsJobReport getScheduledJobReport(Long jobId);
 	
 	/**
 	 * 查询报表定时任务对象
@@ -51,5 +51,5 @@ public interface EwcmsJobReportServiceable {
 	 * @param jobReportId 任务编号
 	 * @return List 定时任务参数集合
 	 */
-	public List<EwcmsJobParameter> findByJobReportParameterById(Integer jobReportId);
+	public List<EwcmsJobParameter> findByJobReportParameterById(Long jobReportId);
 }

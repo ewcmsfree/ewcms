@@ -42,7 +42,7 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	private SchedulingFacable schedulingFac;
 	
 	@Override
-	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException{
+	public Long saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException{
 		Channel channel = channelDAO.get(channelId);
 		if (channel != null) {
 			JobInfo alqcJob = new JobInfo();
@@ -93,7 +93,7 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	}
 
 	@Override
-	public EwcmsJobChannel getScheduledJobChannel(Integer jobId) {
+	public EwcmsJobChannel getScheduledJobChannel(Long jobId) {
 		return (EwcmsJobChannel)ewcmsJobChannelDAO.get(jobId);
 	}
 

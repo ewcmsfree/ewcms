@@ -110,7 +110,7 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
     	EwcmsJobReportFacable ewcmsJobReportFac = getEwcmsJobReportFac();
         JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
 
-        int jobId = jobDataMap.getInt(JOB_DATA_KEY_DETAILS_ID);
+        Long jobId = jobDataMap.getLong(JOB_DATA_KEY_DETAILS_ID);
         EwcmsJobReport ewcmsJobReport = ewcmsJobReportFac.getScheduledJobReport(jobId);
         return ewcmsJobReport;
     }

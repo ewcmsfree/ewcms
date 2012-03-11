@@ -20,14 +20,14 @@ public class PageDisplayVO implements Serializable {
 	private static final long serialVersionUID = 5593933725156531605L;
 	
 	// Job(任务)信息 //
-	private Integer jobId;
+	private Long jobId;
 	private Integer jobVersion;
 	private String label;
 	private String userName = "";
 	private String description;
-	private Integer jobClassId;
+	private Long jobClassId;
 	// 调度计划 //
-	private Integer triggerId;
+	private Long triggerId;
 	private Integer triggerVersion;
 	private Integer start = 1;
 	private Integer mode = 0;
@@ -57,11 +57,11 @@ public class PageDisplayVO implements Serializable {
 	private List<PageShowParam> pageShowParams = new ArrayList<PageShowParam>();
 	private Integer[] outputFormats;
 	
-	public Integer getJobId() {
+	public Long getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(Integer jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 
@@ -97,11 +97,11 @@ public class PageDisplayVO implements Serializable {
 		this.description = description;
 	}
 
-	public Integer getTriggerId() {
+	public Long getTriggerId() {
 		return triggerId;
 	}
 
-	public void setTriggerId(Integer triggerId) {
+	public void setTriggerId(Long triggerId) {
 		this.triggerId = triggerId;
 	}
 
@@ -241,11 +241,11 @@ public class PageDisplayVO implements Serializable {
 		this.isJobChannel = isJobChannel;
 	}
 
-	public Integer getJobClassId() {
+	public Long getJobClassId() {
 		return jobClassId;
 	}
 
-	public void setJobClassId(Integer jobClassId) {
+	public void setJobClassId(Long jobClassId) {
 		this.jobClassId = jobClassId;
 	}
 

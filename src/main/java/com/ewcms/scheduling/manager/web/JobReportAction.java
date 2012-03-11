@@ -138,7 +138,7 @@ public class JobReportAction extends ActionSupport {
 				ChartReport chart = reportFac.findChartReportById(getReportId());
 				ewcmsJobParameters = ConversionUtil.pageToJob(new LinkedHashSet<EwcmsJobParameter>(),chart.getParameters(),ServletActionContext.getRequest());
 			}
-			Integer jobId = ewcmsJobReportFac.saveOrUpdateJobReport(getReportId(), getPageDisplayVo(), getReportType(), ewcmsJobParameters);
+			Long jobId = ewcmsJobReportFac.saveOrUpdateJobReport(getReportId(), getPageDisplayVo(), getReportType(), ewcmsJobParameters);
 			if (jobId == null) {
 				addActionMessage("操作失败");
 			}

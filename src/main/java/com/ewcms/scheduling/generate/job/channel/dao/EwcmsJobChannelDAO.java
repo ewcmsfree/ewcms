@@ -19,7 +19,7 @@ import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
  * @author 吴智俊
  */
 @Repository
-public class EwcmsJobChannelDAO extends JpaDAO<Integer, EwcmsJobChannel> {
+public class EwcmsJobChannelDAO extends JpaDAO<Long, EwcmsJobChannel> {
 	@SuppressWarnings("unchecked")
 	public EwcmsJobChannel findJobChannelByChannelId(Integer channelId) {
 		String hql = "Select o From EwcmsJobChannel o Inner Join o.channel c Where c.id=?";

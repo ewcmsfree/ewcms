@@ -33,7 +33,7 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
+public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Long> {
 
 	private static final long serialVersionUID = -7180641001521655948L;
 	
@@ -57,11 +57,11 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 		super.setVo(pageDisplayVo);
 	}
 	
-	public List<Integer> getSelections() {
+	public List<Long> getSelections() {
 		return super.getOperatorPK();
 	}
 
-	public void setSelections(List<Integer> selections) {
+	public void setSelections(List<Long> selections) {
 		super.setOperatorPK(selections);
 	}
 	
@@ -87,7 +87,7 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	}
 
 	@Override
-	protected void deleteOperator(Integer pk) {
+	protected void deleteOperator(Long pk) {
 		try {
 			schedulingFac.deletedScheduledJob(pk);
 		} catch (BaseException e) {
@@ -96,7 +96,7 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	}
 
 	@Override
-	protected PageDisplayVO getOperator(Integer pk) {
+	protected PageDisplayVO getOperator(Long pk) {
 		PageDisplayVO pageDisplayVo = new PageDisplayVO();
 		try {
 			JobInfo jobInfo = schedulingFac.getScheduledJob(pk);
@@ -138,12 +138,12 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 	}
 
 	@Override
-	protected Integer getPK(PageDisplayVO vo) {
+	protected Long getPK(PageDisplayVO vo) {
 		return vo.getJobId();
 	}
 
 	@Override
-	protected Integer saveOperator(PageDisplayVO vo, boolean isUpdate) {
+	protected Long saveOperator(PageDisplayVO vo, boolean isUpdate) {
 //		AlqcJob alqcJob = new AlqcJob();
 //		try{
 //			if (vo.getJobId() != null && vo.getJobId().intValue() > 0){
@@ -187,7 +187,7 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 			    }
 			} else {
 				operatorState = OperatorState.ADD;
-	            Integer id = schedulingFac.saveScheduleJob(jobInfo);
+				Long id = schedulingFac.saveScheduleJob(jobInfo);
 	            operatorPK.add(id);
 	            setPageDisplayVo(createEmptyVo());
 			}
@@ -231,13 +231,13 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Integer> {
 		return jobClasses;
 	}
 	
-	private Integer jobId;
+	private Long jobId;
 	
-	public Integer getJobId() {
+	public Long getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(Integer jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 

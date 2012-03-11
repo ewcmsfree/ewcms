@@ -16,5 +16,5 @@ import com.ewcms.scheduling.BaseException;
  */
 public interface SchedulerListenerable {
 
-    public void jobFinalized(Integer jobId) throws BaseException;
+    public void jobFinalized(Long jobId) throws BaseException;
 }

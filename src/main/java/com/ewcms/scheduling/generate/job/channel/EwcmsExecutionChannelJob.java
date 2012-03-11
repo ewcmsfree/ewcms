@@ -59,7 +59,7 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
         EwcmsJobChannelFacable ewcmsJobChannelFac = getEwcmsJobChannelFac();
         JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
 
-        int jobId = jobDataMap.getInt(JOB_DATA_KEY_DETAILS_ID);
+        Long jobId = jobDataMap.getLong(JOB_DATA_KEY_DETAILS_ID);
         EwcmsJobChannel ewcmsJobChannel = ewcmsJobChannelFac.getScheduledJobChannel(jobId);
         return ewcmsJobChannel;
     }

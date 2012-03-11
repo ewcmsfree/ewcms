@@ -25,7 +25,7 @@ public interface SchedulingFacable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public Integer saveScheduleJob(JobInfo jobInfo) throws BaseException;
+	public Long saveScheduleJob(JobInfo jobInfo) throws BaseException;
 	
 	/**
 	 * 修改调度工作
@@ -33,7 +33,7 @@ public interface SchedulingFacable {
 	 * @param jobInfo
 	 * @throws BaseException
 	 */
-	public Integer updateScheduledJob(JobInfo jobInfo) throws BaseException;
+	public Long updateScheduledJob(JobInfo jobInfo) throws BaseException;
 	
 	/**
 	 * 查询所有调度工作
@@ -49,7 +49,7 @@ public interface SchedulingFacable {
 	 * @param jobId
 	 * @throws BaseException
 	 */
-	public void deletedScheduledJob(Integer jobId) throws BaseException;
+	public void deletedScheduledJob(Long jobId) throws BaseException;
 
 	/**
 	 * 查询调度工作
@@ -58,7 +58,7 @@ public interface SchedulingFacable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public JobInfo getScheduledJob(Integer jobId) throws BaseException;
+	public JobInfo getScheduledJob(Long jobId) throws BaseException;
 
 	/**
 	 * 校验调度工作
@@ -69,15 +69,15 @@ public interface SchedulingFacable {
 	 */
 	public ValidationErrorsable validateJob(JobInfo jobInfo) throws BaseException;
 	
-    public Integer saveJobClass(JobClass jobClass) throws BaseException;
+    public Long saveJobClass(JobClass jobClass) throws BaseException;
 
-    public Integer updateJobClass(JobClass jobClass) throws BaseException;
+    public Long updateJobClass(JobClass jobClass) throws BaseException;
 
-    public JobClass findByJobClass(Integer id) throws BaseException;
+    public JobClass findByJobClass(Long id) throws BaseException;
 
     public List<JobClass> findByAllJobClass() throws BaseException;
     
-    public void deletedJobClass(Integer id) throws BaseException;
+    public void deletedJobClass(Long id) throws BaseException;
 
 	public JobClass findByJobClassByClassEntity(String classEntity) throws BaseException;
 	
@@ -87,12 +87,12 @@ public interface SchedulingFacable {
 	 * @param id 调度任务编号
 	 * @throws BaseException
 	 */
-	public void pauseJob(Integer id) throws BaseException;
+	public void pauseJob(Long id) throws BaseException;
 	
     /**
      * 从暂停恢复调度任务
      * @param id 调度任务编号
      * @throws BaseExcepiton
      */
-    public void resumedJob(Integer id) throws BaseException;
+    public void resumedJob(Long id) throws BaseException;
 }

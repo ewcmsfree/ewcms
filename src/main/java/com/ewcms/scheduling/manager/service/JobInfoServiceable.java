@@ -37,7 +37,7 @@ public interface JobInfoServiceable {
 	 * @return
 	 * @throws BaseException
 	 */
-	public JobInfo findByJob(Integer id) ;
+	public JobInfo findByJob(Long id) ;
 	
 	/**
 	 * 查询所有的调度
@@ -53,5 +53,5 @@ public interface JobInfoServiceable {
 	 * @param id
 	 * @throws BaseException
 	 */
-	public void deletedJob(Integer id);
+	public void deletedJob(Long id);
 }

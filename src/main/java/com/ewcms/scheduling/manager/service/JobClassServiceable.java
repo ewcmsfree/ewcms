@@ -16,15 +16,15 @@ import com.ewcms.scheduling.model.JobClass;
  * @author 吴智俊
  */
 public interface JobClassServiceable {
-    public Integer saveJobClass(JobClass alqcJobClass) throws BaseException;
+    public Long saveJobClass(JobClass alqcJobClass) throws BaseException;
 
-    public Integer updateJobClass(JobClass alqcJobClass) throws BaseException;
+    public Long updateJobClass(JobClass alqcJobClass) throws BaseException;
 
-    public JobClass findByJobClass(Integer id) throws BaseException;
+    public JobClass findByJobClass(Long id) throws BaseException;
 
     public List<JobClass> findByAllJobClass() throws BaseException;
 
-    public void deletedJobClass(Integer id) throws BaseException;
+    public void deletedJobClass(Long id) throws BaseException;
 
     public JobClass findByJobClassByClassEntity(String classEntity) throws BaseException;
 }

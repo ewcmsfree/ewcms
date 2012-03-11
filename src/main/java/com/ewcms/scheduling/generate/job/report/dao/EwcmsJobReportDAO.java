@@ -20,7 +20,7 @@ import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
  *
  */
 @Repository
-public class EwcmsJobReportDAO extends JpaDAO<Integer, EwcmsJobReport> {
+public class EwcmsJobReportDAO extends JpaDAO<Long, EwcmsJobReport> {
 	@SuppressWarnings("unchecked")
 	public EwcmsJobReport findJobReportByReportId(Long reportId, String reportType) {
 		String hql = "Select o From EwcmsJobReport o Inner Join ";
@@ -37,7 +37,7 @@ public class EwcmsJobReportDAO extends JpaDAO<Integer, EwcmsJobReport> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<EwcmsJobParameter> findByJobReportParameterById(Integer jobReportId) {
+	public List<EwcmsJobParameter> findByJobReportParameterById(Long jobReportId) {
 		String hql = "Select p From EwcmsJobReport o Join o.ewcmsJobParameters p Where o.id=?";
 		List<EwcmsJobParameter> list = getJpaTemplate().find(hql, jobReportId);
 		if (list.isEmpty())

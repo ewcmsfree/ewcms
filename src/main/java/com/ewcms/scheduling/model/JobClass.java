@@ -29,7 +29,7 @@ public class JobClass implements Serializable {
 	@Id
     @GeneratedValue(generator = "seq_job_class",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 	@Column(name = "classname", nullable = false)
 	private String className;
 	@Column(name = "classentity", nullable = false, unique = true)
@@ -37,11 +37,11 @@ public class JobClass implements Serializable {
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

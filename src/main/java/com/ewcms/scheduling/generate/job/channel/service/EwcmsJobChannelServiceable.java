@@ -26,7 +26,7 @@ public interface EwcmsJobChannelServiceable {
 	 * @param isAppChildenChannel 是否应用于子频道
 	 * @return 定时工作任务编号
 	 */
-	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException;
+	public Long saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException;
 	
 	/**
 	 * 通过任务编号查询频道定时任务对象
@@ -34,7 +34,7 @@ public interface EwcmsJobChannelServiceable {
 	 * @param jobId 任务编号
 	 * @return 频道定时任务对象
 	 */
-	public EwcmsJobChannel getScheduledJobChannel(Integer jobId);
+	public EwcmsJobChannel getScheduledJobChannel(Long jobId);
 	
 	/**
 	 * 通过频道编号查询频道定期任务对象

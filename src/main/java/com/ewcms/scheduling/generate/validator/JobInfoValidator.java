@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import org.quartz.DateBuilder;
 import org.quartz.TriggerUtils;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +84,7 @@ public class JobInfoValidator implements JobInfoValidatorable {
         String tzId = trigger.getTimeZone();
         if (tzId != null && tzId.length() > 0) {
             TimeZone tz = TimeZone.getTimeZone(tzId);
-            now = TriggerUtils.translateTime(now, tz, TimeZone.getDefault());
+            now = DateBuilder.translateTime(now, tz, TimeZone.getDefault());
         }
 
         if (trigger.getStartType() == JobTrigger.START_TYPE_SCHEDULE) {

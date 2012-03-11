@@ -67,7 +67,7 @@ public class JobCrawlerAction extends ActionSupport {
 
 	public String saveJobCrawler() {
 		try{
-			Integer jobId = ewcmsJobCrawlerFac.saveOrUpdateJobCrawler(getGatherId(), getPageDisplayVo());
+			Long jobId = ewcmsJobCrawlerFac.saveOrUpdateJobCrawler(getGatherId(), getPageDisplayVo());
 			if (jobId == null){
 				addActionMessage("操作失败");
 			}

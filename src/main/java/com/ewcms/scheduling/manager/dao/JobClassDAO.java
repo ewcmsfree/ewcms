@@ -19,7 +19,7 @@ import com.ewcms.scheduling.model.JobClass;
  * @author 吴智俊
  */
 @Repository("jobClassDAO")
-public class JobClassDAO extends JpaDAO<Integer, JobClass> {
+public class JobClassDAO extends JpaDAO<Long, JobClass> {
 	@SuppressWarnings("unchecked")
 	public JobClass findByJobClassByClassEntity(String classEntity) {
 		String hql = "From JobClass o Where o.classEntity=?";

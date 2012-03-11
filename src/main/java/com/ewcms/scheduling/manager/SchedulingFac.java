@@ -78,7 +78,7 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public Integer saveScheduleJob(JobInfo jobInfo) throws BaseException {
+	public Long saveScheduleJob(JobInfo jobInfo) throws BaseException {
 		validate(jobInfo);
 		JobInfo savedJob = jobInfoService.saveJob(jobInfo);
 		scheduler.scheduleJob(savedJob);
@@ -129,41 +129,41 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public void deletedScheduledJob(Integer jobId) throws BaseException {
+	public void deletedScheduledJob(Long jobId) throws BaseException {
 		deleteJob(jobId);
 	}
 
-	protected void unscheduleJobs(Integer[] deletedJobIds) throws BaseException {
+	protected void unscheduleJobs(Long[] deletedJobIds) throws BaseException {
 		if (deletedJobIds != null && deletedJobIds.length > 0) {
 			for (int i = 0; i < deletedJobIds.length; i++) {
-				Integer jobId = deletedJobIds[i];
+				Long jobId = deletedJobIds[i];
 				scheduler.removeScheduledJob(jobId);
 			}
 		}
 	}
 
-	protected void deleteJob(Integer jobId) throws BaseException {
+	protected void deleteJob(Long jobId) throws BaseException {
 		scheduler.removeScheduledJob(jobId);
 		jobInfoService.deletedJob(jobId);
 	}
 
 	@Override
-	public JobInfo getScheduledJob(Integer jobId) {
+	public JobInfo getScheduledJob(Long jobId) {
 		return jobInfoService.findByJob(jobId);
 	}
 
 	@Override
-	public void jobFinalized(Integer jobId) throws BaseException {
+	public void jobFinalized(Long jobId) throws BaseException {
 		logger.info("任务 " + jobId + " 已完成,将删除数据");
 		deleteJob(jobId);
 	}
 
 	@Override
-	public Integer updateScheduledJob(JobInfo jobInfo) throws BaseException {
+	public Long updateScheduledJob(JobInfo jobInfo) throws BaseException {
 		validate(jobInfo);
 
 		JobTrigger origTrigger = jobInfo.getTrigger();
-		Integer origTriggerId = origTrigger.getId();
+		Long origTriggerId = origTrigger.getId();
 		Integer origTriggerVersion = origTrigger.getVersion();
 
 		JobInfo savedJob = jobInfoService.updateJob(jobInfo);
@@ -187,17 +187,17 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public Integer saveJobClass(JobClass jobClass) throws BaseException {
+	public Long saveJobClass(JobClass jobClass) throws BaseException {
 		return jobClassService.saveJobClass(jobClass);
 	}
 
 	@Override
-	public Integer updateJobClass(JobClass jobClass) throws BaseException {
+	public Long updateJobClass(JobClass jobClass) throws BaseException {
 		return jobClassService.updateJobClass(jobClass);
 	}
 
 	@Override
-	public JobClass findByJobClass(Integer id) throws BaseException {
+	public JobClass findByJobClass(Long id) throws BaseException {
 		return (JobClass) jobClassService.findByJobClass(id);
 	}
 
@@ -207,7 +207,7 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public void deletedJobClass(Integer id) throws BaseException {
+	public void deletedJobClass(Long id) throws BaseException {
 		jobClassService.deletedJobClass(id);
 	}
 
@@ -229,12 +229,12 @@ public class SchedulingFac implements SchedulingFacable, SchedulerListenerable, 
 	}
 
 	@Override
-	public void pauseJob(Integer id) throws BaseException {
+	public void pauseJob(Long id) throws BaseException {
 		scheduler.pauseJob(id);
 	}
 
 	@Override
-	public void resumedJob(Integer id) throws BaseException {
+	public void resumedJob(Long id) throws BaseException {
 		scheduler.resumedJob(id);
 	}
 }

@@ -52,7 +52,7 @@ public class JobInfo implements Serializable {
 	@Id
     @GeneratedValue(generator = "seq_job_info",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
-    private Integer id;
+    private Long id;
     @Version
     @Column(name = "version")
     private Integer version;
@@ -86,11 +86,11 @@ public class JobInfo implements Serializable {
         version = -1;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

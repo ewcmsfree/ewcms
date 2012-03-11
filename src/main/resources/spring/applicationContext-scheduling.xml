@@ -2,20 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
 	default-autowire="byName" default-lazy-init="false">
 
 	<!-- Quartz Scheduler Manager -->
-	<bean id="jobsQuartzScheduler"
-		class="com.ewcms.scheduling.generate.quartz.JobsQuartzScheduler">
+	<bean id="jobsQuartzScheduler" class="com.ewcms.scheduling.generate.quartz.JobsQuartzScheduler">
 		<property name="scheduler" ref="quartzScheduler" />
 	</bean>
 
-	<bean id="schedulerFactoryProxyTemplate"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
-		abstract="true">
+	<bean id="schedulerFactoryProxyTemplate" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
 		<property name="transactionManager" ref="txManager" />
 		<property name="transactionAttributes">
 			<props>
@@ -47,20 +44,28 @@
 	</bean>
 
 	<!-- Quartz Scheduler Engine -->
-	<bean id="quartzScheduler"
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
-		lazy-init="false" destroy-method="destroy">
+	<!--<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" destroy-method="destroy">-->
+	<bean id="quartzScheduler" class="com.ewcms.scheduling.generate.quartz.EwcmsSchedulerFactoryBean" lazy-init="false" destroy-method="destroy">
 		<property name="dataSource" ref="dataSource" />
 		<property name="transactionManager" ref="txManager" />
-		<property name="configLocation" value="classpath:quartz.base.properties" />
+		<property name="configLocation" value="classpath:ewcms.quartz.base.properties" />
+		<property name="quartzProperties">
+			<props> 
+				<prop key="org.quartz.scheduler.classLoadHelper.class">org.quartz.simpl.CascadingClassLoadHelper</prop> 
+			</props>
+		</property>
 		<property name="waitForJobsToCompleteOnShutdown" value="false" />
 		<property name="autoStartup" value="false" />
 		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		<property name="taskExecutor" ref="nullTaskExecutor"/>
+        <property name="threadExecutor" ref="nullThreadExecutor"/>
 	</bean>
 
-	<bean id="quartzSchedulerControl"
-		class="com.ewcms.scheduling.generate.quartz.QuartzSchedulerControl"
-		depends-on="schedulingFactory" init-method="start">
+	<bean id="nullTaskExecutor" class="com.ewcms.scheduling.generate.quartz.NullTaskExecutor"/>
+
+    <bean id="nullThreadExecutor" class="com.ewcms.scheduling.generate.quartz.NullThreadExecutor"/>
+	
+	<bean id="quartzSchedulerControl" class="com.ewcms.scheduling.generate.quartz.QuartzSchedulerControl" depends-on="schedulingFactory" init-method="start">
 		<property name="scheduler" ref="quartzScheduler" />
 	</bean>
 </beans>

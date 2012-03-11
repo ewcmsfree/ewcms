@@ -6,7 +6,11 @@
 
 package com.ewcms.scheduling.generate.quartz;
 
-import java.text.ParseException;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,18 +22,24 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
-import org.quartz.CronTrigger;
+import org.quartz.DateBuilder;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
+import org.quartz.JobKey;
+import org.quartz.Matcher;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerListener;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
+import org.quartz.Trigger.CompletedExecutionInstruction;
+import org.quartz.Trigger.TriggerState;
+import org.quartz.TriggerKey;
 import org.quartz.TriggerListener;
-import org.quartz.TriggerUtils;
+import org.quartz.impl.matchers.KeyMatcher;
+import org.quartz.impl.triggers.AbstractTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -87,9 +97,9 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
     public void afterPropertiesSet() throws Exception {
         try {
             //注册为非全局的SchedulerListener
-            getScheduler().addSchedulerListener(schedulerListener);
+        	getScheduler().getListenerManager().addSchedulerListener(schedulerListener);
             //注册为非全局的TriggerListener
-            getScheduler().addTriggerListener(triggerListener);
+        	getScheduler().getListenerManager().addTriggerListener(triggerListener, (List<Matcher<TriggerKey>>)null);
         } catch (SchedulerException e) {
             logger.error("注册Quartz监听时出现错误", e);
             throw new BaseRuntimeExceptionWrapper(e);
@@ -101,7 +111,9 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         Trigger trigger = createTrigger(job);
         try {
             scheduler.scheduleJob(jobDetail, trigger);
-            logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 创建任务 " + jobDetail.getFullName() + " 和触发器 " + trigger.getFullName());
+            if (logger.isDebugEnabled()){
+            	logger.debug("Created job " + jobDetail.getKey().getName() + " and trigger " + trigger.getKey().getName() + " for job " + job.getId());
+            }
         } catch (SchedulerException e) {
             logger.error("调度Quartz任务时错误", e);
             throw new BaseException(e.toString(), "调度Quartz任务时错误");
@@ -121,7 +133,10 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         try {
             if (jobClassEntity != null && jobClassEntity.length() > 0) {
                 Class<Job> classEntity = (Class<Job>) Class.forName(jobClassEntity);
-                JobDetail jobDetail = new JobDetail(jobName, GROUP, classEntity, false, false, false);
+                JobDetail jobDetail = newJob(classEntity).
+                		withIdentity(jobName, GROUP).
+                		requestRecovery(true).
+                		build();
                 return jobDetail;
             }else{
             	logger.info("必须选择一个执行的调度器作业任务");
@@ -136,19 +151,19 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
     public void rescheduleJob(JobInfo job) throws BaseException {
         try {
             Trigger oldTrigger = getJobTrigger(job.getId());
-
-            String jobName = jobName(job.getId());
             Trigger trigger = createTrigger(job);
-            trigger.setJobName(jobName);
-            trigger.setJobGroup(GROUP);
 
             if (oldTrigger == null) {
                 JobDetail jobDetail = createJobDetail(job);
                 scheduler.scheduleJob(jobDetail, trigger);
-                logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 建立触发器 " + trigger.getFullName());
+                if (logger.isDebugEnabled()) {
+					logger.debug("Scheduled trigger " + trigger.getKey().getName() + " for job " + job.getId());
+				}
             } else {
-                scheduler.rescheduleJob(oldTrigger.getName(), oldTrigger.getGroup(), trigger);
-                logger.info("JobsQuartzScheduler：为任务 " + job.getId() + " 把触发器 " + oldTrigger.getFullName() + " 改为 " + trigger.getFullName());
+                scheduler.rescheduleJob(oldTrigger.getKey(), trigger);
+                if (logger.isDebugEnabled()) {
+					logger.debug("Trigger " + oldTrigger.getKey().getName() + " rescheduled by " + trigger.getKey().getName() + " for job " + job.getId());
+				}
             }
         } catch (SchedulerException e) {
             logger.error("调度Quartz任务错误", e);
@@ -164,18 +179,32 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
      * @throws SchedulerException
      * @throws BaseException
      */
-    protected Trigger getJobTrigger(Integer jobId) throws SchedulerException, BaseException {
+    protected Trigger getJobTrigger(long jobId) throws SchedulerException, BaseException {
         Trigger trigger;
         String jobName = jobName(jobId);
-        Trigger[] triggers = scheduler.getTriggersOfJob(jobName, GROUP);
-        if (triggers == null || triggers.length == 0) {
+        List<? extends Trigger> triggers = scheduler.getTriggersOfJob(new JobKey(jobName, GROUP));
+        
+        List<Trigger> filteredTriggersList = new ArrayList<Trigger>();
+        for (Trigger currTrigger : triggers) {
+            if (GROUP.equals(currTrigger.getKey().getGroup())) {
+                filteredTriggersList.add(currTrigger);
+            }
+        }
+        
+        triggers = filteredTriggersList;
+        
+        if (triggers == null || triggers.isEmpty()) {
             trigger = null;
-            logger.info("JobsQuartzScheduler：在任务 " + jobId + " 中未找到触发器");
-        } else if (triggers.length == 1) {
-            trigger = triggers[0];
-            logger.info("JobsQuartzScheduler：在任务 " + jobId + " 找到触发器 " + trigger.getFullName());
+            if (logger.isDebugEnabled()) {
+				logger.debug("No trigger found for job " + jobId);
+			}
+        } else if (triggers.size() == 1) {
+            trigger = triggers.get(0);
+        	if (logger.isDebugEnabled()) {
+				logger.debug("Trigger " + trigger.getKey().getName() + " found for job " + jobId);
+			}
         } else {
-        	logger.error("任务有一个以上的触发器", new Object[] {new Integer(jobId)});
+        	logger.error("任务有一个以上的触发器", new Object[] {new Long(jobId)});
             throw new BaseException("任务有一个以上的触发器", "任务有一个以上的触发器");
         }
         return trigger;
@@ -187,7 +216,7 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
      * @param jobId 调度器任务编号
      * @return String
      */
-    protected String jobName(Integer jobId) {
+    protected String jobName(long jobId) {
         return "job_" + jobId;
     }
 
@@ -224,8 +253,15 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         JobDataMap jobDataMap = trigger.getJobDataMap();
         jobDataMap.put(JOB_DATA_KEY_DETAILS_ID, jobInfo.getId());
 
-        trigger.addTriggerListener(TRIGGER_LISTENER_NAME);
-
+        TriggerKey tk = getTriggerKey(jobTrigger);
+        Matcher<TriggerKey> matcher = KeyMatcher.keyEquals(tk);
+        try {
+            getScheduler().getListenerManager().addTriggerListener(triggerListener, matcher);
+        } catch (SchedulerException e) {
+        	logger.error("增加Quartz触发监听器错误", e.toString());
+            throw new BaseException(e);
+        }
+        
         return trigger;
     }
 
@@ -245,28 +281,46 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         int repeatCount = repeatCount(jobTrigger);
         SimpleTrigger trigger;
         if (repeatCount == 0) {
-            trigger = new SimpleTrigger(triggerName, GROUP, startDate);
+            trigger = newTrigger().withIdentity(triggerName, GROUP).
+            		startAt(startDate).
+            		withSchedule(simpleSchedule().
+            				withRepeatCount(0).
+            				withMisfireHandlingInstructionNextWithRemainingCount()).
+            		build();
         } else {
             int recurrenceInterval = jobTrigger.getRecurrenceInterval().intValue();
-            if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_MINUTE.intValue()) {
-                trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_MINUTE);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_HOUR.intValue()) {
-                trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_HOUR);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_DAY.intValue()) {
-                trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_DAY);
-            } else if (jobTrigger.getRecurrenceIntervalUnit().intValue() == JobSimpleTrigger.INTERVAL_WEEK.intValue()) {
-                trigger = new SimpleTrigger(triggerName, GROUP, startDate, endDate, repeatCount, recurrenceInterval * COEFFICIENT_WEEK);
-            } else {
-            	logger.error("不能识别任务执行的间隔数", new Object[] {jobTrigger.getRecurrenceIntervalUnit()});
-                throw new BaseException("不能识别任务执行的间隔数", "不能识别任务执行的间隔数");
-            }
+            long unitCoefficient = getIntervalUnitCoefficient(jobTrigger);
+            long interval = recurrenceInterval * unitCoefficient;
+            trigger = newTrigger().withIdentity(triggerName, GROUP).
+            		startAt(startDate).
+            		endAt(endDate).
+            		withSchedule(simpleSchedule().
+            				withIntervalInMilliseconds(interval).
+            				withRepeatCount(repeatCount).
+            				withMisfireHandlingInstructionNextWithRemainingCount()).
+            		build();
         }
-
-        trigger.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
-
         return trigger;
     }
 
+    protected long getIntervalUnitCoefficient(JobSimpleTrigger jobTrigger) throws BaseException {
+		long coefficient;
+		int riu = jobTrigger.getRecurrenceIntervalUnit().intValue();
+		if (riu == JobSimpleTrigger.INTERVAL_MINUTE.intValue()){
+			coefficient = COEFFICIENT_MINUTE;
+		}else if (riu == JobSimpleTrigger.INTERVAL_HOUR.intValue()){
+			coefficient = COEFFICIENT_HOUR;
+		}else if (riu == JobSimpleTrigger.INTERVAL_DAY.intValue()){
+			coefficient = COEFFICIENT_DAY;
+		}else if (riu == JobSimpleTrigger.INTERVAL_WEEK.intValue()){
+			coefficient = COEFFICIENT_WEEK;
+		}else {
+			logger.error("不能识别任务执行的间隔数", new Object[] {jobTrigger.getRecurrenceIntervalUnit()});
+            throw new BaseException("不能识别任务执行的间隔数", "不能识别任务执行的间隔数");
+		}
+		return coefficient;
+	}
+    
     /**
      * 查询结束时间
      *
@@ -282,7 +336,7 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         if (date != null) {
             TimeZone tz = getTriggerTimeZone(jobTrigger);
             if (tz != null) {
-                date = TriggerUtils.translateTime(date, TimeZone.getDefault(), tz);
+            	date = DateBuilder.translateTime(date, TimeZone.getDefault(), tz);
             }
         }
         return date;
@@ -346,18 +400,15 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         String cronExpression = getCronExpression(jobTrigger);
 
         try {
-            CronTrigger trigger = new CronTrigger(triggerName, GROUP, cronExpression);
-            trigger.setStartTime(startDate);
-            trigger.setEndTime(endDate);
-            trigger.setMisfireInstruction(CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
-
-            TimeZone timeZone = getTriggerTimeZone(jobTrigger);
-            if (timeZone != null) {
-                trigger.setTimeZone(timeZone);
-            }
-
-            return trigger;
-        } catch (ParseException e) {
+            Trigger trigger = newTrigger().withIdentity(triggerName, GROUP).
+                    startAt(startDate).
+                    endAt(endDate).
+                    withSchedule(cronSchedule(cronExpression).
+                            inTimeZone(getTriggerTimeZone(jobTrigger)).     //  NULL input is OK
+                            withMisfireHandlingInstructionDoNothing()).
+                    build();
+  			return trigger;
+        } catch (Exception e) {
             logger.error("建立Quartz复杂触发器错误", e);
             throw new BaseException("建立Quartz复杂触发器错误", "建立Quartz复杂触发器错误");
         }
@@ -442,10 +493,10 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
     }
     //---------------------------------------复杂型触发器---------------------------------------------------
 
-    public void removeScheduledJob(Integer jobId) throws BaseException {
+    public void removeScheduledJob(Long jobId) throws BaseException {
         try {
             String jobName = jobName(jobId);
-            if (scheduler.deleteJob(jobName, GROUP)) {
+            if (scheduler.deleteJob(new JobKey(jobName, GROUP))) {
                 logger.info("JobsQuartzScheduler：任务 " + jobName + " 被删除");
             } else {
                 logger.info("JobsQuartzScheduler：Quartz任务 " + jobId + " 未查到不能删除");
@@ -505,7 +556,7 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
      * @throws SchedulerException
      * @throws BaseException
      */
-    protected JobInfoRuntimeInformation getJobRuntimeInformation(Integer jobId, Set<String> executingJobNames) throws SchedulerException, BaseException {
+    protected JobInfoRuntimeInformation getJobRuntimeInformation(Long jobId, Set<String> executingJobNames) throws SchedulerException, BaseException {
         JobInfoRuntimeInformation info = new JobInfoRuntimeInformation();
         Trigger trigger = getJobTrigger(jobId);
         if (trigger == null) {
@@ -526,19 +577,19 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 
     protected String getJobState(Trigger trigger, Set<String> executingJobNames) throws SchedulerException {
         String state;
-        int quartzState = scheduler.getTriggerState(trigger.getName(), trigger.getGroup());
+        Trigger.TriggerState quartzState = scheduler.getTriggerState(trigger.getKey());
         switch (quartzState) {
-            case Trigger.STATE_NORMAL:
-            case Trigger.STATE_BLOCKED:
-                state = executingJobNames.contains(trigger.getJobName()) ? JobInfoRuntimeInformation.STATE_EXECUTING : JobInfoRuntimeInformation.STATE_NORMAL;
+            case NORMAL:
+            case BLOCKED:
+                state = executingJobNames.contains(trigger.getKey().getName()) ? JobInfoRuntimeInformation.STATE_EXECUTING : JobInfoRuntimeInformation.STATE_NORMAL;
                 break;
-            case Trigger.STATE_COMPLETE:
+            case COMPLETE:
                 state = JobInfoRuntimeInformation.STATE_COMPLETE;
                 break;
-            case Trigger.STATE_PAUSED:
+            case PAUSED:
                 state = JobInfoRuntimeInformation.STATE_PAUSED;
                 break;
-            case Trigger.STATE_ERROR:
+            case ERROR:
                 state = JobInfoRuntimeInformation.STATE_ERROR;
                 break;
             default:
@@ -548,15 +599,14 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         return state;
     }
 
-    @SuppressWarnings("unchecked")
     protected Set<String> getExecutingJobNames() throws SchedulerException {
         List<JobExecutionContext> executingJobs = (List<JobExecutionContext>) scheduler.getCurrentlyExecutingJobs();
         Set<String> executingJobNames = new HashSet<String>();
         for (Iterator<JobExecutionContext> iter = executingJobs.iterator(); iter.hasNext();) {
             JobExecutionContext executionContext = (JobExecutionContext) iter.next();
             JobDetail jobDetail = executionContext.getJobDetail();
-            if (jobDetail.getGroup().equals(GROUP)) {
-                executingJobNames.add(jobDetail.getName());
+            if (jobDetail.getKey().getGroup().equals(GROUP)) {
+                executingJobNames.add(jobDetail.getKey().getName());
             }
         }
         return executingJobNames;
@@ -574,7 +624,7 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         }
     }
 
-    protected void notifyListenersOfFinalizedJob(Integer jobId) throws BaseException {
+    protected void notifyListenersOfFinalizedJob(Long jobId) throws BaseException {
         synchronized (listeners) {
             for (Iterator<SchedulerListenerable> it = listeners.iterator(); it.hasNext();) {
                 SchedulerListenerable listener = (SchedulerListenerable) it.next();
@@ -585,10 +635,14 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 
     protected void getTriggerFinalized(Trigger trigger) throws BaseException {
     	try{
-    		Integer jobId = trigger.getJobDataMap().getIntegerFromString(JOB_DATA_KEY_DETAILS_ID);
+    		long jobId = trigger.getJobDataMap().getIntegerFromString(JOB_DATA_KEY_DETAILS_ID);
     		notifyListenersOfFinalizedJob(jobId);
     	}catch(ClassCastException e){
     	}
+    }
+    
+    protected TriggerKey getTriggerKey(JobTrigger jobTrigger) {
+        return new TriggerKey(triggerName(jobTrigger), GROUP);
     }
 
     protected class SchedulerQuartzListener implements SchedulerListener {
@@ -596,148 +650,145 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         public SchedulerQuartzListener() {
         }
 
-        /*
-         * Scheduler在有新的JobDetail部署时调用这个方法。
-         * @see org.quartz.SchedulerListener#jobScheduled(org.quartz.Trigger)
-         */
-        @Override
-        public void jobScheduled(Trigger trigger) {
-            logger.info("SchedulerListener：" + trigger.getFullJobName() + " 触发器上的任务被安排在 " + trigger.getFullName() + " 触发器上");
-        }
-
-        /*
-         * Scheduler在有新的JobDetail卸载时调用这个方法。
-         * @see org.quartz.SchedulerListener#jobUnscheduled(java.lang.String, java.lang.String)
-         */
-        @Override
-        public void jobUnscheduled(String name, String group) {
-            logger.info("SchedulerListener：" + group + "." + name + " 任务被卸载");
-        }
-
-        /*
-         * 当一个Trigger来到了再也不会触发的状态时调用这个方法。
-         * 除非这个Job已设置成持久性，否则它就会从Scheduler中移除。
-         * @see org.quartz.SchedulerListener#triggerFinalized(org.quartz.Trigger)
-         */
-        @Override
-        public void triggerFinalized(Trigger trigger) {
-            logger.info("SchedulerListener：" + trigger.getFullName() + " 触发器已完成");
-
-            if (trigger.getGroup().equals(GROUP)) {
-                try {
-                    getTriggerFinalized(trigger);
-                } catch (Exception e) {
-                	logger.error("Quartz：" + e.toString());
-                }
+		@Override
+		public void jobScheduled(Trigger trigger) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Quartz job " + trigger.getKey() + " scheduled by trigger " + trigger.getKey());
             }
-        }
+		}
 
-        /*
-         * Scheduler调用这个方法是发生在一个Trigger或Trigger组被暂停时。
-         * 假如是Trigger组的话，triggerName参数为null。
-         * @see org.quartz.SchedulerListener#triggersPaused(java.lang.String, java.lang.String)
-         */
-        @Override
-        public void triggersPaused(String triggerName, String group) {
-        	logger.info("SchedulerListener：" + group + "." + triggerName + " 触发器被暂停");
-        }
+		@Override
+		public void jobUnscheduled(TriggerKey triggerKey) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Quartz job with triggerKey: " + triggerKey + " unscheduled");
+	        }
+		}
 
-        /*
-         * Scheduler调用这个方法是发生在一个Trigger或Trigger组从暂停中恢复时。
-         * 假如是Trigger组的话，triggerName参数为null。
-         * @see org.quartz.SchedulerListener#triggersResumed(java.lang.String, java.lang.String)
-         */
-        @Override
-        public void triggersResumed(String triggerName, String group) {
-        	logger.info("SchedulerListener：" + group + "." + triggerName + " 触发器从暂停中恢复");
-        }
+		@Override
+		public void triggerFinalized(Trigger trigger) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Quartz trigger finalized " + trigger.getKey());
+            }
 
-        /*
-         * 当一个或一组JobDetail暂停时调用这个方法。
-         * @see org.quartz.SchedulerListener#jobsPaused(java.lang.String, java.lang.String)
-         */
-        @Override
-        public void jobsPaused(String name, String group) {
-        	logger.info("SchedulerListener：" + group + "." + name + " 任务被暂停");
-        }
+            if (trigger.getKey().getGroup().equals(GROUP)) {
+            	try {
+					getTriggerFinalized(trigger);
+				} catch (BaseException e) {
+					e.printStackTrace();
+				}
+            }
+		}
 
-        /*
-         * 当一个或一组Job从暂停上恢复时调用这个方法。
-         * 假如是一个Job组，jobName参数将为null。
-         * @see org.quartz.SchedulerListener#jobsResumed(java.lang.String, java.lang.String)
-         */
-        @Override
-        public void jobsResumed(String jobName, String group) {
-        	logger.info("SchedulerListener：" + group + "." + jobName + " 任务从暂停中恢复");
-        }
+		@Override
+		public void triggerPaused(TriggerKey triggerKey) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job trigger" + triggerKey + " paused");
+	            }
+		}
 
-        /*
-         * 在Scheduler的正常运行期间产生一个严重错误时调用这个方法。
-         * 错误的类型会各式的，但是下面列举了一些错误例子：
-         * · 初始化Job类的问题
-         * · 试图去找下一个Trigger的问题
-         * · JobStore中重复的问题
-         * · 数据存储连接的问题
-         * 可以使用SchedulerException的getErrorCode()或者getUnderlyingException()方法获取到特定错误的更详细的信息。
-         * @see org.quartz.SchedulerListener#schedulerError(java.lang.String, org.quartz.SchedulerException)
-         */
-        @Override
-        public void schedulerError(String msg, SchedulerException cause) {
-        	logger.error("SchedulerListener：" + msg, cause);
-        }
+		@Override
+		public void triggersPaused(String triggerGroup) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job trigger group " + triggerGroup + " paused ");
+	            }
+		}
 
-        /*
-         * Scheduler调用这个方法用来通知SchedulerListener，Scheduler将要被关闭。
-         * @see org.quartz.SchedulerListener#schedulerShutdown()
-         */
-        @Override
-        public void schedulerShutdown() {
-            logger.info("SchedulerListener：调度器已关闭");
-        }
+		@Override
+		public void triggerResumed(TriggerKey triggerKey) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job trigger " + triggerKey + " resumed ");
+	            }
+		}
 
-        /*
-         * (non-Javadoc)
-         * @see org.quartz.SchedulerListener#jobAdded(org.quartz.JobDetail)
-         */
+		@Override
+		public void triggersResumed(String triggerGroup) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job trigger group" + triggerGroup + " resumed ");
+	            }
+		}
+
 		@Override
 		public void jobAdded(JobDetail jobDetail) {
-			logger.info("SchedulerListener：" + jobDetail.getFullName() + " 任务被新增");
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job " + jobDetail.getKey() + " added. ");
+	            }
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.quartz.SchedulerListener#jobDeleted(java.lang.String, java.lang.String)
-		 */
 		@Override
-		public void jobDeleted(String jobName, String groupName) {
-			logger.info("SchedulerListener：" + groupName + "." + jobName + " 任务被删除");
+		public void jobDeleted(JobKey jobKey) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job " + jobKey + " deleted ");
+	            }
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.quartz.SchedulerListener#schedulerInStandbyMode()
-		 */
+		@Override
+		public void jobPaused(JobKey jobKey) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job " + jobKey + " paused ");
+	            }
+		}
+
+		@Override
+		public void jobsPaused(String jobGroup) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job Group " + jobGroup + " paused ");
+	            }
+		}
+
+		@Override
+		public void jobResumed(JobKey jobKey) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job " + jobKey + " resumed  ");
+	            }
+		}
+
+		@Override
+		public void jobsResumed(String jobGroup) {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz job  Group " + jobGroup +" resumed  ");
+	            }
+		}
+
+		@Override
+		public void schedulerError(String msg, SchedulerException cause) {
+            if (logger.isInfoEnabled()) {
+                logger.info("Quartz scheduler error: " + msg, cause);
+            }
+		}
+
 		@Override
 		public void schedulerInStandbyMode() {
-			logger.info("SchedulerListener：调度器移动到待机模式");
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz Scheduler in standby mode ");
+	            }
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.quartz.SchedulerListener#schedulerShuttingdown()
-		 */
-		@Override
-		public void schedulerShuttingdown() {
-			logger.info("SchedulerListener：调度器正在关闭");
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.quartz.SchedulerListener#schedulerStarted()
-		 */
 		@Override
 		public void schedulerStarted() {
-			logger.info("SchedulerListener：调度器已经开始");
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz Scheduler started");
+	            }
+		}
+
+		@Override
+		public void schedulerShutdown() {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz Scheduler shutting down");
+	            }
+		}
+
+		@Override
+		public void schedulerShuttingdown() {
+            if (logger.isInfoEnabled()) {
+                logger.info("Quartz scheduler shutdown");
+            }
+		}
+
+		@Override
+		public void schedulingDataCleared() {
+	          if (logger.isDebugEnabled()) {
+	              logger.debug("Quartz Scheduler Data Cleared");
+	            }
 		}
     }
 
@@ -749,83 +800,74 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
             this.name = name;
         }
 
-        /*
-         * 监听器名称
-         * @see org.quartz.TriggerListener#getName()
-         */
         @Override
         public String getName() {
             return name;
         }
 
-        /*
-         * 当与监听器相关联的Trigger被触发，Job上的execute()方法将要被执行时，Scheduler就调用这个方法。
-         * 在全局TriggerListener情况下，这个方法为所有Trigger被调用。
-         * @see org.quartz.TriggerListener#triggerFired(org.quartz.Trigger, org.quartz.JobExecutionContext)
-         */
-        @Override
-        public void triggerFired(Trigger trigger, JobExecutionContext context) {
-            logger.info("TriggerListener：" + trigger.getFullName() + " 触发器被触发");
-        }
+		@Override
+		public void triggerFired(Trigger trigger, JobExecutionContext context) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Quartz trigger fired " + trigger.getKey());
+			}
+		}
 
-        /*
-         * 在Trigger触发后，Job将要被执行时由Scheduler调用这个方法。
-         * TriggerListener给了一个选择去否决Job的执行。
-         * 假如这个方法返回true，这个Job将不会为此次Trigger触发而去执行。
-         * @see org.quartz.TriggerListener#vetoJobExecution(org.quartz.Trigger, org.quartz.JobExecutionContext)
-         */
-        @Override
-        public boolean vetoJobExecution(Trigger trigger, JobExecutionContext context) {
-            return false;
-        }
+		@Override
+		public boolean vetoJobExecution(Trigger trigger,
+				JobExecutionContext context) {
+			return false;
+		}
 
-        /*
-         * Scheduler调用这个方法是在Trigger错过触发时。
-         * 如这个方法的JavaDoc所指出的，你应该关注此方法中持续时间长的逻辑：在出现许多错过触发的Trigger时，长的逻辑会导致骨牌效应。
-         * 你应当保持这个方法尽量的小。
-         * @see org.quartz.TriggerListener#triggerMisfired(org.quartz.Trigger)
-         */
-        @Override
-        public void triggerMisfired(Trigger trigger) {
-            logger.info("TriggerListener：" + trigger.getFullName() + " 触发器已错过触发");
+		@Override
+		public void triggerMisfired(Trigger trigger) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Quartz trigger misfired " + trigger.getKey());
+			}
+			
+			if (trigger.getKey().getGroup().equals(GROUP) && trigger.getFireTimeAfter(new Date()) == null) {
+				try {
+					getTriggerFinalized(trigger);
+				} catch (BaseException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
-            if (trigger.getGroup().equals(GROUP) && trigger.getFireTimeAfter(new Date()) == null) {
-                try {
-                    getTriggerFinalized(trigger);
-                } catch (BaseException e) {
-                    logger.error(e.toString());
-                }
-            }
-        }
-
-        @Override
-        public void triggerComplete(Trigger trigger, JobExecutionContext context, int triggerInstructionCode) {
-            logger.info("TriggerListener：" + trigger.getFullName() + " 触发器 " + triggerInstructionCode + " 指令码已完成");
-        }
+		@Override
+		public void triggerComplete(Trigger trigger,
+				JobExecutionContext context,
+				CompletedExecutionInstruction triggerInstructionCode) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Quartz trigger complete " + trigger.getKey() + " triggerInstructionCode=" + triggerInstructionCode);
+			}
+		}
     }
 
     /*
      * 校验Job
      */
-    public void validate(JobInfo job, ValidationErrorsable errors) throws BaseException {
+    @SuppressWarnings("rawtypes")
+	public void validate(JobInfo job, ValidationErrorsable errors) throws BaseException {
         Trigger quartzTrigger = createTrigger(job);
-        Date firstFireTime = quartzTrigger.computeFirstFireTime(null);
+        AbstractTrigger abstrTrigger = (AbstractTrigger) quartzTrigger;
+        Date firstFireTime = abstrTrigger.computeFirstFireTime(null);
         if (firstFireTime == null) {
             errors.add(new ValidationError("error.report.job.trigger.no.fire", null, null, "trigger"));
         }
     }
 
 	@Override
-	public void pauseJob(Integer jobId) throws BaseException {
+	public void pauseJob(Long jobId) throws BaseException {
 		try{
-			String jobName = jobName(jobId);
 			Trigger trigger = getJobTrigger(jobId);
-			int quartzState = scheduler.getTriggerState(trigger.getName(), trigger.getGroup());
-			if (quartzState == Trigger.STATE_NORMAL){
-				scheduler.pauseTrigger(trigger.getName(), trigger.getGroup());
-				logger.info("暂停工作任务 " + GROUP + "." + jobName);
+			TriggerState quartzState = scheduler.getTriggerState(trigger.getKey());
+			if (quartzState == TriggerState.NORMAL){
+				scheduler.pauseTrigger(trigger.getKey());
+				if (logger.isDebugEnabled()){
+					logger.debug("暂停工作任务 " + GROUP + "." + jobId);
+				}
 			}else{
-				logger.error("暂停工作任务 " + GROUP + "." + jobName + " 必须处于正常状态");
+				logger.error("暂停工作任务 " + GROUP + "." + jobId + " 必须处于正常状态");
 				throw new BaseException("任务必须处于正常状态才能暂停","任务必须处于正常状态才能暂停");
 			}
 		}catch (SchedulerException e) {
@@ -835,16 +877,17 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 	}
 
 	@Override
-	public void resumedJob(Integer jobId) throws BaseException {
+	public void resumedJob(Long jobId) throws BaseException {
 		try{
-			String jobName = jobName(jobId);
 			Trigger trigger = getJobTrigger(jobId);
-			int quartzState = scheduler.getTriggerState(trigger.getName(), trigger.getGroup());
-			if (quartzState == Trigger.STATE_PAUSED){
-				scheduler.resumeTrigger(trigger.getName(), trigger.getGroup());
-				logger.info("恢复工作任务 " + GROUP + "." + jobName);
+			TriggerState quartzState = scheduler.getTriggerState(trigger.getKey());
+			if (quartzState == Trigger.TriggerState.PAUSED){
+				scheduler.resumeTrigger(trigger.getKey());
+				if (logger.isDebugEnabled()){
+					logger.info("恢复工作任务 " + GROUP + "." + jobId);
+				}
 			}else{
-				logger.error("恢复工作任务 " + GROUP + "." + jobName + " 必须处于暂停状态");
+				logger.error("恢复工作任务 " + GROUP + "." + jobId + " 必须处于暂停状态");
 				throw new BaseException("任务必须处于暂停状态才能恢复" ,"任务必须处于暂停状态才能恢复");
 			}
 		}catch (SchedulerException e) {

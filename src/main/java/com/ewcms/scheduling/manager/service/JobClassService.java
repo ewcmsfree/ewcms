@@ -32,7 +32,7 @@ public class JobClassService implements JobClassServiceable {
 	private JobClassDAO jobClassDAO;
 
 	@Override
-	public Integer saveJobClass(JobClass alqcJobClass) throws BaseException {
+	public Long saveJobClass(JobClass alqcJobClass) throws BaseException {
 		if (validator(alqcJobClass)) {
 			jobClassDAO.persist(alqcJobClass);
 			return alqcJobClass.getId();
@@ -41,14 +41,14 @@ public class JobClassService implements JobClassServiceable {
 	}
 
 	@Override
-	public Integer updateJobClass(JobClass alqcJobClass)
+	public Long updateJobClass(JobClass alqcJobClass)
 			throws BaseException {
 		jobClassDAO.merge(alqcJobClass);
 		return alqcJobClass.getId();
 	}
 
 	@Override
-	public JobClass findByJobClass(Integer id) throws BaseException {
+	public JobClass findByJobClass(Long id) throws BaseException {
 		return (JobClass) jobClassDAO.get(id);
 	}
 
@@ -58,7 +58,7 @@ public class JobClassService implements JobClassServiceable {
 	}
 
 	@Override
-	public void deletedJobClass(Integer id) throws BaseException {
+	public void deletedJobClass(Long id) throws BaseException {
 		jobClassDAO.removeByPK(id);
 	}
 

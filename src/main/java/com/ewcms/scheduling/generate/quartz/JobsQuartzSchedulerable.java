@@ -40,7 +40,7 @@ public interface JobsQuartzSchedulerable {
      * @param jobId 调度任务编号
      * @throws BaseException
      */
-    public void removeScheduledJob(Integer jobId) throws BaseException;
+    public void removeScheduledJob(Long jobId) throws BaseException;
     
     /**
      * 暂停调度任务
@@ -48,14 +48,14 @@ public interface JobsQuartzSchedulerable {
      * @param jobId 调度任务编号
      * @throws BaseException
      */
-    public void pauseJob(Integer jobId) throws BaseException;
+    public void pauseJob(Long jobId) throws BaseException;
     
     /**
      * 从暂停恢复调度任务
      * @param jobId 调度任务编号
      * @throws BaseExcepiton
      */
-    public void resumedJob(Integer jobId) throws BaseException;
+    public void resumedJob(Long jobId) throws BaseException;
 
     /**
      * 新增调度器监听接口

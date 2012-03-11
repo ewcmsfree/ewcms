@@ -52,7 +52,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
         EwcmsJobCrawlerFacable ewcmsJobCrawlerFac = getEwcmsJobCrawlerFac();
         JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
 
-        int jobId = jobDataMap.getInt(JOB_DATA_KEY_DETAILS_ID);
+        Long jobId = jobDataMap.getLong(JOB_DATA_KEY_DETAILS_ID);
         EwcmsJobCrawler jobCrawler = ewcmsJobCrawlerFac.getScheduledJobCrawler(jobId);
         return jobCrawler;
     }

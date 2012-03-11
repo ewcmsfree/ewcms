@@ -17,5 +17,5 @@ import com.ewcms.scheduling.model.JobInfo;
  * @author 吴智俊
  */
 @Repository("jobInfoDAO")
-public class JobInfoDAO extends JpaDAO<Integer, JobInfo>{
+public class JobInfoDAO extends JpaDAO<Long, JobInfo>{
 }

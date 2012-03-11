@@ -36,7 +36,7 @@ public class JobInfoService implements JobInfoServiceable {
 	@Override
 	public JobInfo updateJob(JobInfo jobInfo) {
 		if (jobInfo.getTrigger() != null){
-			Integer triggerId = jobInfo.getTrigger().getId();
+			Long triggerId = jobInfo.getTrigger().getId();
 			if (triggerId != null){
 				jobTriggerDAO.removeByPK(triggerId);
 				jobInfo.getTrigger().setId(null);
@@ -50,12 +50,12 @@ public class JobInfoService implements JobInfoServiceable {
 	}
 
 	@Override
-	public JobInfo findByJob(Integer id)  {
+	public JobInfo findByJob(Long id)  {
 		return jobInfoDAO.get(id);
 	}
 	
 	@Override
-	public void deletedJob(Integer id)  {
+	public void deletedJob(Long id)  {
 		jobInfoDAO.removeByPK(id);
 	}
 	

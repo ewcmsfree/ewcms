@@ -22,7 +22,7 @@ public interface EwcmsJobChannelFacable {
 	 * @param jobId 任务编号
 	 * @return 频道定时任务对象
 	 */
-	public EwcmsJobChannel getScheduledJobChannel(Integer jobId);
+	public EwcmsJobChannel getScheduledJobChannel(Long jobId);
 	
 	/**
 	 * 通过频道编号查询频道定期任务对象
@@ -41,5 +41,5 @@ public interface EwcmsJobChannelFacable {
 	 * @return 频道定时任务编号
 	 * @throws BaseException
 	 */
-	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException;
+	public Long saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException;
 }

@@ -29,13 +29,13 @@ public class EwcmsJobReportFac implements EwcmsJobReportFacable {
 	private EwcmsJobReportServiceable ewcmsJobReportService;
 	
 	@Override
-	public Integer saveOrUpdateJobReport(Long reportId, PageDisplayVO vo,
+	public Long saveOrUpdateJobReport(Long reportId, PageDisplayVO vo,
 			String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException {
 		return ewcmsJobReportService.saveOrUpdateJobReport(reportId, vo, reportType, ewcmsJobParameters);
 	}
 
 	@Override
-	public EwcmsJobReport getScheduledJobReport(Integer jobId) {
+	public EwcmsJobReport getScheduledJobReport(Long jobId) {
 		return ewcmsJobReportService.getScheduledJobReport(jobId);
 	}
 
@@ -46,7 +46,7 @@ public class EwcmsJobReportFac implements EwcmsJobReportFacable {
 	}
 
 	@Override
-	public List<EwcmsJobParameter> findByJobReportParameterById(Integer jobReportId) {
+	public List<EwcmsJobParameter> findByJobReportParameterById(Long jobReportId) {
 		return ewcmsJobReportService.findByJobReportParameterById(jobReportId);
 	}
 

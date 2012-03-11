@@ -42,7 +42,7 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 	private SchedulingFacable schedulingFac;
 	
 	@Override
-	public Integer saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException{
+	public Long saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException{
 		Gather gather = gatherDAO.get(gatherId);
 		if (gather != null) {
 			JobInfo alqcJob = new JobInfo();
@@ -92,7 +92,7 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 	}
 
 	@Override
-	public EwcmsJobCrawler getScheduledJobCrawler(Integer jobId) {
+	public EwcmsJobCrawler getScheduledJobCrawler(Long jobId) {
 		return (EwcmsJobCrawler)ewcmsJobCrawlerDAO.get(jobId);
 	}
 

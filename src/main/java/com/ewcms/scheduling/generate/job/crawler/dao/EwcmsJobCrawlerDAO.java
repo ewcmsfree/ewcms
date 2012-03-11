@@ -19,7 +19,7 @@ import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
  * @author 吴智俊
  */
 @Repository()
-public class EwcmsJobCrawlerDAO extends JpaDAO<Integer, EwcmsJobCrawler> {
+public class EwcmsJobCrawlerDAO extends JpaDAO<Long, EwcmsJobCrawler> {
 	@SuppressWarnings("unchecked")
 	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId) {
 		String hql = "Select o From EwcmsJobCrawler o Inner Join o.gather c Where c.id=?";

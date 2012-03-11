@@ -77,7 +77,7 @@ public class JobChannelAction extends ActionSupport {
 
 	public String saveJobChannel() {
 		try{
-			Integer jobId = ewcmsJobChannelFac.saveOrUpdateJobChannel(getChannelId(), getPageDisplayVo(), getSubChannel());
+			Long jobId = ewcmsJobChannelFac.saveOrUpdateJobChannel(getChannelId(), getPageDisplayVo(), getSubChannel());
 			if (jobId == null){
 				addActionMessage("操作失败");
 			}

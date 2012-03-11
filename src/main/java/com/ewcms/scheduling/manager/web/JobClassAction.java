@@ -19,7 +19,7 @@ import com.ewcms.web.CrudBaseAction;
  *
  * @author 吴智俊
  */
-public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
+public class JobClassAction extends CrudBaseAction<JobClass, Long> {
 
 	private static final long serialVersionUID = -7180641001521655948L;
 	
@@ -34,11 +34,11 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 		super.setVo(alqcJobClassVo);
 	}
 	
-	public List<Integer> getSelections() {
+	public List<Long> getSelections() {
 		return super.getOperatorPK();
 	}
 
-	public void setSelections(List<Integer> selections) {
+	public void setSelections(List<Long> selections) {
 		super.setOperatorPK(selections);
 	}
 	
@@ -48,7 +48,7 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 	}
 
 	@Override
-	protected void deleteOperator(Integer pk) {
+	protected void deleteOperator(Long pk) {
 		try {
 			schedulingFac.deletedJobClass(pk);
 		} catch (BaseException e) {
@@ -57,7 +57,7 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 	}
 
 	@Override
-	protected JobClass getOperator(Integer pk) {
+	protected JobClass getOperator(Long pk) {
 		try {
 			return schedulingFac.findByJobClass(pk);
 		} catch (BaseException e) {
@@ -67,12 +67,12 @@ public class JobClassAction extends CrudBaseAction<JobClass, Integer> {
 	}
 
 	@Override
-	protected Integer getPK(JobClass vo) {
+	protected Long getPK(JobClass vo) {
 		return vo.getId();
 	}
 
 	@Override
-	protected Integer saveOperator(JobClass vo, boolean isUpdate) {
+	protected Long saveOperator(JobClass vo, boolean isUpdate) {
 		try{
 			if (isUpdate) {
 				return schedulingFac.updateJobClass(vo);

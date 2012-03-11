@@ -25,7 +25,7 @@ public class EwcmsJobChannelFac implements EwcmsJobChannelFacable {
 	private EwcmsJobChannelServiceable ewcmsJobChannelService;
 
 	@Override
-	public EwcmsJobChannel getScheduledJobChannel(Integer jobId) {
+	public EwcmsJobChannel getScheduledJobChannel(Long jobId) {
 		return ewcmsJobChannelService.getScheduledJobChannel(jobId);
 	}
 
@@ -35,7 +35,7 @@ public class EwcmsJobChannelFac implements EwcmsJobChannelFacable {
 	}
 
 	@Override
-	public Integer saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException {
+	public Long saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException {
 		return ewcmsJobChannelService.saveOrUpdateJobChannel(channelId, vo, isAppChildenChannel);
 	}
 }

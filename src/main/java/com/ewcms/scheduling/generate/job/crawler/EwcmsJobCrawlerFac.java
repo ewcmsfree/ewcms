@@ -25,12 +25,12 @@ public class EwcmsJobCrawlerFac implements EwcmsJobCrawlerFacable {
 	private EwcmsJobCrawlerServiceable ewcmsJobCrawlerService;
 
 	@Override
-	public EwcmsJobCrawler getScheduledJobCrawler(Integer jobId) {
+	public EwcmsJobCrawler getScheduledJobCrawler(Long jobId) {
 		return ewcmsJobCrawlerService.getScheduledJobCrawler(jobId);
 	}
 
 	@Override
-	public Integer saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException {
+	public Long saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException {
 		return ewcmsJobCrawlerService.saveOrUpdateJobCrawler(gatherId, vo);
 	}
 

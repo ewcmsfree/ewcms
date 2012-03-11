@@ -51,7 +51,7 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 	private SchedulingFacable schedulingFac;
 	
 	@Override
-	public Integer saveOrUpdateJobReport(Long reportId, PageDisplayVO vo, String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException {
+	public Long saveOrUpdateJobReport(Long reportId, PageDisplayVO vo, String reportType, Set<EwcmsJobParameter> ewcmsJobParameters) throws BaseException {
 		TextReport textReport = null;
 		ChartReport chartReport = null;
 		if (reportType.equals("text")){
@@ -117,7 +117,7 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 	}
 
 	@Override
-	public EwcmsJobReport getScheduledJobReport(Integer jobId) {
+	public EwcmsJobReport getScheduledJobReport(Long jobId) {
 		return ewcmsJobReportDAO.get(jobId);
 	}
 
@@ -127,7 +127,7 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 	}
 
 	@Override
-	public List<EwcmsJobParameter> findByJobReportParameterById(Integer jobReportId) {
+	public List<EwcmsJobParameter> findByJobReportParameterById(Long jobReportId) {
 		return ewcmsJobReportDAO.findByJobReportParameterById(jobReportId);
 	}
 
