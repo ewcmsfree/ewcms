@@ -68,4 +68,47 @@
 	<bean id="quartzSchedulerControl" class="com.ewcms.scheduling.generate.quartz.QuartzSchedulerControl" depends-on="schedulingFactory" init-method="start">
 		<property name="scheduler" ref="quartzScheduler" />
 	</bean>
+	
+	<!-- 在没有实现org.quartz.Job的类时，而需要执行定时任务时使用如下配置:
+	<bean id="testJob" class="com.ewcms.scheduling.generate.quartz.EwcmsMethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref=""/>//调用的类
+        <property name="targetMethod" value=""/>//调用类中的方法
+        <property name="scheduler" ref="quartzScheduler"/>
+        <property name="volatility" value="true"/>//在Quartz已不存在
+    </bean>
+    <bean id="testCronTrigger" class="com.ewcms.scheduling.generate.quartz.EwcmsCronTriggerBean">
+        <property name="jobDetail" ref="testJob"/>
+        <property name="cronExpression" value="0 0 2 * * ?"/>
+    </bean>
+    <bean id="testSimpleTrigger" class="com.ewcms.scheduling.generate.quartz.EwcmsSimpleTriggerBean">
+        <property name="jobDetail" ref="testJob"/>
+        <property name="startDelay" value="0"/>//在启动时运行，使用下面表达式其中之一
+        <property name="repeatInterval" value="604800000"/>//每周一次
+        <property name="repeatInterval" value="86400000"/>//每天一次
+        <property name="repeatInterval" value="3600000"/>//每小时一次
+        <property name="repeatInterval" value="60000"/>//每分钟一次
+        <property name="repeatInterval" value="1000"/>//每秒一次
+    </bean>
+    <bean id="testSchedulerTriggers" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="testCronTrigger"/>
+                <ref bean="testSimpleTrigger"/>
+                <ref bean="OtherTrigger"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="testScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" destroy-method="destroy">
+        <property name="waitForJobsToCompleteOnShutdown" value="true"/>
+        <property name="schedulerName" value="TestMaintenanceScheduler"/>
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.jobStore.class">org.quartz.simpl.RAMJobStore</prop>
+                <prop key="org.quartz.threadPool.threadCount">2</prop>
+                <prop key="org.quartz.threadPool.threadPriority">2</prop>
+            </props>
+        </property>
+        <property name="triggers" ref="testSchedulerTriggers"/>
+    </bean>
+     -->
 </beans>

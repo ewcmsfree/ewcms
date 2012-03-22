@@ -132,6 +132,9 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
         String jobClassEntity = job.getJobClass().getClassEntity().trim();
         try {
             if (jobClassEntity != null && jobClassEntity.length() > 0) {
+            	//TODO 未测试
+            	//ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+            	//Class<Job> classEntity = (Class<Job>) ClassUtils.forName(jobClassEntity, beanClassLoader);
                 Class<Job> classEntity = (Class<Job>) Class.forName(jobClassEntity);
                 JobDetail jobDetail = newJob(classEntity).
                 		withIdentity(jobName, GROUP).
@@ -866,9 +869,9 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 				if (logger.isDebugEnabled()){
 					logger.debug("暂停工作任务 " + GROUP + "." + jobId);
 				}
-			}else{
-				logger.error("暂停工作任务 " + GROUP + "." + jobId + " 必须处于正常状态");
-				throw new BaseException("任务必须处于正常状态才能暂停","任务必须处于正常状态才能暂停");
+//			}else{
+//				logger.error("暂停工作任务 " + GROUP + "." + jobId + " 必须处于正常状态");
+//				throw new BaseException("任务必须处于正常状态才能暂停","任务必须处于正常状态才能暂停");
 			}
 		}catch (SchedulerException e) {
 			logger.error("暂停Quartz任务时错误", e);
@@ -886,9 +889,9 @@ public class JobsQuartzScheduler implements JobsQuartzSchedulerable, Initializin
 				if (logger.isDebugEnabled()){
 					logger.info("恢复工作任务 " + GROUP + "." + jobId);
 				}
-			}else{
-				logger.error("恢复工作任务 " + GROUP + "." + jobId + " 必须处于暂停状态");
-				throw new BaseException("任务必须处于暂停状态才能恢复" ,"任务必须处于暂停状态才能恢复");
+//			}else{
+//				logger.error("恢复工作任务 " + GROUP + "." + jobId + " 必须处于暂停状态");
+//				throw new BaseException("任务必须处于暂停状态才能恢复" ,"任务必须处于暂停状态才能恢复");
 			}
 		}catch (SchedulerException e) {
 			logger.error("恢复Quartz任务时错误", e);
