@@ -22,9 +22,9 @@
 	</pluginRepositories>
 	
 	<scm>
-		<connection>scm:svn:http://svn.jict.org/repos/ewcms/trunk/ewcms</connection>
-		<developerConnection>scm:svn:http://svn.jict.org/repos/ewcms/trunk/ewcms</developerConnection>
-		<url>http://wiki.jict.org/ewcms/browser/ewcms/ewcms</url>
+		<connection>scm:git:git@github.com:ewcmsfree/ewcms.git</connection>
+		<developerConnection>scm:git:git@github.com:ewcmsfree/ewcms.git</developerConnection>
+		<url>scm:git:git@github.com:ewcmsfree/ewcms.git</url>
 	</scm>
 	
 	<build>
