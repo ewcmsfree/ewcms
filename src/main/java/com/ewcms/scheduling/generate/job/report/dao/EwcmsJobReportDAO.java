@@ -5,8 +5,10 @@
  */
 package com.ewcms.scheduling.generate.job.report.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,27 +23,34 @@ import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
  */
 @Repository
 public class EwcmsJobReportDAO extends JpaDAO<Long, EwcmsJobReport> {
-	@SuppressWarnings("unchecked")
-	public EwcmsJobReport findJobReportByReportId(Long reportId, String reportType) {
+
+	public EwcmsJobReport findJobReportByReportId(final Long reportId, final String reportType) {
 		String hql = "Select o From EwcmsJobReport o Inner Join ";
 		if (reportType.equals("text")){
 			hql += " o.textReport c ";
 		}else if (reportType.equals("chart")){
 			hql += " o.chartReport c ";
 		}
-		hql += " Where c.id=? ";
-		List<EwcmsJobReport> list = this.getJpaTemplate().find(hql, reportId);
-		if (list.isEmpty())
-			return null;
-		return list.get(0);
+		hql += " Where c.id=:reportId ";
+
+		TypedQuery<EwcmsJobReport> query = this.getEntityManager().createQuery(hql, EwcmsJobReport.class);
+    	query.setParameter("reportId", reportId);
+
+    	EwcmsJobReport ewcmsJobReport = null;
+    	try{
+    		ewcmsJobReport = (EwcmsJobReport) query.getSingleResult();
+    	}catch(NoResultException e){
+    		
+    	}
+    	return ewcmsJobReport;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<EwcmsJobParameter> findByJobReportParameterById(Long jobReportId) {
-		String hql = "Select p From EwcmsJobReport o Join o.ewcmsJobParameters p Where o.id=?";
-		List<EwcmsJobParameter> list = getJpaTemplate().find(hql, jobReportId);
-		if (list.isEmpty())
-			return new ArrayList<EwcmsJobParameter>();
-		return list;
+	public List<EwcmsJobParameter> findByJobReportParameterById(final Long jobReportId) {
+		String hql = "Select p From EwcmsJobReport o Join o.ewcmsJobParameters p Where o.id=:jobReportId";
+		
+		TypedQuery<EwcmsJobParameter> query = this.getEntityManager().createQuery(hql, EwcmsJobParameter.class);
+		query.setParameter("jobReportId", jobReportId);
+
+		return query.getResultList();
 	}
 }

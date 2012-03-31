@@ -6,7 +6,6 @@
 
 package com.ewcms.scheduling.generate.job.channel;
 
-import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,50 +24,39 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionChannelJob.class);
     
-    private static final String JOB_CHANNEL_FACTORY = "ewcmsJobChannelFac";
-    private static final String PUBLISH_FACTORY = "schedulePublishFac";
+    public static final String JOB_CHANNEL_FACTORY = "ewcmsJobChannelFac";
+    public static final String PUBLISH_FACTORY = "schedulePublishFac";
 
-    protected EwcmsJobChannel jobDetails;
+    private EwcmsJobChannel ewcmsJobChannel;
     
-    protected void jobExecute() throws Exception {
-        jobDetails = getJobDetails();
-        Channel channel = jobDetails.getChannel();
-        String channelName = "【" + channel.getName() + "】";
-        
-        Boolean subChannel = jobDetails.getSubChannel();
-    	EwcmsJobChannelFacable ewcmsSchedulingFac = getEwcmsJobChannelFac();
-    	EwcmsJobChannel jobChannel = ewcmsSchedulingFac.findJobChannelByChannelId(channel.getId());
-    	if (jobChannel != null && jobChannel.getId().intValue() > 0){
-    		if (channel.getPublicenable()){
-				logger.info("定时发布 " + channelName + " 频道开始...");
+    protected void jobExecute(Long jobId) throws Exception {
+        ewcmsJobChannel = getEwcmsJobChannelFac().getScheduledJobChannel(jobId);
+        if (ewcmsJobChannel != null){
+        	Channel channel = ewcmsJobChannel.getChannel();
+            if (channel != null && channel.getPublicenable()){
+	            String channelName = "【" + channel.getName() + "】";
+	            Boolean subChannel = ewcmsJobChannel.getSubChannel();
+	            
+				logger.info("定时发布 {} 频道开始...", channelName);
 				try{
 					getSchedulePublishFacable().publishChannel(channel.getId(), subChannel);
 				}catch (PublishException e){
-					logger.error("定时发布 " + channelName + " 频道发布异常");
+					logger.error("定时发布 {} 频道发布异常", channelName);
 				}
-				logger.info("定时发布 " + channelName + " 频道结束.");
-    		}
+				logger.info("定时发布 {} 频道结束.", channelName);
+            }
     	}
     }
        
     protected void jobClear() {
-        jobDetails = null;
+        ewcmsJobChannel = null;
     }
 
-    protected EwcmsJobChannel getJobDetails() {
-        EwcmsJobChannelFacable ewcmsJobChannelFac = getEwcmsJobChannelFac();
-        JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
-
-        Long jobId = jobDataMap.getLong(JOB_DATA_KEY_DETAILS_ID);
-        EwcmsJobChannel ewcmsJobChannel = ewcmsJobChannelFac.getScheduledJobChannel(jobId);
-        return ewcmsJobChannel;
-    }
-
-    protected SchedulePublishFacable getSchedulePublishFacable(){
+    private SchedulePublishFacable getSchedulePublishFacable(){
     	return (SchedulePublishFacable) applicationContext.getBean(PUBLISH_FACTORY);
     }
     
-    protected EwcmsJobChannelFacable getEwcmsJobChannelFac() {
+    private EwcmsJobChannelFacable getEwcmsJobChannelFac() {
         return (EwcmsJobChannelFacable) applicationContext.getBean(JOB_CHANNEL_FACTORY);
     }
 }

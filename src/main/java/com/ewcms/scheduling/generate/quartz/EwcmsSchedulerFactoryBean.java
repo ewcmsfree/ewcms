@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 
 package com.ewcms.scheduling.generate.quartz;
 
@@ -25,8 +30,7 @@ public class EwcmsSchedulerFactoryBean extends SchedulerFactoryBean {
 		setSchedulerFactoryClass(EwcmsSchedulerFactory.class);
 	}
 	
-	protected Scheduler createScheduler(SchedulerFactory schedulerFactory, String schedulerName)
-			throws SchedulerException {
+	protected Scheduler createScheduler(SchedulerFactory schedulerFactory, String schedulerName) throws SchedulerException {
 		try {
 			if (ThreadExecutor != null) {
 				if (!(schedulerFactory instanceof EwcmsSchedulerFactory)) {
@@ -62,10 +66,7 @@ public class EwcmsSchedulerFactoryBean extends SchedulerFactoryBean {
 		this.ThreadExecutor = ThreadExecutor;
 	}
 
-    // 2012-01-24 thorick: The arg seems to have changed:
-    //                      Spring 2:  org.springframework.core.task.TaskExecutor
-    //                      Spring 3:  java.util.concurrent.Executor
-
+    //Spring 3:  java.util.concurrent.Executor
 	public void setTaskExecutor(Executor taskExecutor) {
 		if (taskExecutor instanceof NullTaskExecutor) {
 			taskExecutor = null;
@@ -73,7 +74,9 @@ public class EwcmsSchedulerFactoryBean extends SchedulerFactoryBean {
 		
 		super.setTaskExecutor(taskExecutor);
 	}
+	
     /*
+    //Spring 2:  org.springframework.core.task.TaskExecutor
     public void setTaskExecutor(TaskExecutor taskExecutor) {
 		if (taskExecutor instanceof NullTaskExecutor) {
 			taskExecutor = null;

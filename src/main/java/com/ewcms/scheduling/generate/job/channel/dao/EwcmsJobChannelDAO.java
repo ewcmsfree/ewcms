@@ -6,7 +6,9 @@
 
 package com.ewcms.scheduling.generate.job.channel.dao;
 
-import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,12 +22,18 @@ import com.ewcms.scheduling.generate.job.channel.model.EwcmsJobChannel;
  */
 @Repository
 public class EwcmsJobChannelDAO extends JpaDAO<Long, EwcmsJobChannel> {
-	@SuppressWarnings("unchecked")
-	public EwcmsJobChannel findJobChannelByChannelId(Integer channelId) {
-		String hql = "Select o From EwcmsJobChannel o Inner Join o.channel c Where c.id=?";
-		List<EwcmsJobChannel> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty())
-			return null;
-		return list.get(0);
+	
+	public EwcmsJobChannel findJobChannelByChannelId(final Integer channelId) {
+		String hql = "Select o From EwcmsJobChannel o Inner Join o.channel c Where c.id=:channelId";
+		
+		TypedQuery<EwcmsJobChannel> query = this.getEntityManager().createQuery(hql, EwcmsJobChannel.class);
+    	query.setParameter("channelId", channelId);
+
+    	EwcmsJobChannel ewcmsJobChannel = null;
+    	try{
+    		ewcmsJobChannel = (EwcmsJobChannel) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	return ewcmsJobChannel;
 	}
 }

@@ -6,7 +6,6 @@
 
 package com.ewcms.scheduling.generate.job.crawler;
 
-import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,44 +23,34 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
 
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionCrawlerJob.class);
     
-    private static final String JOB_CRAWLER_FACTORY = "ewcmsJobCrawlerFac";
-    
-    private static final String CRAWL_FACTORY = "ewcmsController";
+    public static final String JOB_CRAWLER_FACTORY = "ewcmsJobCrawlerFac";
+    public static final String CRAWL_FACTORY = "ewcmsController";
 
-    protected EwcmsJobCrawler jobDetails;
+    private EwcmsJobCrawler ewcmsJobCrawler;
     
-    protected void jobExecute() throws Exception {
-        jobDetails = getJobDetails();
-        Gather gather = jobDetails.getGather();
-        String gather_name = "【" + gather.getName() + "】";
-        
-    	EwcmsJobCrawlerFacable ewcmsSchedulingFac = getEwcmsJobCrawlerFac();
-    	ewcmsSchedulingFac.findJobCrawlerByGatherId(gather.getId());
-    	if (gather.getStatus()){
-    		logger.info("定时采集 " + gather_name + " 地址开始...");
-    		getEwcmsController().startCrawl(gather.getId());
-    		logger.info("定时采集 " + gather_name + " 地址结束.");
-    	}
+    protected void jobExecute(Long jobId) throws Exception {
+        ewcmsJobCrawler = getEwcmsJobCrawlerFac().getScheduledJobCrawler(jobId);
+        if (ewcmsJobCrawler != null){
+	        Gather gather = ewcmsJobCrawler.getGather();
+	    	if (gather != null && gather.getStatus()){
+	    		String gatherName = "【" + gather.getName() + " - " + gather.getBaseURI() + "】";
+	    		
+	    		logger.info("定时采集 {} 地址开始...", gatherName);
+	    		getEwcmsController().startCrawl(gather.getId());
+	    		logger.info("定时采集 {} 地址结束.", gatherName);
+	    	}
+        }
     }
        
     protected void jobClear() {
-        jobDetails = null;
+        ewcmsJobCrawler = null;
     }
 
-    protected EwcmsJobCrawler getJobDetails() {
-        EwcmsJobCrawlerFacable ewcmsJobCrawlerFac = getEwcmsJobCrawlerFac();
-        JobDataMap jobDataMap = jobContext.getTrigger().getJobDataMap();
-
-        Long jobId = jobDataMap.getLong(JOB_DATA_KEY_DETAILS_ID);
-        EwcmsJobCrawler jobCrawler = ewcmsJobCrawlerFac.getScheduledJobCrawler(jobId);
-        return jobCrawler;
-    }
-
-    protected EwcmsJobCrawlerFacable getEwcmsJobCrawlerFac() {
+    private EwcmsJobCrawlerFacable getEwcmsJobCrawlerFac() {
         return (EwcmsJobCrawlerFacable) applicationContext.getBean(JOB_CRAWLER_FACTORY);
     }
     
-    protected EwcmsControllerable getEwcmsController(){
+    private EwcmsControllerable getEwcmsController(){
     	return (EwcmsControllerable) applicationContext.getBean(CRAWL_FACTORY); 
     }
 }

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.generate.quartz;
 
 import java.lang.reflect.Method;
@@ -13,6 +18,11 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.util.ReflectionUtils;
 
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
 public abstract class EwcmsQuartzJobBean implements Job {
 
 	private static final Method getSchedulerMethod;

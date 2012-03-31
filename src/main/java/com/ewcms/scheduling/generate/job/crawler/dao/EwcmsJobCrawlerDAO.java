@@ -6,7 +6,9 @@
 
 package com.ewcms.scheduling.generate.job.crawler.dao;
 
-import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +22,18 @@ import com.ewcms.scheduling.generate.job.crawler.model.EwcmsJobCrawler;
  */
 @Repository()
 public class EwcmsJobCrawlerDAO extends JpaDAO<Long, EwcmsJobCrawler> {
-	@SuppressWarnings("unchecked")
+	
 	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId) {
-		String hql = "Select o From EwcmsJobCrawler o Inner Join o.gather c Where c.id=?";
-		List<EwcmsJobCrawler> list = this.getJpaTemplate().find(hql, gatherId);
-		if (list.isEmpty())	return null;
-		return list.get(0);
+		String hql = "Select o From EwcmsJobCrawler o Inner Join o.gather c Where c.id=:gatherId";
+		
+		TypedQuery<EwcmsJobCrawler> query = this.getEntityManager().createQuery(hql, EwcmsJobCrawler.class);
+    	query.setParameter("gatherId", gatherId);
+
+    	EwcmsJobCrawler ewcmsJobCrawler = null;
+    	try{
+    		ewcmsJobCrawler = (EwcmsJobCrawler) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	return ewcmsJobCrawler;
 	}
 }

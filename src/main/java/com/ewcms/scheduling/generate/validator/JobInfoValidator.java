@@ -12,7 +12,6 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import org.quartz.DateBuilder;
-import org.quartz.TriggerUtils;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.scheduling.BaseException;
@@ -29,7 +28,7 @@ import com.ewcms.scheduling.model.JobTrigger;
  *
  * @author 吴智俊
  */
-@Service("jobInfoValidator")
+@Service
 public class JobInfoValidator implements JobInfoValidatorable {
 
     private static final Pattern PATTERN_CRON_MINUTES;

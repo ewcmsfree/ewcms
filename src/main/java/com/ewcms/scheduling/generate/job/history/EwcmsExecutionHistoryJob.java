@@ -21,20 +21,18 @@ public class EwcmsExecutionHistoryJob extends BaseEwcmsExecutionJob {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionHistoryJob.class);
 
-	private static final String SCHEDULER_FACTORY = "historyModelFac";
+	public static final String SCHEDULER_FACTORY = "historyModelFac";
 
-	@Override
-	protected void jobExecute() throws Exception {
+	protected void jobExecute(Long jobId) throws Exception {
 		logger.info("定时清除历史记录开始...");
 		getHistoryModelFac().delHistoryModelBeforeDate();
 		logger.info("定时清除历史记录结束.");
 	}
 
-	@Override
 	protected void jobClear() {
 	}
 
-	protected HistoryModelFacable getHistoryModelFac() {
+	private HistoryModelFacable getHistoryModelFac() {
 		return (HistoryModelFacable) applicationContext.getBean(SCHEDULER_FACTORY);
 	}
 }

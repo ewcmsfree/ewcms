@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.generate.quartz;
 
 import java.util.Date;
@@ -14,6 +19,11 @@ import org.springframework.util.Assert;
 
 import com.ewcms.scheduling.BaseRuntimeException;
 
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
 public class EwcmsCronTriggerBean extends CronTriggerImpl implements JobDetailAwareTrigger, BeanNameAware, InitializingBean {
 
 	private static final long serialVersionUID = 9118533232906908184L;

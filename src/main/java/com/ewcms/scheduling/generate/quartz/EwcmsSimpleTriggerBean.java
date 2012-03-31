@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.generate.quartz;
 
 import java.util.Date;
@@ -12,6 +17,11 @@ import org.springframework.scheduling.quartz.JobDetailAwareTrigger;
 
 import com.ewcms.scheduling.BaseRuntimeException;
 
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
 public class EwcmsSimpleTriggerBean extends SimpleTriggerImpl implements JobDetailAwareTrigger, BeanNameAware, InitializingBean {
 
 	private static final long serialVersionUID = 7693470365658559757L;

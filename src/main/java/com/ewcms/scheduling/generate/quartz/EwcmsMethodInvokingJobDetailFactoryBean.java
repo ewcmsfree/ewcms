@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.generate.quartz;
 
 import static org.quartz.JobBuilder.newJob;
@@ -11,7 +16,6 @@ import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 import org.quartz.Matcher;
 import org.quartz.Scheduler;
-import org.quartz.StatefulJob;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.matchers.KeyMatcher;
 import org.slf4j.Logger;
@@ -29,9 +33,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.MethodInvoker;
 
-@SuppressWarnings("deprecation")
-public class EwcmsMethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethodInvoker implements FactoryBean<JobDetail>,
-		BeanNameAware, BeanClassLoaderAware, InitializingBean {
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
+public class EwcmsMethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethodInvoker implements FactoryBean<JobDetail>, BeanNameAware, BeanClassLoaderAware, InitializingBean {
 
 	static{
 		try{
@@ -106,14 +113,10 @@ public class EwcmsMethodInvokingJobDetailFactoryBean extends ArgumentConvertingM
             bw.setPropertyValue("name", name);
             bw.setPropertyValue("group", group);
             bw.setPropertyValue("jobClass", jobClass);
-            // 2012-01-25   thorick:  no more durability in Quartz 2.1.2 ?
             bw.setPropertyValue("durability", Boolean.valueOf(true));
             ((JobDataMap)bw.getPropertyValue("jobDataMap")).put("methodInvoker", this);
         }else{
         	jobDetail = newJob(jobClass).withIdentity(name, group).build();
-        	//jobDetail = new JobDetailImpl(name, group, jobClass);
-            // 2012-01-25  thorick:  there is no more volatility in Quartz 2.1.2
-            //jobDetail.setVolatility(true);
 
             if (!(jobDetail instanceof JobDetailImpl))
                 throw new RuntimeException("Expected JobDetail to be an instance of '" + JobDetailImpl.class + "' but instead we got '"+jobDetail.getClass().getName()+"'");
@@ -220,7 +223,8 @@ public class EwcmsMethodInvokingJobDetailFactoryBean extends ArgumentConvertingM
 		}
 	}
 	
-	public static class StatefulMethodInvokingJob extends MethodInvokingJob implements StatefulJob{
+	@SuppressWarnings("deprecation")
+	public static class StatefulMethodInvokingJob extends MethodInvokingJob implements org.quartz.StatefulJob{
 		public StatefulMethodInvokingJob(){
 		}
 	}

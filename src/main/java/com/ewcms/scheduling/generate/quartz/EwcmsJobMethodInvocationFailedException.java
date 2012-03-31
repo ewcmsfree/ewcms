@@ -1,10 +1,19 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.scheduling.generate.quartz;
 
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.util.MethodInvoker;
 
-public class EwcmsJobMethodInvocationFailedException extends
-		NestedRuntimeException {
+/**
+ * 
+ * @author wuzhijun
+ *
+ */
+public class EwcmsJobMethodInvocationFailedException extends NestedRuntimeException {
 
 	private static final long serialVersionUID = -5853922879523025668L;
 

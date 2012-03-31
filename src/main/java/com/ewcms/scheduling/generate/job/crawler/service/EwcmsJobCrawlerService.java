@@ -100,5 +100,4 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 	public EwcmsJobCrawler findJobCrawlerByGatherId(Long gatherId) {
 		return (EwcmsJobCrawler)ewcmsJobCrawlerDAO.findJobCrawlerByGatherId(gatherId);
 	}
-	
 }
