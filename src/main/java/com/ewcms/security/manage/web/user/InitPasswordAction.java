@@ -21,7 +21,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.user.initpassword")
 public class InitPasswordAction extends ActionSupport{
 
-    private String password;
+	private static final long serialVersionUID = 6586468960229031252L;
+
+	private String password;
     private String passwordAgain;
     private String username;
     

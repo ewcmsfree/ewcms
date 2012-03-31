@@ -36,7 +36,10 @@ import javax.persistence.Table;
 @Table(name = "site_siteserver")
 @SequenceGenerator(name = "seq_site_siteserver", sequenceName = "seq_site_siteserver_id", allocationSize = 1)
 public class SiteServer implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = -1138195790814414334L;
+	
+	@Id
     @GeneratedValue(generator = "seq_site_siteserver", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(length = 100)

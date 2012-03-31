@@ -7,20 +7,16 @@
 package com.ewcms.core.site.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -50,7 +46,10 @@ import org.hibernate.annotations.Formula;
 @Table(name = "site_organ")
 @SequenceGenerator(name = "seq_site_organ", sequenceName = "seq_site_organ_id", allocationSize = 1)
 public class Organ implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = 7433796728497541934L;
+	
+	@Id
     @GeneratedValue(generator = "seq_site_organ", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(length = 100)

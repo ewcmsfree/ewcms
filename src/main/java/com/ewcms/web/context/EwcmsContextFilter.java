@@ -32,7 +32,7 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
     static final String FILTER_APPLIED = "__ewcms_session_filter_applied";
     public static final String EWCMS_CONTEXT_KEY = "EWCMS_CONTEXT";
     //~ Instance fields ================================================================================================
-    private Class contextClass = EwcmsContext.class;
+    private Class<EwcmsContext> contextClass = EwcmsContext.class;
     private Object contextObject;
     /**
      * Indicates if this filter can create a <code>HttpSession</code> if
@@ -300,11 +300,11 @@ public class EwcmsContextFilter implements Filter, InitializingBean {
         this.allowSessionCreation = allowSessionCreation;
     }
 
-    protected Class getContextClass() {
+    protected Class<EwcmsContext> getContextClass() {
         return contextClass;
     }
 
-    public void setContextClass(Class secureContext) {
+    public void setContextClass(Class<EwcmsContext> secureContext) {
         this.contextClass = secureContext;
     }
 

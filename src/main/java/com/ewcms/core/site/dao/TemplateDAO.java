@@ -11,18 +11,15 @@ package com.ewcms.core.site.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.core.site.model.Template;
 
 /**
  * @author 周冬初
- *
+ * @author wuzhijun
  */
 @Repository
 public class TemplateDAO extends JpaDAO<Integer, Template> {
@@ -31,17 +28,12 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	 * 
 	 */
 	public List<Template> getTemplateList(final Integer siteId){
-		@SuppressWarnings("unchecked")
-		Object res = this.getJpaTemplate().execute(new JpaCallback() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-            	String hql = "From Template o Where  o.site.id=? and o.templateEntity is not null and o.channelId is not null Order By o.id";
-                Query query = em.createQuery(hql);
-                query.setParameter(1,siteId);
-                return query.getResultList();
-            }
-        });
-		return (List<Template>) res;
+		String hql = "From Template o Where o.site.id=:siteId and o.templateEntity is not null and o.channelId is not null Order By o.id";
+
+		TypedQuery<Template> query = this.getEntityManager().createQuery(hql,Template.class);
+		query.setParameter("siteId", siteId);
+
+		return query.getResultList();
 	}
 	
 	/**
@@ -49,34 +41,29 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	 * 
 	 */
 	public List<Template> getTemplateChildren(final Integer parentId,final Integer siteId,final Integer channelId){	
-		@SuppressWarnings("unchecked")
-		Object res = this.getJpaTemplate().execute(new JpaCallback() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-            	String hql;
-            	Query query;
-        		if(parentId==null){
-        			hql = "From Template o Where o.parent is null and o.site.id=? Order By o.id"; 
-                	query = em.createQuery(hql);
-                    query.setParameter(1,siteId);
-        		}else{
-        			if(channelId==null){
-	        			hql = "From Template o Where o.parent.id=? and o.site.id=? Order By o.id";  
-	                	query = em.createQuery(hql);
-	                	query.setParameter(1,parentId);
-	                    query.setParameter(2,siteId);
-        			}else{
-	        			hql = "From Template o Where o.parent.id=? and o.site.id=? and o.channelId=? Order By o.id";  
-	                	query = em.createQuery(hql);
-	                	query.setParameter(1,parentId);
-	                    query.setParameter(2,siteId);     
-	                    query.setParameter(3,channelId); 
-        			}
-        		} 
-                return query.getResultList();
-            }
-        });
-		return (List<Template>) res;		
+		String hql;
+		TypedQuery<Template> query;
+		if (parentId == null) {
+			hql = "From Template o Where o.parent is null and o.site.id=:siteId Order By o.id";
+			query = this.getEntityManager().createQuery(hql, Template.class);
+			query.setParameter("siteId", siteId);
+		} else {
+			if (channelId == null) {
+				hql = "From Template o Where o.parent.id=:parentId and o.site.id=:siteId Order By o.id";
+
+				query = this.getEntityManager().createQuery(hql, Template.class);
+				query.setParameter("parentId", parentId);
+				query.setParameter("siteId", siteId);
+			} else {
+				hql = "From Template o Where o.parent.id=:parentId and o.site.id=:siteId and o.channelId=:channelId Order By o.id";
+
+				query = this.getEntityManager().createQuery(hql, Template.class);
+				query.setParameter("parentId", parentId);
+				query.setParameter("siteId", siteId);
+				query.setParameter("channelId", channelId);
+			}
+		}
+		return query.getResultList();		
 	}
 
 	/**
@@ -84,30 +71,29 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	 * 
 	 */
 	public Template getChannelTemplate(final String siteTplName,final Integer siteId,final Integer parentId){
-		@SuppressWarnings("unchecked")
-		Object res = this.getJpaTemplate().execute(new JpaCallback() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-            	String hql;
-            	Query query;
-            	if(parentId==null){
-            		hql = "From Template o Where  o.name=? and o.site.id=? and o.parent is null";
-                    query = em.createQuery(hql);
-                    query.setParameter(1,siteTplName);
-                    query.setParameter(2,siteId);
-            	}else{
-            		hql = "From Template o Where  o.name=? and o.site.id=? and o.parent.id=?";
-                    query = em.createQuery(hql);
-                    query.setParameter(1,siteTplName);
-                    query.setParameter(2,siteId);
-                    query.setParameter(3,parentId);
-            	}
-                return query.getResultList();
-            }
-        });
-		List<Template> templateList = (List<Template>) res;
-		if(templateList==null||templateList.size()==0)return null;
-		return templateList.get(0);
+		String hql;
+		TypedQuery<Template> query;
+		if (parentId == null) {
+			hql = "From Template o Where o.name=:siteTplName and o.site.id=:siteId and o.parent is null";
+
+			query = this.getEntityManager().createQuery(hql, Template.class);
+			query.setParameter("siteTplName", siteTplName);
+			query.setParameter("siteId", siteId);
+		} else {
+			hql = "From Template o Where o.name=:siteTplName and o.site.id=:siteId and o.parent.id=:parentId";
+
+			query = this.getEntityManager().createQuery(hql, Template.class);
+			query.setParameter("siteTplName", siteTplName);
+			query.setParameter("siteId", siteId);
+			query.setParameter("parentId", parentId);
+		}
+		
+		Template template = null;
+		try{
+			template = (Template) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return template;
 	}
 	
 	/**
@@ -117,16 +103,17 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	 * @return 模板实体
 	 */
 	public Template getTemplateByPath(final String path){
-	    List<Template> res = this.getJpaTemplate().execute(new JpaCallback<List<Template>>() {
-            @Override
-            public List<Template> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Template o Where  o.uniquePath=?";
-                TypedQuery<Template> query = em.createQuery(hql, Template.class);
-                query.setParameter(1,path);
-                return query.getResultList();
-            }
-        });
-	    return res.isEmpty() ? null : res.get(0);
+		String hql = "From Template o Where o.uniquePath=:path";
+
+		TypedQuery<Template> query = this.getEntityManager().createQuery(hql, Template.class);
+		query.setParameter("path", path);
+
+		Template template = null;
+		try{
+			template = (Template) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return template;
 	}
 	
 	/**
@@ -136,15 +123,10 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	 * @return 模板集合
 	 */
 	public List<Template> getTemplatesInChannel(final Integer id){
-	    List<Template> res = this.getJpaTemplate().execute(new JpaCallback<List<Template>>() {
-            @Override
-            public List<Template> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "From Template o Where  o.channelId=? order by o.type";
-                TypedQuery<Template> query = em.createQuery(hql, Template.class);
-                query.setParameter(1,id);
-                return query.getResultList();
-            }
-        });
-	    return res;
+		String hql = "From Template o Where o.channelId=? order by o.type";
+		TypedQuery<Template> query = this.getEntityManager().createQuery(hql,
+		Template.class);
+		query.setParameter(1, id);
+		return query.getResultList();
 	}	
 }

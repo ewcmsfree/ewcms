@@ -6,8 +6,10 @@
 
 package com.ewcms.content.document.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,27 +24,42 @@ import com.ewcms.content.document.model.Relation;
 @Repository
 public class RelationDAO extends JpaDAO<Long, Relation> {
 	
-    @SuppressWarnings("unchecked")
-	public List<Relation> findRelationByArticle(Long articleId){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? ORDER BY r.sort";
-    	List<Relation> list = this.getJpaTemplate().find(hql,articleId);
-    	if (list.isEmpty()) return new ArrayList<Relation>();
-    	return list;
+	public List<Relation> findRelationByArticle(final Long articleId){
+    	String hql = "Select r From Article AS o Right Join o.relations As r Where o.id=:articleId Order By r.sort";
+        
+        TypedQuery<Relation> query = this.getEntityManager().createQuery(hql, Relation.class);
+        query.setParameter("articleId", articleId);
+
+        return query.getResultList();
     }
     
-    @SuppressWarnings("unchecked")
-	public Relation findRelationByArticleAndSort(Long articleId, Integer sort){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? AND r.sort=?";
-    	List<Relation> list = this.getJpaTemplate().find(hql,articleId,sort);
-    	if (list.isEmpty()) return new Relation();
-    	return list.get(0);
+	public Relation findRelationByArticleAndSort(final Long articleId, final Integer sort){
+    	String hql = "Select r From Article AS o Right Join o.relations As r Where o.id=:articleId And r.sort=:sort";
+        
+        TypedQuery<Relation> query = this.getEntityManager().createQuery(hql, Relation.class);
+        query.setParameter("articleId", articleId);
+        query.setParameter("sor", sort);
+
+        Relation relation = null;
+        try{
+        	relation = (Relation) query.getSingleResult();
+        }catch(NoResultException e){
+        }
+        return relation;
     }
     
-    @SuppressWarnings("unchecked")
-	public Relation findRelationByArticleAndRelation(Long articleId, Long relationArticleId){
-    	String hql = "Select r FROM Article AS o RIGHT JOIN o.relations AS r WHERE o.id=? AND r.article.id=?";
-    	List<Relation> list = this.getJpaTemplate().find(hql, articleId, relationArticleId);
-    	if (list.isEmpty()) return null;
-    	return list.get(0);
+	public Relation findRelationByArticleAndRelation(final Long articleId, final Long relationArticleId){
+    	String hql = "Select r From Article AS o Right Join o.relations As r Where o.id=:articleId And r.article.id=:relationArticleId";
+        
+        TypedQuery<Relation> query = this.getEntityManager().createQuery(hql, Relation.class);
+        query.setParameter("articleId", articleId);
+        query.setParameter("relationArticleId", relationArticleId);
+       
+        Relation relation = null;
+        try{
+        	relation = (Relation) query.getSingleResult();
+        }catch(NoResultException e){
+        }
+        return relation;
     }
 }

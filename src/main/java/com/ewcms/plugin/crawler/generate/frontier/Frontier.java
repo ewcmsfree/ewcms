@@ -171,7 +171,6 @@ public class Frontier extends Configurable {
 
 	public void sync() {
 		workQueues.sync();
-		inProcessPages.sync();
 		docIdServer.sync();
         counters.sync();
 	}
@@ -183,7 +182,6 @@ public class Frontier extends Configurable {
 	public void close() {
 		sync();
 		workQueues.close();
-		inProcessPages.close();
         counters.close();
 	}
 

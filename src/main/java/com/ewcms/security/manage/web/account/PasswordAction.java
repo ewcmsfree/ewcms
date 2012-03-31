@@ -21,7 +21,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.account.password.action")
 public class PasswordAction extends ActionSupport{
 
-    private String oldPassword;
+	private static final long serialVersionUID = -2673138937914597014L;
+
+	private String oldPassword;
     private String password;
     private String againPassword;
     

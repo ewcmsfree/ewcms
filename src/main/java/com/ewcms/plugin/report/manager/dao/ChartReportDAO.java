@@ -7,6 +7,8 @@ package com.ewcms.plugin.report.manager.dao;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -20,11 +22,13 @@ import com.ewcms.plugin.report.model.ChartReport;
  */
 @Repository
 public class ChartReportDAO extends JpaDAO<Long, ChartReport> {
-	@SuppressWarnings("unchecked")
-	public List<CategoryReport> findCategoryReportByChartReportId(Long chartReportId){
-		String hql = "Select c From CategoryReport As c Left Join c.charts As t Where t.id=?";
-    	List<CategoryReport> list = this.getJpaTemplate().find(hql, chartReportId);
-    	if (list.isEmpty()) return null;
-    	return list;
+	
+	public List<CategoryReport> findCategoryReportByChartReportId(final Long chartReportId){
+		String hql = "Select c From CategoryReport As c Left Join c.charts As t Where t.id=:chartReportId";
+		
+		TypedQuery<CategoryReport> query = this.getEntityManager().createQuery(hql, CategoryReport.class);
+		query.setParameter("chartReportId", chartReportId);
+		
+		return query.getResultList();
 	}
 }

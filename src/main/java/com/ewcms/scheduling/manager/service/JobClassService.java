@@ -23,9 +23,9 @@ import com.ewcms.scheduling.model.JobClass;
 
 /**
  * 
- * @author wzj
+ * @author 吴智俊
  */
-@Service("jobClassService")
+@Service
 public class JobClassService implements JobClassServiceable {
 
 	@Autowired
@@ -41,8 +41,7 @@ public class JobClassService implements JobClassServiceable {
 	}
 
 	@Override
-	public Long updateJobClass(JobClass alqcJobClass)
-			throws BaseException {
+	public Long updateJobClass(JobClass alqcJobClass) throws BaseException {
 		jobClassDAO.merge(alqcJobClass);
 		return alqcJobClass.getId();
 	}

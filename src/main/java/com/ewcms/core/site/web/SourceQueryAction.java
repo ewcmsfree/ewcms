@@ -22,6 +22,8 @@ import com.ewcms.web.QueryBaseAction;
  */
 public class SourceQueryAction extends QueryBaseAction {
 
+	private static final long serialVersionUID = -8162647623675823930L;
+
 	@Override
 	protected Resultable queryResult(
 			com.ewcms.common.query.jpa.QueryFactory queryFactory,

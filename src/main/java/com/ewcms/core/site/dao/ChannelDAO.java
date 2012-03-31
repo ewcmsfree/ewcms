@@ -12,11 +12,9 @@ package com.ewcms.core.site.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -24,7 +22,7 @@ import com.ewcms.core.site.model.Channel;
 
 /**
  * @author 周冬初
- * 
+ * @author wuzhijun
  */
 @Repository
 public class ChannelDAO extends JpaDAO<Integer, Channel> {
@@ -33,36 +31,33 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 	 * 
 	 */
 	public List<Channel> getChannelChildren(final Integer parentId) {
-	    if (parentId == null){
-	        return new ArrayList<Channel>();
-	    }
-		return this.getJpaTemplate().execute(new JpaCallback<List<Channel>>() {
-			@Override
-			public List<Channel> doInJpa(EntityManager em) throws PersistenceException {
-				String hql = "From Channel o Where o.parent.id=? Order By o.id";
-				TypedQuery<Channel> query = em.createQuery(hql,Channel.class);
-				query.setParameter(1, parentId);
-				return query.getResultList();
+		if (parentId == null){
+			return new ArrayList<Channel>();
+		}
+	    String hql = "From Channel o Where o.parent.id=:parentId Order By o.id";
 
-			}
-		});
+	    TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+	    query.setParameter("parentId", parentId);
+
+	    return query.getResultList();
 	}
 	/**
 	 * 获取站点首页专栏
 	 * 
 	 */	
 	public Channel getChannelRoot(final Integer siteId){
-		List<Channel> channelList  = this.getJpaTemplate().execute(new JpaCallback<List<Channel>>() {
-			@Override
-			public List<Channel> doInJpa(EntityManager em) throws PersistenceException {
-				String hql = "From Channel o Where o.parent is null and o.site.id=? Order By o.id";
-				TypedQuery<Channel> query = em.createQuery(hql,Channel.class);
-				query.setParameter(1, siteId);
-				return query.getResultList();
+		String hql = "From Channel o Where o.parent is null and o.site.id=:siteId Order By o.id";
 
-			}
-		});	
-		return channelList.isEmpty() ? null :channelList.get(0);		
+		TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+		query.setParameter("siteId", siteId);
+
+		Channel channel = null;
+		try{
+			channel = (Channel)query.getSingleResult();
+		}catch (NoResultException e){
+		}
+		
+		return channel;		
 	}
 	
 	/**
@@ -70,17 +65,18 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 	 * 
 	 */	
 	public Channel getChannelByURL(final Integer siteId,final String path){
-	    List<Channel> channelList = this.getJpaTemplate().execute(new JpaCallback<List<Channel>>() {
-			@Override
-			public List<Channel> doInJpa(EntityManager em) throws PersistenceException {
-				String hql = "From Channel o Where o.site.id=? and o.pubPath=? Order By o.id";
-				TypedQuery<Channel> query = em.createQuery(hql,Channel.class);
-				query.setParameter(1, siteId);
-				query.setParameter(2, path);
-				return query.getResultList();
+		String hql = "From Channel o Where o.site.id=:siteId and o.pubPath=:path Order By o.id";
 
-			}
-		});	
-	    return channelList.isEmpty() ? null :channelList.get(0);      
+		TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+		query.setParameter("siteId", siteId);
+		query.setParameter("path", path);
+
+		Channel channel = null;
+		try{
+			channel = (Channel) query.getSingleResult();
+		}catch (NoResultException e){
+			
+		}
+		return channel;
 	}		
 }

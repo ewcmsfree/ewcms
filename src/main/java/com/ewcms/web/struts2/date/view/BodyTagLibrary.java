@@ -28,7 +28,7 @@ public class BodyTagLibrary implements TagLibrary {
         return new BodyModel(stack,req,res);
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public List<Class> getVelocityDirectiveClasses() {
         return new ArrayList<Class>();
     }

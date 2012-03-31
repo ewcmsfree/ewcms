@@ -7,6 +7,8 @@ package com.ewcms.plugin.report.manager.dao;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -20,11 +22,13 @@ import com.ewcms.plugin.report.model.TextReport;
  */
 @Repository
 public class TextReportDAO extends JpaDAO<Long, TextReport> {
-	@SuppressWarnings("unchecked")
-	public List<CategoryReport> findCategoryReportByTextReportId(Long textReportId){
-		String hql = "Select c From CategoryReport As c Left Join c.texts As t Where t.id=?";
-    	List<CategoryReport> list = this.getJpaTemplate().find(hql, textReportId);
-    	if (list.isEmpty()) return null;
-    	return list;
+	
+	public List<CategoryReport> findCategoryReportByTextReportId(final Long textReportId){
+		String hql = "Select c From CategoryReport As c Left Join c.texts As t Where t.id=:textReportId";
+		
+		TypedQuery<CategoryReport> query = this.getEntityManager().createQuery(hql, CategoryReport.class);
+		query.setParameter("textReportId", textReportId);
+		
+		return query.getResultList();
 	}
 }

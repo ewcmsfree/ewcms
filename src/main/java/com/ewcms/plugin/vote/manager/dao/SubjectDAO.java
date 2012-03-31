@@ -6,7 +6,8 @@
 
 package com.ewcms.plugin.vote.manager.dao;
 
-import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,19 +22,34 @@ import com.ewcms.plugin.vote.model.Subject;
 @Repository
 public class SubjectDAO extends JpaDAO<Long, Subject> {
 	
-	@SuppressWarnings("unchecked")
-	public Long findSubjectMaxSort(Long questionnaireId){
-    	String hql = "Select Max(s.sort) FROM Questionnaire As q Right Join q.subjects As s Where q.id=?";
-    	List<Long> list = this.getJpaTemplate().find(hql, questionnaireId);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0) == null ? 0L : list.get(0);
+	public Long findSubjectMaxSort(final Long questionnaireId){
+    	String hql = "Select Max(s.sort) FROM Questionnaire As q Right Join q.subjects As s Where q.id=:questionnaireId";
+    	
+    	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+    	query.setParameter("questionnaireId", questionnaireId);
+    	
+    	Long maxSort = 0L;
+    	try{
+    		maxSort = (Long) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	
+    	return maxSort;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Subject findSubjectBySort(Long questionnaireId, Long sort){
-		String hql = "Select s From Questionnaire As q Right Join q.subjects As s Where q.id=? And s.sort=?";
-		List<Subject> list = this.getJpaTemplate().find(hql, questionnaireId, sort);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public Subject findSubjectBySort(final Long questionnaireId, final Long sort){
+		String hql = "Select s From Questionnaire As q Right Join q.subjects As s Where q.id=:questionnaireId And s.sort=:sort";
+		
+		TypedQuery<Subject> query = this.getEntityManager().createQuery(hql, Subject.class);
+		query.setParameter("questionnaireId", questionnaireId);
+		query.setParameter("sort", sort);
+		
+		Subject subject = null;
+		try{
+			subject = (Subject) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		
+		return subject;
 	}
 }

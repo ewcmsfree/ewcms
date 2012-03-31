@@ -10,10 +10,8 @@
  */
 package com.ewcms.security.web.authentication.rememberme.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -22,18 +20,17 @@ import com.ewcms.security.web.authentication.rememberme.model.RememberMeToken;
 /**
  *
  * @author wangwei
+ * @author wuzhijun
  */
 @Repository
 public class RememberMeTokenDAO extends JpaDAO<String, RememberMeToken> {
 
     public void removeUserTokens(final String username) {
-        getJpaTemplate().execute(new JpaCallback<Object>() {
-            @Override
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-                String hql = "Delete From RememberMeToken o Where o.username = :username ";
-                em.createQuery(hql).setParameter("username", username).executeUpdate();
-                return null;
-            }
-        });
+    	String hql = "Delete From RememberMeToken o Where o.username=:username ";
+
+    	Query query = this.getEntityManager().createQuery(hql);
+    	query.setParameter("username", username);
+
+    	query.executeUpdate();
     }
 }

@@ -26,7 +26,7 @@ public class HeadTagLibrary implements TagLibrary {
         return new HeadModel(stack,req,res);
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public List<Class> getVelocityDirectiveClasses() {
         return new ArrayList<Class>();
     }

@@ -23,7 +23,9 @@ import javax.persistence.TemporalType;
 @Table(name="auth_userinfo")
 public class UserInfo implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 311835227847275415L;
+	
+	@Id
     private String username;
     @Temporal(TemporalType.DATE)
     @Column

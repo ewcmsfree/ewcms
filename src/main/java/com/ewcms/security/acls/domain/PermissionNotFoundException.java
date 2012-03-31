@@ -10,7 +10,9 @@ import org.springframework.security.core.AuthenticationException;
 
 public class PermissionNotFoundException extends AuthenticationException {
 
-    /**
+	private static final long serialVersionUID = 9043199421424927555L;
+
+	/**
      * Constructs a <code>PermissionNotFoundException</code> with the specified
      * message.
      *

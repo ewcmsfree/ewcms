@@ -16,7 +16,6 @@ import com.ewcms.scheduling.model.JobTrigger;
  * 
  * @author 吴智俊
  */
-@Repository("jobTriggerDAO")
+@Repository
 public class JobTriggerDAO extends JpaDAO<Long, JobTrigger>{
-
 }

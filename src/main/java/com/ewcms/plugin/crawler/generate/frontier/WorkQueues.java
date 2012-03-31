@@ -123,6 +123,10 @@ public class WorkQueues {
 
 	public void put(WebURL url) throws DatabaseException {
 		byte[] keyData = Util.int2ByteArray(url.getDocid());
+		keyData[0] = url.getPriority();
+		keyData[1] = (url.getDepth() > Byte.MAX_VALUE ? Byte.MAX_VALUE : (byte) url.getDepth());
+		Util.putIntInByteArray(url.getDocid(), keyData, 2);
+
 		DatabaseEntry value = new DatabaseEntry();
 		webURLBinding.objectToEntry(url, value);
 		Transaction txn;

@@ -27,7 +27,9 @@ import javax.persistence.Table;
 @Table(name = "auth_authority")
 public class Authority implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = -8680793349779910408L;
+
+	@Id
     @Column(name = "name", length = 50 , nullable=false)
     private String name;
     

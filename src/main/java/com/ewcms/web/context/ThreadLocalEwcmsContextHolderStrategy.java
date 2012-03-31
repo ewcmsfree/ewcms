@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 /**
  */
 public class ThreadLocalEwcmsContextHolderStrategy implements EwcmsContextHolderStrategy {
-    private static ThreadLocal contextHolder = new ThreadLocal();
+    private static ThreadLocal<EwcmsContextable> contextHolder = new ThreadLocal<EwcmsContextable>();
 
     @Override
     public void clearContext() {

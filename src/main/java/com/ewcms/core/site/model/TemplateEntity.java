@@ -19,7 +19,10 @@ import javax.persistence.Table;
 @Table(name = "site_templateentity")
 @SequenceGenerator(name = "seq_site_templateentity", sequenceName = "seq_site_templateentity_id", allocationSize = 1)
 public class TemplateEntity implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = -5672007956313222294L;
+
+	@Id
     @GeneratedValue(generator = "seq_site_templateentity", strategy = GenerationType.SEQUENCE)
     private Integer id;
     

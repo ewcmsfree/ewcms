@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
@@ -121,7 +118,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		try {
 			siteFac.delTemplate(pk);
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 		}
 	}
 
@@ -163,7 +160,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 				return siteFac.addTemplate(getTemplateVo());
 			}
 		} catch (Exception e) {
-			this.outputInfo(e.toString());
+			//this.outputInfo(e.toString());
 			return null;
 		}
 	}
@@ -200,7 +197,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					}
 					siteFac.addTemplate(getTemplateVo());
 				} catch (Exception e) {
-					outputInfo(e.toString());
+					//outputInfo(e.toString());
 				}
 			}
 
@@ -211,6 +208,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		return INPUT;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void parseTemplateZIPFile() {
 		try {
 			ZipFile zfile = new ZipFile(templateFile);
@@ -218,7 +216,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Map<String, Integer> dirMap = new HashMap<String, Integer>();
 			ZipEntry ze = null;
 			String[] pathArr;
-			String pathKey, path;
+			String pathKey;
 			while (zList.hasMoreElements()) {
 				try {
 					ze = (ZipEntry) zList.nextElement();
@@ -250,12 +248,12 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					vo.setTemplateEntity(tplEntityVo);
 					siteFac.addTemplate(vo);
 				} catch (Exception e) {
-					outputInfo(e.toString());
+					//outputInfo(e.toString());
 				}
 			}
 			zfile.close();
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 		}
 	}
 
@@ -317,7 +315,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -337,7 +335,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Integer tplId = siteFac.addTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -353,7 +351,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			siteFac.updTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -366,7 +364,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			siteFac.delTemplate(getTemplateVo().getId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -385,7 +383,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			siteFac.updTemplate(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}

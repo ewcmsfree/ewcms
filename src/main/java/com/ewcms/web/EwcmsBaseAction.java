@@ -18,7 +18,9 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class EwcmsBaseAction extends ActionSupport{  
 	
-    /**
+	private static final long serialVersionUID = -5660770825409086565L;
+
+	/**
 	 * 信息输出处理
 	 * 
 	 * @deprecated 程序引入正常的日志

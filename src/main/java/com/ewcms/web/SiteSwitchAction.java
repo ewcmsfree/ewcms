@@ -24,7 +24,9 @@ import com.ewcms.web.vo.DataGrid;
 @Controller("siteswitch")
 public class SiteSwitchAction extends EwcmsBaseAction {
 
-    private Integer siteId;
+	private static final long serialVersionUID = 159117711535197625L;
+
+	private Integer siteId;
     private Integer page = 1;
     private Integer rows = 5;
     

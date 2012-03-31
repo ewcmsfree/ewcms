@@ -36,7 +36,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.user.detail.action")
 public class DetailAction extends ActionSupport{
     
-    private static final Logger logger = LoggerFactory.getLogger(DetailAction.class);
+	private static final long serialVersionUID = 1556999546233366888L;
+
+	private static final Logger logger = LoggerFactory.getLogger(DetailAction.class);
     private static final String Authority_User_Title = "权限";
     private static final String Group_User_Title = "用户组";
     

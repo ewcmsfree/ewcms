@@ -27,7 +27,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.group.group.action")
 public class GroupAction extends ActionSupport{
 
-    private static final String ADD_OPERATION = "add";
+	private static final long serialVersionUID = -1958310059415777344L;
+
+	private static final String ADD_OPERATION = "add";
     private static final String UPDATE_OPERATION = "update";
     
     private String name;

@@ -24,7 +24,9 @@ import com.ewcms.web.QueryBaseAction;
 @Controller("security.authority.query.action")
 public class QueryAction extends QueryBaseAction{
 
-    @Override
+	private static final long serialVersionUID = 6182383733607102447L;
+
+	@Override
     protected Resultable queryResult(QueryFactory queryFactory,String cacheKey, int rows,int page, Order order) {
         EntityQueryable query = 
             queryFactory.createEntityQuery(Authority.class)

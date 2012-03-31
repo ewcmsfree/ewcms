@@ -36,7 +36,9 @@ public class CrawlController extends Configurable {
 	private static final Logger logger = LoggerFactory.getLogger(CrawlController.class.getName());
 
 	private Map<String,Object> passingParameters;
+	
 	private Environment env;
+	
 	/**
 	 * The 'customData' object can be used for passing custom crawl-related
 	 * configurations to different components of the crawler.
@@ -67,9 +69,10 @@ public class CrawlController extends Configurable {
 
 	protected final Object waitingLock = new Object();
 
-	public CrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer, Map<String,Object> passingParameters) throws Exception {
+	public CrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer, Map<String,Object> passingParameters)
+			throws Exception {
 		super(config);
-		
+
 		setPassingParameters(passingParameters);
 		
 		config.validate();
@@ -111,8 +114,10 @@ public class CrawlController extends Configurable {
 	/**
 	 * Start the crawling session and wait for it to finish.
 	 * 
-	 * @param _c the class that implements the logic for crawler threads
-	 * @param numberOfCrawlers the number of concurrent threads that will be contributing in
+	 * @param _c
+	 *            the class that implements the logic for crawler threads
+	 * @param numberOfCrawlers
+	 *            the number of concurrent threads that will be contributing in
 	 *            this crawling session.
 	 */
 	public <T extends WebCrawler> void start(final Class<T> _c, final int numberOfCrawlers) {
@@ -122,8 +127,10 @@ public class CrawlController extends Configurable {
 	/**
 	 * Start the crawling session and return immediately.
 	 * 
-	 * @param _c the class that implements the logic for crawler threads
-	 * @param numberOfCrawlers the number of concurrent threads that will be contributing in
+	 * @param _c
+	 *            the class that implements the logic for crawler threads
+	 * @param numberOfCrawlers
+	 *            the number of concurrent threads that will be contributing in
 	 *            this crawling session.
 	 */
 	public <T extends WebCrawler> void startNonBlocking(final Class<T> _c, final int numberOfCrawlers) {
@@ -445,7 +452,7 @@ public class CrawlController extends Configurable {
 		this.shuttingDown = true;
 		frontier.finish();
 	}
-
+	
 	public Map<String, Object> getPassingParameters() {
 		return passingParameters;
 	}
@@ -453,5 +460,4 @@ public class CrawlController extends Configurable {
 	public void setPassingParameters(Map<String, Object> passingParameters) {
 		this.passingParameters = passingParameters;
 	}
-
 }

@@ -20,7 +20,9 @@ import org.springframework.security.web.WebAttributes;
 @Controller
 public class AccessDeniedAction extends ActionSupport{
 
-    private String errorDetails;
+	private static final long serialVersionUID = -4986067005613090040L;
+
+	private String errorDetails;
     private String errorTrace;
 
     public String getErrorDetails(){

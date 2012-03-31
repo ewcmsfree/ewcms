@@ -39,7 +39,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "auth_group")
 public class Group implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 8562816425925375600L;
+
+	@Id
     @Column(name = "name", length = 50, nullable=false)
     private String name;
 

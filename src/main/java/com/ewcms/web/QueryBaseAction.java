@@ -37,7 +37,9 @@ import com.ewcms.web.vo.DataGrid;
  */
 public abstract class QueryBaseAction extends EwcmsBaseAction {
 
-    private static final String ARRAY_SEPARATOR = ",";
+	private static final long serialVersionUID = -8950933231894294100L;
+
+	private static final String ARRAY_SEPARATOR = ",";
     private String cacheKey;
     private int page = 1;
     private int rows = 15;

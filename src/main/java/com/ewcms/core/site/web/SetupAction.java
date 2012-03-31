@@ -147,7 +147,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			siteFac.delSite(getSiteVo().getId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -208,7 +208,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			siteFac.updSite(vo);
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
-			this.outputInfo(e.toString());
+			//this.outputInfo(e.toString());
 			addActionMessage("数据保存失败！");
 		}
 		setSiteVo(siteFac.getSite(vo.getId()));
@@ -224,7 +224,7 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 			siteFac.saveSiteServer(vo);
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
-			this.outputInfo(e.toString());
+			//this.outputInfo(e.toString());
 			addActionMessage("数据保存失败！");
 		}
 		return INPUT;

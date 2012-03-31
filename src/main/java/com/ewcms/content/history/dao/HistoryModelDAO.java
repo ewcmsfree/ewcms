@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -24,9 +20,8 @@ import com.ewcms.content.history.model.HistoryModel;
  */
 @Service
 public class HistoryModelDAO extends JpaDAO<Long, HistoryModel> {
-	@SuppressWarnings("unchecked")
-	public List<HistoryModel> findByHistoryModel(String className,
-			String idName, String idValue, Date startDate, Date endDate) {
+	
+	public List<HistoryModel> findByHistoryModel(final String className, final String idName, final String idValue, final Date startDate, final Date endDate) {
 		String hql = "From HistoryModel h Where h.className=? And h.idName=? And h.idValue=? ";
 		if (startDate != null) {
 			hql += " And h.createDate>=? ";
@@ -38,30 +33,20 @@ public class HistoryModelDAO extends JpaDAO<Long, HistoryModel> {
 
 		List<HistoryModel> list = new ArrayList<HistoryModel>();
 		if (startDate != null && endDate != null) {
-			list = this.getJpaTemplate().find(hql, className, idName, idValue,
-					startDate, endDate);
+			list = this.getEntityManager().createQuery(hql, HistoryModel.class).setParameter(1, className).setParameter(2, idName).setParameter(3, idValue).setParameter(4, startDate).setParameter(5, endDate).getResultList();
 		} else if (startDate != null && endDate == null) {
-			list = this.getJpaTemplate().find(hql, className, idName, idValue,
-					startDate);
+			list = this.getEntityManager().createQuery(hql, HistoryModel.class).setParameter(1, className).setParameter(2, idName).setParameter(3, idValue).setParameter(4, startDate).getResultList();
 		} else if (startDate == null && endDate != null) {
-			list = this.getJpaTemplate().find(hql, className, idName, idValue,
-					endDate);
+			list = this.getEntityManager().createQuery(hql, HistoryModel.class).setParameter(1, className).setParameter(2, idName).setParameter(3, idValue).setParameter(4, endDate).getResultList();
 		} else {
-			list = this.getJpaTemplate().find(hql, className, idName, idValue);
+			list = this.getEntityManager().createQuery(hql, HistoryModel.class).setParameter(1, className).setParameter(2, idName).setParameter(3, idValue).getResultList();
 		}
-		if (list.isEmpty())
-			return new ArrayList<HistoryModel>();
+		if (list.isEmpty()) return new ArrayList<HistoryModel>();
 		return list;
 	}
 
 	public void deleteHistoryModelByBeforeDate(final Date createDate) {
-		getJpaTemplate().execute(new JpaCallback<Object>() {
-			@Override
-			public Object doInJpa(EntityManager em) throws PersistenceException {
-				String hql = "Delete HistoryModel h Where h.createDate<=?";
-				em.createQuery(hql).setParameter(1, createDate).executeUpdate();
-				return null;
-			}
-		});
+		String hql = "Delete HistoryModel h Where h.createDate<=?";
+		this.getEntityManager().createQuery(hql).setParameter(1, createDate).executeUpdate();
 	}
 }

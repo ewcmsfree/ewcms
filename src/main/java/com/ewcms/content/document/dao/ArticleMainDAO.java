@@ -6,10 +6,12 @@
 
 package com.ewcms.content.document.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -26,88 +28,122 @@ import com.ewcms.content.document.model.Article.Status;
 @Repository
 public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
 	
-	@SuppressWarnings("unchecked")
-	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId){
-    	String hql = "FROM ArticleMain AS r WHERE r.id=? And r.channelId=?";
-    	List<ArticleMain> list = this.getJpaTemplate().find(hql, articleMainId, channelId);
-    	if (list.isEmpty()) return null;
-    	return list.get(0);
+	public ArticleMain findArticleMainByArticleMainAndChannel(final Long articleMainId, final Integer channelId){
+		String hql = "FROM ArticleMain AS r WHERE r.id=:articleMainId And r.channelId=:channelId";
+
+		TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+		query.setParameter("articleMainId", articleMainId);
+		query.setParameter("channelId", channelId);
+
+		ArticleMain articleMain = null;
+		try{
+			articleMain = (ArticleMain)query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return articleMain;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<ArticleMain> findArticleMainByChannel(Integer channelId){
-		String hql = "Select r FROM ArticleMain AS r WHERE r.channelId=? Order By r.sort";
-		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty()) return new ArrayList<ArticleMain>();
-		return list;
+	public List<ArticleMain> findArticleMainByChannel(final Integer channelId){
+		String hql = "Select r FROM ArticleMain AS r WHERE r.channelId=:channelId Order By r.sort";
+
+		TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+		query.setParameter("channelId", channelId);
+
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ArticleMain findArticleMainByChannelAndEqualSort(Integer channelId, Long sort, Boolean top){
-		String hql = "Select c From ArticleMain c Left Join c.article o Where c.channelId=? And c.sort=? And c.top=? Order By c.sort";
-		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, sort, top);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public ArticleMain findArticleMainByChannelAndEqualSort(final Integer channelId, final Long sort, final Boolean top){
+		String hql = "Select c From ArticleMain c Left Join c.article o Where c.channelId=:channelId And c.sort=:sort And c.top=:top Order By c.sort";
+
+		TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+		query.setParameter("channelId", channelId);
+		query.setParameter("sort", sort);
+		query.setParameter("top", top);
+
+		ArticleMain articleMain = null;
+		try{
+			articleMain = (ArticleMain)query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		
+		return articleMain;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<ArticleMain> findArticleMainByChannelAndThanSort(Integer channelId, Long sort, Boolean top){
-		String hql = "Select c From ArticleMain c Left Join c.article o Where c.channelId=? And c.sort>=? And c.top=? Order By c.sort";
-		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, sort, top);
-		if (list.isEmpty()) return new ArrayList<ArticleMain>();
-		return list;
+	public List<ArticleMain> findArticleMainByChannelAndThanSort(final Integer channelId, final Long sort, final Boolean top){
+		String hql = "Select c From ArticleMain c Left Join c.article o Where c.channelId=:channelId And c.sort>=:sort And c.top=:top Order By c.sort";
+
+		TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+		query.setParameter("channelId", channelId);
+		query.setParameter("sort", sort);
+		query.setParameter("top", top);
+
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<ArticleMain> findArticleMainByChannelIdAndUserName(Integer channelId, String userName){
-		String hql = "Select m From ArticleMain As m Left Join m.article As a Where m.channelId=? And a.owner=?";
-		List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, userName);
-		if (list.isEmpty()) return new ArrayList<ArticleMain>();
-		return list;
+	public List<ArticleMain> findArticleMainByChannelIdAndUserName(final Integer channelId, final String userName){
+		String hql = "Select m From ArticleMain As m Left Join m.article As a Where m.channelId=:channelId And a.owner=:owner";
+
+		TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+		query.setParameter("channelId", channelId);
+		query.setParameter("owner", userName);
+
+		return query.getResultList();
 	}
 	
-    @SuppressWarnings("unchecked")
-	public Boolean findArticleIsEntityByArticleAndCategory(Long articleId, Long categoryId){
-    	String hql = "Select a From Article As a Left Join a.categories As c Where a.id=? And c.id=?";
-    	List<Article> list = this.getJpaTemplate().find(hql, articleId, categoryId);
-    	if (list.isEmpty()) return false;
-    	return true;
+	public Boolean findArticleIsEntityByArticleAndCategory(final Long articleId, final Long categoryId){
+    	String hql = "Select a From Article As a Left Join a.categories As c Where a.id=:articleId And c.id=:categoryId";
+
+    	TypedQuery<Article> query = this.getEntityManager().createQuery(hql, Article.class);
+    	query.setParameter("articleId", articleId);
+    	query.setParameter("categoryId", categoryId);
+
+    	List<Article> list = query.getResultList();
+    	return list.isEmpty()? false : true;
     }
     
-    @SuppressWarnings("unchecked")
-	public Map<Integer, Long> findBeApprovalArticleMain(String userName, List<String> groupNames){
+	public Map<Integer, Long> findBeApprovalArticleMain(final String userName, final List<String> groupNames){
     	Map<Integer, Long> map = new HashMap<Integer, Long>();
-    	String hql = "Select o.channelId, Count(o) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where r.delete=false And r.status=? And (u.userName=? ";
-    	if (groupNames != null && !groupNames.isEmpty()){
-    		for (String groupName : groupNames)
-    			hql += " Or g.groupName='" + groupName + "' ";
-    	}
-    	hql += ") Group By o.channelId ";
-    	List<Object> list = this.getJpaTemplate().find(hql, Status.REVIEW, userName);
-    	for (int i=0; i < list.size(); i++){
-    		Object[] obj = (Object[])list.get(i);
-    		Integer channelId = (Integer)obj[0];
-    		Long count = (Long)obj[1];
-    		if (count > 0){
-    			map.put(channelId, count);
-    		}
-    	}
-    	return map;
+        String hql = "Select o.channelId, Count(o) From ArticleMain As o Left Join o.article AS r Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g Where r.delete=false And r.status=:status And (u.userName=:userName ";
+        if (groupNames != null && !groupNames.isEmpty()){
+        	for (String groupName : groupNames)
+        		hql += " Or g.groupName='" + groupName + "' ";
+        }
+        hql += ") Group By o.channelId "; 
+        
+        TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+        query.setParameter("status", Status.REVIEW);
+        query.setParameter("userName", userName);
+        
+        List<Object[]> results = query.getResultList();
+        for (Object[] result : results) {
+        	Integer channelId = (Integer)result[0];
+            Long count = (Long)result[1];
+            if (count > 0){
+            	map.put(channelId, count);
+            }
+        }
+        return map;
     }
     
-    @SuppressWarnings("unchecked")
-	public Boolean findArticleTitleIsEntityByCrawler(String title, Integer channelId, String userName){
-    	String hql = "Select o From ArticleMain c Left Join c.article o Where o.title=? And c.channelId=? And o.owner=? And c.reference=false";
-    	List<Article> list = this.getJpaTemplate().find(hql, title, channelId, userName);
-    	if (list.isEmpty()) return false;
-    	return true;
+	public Boolean findArticleTitleIsEntityByCrawler(final String title, final Integer channelId, final String userName){
+    	String hql = "Select o From ArticleMain c Left Join c.article o Where o.title=:title And c.channelId=:channelId And o.owner=:owner And c.reference=false";
+
+    	TypedQuery<Article> query = this.getEntityManager().createQuery(hql, Article.class);
+    	query.setParameter("title", title);
+    	query.setParameter("channelId", channelId);
+    	query.setParameter("owner", userName);
+
+    	List<Article> list = query.getResultList();
+    	return list.isEmpty() ? false : true;
     }
     
-    @SuppressWarnings("unchecked")
-	public Long findArticleMainCountByCrawler(Integer channelId, String userName){
-    	String hql = "Select Count(c.id) From ArticleMain As c Left Join c.article As o Where c.channelId=? And o.owner=? And c.reference=false";
-    	List<Long> list = this.getJpaTemplate().find(hql, channelId,  userName);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0);
+	public Long findArticleMainCountByCrawler(final Integer channelId, final String userName){
+    	String hql = "Select Count(c.id) From ArticleMain As c Left Join c.article As o Where c.channelId=:channelId And o.owner=:owner And c.reference=false";
+
+    	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+    	query.setParameter("channelId", channelId);
+    	query.setParameter("owner", userName);
+
+    	return query.getSingleResult();
     }
 }

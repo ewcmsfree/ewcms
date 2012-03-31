@@ -26,7 +26,10 @@ import javax.persistence.Table;
 @Table(name = "site_channelentity")
 @SequenceGenerator(name = "seq_site_channelentity", sequenceName = "seq_site_channelentity_id", allocationSize = 1)
 public class ChannelEntity implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = 4288841351358330546L;
+
+	@Id
     @GeneratedValue(generator = "seq_site_channelentity", strategy = GenerationType.SEQUENCE)
     private Integer id;
     

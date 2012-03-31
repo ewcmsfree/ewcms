@@ -6,13 +6,11 @@
 
 package com.ewcms.plugin.message.manager.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -27,39 +25,50 @@ import com.ewcms.plugin.message.model.MsgSend.Type;
 @Repository
 public class MsgSendDAO extends JpaDAO<Long, MsgSend> {
 	
-	@SuppressWarnings("unchecked")
-	public List<MsgSend> findMsgSendByUserName(String userName){
-		String hql = "Select s From MsgSend As s Left Join s.msgReceiveUsers As u Where u.userName=?";
-    	List<MsgSend> list = this.getJpaTemplate().find(hql, userName);
-    	if (list.isEmpty()) return new ArrayList<MsgSend>();
-    	return list;
+	public List<MsgSend> findMsgSendByUserName(final String userName){
+		String hql = "Select s From MsgSend As s Left Join s.msgReceiveUsers As u Where u.userName=:userName";
+		
+		TypedQuery<MsgSend> query = this.getEntityManager().createQuery(hql, MsgSend.class);
+		query.setParameter("userName", userName);
+		
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public MsgSend findMsgSendByUserNameAndId(String userName, Long msgSendId){
-		String hql = "From MsgSend As s Where s.userName=? And s.id=?";
-    	List<MsgSend> list = this.getJpaTemplate().find(hql, userName, msgSendId);
-    	if (list.isEmpty()) return null;
-    	return list.get(0);
+	public MsgSend findMsgSendByUserNameAndId(final String userName, final Long msgSendId){
+		String hql = "From MsgSend As s Where s.userName=:userName And s.id=:msgSendId";
+		
+		TypedQuery<MsgSend> query = this.getEntityManager().createQuery(hql, MsgSend.class);
+		query.setParameter("userName", userName);
+		query.setParameter("msgSendId", msgSendId);
+		
+		MsgSend msgSend = null;
+		try{
+			msgSend = (MsgSend) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		
+		return msgSend;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<MsgSend> findMsgSendByType(final Type type, final Integer row){
-		Object result = this.getJpaTemplate().execute(new JpaCallback<Object>(){
-			@Override
-			public Object doInJpa(EntityManager em) throws PersistenceException {
-				String hql = "From MsgSend As s Where s.type=? Order By s.sendTime Desc";
-				return em.createQuery(hql).setParameter(1, type).setMaxResults(row).getResultList();
-			}
-    	});
-    	return (List<MsgSend>)result;	
+		String hql = "From MsgSend As s Where s.type=:type Order By s.sendTime Desc";
+		
+		TypedQuery<MsgSend> query = this.getEntityManager().createQuery(hql, MsgSend.class);
+		query.setParameter("type", type);
+		query.setMaxResults(row);
+		
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Boolean findUserHaveSubscribedByUserName(Long msgSendId, String userName){
-		String hql = "Select s From MsgSend As s Left Join s.msgReceiveUsers As u Where s.id=? And u.userName=? And s.type=?";
-		List<MsgSend> list = this.getJpaTemplate().find(hql, msgSendId, userName, Type.SUBSCRIPTION);
-    	if (list.isEmpty()) return false;
-    	return true;
+	public Boolean findUserHaveSubscribedByUserName(final Long msgSendId, final String userName){
+		String hql = "Select s From MsgSend As s Left Join s.msgReceiveUsers As u Where s.id=:msgSendId And u.userName=:userName And s.type=:type";
+		
+		TypedQuery<MsgSend> query = this.getEntityManager().createQuery(hql, MsgSend.class);
+		query.setParameter("msgSendId", msgSendId);
+		query.setParameter("userName", userName);
+		query.setParameter("type", Type.SUBSCRIPTION);
+		
+		List<MsgSend> list = query.getResultList();
+		return list.isEmpty()? false : true;
 	}
 }

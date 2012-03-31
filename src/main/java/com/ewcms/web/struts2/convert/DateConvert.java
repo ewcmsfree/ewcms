@@ -30,6 +30,7 @@ public class DateConvert extends DefaultTypeConverter {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object convertValue(Map ognlContext, Object value, Class toType) {
 		Object result = null;
 		if (toType == Date.class) {

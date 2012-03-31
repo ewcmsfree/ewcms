@@ -8,6 +8,9 @@ package com.ewcms.content.document.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -23,75 +26,111 @@ import com.ewcms.content.document.model.ReviewProcess;
 @Repository
 public class ReviewProcessDAO extends JpaDAO<Long, ReviewProcess> {
 	
-	@SuppressWarnings("unchecked")
-	public Long findReviewProcessCountByChannel(Integer channelId){
-		String hql = "Select Count(p.id) From ReviewProcess As p Where p.channelId=?";
-		List<Long> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty()) return 0L;
-		return list.get(0);
+	public Long findReviewProcessCountByChannel(final Integer channelId){
+		String hql = "Select Count(p.id) From ReviewProcess As p Where p.channelId=:channelId";
+
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("channelId", channelId);
+		
+		return query.getSingleResult();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<ReviewProcess> findReviewProcessByChannel(Integer channelId){
-		String hql = "From ReviewProcess As p Where p.channelId=?";
-		List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty()) return null;
-		return list;
+	public List<ReviewProcess> findReviewProcessByChannel(final Integer channelId){
+		String hql = "From ReviewProcess As p Where p.channelId=:channelId";
+
+		TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+		query.setParameter(1, channelId);
+
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ReviewProcess findReviewProcessByIdAndChannel(Long id, Integer channelId){
-		String hql = "From ReviewProcess As p Where p.id=? And p.channelId=?";
-		List<ReviewProcess> list = this.getJpaTemplate().find(hql, id, channelId);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public ReviewProcess findReviewProcessByIdAndChannel(final Long reviewProcessid, final Integer channelId){
+		String hql = "From ReviewProcess As p Where p.id=:reviewProcessid And p.channelId=:channelId";
+
+		TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+		query.setParameter("reviewProcessid", reviewProcessid);
+		query.setParameter("channelId", channelId);
+
+		ReviewProcess reviewProcess = null;
+		try{
+			reviewProcess = (ReviewProcess) query.getSingleResult();
+		}catch (NoResultException e){
+		}
+		return reviewProcess;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ReviewProcess findLastReviewProcessByChannel(Integer channelId){
-		String hql = "From ReviewProcess As p Where p.channelId=? And p.nextProcess Is Null";
-		List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public ReviewProcess findLastReviewProcessByChannel(final Integer channelId){
+		String hql = "From ReviewProcess As p Where p.channelId=:channelId And p.nextProcess Is Null";
+
+		TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+		query.setParameter("channelId", channelId);
+
+		ReviewProcess reviewProcess = null;
+		try{
+			reviewProcess = (ReviewProcess) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return reviewProcess;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ReviewProcess findFirstReviewProcessByChannel(Integer channelId){
-		String hql = "From ReviewProcess As p Where p.channelId=? And p.prevProcess Is Null";
-		List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public ReviewProcess findFirstReviewProcessByChannel(final Integer channelId){
+		String hql = "From ReviewProcess As p Where p.channelId=:channelId And p.prevProcess Is Null";
+
+		TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+		query.setParameter("channelId", channelId);
+
+		ReviewProcess reviewProcess = null;
+		try{
+			reviewProcess = (ReviewProcess) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return reviewProcess;
 	}
 	
-    @SuppressWarnings("unchecked")
-	public Boolean findReviewUserIsEntityByProcessIdAndUserName(Long reviewProcessId, String userName){
-    	String hql = "Select p From ReviewProcess As p Left Join p.reviewUsers As u Where p.id=? And u.userName=?";
-    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, reviewProcessId, userName);
-    	if (list.isEmpty()) return false;
-    	return true;
+	public Boolean findReviewUserIsEntityByProcessIdAndUserName(final Long reviewProcessId, final String userName){
+    	String hql = "Select p From ReviewProcess As p Left Join p.reviewUsers As u Where p.id=:reviewProcessId And u.userName=:userName";
+
+    	TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+    	query.setParameter("reviewProcessId", reviewProcessId);
+    	query.setParameter("userName", userName);
+
+    	List<ReviewProcess> list = query.getResultList();
+    	return list.isEmpty() ? false : true;
     }
 
-    @SuppressWarnings("unchecked")
-	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(Long reviewProcessId, String goupName){
-    	String hql = "Select p From ReviewProcess As p Left Join p.reviewGroups As g Where p.id=? And g.groupName=?";
-    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, reviewProcessId, goupName);
-    	if (list.isEmpty()) return false;
-    	return true;
+	public Boolean findReviewGroupIsEntityByProcessIdAndUserName(final Long reviewProcessId, final String groupName){
+    	String hql = "Select p From ReviewProcess As p Left Join p.reviewGroups As g Where p.id=:reviewProcessId And g.groupName=:groupName";
+
+    	TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+    	query.setParameter("reviewProcessId", reviewProcessId);
+    	query.setParameter("groupName", groupName);
+
+    	List<ReviewProcess> list = query.getResultList();
+    	return list.isEmpty() ? false : true;
     }
 
-    @SuppressWarnings("unchecked")
-	public ReviewProcess findIsEntityReviewProcessByChannelAndName(Integer channelId, String name){
-    	String hql = "From ReviewProcess As p Where p.channelId=? And p.name=?";
-    	List<ReviewProcess> list = this.getJpaTemplate().find(hql, channelId, name);
-    	if (list.isEmpty()) return null;
-    	return list.get(0);
+	public ReviewProcess findIsEntityReviewProcessByChannelAndName(final Integer channelId, final String name){
+    	String hql = "From ReviewProcess As p Where p.channelId=:channelId And p.name=:name";
+
+    	TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
+    	query.setParameter("channelId", channelId);
+    	query.setParameter("name", name);
+
+    	ReviewProcess reviewProcess = null;
+    	try{
+    		reviewProcess = (ReviewProcess) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	return reviewProcess;
     }
     
-    @SuppressWarnings("unchecked")
-	public List<ArticleMain> findArticleMainByReviewProcess(Integer channelId, Long reviewProcessId){
-    	String hql = "Select m From ArticleMain As m Left Join m.article As a Left Join a.reviewProcess As r Where m.channelId=? And r.id=? And m.reference=false";
-    	List<ArticleMain> list = this.getJpaTemplate().find(hql, channelId, reviewProcessId);
-    	if (list.isEmpty()) return null;
-    	return list;
+	public List<ArticleMain> findArticleMainByReviewProcess(final Integer channelId, final Long reviewProcessId){
+    	String hql = "Select m From ArticleMain As m Left Join m.article As a Left Join a.reviewProcess As r Where m.channelId=:channelId And r.id=:reviewProcessId And m.reference=false";
+
+    	TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+    	query.setParameter("channelId", channelId);
+    	query.setParameter("reviewProcessId", reviewProcessId);
+
+    	return query.getResultList();
     }
 }

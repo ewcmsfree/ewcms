@@ -6,7 +6,8 @@
 
 package com.ewcms.scheduling.manager.dao;
 
-import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +19,21 @@ import com.ewcms.scheduling.model.JobClass;
  * 
  * @author 吴智俊
  */
-@Repository("jobClassDAO")
+@Repository
 public class JobClassDAO extends JpaDAO<Long, JobClass> {
-	@SuppressWarnings("unchecked")
-	public JobClass findByJobClassByClassEntity(String classEntity) {
-		String hql = "From JobClass o Where o.classEntity=?";
-		List<JobClass> list = this.getJpaTemplate().find(hql, classEntity);
-		if (list.isEmpty())
-			return new JobClass();
-		return list.get(0);
+
+	public JobClass findByJobClassByClassEntity(final String classEntity) {
+		String hql = "From JobClass o Where o.classEntity=:classEntity";
+		
+		TypedQuery<JobClass> query = this.getEntityManager().createQuery(hql, JobClass.class);
+		query.setParameter("classEntity", classEntity);
+
+		JobClass jobClass = null;
+		try{
+			jobClass = (JobClass) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		
+		return jobClass;
 	}
 }

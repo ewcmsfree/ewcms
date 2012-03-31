@@ -24,7 +24,9 @@ import com.ewcms.web.context.EwcmsContextHolder;
 @Controller("home")
 public class HomeAction extends EwcmsBaseAction {
     
-    private Integer siteId;
+	private static final long serialVersionUID = -1585813168152878468L;
+
+	private Integer siteId;
     private String siteName;
     private String realName;
     private String userName;

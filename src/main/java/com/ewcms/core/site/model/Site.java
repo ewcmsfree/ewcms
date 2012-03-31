@@ -51,7 +51,10 @@ import org.hibernate.annotations.Formula;
 @Table(name = "site_site")
 @SequenceGenerator(name = "seq_site", sequenceName = "seq_site_id", allocationSize = 1)
 public class Site implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = -53151561901976248L;
+	
+	@Id
     @GeneratedValue(generator = "seq_site", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(length = 100)

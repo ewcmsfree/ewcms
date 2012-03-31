@@ -140,7 +140,7 @@ public class ServletUtil {
 	 * 
 	 * 返回的结果Parameter名已去除前缀.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map getParametersStartingWith(HttpServletRequest request, String prefix) {
 		Enumeration paramNames = request.getParameterNames();
 		Map params = new TreeMap();

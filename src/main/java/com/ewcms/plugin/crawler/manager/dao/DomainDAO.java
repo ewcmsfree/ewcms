@@ -7,6 +7,9 @@ package com.ewcms.plugin.crawler.manager.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -19,27 +22,43 @@ import com.ewcms.plugin.crawler.model.Domain;
  */
 @Repository
 public class DomainDAO extends JpaDAO<Long, Domain> {
-	@SuppressWarnings("unchecked")
-	public Domain findDomainById(Long domainId){
-		String hql = "From Domain As d Where d.id=?";
-		List<Domain> list = this.getJpaTemplate().find(hql, domainId);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	
+	public Domain findDomainById(final Long domainId){
+		String hql = "From Domain As d Where d.id=:domainId";
+		
+		TypedQuery<Domain> query = this.getEntityManager().createQuery(hql, Domain.class);
+		query.setParameter("domainId", domainId);
+		
+		Domain domain = null;
+		try{
+			domain = (Domain)query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return domain;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Long findMaxDomainByGatherId(Long gatherId){
-		String hql = "Select Max(u.level) From Gather As g Left Join g.domains As u Where g.id=?";
-    	List<Long> list = this.getJpaTemplate().find(hql, gatherId);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0) == null ? 0L : list.get(0);
+	public Long findMaxDomainByGatherId(final Long gatherId){
+		String hql = "Select Max(u.level) From Gather As g Left Join g.domains As u Where g.id=:gatherId";
+		
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("gatherId", gatherId);
+		
+		Long maxLevel = 0L;
+		try{
+			maxLevel = (Long) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return maxLevel;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Boolean findDomainUniqueUrlByGatherId(Long gatherId, String url){
-		String hql = "Select u From Gather As g Right Join g.domains As u Where g.id=? And u.url=?";
-		List<Domain> list = this.getJpaTemplate().find(hql, gatherId, url);
-		if (list.isEmpty()) return true;
-		return false;
+	public Boolean findDomainUniqueUrlByGatherId(final Long gatherId, final String url){
+		String hql = "Select u From Gather As g Right Join g.domains As u Where g.id=:gatherId And u.url=:url";
+		
+		TypedQuery<Domain> query = this.getEntityManager().createQuery(hql, Domain.class);
+		query.setParameter("gatherId", gatherId);
+		query.setParameter("url", url);
+		
+		List<Domain> list = query.getResultList();
+		return list.isEmpty() ? false : true;
 	}
 }

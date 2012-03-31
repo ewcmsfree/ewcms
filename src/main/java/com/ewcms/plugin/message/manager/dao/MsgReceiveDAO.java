@@ -6,8 +6,10 @@
 
 package com.ewcms.plugin.message.manager.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,35 +24,45 @@ import com.ewcms.plugin.message.model.MsgReceive;
 @Repository
 public class MsgReceiveDAO extends JpaDAO<Long, MsgReceive> {
 	
-	@SuppressWarnings("unchecked")
-	public List<MsgReceive> findMsgReceiveByUserName(String userName){
-		String hql = "From MsgReceive As r Where r.userName=?";
-    	List<MsgReceive> list = this.getJpaTemplate().find(hql, userName);
-    	if (list.isEmpty()) return new ArrayList<MsgReceive>();
-    	return list;
+	public List<MsgReceive> findMsgReceiveByUserName(final String userName){
+		String hql = "From MsgReceive As r Where r.userName=:userName";
+		
+		TypedQuery<MsgReceive> query = this.getEntityManager().createQuery(hql, MsgReceive.class);
+		query.setParameter("userName", userName);
+		
+		return query.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
-	public MsgReceive findMsgReceiveByUserNameAndId(String userName, Long msgReceiveId){
-		String hql = "From MsgReceive As r Where r.userName=? And r.id=?";
-    	List<MsgReceive> list = this.getJpaTemplate().find(hql, userName, msgReceiveId);
-    	if (list.isEmpty()) return new MsgReceive();
-    	return list.get(0);
+	public MsgReceive findMsgReceiveByUserNameAndId(final String userName, final Long msgReceiveId){
+		String hql = "From MsgReceive As r Where r.userName=:userName And r.id=:msgReceiveId";
+		
+		TypedQuery<MsgReceive> query = this.getEntityManager().createQuery(hql, MsgReceive.class);
+		query.setParameter("userName", userName);
+		query.setParameter("msgReceiveId", msgReceiveId);
+		
+		MsgReceive msgReceive = null;
+		try{
+			msgReceive = (MsgReceive) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return msgReceive;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<MsgReceive> findMsgReceiveByUserNameAndUnRead(String userName){
-		String hql = "From MsgReceive As r Where r.userName=? And r.read=false Order By r.id Desc";
-		List<MsgReceive> list = this.getJpaTemplate().find(hql, userName);
-    	if (list.isEmpty()) return new ArrayList<MsgReceive>();
-    	return list;
+	public List<MsgReceive> findMsgReceiveByUserNameAndUnRead(final String userName){
+		String hql = "From MsgReceive As r Where r.userName=:userName And r.read=false Order By r.id Desc";
+		
+		TypedQuery<MsgReceive> query = this.getEntityManager().createQuery(hql, MsgReceive.class);
+		query.setParameter("userName", userName);
+		
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Long findUnReadMessageCountByUserName(String userName){
-		String hql = "Select Count(r.id) From MsgReceive As r Where r.userName=? And r.read=false";
-		List<Long> list = this.getJpaTemplate().find(hql, userName);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0);
+	public Long findUnReadMessageCountByUserName(final String userName){
+		String hql = "Select Count(r.id) From MsgReceive As r Where r.userName=:userName And r.read=false";
+		
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("userName", userName);
+		
+		return query.getSingleResult();
 	}
 }

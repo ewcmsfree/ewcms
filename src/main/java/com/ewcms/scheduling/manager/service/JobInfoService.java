@@ -18,7 +18,7 @@ import com.ewcms.scheduling.model.JobInfo;
 /**
  * @author 吴智俊
  */
-@Service("jobInfoService")
+@Service
 public class JobInfoService implements JobInfoServiceable {
 	
 	@Autowired

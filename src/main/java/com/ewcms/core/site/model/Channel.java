@@ -47,6 +47,9 @@ import org.hibernate.annotations.Formula;
 @Table(name = "site_channel")
 @SequenceGenerator(name = "seq_site_channel", sequenceName = "seq_site_channel_id", allocationSize = 1)
 public class Channel implements Serializable {
+	
+	private static final long serialVersionUID = 7813916065025966481L;
+	
 	private static final String PATH_SEPARATOR = "/";
 	@Id
 	@GeneratedValue(generator = "seq_site_channel", strategy = GenerationType.SEQUENCE)

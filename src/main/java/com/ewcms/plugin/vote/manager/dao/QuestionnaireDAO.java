@@ -6,7 +6,8 @@
 
 package com.ewcms.plugin.vote.manager.dao;
 
-import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,19 +21,28 @@ import com.ewcms.plugin.vote.model.Questionnaire;
  */
 @Repository
 public class QuestionnaireDAO extends JpaDAO<Long, Questionnaire> {
-	@SuppressWarnings("unchecked")
-	public Long findQuestionnaireMaxSort(Integer channelId){
-    	String hql = "Select Max(q.sort) FROM Questionnaire AS q Where q.channelId=?";
-    	List<Long> list = this.getJpaTemplate().find(hql, channelId);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0) == null ? 0L : list.get(0);
+	
+	public Long findQuestionnaireMaxSort(final Integer channelId){
+    	String hql = "Select Max(q.sort) FROM Questionnaire AS q Where q.channelId=:channelId";
+    	
+    	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+    	query.setParameter("channelId", channelId);
+    	
+    	Long maxSort = 0L;
+    	try{
+    		maxSort = (Long) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	
+    	return maxSort;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Long findPersonCount(Long questionnaireId){
-		String hql = "Select Count(p.id) From Person p Where p.questionnaireId=?";
-		List<Long> list = this.getJpaTemplate().find(hql, questionnaireId);
-		if (list.isEmpty()) return 0L;
-		return list.get(0);
+	public Long findPersonCount(final Long questionnaireId){
+		String hql = "Select Count(p.id) From Person p Where p.questionnaireId=:questionnaireId";
+		
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("questionnaireId", questionnaireId);
+		
+		return query.getSingleResult();
 	}
 }

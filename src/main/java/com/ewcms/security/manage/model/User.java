@@ -43,7 +43,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "auth_user")
 public class User implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 8166592379678954592L;
+
+	@Id
     @Column(length = 20, nullable = false)
     private String username;
 

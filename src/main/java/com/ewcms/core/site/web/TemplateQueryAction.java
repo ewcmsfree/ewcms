@@ -23,6 +23,8 @@ import com.ewcms.web.QueryBaseAction;
 @Controller("template.query")
 public class TemplateQueryAction extends QueryBaseAction {
 
+	private static final long serialVersionUID = 6314025295072345366L;
+
 	@Override
 	protected Resultable queryResult(
 			com.ewcms.common.query.jpa.QueryFactory queryFactory,

@@ -15,6 +15,9 @@ import java.util.Map;
  *
  */
 public class TreeNode implements Serializable {
+
+	private static final long serialVersionUID = 6652145500923857612L;
+	
 	private String id;
 	private String text;
 	private Boolean checked = false;

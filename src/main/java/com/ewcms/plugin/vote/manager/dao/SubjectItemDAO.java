@@ -6,7 +6,8 @@
 
 package com.ewcms.plugin.vote.manager.dao;
 
-import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,27 +23,48 @@ import com.ewcms.plugin.vote.model.SubjectItem;
 @Repository
 public class SubjectItemDAO extends JpaDAO<Long, SubjectItem> {
 	
-	@SuppressWarnings("unchecked")
-	public Long findSubjectItemMaxSort(Long subjectId){
-    	String hql = "Select Max(i.sort) FROM Subject As s Right Join s.subjectItems As i Where s.id=?";
-    	List<Long> list = this.getJpaTemplate().find(hql, subjectId);
-    	if (list.isEmpty()) return 0L;
-    	return list.get(0) == null ? 0L : list.get(0);
+	public Long findSubjectItemMaxSort(final Long subjectId){
+    	String hql = "Select Max(i.sort) FROM Subject As s Right Join s.subjectItems As i Where s.id=:subjectId";
+    	
+    	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+    	query.setParameter("subjectId", subjectId);
+    	
+    	Long maxSort = 0L;
+    	try{
+    		maxSort = (Long) query.getSingleResult();
+    	}catch(NoResultException e){
+    	}
+    	
+    	return maxSort;
 	}
 
-	@SuppressWarnings("unchecked")
-	public SubjectItem findSubjectItemBySubjectAndInputStatus(Long subjectId){
-		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=? And s.subjectStatus=?";
-		List<SubjectItem> list = this.getJpaTemplate().find(hql, subjectId, Subject.Status.INPUT);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public SubjectItem findSubjectItemBySubjectAndInputStatus(final Long subjectId){
+		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=:subjectId And s.subjectStatus=subjectStatus";
+		
+		TypedQuery<SubjectItem> query = this.getEntityManager().createQuery(hql, SubjectItem.class);
+		query.setParameter("subjectId", subjectId);
+		query.setParameter("subjectStatus", Subject.Status.INPUT);
+		
+		SubjectItem subjectItem = null;
+		try{
+			subjectItem = (SubjectItem) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return subjectItem;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public SubjectItem findSubjectItemBySort(Long subjectId, Long sort){
-		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=? And i.sort=?";
-		List<SubjectItem> list = this.getJpaTemplate().find(hql, subjectId, sort);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public SubjectItem findSubjectItemBySort(final Long subjectId, final Long sort){
+		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=:subjectId And i.sort=:sort";
+		
+		TypedQuery<SubjectItem> query = this.getEntityManager().createQuery(hql, SubjectItem.class);
+		query.setParameter("subjectId", subjectId);
+		query.setParameter("sort", sort);
+		
+		SubjectItem subjectItem = null;
+		try{
+			subjectItem = (SubjectItem) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return subjectItem;
 	}
 }

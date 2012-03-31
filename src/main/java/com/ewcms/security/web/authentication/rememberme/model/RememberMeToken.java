@@ -29,7 +29,9 @@ import javax.persistence.TemporalType;
 @Table(name="auth_persistent_logins")
 public class RememberMeToken implements Serializable{
     
-    @Id
+	private static final long serialVersionUID = -3080242407024075456L;
+
+	@Id
     private String id;
     @Column(nullable=false,length=20)
     private String username;

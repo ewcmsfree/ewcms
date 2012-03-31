@@ -7,7 +7,10 @@
 package com.ewcms.publication.task;
 
 public class TaskException extends Exception {
-    public TaskException(){}
+
+	private static final long serialVersionUID = -1778138042412124141L;
+
+	public TaskException(){}
 
     public TaskException(String message) {
        super(message);

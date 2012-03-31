@@ -35,7 +35,10 @@ import javax.persistence.Table;
 @Table(name = "site_organinfo")
 @SequenceGenerator(name = "seq_site_organinfo", sequenceName = "seq_site_organinfo_id", allocationSize = 1)
 public class OrganInfo implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = 7342446995346166030L;
+	
+	@Id
     @GeneratedValue(generator = "seq_site_organinfo", strategy = GenerationType.SEQUENCE)
     private Integer id;	
     @Column(length = 200)

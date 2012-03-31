@@ -30,6 +30,9 @@ import com.ewcms.web.vo.TreeNode;
  * 
  */
 public class OrganAction extends CrudBaseAction<Organ, Integer> {
+
+	private static final long serialVersionUID = -8775454105957516242L;
+	
 	@Autowired
 	private SiteFac siteFac;
 	private File iconFile;
@@ -148,7 +151,7 @@ public class OrganAction extends CrudBaseAction<Organ, Integer> {
 			siteFac.delOrgan(vo.getId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}

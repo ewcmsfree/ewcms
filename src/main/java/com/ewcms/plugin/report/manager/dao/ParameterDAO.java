@@ -7,6 +7,8 @@ package com.ewcms.plugin.report.manager.dao;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -19,12 +21,15 @@ import com.ewcms.plugin.report.model.Parameter;
  */
 @Repository
 public class ParameterDAO extends JpaDAO<Long, Parameter> {
-    @SuppressWarnings("unchecked")
-	public Boolean findSessionIsEntityByParameterIdAndUserName(Long parameterId, String userName){
-    	String hql = "Select p From Parameter As p Where p.id=? And p.defaultValue=?";
-    	List<Parameter> list = this.getJpaTemplate().find(hql, parameterId, userName);
-    	if (list.isEmpty()) return false;
-    	return true;
+	
+	public Boolean findSessionIsEntityByParameterIdAndUserName(final Long parameterId, final String userName){
+    	String hql = "Select p From Parameter As p Where p.id=:parameterId And p.defaultValue=:userName";
+    	
+    	TypedQuery<Parameter> query = this.getEntityManager().createQuery(hql, Parameter.class);
+    	query.setParameter("parameterId", parameterId);
+    	query.setParameter("userName", userName);
+    	
+    	List<Parameter> list = query.getResultList();
+    	return list.isEmpty() ? false : true;
     }
-
 }

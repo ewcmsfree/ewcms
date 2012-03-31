@@ -27,7 +27,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.user.user.action")
 public class UserAction extends ActionSupport{
     
-    private static final String EVENTOP_ADD = "add";
+	private static final long serialVersionUID = -286253039838980638L;
+
+	private static final String EVENTOP_ADD = "add";
     private static final String EVENTOP_UPDATE = "update";
     
     private String username;

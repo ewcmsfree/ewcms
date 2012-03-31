@@ -18,7 +18,7 @@ import com.ewcms.core.site.model.Organ;
 
 /**
  * @author 周冬初
- *
+ * @author wuzhijun
  */
 @Repository
 public class OrganDAO extends JpaDAO<Integer,Organ> {
@@ -26,13 +26,13 @@ public class OrganDAO extends JpaDAO<Integer,Organ> {
 	 * 获取子节点模板
 	 * 
 	 */
-	public List<Organ> getOrganChildren(Integer parentId){
+	public List<Organ> getOrganChildren(final Integer parentId){
 		String hql;
 		if(parentId==null){
 			hql = "From Organ o Where o.parent is null Order By o.id";
 		}else{
-			hql = "From Organ o Where  o.parent.id = " + parentId + " Order By o.id";
+			hql = "From Organ o Where o.parent.id = " + parentId + " Order By o.id";
 		}
-		return getJpaTemplate().find(hql);
+		return this.getEntityManager().createQuery(hql, Organ.class).getResultList();
 	}	
 }

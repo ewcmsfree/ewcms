@@ -26,7 +26,9 @@ import com.ewcms.web.QueryBaseAction;
 @Controller("security.user.query.action")
 public class QueryAction extends QueryBaseAction {
 
-    @Override
+	private static final long serialVersionUID = -8736899399025749992L;
+
+	@Override
     protected Resultable queryResult(QueryFactory queryFactory,
             String cacheKey, int rows, int page, Order order) {
 

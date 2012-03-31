@@ -8,6 +8,9 @@ package com.ewcms.plugin.vote.manager.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
@@ -21,27 +24,40 @@ import com.ewcms.plugin.vote.model.Record;
  */
 @Repository
 public class PersonDAO extends JpaDAO<Long, Person>{
-	@SuppressWarnings("unchecked")
-	public Boolean findPersonIsEntity(Long questionnaireId, String ip){
-		String hql = "From Person p Where p.questionnaireId=? And p.ip=?";
-		List<Person> list = this.getJpaTemplate().find(hql, questionnaireId, ip);
-		if (list.isEmpty()) return false;
-		return true;
+	public Boolean findPersonIsEntity(final Long questionnaireId, final String ip){
+		String hql = "From Person p Where p.questionnaireId=:questionnaireId And p.ip=:ip";
+		
+		TypedQuery<Person> query = this.getEntityManager().createQuery(hql, Person.class);
+		query.setParameter("questionnaireId", questionnaireId);
+		query.setParameter("ip", ip);
+		
+		List<Person> list = query.getResultList();
+		return list.isEmpty() ? false : true;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Record> findRecordBySubjectTitle(Long personId, String subjectName){
-		String hql = "Select r From Person As p Right Join p.records As r Where p.id=? And r.subjectName=?";
-		List<Record> list = this.getJpaTemplate().find(hql, personId, subjectName);
-		if (list.isEmpty()) return null;
-		return list;
+	public List<Record> findRecordBySubjectTitle(final Long personId, final String subjectName){
+		String hql = "Select r From Person As p Right Join p.records As r Where p.id=:personId And r.subjectName=:subjectName";
+		
+		TypedQuery<Record> query = this.getEntityManager().createQuery(hql, Record.class);
+		query.setParameter("personId", personId);
+		query.setParameter("subjectName", subjectName);
+		
+		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Record findRecordBySubjectItemTitle(Long personId, String subjectItemName){
-		String hql = "Select r From Person As p Right Join p.records As r Where p.id=? And r.subjectName=?";
-		List<Record> list = this.getJpaTemplate().find(hql, personId, subjectItemName);
-		if (list.isEmpty()) return null;
-		return list.get(0);
+	public Record findRecordBySubjectItemTitle(final Long personId, final String subjectItemName){
+		String hql = "Select r From Person As p Right Join p.records As r Where p.id=:personId And r.subjectName=:subjectItemName";
+		
+		TypedQuery<Record> query = this.getEntityManager().createQuery(hql, Record.class);
+		query.setParameter("personId", personId);
+		query.setParameter("subjectItemName", subjectItemName);
+		
+		Record record = null;
+		try{
+			record = (Record) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		
+		return record;
 	}
 }

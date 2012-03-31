@@ -21,7 +21,9 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("security.account.user.action")
 public class UserAction extends ActionSupport{
 
-    private UserInfo userInfo;
+	private static final long serialVersionUID = 887018351856941509L;
+
+	private UserInfo userInfo;
     
     @Autowired
     private SecurityFacable fac;

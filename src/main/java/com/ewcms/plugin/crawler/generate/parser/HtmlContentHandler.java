@@ -9,16 +9,15 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class HtmlContentHandler extends DefaultHandler {
-	
 	private enum Element {
 		A, AREA, LINK, IFRAME, FRAME, EMBED, IMG, BASE, META, BODY
-    }
+	}
 
 	private static class HtmlFactory {
 		private static Map<String, Element> name2Element;
@@ -42,12 +41,16 @@ public class HtmlContentHandler extends DefaultHandler {
 	private boolean isWithinBodyElement;
 	private StringBuilder bodyText;
 
-	private Set<String> outgoingUrls;
+	private List<ExtractedUrlAnchorPair> outgoingUrls;
+
+	private ExtractedUrlAnchorPair curUrl = null;
+	private boolean anchorFlag = false;
+	private StringBuilder anchorText = new StringBuilder();
 
 	public HtmlContentHandler() {
 		isWithinBodyElement = false;
 		bodyText = new StringBuilder();
-		outgoingUrls = new HashSet<String>();
+		outgoingUrls = new ArrayList<ExtractedUrlAnchorPair>();
 	}
 
 	@Override
@@ -57,7 +60,10 @@ public class HtmlContentHandler extends DefaultHandler {
 		if (element == Element.A || element == Element.AREA || element == Element.LINK) {
 			String href = attributes.getValue("href");
 			if (href != null) {
-				outgoingUrls.add(href);
+				anchorFlag = true;
+				curUrl = new ExtractedUrlAnchorPair();
+				curUrl.setHref(href);
+				outgoingUrls.add(curUrl);
 			}
 			return;
 		}
@@ -65,7 +71,9 @@ public class HtmlContentHandler extends DefaultHandler {
 		if (element == Element.IMG) {
 			String imgSrc = attributes.getValue("src");
 			if (imgSrc != null) {
-				outgoingUrls.add(imgSrc);
+				curUrl = new ExtractedUrlAnchorPair();
+				curUrl.setHref(imgSrc);
+				outgoingUrls.add(curUrl);
 			}
 			return;
 		}
@@ -73,7 +81,9 @@ public class HtmlContentHandler extends DefaultHandler {
 		if (element == Element.IFRAME || element == Element.FRAME || element == Element.EMBED) {
 			String src = attributes.getValue("src");
 			if (src != null) {
-				outgoingUrls.add(src);
+				curUrl = new ExtractedUrlAnchorPair();
+				curUrl.setHref(src);
+				outgoingUrls.add(curUrl);
 			}
 			return;
 		}
@@ -113,12 +123,23 @@ public class HtmlContentHandler extends DefaultHandler {
 
 		if (element == Element.BODY) {
 			isWithinBodyElement = true;
-        }
+		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		Element element = HtmlFactory.getElement(localName);
+		if (element == Element.A || element == Element.AREA || element == Element.LINK) {
+			anchorFlag = false;
+			if (curUrl != null) {
+				String anchor = anchorText.toString().trim();
+				if (!anchor.isEmpty()) {
+					curUrl.setAnchor(anchor);
+				}
+				anchorText.delete(0, anchorText.length());
+			}
+			curUrl = null;
+		}
 		if (element == Element.BODY) {
 			isWithinBodyElement = false;
 		}
@@ -128,17 +149,21 @@ public class HtmlContentHandler extends DefaultHandler {
 	public void characters(char ch[], int start, int length) throws SAXException {
 		if (isWithinBodyElement) {
 			bodyText.append(ch, start, length);
+
+			if (anchorFlag) {
+				anchorText.append(new String(ch, start, length).replaceAll("\n", "").replaceAll("\t", "").trim());
+			}
 		}
 	}
 
 	public String getBodyText() {
 		return bodyText.toString();
 	}
-	
-	public Set<String> getOutgoingUrls() {
+
+	public List<ExtractedUrlAnchorPair> getOutgoingUrls() {
 		return outgoingUrls;
 	}
-	
+
 	public String getBaseUrl() {
 		return base;
 	}

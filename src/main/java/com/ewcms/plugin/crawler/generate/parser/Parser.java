@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
@@ -86,7 +84,7 @@ public class Parser extends Configurable {
 		parseData.setText(contentHandler.getBodyText().trim());
 		parseData.setTitle(metadata.get(Metadata.TITLE));
 
-		Set<String> urls = new HashSet<String>();
+		List<WebURL> outgoingUrls = new ArrayList<WebURL>();
 
 		String baseURL = contentHandler.getBaseUrl();
 		if (baseURL != null) {
@@ -94,7 +92,8 @@ public class Parser extends Configurable {
 		}
 
 		int urlCount = 0;
-		for (String href : contentHandler.getOutgoingUrls()) {
+		for (ExtractedUrlAnchorPair urlAnchorPair : contentHandler.getOutgoingUrls()) {
+			String href = urlAnchorPair.getHref();
 			href = href.trim();
 			if (href.length() == 0) {
 				continue;
@@ -106,7 +105,10 @@ public class Parser extends Configurable {
 			if (!hrefWithoutProtocol.contains("javascript:") && !hrefWithoutProtocol.contains("@")) {
 				String url = URLCanonicalizer.getCanonicalURL(href, contextURL);
 				if (url != null) {
-					urls.add(url);
+					WebURL webURL = new WebURL();
+					webURL.setURL(url);
+					webURL.setAnchor(urlAnchorPair.getAnchor());
+					outgoingUrls.add(webURL);
 					urlCount++;
 					if (urlCount > config.getMaxOutgoingLinksToFollow()) {
 						break;
@@ -115,12 +117,6 @@ public class Parser extends Configurable {
 			}
 		}
 
-		List<WebURL> outgoingUrls = new ArrayList<WebURL>();
-		for (String url : urls) {
-			WebURL webURL = new WebURL();
-			webURL.setURL(url);
-			outgoingUrls.add(webURL);
-		}
 		parseData.setOutgoingUrls(outgoingUrls);
 
 		try {

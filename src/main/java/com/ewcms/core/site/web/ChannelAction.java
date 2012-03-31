@@ -156,7 +156,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				Struts2Util.renderJson(JSONUtil.toJSON(tnList));
 			}
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 		}
 	}
 
@@ -165,7 +165,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 			Integer id = siteFac.addChannel(vo.getId(), vo.getName());
 			Struts2Util.renderJson(JSONUtil.toJSON(id));
 		} catch (Exception e) {
-			outputInfo(e.toString());
+			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}

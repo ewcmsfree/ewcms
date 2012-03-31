@@ -243,6 +243,5 @@ public class PageFetcher extends Configurable {
 			// length of ungzipped content is not known
 			return -1;
 		}
-
 	}
 }

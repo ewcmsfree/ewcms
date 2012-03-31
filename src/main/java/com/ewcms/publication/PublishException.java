@@ -13,7 +13,9 @@ package com.ewcms.publication;
  */
 public class PublishException extends Exception {
 
-    public PublishException(){}
+	private static final long serialVersionUID = 7218507010942548060L;
+
+	public PublishException(){}
 
      public PublishException(String message) {
         super(message);

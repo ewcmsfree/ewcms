@@ -33,7 +33,9 @@ import org.slf4j.LoggerFactory;
  */
 public class PubsubServlet extends HttpServlet implements CometProcessor {
 
-    private static final Logger logger = LoggerFactory.getLogger(PubsubServlet.class);
+	private static final long serialVersionUID = 6492410972635853800L;
+
+	private static final Logger logger = LoggerFactory.getLogger(PubsubServlet.class);
     private static final String INITIALDELAY_PARAM_NAME = "initialDelay";
     private static final String DELAY_PARAM_NAME = "delay";
     private static final String PUBSUB_CONTEXT = "pubsub";

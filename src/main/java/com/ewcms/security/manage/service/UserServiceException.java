@@ -10,7 +10,9 @@ import org.springframework.security.core.AuthenticationException;
 
 public class UserServiceException extends AuthenticationException {
 
-    public UserServiceException(String msg) {
+	private static final long serialVersionUID = 5250241049755157001L;
+
+	public UserServiceException(String msg) {
         super(msg);
     }
 
