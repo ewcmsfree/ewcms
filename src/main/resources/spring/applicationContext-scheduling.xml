@@ -71,7 +71,8 @@
 	
 	<!-- 在没有实现org.quartz.Job的类时，而需要执行定时任务时使用如下配置:
 	<bean id="testJob" class="com.ewcms.scheduling.generate.quartz.EwcmsMethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref=""/>//调用的类
+        <property name="targetObject" ref=""/>//引用Spring定义的类名称(二者选其一)
+        <property name="targetClass" value=""/>//引用类(二者选其一)
         <property name="targetMethod" value=""/>//调用类中的方法
         <property name="scheduler" ref="quartzScheduler"/>
         <property name="volatility" value="true"/>//在Quartz已不存在
