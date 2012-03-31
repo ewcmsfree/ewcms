@@ -9,32 +9,31 @@ package com.ewcms.common.dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author wangwei
+ * @author wuzhijun
  */
-public abstract class JpaDAO<K, E> extends JpaDaoSupport implements JpaDAOable<K,E> {
+public abstract class JpaDAO<K, E> implements JpaDAOable<K,E> {
 
-    @Autowired
-    protected EntityManagerFactory entityManagerFactory;
-    
+	@PersistenceContext
+    private EntityManager entityManager;
+
     protected Class<E> entityClass;
 
-    @PostConstruct
-    public void init() {
-        super.setEntityManagerFactory(entityManagerFactory);
+    @Override
+    public EntityManager getEntityManager() {
+        return this.entityManager;
     }
-
-    @SuppressWarnings("unchecked")
+    
+    protected void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    } 
+    
+   @SuppressWarnings("unchecked")
     public JpaDAO() {
         ParameterizedType genericSuperclass =
                 (ParameterizedType) getClass().getGenericSuperclass();
@@ -44,12 +43,12 @@ public abstract class JpaDAO<K, E> extends JpaDaoSupport implements JpaDAOable<K
 
     @Override
     public void persist(E entity) {
-        this.getJpaTemplate().persist(entity);
+    	entityManager.persist(entity);
     }
 
     @Override
     public void remove(E entity) {
-        this.getJpaTemplate().remove(entity);
+    	entityManager.remove(entity);
     }
 
     @Override
@@ -62,59 +61,39 @@ public abstract class JpaDAO<K, E> extends JpaDaoSupport implements JpaDAOable<K
     
     @Override
     public E merge(E entity) {
-        this.getJpaTemplate().getEntityManager();
-        return this.getJpaTemplate().merge(entity);
+        return entityManager.merge(entity);
     }
 
     @Override
     public void refresh(E entity){
-        this.getJpaTemplate().refresh(entity);
+    	entityManager.refresh(entity);
     }
 
     @Override
     public E get(K pk) {
-        return this.getJpaTemplate().find(entityClass, pk);
+        return entityManager.find(entityClass, pk);
     }
 
     @Override
     public E getRefresh(K pk){
-        return this.getJpaTemplate().getReference(entityClass, pk);
+        return entityManager.getReference(entityClass, pk);
     }
 
     @Override
     public E flush(E entity) {
-        this.getJpaTemplate().flush();
+        entityManager.flush();
         return entity;
     }
 
     @Override
     public List<E> findAll() {
-        return getJpaTemplate().execute(new JpaCallback<List<E>>() {
-            @Override
-            public List<E> doInJpa(EntityManager em) throws PersistenceException {
-                String hql = String.format("Select h From %s h", entityClass.getName());
-                return em.createQuery(hql, entityClass).getResultList();
-            }
-        });
+    	String hql = String.format("Select h From %s h", entityClass.getName());
+        return getEntityManager().createQuery(hql, entityClass).getResultList();
     }
 
     @Override
     public Integer removeAll() {
-        return getJpaTemplate().execute(new JpaCallback<Integer>() {
-            @Override
-            public Integer doInJpa(EntityManager em) throws PersistenceException {
-                String hql = String.format("Delete From %s", entityClass.getName());
-                return em.createQuery(hql).executeUpdate();
-            }
-        });
-    }
-
-    @Override
-    public EntityManager getEntityManager(){
-        if(this.getJpaTemplate().getEntityManager() == null){
-            return this.getJpaTemplate().getEntityManagerFactory().createEntityManager();
-        }else{
-            return this.getJpaTemplate().getEntityManager();
-        }
+    	String hql = String.format("Delete From %s", entityClass.getName());
+        return getEntityManager().createQuery(hql).executeUpdate();
     }
 }

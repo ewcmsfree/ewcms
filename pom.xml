@@ -13,9 +13,9 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		
 		<!-- Hibernate -->
-		<hibernate.entitymanager.version>3.5.1-Final</hibernate.entitymanager.version>
-		<hibernate.c3p0.version>3.3.2.GA</hibernate.c3p0.version>
-		<hibernate.jpamodelgen.version>1.0.0.Final</hibernate.jpamodelgen.version>
+		<hibernate.entitymanager.version>3.6.10.Final</hibernate.entitymanager.version>
+		<hibernate.c3p0.version>3.6.10.Final</hibernate.c3p0.version>
+		<hibernate.jpamodelgen.version>1.2.0.Final</hibernate.jpamodelgen.version>
 		
 		<!-- Springframework Core-->
 		<springframework.version>3.1.1.RELEASE</springframework.version>
@@ -538,6 +538,42 @@
 			<version>${mockito.all.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>ant</artifactId>
+					<groupId>ant</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-analysis</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-tree</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
