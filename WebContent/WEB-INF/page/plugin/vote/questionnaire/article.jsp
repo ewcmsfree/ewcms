@@ -28,8 +28,8 @@
                               		return val ? '&nbsp;&nbsp;是' : '&nbsp;&nbsp;否';
                               	}
                               },
-                              {field:'startTime',title:'开始时间',width:125},
-                              {field:'endTime',title:'结束时间',width:125},
+                              {field:'startTime',title:'开始时间',width:145},
+                              {field:'endTime',title:'结束时间',width:145},
                               {field:'voteEnd',title:'结束投票',width:55,
                               	formatter:function(val,rec){
                               		var flag = '&nbsp;&nbsp;&nbsp;否';

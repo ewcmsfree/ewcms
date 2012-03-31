@@ -55,8 +55,8 @@
                   					  return rec.article.statusDescription + processName;
                   				  }
                   			  }, 
-                              {field:'published',title:'发布时间',width:125,formatter:function(val,rec){return rec.article.published;}},
-                              {field:'modified',title:'修改时间',width:125,formatter:function(val,rec){return rec.article.modified;}},
+                              {field:'published',title:'发布时间',width:145,formatter:function(val,rec){return rec.article.published;}},
+                              {field:'modified',title:'修改时间',width:145,formatter:function(val,rec){return rec.article.modified;}},
                               {field:'sort',title:'排序号',width:60}
 	                  ]],
 				});

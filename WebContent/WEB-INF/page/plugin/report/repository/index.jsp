@@ -21,8 +21,8 @@
 						{field:'id',title:'编号',width:50,sortable:true},
 		                {field:'name',title:'名称',width:300},
 		                {field:'type',title:'类型',width:50},
-		                {field:'updateDate',title:'更新时间',width:125},
-		                {field:'publishDate',title:'发布时间',width:125},
+		                {field:'updateDate',title:'更新时间',width:145},
+		                {field:'publishDate',title:'发布时间',width:145},
 		                {field:'description',title:'说明',width:300},
 		                {field:'download',title:'下载',width:30,
 		                	formatter:function(val,rec){

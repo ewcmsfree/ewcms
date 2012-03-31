@@ -35,7 +35,7 @@
 							 {field:'id',title:'编号',width:60},
 							 {field:'userName',title:'用户',hidden:true},
 							 {field:'title',title:'标题',width:800},
-			                 {field:'sendTime',title:'发送时间',width:125},
+			                 {field:'sendTime',title:'发送时间',width:145},
 			                 {field:'typeDescription',title:'类型',width:40},
 			                 {field:'realName',title:'接收用户',width:300,
 			                	 formatter : function(val, rec) {

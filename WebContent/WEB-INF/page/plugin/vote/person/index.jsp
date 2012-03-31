@@ -25,7 +25,7 @@
                     columns:[[
                               {field:'id',title:'编号',width:60},
                               {field:'ip',title:'IP地址',width:120},
-                              {field:'recordTime',title:'投票时间',width:125},
+                              {field:'recordTime',title:'投票时间',width:145},
                               {field:'item',title:'填写内容',width:60,
                               	formatter:function(val,rec){
                               		return '<a href="#" onclick="showRecord(' + rec.id + ');">内容</a>';

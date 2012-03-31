@@ -44,7 +44,7 @@
 			                		 return '<a href="javascript:void(0);" onclick="parent.showRecord(' + rec.id + ')" onfocus="this.blur();">' + rec.msgContent.title + '</a>';
 			                	 }
 			                 },
-			                 {field:'readTime',title:'读取时间',width:125},
+			                 {field:'readTime',title:'读取时间',width:145},
 			                 {field:'subscription',title:'订阅',width:32,
 			                	 formatter : function(val, rec) {
 					                if (val){

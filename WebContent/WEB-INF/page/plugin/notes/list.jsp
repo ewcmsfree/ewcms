@@ -46,7 +46,7 @@
                               {field:'warnTime',title:'提醒时间',width:60},
                               {field:'frequencyDescription',title:'提醒频率',width:80},
                               {field:'beforeDescription',title:'提前时间',width:80},
-                              {field:'fireTime',title:'触发时间',width:125},
+                              {field:'fireTime',title:'触发时间',width:145},
                               {field:'missRemind',title:'错过提醒',width:55,
                                   formatter:function(val,rec){
                                     var flag = '&nbsp;&nbsp;&nbsp;否';

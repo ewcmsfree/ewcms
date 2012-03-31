@@ -53,8 +53,8 @@
                                   }
                               },
                               {field:'statusDescription',title:'状态',width:60},
-                              {field:'published',title:'发布时间',width:125},
-                              {field:'modified',title:'修改时间',width:125},
+                              {field:'published',title:'发布时间',width:145},
+                              {field:'modified',title:'修改时间',width:145},
 	                  ]]
 				});
 

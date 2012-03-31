@@ -26,10 +26,10 @@
 		                 		}
 		                 	},
 		                 	{field:'state',title:'状态',width:80},
-		                 	{field:'startTime',title:'开始时间',width:125},
-		                 	{field:'previousFireTime',title:'上次执行时间',width:125},
-		                 	{field:'nextFireTime',title:'下次执行时间',width:125},
-		                 	{field:'endTime',title:'结束时间',width:125},
+		                 	{field:'startTime',title:'开始时间',width:145},
+		                 	{field:'previousFireTime',title:'上次执行时间',width:145},
+		                 	{field:'nextFireTime',title:'下次执行时间',width:145},
+		                 	{field:'endTime',title:'结束时间',width:145},
 		                 	{field:'operation',title:'操作',width:50,align:'center',
 		                 		formatter:function(val,rec){
 		                 			var button_html = "";
