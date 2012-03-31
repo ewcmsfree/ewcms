@@ -21,7 +21,9 @@ import javax.persistence.Table;
 @Table(name="test_jpa")
 public class Model implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = -1148051948275791827L;
+	
+	@Id
     @Column(name = "id")
     private Integer id;
     @Column(name = "title", nullable = false, length = 100)

@@ -65,7 +65,7 @@ public class ArticleMainServiceTest {
 	
 	@Test
 	public void updArticle(){
-		Integer channelId = 1;
+		//Integer channelId = 1;
 		Article article = new Article();
 		article.setTitle("updTest");
 		article.setType(Type.GENERAL);
