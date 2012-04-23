@@ -19,6 +19,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.plugin.crawler.manager.dao.GatherDAO;
 import com.ewcms.plugin.crawler.manager.service.GatherService;
@@ -31,6 +33,8 @@ import com.ewcms.plugin.crawler.model.MatchBlock;
  *
  */
 public class BlockIterationTest {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BlockIterationTest.class);
 	
 	private GatherService gatherService;
 	private GatherDAO gatherDAO;
@@ -62,7 +66,7 @@ public class BlockIterationTest {
 		try {
 			Document doc = Jsoup.connect("http://sports.sina.com.cn/k/2011-12-14/00395867392.shtml").get();
 			Elements elements = doc.select("h1#artibodyTitle, div#artibody");
-			System.out.println(elements.html());
+			logger.info(elements.html());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,7 +170,7 @@ public class BlockIterationTest {
 		
 		childrenMatchBlock(1L, doc, parents, sbHtml);
 		
-		System.out.println(sbHtml.toString());
+		logger.info(sbHtml.toString());
 	}
 	
 	private void childrenMatchBlock(Long gatherId, Document doc, List<MatchBlock> matchBlocks, StringBuffer sbHtml) {

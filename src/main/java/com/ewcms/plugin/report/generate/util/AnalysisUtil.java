@@ -63,12 +63,4 @@ public class AnalysisUtil {
         }
         return false;
     }
-//	字符串中含有数值
-//	private static void ContainNumber(String s) {
-//		Pattern pa = Pattern.compile("\\d+");
-//		Matcher ma = pa.matcher(s);
-//		while (ma.find()) {
-//			System.out.println(ma.group());
-//		}
-//	}
 }

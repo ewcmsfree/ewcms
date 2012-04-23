@@ -29,7 +29,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     
     private final static Logger logger = LoggerFactory.getLogger(ArticleDAO.class);
     
-	public Long findArticleReleseMaxSize(final Integer channelId){
+	public Long findArticleReleseCount(final Integer channelId){
     	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=:channelId And m.article.status=:status";
 
     	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);

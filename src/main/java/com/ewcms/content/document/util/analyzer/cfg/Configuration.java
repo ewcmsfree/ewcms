@@ -71,7 +71,6 @@ public class Configuration {
 				for(String filePath : filePaths){
 					if(filePath != null && !"".equals(filePath.trim())){
 						extDictFiles.add(filePath.trim());
-						//System.out.println(filePath.trim());
 					}
 				}
 			}
@@ -93,7 +92,6 @@ public class Configuration {
 				for(String filePath : filePaths){
 					if(filePath != null && !"".equals(filePath.trim())){
 						extStopWordDictFiles.add(filePath.trim());
-						//System.out.println(filePath.trim());
 					}
 				}
 			}

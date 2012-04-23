@@ -34,8 +34,8 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
 
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionReportJob.class);
     
-    public static final String JOB_REPORT_FACTORY = "ewcmsJobReportFac";
-    public static final String REPORT_FACTORY = "reportFac";
+    public static final String JOB_REPORT_FAC = "ewcmsJobReportFac";
+    public static final String REPORT_FAC = "reportFac";
     public static final String CHART_FACTORY = "chartFactory";
     public static final String TEXT_FACTORY = "textFactory";
 
@@ -107,11 +107,11 @@ public class EwcmsExecutionReportJob extends BaseEwcmsExecutionJob {
     }
 
     private EwcmsJobReportFacable getEwcmsJobReportFac(){
-    	return (EwcmsJobReportFacable) applicationContext.getBean(JOB_REPORT_FACTORY);
+    	return (EwcmsJobReportFacable) applicationContext.getBean(JOB_REPORT_FAC);
     }
     
     private ReportFacable getReportFac(){
-    	return (ReportFacable) applicationContext.getBean(REPORT_FACTORY);
+    	return (ReportFacable) applicationContext.getBean(REPORT_FAC);
     }
     
     private ChartFactoryable getChartFactory() {

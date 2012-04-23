@@ -155,9 +155,9 @@ public class EwcmsContentCrawler extends WebCrawler {
 	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
 		if (statusCode != HttpStatus.SC_OK) {
 			if (statusCode == HttpStatus.SC_NOT_FOUND) {
-				System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page with docid: " + webUrl.getParentDocid());
+				logger.info("Broken link: {} , this link was found in page with docid: {}" , webUrl.getURL(), webUrl.getParentDocid());
 			} else {
-				System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
+				logger.info("Non success status for link: {} , status code: {} , description: {}", webUrl.getURL(), statusCode);
 			}
 		}
 	}

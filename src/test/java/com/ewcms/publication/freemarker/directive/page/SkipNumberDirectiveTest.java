@@ -16,6 +16,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.publication.freemarker.FreemarkerTest;
 import com.ewcms.publication.freemarker.GlobalVariable;
@@ -31,6 +33,8 @@ import freemarker.template.Template;
  */
 public class SkipNumberDirectiveTest extends FreemarkerTest {
 
+	private static final Logger logger = LoggerFactory.getLogger(SkipNumberDirectiveTest.class);
+	
     @Test
     public void testMaxIsOneGetPageOuts()throws Exception{
         SkipNumberDirective directive = new SkipNumberDirective();
@@ -157,7 +161,7 @@ public class SkipNumberDirectiveTest extends FreemarkerTest {
                       .append("<a href=''>12</a>&nbsp;")
                       .append("<a href=''>13</a>&nbsp;")
                       .append("..&nbsp;");
-        System.out.println(value);
+        logger.info(value);
         Assert.assertEquals(expected.toString(), value);
     }
 }

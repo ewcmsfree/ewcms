@@ -128,7 +128,6 @@ public final class IKQueryParser {
 		if(root != null){
 			return optimizeQueries(root.toQueries(field)); 
 		}else{
-			//System.out.println(System.currentTimeMillis());
 			root = new TokenBranch(null);		
 			//对查询条件q进行分词
 			StringReader input = new StringReader(query.trim());
@@ -984,11 +983,4 @@ public final class IKQueryParser {
 			
 		}
 	}
-	
-	public static void main(String[] args){
-		String ikQueryExp = "(id='1231231' && title:'MYNAMEmonkey') || (content:'你好吗'  || ulr='www.ik.com') - name:'林良益'";
-		Query result = IKQueryParser.parse(ikQueryExp);
-		System.out.println(result);
-
-	}	
 }

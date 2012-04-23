@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.resource.ResourceFacable;
 import com.ewcms.content.resource.model.Resource;
@@ -27,6 +29,8 @@ import com.ewcms.plugin.crawler.generate.util.IO;
  *
  */
 public class EwcmsResourceCrawler extends WebCrawler {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsResourceCrawler.class);
 	
 	private static final Pattern IMG_PATTERNS = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?))$");
 	private static final Pattern FLASH_PATTERNS = Pattern.compile(".*(\\.(swf|flv))$");
@@ -104,7 +108,7 @@ public class EwcmsResourceCrawler extends WebCrawler {
 		String destination = storageFolder.getAbsolutePath() + "/" + hashedName;
 		// 保存文件
 		IO.writeBytesToFile(page.getContentData(), destination);
-		System.out.println("Stored: " + url);
+		logger.info("Stored: {} ", url);
 		
 		File file = new File(destination);
 		
@@ -137,9 +141,9 @@ public class EwcmsResourceCrawler extends WebCrawler {
 	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
 		if (statusCode != HttpStatus.SC_OK) {
 			if (statusCode == HttpStatus.SC_NOT_FOUND) {
-				System.out.println("Broken link: " + webUrl.getURL() + ", this link was found in page with docid: " + webUrl.getParentDocid());
+				logger.info("Broken link: {} , this link was found in page with docid: {}", webUrl.getURL(), webUrl.getParentDocid());
 			} else {
-				System.out.println("Non success status for link: " + webUrl.getURL() + ", status code: " + statusCode + ", description: " + statusDescription);
+				logger.info("Non success status for link: {} , status code: {} , description: {}" + webUrl.getURL(), statusCode, statusDescription);
 			}
 		}
 	}

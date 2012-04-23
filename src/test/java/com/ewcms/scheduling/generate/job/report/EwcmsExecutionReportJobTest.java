@@ -47,8 +47,8 @@ public class EwcmsExecutionReportJobTest {
 		jobExecutionContextMock.returns(triggerMock).getTrigger();
 		schedulerMock.returns(schedulerContextMock).getContext();
 		schedulerContextMock.returns(applicationContextMock).get(EwcmsExecutionReportJob.SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
-		applicationContextMock.returns(ewcmsJobReportFacMock).getBean(EwcmsExecutionReportJob.JOB_REPORT_FACTORY);
-		applicationContextMock.returns(reportFacMock).getBean(EwcmsExecutionReportJob.REPORT_FACTORY);
+		applicationContextMock.returns(ewcmsJobReportFacMock).getBean(EwcmsExecutionReportJob.JOB_REPORT_FAC);
+		applicationContextMock.returns(reportFacMock).getBean(EwcmsExecutionReportJob.REPORT_FAC);
 		applicationContextMock.returns(chartFactoryMock).getBean(EwcmsExecutionReportJob.CHART_FACTORY);
 		applicationContextMock.returns(textFactoryMock).getBean(EwcmsExecutionReportJob.TEXT_FACTORY);
 		

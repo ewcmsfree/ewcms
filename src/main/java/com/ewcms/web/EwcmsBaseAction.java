@@ -6,6 +6,8 @@
 
 package com.ewcms.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ewcms.core.site.model.Site;
@@ -20,13 +22,14 @@ public class EwcmsBaseAction extends ActionSupport{
 	
 	private static final long serialVersionUID = -5660770825409086565L;
 
+	private static final Logger logger = LoggerFactory.getLogger(EwcmsBaseAction.class);
 	/**
 	 * 信息输出处理
 	 * 
 	 * @deprecated 程序引入正常的日志
 	 */
     public void outputInfo(String e){
-    	System.out.print(e);
+    	logger.info(e);
     }
     
 	/**

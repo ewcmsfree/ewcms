@@ -112,7 +112,6 @@ public class Lunar {
 		Date baseDate = cl.getTime();
 		// 1900-01-31是农历1900年正月初一
 		int offset = (int) ((objDate.getTime() - baseDate.getTime()) / 86400000); // 天数(86400000=24*60*60*1000)
-		// System.out.println(offset);
 		dayCyl = offset + 40; // 1899-12-21是农历1899年腊月甲子日
 		monCyl = 14; // 1898-10-01是农历甲子月
 		// 得到年数

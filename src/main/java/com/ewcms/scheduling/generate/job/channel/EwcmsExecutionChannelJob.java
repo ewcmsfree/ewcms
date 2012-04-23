@@ -24,8 +24,8 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionChannelJob.class);
     
-    public static final String JOB_CHANNEL_FACTORY = "ewcmsJobChannelFac";
-    public static final String PUBLISH_FACTORY = "schedulePublishFac";
+    public static final String JOB_CHANNEL_FAC = "ewcmsJobChannelFac";
+    public static final String SCHEDULE_PUBLISH_FAC = "schedulePublishFac";
 
     private EwcmsJobChannel ewcmsJobChannel;
     
@@ -39,7 +39,7 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 	            
 				logger.info("定时发布 {} 频道开始...", channelName);
 				try{
-					getSchedulePublishFacable().publishChannel(channel.getId(), subChannel);
+					getSchedulePublishFac().publishChannel(channel.getId(), subChannel);
 				}catch (PublishException e){
 					logger.error("定时发布 {} 频道发布异常", channelName);
 				}
@@ -52,11 +52,11 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
         ewcmsJobChannel = null;
     }
 
-    private SchedulePublishFacable getSchedulePublishFacable(){
-    	return (SchedulePublishFacable) applicationContext.getBean(PUBLISH_FACTORY);
+    private SchedulePublishFacable getSchedulePublishFac(){
+    	return (SchedulePublishFacable) applicationContext.getBean(SCHEDULE_PUBLISH_FAC);
     }
     
     private EwcmsJobChannelFacable getEwcmsJobChannelFac() {
-        return (EwcmsJobChannelFacable) applicationContext.getBean(JOB_CHANNEL_FACTORY);
+        return (EwcmsJobChannelFacable) applicationContext.getBean(JOB_CHANNEL_FAC);
     }
 }

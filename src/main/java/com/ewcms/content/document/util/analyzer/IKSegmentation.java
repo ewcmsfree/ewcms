@@ -104,7 +104,6 @@ public final class IKSegmentation{
 				for(ISegmenter segmenter : segmenters){
 					segmenter.reset();
 				}
-        		//System.out.println(available + " : " +  buffIndex);
             	//记录最近一次分析的字符长度
         		context.setLastAnalyzed(analyzedLength);
             	//同时累计已分析的字符长度

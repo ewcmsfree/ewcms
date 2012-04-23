@@ -135,7 +135,6 @@ public class Dictionary {
 						theWord = br.readLine();
 						if (theWord != null && !"".equals(theWord.trim())) {
 							//加载扩展词典数据到主内存词典中
-							//System.out.println(theWord);
 							_MainDict.fillSegment(theWord.trim().toCharArray());
 						}
 					} while (theWord != null);
@@ -286,7 +285,6 @@ public class Dictionary {
 			do {
 				theWord = br.readLine();
 				if (theWord != null && !"".equals(theWord.trim())) {
-					//System.out.println(theWord);
 					_PrepDict.fillSegment(theWord.trim().toCharArray());
 				}
 			} while (theWord != null);
@@ -359,7 +357,6 @@ public class Dictionary {
 					do {
 						theWord = br.readLine();
 						if (theWord != null && !"".equals(theWord.trim())) {
-							//System.out.println(theWord);
 							//加载扩展停止词典数据到内存中
 							_StopWords.fillSegment(theWord.trim().toCharArray());
 						}

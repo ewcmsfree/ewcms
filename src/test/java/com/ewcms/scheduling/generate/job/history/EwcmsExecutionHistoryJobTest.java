@@ -35,7 +35,7 @@ public class EwcmsExecutionHistoryJobTest{
 		jobExecutionContextMock.returns(schedulerMock).getScheduler();
 		schedulerMock.returns(schedulerContextMock).getContext();
 		schedulerContextMock.returns(applicationContextMock).get(EwcmsExecutionHistoryJob.SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
-		applicationContextMock.returns(historyModelFacMock).getBean(EwcmsExecutionHistoryJob.SCHEDULER_FACTORY);
+		applicationContextMock.returns(historyModelFacMock).getBean(EwcmsExecutionHistoryJob.HISTORY_MODEL_FAC);
 		
 		//执行
 		ewcmsExecutionHistoryJob.execute(jobExecutionContextMock.getMock());

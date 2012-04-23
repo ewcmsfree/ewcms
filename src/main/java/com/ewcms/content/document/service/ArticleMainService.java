@@ -68,14 +68,6 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Autowired
 	private UserServiceable userService;
 	
-	public void setWebPublish(WebPublishFacable webPublish) {
-		this.webPublish = webPublish;
-	}
-
-	public void setArticleMainDAO(ArticleMainDAO articleMainDAO){
-		this.articleMainDAO = articleMainDAO;
-	}
-	
 	@Override
 	public ArticleMain findArticleMainByArticleMainAndChannel(Long articleMainId, Integer channelId) {
 		return articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
@@ -547,14 +539,14 @@ public class ArticleMainService implements ArticleMainServiceable {
 			
 			article.setOwner(article_old.getOwner());
 			article.setModified(modNow);
-			article.setStatus(article_old.getStatus());
+			article.setStatus(Article.Status.REEDIT);
 			
 			article.setRelations(article_old.getRelations());
 			
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 
-			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "修改。", "");
+			operateTrackService.addOperateTrack(articleMainId, article_old.getStatusDescription(), "修改。", "");
 		}
 		return articleMain.getId();
 	}

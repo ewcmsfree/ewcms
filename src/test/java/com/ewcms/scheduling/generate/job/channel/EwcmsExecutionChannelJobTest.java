@@ -45,8 +45,8 @@ public class EwcmsExecutionChannelJobTest {
 		jobExecutionContextMock.returns(triggerMock).getTrigger();
 		schedulerMock.returns(schedulerContextMock).getContext();
 		schedulerContextMock.returns(applicationContextMock).get(EwcmsExecutionChannelJob.SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
-		applicationContextMock.returns(schedulePublishFacMock).getBean(EwcmsExecutionChannelJob.PUBLISH_FACTORY);
-		applicationContextMock.returns(ewcmsJobChannelFacMock).getBean(EwcmsExecutionChannelJob.JOB_CHANNEL_FACTORY);
+		applicationContextMock.returns(schedulePublishFacMock).getBean(EwcmsExecutionChannelJob.SCHEDULE_PUBLISH_FAC);
+		applicationContextMock.returns(ewcmsJobChannelFacMock).getBean(EwcmsExecutionChannelJob.JOB_CHANNEL_FAC);
 		
 		triggerMock.returns(jobDataMapMock).getJobDataMap();
 		jobDataMapMock.returns(1L).getLong(EwcmsExecutionChannelJob.JOB_DATA_KEY_DETAILS_ID);

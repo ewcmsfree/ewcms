@@ -14,6 +14,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.cyberneko.html.parsers.DOMFragmentParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLDocument;
@@ -25,6 +27,8 @@ import org.xml.sax.InputSource;
  * @author 吴智俊
  */
 public class HtmlStringUtil {
+	private static final Logger logger = LoggerFactory.getLogger(HtmlStringUtil.class);
+	
 	public static Pattern patternHtmlTag = Pattern.compile("<[^<>]+>", 32);
 
 	public static String clearHtmlTag(String html) {
@@ -83,7 +87,7 @@ public class HtmlStringUtil {
 			txt = getPureText(((Node) (fragment)));
 			return htmlDecode(txt);
 		} catch (Exception e) {
-			System.out.println("XML中存在非法字符!");
+			logger.error("XML中存在非法字符");
 			return null;
 		}
 	}

@@ -23,7 +23,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
 
     private static final Logger logger = LoggerFactory.getLogger(EwcmsExecutionCrawlerJob.class);
     
-    public static final String JOB_CRAWLER_FACTORY = "ewcmsJobCrawlerFac";
+    public static final String JOB_CRAWLER_FAC = "ewcmsJobCrawlerFac";
     public static final String CRAWL_FACTORY = "ewcmsController";
 
     private EwcmsJobCrawler ewcmsJobCrawler;
@@ -47,7 +47,7 @@ public class EwcmsExecutionCrawlerJob extends BaseEwcmsExecutionJob {
     }
 
     private EwcmsJobCrawlerFacable getEwcmsJobCrawlerFac() {
-        return (EwcmsJobCrawlerFacable) applicationContext.getBean(JOB_CRAWLER_FACTORY);
+        return (EwcmsJobCrawlerFacable) applicationContext.getBean(JOB_CRAWLER_FAC);
     }
     
     private EwcmsControllerable getEwcmsController(){

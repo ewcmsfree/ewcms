@@ -61,7 +61,7 @@ public class EwcmsController implements EwcmsControllerable {
 		Gather gather = crawlerFac.findGather(gatherId);
 		
 		if (isNull(gather)){
-			logger.error("采集的记录不存在！");
+			logger.warn("采集的记录不存在！");
 			throw new BaseException("采集的记录不存在！","采集的记录不存在！");
 		}
 		
@@ -71,12 +71,12 @@ public class EwcmsController implements EwcmsControllerable {
 		}
 		
 		if (isNull(gather.getBaseURI()) || gather.getBaseURI().trim().length() == 0){
-			logger.error("采集的网站地址未设定！");
+			logger.warn("采集的网站地址未设定！");
 			throw new BaseException("采集的网站地址未设定！","采集的网站地址未设定！");
 		}
 		
 		if (gather.getType() == Gather.Type.CONTENT && isNull(gather.getChannelId())){
-			logger.error("收集的频道未设定！");
+			logger.warn("收集的频道未设定！");
 			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		

@@ -45,7 +45,7 @@ public class EwcmsExecutionCrawlerJobTest {
 		jobExecutionContextMock.returns(triggerMock).getTrigger();
 		schedulerMock.returns(schedulerContextMock).getContext();
 		schedulerContextMock.returns(applicationContextMock).get(EwcmsExecutionCrawlerJob.SCHEDULER_CONTEXT_KEY_APPLICATION_CONTEXT);
-		applicationContextMock.returns(ewcmsJobCrawlerFacMock).getBean(EwcmsExecutionCrawlerJob.JOB_CRAWLER_FACTORY);
+		applicationContextMock.returns(ewcmsJobCrawlerFacMock).getBean(EwcmsExecutionCrawlerJob.JOB_CRAWLER_FAC);
 		applicationContextMock.returns(ewcmsControllerMock).getBean(EwcmsExecutionCrawlerJob.CRAWL_FACTORY);
 		
 		triggerMock.returns(jobDataMapMock).getJobDataMap();
