@@ -242,4 +242,28 @@ public interface ArticleMainServiceable {
 	 * @return Map
 	 */
 	public Map<Channel, Long> findBeApprovalArticleMain(String userName);
+	
+	/**
+	 * 根据年份查询所有月的新建文章数，供FusionCharts使用
+	 * 
+	 * @param year
+	 * @return
+	 */
+	public Map<Integer, Long> findCreateArticleFcfChart(Integer year);
+	
+	/**
+	 * 根据年份查询所有月的发布文章数，供FusionCharts使用
+	 * 
+	 * @param year 年份
+	 * @return Map
+	 */
+	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year);
+	
+	/**
+	 * 根据年份查询建立者的发布文章数，供FusionCharts使用
+	 * 
+	 * @param year 年份
+	 * @return Map
+	 */
+	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year);
 }

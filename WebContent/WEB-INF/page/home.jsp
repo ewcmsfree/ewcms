@@ -9,6 +9,7 @@
         <s:include value="taglibs.jsp"/>
         <link rel="stylesheet" type="text/css" href='<s:url value="/ewcmssource/page/home.css"/>'/>
         <script type="text/javascript" src='<s:url value="/ewcmssource/page/home.js"/>'></script>
+        <script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
         <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.pubsub.js"/>'></script>
         <script type="text/javascript">
             var _home = new home();
@@ -23,7 +24,7 @@
                     exit:'<s:url value="/logout.do"/>',
                     siteswitch:'<s:url action="siteswitch"/>',
                     progress:'<s:url action="progress"/>',
-                    hasSite:<s:property value="hasSite"/>
+                    hasSite:'<s:property value="hasSite"/>'
                 });
                 
                 $(window).unload(function() {
@@ -255,13 +256,104 @@
         </div>
         <div region="center" style="overflow:hidden;">
             <div class="easyui-tabs"  id="systemtab" fit="true" border="false">
-                <div title="首页" style="padding:20px;overflow:hidden;">
-                    <div style="margin-top:20px;">
+                <div title="首页" style="padding:5px;overflow:hidden;">
+                    <div style="margin-top:10px;">
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                    	<tr id="other_tr" style="display: none;">
-                    		<td class="portal-column-td">
+                    	<tr>
+                    		<td class="portal-column-td" width="32%">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">新增文章数</div>
+	        								<div class="panel-tool">
+												<s:select id="yearCreate" list="years" name="yearCreate" onchange="selectYearCreate(this);"/>
+											</div>
+	        							</div>
+	        							<div style="height: 200px; padding: 5px;" closable="true" collapsible="false" class="portal-p panel-body">
+	        								<div id="chartDiv" align="center">新增文章数</div>
+											<script type="text/javascript">
+												function selectYearCreate(select){
+													$('#yearCreate').val(select.value);
+													showCreateChart();
+											  	}
+											  	function showCreateChart(){
+												  	$.post("<s:url action='createArticle'/>", {yearCreate : $('#yearCreate').val()}, function(result) {
+														var myChart = new FusionCharts("<s:url value='/ewcmssource/fcf/swf/Column3D.swf'/>?ChartNoDataText=无数据显示", "myChartId", "400", "200");
+												      	myChart.setDataXML(result);      
+												      	myChart.render("chartDiv");
+												   	});  
+											  	}
+											  	showCreateChart();
+											</script>
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        					<td width="1%"></td>
+        					<td class="portal-column-td" width="32%">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">发布文章数</div>
+	        								<div class="panel-tool">
+												<s:select id="yearRelease" list="years" name="yearRelease" onchange="selectYearRelease(this);"/>
+											</div>
+	        							</div>
+	        							<div style="height: 200px; padding: 5px;" closable="true" collapsible="false" class="portal-p panel-body">
+	        								<div id="lineDiv" align="center">发布文章数</div>
+										  	<script type="text/javascript">
+										  		function selectYearRelease(select){
+											  		$('#yearRelease').val(select.value);
+											  		showReleaseChart();
+										  		}
+										  		function showReleaseChart(){
+												  	$.post("<s:url action='releaseArticle'/>", {yearRelease : $('#yearRelease').val()}, function(result) {
+												  		var myChart = new FusionCharts("<s:url value='/ewcmssource/fcf/swf/Line.swf'/>?ChartNoDataText=无数据显示", "myChartId", "400", "200");
+											      		myChart.setDataXML(result);      
+											      		myChart.render("lineDiv");
+											   		});  
+										  		}
+										  		showReleaseChart();
+										  	</script>
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        					<td width="1%"></td>
+        					<td class="portal-column-td" width="32%">
+                    			<div style="overflow:hidden;padding:0 0 0 0">
+	        						<div class="panel" style="margin-bottom:2px;">
+	        							<div class="panel-header">
+	        								<div class="panel-title">发布文章人员</div>
+	        								<div class="panel-tool">
+												<s:select id="yearPerson" list="years" name="yearPerson" onchange="selectYearPerson(this);"/>
+											</div>
+	        							</div>
+	        							<div style="height: 200px; padding: 5px;" closable="true" collapsible="false" class="portal-p panel-body">
+	        								<div id="pieDiv" align="center">发布文章人员</div>
+										  	<script type="text/javascript">
+										  		function selectYearPerson(select){
+											  		$('#yearPerson').val(select.value);
+											  		showPersonChart();
+										  		}
+										  		function showPersonChart(){
+												  	$.post("<s:url action='releaseArticlePerson'/>", {yearPerson : $('#yearPerson').val()}, function(result) {
+												  		var myChart = new FusionCharts("<s:url value='/ewcmssource/fcf/swf/Pie3D.swf'/>?ChartNoDataText=无数据显示", "myChartId", "400", "200");
+											      		myChart.setDataXML(result);
+											      		myChart.render("pieDiv");
+											   		});  
+										  		}
+										  		showPersonChart();
+										  	</script>
+				    					</div>
+				    				</div>
+        						</div>
+        					</td>
+        				</tr>
+                    	<tr>
+                    		<td class="portal-column-td" width="32%">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
 	        							<div class="panel-header">
@@ -273,9 +365,8 @@
 				    				</div>
         						</div>
         					</td>
-        				</tr>
-                    	<tr id="notice_tr" style="display: none;">
-                    		<td class="portal-column-td">
+        					<td width="1%"></td>
+                    		<td class="portal-column-td" width="32%">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
 	        							<div class="panel-header">
@@ -287,9 +378,8 @@
 				    				</div>
         						</div>
         					</td>
-        				</tr>
-                    	<tr id="subscription_tr" style="display: none;">
-                    		<td class="portal-column-td">
+        					<td width="1%"></td>
+                    		<td class="portal-column-td" width="32%">
                     			<div style="overflow:hidden;padding:0 0 0 0">
 	        						<div class="panel" style="margin-bottom:2px;">
 	        							<div class="panel-header">

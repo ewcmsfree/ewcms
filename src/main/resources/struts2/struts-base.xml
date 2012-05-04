@@ -22,5 +22,8 @@
         <action name="progress" class="com.ewcms.web.EwcmsBaseAction">
             <result>/WEB-INF/page/progress.jsp</result>
         </action>
+        <action name="createArticle" class="com.ewcms.web.FcfAction" method="createArticle"/>
+        <action name="releaseArticle" class="com.ewcms.web.FcfAction" method="releaseArticle"/>
+        <action name="releaseArticlePerson" class="com.ewcms.web.FcfAction" method="releaseArticlePerson"/>
     </package>
 </struts>

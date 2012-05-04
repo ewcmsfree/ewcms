@@ -302,4 +302,19 @@ public class DocumentFac implements DocumentFacable {
 	public List<OperateTrack> findOperateTrackByArticleMainId(Long articleMainId) {
 		return operateTrackService.findOperateTrackByArticleMainId(articleMainId);
 	}
+
+	@Override
+	public Map<Integer, Long> findCreateArticleFcfChart(Integer year) {
+		return articleMainService.findCreateArticleFcfChart(year);
+	}
+
+	@Override
+	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year) {
+		return articleMainService.findReleaseArticleFcfChart(year);
+	}
+
+	@Override
+	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year) {
+		return articleMainService.findReleaseArticlePersonFcfChart(year);
+	}
 }

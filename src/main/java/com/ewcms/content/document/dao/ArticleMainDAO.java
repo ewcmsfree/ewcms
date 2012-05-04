@@ -146,4 +146,61 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
 
     	return query.getSingleResult();
     }
+	
+    public Map<Integer, Long> findCreateArticleFcfChart(final Integer year){
+    	Map<Integer, Long> map = new HashMap<Integer, Long>();
+    	
+    	for (int i = 1; i <= 12; i++){
+    		map.put(i, 0L);
+    	}
+    	
+        String hql = "Select MONTH(a.createTime) As month , Count(a.id) As total From Article As a Where YEAR(a.createTime)=:year And a.delete=false Group By MONTH(a.createTime)";
+        
+        TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+        query.setParameter("year", year);
+        
+        List<Object[]> results = query.getResultList();
+        for (Object[] result : results) {
+        	Integer month = (Integer)result[0];
+            Long count = (Long)result[1];
+            map.put(month, count);
+        }
+        return map;
+    }
+    
+    public Map<Integer, Long> findReleaseArticleFcfChart(final Integer year){
+    	Map<Integer, Long> map = new HashMap<Integer, Long>();
+    	
+    	for (int i = 1; i <= 12; i++){
+    		map.put(i, 0L);
+    	}
+    	
+        String hql = "Select MONTH(a.published) As month , Count(a.id) As total From Article As a Where YEAR(a.published)=:year And a.delete=false Group By MONTH(a.published)";
+        
+        TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+        query.setParameter("year", year);
+        
+        List<Object[]> results = query.getResultList();
+        for (Object[] result : results) {
+        	Integer month = (Integer)result[0];
+            Long count = (Long)result[1];
+            map.put(month, count);
+        }
+        return map;
+    }
+    
+    public Map<String, Long> findReleaseArticlePersonFcfChart(final Integer year){
+    	Map<String, Long> map = new HashMap<String, Long>();
+    	String hql = "Select a.owner As person, Count(a.id) As total From Article As a Where YEAR(a.published)=:year And a.status=:status And a.delete=false Group By a.owner";
+    	TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+    	query.setParameter("year", year);
+    	query.setParameter("status", Status.RELEASE);
+    	List<Object[]> results = query.getResultList();
+    	for (Object[] result : results){
+    		String person = (String) result[0];
+    		Long count = (Long) result[1];
+    		map.put(person, count);
+    	}
+    	return map;
+    }
 }

@@ -605,4 +605,19 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}
 		return result;
 	}
+
+	@Override
+	public Map<Integer, Long> findCreateArticleFcfChart(Integer year) {
+		return articleMainDAO.findCreateArticleFcfChart(year);
+	}
+
+	@Override
+	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year) {
+		return articleMainDAO.findReleaseArticleFcfChart(year);
+	}
+
+	@Override
+	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year) {
+		return articleMainDAO.findReleaseArticlePersonFcfChart(year);
+	}
 }

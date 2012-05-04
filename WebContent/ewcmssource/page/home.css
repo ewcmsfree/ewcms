@@ -7,6 +7,6 @@
  a:hover {text-decoration: underline;color: red;}
  p{line-height:200%;}
  .head{height:65px;padding:0px;overflow:hidden;}
- .ellipsis{display:block;width:900px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
+ .ellipsis{display:block;width:150px;float:left; overflow:hidden;white-space:nowrap;padding-right:10px;text-overflow:ellipsis;-o-text-overflow:ellipsis;cursor:pointer;}
  
  .message-unread{background:url('../image/msg/msg_new.gif') no-repeat 14px; top;}

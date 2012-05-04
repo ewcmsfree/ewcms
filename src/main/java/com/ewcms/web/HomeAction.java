@@ -6,6 +6,8 @@
 
 package com.ewcms.web;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class HomeAction extends EwcmsBaseAction {
     private String realName;
     private String userName;
     private boolean hasSite = true;
+    private Integer yearCreate = Calendar.getInstance().get(Calendar.YEAR);
+    private Integer yearRelease = Calendar.getInstance().get(Calendar.YEAR);
+    private Integer yearPerson = Calendar.getInstance().get(Calendar.YEAR);
     
 	@Autowired
 	private SiteFac siteFac;
@@ -110,4 +115,36 @@ public class HomeAction extends EwcmsBaseAction {
     public String getUserName(){
     	return userName;
     }
+    
+    public Integer getYearCreate() {
+		return yearCreate;
+	}
+
+	public void setYearCreate(Integer yearCreate) {
+		this.yearCreate = yearCreate;
+	}
+
+	public Integer getYearRelease() {
+		return yearRelease;
+	}
+
+	public void setYearRelease(Integer yearRelease) {
+		this.yearRelease = yearRelease;
+	}
+
+	public Integer getYearPerson() {
+		return yearPerson;
+	}
+
+	public void setYearPerson(Integer yearPerson) {
+		this.yearPerson = yearPerson;
+	}
+
+	public List<Integer> getYears(){
+		List<Integer> years = new ArrayList<Integer>();
+		for (int i = 2000; i <= yearCreate; i++){
+			years.add(i);
+		}
+		return years;
+	}
 }

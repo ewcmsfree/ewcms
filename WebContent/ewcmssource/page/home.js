@@ -100,9 +100,6 @@ home.prototype.getNoticeMessage = function(jsonNotice, reread){
 	    var html = pro.join("");
 	    noticesHtml += html + '</table></div>'
 	    $(noticesHtml).appendTo('#notice');
-	    $('#notice_tr').show();
-    }else{
-    	$('#notice_tr').hide();
     }
 }
 
@@ -120,9 +117,6 @@ home.prototype.getSubscription = function(jsonSub, reread){
         var html = pro.join("");
         subscriptionHtml += html + '</table></div>'
         $(subscriptionHtml).appendTo('#subscription');
-        $('#subscription_tr').show();
-    }else{
-    	$('#subscription_tr').hide();
     }
 }
 
@@ -150,9 +144,6 @@ home.prototype.getBeApproval=function(jsonBeApproval, reread){
    		var html = pro.join("");
    		beApprovalHtml += html + '</table></div>'
    		$(beApprovalHtml).appendTo('#other');
-   		$('#other_tr').show();
-	}else{
-		$('#other_tr').hide();
 	}
 }
 
