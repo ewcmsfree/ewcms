@@ -8,8 +8,13 @@
 
 技术路线
 
-    JDK：6.0以上。
+　 JDK：6.0以上。
     开发架构：J2EE。
     操作系统：兼容全部主流服务操作系统，包括Windows Server、 Linux。
     数据库：Postgresql 8.0以上。
     应用服务器：Tomcat6.0以上。 
+    
+演示地址
+  http://59.53.171.148/
+  username:demo
+  password:123456
