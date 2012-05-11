@@ -19,7 +19,7 @@ import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
-import com.ewcms.web.vo.ComboBoxUserAndGroup;
+import com.ewcms.web.vo.ComboBoxString;
 
 /**
  * 
@@ -132,10 +132,10 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 	public void sessionInfo(){
 		EntityQueryable query = queryFactory.createEntityQuery(User.class);
 		List<Object> resultList = query.queryResult().getResultList();
-		List<ComboBoxUserAndGroup> comboBoxUsers = new ArrayList<ComboBoxUserAndGroup>();
-		ComboBoxUserAndGroup comboBoxUser = null;
+		List<ComboBoxString> comboBoxUsers = new ArrayList<ComboBoxString>();
+		ComboBoxString comboBoxUser = null;
 		for (Object object : resultList){
-			comboBoxUser = new ComboBoxUserAndGroup();
+			comboBoxUser = new ComboBoxString();
 			User user = (User)object;
 			comboBoxUser.setId(user.getUsername());
 			comboBoxUser.setText(user.getUserInfo().getName());
@@ -146,7 +146,7 @@ public class ParameterAction extends CrudBaseAction<Parameter, Long>{
 			
 			comboBoxUsers.add(comboBoxUser);
 		}
-		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUserAndGroup[0])));
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxString[0])));
 	}
 
 }

@@ -91,6 +91,9 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 			maxSort = (Long) query.getSingleResult();
 		}catch(NoResultException e){
 		}
+		if (maxSort == null){
+			maxSort = 0L;
+		}
 		return maxSort;
 	}
 	
@@ -156,6 +159,9 @@ public class GatherDAO extends JpaDAO<Long, Gather> {
 		try{
 			maxSort = (Long) query.getSingleResult();
 		}catch(NoResultException e){
+		}
+		if (maxSort == null){
+			maxSort = 0L;
 		}
 		return maxSort;
 	}

@@ -14,6 +14,7 @@ import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.plugin.crawler.model.MatchBlock;
+import com.ewcms.plugin.crawler.model.Storage;
 
 /**
  * 采集器服务接口
@@ -235,4 +236,18 @@ public interface GatherServiceable {
 	 * @param gatherId 采集器编号
 	 */
 	public void delGatherData(Long gatherId);
+	
+	/**
+	 * 新增本地存储记录(通过网络采集器)
+	 * 
+	 * @param storage
+	 */
+	public void addStorage(Storage storage);
+	
+	/**
+	 * 删除本地存储记录
+	 * 
+	 * @param storageId
+	 */
+	public void delStorage(Long storageId);
 }

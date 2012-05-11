@@ -48,6 +48,9 @@ public class DomainDAO extends JpaDAO<Long, Domain> {
 			maxLevel = (Long) query.getSingleResult();
 		}catch(NoResultException e){
 		}
+		if (maxLevel == null){
+			maxLevel = 0L;
+		}
 		return maxLevel;
 	}
 	
@@ -59,6 +62,6 @@ public class DomainDAO extends JpaDAO<Long, Domain> {
 		query.setParameter("url", url);
 		
 		List<Domain> list = query.getResultList();
-		return list.isEmpty() ? false : true;
+		return list.isEmpty() ? true : false;
 	}
 }

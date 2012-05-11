@@ -24,7 +24,9 @@ import com.ewcms.content.document.service.ArticleMainServiceable;
 import com.ewcms.plugin.crawler.generate.crawler.Page;
 import com.ewcms.plugin.crawler.generate.crawler.WebCrawler;
 import com.ewcms.plugin.crawler.generate.url.WebURL;
+import com.ewcms.plugin.crawler.manager.service.GatherServiceable;
 import com.ewcms.plugin.crawler.model.Gather;
+import com.ewcms.plugin.crawler.model.Storage;
 import com.ewcms.plugin.crawler.util.CrawlerUtil;
 
 /**
@@ -40,20 +42,28 @@ public class EwcmsContentCrawler extends WebCrawler {
 	
 	private String[] crawlDomains;
 	private ArticleMainServiceable articleMainService;
+	private GatherServiceable gatherService;
 	private Gather gather;
 	private String matchRegex;
 	private String filterRegex;
 	private String htmlType;
+	private Boolean isLocal;
+	private String[] keys;
 
 	@Override
 	public void onStart() {
 		super.onStart();
 		crawlDomains = (String[]) myController.getCustomData();
 		articleMainService = (ArticleMainServiceable)getPassingParameters().get("articleMainService");
+		gatherService = (GatherServiceable)getPassingParameters().get("gatherService");
 		matchRegex = (String)getPassingParameters().get("matchRegex");
 		filterRegex = (String)getPassingParameters().get("filterRegex");
 		gather = (Gather)getPassingParameters().get("gather");
 		htmlType = gather.getHtmlType();
+		isLocal = gather.getIsLocal();
+		if (isLocal){
+			keys = gather.getKeys().split(",");
+		}
 	}
 
 	/**
@@ -95,7 +105,7 @@ public class EwcmsContentCrawler extends WebCrawler {
 					}
 				}
 			}
-	
+			
 			if (title != null && title.trim().length() > 0){
 				Elements elements = doc.select(matchRegex);
 				if (filterRegex != null && filterRegex.trim().length() > 0){
@@ -105,7 +115,7 @@ public class EwcmsContentCrawler extends WebCrawler {
 					String subHtml = elements.html();
 					Document blockDoc = Jsoup.parse(subHtml);
 					String contentText = blockDoc.html();
-			
+				
 					if (gather.getRemoveHref()) {
 						Document moveDoc = Jsoup.parse(contentText);
 						Elements moveEles = moveDoc.select("*").not("a");
@@ -114,17 +124,45 @@ public class EwcmsContentCrawler extends WebCrawler {
 					if (gather.getRemoveHtmlTag())
 						contentText = doc.text();
 		
-					Content content = new Content();
-					content.setDetail(contentText);
-					content.setPage(1);
-					List<Content> contents = new ArrayList<Content>();
-					contents.add(content);
-			
-					Article article = new Article();
-					article.setTitle(title);
-					article.setContents(contents);
-			
-					articleMainService.addArticleMainByCrawler(article, gather.getChannelId(), CrawlerUtil.USER_NAME);
+					if (isLocal){
+						contentText = doc.text();
+						
+						Boolean isMatcher = true;
+						for (int i = 0 ; i < keys.length ; i++){
+							Boolean result = Pattern.compile(keys[i].trim()).matcher(contentText).find();
+							if (!result){
+								isMatcher = false;
+								break;
+							}
+						}
+						
+						if (isMatcher){
+							Storage storage = new Storage();
+							storage.setGatherId(gather.getId());
+							storage.setGatherName(gather.getName());
+							storage.setTitle(title);
+							storage.setUrl(url);
+							try{
+								gatherService.addStorage(storage);
+							}catch(Exception e){
+								logger.error("save storage error : {}", e.getLocalizedMessage());
+							}finally{
+								storage = null;
+							}
+						}
+					}else{
+						Content content = new Content();
+						content.setDetail(contentText);
+						content.setPage(1);
+						List<Content> contents = new ArrayList<Content>();
+						contents.add(content);
+					
+						Article article = new Article();
+						article.setTitle(title);
+						article.setContents(contents);
+					
+						articleMainService.addArticleMainByCrawler(article, gather.getChannelId(), CrawlerUtil.USER_NAME);
+					}
 				}
 			}
 		} catch (IOException e) {

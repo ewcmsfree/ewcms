@@ -9,7 +9,7 @@
 		<s:include value="../../../taglibs.jsp"/>
         <script type="text/javascript">
         	$(function() {
-    	        <s:include value="../../alertMessage.jsp"/>
+    	        <s:include value="../../../alertMessage.jsp"/>
     	        
         		if ($("#proxy").attr("checked") == 'checked') {
     				$("#trProxy").show();
@@ -21,6 +21,12 @@
         		}else{
         			$('#titleRegex').attr('readonly',true);
         		}
+        		if ($('#isKey').attr('checked') == 'checked'){
+        			$('#keys').attr('readonly', false);
+        		}else{
+        			$('#keys').attr('readonly', true);
+        		}
+        		
         		$("#proxy").click(function() {
         			if ($("#proxy").attr("checked") == 'checked') {
         				$("#trProxy").show();
@@ -34,6 +40,13 @@
             		}else{
             			$('#titleRegex').attr('readonly',true);
             		}
+        		});
+        		$('#isKey').click(function(){
+        			if ($('#isKey').attr('checked') == 'checked'){
+        				$('#keys').attr('readonly', false);
+        			}else{
+        				$('#keys').attr('readonly', true);
+        			}
         		});
         	})
             function selectOperate(){
@@ -99,6 +112,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td>关键字：</td>
+					<td>
+						<s:checkbox id="isKey" name="gatherVo.isKey" cssStyle="vertical-align:middle;"/>&nbsp;&nbsp;表达式：<s:textfield id="keys" name="gatherVo.keys" readonly="true" size="10"></s:textfield>&nbsp;(关键词之间都要满足时用“,”分隔，关键词之间有一个满足时用“|”分隔，两个可同时使用)</a>
+					</td>
+				</tr>
+				<tr>
 					<td>使用其他标题：</td>
 					<td>
 						<s:checkbox id="titleExternal" name="gatherVo.titleExternal" cssStyle="vertical-align:middle;"/>&nbsp;&nbsp;表达式：<s:textfield id="titleRegex" name="gatherVo.titleRegex" readonly="true" size="30"></s:textfield>&nbsp;<a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" plain="true" iconCls="icon-help" onclick="parent.helpOperate();"></a>
@@ -150,6 +169,7 @@
 				<tr>
 					<td>采集到此频道：</td>
 					<td>
+						<s:checkbox id="isLocal" name="gatherVo.isLocal" cssStyle="vertical-align:middle;"/><label for="isLocal">本地（只采集标题和URL）</label>
 						<s:textfield id="channelName" name="channelName" readonly="true"/><input type="button" name="btnChannel" value="选择..." onclick="selectOperate();return false;"/>
 						<s:hidden id="channelId" name="gatherVo.channelId"/>
 					</td>

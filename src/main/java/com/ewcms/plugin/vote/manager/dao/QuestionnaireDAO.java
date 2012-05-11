@@ -33,7 +33,9 @@ public class QuestionnaireDAO extends JpaDAO<Long, Questionnaire> {
     		maxSort = (Long) query.getSingleResult();
     	}catch(NoResultException e){
     	}
-    	
+    	if (maxSort == null){
+    		maxSort = 0L;
+    	}
     	return maxSort;
 	}
 	

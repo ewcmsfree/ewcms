@@ -1,8 +1,20 @@
 /**
- * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
- * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.ewcms.com
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.ewcms.plugin.crawler.generate.crawler;
 
 import com.ewcms.plugin.crawler.generate.fetcher.PageFetcher;
@@ -12,33 +24,27 @@ import com.ewcms.plugin.crawler.generate.robotstxt.RobotstxtServer;
 import com.ewcms.plugin.crawler.generate.url.URLCanonicalizer;
 import com.ewcms.plugin.crawler.generate.url.WebURL;
 import com.ewcms.plugin.crawler.generate.util.IO;
-import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
- * The controller that manages a crawling session. This class creates
- * the crawler threads and monitors their progress.
- *
+ * The controller that manages a crawling session. This class creates the
+ * crawler threads and monitors their progress.
+ * 
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
- * @author wu_zhijun
  */
 public class CrawlController extends Configurable {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CrawlController.class.getName());
 
-	private Map<String,Object> passingParameters;
-	
-	private Environment env;
-	
 	/**
 	 * The 'customData' object can be used for passing custom crawl-related
 	 * configurations to different components of the crawler.
@@ -66,10 +72,11 @@ public class CrawlController extends Configurable {
 	protected RobotstxtServer robotstxtServer;
 	protected Frontier frontier;
 	protected DocIDServer docIdServer;
+	private Map<String, Object> passingParameters;
 
 	protected final Object waitingLock = new Object();
 
-	public CrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer, Map<String,Object> passingParameters)
+	public CrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer, Map<String, Object> passingParameters)
 			throws Exception {
 		super(config);
 
@@ -100,7 +107,7 @@ public class CrawlController extends Configurable {
 			IO.deleteFolderContents(envHome);
 		}
 
-		env = new Environment(envHome, envConfig);
+		Environment env = new Environment(envHome, envConfig);
 		docIdServer = new DocIDServer(env, config);
 		frontier = new Frontier(env, config, docIdServer);
 
@@ -261,28 +268,16 @@ public class CrawlController extends Configurable {
 	 * Wait until this crawling session finishes.
 	 */
 	public void waitUntilFinish() {
-		try{
-			while (!finished) {
-				synchronized (waitingLock) {
-					if (finished) {
-						return;
-					}
-					try {
-						waitingLock.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+		while (!finished) {
+			synchronized (waitingLock) {
+				if (finished) {
+					return;
 				}
-			}
-		}finally{
-			try{
-				if (env != null){
-					env.cleanLog();
-					env.close();
-					env = null;
+				try {
+					waitingLock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			}catch(DatabaseException  e){
-				logger.warn(e.getLocalizedMessage());
 			}
 		}
 	}
@@ -452,7 +447,7 @@ public class CrawlController extends Configurable {
 		this.shuttingDown = true;
 		frontier.finish();
 	}
-	
+
 	public Map<String, Object> getPassingParameters() {
 		return passingParameters;
 	}

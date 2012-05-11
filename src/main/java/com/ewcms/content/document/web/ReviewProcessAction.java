@@ -22,7 +22,7 @@ import com.ewcms.security.manage.model.User;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
-import com.ewcms.web.vo.ComboBoxUserAndGroup;
+import com.ewcms.web.vo.ComboBoxString;
 
 /**
  * @author 吴智俊
@@ -162,10 +162,10 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 	public void userInfo(){
 		EntityQueryable query = queryFactory.createEntityQuery(User.class);
 		List<Object> resultList = query.queryResult().getResultList();
-		List<ComboBoxUserAndGroup> comboBoxUsers = new ArrayList<ComboBoxUserAndGroup>();
-		ComboBoxUserAndGroup comboBoxUser = null;
+		List<ComboBoxString> comboBoxUsers = new ArrayList<ComboBoxString>();
+		ComboBoxString comboBoxUser = null;
 		for (Object object : resultList){
-			comboBoxUser = new ComboBoxUserAndGroup();
+			comboBoxUser = new ComboBoxString();
 			User user = (User)object;
 			comboBoxUser.setId(user.getUsername());
 			comboBoxUser.setText(user.getUserInfo().getName());
@@ -176,16 +176,16 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 			
 			comboBoxUsers.add(comboBoxUser);
 		}
-		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxUserAndGroup[0])));
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxUsers.toArray(new ComboBoxString[0])));
 	}
 	
 	public void groupInfo(){
 		EntityQueryable query = queryFactory.createEntityQuery(Group.class);
 		List<Object> resultList = query.queryResult().getResultList();
-		List<ComboBoxUserAndGroup> comboBoxGroups = new ArrayList<ComboBoxUserAndGroup>();
-		ComboBoxUserAndGroup comboBoxGroup = null;
+		List<ComboBoxString> comboBoxGroups = new ArrayList<ComboBoxString>();
+		ComboBoxString comboBoxGroup = null;
 		for (Object object : resultList){
-			comboBoxGroup = new ComboBoxUserAndGroup();
+			comboBoxGroup = new ComboBoxString();
 			Group group = (Group)object;
 			comboBoxGroup.setId(group.getName());
 			comboBoxGroup.setText(group.getName());
@@ -195,6 +195,6 @@ public class ReviewProcessAction extends CrudBaseAction<ReviewProcess, Long> {
 			}
 			comboBoxGroups.add(comboBoxGroup);
 		}
-		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxGroups.toArray(new ComboBoxUserAndGroup[0])));
+		Struts2Util.renderJson(JSONUtil.toJSON(comboBoxGroups.toArray(new ComboBoxString[0])));
 	}
 }

@@ -163,4 +163,9 @@ public class CrawlerFac implements CrawlerFacable {
 	public void delGatherData(Long gatherId) {
 		gatherService.delGatherData(gatherId);
 	}
+
+	@Override
+	public void delStorage(Long storageId) {
+		gatherService.delStorage(storageId);
+	}
 }

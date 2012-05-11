@@ -210,6 +210,12 @@
                             <span>资源采集</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a href="javascript:_home.addTab('存储库','crawler/storage/index.do')">
+                            <img src="ewcmssource/image/crawler_storage.png" style="border:0"/><br/>
+                            <span>存储库</span>
+                        </a>
+                    </div>
                 </div>
                 </sec:authorize>
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
@@ -252,6 +258,68 @@
                	    </div>
                	</div>
                 </sec:authorize>
+                <div title="特殊类信息" style="overflow:auto;">
+                	<div class="nav-item">
+                         <a href="javascript:_home.addTab('项目基本数据','particular/pb/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>项目基本数据</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('项目文章信息','particular/pa/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>项目文章信息</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('企业基本数据','particular/eb/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>企业基本数据</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('企业文章信息','particular/ea/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>企业文章信息</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('从业人员基本信息','particular/mb/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>从业人员基本信息</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('企业文章信息','particular/ma/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>从业人员文章信息</span>
+                        </a>
+                    </div>
+                	<div class="nav-item">
+                         <a href="javascript:_home.addTab('审批备案机关','particular/ar/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>审批备案机关</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('行业编码','particular/ic/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>行业编码</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('发布部门','particular/ps/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>发布部门</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                         <a href="javascript:_home.addTab('行政区划代码','particular/zc/index.do')">
+                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <span>行政区划代码</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div region="center" style="overflow:hidden;">

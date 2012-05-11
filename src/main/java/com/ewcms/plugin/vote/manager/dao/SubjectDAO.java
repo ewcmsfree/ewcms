@@ -33,7 +33,9 @@ public class SubjectDAO extends JpaDAO<Long, Subject> {
     		maxSort = (Long) query.getSingleResult();
     	}catch(NoResultException e){
     	}
-    	
+    	if (maxSort == null){
+    		maxSort = 0L;
+    	}
     	return maxSort;
 	}
 	

@@ -46,6 +46,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>downloadFile:下载内容中的文件</li>
  * <li>removeHref:移除内容中的链接</li>
  * <li>removeHtmlTag:移除内容中的HTML标签</li>
+ * <li>isLocal:是否本地(true:只采集标题和URL)</li>
  * <li>channelId:采集到此频道</li>
  * <li>baseURI:域名地址</li>
  * <li>domains:URL层级对象集合</li>
@@ -66,6 +67,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>isVideo:视频资源</li>
  * <li>isAnnex:附件资源<li>
  * <li>annexType:附件类型</li>
+ * <li>isKey:关键字</li>
+ * <li>keys:关键词</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -120,6 +123,8 @@ public class Gather implements Serializable {
 	private Boolean removeHref;
 	@Column(name = "removeHtmlTag")
 	private Boolean removeHtmlTag;
+	@Column(name = "islocal")
+	private Boolean isLocal;
 	@Column(name = "channel_id")
 	private Integer channelId;
 	@Column(name = "base_uri")
@@ -165,6 +170,10 @@ public class Gather implements Serializable {
     private Boolean isAnnex;
     @Column(name = "annexType")
     private String annexType;
+    @Column(name = "iskey")
+    private Boolean isKey;
+    @Column(name = "keys", columnDefinition = "text")
+    private String keys;
 
 	public Gather(){
 		maxPage = -1L;
@@ -183,6 +192,7 @@ public class Gather implements Serializable {
 		isFlash = false;
 		isVideo = false;
 		isAnnex = false;
+		isLocal = false;
 	}
 	
 	public Long getId() {
@@ -271,6 +281,14 @@ public class Gather implements Serializable {
 
 	public void setRemoveHtmlTag(Boolean removeHtmlTag) {
 		this.removeHtmlTag = removeHtmlTag;
+	}
+
+	public Boolean getIsLocal() {
+		return isLocal;
+	}
+
+	public void setIsLocal(Boolean isLocal) {
+		this.isLocal = isLocal;
 	}
 
 	public Integer getChannelId() {
@@ -434,6 +452,22 @@ public class Gather implements Serializable {
 
 	public void setAnnexType(String annexType) {
 		this.annexType = annexType;
+	}
+
+	public Boolean getIsKey() {
+		return isKey;
+	}
+
+	public void setIsKey(Boolean isKey) {
+		this.isKey = isKey;
+	}
+
+	public String getKeys() {
+		return keys;
+	}
+
+	public void setKeys(String keys) {
+		this.keys = keys;
 	}
 
 	@Override

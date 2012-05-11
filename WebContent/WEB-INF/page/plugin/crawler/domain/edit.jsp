@@ -25,6 +25,7 @@
 				</tr>
 			</table>
 			<s:hidden name="domainVo.id"/>
+			<s:hidden name="domainVo.level"/>
 			<s:hidden name="gatherId" name="gatherId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

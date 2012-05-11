@@ -21,11 +21,13 @@ import com.ewcms.plugin.BaseException;
 import com.ewcms.plugin.crawler.generate.util.IO;
 import com.ewcms.plugin.crawler.manager.dao.DomainDAO;
 import com.ewcms.plugin.crawler.manager.dao.GatherDAO;
+import com.ewcms.plugin.crawler.manager.dao.StorageDAO;
 import com.ewcms.plugin.crawler.manager.web.BlockTreeGridNode;
 import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
 import com.ewcms.plugin.crawler.model.MatchBlock;
+import com.ewcms.plugin.crawler.model.Storage;
 import com.ewcms.plugin.crawler.util.CrawlerUtil;
 
 /**
@@ -42,6 +44,8 @@ public class GatherService implements GatherServiceable {
 	private DomainDAO domainDAO;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
+	@Autowired
+	private StorageDAO storageDAO;
 	
 	public void setGatherDAO(GatherDAO gatherDAO){
 		this.gatherDAO = gatherDAO;
@@ -86,16 +90,15 @@ public class GatherService implements GatherServiceable {
 			Long maxLevel = domainDAO.findMaxDomainByGatherId(gatherId);
 			maxLevel++;
 			domain.setLevel(maxLevel);
-			domainDAO.persist(domain);
-			domainDAO.flush(domain);
+			
+			Set<Domain> domains = gather.getDomains();
+			domains.add(domain);
+			gather.setDomains(domains);
+			
+			gatherDAO.merge(gather);
+		}else{
+			domainDAO.merge(domain);
 		}
-		
-		Set<Domain> domains = gather.getDomains();
-		domains.add(domain);
-		gather.setDomains(domains);
-		
-		gatherDAO.merge(gather);
-		
 		return domain.getId();
 	}
 
@@ -471,5 +474,15 @@ public class GatherService implements GatherServiceable {
 			articleMainService.delArticleMainByCrawler(channelId, CrawlerUtil.USER_NAME);
 		}catch(Exception e){
 		}
+	}
+
+	@Override
+	public void addStorage(Storage storage){
+		storageDAO.persist(storage);
+	}
+	
+	@Override
+	public void delStorage(Long storageId) {
+		storageDAO.removeByPK(storageId);
 	}
 }

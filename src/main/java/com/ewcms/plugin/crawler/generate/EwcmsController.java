@@ -10,6 +10,7 @@ import static com.ewcms.common.lang.EmptyUtil.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ import com.ewcms.plugin.crawler.generate.fetcher.PageFetcher;
 import com.ewcms.plugin.crawler.generate.robotstxt.RobotstxtConfig;
 import com.ewcms.plugin.crawler.generate.robotstxt.RobotstxtServer;
 import com.ewcms.plugin.crawler.generate.util.IO;
-import com.ewcms.plugin.crawler.manager.CrawlerFacable;
+import com.ewcms.plugin.crawler.manager.service.GatherServiceable;
 import com.ewcms.plugin.crawler.model.Domain;
 import com.ewcms.plugin.crawler.model.FilterBlock;
 import com.ewcms.plugin.crawler.model.Gather;
@@ -48,7 +49,7 @@ public class EwcmsController implements EwcmsControllerable {
 	private static final Logger logger = LoggerFactory.getLogger(EwcmsController.class);
 	
 	@Autowired
-	private CrawlerFacable crawlerFac;
+	private GatherServiceable gatherService;
 	@Autowired
 	private ArticleMainServiceable articleMainService;
 	@Autowired
@@ -58,7 +59,7 @@ public class EwcmsController implements EwcmsControllerable {
 	
 	@Override
 	public void startCrawl(Long gatherId) throws BaseException{
-		Gather gather = crawlerFac.findGather(gatherId);
+		Gather gather = gatherService.findGather(gatherId);
 		
 		if (isNull(gather)){
 			logger.warn("采集的记录不存在！");
@@ -75,12 +76,17 @@ public class EwcmsController implements EwcmsControllerable {
 			throw new BaseException("采集的网站地址未设定！","采集的网站地址未设定！");
 		}
 		
-		if (gather.getType() == Gather.Type.CONTENT && isNull(gather.getChannelId())){
+		if (gather.getDomains() == null || gather.getDomains().size() == 0){
+			logger.warn("采集的地址区配未设定！");
+			throw new BaseException("采集的地址区配未设定！","采集的地址区配未设定！");
+		}
+		
+		if (!gather.getIsLocal() && gather.getType() == Gather.Type.CONTENT && isNull(gather.getChannelId())){
 			logger.warn("收集的频道未设定！");
 			throw new BaseException("收集的频道未设定！","收集的频道未设定！");
 		}
 		
-		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId;
+		String gatherFolderPath = CrawlerUtil.ROOT_FOLDER + gatherId + "-"+ Calendar.getInstance().getTimeInMillis();
 		try{
 			File gatherFolder = new File(gatherFolderPath);
 			if (gatherFolder.exists()){ 
@@ -115,11 +121,11 @@ public class EwcmsController implements EwcmsControllerable {
 		}else{
 			config.setIncludeBinaryContentInCrawling(gather.getDownloadFile());
 			
+			passingParameters.put("gatherService", gatherService);
 			passingParameters.put("articleMainService", articleMainService);
 			passingParameters.put("gather", gather);
 			passingParameters.put("matchRegex", initMatchBlock(gatherId));
 			passingParameters.put("filterRegex",initFilterBlock(gatherId));
-			
 		}
 		
 		config.setPolitenessDelay(2000);
@@ -131,7 +137,7 @@ public class EwcmsController implements EwcmsControllerable {
 			config.setProxyUsername(gather.getProxyUserName());
 			config.setProxyPassword(gather.getProxyPassWord());
 		}
-		config.setMaxDepthOfCrawling(gather.getDepth().shortValue());
+		config.setMaxDepthOfCrawling(gather.getDepth().intValue());
 		config.setResumableCrawling(true);
 		
 		PageFetcher pageFetcher = new PageFetcher(config);
@@ -153,7 +159,7 @@ public class EwcmsController implements EwcmsControllerable {
 			}
 			controller.waitUntilFinish();
 		}catch(Exception e){
-			logger.error("网络采集器运行失败！");
+			logger.error("网络采集器运行失败！- {}", e.getLocalizedMessage());
 		}finally{
 			passingParameters.clear();
 			passingParameters = null;
@@ -171,7 +177,7 @@ public class EwcmsController implements EwcmsControllerable {
 	private String initMatchBlock(Long gatherId){
 		List<String> matchRegexs = new ArrayList<String>();
 		
-		List<MatchBlock> parents = crawlerFac.findParentMatchBlockByGatherId(gatherId);
+		List<MatchBlock> parents = gatherService.findParentMatchBlockByGatherId(gatherId);
 		for (MatchBlock parent : parents){
 			String regex = "";
 			String matchRegex = parent.getRegex();
@@ -196,7 +202,7 @@ public class EwcmsController implements EwcmsControllerable {
 	}
 		
 	private void childrenMatchBlock(Long gatherId, String regex, MatchBlock parent, List<String> matchRegexs){
-		List<MatchBlock> childrens = crawlerFac.findChildMatchBlockByParentId(gatherId, parent.getId());
+		List<MatchBlock> childrens = gatherService.findChildMatchBlockByParentId(gatherId, parent.getId());
 		if (childrens.isEmpty()){
 			matchRegexs.add(regex);
 		}else{
@@ -215,7 +221,7 @@ public class EwcmsController implements EwcmsControllerable {
 	private String initFilterBlock(Long gatherId){
 		List<String> filterRegexs = new ArrayList<String>();
 		
-		List<FilterBlock> parents = crawlerFac.findParentFilterBlockByGatherId(gatherId);
+		List<FilterBlock> parents = gatherService.findParentFilterBlockByGatherId(gatherId);
 		for (FilterBlock parent : parents){
 			String regex = "";
 			String filterRegex = parent.getRegex();
@@ -240,7 +246,7 @@ public class EwcmsController implements EwcmsControllerable {
 	}
 		
 	private void childrenFilterBlock(Long gatherId, String regex, FilterBlock parent, List<String> filterRegexs){
-		List<FilterBlock> childrens = crawlerFac.findChildFilterBlockByParentId(gatherId, parent.getId());
+		List<FilterBlock> childrens = gatherService.findChildFilterBlockByParentId(gatherId, parent.getId());
 		if (childrens.isEmpty()){
 			filterRegexs.add(regex);
 		}else{

@@ -1,11 +1,36 @@
 /**
- * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
- * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.ewcms.com
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.ewcms.plugin.crawler.generate.fetcher;
 
-import org.apache.http.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.zip.GZIPInputStream;
+
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
@@ -18,7 +43,11 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.*;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParamBean;
 import org.apache.http.protocol.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,18 +57,12 @@ import com.ewcms.plugin.crawler.generate.crawler.CrawlConfig;
 import com.ewcms.plugin.crawler.generate.url.URLCanonicalizer;
 import com.ewcms.plugin.crawler.generate.url.WebURL;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.zip.GZIPInputStream;
-
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
  */
-
 public class PageFetcher extends Configurable {
 
-	private static final Logger logger = LoggerFactory.getLogger(PageFetcher.class);
+	protected static final Logger logger = LoggerFactory.getLogger(PageFetcher.class);
 
 	protected ThreadSafeClientConnManager connectionManager;
 
@@ -243,5 +266,6 @@ public class PageFetcher extends Configurable {
 			// length of ungzipped content is not known
 			return -1;
 		}
+
 	}
 }

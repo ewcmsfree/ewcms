@@ -30,7 +30,8 @@ import com.ewcms.plugin.vote.manager.VoteFacable;
 public class ResultServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3134667138637919147L;
-    @Override
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
     }

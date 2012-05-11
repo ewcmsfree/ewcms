@@ -89,4 +89,11 @@
 			<result>/WEB-INF/page/plugin/crawler/regex_help.jsp</result>
 		</action>
 	</package>
+	<package name="crawler.storage" extends="struts-default" namespace="/crawler/storage">
+		<action name="index">
+			<result>/WEB-INF/page/plugin/crawler/storage/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.plugin.crawler.manager.web.StorageQueryAction" method="query"/>
+		<action name="delete" class="com.ewcms.plugin.crawler.manager.web.StorageAction" method="delete"/>
+	</package>
 </struts>	

@@ -234,4 +234,11 @@ public interface CrawlerFacable {
 	 * @param gatherId 采集器编号
 	 */
 	public void delGatherData(Long gatherId);
+	
+	/**
+	 * 删除本地存储记录
+	 * 
+	 * @param storageId
+	 */
+	public void delStorage(Long storageId);
 }

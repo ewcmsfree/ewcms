@@ -36,7 +36,13 @@ $(function() {
 		    		if (val) return '是';
 		    		return '否';
 		    	}
-		    }
+		    },
+		    {field : 'isLocal',title : '本地存储库', width : 70,
+		    	formatter : function(val, rec){
+		    		if (val) return '是';
+		    		return '否';
+		    	}
+		    }		    
 		 ]]
 	});
 
