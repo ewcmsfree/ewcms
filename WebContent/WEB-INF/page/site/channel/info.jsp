@@ -9,6 +9,10 @@
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>
 	    	});
+	    	function save(){
+	    		document.forms[0].submit();
+	    		
+	    	}
 		</script>
 	</head>
 	<body>
@@ -18,6 +22,12 @@
 					<td>专栏(<s:property value="channelVo.id"/>)：</td>
 					<td  width="80%" class="formFieldError">
 						 <s:checkbox name="channelVo.publicenable"></s:checkbox>是否发布
+					</td>
+				</tr>
+				<tr>
+					<td>类型：</td>
+					<td>
+						<s:select list="@com.ewcms.core.site.model.Channel$Type@values()" listValue="description" name="channelVo.type" id="channelVo_type"></s:select>
 					</td>
 				</tr>													
 				<s:if test="channelVo.parent == null && !hasFieldErrors()">

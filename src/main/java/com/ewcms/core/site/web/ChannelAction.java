@@ -114,7 +114,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				}
 				TreeNode treeFile = new TreeNode();
 				treeFile.setId(rootVo.getId().toString());
-				treeFile.setText(rootVo.getName());
+				treeFile.setText(rootVo.getName() + "<font color='red'>(站点)</font>");
 				treeFile.setState("open");
 				Map<String, String> attributes = new HashMap<String, String>();
 				int max = TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
@@ -144,8 +144,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				default:
 					treeFile.setIconCls("icon-note-error");
 				}
-				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(),
-						isPub)));
+				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(), isPub)));
 				Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 				return;
 			}
@@ -231,12 +230,12 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 			Channel vo = siteFac.getChannel(getChannelVo().getId());
 
 			if (vo.getParent() != null) {
-
 				vo.setDir(getChannelVo().getDir());
 				vo.setListSize(getChannelVo().getListSize());
 				vo.setUrl(getChannelVo().getUrl());
 				vo.setMaxSize(getChannelVo().getMaxSize());
 				vo.setDescribe(getChannelVo().getDescribe());
+				vo.setType(getChannelVo().getType());
 			}
 
 			vo.setPublicenable(getChannelVo().getPublicenable());

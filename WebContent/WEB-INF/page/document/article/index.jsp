@@ -12,19 +12,18 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/index.js'/>"></script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 		<script type="text/javascript">
-			queryURL = "<s:url namespace='/document/article' action='query'/>";
-			inputURL = "<s:url namespace='/document/article' action='input'/>";
-			deleteURL = "<s:url namespace='/document/article' action='delete'/>";
+			queryURL = "<s:url namespace='/document/article' action='query'><s:param name='channelId' value='channelId'></s:param></s:url>";
+			inputURL = "<s:url namespace='/document/article' action='input'><s:param name='channelId' value='channelId'></s:param></s:url>";
+			deleteURL = "<s:url namespace='/document/article' action='delete'><s:param name='channelId' value='channelId'></s:param></s:url>";
+			reasonURL = "<s:url namespace='/document/article' action='reason'><s:param name='channelId' value='channelId'></s:param></s:url>";
 			treeURL = "<s:url namespace='/site/channel' action='tree'/>";
-			reasonURL = "<s:url namespace='/document/article' action='reason'/>";
 			trackURL = "<s:url namespace='/document/track' action='index'/>";
-			effectiveURL = "<s:url namespace='/document/article' action='reviewEffective'/>";
+			effectiveURL = "<s:url namespace='/document/article' action='reviewEffective'><s:param name='channelId' value='channelId'></s:param></s:url>";
+			previewURL = "/template/preview?channelId=" + $("#channelId").val();
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<div region="west"  title='<img src="<s:url value="/ewcmssource/easyui/themes/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
-			<ul id="tt2"></ul>
-		</div>
+		<s:hidden name="channelId" id="channelId"></s:hidden>
 		<div region="center" style="padding:2px;" border="false">
 			<table id="tt" fit="true"></table>
 	 	</div>
@@ -74,7 +73,7 @@
                	</form>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch_Article('<s:url namespace='/document/article' action='query'/>');">查询</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch_Article();">查询</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
                 </div>
             </div>
@@ -85,8 +84,8 @@
                 	<ul id="tt3"></ul>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <span id="span_move" style="display:none"><a id="moveArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="moveArticle('<s:url namespace='/document/article' action='move'/>');">确定</a></span>
-                    <span id="span_copy" style="display:none"><a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="copyArticle('<s:url namespace='/document/article' action='copy'/>');">确定</a></span>
+                    <span id="span_move" style="display:none"><a id="moveArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="moveArticle('<s:url namespace='/document/article' action='move'><s:param name='channelId' value='channelId'></s:param></s:url>');">确定</a></span>
+                    <span id="span_copy" style="display:none"><a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="copyArticle('<s:url namespace='/document/article' action='copy'><s:param name='channelId' value='channelId'></s:param></s:url>');">确定</a></span>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#moveorcopy-window').window('close');">取消</a>
                 </div>
             </div>
@@ -110,7 +109,7 @@
                 	</table>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle('<s:url namespace='/document/article' action='reviewArticle'/>');">确定</a>
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:reviewArticle('<s:url namespace='/document/article' action='reviewArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#review-window').window('close');return false;">取消</a>
                 </div>
             </div>
@@ -134,28 +133,28 @@
                     </table>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:sortArticle('<s:url namespace='/document/article' action='sortArticle'/>');">确定</a>
+                    <a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:sortArticle('<s:url namespace='/document/article' action='sortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">确定</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#sort-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>
         <div id="btnSortSub" style="width:80px;display:none;">
-        	<div id="btnSortSet" iconCls="icon-sortset" onclick="sortOperate('<s:url namespace='/document/article' action='isSortArticle'/>','<s:url namespace='/document/article' action='sortArticle'/>');">设置</div>
-	        <div id="btnSortClear" iconCls="icon-sortclear" onclick="clearSortOperate('<s:url namespace='/document/article' action='clearSortArticle'/>');">清除</div>
+        	<div id="btnSortSet" iconCls="icon-sortset" onclick="sortOperate('<s:url namespace='/document/article' action='isSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>','<s:url namespace='/document/article' action='sortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">设置</div>
+	        <div id="btnSortClear" iconCls="icon-sortclear" onclick="clearSortOperate('<s:url namespace='/document/article' action='clearSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">清除</div>
 	    </div>
 	    <div id="btnReviewSub" style="width:80px;display:none;">
-	    	<div id="btnReviewSubmit" iconCls="icon-reviewsubmit" onclick="submitReviewOperate('<s:url namespace='/document/article' action='submitReview'/>');">提交</div>
+	    	<div id="btnReviewSubmit" iconCls="icon-reviewsubmit" onclick="submitReviewOperate('<s:url namespace='/document/article' action='submitReview'><s:param name='channelId' value='channelId'></s:param></s:url>');">提交</div>
 	        <div id="btnReviewProcess" iconCls="icon-reviewprocess" onclick="reviewOperate();">确认</div>
 	    </div>
 	    <div id="btnPubSub" style="width:80px;display:none;">
-	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=false');" >独立</div>
-	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'/>?recursion=true');" >关联</div>
+	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>&recursion=false');" >独立</div>
+	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>&recursion=true');" >关联</div>
 	    	<div id="btnPublishSep" class="menu-sep"></div>
-	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'/>');">退回</div>
+	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">退回</div>
 	    </div>
 	    <div id="btnTopSub" style="width:80px;display:none;">
-	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',true);">确定</div>
-	        <div id="btnTopCancel" iconCls="icon-top-cancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'/>',false);">取消</div>
+	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
+	        <div id="btnTopCancel" iconCls="icon-top-cancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
 	    </div>
 		<div id="reason-window" class="easyui-window" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">

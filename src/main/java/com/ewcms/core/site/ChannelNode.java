@@ -15,6 +15,8 @@ import com.ewcms.core.site.model.Channel;
 public class ChannelNode {
     private Integer id;
     private String name;
+    private Channel.Type channelType;
+    private String channelTypeDes;
     private boolean children;
     private boolean publicable;
     private Set<Permission> permissions=new HashSet<Permission>();
@@ -28,6 +30,8 @@ public class ChannelNode {
         name = channel.getName();
         children = channel.hasChildren();
         publicable = channel.getPublicenable();
+        channelType = channel.getType();
+        channelTypeDes = channel.getTypeDescription();
         this.permissions = permissions;
     }
     
@@ -52,7 +56,6 @@ public class ChannelNode {
         this.children = children;
     }
     
-    
     public boolean isPublicable() {
 		return publicable;
 	}
@@ -68,7 +71,23 @@ public class ChannelNode {
         this.permissions = permissions;
     }
     
-    @Override
+    public Channel.Type getChannelType() {
+		return channelType;
+	}
+
+	public void setChannelType(Channel.Type channelType) {
+		this.channelType = channelType;
+	}
+
+	public String getChannelTypeDes() {
+		return channelTypeDes;
+	}
+
+	public void setChannelTypeDes(String channelTypeDes) {
+		this.channelTypeDes = channelTypeDes;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

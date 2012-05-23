@@ -149,9 +149,9 @@
                 <div title="站点内容" style="overflow:auto;">
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('文章编辑','document/article/index.do')">
+                        <a href="javascript:_home.addTab('内容编辑','document/tree/index.do')">
                             <img src="ewcmssource/image/articleedit.png" style="border:0"/><br/>
-                            <span>文章编辑</span>
+                            <span>内容编辑</span>
                         </a>
                     </div>
                     <div class="nav-item">
@@ -258,47 +258,12 @@
                	    </div>
                	</div>
                 </sec:authorize>
-                <div title="特殊类信息" style="overflow:auto;">
+                <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
-                         <a href="javascript:_home.addTab('项目基本数据','particular/pb/index.do')">
+                         <a href="javascript:_home.addTab('审批备案','particular/ar/index.do')">
                             <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>项目基本数据</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                         <a href="javascript:_home.addTab('项目文章信息','particular/pa/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>项目文章信息</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                         <a href="javascript:_home.addTab('企业基本数据','particular/eb/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>企业基本数据</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                         <a href="javascript:_home.addTab('企业文章信息','particular/ea/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>企业文章信息</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                         <a href="javascript:_home.addTab('从业人员基本信息','particular/mb/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>从业人员基本信息</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                         <a href="javascript:_home.addTab('企业文章信息','particular/ma/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>从业人员文章信息</span>
-                        </a>
-                    </div>
-                	<div class="nav-item">
-                         <a href="javascript:_home.addTab('审批备案机关','particular/ar/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>审批备案机关</span>
+                            <span>审批备案</span>
                         </a>
                     </div>
                     <div class="nav-item">
@@ -314,12 +279,13 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                         <a href="javascript:_home.addTab('行政区划代码','particular/zc/index.do')">
+                         <a href="javascript:_home.addTab('行政区划','particular/zc/index.do')">
                             <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>行政区划代码</span>
+                            <span>行政区划</span>
                         </a>
                     </div>
                 </div>
+                </sec:authorize>
             </div>
         </div>
         <div region="center" style="overflow:hidden;">

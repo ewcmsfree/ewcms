@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="projectBasicVo.name">
+        <field-validator type="requiredstring">
+            <message>不能为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>必须小于200个字</message>
+        </field-validator>
+    </field>
+	<field name="projectBasicVo.buildUnit">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>必须小于200个字</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.unitId">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">4</param>
+        	<param name="maxLength">4</param>
+        	<message>必须为4位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.unitPhone">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>小于200个字</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>电话错误（“区号-电话号码”或“电话号码”)</message>
+        </field-validator>  
+	</field>
+	<field name="projectBasicVo.unitAddress">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>必须小于200个字</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.zoningCode.code">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">6</param>
+        	<param name="maxLength">6</param>
+        	<message>必须为6位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.organizationCode">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">9</param>
+        	<param name="maxLength">9</param>
+        	<message>必须为9位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.industryCode.code">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">4</param>
+        	<param name="maxLength">4</param>
+        	<message>必须为4位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+	</field>
+	 
+	<field name="projectBasicVo.approvalRecord.code">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">9</param>
+        	<param name="maxLength">9</param>
+        	<message>必须为9位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.contact">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>小于200个字</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.phone">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>小于200个字</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)]]></param>
+            <message>电话错误（“区号-电话号码”或“电话号码”)</message>
+        </field-validator>  
+	</field>
+	<field name="projectBasicVo.address">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>小于200个字</message>
+        </field-validator>
+	</field>
+	<field name="projectBasicVo.buildTime">
+		<field-validator type="required">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
+</validators>

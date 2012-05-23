@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="approvalRecordVo.code">
+        <field-validator type="requiredstring">
+            <message>不能为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="minLength">9</param>
+        	<param name="maxLength">9</param>
+        	<message>必须为9位长度</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(^\d+$)]]></param>
+            <message>必须是数字型</message>
+        </field-validator>
+    </field>
+    <field name="approvalRecordVo.name">
+    	<field-validator type="requiredstring">
+    		<message>不能为空</message>
+    	</field-validator>
+    	<field-validator type="stringlength">
+    		<param name="maxLength">200</param>
+    		<message>必须小于200个字</message>
+    	</field-validator>
+    </field>
+</validators>

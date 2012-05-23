@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="particular.ar" extends="struts-default" namespace="/particular/ar">
+		<action name="index">
+			<result>/WEB-INF/page/particular/ar/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.ApprovalRecordAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.ApprovalRecordQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.ApprovalRecordAction" method="input">
+			<result name="input">/WEB-INF/page/particular/ar/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.ApprovalRecordAction" method="save">
+			<result>/WEB-INF/page/particular/ar/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/ar/edit.jsp</result>
+		</action>
+		<action name="findApprovalRecordAll" class="com.ewcms.content.particular.web.ApprovalRecordAction" method="findApprovalRecordAll"/>
+	</package>
+	<package name="particular.ic" extends="struts-default" namespace="/particular/ic">
+		<action name="index">
+			<result>/WEB-INF/page/particular/ic/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.IndustryCodeAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.IndustryCodeQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.IndustryCodeAction" method="input">
+			<result name="input">/WEB-INF/page/particular/ic/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.IndustryCodeAction" method="save">
+			<result>/WEB-INF/page/particular/ic/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/ic/edit.jsp</result>
+		</action>
+		<action name="findIndustryCodeAll" class="com.ewcms.content.particular.web.IndustryCodeAction" method="findIndustryCodeAll"/>
+	</package>
+	<package name="particular.ps" extends="struts-default" namespace="/particular/ps">
+		<action name="index">
+			<result>/WEB-INF/page/particular/ps/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.PublishingSectorAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.PublishingSectorQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.PublishingSectorAction" method="input">
+			<result name="input">/WEB-INF/page/particular/ps/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.PublishingSectorAction" method="save">
+			<result>/WEB-INF/page/particular/ps/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/ps/edit.jsp</result>
+		</action>
+		<action name="findPsToPb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToPb"/>
+		<action name="findPsToPa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToPa"/>
+		<action name="findPsToEb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToEb"/>
+		<action name="findPsToEa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToEa"/>
+		<action name="findPsToMb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToMb"/>
+		<action name="findPsToMa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToMa"/>
+	</package>
+	<package name="particular.zc" extends="struts-default" namespace="/particular/zc">
+		<action name="index">
+			<result>/WEB-INF/page/particular/zc/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.ZoningCodeAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.ZoningCodeQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.ZoningCodeAction" method="input">
+			<result name="input">/WEB-INF/page/particular/zc/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.ZoningCodeAction" method="save">
+			<result>/WEB-INF/page/particular/zc/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/zc/edit.jsp</result>
+		</action>
+		<action name="findZoningCodeAll" class="com.ewcms.content.particular.web.ZoningCodeAction" method="findZoningCodeAll"/>
+	</package>
+	<package name="particular.pb" extends="struts-default" namespace="/particular/pb">
+		<action name="index" class="com.ewcms.content.particular.web.ProjectBasicAction">
+			<result>/WEB-INF/page/particular/pb/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.ProjectBasicAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.ProjectBasicQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.ProjectBasicAction" method="input">
+			<result name="input">/WEB-INF/page/particular/pb/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.ProjectBasicAction" method="save">
+			<result>/WEB-INF/page/particular/pb/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/pb/edit.jsp</result>
+		</action>
+        <action name="import" class="com.ewcms.content.particular.web.ProjectBasicAction" method="importXML">
+			 <interceptor-ref name="fileUpload">
+				<param name="allowedTypes">text/xml,application/zip,application/x-zip-compressed</param>
+			</interceptor-ref> 
+			<interceptor-ref name="defaultStack"/>
+			
+            <result name="input">/WEB-INF/page/particular/pb/import.jsp</result>
+        </action>	
+        <action name="export" class="com.ewcms.content.particular.web.ProjectBasicAction" method="exportXML"/>
+    </package>
+	<package name="particular.pa" extends="struts-default" namespace="/particular/pa">
+		<action name="index" class="com.ewcms.content.particular.web.ProjectArticleAction">
+			<result>/WEB-INF/page/particular/pa/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.ProjectArticleAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.ProjectArticleQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.ProjectArticleAction" method="input">
+			<result name="input">/WEB-INF/page/particular/pa/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.ProjectArticleAction" method="save">
+			<result>/WEB-INF/page/particular/pa/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/pa/edit.jsp</result>
+		</action>
+		<action name="findPbAll" class="com.ewcms.content.particular.web.ProjectArticleAction" method="findPbAll"/>
+	</package>
+	<package name="particular.eb" extends="struts-default" namespace="/particular/eb">
+		<action name="index" class="com.ewcms.content.particular.web.EnterpriseBasicAction">
+			<result>/WEB-INF/page/particular/eb/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.EnterpriseBasicAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.EnterpriseBasicQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.EnterpriseBasicAction" method="input">
+			<result name="input">/WEB-INF/page/particular/eb/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.EnterpriseBasicAction" method="save">
+			<result>/WEB-INF/page/particular/eb/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/eb/edit.jsp</result>
+		</action>
+	</package>
+	<package name="particular.ea" extends="struts-default" namespace="/particular/ea">
+		<action name="index" class="com.ewcms.content.particular.web.EnterpriseArticleAction">
+			<result>/WEB-INF/page/particular/ea/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.EnterpriseArticleQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="input">
+			<result name="input">/WEB-INF/page/particular/ea/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="save">
+			<result>/WEB-INF/page/particular/ea/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/ea/edit.jsp</result>
+		</action>
+		<action name="findEbAll" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="findEbAll"/>
+	</package>
+		<package name="particular.mb" extends="struts-default" namespace="/particular/mb">
+		<action name="index" class="com.ewcms.content.particular.web.EmployeBasicAction">
+			<result>/WEB-INF/page/particular/mb/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.EmployeBasicAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.EmployeBasicQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.EmployeBasicAction" method="input">
+			<result name="input">/WEB-INF/page/particular/mb/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.EmployeBasicAction" method="save">
+			<result>/WEB-INF/page/particular/mb/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/mb/edit.jsp</result>
+		</action>
+	</package>
+	<package name="particular.ma" extends="struts-default" namespace="/particular/ma">
+		<action name="index" class="com.ewcms.content.particular.web.EmployeArticleAction">
+			<result>/WEB-INF/page/particular/ma/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.particular.web.EmployeArticleAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.particular.web.EmployeArticleQueryAction" method="query"/>
+		<action name="input" class="com.ewcms.content.particular.web.EmployeArticleAction" method="input">
+			<result name="input">/WEB-INF/page/particular/ma/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.particular.web.EmployeArticleAction" method="save">
+			<result>/WEB-INF/page/particular/ma/edit.jsp</result>
+			<result name="input">/WEB-INF/page/particular/ma/edit.jsp</result>
+		</action>
+		<action name="findMbAll" class="com.ewcms.content.particular.web.EmployeArticleAction" method="findMbAll"/>
+	</package>
+</struts>

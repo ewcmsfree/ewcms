@@ -10,6 +10,8 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,30 +28,49 @@ import org.hibernate.annotations.Formula;
 
 /**
  * <ul>
- * <li>id:栏目编号
- * <li>parent:所属父栏目
- * <li>site:栏目所属站点
- * <li>name: 栏目名称
- * <li>dir: 栏目目录
- * <li>pubPath:栏目发布路径
- * <li>url:栏目域名
- * <li>absUrl:栏目访问地址
- * <li>listSize:列表显示最大条数
- * <li>maxSize:最大显示条数
- * <li>publicenable:是否允许发布
- * <li>describe:专栏说明
- * <li>channelEntity:专栏引导图
+ * <li>id:栏目编号</li>
+ * <li>parent:所属父栏目</li>
+ * <li>site:栏目所属站点</li>
+ * <li>name: 栏目名称</li>
+ * <li>dir: 栏目目录</li>
+ * <li>pubPath:栏目发布路径</li>
+ * <li>url:栏目域名</li>
+ * <li>absUrl:栏目访问地址</li>
+ * <li>listSize:列表显示最大条数</li>
+ * <li>maxSize:最大显示条数</li>
+ * <li>publicenable:是否允许发布</li>
+ * <li>describe:专栏说明</li>
+ * <li>channelEntity:专栏引导图</li>
+ * <li>channelType:专栏类型</li>
  * </ul>
  * 
  * @author 周冬初
+ * @author wuzhijun
  */
 @Entity
 @Table(name = "site_channel")
 @SequenceGenerator(name = "seq_site_channel", sequenceName = "seq_site_channel_id", allocationSize = 1)
 public class Channel implements Serializable {
-	
+
 	private static final long serialVersionUID = 7813916065025966481L;
-	
+
+	public enum Type {
+		NODE("节点"), ARTICLE("文章信息"), PROJECT("项目基本信息"), PROJECTARTICLE("项目文章信息"), ENTERPRISE(
+				"企业基本信息"), ENTERPRISEARTICLE("企业文章信息"), EMPLOYE("从业人员基本信息"), EMPLOYEARTICLE(
+				"从业人员文章信息");
+
+		private String description;
+
+		private Type(String description) {
+			this.description = description;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+	}
+
 	private static final String PATH_SEPARATOR = "/";
 	@Id
 	@GeneratedValue(generator = "seq_site_channel", strategy = GenerationType.SEQUENCE)
@@ -87,6 +108,13 @@ public class Channel implements Serializable {
 	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ChannelEntity.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "iconEntityId", nullable = true)
 	private ChannelEntity channelEntity;
+	@Column(name = "type", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Type type;
+
+	public Channel() {
+		type = Type.NODE;
+	}
 
 	public Integer getId() {
 		return id;
@@ -227,7 +255,8 @@ public class Channel implements Serializable {
 		} else {
 			StringBuilder builder = new StringBuilder();
 			for (Channel channel = this; channel != null; channel = channel.parent) {
-				if (StringUtils.isNotBlank(channel.getUrl()) || StringUtils.isBlank(channel.getDir())) {
+				if (StringUtils.isNotBlank(channel.getUrl())
+						|| StringUtils.isBlank(channel.getDir())) {
 					break;
 				}
 				String dir = removeStartAndEndPathSeparator(channel.getDir());
@@ -259,6 +288,22 @@ public class Channel implements Serializable {
 		return path;
 	}
 
+	public Type getType() {
+		return type;
+	}
+
+	public String getTypeDescription() {
+		if (type != null) {
+			return type.getDescription();
+		} else {
+			return Type.NODE.getDescription();
+		}
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
@@ -268,7 +313,8 @@ public class Channel implements Serializable {
 			return false;
 		}
 		final Channel other = (Channel) obj;
-		if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+		if (this.id != other.id
+				&& (this.id == null || !this.id.equals(other.id))) {
 			return false;
 		}
 		return true;

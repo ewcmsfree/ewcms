@@ -6,7 +6,7 @@
 
 <struts>	
 	<package name="document.article" extends="struts-default" namespace="/document/article">
-		<action name="index">
+		<action name="index" class="com.ewcms.content.document.web.ArticleMainAction">
 			<result>/WEB-INF/page/document/article/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.content.document.web.ArticleMainAction" method="delete"/>
@@ -104,5 +104,10 @@
 			<result>/WEB-INF/page/document/track/index.jsp</result>
 		</action>
 		<action name="query" class="com.ewcms.content.document.web.OperateTrackQueryAction" method="query"/>
+	</package>
+	<package name="document.tree" extends="struts-default" namespace="/document/tree">
+		<action name="index">
+			<result>/WEB-INF/page/document/article/tree.jsp</result>
+		</action>
 	</package>
 </struts>	

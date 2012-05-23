@@ -31,13 +31,15 @@ public class TreeNodeConvert {
 		for (ChannelNode vo : cnList) {
 			TreeNode tnVo = new TreeNode();
 			tnVo.setId(vo.getId().toString());
-			tnVo.setText(vo.getName());
+			tnVo.setText(vo.getName() + "<font color='red'>(" + vo.getChannelTypeDes() + ")</font>");
 			if (vo.isChildren()) {
 				tnVo.setState("closed");
 			} else {
 				tnVo.setState("open");
 			}
 			Map<String, String> attributes = new HashMap<String, String>();
+			attributes.put("type", vo.getChannelType().name());
+			attributes.put("typeDesc", vo.getChannelTypeDes());
 			int max = treeNodePermission(attributes, vo.getPermissions());
 			tnVo.setAttributes(attributes);
 			switch(max){

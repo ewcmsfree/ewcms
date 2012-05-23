@@ -224,7 +224,7 @@
 	</head>
 	<body class="easyui-layout" onload="loadHomePage();">
 		<div region="west"  title='<label style="cursor:pointer;" onclick="channelTreeLoad();"><img src="<s:url value="/ewcmssource/image/refresh.png" />" style="vertical-align: middle;">专栏库</label>&nbsp;&nbsp;&nbsp;&nbsp;<label id="opmenu" style="cursor:pointer;"><font style="color:black;">操作<img src="<s:url value="/ewcmssource/easyui/themes/default/images/menu_downarrow.png"/>" style="vertical-align: middle;"/></font></label>' split="true" style="width:180px;">		
-			<ul  id="tt2"></ul>
+			<ul id="tt2"></ul>
 		</div>
 		<div region="center"  style="overflow:auto;">
 			<iframe id="editifr"  name="editifr" class="editifr"></iframe>
