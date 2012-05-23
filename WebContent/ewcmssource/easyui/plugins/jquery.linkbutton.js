@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -15,7 +15,7 @@ $(_2).addClass("l-btn");
 if(_3.id){
 $(_2).attr("id",_3.id);
 }else{
-$.fn.removeProp?$(_2).removeProp("id"):$(_2).removeAttr("id");
+$(_2).removeAttr("id");
 }
 if(_3.plain){
 $(_2).addClass("l-btn-plain");

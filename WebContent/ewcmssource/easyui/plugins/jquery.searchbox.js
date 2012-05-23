@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -20,21 +20,18 @@ $(_2).removeAttr("name").attr("searchboxName",_5);
 }
 return _3;
 };
-function _6(_7){
-var _8=$.data(_7,"searchbox").options;
+function _6(_7,_8){
+var _9=$.data(_7,"searchbox").options;
 var sb=$.data(_7,"searchbox").searchbox;
-if(_9){
-_8.width=_9;
+if(_8){
+_9.width=_8;
 }
 sb.appendTo("body");
-if(isNaN(_8.width)){
-_8.width=sb.outerWidth();
+if(isNaN(_9.width)){
+_9.width=sb.outerWidth();
 }
-var _9=_8.width-sb.find("a.searchbox-menu").outerWidth()-sb.find("span.searchbox-button").outerWidth();
-if($.boxModel==true){
-_9-=sb.outerWidth()-sb.width();
-}
-sb.find("input.searchbox-text").width(_9);
+sb._outerWidth(_9.width);
+sb.find("input.searchbox-text")._outerWidth(sb.width()-sb.find("a.searchbox-menu").outerWidth()-sb.find("span.searchbox-button").outerWidth());
 sb.insertAfter(_7);
 };
 function _a(_b){

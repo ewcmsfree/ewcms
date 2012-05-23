@@ -11,5 +11,7 @@
 .progressbar-value{
 	background-color:#FF8D40;
 	border-radius:5px;
+	border-top-right-radius:0px;
+	border-bottom-right-radius:0px;
 	width:0;
 }

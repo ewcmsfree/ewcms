@@ -20,6 +20,7 @@
 .calendar-title span{
 	position:relative;
 	top:2px;
+	line-height:12px;
 	display:inline-block;
 	padding:3px;
 	cursor:pointer;
@@ -114,6 +115,7 @@
 	opacity:0.8;
 	filter:alpha(opacity=80);
 	display:none;
+	overflow:hidden;
 }
 .calendar-menu-year-inner{
 	text-align:center;

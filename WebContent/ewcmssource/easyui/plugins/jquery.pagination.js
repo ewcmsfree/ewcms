@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -86,6 +86,7 @@ _4.find("input.pagination-num").unbind(".pagination").bind("keydown.pagination",
 if(e.keyCode==13){
 var _9=parseInt($(this).val())||1;
 _b(_2,_9);
+return false;
 }
 });
 _4.find(".pagination-page-list").unbind(".pagination").bind("change.pagination",function(){

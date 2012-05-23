@@ -1,15 +1,15 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
 $.parser={auto:true,onComplete:function(_1){
-},plugins:["linkbutton","menu","menubutton","splitbutton","progressbar","tree","combobox","combotree","numberbox","validatebox","searchbox","numberspinner","timespinner","calendar","datebox","datetimebox","layout","panel","datagrid","propertygrid","treegrid","tabs","accordion","window","dialog"],parse:function(_2){
+},plugins:["linkbutton","menu","menubutton","splitbutton","progressbar","tree","combobox","combotree","numberbox","validatebox","searchbox","numberspinner","timespinner","calendar","datebox","datetimebox","slider","layout","panel","datagrid","propertygrid","treegrid","tabs","accordion","window","dialog"],parse:function(_2){
 var aa=[];
 for(var i=0;i<$.parser.plugins.length;i++){
 var _3=$.parser.plugins[i];

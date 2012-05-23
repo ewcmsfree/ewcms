@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -14,22 +14,23 @@ var _4=$.data(_2,"accordion").panels;
 var cc=$(_2);
 if(_3.fit==true){
 var p=cc.parent();
+p.addClass("panel-noscroll");
 _3.width=p.width();
 _3.height=p.height();
 }
 if(_3.width>0){
-cc.width($.boxModel==true?(_3.width-(cc.outerWidth()-cc.width())):_3.width);
+cc._outerWidth(_3.width);
 }
 var _5="auto";
 if(_3.height>0){
-cc.height($.boxModel==true?(_3.height-(cc.outerHeight()-cc.height())):_3.height);
-var _6=_4.length?_4[0].panel("header").css("height",null).outerHeight():"auto";
+cc._outerHeight(_3.height);
+var _6=_4.length?_4[0].panel("header").css("height","").outerHeight():"auto";
 var _5=cc.height()-(_4.length-1)*_6;
 }
 for(var i=0;i<_4.length;i++){
 var _7=_4[i];
 var _8=_7.panel("header");
-_8.height($.boxModel==true?(_6-(_8.outerHeight()-_8.height())):_6);
+_8._outerHeight(_6);
 _7.panel("resize",{width:cc.width(),height:_5});
 }
 };

@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -24,74 +24,79 @@ _8.appendTo("body");
 if(isNaN(_7.width)){
 _7.width=$(_5).outerWidth();
 }
-var _a=_8.find(".spinner-arrow").outerWidth();
-var _6=_7.width-_a;
-if($.boxModel==true){
-_6-=_8.outerWidth()-_8.width();
-}
-$(_5).width(_6);
+_8._outerWidth(_7.width);
+$(_5)._outerWidth(_8.width()-_8.find(".spinner-arrow").outerWidth());
 _8.insertAfter(_9);
 _9.remove();
 };
-function _b(_c){
-var _d=$.data(_c,"spinner").options;
-var _e=$.data(_c,"spinner").spinner;
-_e.find(".spinner-arrow-up,.spinner-arrow-down").unbind(".spinner");
-if(!_d.disabled){
-_e.find(".spinner-arrow-up").bind("mouseenter.spinner",function(){
+function _a(_b){
+var _c=$.data(_b,"spinner").options;
+var _d=$.data(_b,"spinner").spinner;
+_d.find(".spinner-arrow-up,.spinner-arrow-down").unbind(".spinner");
+if(!_c.disabled){
+_d.find(".spinner-arrow-up").bind("mouseenter.spinner",function(){
 $(this).addClass("spinner-arrow-hover");
 }).bind("mouseleave.spinner",function(){
 $(this).removeClass("spinner-arrow-hover");
 }).bind("click.spinner",function(){
-_d.spin.call(_c,false);
-_d.onSpinUp.call(_c);
-$(_c).validatebox("validate");
+_c.spin.call(_b,false);
+_c.onSpinUp.call(_b);
+$(_b).validatebox("validate");
 });
-_e.find(".spinner-arrow-down").bind("mouseenter.spinner",function(){
+_d.find(".spinner-arrow-down").bind("mouseenter.spinner",function(){
 $(this).addClass("spinner-arrow-hover");
 }).bind("mouseleave.spinner",function(){
 $(this).removeClass("spinner-arrow-hover");
 }).bind("click.spinner",function(){
-_d.spin.call(_c,true);
-_d.onSpinDown.call(_c);
-$(_c).validatebox("validate");
+_c.spin.call(_b,true);
+_c.onSpinDown.call(_b);
+$(_b).validatebox("validate");
 });
 }
 };
-function _f(_10,_11){
-var _12=$.data(_10,"spinner").options;
-if(_11){
-_12.disabled=true;
-$(_10).attr("disabled",true);
+function _e(_f,_10){
+var _11=$.data(_f,"spinner").options;
+if(_10){
+_11.disabled=true;
+$(_f).attr("disabled",true);
 }else{
-_12.disabled=false;
-$(_10).removeAttr("disabled");
+_11.disabled=false;
+$(_f).removeAttr("disabled");
 }
 };
-$.fn.spinner=function(_13,_14){
-if(typeof _13=="string"){
-var _15=$.fn.spinner.methods[_13];
-if(_15){
-return _15(this,_14);
+$.fn.spinner=function(_12,_13){
+if(typeof _12=="string"){
+var _14=$.fn.spinner.methods[_12];
+if(_14){
+return _14(this,_13);
 }else{
-return this.validatebox(_13,_14);
+return this.validatebox(_12,_13);
 }
 }
-_13=_13||{};
+_12=_12||{};
 return this.each(function(){
-var _16=$.data(this,"spinner");
-if(_16){
-$.extend(_16.options,_13);
+var _15=$.data(this,"spinner");
+if(_15){
+$.extend(_15.options,_12);
 }else{
-_16=$.data(this,"spinner",{options:$.extend({},$.fn.spinner.defaults,$.fn.spinner.parseOptions(this),_13),spinner:_1(this)});
+_15=$.data(this,"spinner",{options:$.extend({},$.fn.spinner.defaults,$.fn.spinner.parseOptions(this),_12),spinner:_1(this)});
 $(this).removeAttr("disabled");
 }
-$(this).val(_16.options.value);
-$(this).attr("readonly",!_16.options.editable);
-_f(this,_16.options.disabled);
+$(this).val(_15.options.value);
+$(this).attr("readonly",!_15.options.editable);
+_e(this,_15.options.disabled);
 _4(this);
-$(this).validatebox(_16.options);
-_b(this);
+$(this).validatebox(_15.options);
+_a(this);
+});
+};
+$.fn._outerWidth=function(_16){
+return this.each(function(){
+if(!$.boxModel&&$.browser.msie){
+$(this).width(_16);
+}else{
+$(this).width(_16-($(this).outerWidth()-$(this).width()));
+}
 });
 };
 $.fn.spinner.methods={options:function(jq){
@@ -109,13 +114,13 @@ _4(this,_19);
 });
 },enable:function(jq){
 return jq.each(function(){
-_f(this,false);
-_b(this);
+_e(this,false);
+_a(this);
 });
 },disable:function(jq){
 return jq.each(function(){
-_f(this,true);
-_b(this);
+_e(this,true);
+_a(this);
 });
 },getValue:function(jq){
 return jq.val();

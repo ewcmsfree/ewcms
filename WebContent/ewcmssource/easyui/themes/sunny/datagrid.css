@@ -78,6 +78,9 @@
 	float:left;
 	width:10000px;
 }
+.datagrid-header-row{
+	height:25px;
+}
 .datagrid-header td{
 	border-right:1px dotted #fece2f;
 	font-size:12px;
@@ -154,9 +157,14 @@
 .datagrid-body .datagrid-cell,.datagrid-footer .datagrid-cell{
 	overflow:hidden;
 	margin:0;
-	padding:3px 4px;
+	padding:0px 4px;
 	white-space:nowrap;
 	word-wrap:normal;
+	height:18px;
+	line-height:18px;
+}
+.datagrid-row-editing .datagrid-cell{
+	height:auto;
 }
 .datagrid-header-check{
 	padding:3px 6px;
@@ -177,6 +185,9 @@
 	padding:0;
 	width:15px;
 	height:15px;
+}
+.datagrid-row{
+	height:25px;
 }
 .datagrid-row-collapse{
 	background:url('images/datagrid_row_collapse.gif') no-repeat center center;

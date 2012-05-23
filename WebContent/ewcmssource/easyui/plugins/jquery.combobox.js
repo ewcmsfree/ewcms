@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -191,15 +191,15 @@ var _39=$.data(_36,"combobox").options;
 if(url){
 _39.url=url;
 }
-if(!_39.url){
+_37=_37||{};
+if(_39.onBeforeLoad.call(_36,_37)==false){
 return;
 }
-_37=_37||{};
-$.ajax({type:_39.method,url:_39.url,dataType:"json",data:_37,success:function(_3a){
+_39.loader.call(_36,_37,function(_3a){
 _2c(_36,_3a,_38);
-},error:function(){
+},function(){
 _39.onLoadError.apply(this,arguments);
-}});
+});
 };
 function _3b(_3c,q){
 var _3d=$.data(_3c,"combobox").options;
@@ -318,10 +318,21 @@ return row[_50.textField].indexOf(q)==0;
 },formatter:function(row){
 var _51=$(this).combobox("options");
 return row[_51.textField];
+},loader:function(_52,_53,_54){
+var _55=$(this).combobox("options");
+if(!_55.url){
+return false;
+}
+$.ajax({type:_55.method,url:_55.url,data:_52,dataType:"json",success:function(_56){
+_53(_56);
+},error:function(){
+_54.apply(this,arguments);
+}});
+},onBeforeLoad:function(_57){
 },onLoadSuccess:function(){
 },onLoadError:function(){
-},onSelect:function(_52){
-},onUnselect:function(_53){
+},onSelect:function(_58){
+},onUnselect:function(_59){
 }});
 })(jQuery);
 

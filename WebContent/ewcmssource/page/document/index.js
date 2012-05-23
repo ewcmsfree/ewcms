@@ -5,12 +5,15 @@
  * 
  * author wu_zhijun
  */
-var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL, effectiveURL;
+var queryURL,inputURL,deleteURL,treeURL, reasonURL, trackURL, effectiveURL, previewURL;
 
-var currentnode, rootnode;//当前所选择的节点，父节点
+var currentnode, rootnode//当前所选择的节点，父节点
 var sort = '';//排序值
 
 $(function() {
+	currentnode = parent.currentnode;
+	rootnode = parent.rootnode;
+	
 	ewcmsBOBJ = new EwcmsBase();
 	ewcmsBOBJ.setQueryURL(queryURL);
 
@@ -110,21 +113,10 @@ $(function() {
 		}
 	});
 	
-	$('#tt2').tree( {
-		checkbox : false,
-		url : treeURL,
-		onClick : function(node) {
-			$("#tt").datagrid('clearSelections');
-			rootnode = $('#tt2').tree('getRoot');
-			currentnode = node;
-			articleReload();
-		}
-	});
-	initSubMenu();
 	disableButtons();
-	$('#btnSearch').linkbutton('disable');
-	$('#btnBack').linkbutton('disable');
+	channelPermission(rootnode, currentnode);
 });
+
 function previewOperate(){
 	var rows = $('#tt').datagrid('getSelections');
 	if (rows.length == 0) {
@@ -135,7 +127,7 @@ function previewOperate(){
 		$.messager.alert('提示', '只能选择一个预览', 'info');
 		return;
 	}
-	window.open('/template/preview?channelId=' + currentnode.id + '&articleId=' + rows[0].article.id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+	window.open(previewURL + '&articleId=' + rows[0].article.id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 }
 
 //把子菜单添加到相应的父节点上
@@ -177,18 +169,16 @@ function channelPermission(rootnode, currentnode) {
 }
 //重读选择的栏目中文章
 function articleReload() {
-	var url = queryURL + '?channelId=' + currentnode.id;
 	$('#tt').datagrid( {
 		pageNumber : 1,
-		url : url
+		url : queryURL
 	});
 	channelPermission(rootnode, currentnode);
 }
 //新增文章
 function addOperate() {
-	if (currentnode.id != 0 && currentnode.id != $('#tt2').tree('getRoot').id) {
-		var url_param = '?channelId=' + currentnode.id + '';
-		window.open(inputURL + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+	if (currentnode.id != 0 && currentnode.id != rootnode.id) {
+		window.open(inputURL,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 	} else {
 		$.messager.alert('提示', '请选择栏目', 'info');
 	}
@@ -196,7 +186,7 @@ function addOperate() {
 }
 //修改文章
 function updOperate() {
-	if (currentnode.id != $('#tt2').tree('getRoot').id) {
+	if (currentnode.id != rootnode.id) {
 		var rows = $('#tt').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('提示', '请选择修改记录', 'info');
@@ -211,7 +201,7 @@ function updOperate() {
 			return;
 		}
 		if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑') {
-			var url_param = '?channelId=' + currentnode.id + '&selections='	+ rows[0].id;
+			var url_param = '&selections='	+ rows[0].id;
 			window.open(inputURL + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
 		} else {
 			$.messager.alert('提示', '文章只能在初稿或重新编辑状态在才能修改', 'info');
@@ -231,8 +221,8 @@ function delOperate() {
 		return;
 	}
 
-	var parameter = 'channelId=' + currentnode.id;
-	for ( var i = 0; i < rows.length; ++i) {
+	var parameter = 'selections=' + rows[0].id;
+	for ( var i = 1; i < rows.length - 1; ++i) {
 		parameter = parameter + '&selections=' + rows[i].id;
 	}
 	$.messager.confirm('提示', '确定要删除所选记录到回收站吗?', function(r) {
@@ -258,7 +248,7 @@ function querySearch_Article(url) {
 	value = value.replace(/\=/g, '\']=');
 	value = value.replace(/\&/g, '&parameters[\'');
 
-	url += '?channelId=' + currentnode.id + '&' + value;
+	url += queryURL + '&' + value;
 	$('#tt').datagrid( {
 		pageNumber : 1,
 		url : url
@@ -276,7 +266,7 @@ function moveArticle(url) {
 	}
 	var rootnode_tt3 = $('#tt3').tree('getRoot');
 
-	var parameter = 'channelId=' + currentnode.id;
+	var parameter = '';
 	var rows = $('#tt').datagrid('getSelections');
 	for ( var i = 0; i < rows.length; i++) {
 		parameter = parameter + '&selections=' + rows[i].id;
@@ -308,7 +298,7 @@ function copyArticle(url) {
 	}
 	var rootnode_tt3 = $('#tt3').tree('getRoot');
 
-	var parameter = 'channelId=' + currentnode.id;
+	var parameter = '';
 	var rows = $('#tt').datagrid('getSelections');
 	for ( var i = 0; i < rows.length; i++) {
 		parameter = parameter + '&selections=' + rows[i].id;
@@ -336,7 +326,7 @@ function submitReviewOperate(url) {
 		$.messager.alert('提示', '请选择提交审核记录', 'info');
 		return;
 	}
-	var parameter = 'channelId=' + currentnode.id;
+	var parameter = '';
 	var rows = $('#tt').datagrid('getSelections');
 	for ( var i = 0; i < rows.length; i++) {
 		parameter = parameter + '&selections=' + rows[i].id;
@@ -362,7 +352,7 @@ function submitReviewOperate(url) {
 }
 //发布选项栏目的文章
 function pubOperate(url) {
-	$.post(url, {'channelId' : currentnode.id}, function(data) {
+	$.post(url, {'channelId' : $('#channelId').val()}, function(data) {
 		if (data == 'system-false') {
 			$.messager.alert('提示', '系统错误', 'error');
 			return;
@@ -390,7 +380,6 @@ function reviewArticle(url) {
 
 	var parameter = {};
 	parameter['review'] = $('input[name=\'reviewRadio\']:checked').val();
-	parameter['channelId'] = currentnode.id;
 	parameter['selections'] = rows[0].id;
 	parameter['reason'] = $('#reason').val();
 
@@ -411,7 +400,7 @@ function reviewArticle(url) {
 }
 //设置文章排序号
 function sortOperate(isUrl, url) {
-	if (currentnode.id != $('#tt2').tree('getRoot').id) {
+	if (currentnode.id != rootnode.id) {
 		var rows = $('#tt').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('提示', '请选择排序记录', 'info');
@@ -425,13 +414,17 @@ function sortOperate(isUrl, url) {
 			if (r) {
 				var reg = /^\d+$/;
 				if (reg.test(r)) {
-					$.post(isUrl, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].top,'sort' : r},function(data) {
+					var parameter = {};
+					parameter['selections'] = rows[0].id;
+					parameter['isTop'] = rows[0].top;
+					parameter['sort'] = r;
+					$.post(isUrl, parameter, function(data) {
 						if (data == 'true') {//用户输入的排序号与系统中的排序号出现重复，显示是插入还是替换选项页面
 							sort = r;
 							ewcmsBOBJ.openWindow('#sort-window',{width : 550,height : 200,title : '排序'});
 							return;
 						} else if (data == 'false') {
-							$.post(url,{'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id,'isTop' : $('#tt').datagrid('getSelections')[0].top,'sort' : r},function(data) {
+							$.post(url, parameter, function(data) {
 								if (data == 'true') {
 									$.messager.alert('提示','设置排序号成功','info');
 									$('#tt').datagrid('clearSelections');
@@ -464,7 +457,6 @@ function sortOperate(isUrl, url) {
 function sortArticle(url) {
 	$.post(url, {
 		'selections' : $('#tt').datagrid('getSelections')[0].id,
-		'channelId' : currentnode.id,
 		'isTop' : $('#tt').datagrid('getSelections')[0].top,
 		'isInsert' : $('input[name=\'sortRadio\']:checked').val(),
 		'sort' : sort
@@ -485,13 +477,13 @@ function sortArticle(url) {
 }
 //清除文章的排序号
 function clearSortOperate(url) {
-	if (currentnode.id != $('#tt2').tree('getRoot').id) {
+	if (currentnode.id != rootnode.id) {
 		var rows = $('#tt').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('提示', '请选择清除排序记录', 'info');
 			return;
 		}
-		var parameter = 'channelId=' + currentnode.id;
+		var parameter = '';
 		for ( var i = 0; i < rows.length; i++) {
 			parameter = parameter + '&selections=' + rows[i].id;
 		}
@@ -512,13 +504,13 @@ function clearSortOperate(url) {
 }
 //设置文章置顶
 function topOperate(url, top){
-	if (currentnode.id != $('#tt2').tree('getRoot').id) {
+	if (currentnode.id != rootnode.id) {
 		var rows = $('#tt').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('提示', '请选择记录', 'info');
 			return;
 		}
-		var parameter = 'isTop=' + top + '&channelId=' + currentnode.id;
+		var parameter = 'isTop=' + top;
 		for ( var i = 0; i < rows.length; i++) {
 			parameter = parameter + '&selections=' + rows[i].id;
 		}
@@ -554,7 +546,6 @@ function breakOperate(url) {
 	}
 
 	var parameter = {};
-	parameter['channelId'] = currentnode.id;
 	parameter['selections'] = rows[0].id;
 
 	$.post(url, parameter, function(data) {
@@ -588,7 +579,10 @@ function reviewOperate() {
 		return;
 	}
 	if (rows[0].article.status == 'REVIEW') {
-		$.post(effectiveURL, {'selections' : $('#tt').datagrid('getSelections')[0].id,'channelId' : currentnode.id}, function(data) {
+		var parameter = {};
+		parameter['selections'] = rows[0].id;
+		parameter['channelId'] = $('#channelId').val();
+		$.post(effectiveURL, parameter, function(data) {
 			if (data == 'true'){
 				ewcmsBOBJ.openWindow('#review-window', {
 					width : 550,
@@ -642,14 +636,15 @@ function copyOperate() {
 	});
 }
 //重读站点专栏数据
-function channelTreeLoad() {
-	$('#tt2').tree('reload');
-}
+//function channelTreeLoad() {
+//	parent.$('#tt2').tree('reload');
+//}
 //主菜单/子菜单不可用
 function disableButtons() {
 	$('#btnAdd').linkbutton('disable');
 	$('#btnUpd').linkbutton('disable');
 	$('#btnRemove').linkbutton('disable');
+	$('#btnPreview').linkbutton('disable');
 	$('#btnCopy').linkbutton('disable');
 	$('#btnMove').linkbutton('disable');
 	$('#btnSort').linkbutton('disable');
@@ -671,6 +666,7 @@ function enableButtons() {
 	$('#btnAdd').linkbutton('enable');
 	$('#btnUpd').linkbutton('enable');
 	$('#btnRemove').linkbutton('enable');
+	$('#btnPreview').linkbutton('enable');
 	$('#btnCopy').linkbutton('enable');
 	$('#btnMove').linkbutton('enable');
 	$('#btnSort').linkbutton('enable');

@@ -59,7 +59,7 @@ var detailview = $.extend({}, $.fn.datagrid.defaults.view, {
 			table.push('<table cellspacing="0" cellpadding="0" border="0"><tbody>');
 			
 			// get the class and style attributes for this row
-			var cls = (i % 2 && opts.striped) ? 'class="datagrid-row-alt"' : '';
+			var cls = (i % 2 && opts.striped) ? 'class="datagrid-row datagrid-row-alt"' : 'class="datagrid-row"';
 			var styleValue = opts.rowStyler ? opts.rowStyler.call(target, i, rows[i]) : '';
 			var style = styleValue ? 'style="' + styleValue + '"' : '';
 			

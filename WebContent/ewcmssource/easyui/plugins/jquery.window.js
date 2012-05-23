@@ -1,10 +1,10 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
@@ -158,7 +158,9 @@ _16.window.css("z-index",$.fn.window.defaults.zIndex++);
 if(!_16.proxy){
 _16.proxy=$("<div class=\"window-proxy\"></div>").insertAfter(_16.window);
 }
-_16.proxy.css({display:"none",zIndex:$.fn.window.defaults.zIndex++,left:e.data.left,top:e.data.top,width:($.boxModel==true?(_16.window.outerWidth()-(_16.proxy.outerWidth()-_16.proxy.width())):_16.window.outerWidth()),height:($.boxModel==true?(_16.window.outerHeight()-(_16.proxy.outerHeight()-_16.proxy.height())):_16.window.outerHeight())});
+_16.proxy.css({display:"none",zIndex:$.fn.window.defaults.zIndex++,left:e.data.left,top:e.data.top});
+_16.proxy._outerWidth(_16.window.outerWidth());
+_16.proxy._outerHeight(_16.window.outerHeight());
 setTimeout(function(){
 if(_16.proxy){
 _16.proxy.show();
@@ -180,9 +182,13 @@ _16.pmask.css({zIndex:$.fn.window.defaults.zIndex++,left:e.data.left,top:e.data.
 if(!_16.proxy){
 _16.proxy=$("<div class=\"window-proxy\"></div>").insertAfter(_16.window);
 }
-_16.proxy.css({zIndex:$.fn.window.defaults.zIndex++,left:e.data.left,top:e.data.top,width:($.boxModel==true?(e.data.width-(_16.proxy.outerWidth()-_16.proxy.width())):e.data.width),height:($.boxModel==true?(e.data.height-(_16.proxy.outerHeight()-_16.proxy.height())):e.data.height)});
+_16.proxy.css({zIndex:$.fn.window.defaults.zIndex++,left:e.data.left,top:e.data.top});
+_16.proxy._outerWidth(e.data.width);
+_16.proxy._outerHeight(e.data.height);
 },onResize:function(e){
-_16.proxy.css({left:e.data.left,top:e.data.top,width:($.boxModel==true?(e.data.width-(_16.proxy.outerWidth()-_16.proxy.width())):e.data.width),height:($.boxModel==true?(e.data.height-(_16.proxy.outerHeight()-_16.proxy.height())):e.data.height)});
+_16.proxy.css({left:e.data.left,top:e.data.top});
+_16.proxy._outerWidth(e.data.width);
+_16.proxy._outerHeight(e.data.height);
 return false;
 },onStopResize:function(e){
 _16.options.left=e.data.left;

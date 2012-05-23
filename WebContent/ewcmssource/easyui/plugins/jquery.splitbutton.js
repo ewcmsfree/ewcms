@@ -1,17 +1,17 @@
 ﻿/**
- * jQuery EasyUI 1.2.5
+ * jQuery EasyUI 1.2.6
  * 
  * Licensed under the GPL terms
  * To use it on other terms please contact us
  *
- * Copyright(c) 2009-2011 stworthy [ stworthy@gmail.com ] 
+ * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
  * 
  */
 (function($){
 function _1(_2){
 var _3=$.data(_2,"splitbutton").options;
 var _4=$(_2);
-_4.removeClass("s-btn-active s-btn-plain-active");
+_4.removeClass("s-btn-active s-btn-plain-active").addClass("s-btn");
 _4.linkbutton($.extend({},_3,{text:_3.text+"<span class=\"s-btn-downarrow\">&nbsp;</span>"}));
 if(_3.menu){
 $(_3.menu).menu({onShow:function(){
@@ -88,10 +88,18 @@ _5(this,false);
 return jq.each(function(){
 _5(this,true);
 });
+},destroy:function(jq){
+return jq.each(function(){
+var _11=$(this).splitbutton("options");
+if(_11.menu){
+$(_11.menu).menu("destroy");
+}
+$(this).remove();
+});
 }};
-$.fn.splitbutton.parseOptions=function(_11){
-var t=$(_11);
-return $.extend({},$.fn.linkbutton.parseOptions(_11),{menu:t.attr("menu"),duration:t.attr("duration")});
+$.fn.splitbutton.parseOptions=function(_12){
+var t=$(_12);
+return $.extend({},$.fn.linkbutton.parseOptions(_12),{menu:t.attr("menu"),duration:t.attr("duration")});
 };
 $.fn.splitbutton.defaults=$.extend({},$.fn.linkbutton.defaults,{plain:true,menu:null,duration:100});
 })(jQuery);
