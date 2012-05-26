@@ -1,10 +1,14 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.content.particular;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -19,7 +23,7 @@ import org.junit.Test;
 public class Dom4jTest {
 	@Test
 	public void testParser() throws DocumentException {
-		String filePath = "E:/work/workspace/ewcms/src/test/resources/xmjbxx.xml";
+		String filePath = "../ewcms/src/test/resources/xmjbxx.xml";
         File file = new File(filePath);
         
 		SAXReader reader = new SAXReader();

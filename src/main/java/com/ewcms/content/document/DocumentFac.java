@@ -317,4 +317,19 @@ public class DocumentFac implements DocumentFacable {
 	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year) {
 		return articleMainService.findReleaseArticlePersonFcfChart(year);
 	}
+
+	@Override
+	public ArticleMain findArticleMainById(Long articleMainId) {
+		return articleMainService.findArticleMainById(articleMainId);
+	}
+
+	@Override
+	public void referArticleMain(Integer channelId, Long[] articleMainIds) {
+		articleMainService.referArticleMain(channelId, articleMainIds);
+	}
+
+	@Override
+	public void removeArticleMain(Long[] articleMainIds) {
+		articleMainService.removeArticleMain(articleMainIds);
+	}
 }

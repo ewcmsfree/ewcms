@@ -7,24 +7,19 @@
 	<head>
 		<title>发布部门</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/ps/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/ps" action="query"/>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'code',title:'组织机构代码',width:90,sortable:true},
-		                {field:'name',title:'机关单位名称',width:1000}
-                  ]]
+			var psIndex = new PsIndex({
+				queryUrl:'<s:url namespace="/particular/ps" action="query"/>',
+				inputUrl:'<s:url namespace="/particular/ps" action="input"/>',
+				deleteUrl:'<s:url namespace="/particular/ps" action="delete"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/ps" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/ps" action="delete"/>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				psIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">

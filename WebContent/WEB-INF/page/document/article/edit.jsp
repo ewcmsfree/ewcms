@@ -143,7 +143,7 @@
 			        <tr id="trShowHide_5" style="display:none">
 			        	<td>引用图片：</td>
 			        	<td>
-			        		<a href="javascript:void(0);" onclick="openRefenceImageWindow(false);return false;" style="text-decoration:none;">
+			        		<a href="javascript:void(0);" onclick="openRefenceImageWindow();return false;" style="text-decoration:none;">
 			        		<s:if test="articleVo.image!=null&&articleVo.image!=''">
 			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../../${articleVo.image}"/>
 			        		</s:if>

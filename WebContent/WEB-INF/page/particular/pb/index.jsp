@@ -7,134 +7,22 @@
 	<head>
 		<title>项目基本数据</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/pb/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/pb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			
-			ewcmsBOBJ.setWinWidth(1050);
-			ewcmsBOBJ.setWinHeight(600);
-			
-			ewcmsBOBJ.addToolItem('导入XML','icon-redo',importXML);
-			ewcmsBOBJ.addToolItem('生成XML','icon-undo', generatorXML);
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'code',title:'项目编号',width:150,sortable:true},
-		                {field:'name',title:'项目名称',width:200},
-		                {field:'buildTime',title:'建设时间',width:85},
-		                {field:'investmentScale',title:'投资规模',width:200},
-		                {field:'overview',title:'项目概况',width:300},
-		                {field:'buildUnit',title:'建设单位',width:200},
-		                {field:'unitId',title:'项目编号',width:60},
-		                {field:'unitPhone',title:'单位联系电话',width:100},
-		                {field:'unitAddress',title:'单位地址',width:200},
-		                {field:'zoningName',title:'行政区划名称',width:80,
-		                	formatter : function(val, rec) {
-		                		if (rec.zoningCode != null){
-		                			return rec.zoningCode.name;
-		                		}
-		                	}
-		                },
-		                {field:'organizationCode',title:'组织机构代码',width:80},
-		                {field:'industryName',title:'行业名称',width:80,
-		                	formatter : function(val, rec){
-		                		if (rec.industryCode != null){
-		                			return rec.industryCode.name;
-		                		}
-		                	}	
-		                },
-		                {field:'category', title:'项目类别', width: 120},
-		                {field:'approvalRecordName',title:'审批备案机关名称',width:120,
-		                	formatter : function(val, rec){
-		                		if (rec.approvalRecord != null){
-		                			return rec.approvalRecord.name;
-		                		}
-		                	}	
-		                },
-		                {field:'contact',title:'联系人',width:120},
-		                {field:'phone',title:'联系人电话',width:100},
-		                {field:'email',title:'联系人电子邮箱',width:120},
-		                {field:'address',title:'项目地址',width:200},
-		                {field:'natureDescription',title:'建设性质',width:100},
-		                {field:'shape',title:'形式',width:100},
-		                {field:'documentId',title:'文号',width:100},
-		                {field:'participation',title:'参建单位',width:200},
-		                {field:'publishingSectorName',title:'发布部门名称',width:200,
-		                	formatter : function(val, rec){
-		                		if (rec.publishingSector != null){
-		                			return rec.publishingSector.name;
-		                		}
-		                	}	
-		                }
-                  ]]
+			var pbIndex = new PbIndex({
+				queryUrl:'<s:url namespace="/particular/pb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				inputUrl:'<s:url namespace="/particular/pb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				deleteUrl:'<s:url namespace="/particular/pb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				importUrl:'<s:url namespace="/particular/pb" action="import"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				generatorUrl:'<s:url namespace="/particular/pb" action="export"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/pb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/pb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			
-			$('#cc_industryCode').combobox({
-        		url: '<s:url namespace="/particular/ic" action="findIndustryCodeAll"/>',
-        		valueField:'id',
-                textField:'text',
-                mode:'remote',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-        	});
-            $('#cc_zoningCode').combobox({
-        		url: '<s:url namespace="/particular/zc" action="findZoningCodeAll"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-            
-            $('#cc_approvalRecordCode').combobox({
-        		url: '<s:url namespace="/particular/ar" action="findApprovalRecordAll"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-            
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToPb"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-		});
-		function importXML(){
-			var url='<s:url namespace="/particular/pb" action="import"><s:param name="channelId" value="channelId"></s:param></s:url>';
-			ewcmsBOBJ.openWindow('#import-window',{url:url,iframeID:'#importifr',width:560,height:100});
-		}
-		
-		function generatorXML(){
-			var rows = $("#tt").datagrid('getSelections');
-	        if(rows.length == 0){
-	         	$.messager.alert('提示','请选择导出记录','info');
-	            return;
-	        }
-	        var url = '<s:url namespace="/particular/pb" action="export"/>';
-	        var parameter = '?selections=' + rows[0].id;
-	    	for ( var i = 1; i < rows.length - 1; ++i) {
-	    		parameter = parameter + '&selections=' + rows[i].id;
-	    	}
-	    	window.location = url + parameter;
-		}
-		</script>	
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				pbIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
+		</script>		
 	</head>
 	<body class="easyui-layout">
 		<s:hidden id="channelId" name="channelId"/>

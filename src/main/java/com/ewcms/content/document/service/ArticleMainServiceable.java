@@ -266,4 +266,27 @@ public interface ArticleMainServiceable {
 	 * @return Map
 	 */
 	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year);
+	
+	/**
+	 * 查询文章主体
+	 * 
+	 * @param articleMainId 文章主体编号
+	 * @return ArticleMain
+	 */
+	public ArticleMain findArticleMainById(Long articleMainId);
+	
+	/**
+	 * 引用文章主体
+	 * 
+	 * @param channelId 栏目编号
+	 * @param articleMain 文章主体编号数组
+	 */
+	public void referArticleMain(Integer channelId, Long[] articleMainIds);
+	
+	/**
+	 * 移除文章主体（直接删除）
+	 * 
+	 * @param articleMainId 文章主体编号数组
+	 */
+	public void removeArticleMain(Long[] articleMainIds);
 }

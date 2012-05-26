@@ -110,4 +110,16 @@
 			<result>/WEB-INF/page/document/article/tree.jsp</result>
 		</action>
 	</package>
+	<package name="document.refer"  extends="struts-default" namespace="/document/refer">
+		<action name="index" class="com.ewcms.content.document.web.ReferArticleAction">
+			<result>/WEB-INF/page/document/refer/index.jsp</result>
+		</action>
+        <action name="article" class="com.ewcms.content.document.web.ReferArticleAction">
+			<result>/WEB-INF/page/document/refer/article.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.content.document.web.ReferArticleAction" method="save">
+			<result>/WEB-INF/page/document/refer/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.content.document.web.ReferArticleAction" method="delete"/>
+	</package>
 </struts>	

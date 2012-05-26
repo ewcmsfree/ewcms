@@ -635,10 +635,6 @@ function copyOperate() {
 		title : '复制文章选择'
 	});
 }
-//重读站点专栏数据
-//function channelTreeLoad() {
-//	parent.$('#tt2').tree('reload');
-//}
 //主菜单/子菜单不可用
 function disableButtons() {
 	$('#btnAdd').linkbutton('disable');

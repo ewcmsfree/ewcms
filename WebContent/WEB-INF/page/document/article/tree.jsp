@@ -17,37 +17,41 @@
 					onClick : function(node) {
 						rootnode = $('#tt2').tree('getRoot');
 						currentnode = node;
+						var url = '';
 						if (rootnode.id == currentnode.id){
-							$("#editifr").attr('src', '<s:url namespace="/document/article" action="index"/>');
+							url = '<s:url namespace="/document/article" action="index"/>';
 						}else{
 							if (node.attributes.type == 'ARTICLE'){
-								var url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'PROJECT'){
-								var url = '<s:url namespace="/particular/pb" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/pb" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'PROJECTARTICLE'){
-								var url = '<s:url namespace="/particular/pa" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/pa" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'ENTERPRISE'){
-								var url = '<s:url namespace="/particular/eb" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/eb" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'ENTERPRISEARTICLE'){	
-								var url = '<s:url namespace="/particular/ea" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/ea" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'EMPLOYE'){
-								var url = '<s:url namespace="/particular/mb" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/mb" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'EMPLOYEARTICLE'){	
-								var url = '<s:url namespace="/particular/ma" action="index"/>' + '?channelId=' + currentnode.id;
-								$("#editifr").attr('src', url);
+								url = '<s:url namespace="/particular/ma" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'LEADER'){
+								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'LEADERARTICLE'){
+								url = '<s:url namespace="/document/refer" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'ONLINE'){
+								url = '<s:url namespace="/plugin/online/workingbody" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'NODE'){
-								$("#editifr").attr('src', '');
+								url = '';
 							}
 						}
+						$("#editifr").attr('src', url);
 					}
 				});
 			});
+			function channelTreeLoad() {
+				$('#tt2').tree('reload');
+			}
 		</script>
 	</head>
 	<body class="easyui-layout">

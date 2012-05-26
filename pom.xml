@@ -547,6 +547,7 @@
 			<version>${mockito.all.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.unitils</groupId>
 			<artifactId>unitils-core</artifactId>
@@ -595,6 +596,7 @@
             <version>${asm.version}</version>
             <scope>test</scope>
         </dependency>
+         -->
 	</dependencies>
 	<build>
 		<plugins>

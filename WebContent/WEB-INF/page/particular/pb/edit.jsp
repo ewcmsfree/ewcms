@@ -11,7 +11,6 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
-            
             $('#cc_industryCode').combobox({
         		url: '<s:url namespace="/particular/ic" action="findIndustryCodeAll"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
         		valueField:'id',

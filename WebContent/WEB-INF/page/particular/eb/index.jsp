@@ -7,40 +7,19 @@
 	<head>
 		<title>企业基本信息</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/eb/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/eb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			
-			ewcmsBOBJ.setWinWidth(1050);
-			ewcmsBOBJ.setWinHeight(600);
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'yyzzzch',title:'营业执照注册号',width:150,sortable:true},
-		                {field:'name',title:'企业名称',width:200},
-		                {field:'published',title:'发布时间',width:85},
-		                {field:'yyzzdjjg',title:'营业执照登记机关',width:200},
-		                {field:'frdb',title:'法人代表',width:300},
-		                {field:'clrq',title:'成立日期',width:200},
-		                {field:'jyfw',title:'经营范围',width:60},
-		                {field:'zzjgdjjg',title:'组织机构登记机关',width:100},
-		                {field:'zzjgdm',title:'组织机构代码',width:200},
-		                {field:'qyrx',title:'企业类型',width:80,},
-		                {field:'zzzb',title:'注册资本',width:80},
-		                {field:'sjzzzb',title:'实缴注册资本',width:80},
-		                {field:'jyqx',title:'经营期限',width:120},
-		                {field:'zs',title:'住所',width:120},
-		                {field:'denseDescription',title:'所属密级',width:100}
-                  ]]
+			var ebIndex = new EbIndex({
+				queryUrl:'<s:url namespace="/particular/eb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				inputUrl:'<s:url namespace="/particular/eb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				deleteUrl:'<s:url namespace="/particular/eb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/eb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/eb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				ebIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">

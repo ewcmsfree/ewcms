@@ -7,42 +7,19 @@
 	<head>
 		<title>从业人员文章信息</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/ma/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/ma" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			
-			ewcmsBOBJ.setWinWidth(1050);
-			ewcmsBOBJ.setWinHeight(600);
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'employeBasic_cardCode',title:'证件号码',width:150,sortable:true,
-                        	formatter : function(val, rec){
-                        		return rec.employeBasic.cardCode;
-                        	}	
-						},
-						{field:'employeBasic_name',title:'姓名',width:150,
-							formatter : function(val, rec){
-								return rec.employeBasic.name;
-							}	
-						},
-		                {field:'publishingSector_name',title:'发布部门',width:200,
-							formatter : function(val, rec){
-								return rec.publishingSector.name;
-							}	
-		                },
-		                {field:'published',title:'发布日期',width:145},
-		                {field:'denseDescription',title:'所属密级', width:100}
-                  ]]
+			var maIndex = new MaIndex({
+				queryUrl:'<s:url namespace="/particular/ma" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				inputUrl:'<s:url namespace="/particular/ma" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				deleteUrl:'<s:url namespace="/particular/ma" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/ma" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/ma" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				maIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">

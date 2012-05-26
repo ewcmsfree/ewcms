@@ -8,8 +8,6 @@ package com.ewcms.content.particular.web;
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 
-import java.util.List;
-
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
@@ -21,8 +19,7 @@ public class ApprovalRecordQueryAction extends QueryBaseAction{
 	private static final long serialVersionUID = -4149344019910643538L;
 
 	@Override
-	protected Resultable queryResult(QueryFactory queryFactory,
-			String cacheKey, int rows, int page, Order order) {
+	protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(ApprovalRecord.class).setPage(page).setRow(rows).orderAsc("id");
     	
     	String code = getParameterValue(String.class,"code", "");
@@ -37,10 +34,9 @@ public class ApprovalRecordQueryAction extends QueryBaseAction{
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-    	EntityQueryable query = queryFactory.createEntityQuery(ApprovalRecord.class).setPage(page).setRow(rows).orderAsc("id");
+    	EntityQueryable query = queryFactory.createEntityQuery(ApprovalRecord.class).setPage(page).setRow(rows);
     	
-        List<Long> ids = getIds(Long.class);
-        query.in("id", ids);
+        query.in("id", getIds(Long.class));
         
         return query.queryResult();    
 	}

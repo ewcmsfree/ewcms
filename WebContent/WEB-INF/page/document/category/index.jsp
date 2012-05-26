@@ -7,23 +7,19 @@
 	<head>
 		<title>文章分类属性</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/document/category/index.js"/>'></script>
+		
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/document/category" action="query"/>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-						{field:'id',title:'序号',width:50,sortable:true},
-		                {field:'categoryName',title:'名称',width:200}
-                  ]]
+			var categoryIndex = new CategoryIndex({
+				queryUrl:'<s:url namespace="/document/category" action="query"/>',
+				inputUrl:'<s:url namespace="/document/category" action="input"/>',
+				deleteUrl:'<s:url namespace="/document/category" action="delete"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/document/category" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/category" action="delete"/>');
-		});
+			$(function(){
+				categoryIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -36,7 +32,7 @@
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator();">保存</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
                 </div>
             </div>

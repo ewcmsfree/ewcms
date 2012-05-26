@@ -7,24 +7,19 @@
 	<head>
 		<title>审批备案机关</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/ar/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/ar" action="query"/>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'code',title:'组织机构代码',width:90,sortable:true},
-		                {field:'name',title:'机关单位名称',width:1000}
-                  ]]
+			var arIndex = new ArIndex({
+				queryUrl:'<s:url namespace="/particular/ar" action="query"/>',
+				inputUrl:'<s:url namespace="/particular/ar" action="input"/>',
+				deleteUrl:'<s:url namespace="/particular/ar" action="delete"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/ar" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/ar" action="delete"/>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				arIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">
@@ -37,7 +32,7 @@
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator();">保存</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
                 </div>
             </div>

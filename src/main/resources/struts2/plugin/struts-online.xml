@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>	
+    <package name="plugin.online.workingbody"  extends="struts-default" namespace="/plugin/online/workingbody">
+        <action name="tree" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="tree"/>
+        <action name="index" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="index">
+            <result name="index">/WEB-INF/page/plugin/online/workingbody/index.jsp</result>
+        </action>
+        <action name="addWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addWorkingBody"/>
+        <action name="renameWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="renameWorkingBody"/>
+        <action name="delWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="delWorkingBody"/>
+        <action name="upWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="upWorkingBody"/>
+        <action name="downWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="downWorkingBody"/>
+        <action name="findAllMatter" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="findAllMatter"/>
+        <action name="findAllCitizen" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="findAllCitizen"/>
+        <action name="queryChannelStatus" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="queryChannelStatus">
+            <result name="matter">/WEB-INF/page/plugin/online/workingbody/matter_view.jsp</result>
+            <result name="article">/WEB-INF/page/plugin/online/article/index.jsp</result>
+        </action>
+        <action name="pubLeadingWindow" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="pubLeadingWindow"/>
+        <action name="addMatterToWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addMatterToWorkingBody"/>
+        <action name="addOrganToMatter" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addOrganToMatter"/>
+        <action name="addOrganToWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addOrganToWorkingBody"/>
+        <action name="addCitizenToMatter" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addCitizenToMatter"/>
+        <action name="removeMatterFromWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="removeMatterFromWorkingBody"/>
+        <action name="removeOrganFromWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="removeOrganFromWorkingBody"/>
+        <action name="removeOrganFromMatter" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="removeOrganFromMatter"/>
+        <action name="removeCitizenFromMatter" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="removeCitizenFromMatter"/>
+    </package>
+    
+    <package name="plugin.online.matter"  extends="struts-default" namespace="/plugin/online/matter">
+        <action name="index">
+            <result>/WEB-INF/page/plugin/online/matter/index.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.plugin.online.web.MatterAction" method="delete"/>
+        <action name="query" class="com.ewcms.plugin.online.web.MatterQueryAction" method="query"/>
+        <action name="input" class="com.ewcms.plugin.online.web.MatterAction" method="input">
+            <result name="input">/WEB-INF/page/plugin/online/matter/edit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.plugin.online.web.MatterAction" method="save">
+            <result>/WEB-INF/page/plugin/online/matter/edit.jsp</result>
+            <result name="input">/WEB-INF/page/plugin/online/matter/edit.jsp</result>
+        </action>
+        <action name="upMatter" class="com.ewcms.plugin.online.web.MatterAction" method="upMatter"/>
+        <action name="downMatter" class="com.ewcms.plugin.online.web.MatterAction" method="downMatter"/>
+    </package>
+    
+    <package name="plugin.online.article" extends="struts-default" namespace="/plugin/online/article">
+        <action name="index" class="com.ewcms.plugin.online.web.MatterArticleAction">
+            <result>/WEB-INF/page/plugin/online/article/index.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.plugin.online.web.MatterArticleAction" method="delete"/>
+        <action name="query" class="com.ewcms.plugin.online.web.MatterArticleQueryAction" method="query"/>
+        <action name="input" class="com.ewcms.plugin.online.web.MatterArticleAction" method="input">
+            <result name="input">/WEB-INF/page/plugin/online/article/edit.jsp</result>
+        </action>
+        <action name="save" class="com.ewcms.plugin.online.web.MatterArticleAction" method="save">
+            <result>/WEB-INF/page/plugin/online/article/edit.jsp</result>
+            <result name="input">/WEB-INF/page/plugin/online/article/edit.jsp</result>
+        </action>
+        <action name="keyword" class="com.ewcms.plugin.online.web.MatterArticleAction" method="keyword"/>
+        <action name="summary" class="com.ewcms.plugin.online.web.MatterArticleAction" method="summary"/>
+        <action name="history" class="com.ewcms.plugin.online.web.MatterArticleAction" method="history"/>
+        <action name="prerelease" class="com.ewcms.plugin.online.web.MatterArticleAction" method="prerelease"/>
+        <action name="move"  class="com.ewcms.plugin.online.web.MatterArticleAction" method="move"/>
+    </package>
+    
+    <package name="plugin.online.advisor" extends="struts-default" namespace="/plugin/online/advisor">
+        <action name="index">
+            <result>/WEB-INF/page/plugin/online/advisor/index.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.plugin.online.web.AdvisorQueryAction" method="query"/>
+         <action name="edit" class="com.ewcms.plugin.online.web.AdvisorEditAction">
+            <result>/WEB-INF/page/plugin/online/advisor/edit.jsp</result>
+        </action>
+    </package>
+</struts>	

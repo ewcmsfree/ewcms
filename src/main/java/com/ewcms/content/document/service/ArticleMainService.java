@@ -620,4 +620,47 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year) {
 		return articleMainDAO.findReleaseArticlePersonFcfChart(year);
 	}
+
+	@Override
+	public ArticleMain findArticleMainById(Long articleMainId) {
+		return articleMainDAO.get(articleMainId);
+	}
+
+	@Override
+	public void referArticleMain(Integer channelId, Long[] articleMainIds) {
+		Assert.notNull(channelId);
+		Assert.notEmpty(articleMainIds);
+		
+		Channel channel = channelDAO.get(channelId);
+		Channel parentChannel = channel.getParent();
+		if (parentChannel.getType() == Channel.Type.LEADER){
+			for (Long articleMainId : articleMainIds){
+				ArticleMain articleMain = articleMainDAO.get(articleMainId);
+				if (articleMain == null) continue;
+				ArticleMain refArticleMain = new ArticleMain();
+				refArticleMain.setArticle(articleMain.getArticle());
+				refArticleMain.setChannelId(channelId);
+				refArticleMain.setReference(true);
+				refArticleMain.setSort(articleMain.getSort());
+				refArticleMain.setTop(articleMain.getTop());
+				
+				articleMainDAO.persist(refArticleMain);
+			}
+		}
+	}
+
+	@Override
+	public void removeArticleMain(Long[] articleMainIds) {
+		Assert.notNull(articleMainIds);
+		Assert.notEmpty(articleMainIds);
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.get(articleMainId);
+			Assert.notNull(articleMain);
+			if (articleMain.getReference()){
+				articleMain.setArticle(null);
+				articleMainDAO.merge(articleMain);
+				articleMainDAO.remove(articleMain);
+			}
+		}
+	}
 }

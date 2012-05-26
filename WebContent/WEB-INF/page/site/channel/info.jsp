@@ -9,10 +9,6 @@
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>
 	    	});
-	    	function save(){
-	    		document.forms[0].submit();
-	    		
-	    	}
 		</script>
 	</head>
 	<body>

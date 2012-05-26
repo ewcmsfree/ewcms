@@ -25,8 +25,7 @@ public class CategoryQueryAction extends QueryBaseAction {
 	private static final long serialVersionUID = 5813703904325874896L;
 
 	@Override
-	protected Resultable queryResult(QueryFactory queryFactory,
-			String cacheKey, int rows, int page, Order order) {
+	protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
     	EntityQueryable query = queryFactory.createEntityQuery(Category.class).setPage(page).setRow(rows).orderAsc("id");
     	
     	Long id = getParameterValue(Long.class,"id", "查询编号错误，应该是整型");

@@ -16,6 +16,9 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="2">可以使用XML文件导入或者是包含有XML文件的ZIP文件进行导入</td>
+				</tr>
+				<tr>
 					<td colspan="2" style="padding:0;">
 						<div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
 						   <a class="easyui-linkbutton" icon="icon-save" href="javascript:document.forms[0].submit();">保存</a>

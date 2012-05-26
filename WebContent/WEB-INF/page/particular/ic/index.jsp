@@ -7,24 +7,19 @@
 	<head>
 		<title>行业编码</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/ic/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/ic" action="query"/>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'code',title:'行业编码',width:90,sortable:true},
-		                {field:'name',title:'行业名称',width:1000}
-                  ]]
+			var icIndex = new IcIndex({
+				queryUrl:'<s:url namespace="/particular/ic" action="query"/>',
+				inputUrl:'<s:url namespace="/particular/ic" action="input"/>',
+				deleteUrl:'<s:url namespace="/particular/ic" action="delete"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/ic" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/ic" action="delete"/>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				icIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">

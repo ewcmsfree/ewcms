@@ -543,7 +543,6 @@ function insertFileToTinyMCEOperator(){
 			$.messager.alert('错误', '插入失败', 'error');
 		}
     });
-	
 }
 //打开问卷调查页面
 function openVoteWidnow(){

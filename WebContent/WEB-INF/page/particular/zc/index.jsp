@@ -7,24 +7,19 @@
 	<head>
 		<title>行政区划代码</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/zc/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/zc" action="query"/>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'code',title:'行政区划编码',width:90,sortable:true},
-		                {field:'name',title:'行政区划名称',width:1000}
-                  ]]
+			var zcIndex = new ZcIndex({
+				queryUrl:'<s:url namespace="/particular/zc" action="query"/>',
+				inputUrl:'<s:url namespace="/particular/zc" action="input"/>',
+				deleteUrl:'<s:url namespace="/particular/zc" action="delete"/>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/zc" action="input"/>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/zc" action="delete"/>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				zcIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">

@@ -322,6 +322,7 @@ function EwcmsOperate(){
 	this.saveOperator = function(iframeID){
 	    if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = 'editifr';
 	    window.frames[iframeID].document.forms[0].submit();
+	    
 	}
 	            
 	/*添加操作*/ 

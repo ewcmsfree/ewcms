@@ -7,33 +7,19 @@
 	<head>
 		<title>从业人员基本信息</title>	
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/mb/index.js"/>'></script>
 		<script type="text/javascript">
-		$(function(){
-			ewcmsBOBJ = new EwcmsBase();
-			ewcmsBOBJ.setQueryURL('<s:url namespace="/particular/mb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			
-			ewcmsBOBJ.openDataGrid('#tt',{
-                columns:[[
-                        {field:'id',title:'编号',hidden:true},
-						{field:'name',title:'姓名',width:150,sortable:true},
-		                {field:'sexDescription',title:'性别',width:60},
-		                {field:'publishingSector_name',title:'发布部门',width:200,
-							formatter : function(val, rec){
-								return rec.publishingSector.name;
-							}	
-		                },
-		                {field:'published',title:'发布时间',width:145},
-		                {field:'cardTypeDescription',title:'证件类型',width:200},
-		                {field:'cardCode',title:'证件号码',width:150},
-		                {field:'denseDescription',title:'所属密级',width:100}
-                  ]]
+			var mbIndex = new MbIndex({
+				queryUrl:'<s:url namespace="/particular/mb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				inputUrl:'<s:url namespace="/particular/mb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				deleteUrl:'<s:url namespace="/particular/mb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
-
-			ewcmsOOBJ = new EwcmsOperate();
-			ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-			ewcmsOOBJ.setInputURL('<s:url namespace="/particular/mb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>');
-			ewcmsOOBJ.setDeleteURL('<s:url namespace="/particular/mb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>');
-		});
+			$(function(){
+				<s:include value="../../alertMessage.jsp"/>
+				mbIndex.init({
+		        	datagridId:'#tt'
+				});
+			});
 		</script>		
 	</head>
 	<body class="easyui-layout">
