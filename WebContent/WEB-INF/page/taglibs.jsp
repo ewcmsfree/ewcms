@@ -13,3 +13,6 @@
 <script type="text/javascript" src='<s:url value="/ewcmssource/js/ewcms.func.js"/>'></script>
 <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/jquery.easyui.min.js"/>'></script>
 <script type="text/javascript" src='<s:url value="/ewcmssource/easyui/locale/easyui-lang-zh_CN.js"/>'></script>
+<script type="text/javascript">
+    <s:property value="javaScript"/>
+</script>
