@@ -1,7 +1,7 @@
-/*
- * Copyright (c)2010 Jiangxi Institute of Computing Technology(JICT), All rights reserved.
- * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.jict.org
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
  */
 package com.ewcms.plugin.online.dao;
 
@@ -20,7 +20,7 @@ import com.ewcms.plugin.online.model.WorkingBody;
  *
  * @author 吴智俊
  */
-@Repository()
+@Repository
 public class WorkingBodyDAO extends JpaDAO<Integer, WorkingBody> {
 	public Long findWorkingBodyMaxSort(Integer channelId){
     	String hql = "Select Max(p.sort) From WorkingBody As p Where p.channelId=:channelId";

@@ -1,10 +1,15 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.ewcms.plugin.online.web;
 
-import com.ewcms.plugin.online.OnlineOfficeFacable;
+import com.ewcms.plugin.online.OnlineFacable;
 import com.ewcms.plugin.online.model.Advisor;
 import com.opensymphony.xwork2.ActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +28,7 @@ public class AdvisorEditAction extends ActionSupport {
     private Boolean checked;
     private Boolean success = false;
     @Autowired
-    private OnlineOfficeFacable fac;
+    private OnlineFacable fac;
 
     public Boolean getChecked() {
         return checked;

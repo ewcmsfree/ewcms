@@ -1,7 +1,7 @@
-/*
- * Copyright (c)2010 Jiangxi Institute of Computing Technology(JICT), All rights reserved.
- * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.jict.org
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
  */
 package com.ewcms.plugin.online.web;
 
@@ -22,7 +22,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.util.search.ExtractKeywordAndSummary;
-import com.ewcms.plugin.online.OnlineOfficeFacable;
+import com.ewcms.plugin.online.OnlineFacable;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -41,7 +41,7 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 	@Autowired
 	private DocumentFacable documentFac;
 	@Autowired
-	private OnlineOfficeFacable onlineOfficeFac;
+	private OnlineFacable onlineOfficeFac;
 	@Autowired
 	private UserServiceable userService;
 

@@ -1,7 +1,7 @@
-/*
- * Copyright (c)2010 Jiangxi Institute of Computing Technology(JICT), All rights reserved.
- * JICT PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * http://www.jict.org
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
  */
 package com.ewcms.plugin.online.web;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.plugin.online.OnlineOfficeFacable;
+import com.ewcms.plugin.online.OnlineFacable;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
@@ -23,7 +23,7 @@ public class MatterAction extends CrudBaseAction<Matter, Integer> {
 
 	private static final long serialVersionUID = -9048840370552678688L;
 	@Autowired
-	private OnlineOfficeFacable onlineOfficeFac;
+	private OnlineFacable onlineOfficeFac;
 	private List<Integer> matterAnnexId;
 	private List<String> filePath;
 	private List<String> legend;
