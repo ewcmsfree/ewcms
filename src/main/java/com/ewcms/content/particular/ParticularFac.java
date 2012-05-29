@@ -58,7 +58,7 @@ public class ParticularFac implements ParticularFacable {
 	private EmployeArticleServiceable employeArticleService;
 	
 	@Override
-	public Long addApprovalRecord(ApprovalRecord approvalRecord){
+	public Long addApprovalRecord(ApprovalRecord approvalRecord) throws BaseException{
 		return approvalRecordService.addApprovalRecord(approvalRecord);
 	}
 
@@ -88,7 +88,7 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public Long addIndustryCode(IndustryCode industryCode) {
+	public Long addIndustryCode(IndustryCode industryCode) throws BaseException {
 		return industryCodeService.addIndustryCode(industryCode);
 	}
 
@@ -119,7 +119,7 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public Long addPublishingSector(PublishingSector publishingSector) {
+	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException {
 		return publishingSectorService.addPublishingSector(publishingSector);
 	}
 
@@ -175,7 +175,7 @@ public class ParticularFac implements ParticularFacable {
 	}
 	
 	@Override
-	public Long addZoningCode(ZoningCode zoningCode) {
+	public Long addZoningCode(ZoningCode zoningCode) throws BaseException {
 		return zoningCodeService.addZoningCode(zoningCode);
 	}
 

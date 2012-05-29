@@ -23,7 +23,7 @@ import com.ewcms.content.particular.model.ZoningCode;
 
 public interface ParticularFacable {
 	
-	public Long addApprovalRecord(ApprovalRecord approvalRecord);
+	public Long addApprovalRecord(ApprovalRecord approvalRecord) throws BaseException;
 	
 	public Long updApprovalRecord(ApprovalRecord approvalRecord);
 	
@@ -35,7 +35,7 @@ public interface ParticularFacable {
 	
 	public Boolean findApprovalRecordSelected(Long projectBasicId, String approvalRecordCode);
 
-	public Long addIndustryCode(IndustryCode industryCode);
+	public Long addIndustryCode(IndustryCode industryCode) throws BaseException;
 	
 	public Long updIndustryCode(IndustryCode industryCode);
 	
@@ -47,7 +47,7 @@ public interface ParticularFacable {
 
 	public IndustryCode findIndustryCodeById(Long id);
 	
-	public Long addPublishingSector(PublishingSector publishingSector);
+	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException;
 	
 	public Long updPublishingSector(PublishingSector publishingSector);
 	
@@ -69,7 +69,7 @@ public interface ParticularFacable {
 	
 	public Boolean findPublishingSectorSelectedByMAId(Long employeArticleId, String publishingSectorCode);
 
-	public Long addZoningCode(ZoningCode zoningCode);
+	public Long addZoningCode(ZoningCode zoningCode) throws BaseException;
 	
 	public Long updZoningCode(ZoningCode zoningCode);
 	

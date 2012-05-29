@@ -7,6 +7,7 @@ package com.ewcms.content.particular.service;
 
 import java.util.List;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.model.ZoningCode;
 
 /**
@@ -17,7 +18,7 @@ import com.ewcms.content.particular.model.ZoningCode;
  */
 public interface ZoningCodeServiceable {
 
-	public Long addZoningCode(ZoningCode zoningCode);
+	public Long addZoningCode(ZoningCode zoningCode) throws BaseException;
 	
 	public Long updZoningCode(ZoningCode zoningCode);
 	

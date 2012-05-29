@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.PublishingSector;
 import com.ewcms.web.CrudBaseAction;
@@ -64,7 +65,12 @@ public class PublishingSectorAction extends CrudBaseAction<PublishingSector, Lon
 		if (isUpdate) {
 			return particularFac.updPublishingSector(vo);
 		} else {
-			return particularFac.addPublishingSector(vo);
+			try{
+				return particularFac.addPublishingSector(vo);
+			} catch (BaseException e) {
+				addActionMessage(e.getPageMessage());
+				return null;
+			}
 		}
 	}
 

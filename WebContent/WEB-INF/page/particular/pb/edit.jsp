@@ -164,7 +164,7 @@
 					</td>
 					<td>形式：</td>
 					<td>
-						<s:textfield id="shape" cssClass="inputtext" name="projectBasicVo.shape"/>
+						<s:select list="@com.ewcms.content.particular.model.ProjectBasic$Shape@values()" listValue="description" name="projectBasicVo.shape" id="projectBasicVo_shape"/>
 					</td>
 				</tr>
 				<tr>

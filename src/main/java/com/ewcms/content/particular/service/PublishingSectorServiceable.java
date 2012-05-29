@@ -7,6 +7,7 @@ package com.ewcms.content.particular.service;
 
 import java.util.List;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.model.PublishingSector;
 
 /**
@@ -16,7 +17,7 @@ import com.ewcms.content.particular.model.PublishingSector;
  *
  */
 public interface PublishingSectorServiceable {
-	public Long addPublishingSector(PublishingSector publishingSector);
+	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException;
 	
 	public Long updPublishingSector(PublishingSector publishingSector);
 	

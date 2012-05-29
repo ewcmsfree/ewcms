@@ -10,6 +10,11 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
+            if ($('#zoningCodeVo_id').val() != ""){
+            	$('#code').attr('readonly', true);
+            }else{
+            	$('#code').attr('readonly', false);
+            }
         });
         </script>		
 	</head>
@@ -19,7 +24,7 @@
 				<tr>
 					<td>行政区划编码：</td>
 					<td class="formFieldError">
-						<s:textfield id="id" cssClass="inputtext" name="zoningCodeVo.code" maxLength="6" size="6"/>
+						<s:textfield id="code" cssClass="inputtext" name="zoningCodeVo.code" maxLength="6" size="6"/>
 						<s:fielderror ><s:param value="%{'zoningCodeVo.code'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -31,7 +36,7 @@
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="zoningCodeVo.id"/>
+			<s:hidden id="zoningCodeVo_id" name="zoningCodeVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

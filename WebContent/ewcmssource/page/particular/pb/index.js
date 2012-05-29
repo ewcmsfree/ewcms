@@ -60,7 +60,7 @@ PbIndex.prototype.init = function(options){
                 {field:'email',title:'联系人电子邮箱',width:120},
                 {field:'address',title:'项目地址',width:200},
                 {field:'natureDescription',title:'建设性质',width:100},
-                {field:'shape',title:'形式',width:100},
+                {field:'shapeDescription',title:'形式',width:100},
                 {field:'documentId',title:'文号',width:100},
                 {field:'participation',title:'参建单位',width:200},
                 {field:'publishingSectorName',title:'发布部门名称',width:200,

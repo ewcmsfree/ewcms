@@ -43,13 +43,13 @@
                 <form id="queryform">
                 	<table class="formtable">
                             <tr>
-                                <td class="tdtitle">组织机构代码：</td>
+                                <td class="tdtitle">行政区划编码：</td>
                                 <td class="tdinput">
-                                    <input type="text" id="code" name="code" class="inputtext" maxLength="4" size="4"/>
+                                    <input type="text" id="code" name="code" class="inputtext" maxLength="6" size="6"/>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="tdtitle">机关单位名称：</td>
+                                <td class="tdtitle">行政区划名称：</td>
                                 <td class="tdinput">
                                     <input type="text" id="name" name="name" class="inputtext" size="60"/>
                                 </td>

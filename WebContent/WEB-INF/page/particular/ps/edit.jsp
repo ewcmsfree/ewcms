@@ -10,6 +10,11 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
+            if ($('#publishingSectorVo_id').val() != ""){
+            	$('#code').attr('readonly', true);
+            }else{
+            	$('#code').attr('readonly', false);
+            }
         });
         </script>		
 	</head>
@@ -31,7 +36,7 @@
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="publishingSectorVo.id"/>
+			<s:hidden id="publishingSectorVo_id" name="publishingSectorVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

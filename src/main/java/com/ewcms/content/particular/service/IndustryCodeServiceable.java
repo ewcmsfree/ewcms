@@ -7,6 +7,7 @@ package com.ewcms.content.particular.service;
 
 import java.util.List;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.model.IndustryCode;
 
 /**
@@ -15,7 +16,7 @@ import com.ewcms.content.particular.model.IndustryCode;
  *
  */
 public interface IndustryCodeServiceable {
-	public Long addIndustryCode(IndustryCode industryCode);
+	public Long addIndustryCode(IndustryCode industryCode) throws BaseException;
 	
 	public Long updIndustryCode(IndustryCode industryCode);
 	

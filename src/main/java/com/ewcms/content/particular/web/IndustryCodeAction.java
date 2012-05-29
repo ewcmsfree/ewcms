@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.IndustryCode;
 import com.ewcms.web.CrudBaseAction;
@@ -64,7 +65,12 @@ public class IndustryCodeAction extends CrudBaseAction<IndustryCode, Long> {
 		if (isUpdate) {
 			return particularFac.updIndustryCode(vo);
 		} else {
-			return particularFac.addIndustryCode(vo);
+			try{
+				return particularFac.addIndustryCode(vo);
+			} catch (BaseException e) {
+				addActionMessage(e.getPageMessage());
+				return null;
+			}
 		}
 	}
 

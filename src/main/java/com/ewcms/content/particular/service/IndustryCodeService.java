@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.dao.IndustryCodeDAO;
 import com.ewcms.content.particular.model.IndustryCode;
 
@@ -20,7 +21,10 @@ public class IndustryCodeService implements IndustryCodeServiceable {
 	private IndustryCodeDAO industryCodeDAO;
 	
 	@Override
-	public Long addIndustryCode(IndustryCode industryCode) {
+	public Long addIndustryCode(IndustryCode industryCode) throws BaseException{
+		String code = industryCode.getCode();
+		IndustryCode entity = industryCodeDAO.findIndustryCodeByCode(code);
+		if (entity != null) throw new BaseException("已存在相同的代码", "已存在相同的代码");
 		industryCodeDAO.persist(industryCode);
 		return industryCode.getId();
 	}

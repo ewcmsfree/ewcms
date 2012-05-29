@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.dao.ZoningCodeDAO;
 import com.ewcms.content.particular.model.ZoningCode;
 
@@ -20,7 +21,10 @@ public class ZoningCodeService implements ZoningCodeServiceable {
 	private ZoningCodeDAO zoningCodeDAO;
 	
 	@Override
-	public Long addZoningCode(ZoningCode zoningCode) {
+	public Long addZoningCode(ZoningCode zoningCode) throws BaseException{
+		String code = zoningCode.getCode();
+		ZoningCode entity = zoningCodeDAO.findZoningCodeByCode(code);
+		if (entity != null) throw new BaseException("已存在相同的代码", "已存在相同的代码");
 		zoningCodeDAO.persist(zoningCode);
 		return zoningCode.getId();
 	}

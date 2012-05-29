@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.PublishingSector;
 
@@ -20,7 +21,10 @@ public class PublishingSectorService implements PublishingSectorServiceable {
 	private PublishingSectorDAO publishingSectorDAO;
 	
 	@Override
-	public Long addPublishingSector(PublishingSector publishingSector) {
+	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException {
+		String code = publishingSector.getCode();
+		PublishingSector entity = publishingSectorDAO.findPublishingSectorByCode(code);
+		if (entity != null) throw new BaseException("已存在相同的代码", "已存在相同的代码");
 		publishingSectorDAO.persist(publishingSector);
 		return publishingSector.getId();
 	}

@@ -13,8 +13,8 @@
         	<message>必须为9位长度</message>
         </field-validator>
         <field-validator type="regex">
-            <param name="expression"><![CDATA[(^\d+$)]]></param>
-            <message>必须是数字型</message>
+            <param name="expression"><![CDATA[(^[A-Za-z0-9]+$)]]></param>
+            <message>必须是数字或字符型</message>
         </field-validator>
     </field>
     <field name="approvalRecordVo.name">

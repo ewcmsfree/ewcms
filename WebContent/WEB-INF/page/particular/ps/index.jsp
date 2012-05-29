@@ -45,7 +45,7 @@
                             <tr>
                                 <td class="tdtitle">组织机构代码：</td>
                                 <td class="tdinput">
-                                    <input type="text" id="code" name="code" class="inputtext" maxLength="4" size="4"/>
+                                    <input type="text" id="code" name="code" class="inputtext" maxLength="9" size="9"/>
                                 </td>
                             </tr>
                             <tr>

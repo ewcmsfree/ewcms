@@ -7,6 +7,7 @@ package com.ewcms.content.particular.service;
 
 import java.util.List;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.model.ApprovalRecord;
 
 /**
@@ -16,7 +17,7 @@ import com.ewcms.content.particular.model.ApprovalRecord;
  */
 public interface ApprovalRecordServiceable {
 	
-	public Long addApprovalRecord(ApprovalRecord approvalRecord);
+	public Long addApprovalRecord(ApprovalRecord approvalRecord) throws BaseException;
 	
 	public Long updApprovalRecord(ApprovalRecord approvalRecord);
 	

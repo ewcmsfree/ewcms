@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.ApprovalRecord;
 import com.ewcms.web.CrudBaseAction;
@@ -64,7 +65,12 @@ public class ApprovalRecordAction extends CrudBaseAction<ApprovalRecord, Long> {
 		if (isUpdate) {
 			return particularFac.updApprovalRecord(vo);
 		} else {
-			return particularFac.addApprovalRecord(vo);
+			try {
+				return particularFac.addApprovalRecord(vo);
+			} catch (BaseException e) {
+				addActionMessage(e.getPageMessage());
+				return null;
+			}
 		}
 	}
 

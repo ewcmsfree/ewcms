@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.ZoningCode;
 import com.ewcms.web.CrudBaseAction;
@@ -64,7 +65,12 @@ public class ZoningCodeAction extends CrudBaseAction<ZoningCode, Long> {
 		if (isUpdate) {
 			return particularFac.updZoningCode(vo);
 		} else {
-			return particularFac.addZoningCode(vo);
+			try{
+				return particularFac.addZoningCode(vo);
+			} catch (BaseException e) {
+				addActionMessage(e.getPageMessage());
+				return null;
+			}
 		}
 	}
 

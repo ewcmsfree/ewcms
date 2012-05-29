@@ -10,6 +10,11 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
+            if ($('#approvalRecordVo_id').val() != ""){
+            	$('#code').attr('readonly', true);
+            }else{
+            	$('#code').attr('readonly', false);
+            }
         });
         </script>		
 	</head>
@@ -19,7 +24,7 @@
 				<tr>
 					<td>组织机构代码：</td>
 					<td class="formFieldError">
-						<s:textfield id="id" cssClass="inputtext" name="approvalRecordVo.code" maxLength="9" size="9"/>
+						<s:textfield id="code" cssClass="inputtext" name="approvalRecordVo.code" maxLength="9" size="9"/>
 						<s:fielderror ><s:param value="%{'approvalRecordVo.code'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -31,7 +36,7 @@
 					</td>
 				</tr>
 			</table>
-			<s:hidden name="approvalRecordVo.id"/>
+			<s:hidden id="approvalRecordVo_id" name="approvalRecordVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

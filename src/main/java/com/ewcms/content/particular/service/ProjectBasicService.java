@@ -29,6 +29,7 @@ import com.ewcms.content.particular.model.ApprovalRecord;
 import com.ewcms.content.particular.model.IndustryCode;
 import com.ewcms.content.particular.model.ProjectBasic;
 import com.ewcms.content.particular.model.ProjectBasic.Nature;
+import com.ewcms.content.particular.model.ProjectBasic.Shape;
 import com.ewcms.content.particular.model.PublishingSector;
 import com.ewcms.content.particular.model.ZoningCode;
 import com.ewcms.content.particular.util.XmlConvert;
@@ -218,7 +219,12 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 			projectBasic.setEmail(email);
 				
 			String shape = (String) map.get("形式");
-			projectBasic.setShape(shape);
+			for (Shape value : Shape.values()){
+				if (value.getDescription().trim().equals(shape.trim())){
+					projectBasic.setShape(value);
+					break;
+				}
+			}
 				
 			String documentId = (String) map.get("文号");
 			projectBasic.setDocumentId(documentId);

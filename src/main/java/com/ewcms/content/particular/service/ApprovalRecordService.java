@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.dao.ApprovalRecordDAO;
 import com.ewcms.content.particular.model.ApprovalRecord;
 
@@ -20,7 +21,10 @@ public class ApprovalRecordService implements ApprovalRecordServiceable {
 	private ApprovalRecordDAO approvalRecordDAO;
 	
 	@Override
-	public Long addApprovalRecord(ApprovalRecord approvalRecord){
+	public Long addApprovalRecord(ApprovalRecord approvalRecord) throws BaseException {
+		String code = approvalRecord.getCode();
+		ApprovalRecord entity = approvalRecordDAO.findApprovalRecordByCode(code);
+		if (entity != null) throw new BaseException("已存在相同的代码", "已存在相同的代码");
 		approvalRecordDAO.persist(approvalRecord);
 		return approvalRecord.getId();
 	}
