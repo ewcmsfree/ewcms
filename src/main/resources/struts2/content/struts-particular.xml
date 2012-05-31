@@ -92,6 +92,8 @@
             <result name="input">/WEB-INF/page/particular/pb/import.jsp</result>
         </action>	
         <action name="export" class="com.ewcms.content.particular.web.ProjectBasicAction" method="exportXML"/>
+        <action name="pub" class="com.ewcms.content.particular.web.ProjectBasicAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.ProjectBasicAction" method="unPub"/>
     </package>
 	<package name="particular.pa" extends="struts-default" namespace="/particular/pa">
 		<action name="index" class="com.ewcms.content.particular.web.ProjectArticleAction">
@@ -107,6 +109,8 @@
 			<result name="input">/WEB-INF/page/particular/pa/edit.jsp</result>
 		</action>
 		<action name="findPbAll" class="com.ewcms.content.particular.web.ProjectArticleAction" method="findPbAll"/>
+        <action name="pub" class="com.ewcms.content.particular.web.ProjectArticleAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.ProjectArticleAction" method="unPub"/>
 	</package>
 	<package name="particular.eb" extends="struts-default" namespace="/particular/eb">
 		<action name="index" class="com.ewcms.content.particular.web.EnterpriseBasicAction">
@@ -121,6 +125,8 @@
 			<result>/WEB-INF/page/particular/eb/edit.jsp</result>
 			<result name="input">/WEB-INF/page/particular/eb/edit.jsp</result>
 		</action>
+        <action name="pub" class="com.ewcms.content.particular.web.EnterpriseBasicAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.EnterpriseBasicAction" method="unPub"/>
 	</package>
 	<package name="particular.ea" extends="struts-default" namespace="/particular/ea">
 		<action name="index" class="com.ewcms.content.particular.web.EnterpriseArticleAction">
@@ -136,6 +142,8 @@
 			<result name="input">/WEB-INF/page/particular/ea/edit.jsp</result>
 		</action>
 		<action name="findEbAll" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="findEbAll"/>
+        <action name="pub" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.EnterpriseArticleAction" method="unPub"/>
 	</package>
 		<package name="particular.mb" extends="struts-default" namespace="/particular/mb">
 		<action name="index" class="com.ewcms.content.particular.web.EmployeBasicAction">
@@ -150,6 +158,8 @@
 			<result>/WEB-INF/page/particular/mb/edit.jsp</result>
 			<result name="input">/WEB-INF/page/particular/mb/edit.jsp</result>
 		</action>
+        <action name="pub" class="com.ewcms.content.particular.web.EmployeBasicAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.EmployeBasicAction" method="unPub"/>
 	</package>
 	<package name="particular.ma" extends="struts-default" namespace="/particular/ma">
 		<action name="index" class="com.ewcms.content.particular.web.EmployeArticleAction">
@@ -165,5 +175,7 @@
 			<result name="input">/WEB-INF/page/particular/ma/edit.jsp</result>
 		</action>
 		<action name="findMbAll" class="com.ewcms.content.particular.web.EmployeArticleAction" method="findMbAll"/>
+        <action name="pub" class="com.ewcms.content.particular.web.EmployeArticleAction" method="pub"/>
+        <action name="unPub" class="com.ewcms.content.particular.web.EmployeArticleAction" method="unPub"/>
 	</package>
 </struts>

@@ -57,5 +57,27 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	public List<EnterpriseBasic> findEnterpriseBasicAll() {
 		return enterpriseBasicDAO.findProjectBasicAll();
 	}
+	
+	@Override
+	public void pubEnterpriseBasic(List<Long> enterpriseBasicIds) {
+		if (enterpriseBasicIds.isEmpty()) return;
+		for (Long enterpriseBasicId : enterpriseBasicIds){
+			EnterpriseBasic enterpriseBasic = enterpriseBasicDAO.get(enterpriseBasicId);
+			if (enterpriseBasic.getRelease()) continue;
+			enterpriseBasic.setRelease(true);
+			enterpriseBasicDAO.merge(enterpriseBasic);
+		}
+	}
+	
+	@Override
+	public void unPubEnterpriseBasic(List<Long> enterpriseBasicIds){
+		if (enterpriseBasicIds.isEmpty()) return;
+		for (Long projectArticleId : enterpriseBasicIds){
+			EnterpriseBasic enterpriseBasic = enterpriseBasicDAO.get(projectArticleId);
+			if (!enterpriseBasic.getRelease()) continue;
+			enterpriseBasic.setRelease(false);
+			enterpriseBasicDAO.merge(enterpriseBasic);
+		}
+	}
 
 }

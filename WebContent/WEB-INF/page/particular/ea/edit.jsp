@@ -75,31 +75,36 @@
 			<div id="wrapper" >
 			<table id="inputBarTable" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;" class="formtable">
 				<tr>
-					<td width="10%">企业名称：</td>
-					<td width="40%">
+					<td width="10%">企业名称：<span style="color:#FF0000">*</span></td>
+					<td width="40%" class="formFieldError">
 						<input id="cc_enterpriseBasic" name="enterpriseArticleVo.enterpriseBasic.yyzzzch" style="width:150px;" size="20"></input>
 						(<span id="enterpriseBasic_yyzzch"><s:property value="enterpriseArticleVo.enterpriseBasic.yyzzzch"/></span>)
+						<s:fielderror ><s:param value="%{'enterpriseArticleVo.enterpriseBasic.yyzzzch'}" /></s:fielderror>
 					</td>
-					<td width="10%">发布部门：</td>
-					<td width="40">
+					<td width="10%">发布部门：<span style="color:#FF0000">*</span></td>
+					<td width="40" class="formFieldError">
 						<input id="cc_publishingSector" name="enterpriseArticleVo.publishingSector.code" style="width: 120px;"></input>
+						<s:fielderror ><s:param value="%{'enterpriseArticleVo.publishingSector.code'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
-					<td>发布日期：</td>
-					<td>
+					<td>发布日期：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
 						<ewcms:datepicker id="published" name="enterpriseArticleVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<s:fielderror ><s:param value="%{'enterpriseArticleVo.published'}" /></s:fielderror>
 					</td>
-					<td>所属密级：</td>
-					<td>
-						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="enterpriseArticleVo.dense" id="enterpriseArticleVo_dense" headerKey="" headerValue="----请选择----"></s:select>
+					<td>所属密级：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
+						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="enterpriseArticleVo.dense" id="enterpriseArticleVo_dense"></s:select>
+						<s:fielderror ><s:param value="%{'enterpriseArticleVo.dense'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
 			
 			<table id="table_content" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;border-collapse:collapse">
 				<tr>
-					<td valign='top'>
+					<td valign='top' class="formFieldError">
+						<s:fielderror ><s:param value="%{'enterpriseArticleVo.content.detail'}" /></s:fielderror>
 						<div id="_DivContainer" style="text-align: center; overflow: auto; height: 476px; width: 100%; background-color: #666666; position: relative">
 			  				<table id="_Table1" width="800" border="0" cellpadding="10" bgcolor="#FFFFFF" style="margin: 5px auto;">
 			  					<tr>

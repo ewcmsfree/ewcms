@@ -14,6 +14,8 @@ PbIndex.prototype.init = function(options){
 	
 	ewcmsBOBJ.addToolItem('导入XML', 'icon-redo', null, 'importToolbar');
 	ewcmsBOBJ.addToolItem('生成XML', 'icon-undo', null, 'generatorToolbar');
+	ewcmsBOBJ.addToolItem('发布','icon-publish', null, 'pubToolbar');
+	ewcmsBOBJ.addToolItem('取消发布','icon-publish', null, 'unPubToolbar');
 	
     ewcmsOOBJ = new EwcmsOperate();
     ewcmsOOBJ.setQueryURL(urls.queryUrl);
@@ -23,6 +25,11 @@ PbIndex.prototype.init = function(options){
     ewcmsBOBJ.openDataGrid(datagridId,{
         columns:[[
                 {field:'id',title:'编号',hidden:true},
+                {field:'release',title:'发布',width:40,
+                	formatter : function(val, rec){
+                		return val ? '&nbsp;是' : '&nbsp;否';
+                	}
+                },
 				{field:'code',title:'项目编号',width:150,sortable:true},
                 {field:'name',title:'项目名称',width:200},
                 {field:'buildTime',title:'建设时间',width:85},
@@ -88,5 +95,55 @@ PbIndex.prototype.init = function(options){
     		parameter = parameter + '&selections=' + rows[i].id;
     	}
     	window.location = urls.generatorUrl + parameter;
+    });
+    
+    $('#pubToolbar').bind('click', function(){
+    	var rows = $(datagridId).datagrid('getSelections');
+        if(rows.length == 0){
+         	$.messager.alert('提示','请选择发布记录','info');
+            return;
+        }
+        var parameter = 'selections=' + rows[0].id;
+    	for ( var i = 1; i < rows.length - 1; ++i) {
+    		parameter = parameter + '&selections=' + rows[i].id;
+    	}
+    	$.post(urls.pubUrl, parameter, function(data){
+    		if (data == 'false'){
+    			$.messager.alert('提示','发布失败','info');
+    			return;
+    		} else if (data == 'accessdenied') {
+				$.messager.alert('提示', '没有发布权限', 'info');
+				return;
+    		}else if (data == 'true'){
+				$.messager.alert('提示', '发布成功', 'info');
+				return;
+    		}
+    		$(datagridId).datagrid('reload');
+    	});
+    });
+    
+    $('#unPubToolbar').bind('click', function(){
+    	var rows = $(datagridId).datagrid('getSelections');
+        if(rows.length == 0){
+         	$.messager.alert('提示','请选择取消发布记录','info');
+            return;
+        }
+        var parameter = 'selections=' + rows[0].id;
+    	for ( var i = 1; i < rows.length - 1; ++i) {
+    		parameter = parameter + '&selections=' + rows[i].id;
+    	}
+    	$.post(urls.unPubUrl, parameter, function(data){
+    		if (data == 'false'){
+    			$.messager.alert('提示','取消发布失败','info');
+    			return;
+    		} else if (data == 'accessdenied') {
+				$.messager.alert('提示', '没有取消发布权限', 'info');
+				return;
+    		}else if (data == 'true'){
+				$.messager.alert('提示', '取消发布成功', 'info');
+				return;
+    		}
+    		$(datagridId).datagrid('reload');
+    	});
     });
 }

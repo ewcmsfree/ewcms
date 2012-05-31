@@ -12,7 +12,9 @@
 			var paIndex = new PaIndex({
 				queryUrl:'<s:url namespace="/particular/pa" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
 				inputUrl:'<s:url namespace="/particular/pa" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				deleteUrl:'<s:url namespace="/particular/pa" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>'
+				deleteUrl:'<s:url namespace="/particular/pa" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				pubUrl:'<s:url namespace="/particular/pa" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				unPubUrl:'<s:url namespace="/particular/pa" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>

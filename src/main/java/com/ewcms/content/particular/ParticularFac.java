@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.particular.model.ApprovalRecord;
@@ -206,12 +207,12 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public Long addProjectBasic(ProjectBasic projectBasic) {
+	public Long addProjectBasic(ProjectBasic projectBasic) throws BaseException {
 		return projectBasicService.addProjectBasic(projectBasic);
 	}
 
 	@Override
-	public Long updProjectBasic(ProjectBasic projectBasic) {
+	public Long updProjectBasic(ProjectBasic projectBasic) throws BaseException {
 		return projectBasicService.updProjectBasic(projectBasic);
 	}
 
@@ -348,5 +349,106 @@ public class ParticularFac implements ParticularFacable {
 	@Override
 	public EmployeArticle findEmployeArticleById(Long id) {
 		return employeArticleService.findEmployeArticleById(id);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void pubProjectBasic(Integer channelId, List<Long> projectBasicIds) {
+		projectBasicService.pubProjectBasic(projectBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void unPubProjectBasic(Integer channelId, List<Long> projectBasicIds) {
+		projectBasicService.unPubProjectBasic(projectBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void pubProjectArticle(Integer channelId,
+			List<Long> projectArticleIds) {
+		projectArticleService.pubProjectArticle(projectArticleIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void unPubProjectArticle(Integer channelId,
+			List<Long> projectArticleIds) {
+		projectArticleService.unPubProjectArticle(projectArticleIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void pubEnterpriseBasic(Integer channelId,
+			List<Long> enterpriseBasicIds) {
+		enterpriseBasicService.pubEnterpriseBasic(enterpriseBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void unPubEnterpriseBasic(Integer channelId,
+			List<Long> enterpriseBasicIds) {
+		enterpriseBasicService.unPubEnterpriseBasic(enterpriseBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void pubEnterpriseArticle(Integer channelId,
+			List<Long> enterpriseArticleIds) {
+		enterpriseArticleService.pubEnterpriseArticle(enterpriseArticleIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void unPubEnterpriseArticle(Integer channelId,
+			List<Long> enterpriseArticleIds) {
+		enterpriseArticleService.unPubEnterpriseArticle(enterpriseArticleIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void pubEmployeBasic(Integer channelId, List<Long> employeBasicIds) {
+		employeBasicService.pubEmployeBasic(employeBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void unPubEmployeBasic(Integer channelId, List<Long> employeBasicIds) {
+		employeBasicService.unPubEmployeBasic(employeBasicIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void pubEmployeArticle(Integer channelId,
+			List<Long> employeArticleIds) {
+		employeArticleService.pubEmployeArticle(employeArticleIds);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','PUBLISH') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	@Override
+	public void unPubEmployeArticle(Integer channelId,
+			List<Long> employeArticleIds) {
+		employeArticleService.unPubEmployeArticle(employeArticleIds);
 	}
 }

@@ -52,6 +52,7 @@ import javax.persistence.TemporalType;
  * <li>participation:参建单位</li>
  * <li>publishingSector:发布部门</li>
  * <li>channelId:专栏编号</li>
+ * <li>release:发布</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -119,17 +120,17 @@ public class ProjectBasic implements Serializable {
 	@Column(name = "unit_address", length = 200, nullable = false)
 	private String unitAddress;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = ZoningCode.class)
-	@JoinColumn(name="zoning_code", nullable = false, referencedColumnName = "code")
+	@JoinColumn(name="zoning_code", nullable = false)
 	private ZoningCode zoningCode;
 	@Column(name = "organization_code", length = 9, nullable = false)
 	private String organizationCode;
 	@Column(name = "category")
 	private String category;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = IndustryCode.class)
-	@JoinColumn(name="industry_code", nullable = false, referencedColumnName = "code")
+	@JoinColumn(name="industry_code", nullable = false)
 	private IndustryCode industryCode;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = ApprovalRecord.class)
-	@JoinColumn(name="approval_code", nullable = false, referencedColumnName = "code")
+	@JoinColumn(name="approval_code", nullable = false)
 	private ApprovalRecord approvalRecord;
 	@Column(name = "contact", length = 200, nullable = false)
 	private String contact;
@@ -150,11 +151,17 @@ public class ProjectBasic implements Serializable {
 	@Column(name = "participation", length = 200)
 	private String participation;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = PublishingSector.class)
-	@JoinColumn(name="publishing_sector", referencedColumnName = "code")
+	@JoinColumn(name="publishing_sector")
 	private PublishingSector publishingSector;
 	@Column(name = "channel_id")
 	private Integer channelId;
+	@Column(name = "release")
+	private Boolean release;
 
+	public ProjectBasic() {
+		release = false;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -369,6 +376,14 @@ public class ProjectBasic implements Serializable {
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public Boolean getRelease() {
+		return release;
+	}
+
+	public void setRelease(Boolean release) {
+		this.release = release;
 	}
 
 	@Override

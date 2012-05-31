@@ -34,6 +34,7 @@ import javax.persistence.TemporalType;
  * <li>published:发布日期</li>
  * <li>dense:所属密级</li>
  * <li>channelId:专栏编号</li>
+ * <li>release:发布</li>
  * </ul>
  * @author wuzhijun
  * 
@@ -51,11 +52,11 @@ public class EmployeArticle implements Serializable {
 	private Long id;
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH }, targetEntity = EmployeBasic.class)
-	@JoinColumn(name = "employebasic_cardcode", nullable = false, referencedColumnName = "card_code")
+	@JoinColumn(name = "employebasic_cardcode", nullable = false)
 	private EmployeBasic employeBasic;
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH }, targetEntity = PublishingSector.class)
-	@JoinColumn(name = "publishingsector_code", referencedColumnName = "code")
+	@JoinColumn(name = "publishingsector_code")
 	private PublishingSector publishingSector;
 	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ParticularContent.class)
 	@JoinColumn(name = "content_id")
@@ -68,6 +69,8 @@ public class EmployeArticle implements Serializable {
 	private Dense dense;
 	@Column(name = "channel_id")
 	private Integer channelId;
+	@Column(name = "release")
+	private Boolean release;
 
 	public Long getId() {
 		return id;
@@ -131,6 +134,14 @@ public class EmployeArticle implements Serializable {
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public Boolean getRelease() {
+		return release;
+	}
+
+	public void setRelease(Boolean release) {
+		this.release = release;
 	}
 
 	@Override

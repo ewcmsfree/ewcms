@@ -9,10 +9,13 @@ package com.ewcms.content.particular.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.EnterpriseBasic;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 
 /**
  * @author 吴智俊
@@ -78,5 +81,35 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 	@Override
 	protected EnterpriseBasic createEmptyVo() {
 		return new EnterpriseBasic();
+	}
+	
+	public void pub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.pubEnterpriseBasic(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void unPub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.unPubEnterpriseBasic(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
 	}
 }

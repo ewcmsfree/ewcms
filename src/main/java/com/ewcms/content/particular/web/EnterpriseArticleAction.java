@@ -9,6 +9,7 @@ package com.ewcms.content.particular.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.EnterpriseArticle;
@@ -86,5 +87,35 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 	public void findEbAll(){
 		List<EnterpriseBasic> pbs = particularFac.findEnterpriseBasicAll();
 		Struts2Util.renderJson(JSONUtil.toJSON(pbs));
+	}
+	
+	public void pub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.pubEnterpriseArticle(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void unPub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.unPubEnterpriseArticle(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
 	}
 }

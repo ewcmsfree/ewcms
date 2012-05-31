@@ -12,7 +12,9 @@
 			var maIndex = new MaIndex({
 				queryUrl:'<s:url namespace="/particular/ma" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
 				inputUrl:'<s:url namespace="/particular/ma" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				deleteUrl:'<s:url namespace="/particular/ma" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>'
+				deleteUrl:'<s:url namespace="/particular/ma" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				pubUrl:'<s:url namespace="/particular/ma" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				unPubUrl:'<s:url namespace="/particular/ma" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>

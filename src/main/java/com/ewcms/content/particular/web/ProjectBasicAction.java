@@ -18,10 +18,13 @@ import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.ProjectBasic;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
 /**
@@ -78,10 +81,15 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 	@Override
 	protected Long saveOperator(ProjectBasic vo, boolean isUpdate) {
 		vo.setChannelId(getChannelId());
-		if (isUpdate) {
-			return particularFac.updProjectBasic(vo);
-		} else {
-			return particularFac.addProjectBasic(vo);
+		try{
+			if (isUpdate) {
+				return particularFac.updProjectBasic(vo);
+			} else {
+				return particularFac.addProjectBasic(vo);
+			}
+		}catch(BaseException e){
+			addActionMessage(e.getPageMessage());
+			return null;
 		}
 	}
 
@@ -140,6 +148,36 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 					out = null;
 				}
 			}		
+		}
+	}
+	
+	public void pub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.pubProjectBasic(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void unPub(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				particularFac.unPubProjectBasic(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
 }

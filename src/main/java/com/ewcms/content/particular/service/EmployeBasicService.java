@@ -57,4 +57,26 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	public List<EmployeBasic> findEmployeBasicAll() {
 		return employeBasicDAO.findProjectBasicAll();
 	}
+	
+	@Override
+	public void pubEmployeBasic(List<Long> employeBasicIds) {
+		if (employeBasicIds.isEmpty()) return;
+		for (Long employeBasicId : employeBasicIds){
+			EmployeBasic enterpriseBasic = employeBasicDAO.get(employeBasicId);
+			if (enterpriseBasic.getRelease()) continue;
+			enterpriseBasic.setRelease(true);
+			employeBasicDAO.merge(enterpriseBasic);
+		}
+	}
+	
+	@Override
+	public void unPubEmployeBasic(List<Long> employeBasicIds){
+		if (employeBasicIds.isEmpty()) return;
+		for (Long employeBasicId : employeBasicIds){
+			EmployeBasic employeBasic = employeBasicDAO.get(employeBasicId);
+			if (!employeBasic.getRelease()) continue;
+			employeBasic.setRelease(false);
+			employeBasicDAO.merge(employeBasic);
+		}
+	}
 }

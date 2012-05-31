@@ -5,6 +5,8 @@
  */
 package com.ewcms.content.particular.service;
 
+import java.util.List;
+
 import com.ewcms.content.particular.model.EmployeArticle;
 
 public interface EmployeArticleServiceable {
@@ -15,4 +17,8 @@ public interface EmployeArticleServiceable {
 	public void delEmployeArticle(Long id);
 	
 	public EmployeArticle findEmployeArticleById(Long id);
+	
+	public void pubEmployeArticle(List<Long> employeArticleIds);
+	
+	public void unPubEmployeArticle(List<Long> employeArticleIds);
 }

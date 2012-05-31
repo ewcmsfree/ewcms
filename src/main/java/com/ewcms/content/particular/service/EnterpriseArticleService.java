@@ -5,6 +5,8 @@
  */
 package com.ewcms.content.particular.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -66,4 +68,25 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 		return enterpriseArticleDAO.get(id);
 	}
 
+	@Override
+	public void pubEnterpriseArticle(List<Long> enterpriseArticleIds) {
+		if (enterpriseArticleIds.isEmpty()) return;
+		for (Long enterpriseArticleId : enterpriseArticleIds){
+			EnterpriseArticle enterpriseArticle = enterpriseArticleDAO.get(enterpriseArticleId);
+			if (enterpriseArticle.getRelease()) continue;
+			enterpriseArticle.setRelease(true);
+			enterpriseArticleDAO.merge(enterpriseArticle);
+		}
+	}
+	
+	@Override
+	public void unPubEnterpriseArticle(List<Long> enterpriseArticleIds){
+		if (enterpriseArticleIds.isEmpty()) return;
+		for (Long projectArticleId : enterpriseArticleIds){
+			EnterpriseArticle enterpriseArticle = enterpriseArticleDAO.get(projectArticleId);
+			if (!enterpriseArticle.getRelease()) continue;
+			enterpriseArticle.setRelease(false);
+			enterpriseArticleDAO.merge(enterpriseArticle);
+		}
+	}
 }

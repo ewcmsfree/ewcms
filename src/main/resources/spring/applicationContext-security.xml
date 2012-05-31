@@ -22,7 +22,6 @@
         <sec:intercept-url pattern="/createArticle.do" access="permitAll"/>
         <sec:intercept-url pattern="/releaseArticle.do" access="permitAll"/>
         <sec:intercept-url pattern="/releaseArticlePerson.do" access="permitAll"/>
-        <sec:intercept-url pattern="/particular/**/*.do" access="permitAll"/>
                 
         <sec:intercept-url pattern="/index.do" access="authenticated"/>
         <sec:intercept-url pattern="/siteload.do" access="authenticated"/>
@@ -37,6 +36,8 @@
         <sec:intercept-url pattern="/vote/**/*.do" access="authenticated"/>
         <sec:intercept-url pattern="/notes/*.do" access="authenticated"/>
         <sec:intercept-url pattern="/message/**/*.do" access="authenticated"/>
+        <sec:intercept-url pattern="/particular/**/*.do" access="authenticated"/>
+        
         
         <sec:intercept-url pattern="/site/template/delete.do" access="authenticated"/>
         <sec:intercept-url pattern="/site/template/query.do" access="authenticated"/>

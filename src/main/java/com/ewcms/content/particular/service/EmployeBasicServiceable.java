@@ -19,4 +19,8 @@ public interface EmployeBasicServiceable {
 	public EmployeBasic findEmployeBasicById(Long id);
 	
 	public List<EmployeBasic> findEmployeBasicAll();
+	
+	public void pubEmployeBasic(List<Long> employeBasicIds);
+	
+	public void unPubEmployeBasic(List<Long> employeBasicIds);
 }

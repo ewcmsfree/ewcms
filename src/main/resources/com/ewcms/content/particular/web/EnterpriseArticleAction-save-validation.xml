@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="enterpriseArticleVo.enterpriseBasic.yyzzzch">
+        <field-validator type="requiredstring">
+            <message>不能为空</message>
+        </field-validator>
+    </field>
+	<field name="enterpriseArticleVo.publishingSector.code">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
+	<field name="enterpriseArticleVo.published">
+		<field-validator type="required">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
+	<field name="enterpriseArticleVo.content.detail">
+		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
+</validators>

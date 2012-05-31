@@ -13,19 +13,20 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_particular.js'/>"></script>
         <script type="text/javascript">
-        $(function(){
-            <s:include value="../../alertMessage.jsp"/>
-            
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToEb"><s:param name="enterpriseBasicId" value="enterpriseBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-            var height = $(window).height() - $("#inputBarTable").height() - 10;
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	            
+	            $('#cc_publishingSector').combobox({
+	        		url: '<s:url namespace="/particular/ps" action="findPsToEb"><s:param name="enterpriseBasicId" value="enterpriseBasicVo.id"></s:param></s:url>',
+	        		valueField:'id',
+	                textField:'text',
+	        		editable:false,
+	        		multiple:false,
+	        		cascadeCheck:false,
+	        		panelWidth:120
+	            });
+	        });
+	        var height = $(window).height() - $("#inputBarTable").height() - 10;
         	var width = $(window).width() - 80*2;
         	$("div #_DivContainer").css("height",height + "px");
         	try{
@@ -37,7 +38,6 @@
         		}
         	}catch(errRes){
         	}
-        });
         </script>
         <ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>

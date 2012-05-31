@@ -20,13 +20,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.content.particular.BaseException;
 import com.ewcms.content.particular.dao.ApprovalRecordDAO;
 import com.ewcms.content.particular.dao.IndustryCodeDAO;
+import com.ewcms.content.particular.dao.ProjectArticleDAO;
 import com.ewcms.content.particular.dao.ProjectBasicDAO;
 import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.dao.ZoningCodeDAO;
 import com.ewcms.content.particular.model.ApprovalRecord;
 import com.ewcms.content.particular.model.IndustryCode;
+import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
 import com.ewcms.content.particular.model.ProjectBasic.Nature;
 import com.ewcms.content.particular.model.ProjectBasic.Shape;
@@ -37,6 +40,8 @@ import com.ewcms.content.particular.util.XmlConvert;
 @Service
 public class ProjectBasicService implements ProjectBasicServiceable {
 
+	@Autowired
+	private ProjectArticleDAO projectArticleDAO;
 	@Autowired
 	private ProjectBasicDAO projectBasicDAO;
 	@Autowired
@@ -49,9 +54,13 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	private PublishingSectorDAO publishingSectorDAO;
 	
 	@Override
-	public Long addProjectBasic(ProjectBasic projectBasic) {
-		projectBasic.setCode(generateCode(projectBasic));
+	public Long addProjectBasic(ProjectBasic projectBasic) throws BaseException {
+		String code = generateCode(projectBasic);
 		
+		ProjectBasic entity = projectBasicDAO.findProjectBasicByCode(code);
+		if (entity != null) throw new BaseException("已存在相同的项目编号", "已存在相同的项目编号");
+		
+		projectBasic.setCode(code);
 		setZoningCode(projectBasic);
 		setApprovalRecord(projectBasic);
 		setIndustryCode(projectBasic);
@@ -74,13 +83,32 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	}
 	
 	@Override
-	public Long updProjectBasic(ProjectBasic projectBasic) {
+	public Long updProjectBasic(ProjectBasic projectBasic) throws BaseException {
+		String code_new = generateCode(projectBasic);
+		String code_old = projectBasic.getCode();
+
+		projectBasic.setCode(code_new);
 		setZoningCode(projectBasic);
 		setApprovalRecord(projectBasic);
 		setIndustryCode(projectBasic);
 		setPublishingSector(projectBasic);
-
-		projectBasicDAO.merge(projectBasic);
+		
+		if (code_new.equals(code_old)){
+			projectBasicDAO.merge(projectBasic);
+		}else{
+			ProjectBasic entity = projectBasicDAO.findProjectBasicByCode(code_new);
+			if (entity != null) throw new BaseException("已存在相同的项目编号", "已存在相同的项目编号");
+			
+			List<ProjectArticle> articles = projectBasicDAO.findProjectArticleByBasicId(code_old);
+			if (articles != null && !articles.isEmpty()){
+				for (ProjectArticle article : articles){
+					article.setProjectBasic(projectBasic);
+					projectArticleDAO.merge(article);
+				}
+			}else{
+				projectBasicDAO.merge(projectBasic);
+			}
+		}		
 		return projectBasic.getId();
 	}
 
@@ -327,5 +355,27 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	        email.addText(projectBasic.getEmail() == null ? "" : projectBasic.getEmail());
 		}
 		return document;
+	}
+
+	@Override
+	public void pubProjectBasic(List<Long> projectBasicIds) {
+		if (projectBasicIds.isEmpty()) return;
+		for (Long projectBasicId : projectBasicIds){
+			ProjectBasic projectBasic = projectBasicDAO.get(projectBasicId);
+			if (projectBasic.getRelease()) continue;
+			projectBasic.setRelease(true);
+			projectBasicDAO.merge(projectBasic);
+		}
+	}
+	
+	@Override
+	public void unPubProjectBasic(List<Long> projectBasicIds){
+		if (projectBasicIds.isEmpty()) return;
+		for (Long projectBasicId : projectBasicIds){
+			ProjectBasic projectBasic = projectBasicDAO.get(projectBasicId);
+			if (!projectBasic.getRelease()) continue;
+			projectBasic.setRelease(false);
+			projectBasicDAO.merge(projectBasic);
+		}
 	}
 }

@@ -14,7 +14,9 @@
 				inputUrl:'<s:url namespace="/particular/pb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
 				deleteUrl:'<s:url namespace="/particular/pb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
 				importUrl:'<s:url namespace="/particular/pb" action="import"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				generatorUrl:'<s:url namespace="/particular/pb" action="export"/>'
+				generatorUrl:'<s:url namespace="/particular/pb" action="export"/>',
+				pubUrl:'<s:url namespace="/particular/pb" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
+				unPubUrl:'<s:url namespace="/particular/pb" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
 			});
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>

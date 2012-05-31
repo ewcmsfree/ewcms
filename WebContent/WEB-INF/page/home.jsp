@@ -128,7 +128,7 @@
                     </div>
                 </div>     
                 </sec:authorize>             
-                <div title="站点建设" selected="true" style="overflow:auto;">
+                <div title="站点建设" style="overflow:auto;">
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('专题与栏目','site/channel/index.do')">
@@ -146,7 +146,7 @@
                     </div>
                     </sec:authorize>
                 </div>
-                <div title="站点内容" style="overflow:auto;">
+                <div title="站点内容" selected="true" style="overflow:auto;">
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('内容编辑','document/tree/index.do')">

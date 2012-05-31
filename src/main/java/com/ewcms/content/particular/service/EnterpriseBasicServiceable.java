@@ -19,4 +19,8 @@ public interface EnterpriseBasicServiceable {
 	public EnterpriseBasic findEnterpriseBasicById(Long id);
 	
 	public List<EnterpriseBasic> findEnterpriseBasicAll();
+	
+	public void pubEnterpriseBasic(List<Long> enterpriseBasicIds);
+	
+	public void unPubEnterpriseBasic(List<Long> enterpriseBasicIds);
 }

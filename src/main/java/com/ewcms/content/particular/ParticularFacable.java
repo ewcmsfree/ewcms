@@ -81,9 +81,9 @@ public interface ParticularFacable {
 	
 	public Boolean findZoningCodeSelected(Long projectBasicId, String zoningCodeCode);
 	
-	public Long addProjectBasic(ProjectBasic projectBasic);
+	public Long addProjectBasic(ProjectBasic projectBasic) throws BaseException;
 	
-	public Long updProjectBasic(ProjectBasic projectBasic);
+	public Long updProjectBasic(ProjectBasic projectBasic) throws BaseException;
 	
 	public void delProjectBasic(Long id);
 	
@@ -138,4 +138,28 @@ public interface ParticularFacable {
 	public void delEmployeArticle(Long id);
 	
 	public EmployeArticle findEmployeArticleById(Long id);
+	
+	public void pubProjectBasic(Integer channelId, List<Long> projectBasicIds);
+	
+	public void unPubProjectBasic(Integer channelId, List<Long> projectBasicIds);
+
+	public void pubProjectArticle(Integer channelId, List<Long> projectArticleIds);
+	
+	public void unPubProjectArticle(Integer channelId, List<Long> projectArticleIds);
+
+	public void pubEnterpriseBasic(Integer channelId, List<Long> enterpriseBasicIds);
+	
+	public void unPubEnterpriseBasic(Integer channelId, List<Long> enterpriseBasicIds);
+
+	public void pubEnterpriseArticle(Integer channelId, List<Long> enterpriseArticleIds);
+	
+	public void unPubEnterpriseArticle(Integer channelId, List<Long> enterpriseArticleIds);
+
+	public void pubEmployeBasic(Integer channelId, List<Long> employeBasicIds);
+	
+	public void unPubEmployeBasic(Integer channelId, List<Long> employeBasicIds);
+
+	public void pubEmployeArticle(Integer channelId, List<Long> employeArticleIds);
+	
+	public void unPubEmployeArticle(Integer channelId, List<Long> employeArticleIds);
 }

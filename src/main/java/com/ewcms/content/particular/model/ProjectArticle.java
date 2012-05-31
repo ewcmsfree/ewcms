@@ -34,6 +34,7 @@ import javax.persistence.TemporalType;
  * <li>published:发布日期</li>
  * <li>dense:所属密级</li>
  * <li>channelId:专栏编号</li>
+ * <li>release:发布</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -49,13 +50,11 @@ public class ProjectArticle implements Serializable {
 	@GeneratedValue(generator = "seq_particular_project_article", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH }, targetEntity = ProjectBasic.class)
-	@JoinColumn(name = "project_basic_code", nullable = false, referencedColumnName = "code")
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, targetEntity = ProjectBasic.class)
+	@JoinColumn(name = "project_basic_code", nullable = false)
 	private ProjectBasic projectBasic;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH }, targetEntity = PublishingSector.class)
-	@JoinColumn(name = "publishingsector_code", referencedColumnName = "code")
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, targetEntity = PublishingSector.class)
+	@JoinColumn(name = "publishingsector_code")
 	private PublishingSector publishingSector;
 	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ParticularContent.class)
 	@JoinColumn(name = "content_id")
@@ -68,6 +67,8 @@ public class ProjectArticle implements Serializable {
 	private Dense dense;
 	@Column(name = "channel_id")
 	private Integer channelId;
+	@Column(name = "release")
+	private Boolean release;
 
 	public Long getId() {
 		return id;
@@ -131,6 +132,14 @@ public class ProjectArticle implements Serializable {
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public Boolean getRelease() {
+		return release;
+	}
+
+	public void setRelease(Boolean release) {
+		this.release = release;
 	}
 
 	@Override

@@ -13,56 +13,56 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_particular.js'/>"></script>
         <script type="text/javascript">
-        $(function(){
-            <s:include value="../../alertMessage.jsp"/>
-            
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToEa"><s:param name="employeArticleId" value="employeArticleVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-            
-            $('#cc_employeBasic').combogrid({
-				panelWidth:850,
-				value:'<s:property value="employeArticleVo.employeBasic.cardCode"/>',
-				idField:'cardCode',
-				textField:'name',
-				url:'<s:url namespace="/particular/ma" action="findMbAll"/>',
-				columns:[[
-	                        {field:'id',title:'编号',hidden:true},
-							{field:'name',title:'姓名',width:150,sortable:true},
-			                {field:'sexDescription',title:'性别',width:60},
-			                {field:'publishingSector_name',title:'发布部门',width:200,
-								formatter : function(val, rec){
-									return rec.publishingSector.name;
-								}	
-			                },
-			                {field:'published',title:'发布时间',width:145},
-			                {field:'cardTypeDescription',title:'证件类型',width:200},
-			                {field:'cardCode',title:'证件号码',width:150},
-			                {field:'denseDescription',title:'所属密级',width:100}
-				]],
-				onClickRow : function(rowIndex, rowData){
-					$('#employeBasic_cardCode').html(rowData.cardCode);
-				}
-			});
-        	var height = $(window).height() - $("#inputBarTable").height() - 10;
-        	var width = $(window).width() - 30*2;
-        	$("div #_DivContainer").css("height",height + "px");
-        	try{
-        		if (tinyMCE.getInstanceById('_Content_1') != null){
-        			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 110));
-        		}else{
-        			$("#_Content_1").css("width", (width + 2) + "px");
-        			$("#_Content_1").css("height", (height - 42) + "px");
-        		}
-        	}catch(errRes){
-        	}
-       });
+	        $(function(){
+	            <s:include value="../../alertMessage.jsp"/>
+	            
+	            $('#cc_publishingSector').combobox({
+	        		url: '<s:url namespace="/particular/ps" action="findPsToEa"><s:param name="employeArticleId" value="employeArticleVo.id"></s:param></s:url>',
+	        		valueField:'id',
+	                textField:'text',
+	        		editable:false,
+	        		multiple:false,
+	        		cascadeCheck:false,
+	        		panelWidth:120
+	            });
+	            
+	            $('#cc_employeBasic').combogrid({
+					panelWidth:850,
+					value:'<s:property value="employeArticleVo.employeBasic.cardCode"/>',
+					idField:'cardCode',
+					textField:'name',
+					url:'<s:url namespace="/particular/ma" action="findMbAll"/>',
+					columns:[[
+		                        {field:'id',title:'编号',hidden:true},
+								{field:'name',title:'姓名',width:150,sortable:true},
+				                {field:'sexDescription',title:'性别',width:60},
+				                {field:'publishingSector_name',title:'发布部门',width:200,
+									formatter : function(val, rec){
+										return rec.publishingSector.name;
+									}	
+				                },
+				                {field:'published',title:'发布时间',width:145},
+				                {field:'cardTypeDescription',title:'证件类型',width:200},
+				                {field:'cardCode',title:'证件号码',width:150},
+				                {field:'denseDescription',title:'所属密级',width:100}
+					]],
+					onClickRow : function(rowIndex, rowData){
+						$('#employeBasic_cardCode').html(rowData.cardCode);
+					}
+				});
+	        	var height = $(window).height() - $("#inputBarTable").height() - 10;
+	        	var width = $(window).width() - 30*2;
+	        	$("div #_DivContainer").css("height",height + "px");
+	        	try{
+	        		if (tinyMCE.getInstanceById('_Content_1') != null){
+	        			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 110));
+	        		}else{
+	        			$("#_Content_1").css("width", (width + 2) + "px");
+	        			$("#_Content_1").css("height", (height - 42) + "px");
+	        		}
+	        	}catch(errRes){
+	        	}
+	       });
         </script>
         <ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>
@@ -71,31 +71,36 @@
 			<div id="wrapper" >
 			<table id="inputBarTable" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;" class="formtable">
 				<tr>
-					<td width="10%">姓名：</td>
-					<td width="40%">
+					<td width="10%">姓名：<span style="color:#FF0000">*</span></td>
+					<td width="40%"  class="formFieldError">
 						<input id="cc_employeBasic" name="employeArticleVo.employeBasic.cardCode" style="width:150px;" size="20"></input>
 						(<span id="employeBasic_cardCode"><s:property value="employeArticleVo.employeBasic.cardCode"/></span>)
+						<s:fielderror ><s:param value="%{'employeArticleVo.employeBasic.cardCode'}" /></s:fielderror>
 					</td>
-					<td width="10%">发布部门：</td>
-					<td width="40%">
+					<td width="10%">发布部门：<span style="color:#FF0000">*</span></td>
+					<td width="40%" class="formFieldError">
 						<input id="cc_publishingSector" name="employeArticleVo.publishingSector.code" style="width: 120px;"></input>
+						<s:fielderror ><s:param value="%{'employeArticleVo.publishingSector.code'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
-					<td>发布日期：</td>
-					<td>
+					<td>发布日期：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
 						<ewcms:datepicker id="published" name="employeArticleVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<s:fielderror ><s:param value="%{'employeArticleVo.published'}" /></s:fielderror>
 					</td>
-					<td>所属密级：</td>
-					<td>
-						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="employeArticleVo.dense" id="employeArticleVo_dense" headerKey="" headerValue="----请选择----"></s:select>
+					<td>所属密级：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
+						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="employeArticleVo.dense" id="employeArticleVo_dense"></s:select>
+						<s:fielderror ><s:param value="%{'employeArticleVo.dense'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
 			
 			<table id="table_content" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;border-collapse:collapse">
 				<tr>
-					<td valign='top'>
+					<td valign='top' class="formFieldError">
+						<s:fielderror ><s:param value="%{'employeArticleVo.content.detail'}" /></s:fielderror>
 						<div id="_DivContainer" style="text-align: center; overflow: auto; height: 476px; width: 100%; background-color: #666666; position: relative">
 			  				<table id="_Table1" width="800" border="0" cellpadding="10" bgcolor="#FFFFFF" style="margin: 5px auto;">
 			  					<tr>
