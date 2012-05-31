@@ -19,7 +19,7 @@ tinyMCE.init({
 	theme_advanced_statusbar_location : "bottom",
 	theme_advanced_resizing : false,
 	content_css : tinyMCE.baseURI.getURI() + "/css/content.css",
-	execcommand_callback : "window_resize",
+	//execcommand_callback : "window_resize",
 	theme_advanced_fonts : "宋体=宋体;"+
 	  					   "仿宋_GB2312=仿宋_GB2312;"+
 	   					   "方正舒体=方正舒体;"+
