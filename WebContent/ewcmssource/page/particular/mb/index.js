@@ -27,9 +27,9 @@ MbIndex.prototype.init = function(options){
                 },
 				{field:'name',title:'姓名',width:150,sortable:true},
                 {field:'sexDescription',title:'性别',width:60},
-                {field:'publishingSector_name',title:'发布部门',width:200,
+                {field:'organ_name',title:'发布部门',width:200,
 					formatter : function(val, rec){
-						return rec.publishingSector.name;
+						return (rec.organ == null) ? "" : rec.organ.name;
 					}	
                 },
                 {field:'published',title:'发布时间',width:145},
@@ -58,9 +58,9 @@ MbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
     
@@ -83,9 +83,9 @@ MbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '取消发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
 }

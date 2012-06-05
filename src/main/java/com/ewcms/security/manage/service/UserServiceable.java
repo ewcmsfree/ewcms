@@ -40,7 +40,7 @@ public interface UserServiceable extends UserDetailsService{
      * @throws UserServiceException
      */
     String addUser(String username,String password,boolean enabled,
-            Date accountStart,Date accountEnd,UserInfo userInfo)
+            Date accountStart,Date accountEnd,UserInfo userInfo, Integer organId)
             throws UserServiceException;
 
     /**
@@ -56,7 +56,7 @@ public interface UserServiceable extends UserDetailsService{
      * @throws UserServiceException
      */
     String updateUser(String username,boolean enabled,
-            Date accountStart,Date accountEnd,UserInfo userInfo)
+            Date accountStart,Date accountEnd,UserInfo userInfo, Integer organId)
             throws UserServiceException;
 
     /**

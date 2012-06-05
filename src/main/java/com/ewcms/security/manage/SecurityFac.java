@@ -97,20 +97,20 @@ public class SecurityFac implements SecurityFacable{
     
     @Override
     public String addUser(String username, String password, boolean enabled,
-            Date accountStart, Date accountEnd, UserInfo userInfo)
+            Date accountStart, Date accountEnd, UserInfo userInfo, Integer organId)
             throws UserServiceException {
         
         return userService.addUser(username, password, enabled,
-                accountStart, accountEnd, userInfo);
+                accountStart, accountEnd, userInfo, organId);
     }
 
     @Override
     public String updateUser(String username, boolean enabled,
-            Date accountStart, Date accountEnd, UserInfo userInfo)
+            Date accountStart, Date accountEnd, UserInfo userInfo, Integer organId)
             throws UserServiceException {
         
         return userService.updateUser(username, enabled, 
-                accountStart, accountEnd, userInfo);
+                accountStart, accountEnd, userInfo, organId);
     }
     
     @Override

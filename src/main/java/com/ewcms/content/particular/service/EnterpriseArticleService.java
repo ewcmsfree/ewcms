@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.particular.dao.EnterpriseArticleDAO;
 import com.ewcms.content.particular.dao.EnterpriseBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.EnterpriseArticle;
 import com.ewcms.content.particular.model.EnterpriseBasic;
-import com.ewcms.content.particular.model.PublishingSector;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class EnterpriseArticleService implements EnterpriseArticleServiceable {
@@ -26,7 +26,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 	@Autowired
 	private EnterpriseArticleDAO enterpriseArticleDAO;
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 	
 	@Override
 	public Long addEnterpriseArticle(EnterpriseArticle enterpriseArticle) {
@@ -53,9 +53,9 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 	}
 	
 	private void setPublishingSector(EnterpriseArticle enterpriseArticle){
-		String publishingSector_code = enterpriseArticle.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		enterpriseArticle.setPublishingSector(publishingSector);
+		Integer organId = enterpriseArticle.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		enterpriseArticle.setOrgan(organ);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 		if (enterpriseArticleIds.isEmpty()) return;
 		for (Long enterpriseArticleId : enterpriseArticleIds){
 			EnterpriseArticle enterpriseArticle = enterpriseArticleDAO.get(enterpriseArticleId);
-			if (enterpriseArticle.getRelease()) continue;
+			if (enterpriseArticle.getRelease() || enterpriseArticle.getOrgan() == null) continue;
 			enterpriseArticle.setRelease(true);
 			enterpriseArticleDAO.merge(enterpriseArticle);
 		}

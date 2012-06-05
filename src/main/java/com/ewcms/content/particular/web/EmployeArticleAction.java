@@ -14,7 +14,9 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.EmployeArticle;
 import com.ewcms.content.particular.model.EmployeBasic;
+import com.ewcms.core.site.model.Organ;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -30,12 +32,32 @@ public class EmployeArticleAction extends CrudBaseAction<EmployeArticle, Long> {
 
 	private Integer channelId;
 	
+	private String organShow;
+	
+	private Integer organId;
+
 	public Integer getChannelId() {
 		return channelId;
 	}
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public String getOrganShow() {
+		return organShow;
+	}
+
+	public void setOrganShow(String organShow) {
+		this.organShow = organShow;
+	}
+
+	public Integer getOrganId() {
+		return organId;
+	}
+
+	public void setOrganId(Integer organId) {
+		this.organId = organId;
 	}
 
 	public EmployeArticle getEmployeArticleVo() {
@@ -61,6 +83,15 @@ public class EmployeArticleAction extends CrudBaseAction<EmployeArticle, Long> {
 
 	@Override
 	protected EmployeArticle getOperator(Long pk) {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return particularFac.findEmployeArticleById(pk);
 	}
 
@@ -81,6 +112,15 @@ public class EmployeArticleAction extends CrudBaseAction<EmployeArticle, Long> {
 
 	@Override
 	protected EmployeArticle createEmptyVo() {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return new EmployeArticle();
 	}
 	

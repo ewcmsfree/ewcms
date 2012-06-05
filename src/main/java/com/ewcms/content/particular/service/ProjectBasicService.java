@@ -25,7 +25,6 @@ import com.ewcms.content.particular.dao.ApprovalRecordDAO;
 import com.ewcms.content.particular.dao.IndustryCodeDAO;
 import com.ewcms.content.particular.dao.ProjectArticleDAO;
 import com.ewcms.content.particular.dao.ProjectBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.dao.ZoningCodeDAO;
 import com.ewcms.content.particular.model.ApprovalRecord;
 import com.ewcms.content.particular.model.IndustryCode;
@@ -33,9 +32,10 @@ import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
 import com.ewcms.content.particular.model.ProjectBasic.Nature;
 import com.ewcms.content.particular.model.ProjectBasic.Shape;
-import com.ewcms.content.particular.model.PublishingSector;
 import com.ewcms.content.particular.model.ZoningCode;
 import com.ewcms.content.particular.util.XmlConvert;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class ProjectBasicService implements ProjectBasicServiceable {
@@ -51,7 +51,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	@Autowired
 	private IndustryCodeDAO industryCodeDAO; 
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 	
 	@Override
 	public Long addProjectBasic(ProjectBasic projectBasic) throws BaseException {
@@ -138,9 +138,9 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	}
 	
 	private void setPublishingSector(ProjectBasic projectBasic){
-		String publishingSector_code = projectBasic.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		projectBasic.setPublishingSector(publishingSector);
+		Integer organId = projectBasic.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		projectBasic.setOrgan(organ);
 	}
 	
 	@Override
@@ -191,7 +191,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 			ProjectBasic projectBasic_db = projectBasicDAO.findProjectBasicByCode(generateCode);
 			if (projectBasic_db != null){
 				projectBasic.setId(projectBasic_db.getId());
-				projectBasic.setPublishingSector(projectBasic_db.getPublishingSector());
+				projectBasic.setOrgan(projectBasic_db.getOrgan());
 			}
 			
 			String bildNature = (String) map.get("建设性质");
@@ -365,7 +365,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 		if (projectBasicIds.isEmpty()) return;
 		for (Long projectBasicId : projectBasicIds){
 			ProjectBasic projectBasic = projectBasicDAO.get(projectBasicId);
-			if (projectBasic.getRelease()) continue;
+			if (projectBasic.getRelease() || projectBasic.getOrgan() == null) continue;
 			projectBasic.setRelease(true);
 			projectBasicDAO.merge(projectBasic);
 		}

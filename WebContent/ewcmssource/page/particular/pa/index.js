@@ -25,17 +25,17 @@ PaIndex.prototype.init = function(options){
                 {field:'id',title:'编号',hidden:true},
 				{field:'projectBasic_code',title:'项目编号',width:150,sortable:true,
                 	formatter : function(val, rec){
-                		return rec.projectBasic.code;
+                		return (rec.projectBasic == null) ? "" : rec.projectBasic.code;
                 	}	
 				},
 				{field:'projectBasic_name',title:'项目名称',width:200,
 					formatter : function(val, rec){
-						return rec.projectBasic.name;
+						return (rec.projectBasic == null) ? "" : rec.projectBasic.name;
 					}
 				},
-                {field:'publishingSector_name',title:'发布部门',width:200,
+                {field:'organ_name',title:'发布部门',width:200,
 					formatter : function(val, rec){
-						return rec.publishingSector.name;
+						return (rec.organ == null) ? "" : rec.organ.name;
 					}	
                 },
                 {field:'published',title:'发布日期',width:145},
@@ -67,9 +67,9 @@ PaIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
     
@@ -92,9 +92,9 @@ PaIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '取消发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
 }

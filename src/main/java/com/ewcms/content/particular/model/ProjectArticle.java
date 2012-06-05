@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.ewcms.core.site.model.Organ;
 
 /**
  * 项目编号关联的文章信息
@@ -53,9 +56,9 @@ public class ProjectArticle implements Serializable {
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, targetEntity = ProjectBasic.class)
 	@JoinColumn(name = "project_basic_code", nullable = false)
 	private ProjectBasic projectBasic;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, targetEntity = PublishingSector.class)
-	@JoinColumn(name = "publishingsector_code")
-	private PublishingSector publishingSector;
+	@OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = Organ.class)
+	@JoinColumn(name = "organ_id")
+	private Organ organ;
 	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ParticularContent.class)
 	@JoinColumn(name = "content_id")
 	private ParticularContent content;
@@ -70,6 +73,10 @@ public class ProjectArticle implements Serializable {
 	@Column(name = "release")
 	private Boolean release;
 
+	public ProjectArticle(){
+		release = false;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -86,12 +93,12 @@ public class ProjectArticle implements Serializable {
 		this.projectBasic = projectBasic;
 	}
 
-	public PublishingSector getPublishingSector() {
-		return publishingSector;
+	public Organ getOrgan() {
+		return organ;
 	}
 
-	public void setPublishingSector(PublishingSector publishingSector) {
-		this.publishingSector = publishingSector;
+	public void setOrgan(Organ organ) {
+		this.organ = organ;
 	}
 
 	public ParticularContent getContent() {

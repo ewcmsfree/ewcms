@@ -14,7 +14,9 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.EnterpriseArticle;
 import com.ewcms.content.particular.model.EnterpriseBasic;
+import com.ewcms.core.site.model.Organ;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -30,12 +32,32 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	private Integer channelId;
 	
+	private String organShow;
+	
+	private Integer organId;
+
 	public Integer getChannelId() {
 		return channelId;
 	}
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public String getOrganShow() {
+		return organShow;
+	}
+
+	public void setOrganShow(String organShow) {
+		this.organShow = organShow;
+	}
+
+	public Integer getOrganId() {
+		return organId;
+	}
+
+	public void setOrganId(Integer organId) {
+		this.organId = organId;
 	}
 
 	public EnterpriseArticle getEnterpriseArticleVo() {
@@ -61,6 +83,15 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	@Override
 	protected EnterpriseArticle getOperator(Long pk) {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return particularFac.findEnterpriseArticleById(pk);
 	}
 
@@ -81,6 +112,15 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	@Override
 	protected EnterpriseArticle createEmptyVo() {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return new EnterpriseArticle();
 	}
 	

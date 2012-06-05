@@ -74,4 +74,8 @@ UserEdit.prototype.init = function(opts){
     }).bind('mouseout',function(){
         $("#default-password").css('display','none');
     });
+    
+    $('#tt_organ').combotree({
+    	url:urls.organUrl
+    });
 }

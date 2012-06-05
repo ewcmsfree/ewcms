@@ -43,6 +43,11 @@ EbIndex.prototype.init = function(options){
                 {field:'jyqx',title:'经营期限',width:120},
                 {field:'zs',title:'住所',width:120},
                 {field:'denseDescription',title:'所属密级',width:100}
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null) ? "" : rec.organ.name;
+					}	
+                }
           ]]
 	});
 	
@@ -65,9 +70,9 @@ EbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
     
@@ -90,9 +95,9 @@ EbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '取消发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
 }

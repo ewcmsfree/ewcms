@@ -26,6 +26,16 @@
 	        		panelWidth:120
 	            });
 	        });
+	        $('#tt_organ').combotree('setValue', $('#organId').val());
+            $('#tt_organ').combotree($('#organShow').val());
+            $('#tt_organ').combotree({
+            	onBeforeSelect: function(node){
+                    if (node.id == null) {
+                   		$.messager.alert('提示','根节点不能选择','info');
+                   		return;
+                   	}
+            	}
+            });
 	        var height = $(window).height() - $("#inputBarTable").height() - 10;
         	var width = $(window).width() - 80*2;
         	$("div #_DivContainer").css("height",height + "px");
@@ -59,8 +69,9 @@
 				</tr>
 				<tr>
 					<td>发布部门：<span style="color:#FF0000">*</span></td>
-					<td>
-						<input id="cc_publishingSector" name="employeBasicVo.publishingSector.code" style="width: 120px;"></input>
+					<td class="formFieldError">
+						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="employeBasicVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<s:fielderror ><s:param value="%{'employeBasicVo.organ.id'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
@@ -91,6 +102,8 @@
 				</tr>
 			</table>
 			<s:hidden id="employeBasicId" name="employeBasicVo.id"/>
+			<s:hidden id="organShow" name="organShow"/>
+			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

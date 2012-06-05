@@ -295,12 +295,6 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                         <a href="javascript:_home.addTab('发布部门','particular/ps/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
-                            <span>发布部门</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
                          <a href="javascript:_home.addTab('行政区划','particular/zc/index.do')">
                             <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
                             <span>行政区划</span>

@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.particular.dao.EnterpriseBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.EnterpriseBasic;
-import com.ewcms.content.particular.model.PublishingSector;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class EnterpriseBasicService implements EnterpriseBasicServiceable {
@@ -21,7 +21,7 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	@Autowired
 	private EnterpriseBasicDAO enterpriseBasicDAO;
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 	
 	@Override
 	public Long addEnterpriseBasic(EnterpriseBasic enterpriseBasic) {
@@ -38,9 +38,9 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	}
 
 	private void setPublishingSector(EnterpriseBasic enterpriseBasic){
-		String publishingSector_code = enterpriseBasic.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		enterpriseBasic.setPublishingSector(publishingSector);
+		Integer organId = enterpriseBasic.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		enterpriseBasic.setOrgan(organ);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 		if (enterpriseBasicIds.isEmpty()) return;
 		for (Long enterpriseBasicId : enterpriseBasicIds){
 			EnterpriseBasic enterpriseBasic = enterpriseBasicDAO.get(enterpriseBasicId);
-			if (enterpriseBasic.getRelease()) continue;
+			if (enterpriseBasic.getRelease() || enterpriseBasic.getOrgan() == null) continue;
 			enterpriseBasic.setRelease(true);
 			enterpriseBasicDAO.merge(enterpriseBasic);
 		}

@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +26,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.ewcms.core.site.model.Organ;
 /**
  * <ul>
  * <li>username:用户名
@@ -35,6 +38,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>userInfo:用户信息
  * <li>groups:所属用户组
  * <li>authorities:所属权限
+ * <li>organ:组织机构
  * </ul>
  *
  * @author wangwei
@@ -78,6 +82,10 @@ public class User implements Serializable {
     @ManyToMany(cascade = {CascadeType.REFRESH}, targetEntity = Authority.class, fetch = FetchType.LAZY)
     @JoinTable(name = "auth_user_authorities", joinColumns =@JoinColumn(name = "username"),inverseJoinColumns =@JoinColumn(name = "authority_name"))
     private Set<Authority> authorities;
+    
+	@ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = Organ.class)
+	@JoinColumn(name = "organ_id")
+    private Organ organ;
     
     public User(){
         
@@ -170,7 +178,15 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-    @Override
+    public Organ getOrgan() {
+		return organ;
+	}
+
+	public void setOrgan(Organ organ) {
+		this.organ = organ;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

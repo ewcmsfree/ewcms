@@ -11,6 +11,7 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
+        		
             $('#cc_industryCode').combobox({
         		url: '<s:url namespace="/particular/ic" action="findIndustryCodeAll"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
         		valueField:'id',
@@ -41,14 +42,15 @@
         		panelWidth:120
             });
             
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToPb"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
+            $('#tt_organ').combotree('setValue', $('#organId').val());
+            $('#tt_organ').combotree($('#organShow').val());
+            $('#tt_organ').combotree({
+            	onBeforeSelect: function(node){
+                    if (node.id == null) {
+                   		$.messager.alert('提示','根节点不能选择','info');
+                   		return;
+                   	}
+            	}
             });
         });
         </script>
@@ -177,8 +179,9 @@
 						<s:textfield id="participation" cssClass="inputtext" name="projectBasicVo.participation"/>
 					</td>
 					<td>发布部门：</td>
-					<td>
-						<input id="cc_publishingSector" name="projectBasicVo.publishingSector.code" style="width: 120px;"></input>
+					<td class="formFieldError">
+						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="projectBasicVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<s:fielderror ><s:param value="%{'projectBasicVo.organ.id'}" /></s:fielderror>
 					</td>
 				</tr>
 			</table>
@@ -226,6 +229,8 @@
 			</table>
 			<s:hidden id="projectBasicId" name="projectBasicVo.id"/>
 			<s:hidden id="code" name="projectBasicVo.code"/>
+			<s:hidden id="organShow" name="organShow"/>
+			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

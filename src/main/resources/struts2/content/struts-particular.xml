@@ -5,6 +5,9 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+	<package name="particular" extends="struts-default" namespace="/particular">
+		<action name="tree" class="com.ewcms.core.site.web.OrganAction" method="organTree"/>
+	</package>
 	<package name="particular.ar" extends="struts-default" namespace="/particular/ar">
 		<action name="index">
 			<result>/WEB-INF/page/particular/ar/index.jsp</result>
@@ -34,26 +37,6 @@
 			<result name="input">/WEB-INF/page/particular/ic/edit.jsp</result>
 		</action>
 		<action name="findIndustryCodeAll" class="com.ewcms.content.particular.web.IndustryCodeAction" method="findIndustryCodeAll"/>
-	</package>
-	<package name="particular.ps" extends="struts-default" namespace="/particular/ps">
-		<action name="index">
-			<result>/WEB-INF/page/particular/ps/index.jsp</result>
-		</action>
-		<action name="delete" class="com.ewcms.content.particular.web.PublishingSectorAction" method="delete"/>
-		<action name="query" class="com.ewcms.content.particular.web.PublishingSectorQueryAction" method="query"/>
-		<action name="input" class="com.ewcms.content.particular.web.PublishingSectorAction" method="input">
-			<result name="input">/WEB-INF/page/particular/ps/edit.jsp</result>
-		</action>
-		<action name="save" class="com.ewcms.content.particular.web.PublishingSectorAction" method="save">
-			<result>/WEB-INF/page/particular/ps/edit.jsp</result>
-			<result name="input">/WEB-INF/page/particular/ps/edit.jsp</result>
-		</action>
-		<action name="findPsToPb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToPb"/>
-		<action name="findPsToPa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToPa"/>
-		<action name="findPsToEb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToEb"/>
-		<action name="findPsToEa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToEa"/>
-		<action name="findPsToMb" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToMb"/>
-		<action name="findPsToMa" class="com.ewcms.content.particular.web.PublishingSectorAction" method="findPsToMa"/>
 	</package>
 	<package name="particular.zc" extends="struts-default" namespace="/particular/zc">
 		<action name="index">

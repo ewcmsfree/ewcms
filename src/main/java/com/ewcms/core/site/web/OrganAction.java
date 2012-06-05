@@ -113,7 +113,7 @@ public class OrganAction extends CrudBaseAction<Organ, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON(tnList));
 		}
 	}
-
+	
 	/**
 	 * 创建机构.
 	 */

@@ -14,7 +14,9 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.content.particular.ParticularFacable;
 import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
+import com.ewcms.core.site.model.Organ;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
@@ -30,6 +32,10 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 	
 	private Integer channelId;
 
+	private String organShow;
+	
+	private Integer organId;
+
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -40,6 +46,22 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	public ProjectArticle getProjectArticleVo() {
 		return super.getVo();
+	}
+
+	public String getOrganShow() {
+		return organShow;
+	}
+
+	public void setOrganShow(String organShow) {
+		this.organShow = organShow;
+	}
+
+	public Integer getOrganId() {
+		return organId;
+	}
+
+	public void setOrganId(Integer organId) {
+		this.organId = organId;
 	}
 
 	public void setProjectArticleVo(ProjectArticle projectArticle) {
@@ -61,6 +83,15 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	@Override
 	protected ProjectArticle getOperator(Long pk) {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return particularFac.findProjectArticleById(pk);
 	}
 
@@ -81,6 +112,15 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	@Override
 	protected ProjectArticle createEmptyVo() {
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+			organShow = "enable";
+		}else{
+			organShow = "disable";
+			Organ organ = particularFac.findOrganByUserName();
+			if (organ != null){
+				organId = organ.getId();
+			}
+		}
 		return new ProjectArticle();
 	}
 	

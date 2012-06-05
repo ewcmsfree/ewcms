@@ -154,4 +154,9 @@
 			<message>不能为空</message>
 		</field-validator>
 	</field>
+	<field name="projectBasicVo.organ.id">
+		<field-validator type="required">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
 </validators>

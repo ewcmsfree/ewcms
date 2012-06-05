@@ -14,7 +14,8 @@
            <s:include value="../../alertMessage.jsp"/>
            var userEdit = new UserEdit({
               detailUrl:'<s:url action="detail"/>',
-              hasNameUrl:'<s:url action="hasUsername"/>'
+              hasNameUrl:'<s:url action="hasUsername"/>',
+              organUrl:'<s:url namespace="/site/organ" action="tree"/>'
            });
          
            userEdit.init({
@@ -42,6 +43,10 @@
                                     </s:else>
                                     <s:fielderror ><s:param value="%{'user.username'}"/></s:fielderror>
                                 </td>
+                           </tr>
+                           <tr>
+                           		<td width="120px">部门：</td>
+                           		<td><ul id="tt_organ" name="user.organ.id"></ul></td>
                            </tr>
                            <s:if test="eventOP == 'add'">
                            <tr>

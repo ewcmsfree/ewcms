@@ -42,7 +42,7 @@ PbIndex.prototype.init = function(options){
                 {field:'zoningName',title:'行政区划名称',width:80,
                 	formatter : function(val, rec) {
                 		if (rec.zoningCode != null){
-                			return rec.zoningCode.name;
+                			return (rec.zoningCode == null) ? "" : rec.zoningCode.name;
                 		}
                 	}
                 },
@@ -50,7 +50,7 @@ PbIndex.prototype.init = function(options){
                 {field:'industryName',title:'行业名称',width:80,
                 	formatter : function(val, rec){
                 		if (rec.industryCode != null){
-                			return rec.industryCode.name;
+                			return (rec.industryCode == null) ? "" : rec.industryCode.name;
                 		}
                 	}	
                 },
@@ -58,7 +58,7 @@ PbIndex.prototype.init = function(options){
                 {field:'approvalRecordName',title:'审批备案机关名称',width:120,
                 	formatter : function(val, rec){
                 		if (rec.approvalRecord != null){
-                			return rec.approvalRecord.name;
+                			return (rec.approvalRecord == null) ? "" : rec.approvalRecord.name;
                 		}
                 	}	
                 },
@@ -70,12 +70,10 @@ PbIndex.prototype.init = function(options){
                 {field:'shapeDescription',title:'形式',width:100},
                 {field:'documentId',title:'文号',width:100},
                 {field:'participation',title:'参建单位',width:200},
-                {field:'publishingSectorName',title:'发布部门名称',width:200,
-                	formatter : function(val, rec){
-                		if (rec.publishingSector != null){
-                			return rec.publishingSector.name;
-                		}
-                	}	
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null)? "" : rec.organ.name;
+					}	
                 }
           ]]
 	});
@@ -116,9 +114,9 @@ PbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
     
@@ -141,9 +139,9 @@ PbIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '取消发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
 }

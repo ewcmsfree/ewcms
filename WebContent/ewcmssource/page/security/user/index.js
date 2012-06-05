@@ -34,6 +34,9 @@ UserIndex.prototype.init = function(opts){
             {field:'userInfo.name',title:'姓名',width:120,formatter:function(val,row){
                 return row.userInfo.name;
               }},
+            {field:'organ.name',title:'所属部门',width:120,formatter:function(val,row){
+            	return (row.organ == null) ? "" : row.organ.name;
+              }},
             {field:'accountStart',title:'授权开始时间',width:130},
             {field:'accountEnd',title:'授权结束时间',width:130},
             {field:'userInfo.mphone',title:'手机',width:150,formatter:function(val,row){

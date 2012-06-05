@@ -18,7 +18,7 @@ import com.ewcms.content.particular.model.EmployeBasic;
 @Repository
 public class EmployeBasicDAO extends JpaDAO<Long, EmployeBasic> {
 	public List<EmployeBasic> findProjectBasicAll(){
-		String hql = "From EmployeBasic As e Order By e.cardCode";
+		String hql = "From EmployeBasic As e Where e.release=true And e.organ!=null Order By e.cardCode";
 		TypedQuery<EmployeBasic> query = this.getEntityManager().createQuery(hql, EmployeBasic.class);
 		return query.getResultList();
 	}

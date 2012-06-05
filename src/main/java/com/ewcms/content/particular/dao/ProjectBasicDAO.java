@@ -20,7 +20,7 @@ import com.ewcms.content.particular.model.ProjectBasic;
 public class ProjectBasicDAO extends JpaDAO<Long, ProjectBasic> {
 	
 	public List<ProjectBasic> findProjectBasicAll(){
-		String hql = "From ProjectBasic As p Order By p.code";
+		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null Order By p.code";
 		TypedQuery<ProjectBasic> query = this.getEntityManager().createQuery(hql, ProjectBasic.class);
 		return query.getResultList();
 	}

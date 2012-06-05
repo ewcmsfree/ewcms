@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.ewcms.core.site.model.Organ;
 
 /**
  * 项目基本数据
@@ -150,9 +153,9 @@ public class ProjectBasic implements Serializable {
 	private String documentId;
 	@Column(name = "participation", length = 200)
 	private String participation;
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = PublishingSector.class)
-	@JoinColumn(name="publishing_sector")
-	private PublishingSector publishingSector;
+	@OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = Organ.class)
+	@JoinColumn(name = "organ_id")
+	private Organ organ;
 	@Column(name = "channel_id")
 	private Integer channelId;
 	@Column(name = "release")
@@ -362,12 +365,12 @@ public class ProjectBasic implements Serializable {
 		this.participation = participation;
 	}
 
-	public PublishingSector getPublishingSector() {
-		return publishingSector;
+	public Organ getOrgan() {
+		return organ;
 	}
 
-	public void setPublishingSector(PublishingSector publishingSector) {
-		this.publishingSector = publishingSector;
+	public void setOrgan(Organ organ) {
+		this.organ = organ;
 	}
 
 	public Integer getChannelId() {

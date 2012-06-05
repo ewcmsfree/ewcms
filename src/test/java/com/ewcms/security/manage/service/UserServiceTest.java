@@ -257,7 +257,7 @@ public class UserServiceTest extends TestCase{
         when(dao.get(any(String.class))).thenReturn(new com.ewcms.security.manage.model.User("Pertty"));
         service.setUserDao(dao);
         try{
-            service.addUser("Pertty","123456", true, null, null, null);
+            service.addUser("Pertty","123456", true, null, null, null, null);
             fail();
         }catch(UserServiceException e){
         }
@@ -271,7 +271,7 @@ public class UserServiceTest extends TestCase{
         when(userDao.get("Pertty")).thenReturn(null);
         service.setUserDao(userDao);
         
-        service.addUser("Pertty","123456", true, null, null, new UserInfo());
+        service.addUser("Pertty","123456", true, null, null, new UserInfo(), null);
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());
@@ -292,7 +292,7 @@ public class UserServiceTest extends TestCase{
         when(userDao.get("Pertty")).thenReturn(null);
         service.setUserDao(userDao);
                 
-        service.addUser("Pertty",null, true, null, null, new UserInfo());
+        service.addUser("Pertty",null, true, null, null, new UserInfo(), null);
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());
@@ -307,7 +307,7 @@ public class UserServiceTest extends TestCase{
         when(dao.get(any(String.class))).thenReturn(null);
         service.setUserDao(dao);
         try{
-            service.updateUser("Pertty", true, null, null, null);
+            service.updateUser("Pertty", true, null, null, null, null);
             fail();
         }catch(UserServiceException e){
         }
@@ -346,7 +346,7 @@ public class UserServiceTest extends TestCase{
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         Date end  = calendar.getTime();
         
-        service.updateUser("Pertty",false, start, end, info);
+        service.updateUser("Pertty",false, start, end, info, null);
         
         ArgumentCaptor<com.ewcms.security.manage.model.User> argument = ArgumentCaptor.forClass(com.ewcms.security.manage.model.User.class);
         verify(userDao).persist(argument.capture());

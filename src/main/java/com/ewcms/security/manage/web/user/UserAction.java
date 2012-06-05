@@ -128,7 +128,7 @@ public class UserAction extends ActionSupport{
             if(isUpdateOperator()){
                 username = fac.updateUser(user.getUsername(),
                         user.isEnabled(), user.getAccountStart(), 
-                        user.getAccountEnd(), user.getUserInfo());
+                        user.getAccountEnd(), user.getUserInfo(), user.getOrgan().getId());
                 addActionMessage("用户修改成功");
             }else{
                 if(fac.hasUsername(user.getUsername())){
@@ -137,7 +137,7 @@ public class UserAction extends ActionSupport{
                 }
                 username = fac.addUser(user.getUsername(),user.getPassword(),
                         user.isEnabled(), user.getAccountStart(), 
-                        user.getAccountEnd(), user.getUserInfo());
+                        user.getAccountEnd(), user.getUserInfo(), user.getOrgan().getId());
                 newUsernames = (newUsernames == null ? new ArrayList<String>() : newUsernames);
                 newUsernames.add(username);
                 addActionMessage("添加用户成功，可以添加权限和所属用户组");

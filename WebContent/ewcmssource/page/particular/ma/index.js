@@ -25,17 +25,17 @@ MaIndex.prototype.init = function(options){
                 {field:'id',title:'编号',hidden:true},
 				{field:'employeBasic_cardCode',title:'证件号码',width:150,sortable:true,
                 	formatter : function(val, rec){
-                		return rec.employeBasic.cardCode;
+                		return (rec.employeBasic == null) ? "" : rec.employeBasic.cardCode;
                 	}	
 				},
 				{field:'employeBasic_name',title:'姓名',width:150,
 					formatter : function(val, rec){
-						return rec.employeBasic.name;
+						return (rec.employeBasic == null) ? "" : rec.employeBasic.name;
 					}	
 				},
-                {field:'publishingSector_name',title:'发布部门',width:200,
+                {field:'organ_name',title:'发布部门',width:200,
 					formatter : function(val, rec){
-						return rec.publishingSector.name;
+						return (rec.organ == null) ? "" : rec.organ.name;
 					}	
                 },
                 {field:'published',title:'发布日期',width:145},
@@ -67,9 +67,9 @@ MaIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
     
@@ -92,9 +92,9 @@ MaIndex.prototype.init = function(options){
 				return;
     		}else if (data == 'true'){
 				$.messager.alert('提示', '取消发布成功', 'info');
-				return;
+	    		$(datagridId).datagrid('clearSelections');
+	    		$(datagridId).datagrid('reload');
     		}
-    		$(datagridId).datagrid('reload');
     	});
     });
 }

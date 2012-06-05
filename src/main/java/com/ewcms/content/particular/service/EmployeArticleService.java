@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.particular.dao.EmployeArticleDAO;
 import com.ewcms.content.particular.dao.EmployeBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.EmployeArticle;
 import com.ewcms.content.particular.model.EmployeBasic;
-import com.ewcms.content.particular.model.PublishingSector;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class EmployeArticleService implements EmployeArticleServiceable {
@@ -26,7 +26,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	@Autowired
 	private EmployeArticleDAO employeArticleDAO;
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 	
 	@Override
 	public Long addEmployeArticle(EmployeArticle employeArticle) {
@@ -53,9 +53,9 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	}
 	
 	private void setPublishingSector(EmployeArticle employeArticle){
-		String publishingSector_code = employeArticle.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		employeArticle.setPublishingSector(publishingSector);
+		Integer organId = employeArticle.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		employeArticle.setOrgan(organ);
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 		if (employeArticleIds.isEmpty()) return;
 		for (Long employeArticleId : employeArticleIds){
 			EmployeArticle employeArticle = employeArticleDAO.get(employeArticleId);
-			if (employeArticle.getRelease()) continue;
+			if (employeArticle.getRelease() || employeArticle.getOrgan() == null) continue;
 			employeArticle.setRelease(true);
 			employeArticleDAO.merge(employeArticle);
 		}

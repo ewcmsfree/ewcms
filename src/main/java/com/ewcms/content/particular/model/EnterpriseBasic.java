@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.ewcms.core.site.model.Organ;
 
 /**
  * 企业基本信息
@@ -64,9 +67,9 @@ public class EnterpriseBasic implements Serializable {
 	private Long id;
 	@Column(name = "name", length = 200)
 	private String name;
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = PublishingSector.class)
-	@JoinColumn(name="publishing_sector")
-	private PublishingSector publishingSector;
+	@OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = Organ.class)
+	@JoinColumn(name = "organ_id")
+	private Organ organ;
 	private Date published;
 	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ParticularContent.class)
 	@JoinColumn(name = "content_id")
@@ -104,6 +107,10 @@ public class EnterpriseBasic implements Serializable {
 	@Column(name = "release")
 	private Boolean release;
 
+	public EnterpriseBasic(){
+		release = false;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -120,12 +127,12 @@ public class EnterpriseBasic implements Serializable {
 		this.name = name;
 	}
 
-	public PublishingSector getPublishingSector() {
-		return publishingSector;
+	public Organ getOrgan() {
+		return organ;
 	}
 
-	public void setPublishingSector(PublishingSector publishingSector) {
-		this.publishingSector = publishingSector;
+	public void setOrgan(Organ organ) {
+		this.organ = organ;
 	}
 
 	public Date getPublished() {

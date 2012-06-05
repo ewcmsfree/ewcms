@@ -31,6 +31,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
 import com.ewcms.security.manage.model.User;
@@ -52,11 +54,16 @@ public class UserService extends AbstractService implements UserServiceable{
     @Autowired(required = false)
     private SaltSource saltSource;
     
+    @Autowired(required = false)
+    private SiteFac siteFac;
+    
     @Override
     public String addUser(final String username,final String password,
             final boolean enabled,final Date accountStart,final  Date accountEnd,
-            final UserInfo userInfo)throws UserServiceException {
+            final UserInfo userInfo, final Integer organId)throws UserServiceException {
         
+    	Organ organ = siteFac.getOrgan(organId);
+    	
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
         }
@@ -74,6 +81,7 @@ public class UserService extends AbstractService implements UserServiceable{
         }
         
         user.setUserInfo(info);
+        user.setOrgan(organ);
         
         //初始用户密码
         String newPassword = StringUtils.isBlank(password) ? defaultPassword : password;
@@ -107,8 +115,9 @@ public class UserService extends AbstractService implements UserServiceable{
     @Override
     public String updateUser(final String username,
             final boolean enabled,final Date accountStart,
-            final Date accountEnd,final UserInfo userInfo) throws UserServiceException{
-        
+            final Date accountEnd,final UserInfo userInfo, final Integer organId) throws UserServiceException{
+    	Organ organ = siteFac.getOrgan(organId);
+    	
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
         }
@@ -117,12 +126,14 @@ public class UserService extends AbstractService implements UserServiceable{
         user.setEnabled(enabled);
         user.setAccountStart(accountStart);
         user.setAccountEnd(accountEnd);
+        user.setOrgan(organ);
         user.getUserInfo().setBirthday(userInfo.getBirthday());
         user.getUserInfo().setEmail(userInfo.getEmail());
         user.getUserInfo().setIdentification(userInfo.getIdentification());
         user.getUserInfo().setMphone(userInfo.getMphone());
         user.getUserInfo().setName(userInfo.getName());
         user.getUserInfo().setPhone(userInfo.getPhone());
+        
         userDao.persist(user);
         
         return username;

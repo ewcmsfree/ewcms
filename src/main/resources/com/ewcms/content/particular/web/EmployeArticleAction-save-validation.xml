@@ -8,11 +8,6 @@
             <message>不能为空</message>
         </field-validator>
     </field>
-	<field name="employeArticleVo.publishingSector.code">
-		<field-validator type="requiredstring">
-			<message>不能为空</message>
-		</field-validator>
-	</field>
 	<field name="employeArticleVo.published">
 		<field-validator type="required">
 			<message>不能为空</message>
@@ -20,6 +15,11 @@
 	</field>
 	<field name="employeArticleVo.content.detail">
 		<field-validator type="requiredstring">
+			<message>不能为空</message>
+		</field-validator>
+	</field>
+		<field name="employeArticleVo.organ.id">
+		<field-validator type="required">
 			<message>不能为空</message>
 		</field-validator>
 	</field>

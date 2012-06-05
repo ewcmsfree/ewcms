@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 
 import com.ewcms.content.particular.dao.ProjectArticleDAO;
 import com.ewcms.content.particular.dao.ProjectBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
-import com.ewcms.content.particular.model.PublishingSector;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class ProjectArticleService implements ProjectArticleServiceable {
@@ -26,7 +26,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 	@Autowired
 	private ProjectArticleDAO projectArticleDAO;
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 	
 	@Override
 	public Long addProjectArticle(ProjectArticle projectArticle) {
@@ -53,9 +53,9 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 	}
 
 	private void setPublishingSector(ProjectArticle projectArticle){
-		String publishingSector_code = projectArticle.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		projectArticle.setPublishingSector(publishingSector);
+		Integer organId = projectArticle.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		projectArticle.setOrgan(organ);
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 		if (projectArticleIds.isEmpty()) return;
 		for (Long projectArticleId : projectArticleIds){
 			ProjectArticle projectArticle = projectArticleDAO.get(projectArticleId);
-			if (projectArticle.getRelease()) continue;
+			if (projectArticle.getRelease() || projectArticle.getOrgan() == null) continue;
 			projectArticle.setRelease(true);
 			projectArticleDAO.merge(projectArticle);
 		}

@@ -18,8 +18,8 @@ import com.ewcms.content.particular.model.EnterpriseBasic;
 import com.ewcms.content.particular.model.IndustryCode;
 import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
-import com.ewcms.content.particular.model.PublishingSector;
 import com.ewcms.content.particular.model.ZoningCode;
+import com.ewcms.core.site.model.Organ;
 
 public interface ParticularFacable {
 	
@@ -47,28 +47,6 @@ public interface ParticularFacable {
 
 	public IndustryCode findIndustryCodeById(Long id);
 	
-	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException;
-	
-	public Long updPublishingSector(PublishingSector publishingSector);
-	
-	public void delPublishingSector(Long id);
-	
-	public PublishingSector findPublishingSectorById(Long id);
-
-	public List<PublishingSector> findPublishingSectorAll();
-	
-	public Boolean findPublishingSectorSelectedByPBId(Long projectBasicId, String publishingSectorCode);
-
-	public Boolean findPublishingSectorSelectedByPAId(Long projectArticleId, String publishingSectorCode);
-
-	public Boolean findPublishingSectorSelectedByEBId(Long enterpriseBasicId, String publishingSectorCode);
-	
-	public Boolean findPublishingSectorSelectedByEAId(final Long enterpriseArticleId, final String publishingSectorCode);
-
-	public Boolean findPublishingSectorSelectedByMBId(Long employeBasicId, String publishingSectorCode);
-	
-	public Boolean findPublishingSectorSelectedByMAId(Long employeArticleId, String publishingSectorCode);
-
 	public Long addZoningCode(ZoningCode zoningCode) throws BaseException;
 	
 	public Long updZoningCode(ZoningCode zoningCode);
@@ -162,4 +140,6 @@ public interface ParticularFacable {
 	public void pubEmployeArticle(Integer channelId, List<Long> employeArticleIds);
 	
 	public void unPubEmployeArticle(Integer channelId, List<Long> employeArticleIds);
+	
+	public Organ findOrganByUserName();
 }

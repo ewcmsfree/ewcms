@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.particular.dao.EmployeBasicDAO;
-import com.ewcms.content.particular.dao.PublishingSectorDAO;
 import com.ewcms.content.particular.model.EmployeBasic;
-import com.ewcms.content.particular.model.PublishingSector;
+import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.model.Organ;
 
 @Service
 public class EmployeBasicService implements EmployeBasicServiceable {
@@ -21,7 +21,7 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	@Autowired
 	private EmployeBasicDAO employeBasicDAO;
 	@Autowired
-	private PublishingSectorDAO publishingSectorDAO;
+	private SiteFac siteFac;
 
 	@Override
 	public Long addEmployeBasic(EmployeBasic employeBasic) {
@@ -38,9 +38,9 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	}
 
 	private void setPublishingSector(EmployeBasic employeBasic){
-		String publishingSector_code = employeBasic.getPublishingSector().getCode();
-		PublishingSector publishingSector = publishingSectorDAO.findPublishingSectorByCode(publishingSector_code);
-		employeBasic.setPublishingSector(publishingSector);
+		Integer organId = employeBasic.getOrgan().getId();
+		Organ organ = siteFac.getOrgan(organId);
+		employeBasic.setOrgan(organ);
 	}
 	
 	@Override
@@ -62,10 +62,10 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	public void pubEmployeBasic(List<Long> employeBasicIds) {
 		if (employeBasicIds.isEmpty()) return;
 		for (Long employeBasicId : employeBasicIds){
-			EmployeBasic enterpriseBasic = employeBasicDAO.get(employeBasicId);
-			if (enterpriseBasic.getRelease()) continue;
-			enterpriseBasic.setRelease(true);
-			employeBasicDAO.merge(enterpriseBasic);
+			EmployeBasic employBasic = employeBasicDAO.get(employeBasicId);
+			if (employBasic.getRelease() || employBasic.getOrgan() == null) continue;
+			employBasic.setRelease(true);
+			employeBasicDAO.merge(employBasic);
 		}
 	}
 	

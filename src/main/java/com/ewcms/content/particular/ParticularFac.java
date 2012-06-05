@@ -21,7 +21,6 @@ import com.ewcms.content.particular.model.EnterpriseBasic;
 import com.ewcms.content.particular.model.IndustryCode;
 import com.ewcms.content.particular.model.ProjectArticle;
 import com.ewcms.content.particular.model.ProjectBasic;
-import com.ewcms.content.particular.model.PublishingSector;
 import com.ewcms.content.particular.model.ZoningCode;
 import com.ewcms.content.particular.service.ApprovalRecordServiceable;
 import com.ewcms.content.particular.service.EmployeArticleServiceable;
@@ -31,8 +30,11 @@ import com.ewcms.content.particular.service.EnterpriseBasicServiceable;
 import com.ewcms.content.particular.service.IndustryCodeServiceable;
 import com.ewcms.content.particular.service.ProjectArticleServiceable;
 import com.ewcms.content.particular.service.ProjectBasicServiceable;
-import com.ewcms.content.particular.service.PublishingSectorServiceable;
 import com.ewcms.content.particular.service.ZoningCodeServiceable;
+import com.ewcms.core.site.model.Organ;
+import com.ewcms.security.manage.SecurityFacable;
+import com.ewcms.security.manage.model.User;
+import com.ewcms.web.util.EwcmsContextUtil;
 
 @Service
 public class ParticularFac implements ParticularFacable {
@@ -41,8 +43,6 @@ public class ParticularFac implements ParticularFacable {
 	private ApprovalRecordServiceable approvalRecordService;
 	@Autowired
 	private IndustryCodeServiceable industryCodeService;
-	@Autowired
-	private PublishingSectorServiceable publishingSectorService;
 	@Autowired
 	private ZoningCodeServiceable zoningCodeService;
 	@Autowired
@@ -57,6 +57,8 @@ public class ParticularFac implements ParticularFacable {
 	private EmployeBasicServiceable employeBasicService;
 	@Autowired
 	private EmployeArticleServiceable employeArticleService;
+	@Autowired
+	private SecurityFacable securityFac;
 	
 	@Override
 	public Long addApprovalRecord(ApprovalRecord approvalRecord) throws BaseException{
@@ -119,62 +121,6 @@ public class ParticularFac implements ParticularFacable {
 		return industryCodeService.findIndustryCodeSelected(projectBasicId, industryCodeCode);
 	}
 
-	@Override
-	public Long addPublishingSector(PublishingSector publishingSector) throws BaseException {
-		return publishingSectorService.addPublishingSector(publishingSector);
-	}
-
-	@Override
-	public Long updPublishingSector(PublishingSector publishingSector) {
-		return publishingSectorService.updPublishingSector(publishingSector);
-	}
-
-	@Override
-	public void delPublishingSector(Long id) {
-		publishingSectorService.delPublishingSector(id);
-	}
-
-	@Override
-	public PublishingSector findPublishingSectorById(Long id) {
-		return publishingSectorService.findPublishingSectorById(id);
-	}
-
-	@Override
-	public List<PublishingSector> findPublishingSectorAll() {
-		return publishingSectorService.findPublishingSectorAll();
-	}
-
-	@Override
-	public Boolean findPublishingSectorSelectedByPBId(Long projectBasicId,
-			String publishingSectorCode) {
-		return publishingSectorService.findPublishingSectorSelectedByPBId(projectBasicId, publishingSectorCode);
-	}
-	
-	@Override
-	public Boolean findPublishingSectorSelectedByPAId(Long projectArticleId, String publishingSectorCode){
-		return publishingSectorService.findPublishingSectorSelectedByPAId(projectArticleId, publishingSectorCode);
-	}
-
-	@Override
-	public Boolean findPublishingSectorSelectedByEBId(Long enterpriseBasicId, String publishingSectorCode){
-		return publishingSectorService.findPublishingSectorSelectedByEBId(enterpriseBasicId, publishingSectorCode);
-	}
-	
-	@Override
-	public Boolean findPublishingSectorSelectedByEAId(final Long enterpriseArticleId, final String publishingSectorCode){
-		return publishingSectorService.findPublishingSectorSelectedByEAId(enterpriseArticleId, publishingSectorCode);
-	}
-	
-	@Override
-	public Boolean findPublishingSectorSelectedByMBId(Long employeBasicId, String publishingSectorCode){
-		return publishingSectorService.findPublishingSectorSelectedByMBId(employeBasicId, publishingSectorCode);
-	}
-	
-	@Override
-	public Boolean findPublishingSectorSelectedByMAId(Long employeArticleId, String publishingSectorCode){
-		return publishingSectorService.findPublishingSectorSelectedByMAId(employeArticleId, publishingSectorCode);
-	}
-	
 	@Override
 	public Long addZoningCode(ZoningCode zoningCode) throws BaseException {
 		return zoningCodeService.addZoningCode(zoningCode);
@@ -450,5 +396,13 @@ public class ParticularFac implements ParticularFacable {
 	public void unPubEmployeArticle(Integer channelId,
 			List<Long> employeArticleIds) {
 		employeArticleService.unPubEmployeArticle(employeArticleIds);
+	}
+
+	@Override
+	public Organ findOrganByUserName() {
+		String userName = EwcmsContextUtil.getUserName();
+		User user = securityFac.getUser(userName);
+		Organ organ = user.getOrgan();
+		return organ;
 	}
 }
