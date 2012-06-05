@@ -227,8 +227,8 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public void addProjectBasicByImportXml(File file, Integer channelId){
-		projectBasicService.addProjectBasicByImportXml(file, channelId);
+	public void addProjectBasicByImportXml(File file, Integer channelId, String fileType){
+		projectBasicService.addProjectBasicByImportXml(file, channelId, fileType);
 	}
 
 	@Override

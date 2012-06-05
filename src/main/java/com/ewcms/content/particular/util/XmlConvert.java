@@ -25,15 +25,15 @@ import org.dom4j.io.SAXReader;
 
 public final class XmlConvert {
 	@SuppressWarnings("unchecked")
-	public static List<Map<String, Object>> importXML(File xmlFile){
+	public static List<Map<String, Object>> importXML(File xmlFile, String fileType){
 		if (xmlFile != null) {
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			try {
 				List<InputStream> inputStreams = new ArrayList<InputStream>();
-				FileType fileType = FileTypeJudge.getType(xmlFile);
-				if (fileType == FileType.ZIP || fileType == FileType.RAR){
+				//FileType fileType = FileTypeJudge.getType(xmlFile);
+				if (fileType.toLowerCase().equals("application/zip")){
 					inputStreams = parseXmlZIPFile(xmlFile);
-				}else if (fileType == FileType.XML){
+				}else if (fileType.toLowerCase().equals("text/xml")){
 					InputStream in = new FileInputStream(xmlFile);
 					inputStreams.add(in);
 				}else{

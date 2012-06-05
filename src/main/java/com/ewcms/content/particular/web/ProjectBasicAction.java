@@ -99,6 +99,7 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 	}
 	
 	private File xmlFile;
+	private String xmlFileContentType;
 	
 	public File getXmlFile() {
 		return xmlFile;
@@ -108,9 +109,20 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 		this.xmlFile = xmlFile;
 	}
 
+	public String getXmlFileContentType() {
+		return xmlFileContentType;
+	}
+
+	public void setXmlFileContentType(String xmlFileContentType) {
+		this.xmlFileContentType = xmlFileContentType;
+	}
+
 	public String importXML(){
-		if (getXmlFile() != null && getChannelId() != null) {
-			particularFac.addProjectBasicByImportXml(getXmlFile(), getChannelId());
+		try{
+			if (getXmlFile() != null && getChannelId() != null) {
+				particularFac.addProjectBasicByImportXml(getXmlFile(), getChannelId(), getXmlFileContentType());
+			}
+		}catch(Exception e){
 		}
 		return INPUT;
 	}
@@ -135,7 +147,7 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 		    	resp.setCharacterEncoding("UTF-8");
 		    	resp.setContentType("text/xml; charset=UTF-8");
 		    	resp.addHeader("Content-Disposition", "attachment; filename=xmjbxx.xml");
-		    	out.write(stringWriter.toString().getBytes());
+		    	out.write(stringWriter.toString().getBytes("UTF-8"));
 		    	out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();

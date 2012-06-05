@@ -84,11 +84,6 @@
 			<result name="input">/WEB-INF/page/particular/pb/edit.jsp</result>
 		</action>
         <action name="import" class="com.ewcms.content.particular.web.ProjectBasicAction" method="importXML">
-			 <interceptor-ref name="fileUpload">
-				<param name="allowedTypes">text/xml,application/zip,application/x-zip-compressed</param>
-			</interceptor-ref> 
-			<interceptor-ref name="defaultStack"/>
-			
             <result name="input">/WEB-INF/page/particular/pb/import.jsp</result>
         </action>	
         <action name="export" class="com.ewcms.content.particular.web.ProjectBasicAction" method="exportXML"/>

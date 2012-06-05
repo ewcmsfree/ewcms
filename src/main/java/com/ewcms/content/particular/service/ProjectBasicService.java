@@ -122,9 +122,10 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	
 	private void setApprovalRecord(ProjectBasic projectBasic){
 		String approvalRecord_code = projectBasic.getApprovalRecord().getCode();
-		Assert.notNull(approvalRecord_code);
-		ApprovalRecord approvalRecord = approvalRecordDAO.findApprovalRecordByCode(approvalRecord_code);
-		Assert.notNull(approvalRecord);
+		ApprovalRecord approvalRecord = null;
+		if (approvalRecord_code != null && approvalRecord_code.length() > 0){
+			approvalRecord = approvalRecordDAO.findApprovalRecordByCode(approvalRecord_code);
+		}
 		projectBasic.setApprovalRecord(approvalRecord);
 	}
 	
@@ -158,8 +159,8 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	}
 	
 	@Override
-	public void addProjectBasicByImportXml(File file, Integer channelId){
-		List<Map<String,Object>> list = XmlConvert.importXML(file);
+	public void addProjectBasicByImportXml(File file, Integer channelId, String fileType){
+		List<Map<String,Object>> list = XmlConvert.importXML(file, fileType);
 		
 		if (list.isEmpty()) return;
 		
@@ -208,7 +209,6 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 			
 			String approvalRecord_code = (String) map.get("审批备案机关编号");
 			ApprovalRecord approvalRecord = approvalRecordDAO.findApprovalRecordByCode(approvalRecord_code);
-			if (approvalRecord == null) continue;
 			projectBasic.setApprovalRecord(approvalRecord);
 				
 			projectBasic.setChannelId(channelId);
@@ -247,10 +247,12 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 			projectBasic.setEmail(email);
 				
 			String shape = (String) map.get("形式");
-			for (Shape value : Shape.values()){
-				if (value.getDescription().trim().equals(shape.trim())){
-					projectBasic.setShape(value);
-					break;
+			if (shape != null){
+				for (Shape value : Shape.values()){
+					if (value.getDescription().trim().equals(shape.trim())){
+						projectBasic.setShape(value);
+						break;
+					}
 				}
 			}
 				
@@ -270,6 +272,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	
 	public Document exportXml(List<Long> projectBasicIds){
 		Document document = DocumentHelper.createDocument();  
+		
 		Element root = document.addElement("MetaDatas");  
         Element metaViewData = root.addElement("MetaViewData");
         

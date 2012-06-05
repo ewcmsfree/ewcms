@@ -25,7 +25,7 @@ public interface ProjectBasicServiceable {
 	
 	public List<ProjectBasic> findProjectBasicAll();
 	
-	public void addProjectBasicByImportXml(File file, Integer channelId);
+	public void addProjectBasicByImportXml(File file, Integer channelId, String fileType);
 	
 	public Document exportXml(List<Long> projectBasicIds);
 	

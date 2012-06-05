@@ -152,7 +152,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>审批备案机关编号：<span style="color:#FF0000">*</span></td>
+					<td>审批备案机关编号：</td>
 					<td class="formFieldError">
 						<input id="cc_approvalRecordCode" name="projectBasicVo.approvalRecord.code" style="width: 120px;"></input>
 						<s:fielderror ><s:param value="%{'projectBasicVo.approvalRecord.code'}" /></s:fielderror>

@@ -105,9 +105,6 @@
 	</field>
 	 
 	<field name="projectBasicVo.approvalRecord.code">
-		<field-validator type="requiredstring">
-			<message>不能为空</message>
-		</field-validator>
         <field-validator type="stringlength">
         	<param name="minLength">9</param>
         	<param name="maxLength">9</param>

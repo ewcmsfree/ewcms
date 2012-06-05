@@ -130,7 +130,7 @@ public class ProjectBasic implements Serializable {
 	@JoinColumn(name="industry_code", nullable = false)
 	private IndustryCode industryCode;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = ApprovalRecord.class)
-	@JoinColumn(name="approval_code", nullable = false)
+	@JoinColumn(name="approval_code")
 	private ApprovalRecord approvalRecord;
 	@Column(name = "contact", length = 200, nullable = false)
 	private String contact;

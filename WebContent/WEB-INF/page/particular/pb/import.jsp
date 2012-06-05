@@ -5,6 +5,11 @@
 	<head>
 		<title>数据导入</title>
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript">
+			$(function(){
+				parent.$("#tt").datagrid('reload');				
+			});
+		</script>
 	</head>
 	<body >
 		<s:form action="import" namespace="/particular/pb" method="post" enctype="multipart/form-data" style="padding: 5px;">

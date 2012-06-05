@@ -91,7 +91,7 @@ PbIndex.prototype.init = function(options){
             return;
         }
         var parameter = '?selections=' + rows[0].id;
-    	for ( var i = 1; i < rows.length - 1; ++i) {
+    	for ( var i = 1; i < rows.length; i++) {
     		parameter = parameter + '&selections=' + rows[i].id;
     	}
     	window.location = urls.generatorUrl + parameter;
@@ -104,7 +104,7 @@ PbIndex.prototype.init = function(options){
             return;
         }
         var parameter = 'selections=' + rows[0].id;
-    	for ( var i = 1; i < rows.length - 1; ++i) {
+    	for ( var i = 1; i < rows.length; i++) {
     		parameter = parameter + '&selections=' + rows[i].id;
     	}
     	$.post(urls.pubUrl, parameter, function(data){
@@ -129,7 +129,7 @@ PbIndex.prototype.init = function(options){
             return;
         }
         var parameter = 'selections=' + rows[0].id;
-    	for ( var i = 1; i < rows.length - 1; ++i) {
+    	for ( var i = 1; i < rows.length; i++) {
     		parameter = parameter + '&selections=' + rows[i].id;
     	}
     	$.post(urls.unPubUrl, parameter, function(data){

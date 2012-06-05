@@ -14,13 +14,13 @@ public class XmlConvertTest {
 	public void testImportXML(){
 		String filePath = "E:/work/workspace/ewcms/src/test/resources/xmjbxx.xml";
         File file = new File(filePath);
-        XmlConvert.importXML(file);
+        XmlConvert.importXML(file, "XML");
 	}
 	
 	@Test
 	public void testImportZip(){
 		String filePath = "E:/work/workspace/ewcms/src/test/resources/xmjbxx.zip";
         File file = new File(filePath);
-        XmlConvert.importXML(file);
+        XmlConvert.importXML(file, "zip");
 	}
 }
