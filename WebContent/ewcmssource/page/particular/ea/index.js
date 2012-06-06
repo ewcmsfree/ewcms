@@ -23,6 +23,16 @@ EaIndex.prototype.init = function(options){
 	ewcmsBOBJ.openDataGrid(datagridId ,{
         columns:[[
                 {field:'id',title:'编号',hidden:true},
+                {field:'release',title:'发布',width:40,
+                	formatter : function(val, rec){
+                		return val ? '&nbsp;是' : '&nbsp;否';
+                	}
+                },
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null) ? "" : rec.organ.name;
+					}	
+                },
 				{field:'enterpriseBasic_yyzzzch',title:'营业执照注册号',width:150,sortable:true,
                 	formatter : function(val, rec){
                 		return (rec.enterpriseBasic == null) ? "" : rec.enterpriseBasic.yyzzzch;
@@ -33,18 +43,8 @@ EaIndex.prototype.init = function(options){
 						return (rec.enterpriseBasic == null) ? "" : rec.enterpriseBasic.name;
 					}	
 				},
-                {field:'organ_name',title:'发布部门',width:200,
-					formatter : function(val, rec){
-						return (rec.organ == null) ? "" : rec.organ.name;
-					}	
-                },
                 {field:'published',title:'发布日期',width:145},
-                {field:'denseDescription',title:'所属密级', width:100},
-                {field:'release',title:'发布',width:40,
-                	formatter : function(val, rec){
-                		return val ? '&nbsp;是' : '&nbsp;否';
-                	}
-                }
+                {field:'denseDescription',title:'所属密级', width:100}
           ]]
 	});
 	

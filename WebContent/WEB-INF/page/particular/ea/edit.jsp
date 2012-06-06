@@ -16,16 +16,6 @@
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
             
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToEa"><s:param name="enterpriseArticleId" value="enterpriseArticleVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
-            
             $('#cc_enterpriseBasic').combogrid({
 				panelWidth:850,
 				value:'<s:property value="enterpriseArticleVo.enterpriseBasic.yyzzzch"/>',
@@ -34,6 +24,11 @@
 				url:'<s:url namespace="/particular/ea" action="findEbAll"/>',
 				columns:[[
 						{field:'id',title:'编号',hidden:true},
+		                {field:'organ_name',title:'发布部门',width:200,
+							formatter : function(val, rec){
+								return (rec.organ == null) ? "" : rec.organ.name;
+							}	
+		                },
 						{field:'yyzzzch',title:'营业执照注册号',width:150,sortable:true},
 		                {field:'name',title:'企业名称',width:200},
 		                {field:'published',title:'发布时间',width:85},
@@ -87,7 +82,7 @@
 				<tr>
 					<td width="10%">企业名称：<span style="color:#FF0000">*</span></td>
 					<td width="40%" class="formFieldError">
-						<input id="cc_enterpriseBasic" name="enterpriseArticleVo.enterpriseBasic.yyzzzch" style="width:150px;" size="20"></input>
+						<input id="cc_enterpriseBasic" name="enterpriseArticleVo.enterpriseBasic.yyzzzch" style="width:150px;" maxlength="100"></input>
 						(<span id="enterpriseBasic_yyzzch"><s:property value="enterpriseArticleVo.enterpriseBasic.yyzzzch"/></span>)
 						<s:fielderror ><s:param value="%{'enterpriseArticleVo.enterpriseBasic.yyzzzch'}" /></s:fielderror>
 					</td>

@@ -65,7 +65,7 @@
 				<tr>
 					<td>项目名称：<span style="color:#FF0000">*</span></td>
 					<td colspan="5" class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="projectBasicVo.name" size="60"/>
+						<s:textfield id="name" cssClass="inputtext" name="projectBasicVo.name" size="60" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.name'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -73,19 +73,19 @@
 					
 					<td>投资规模：</td>
 					<td>
-						<s:textfield id="investmentScale" cssClass="inputtext" name="projectBasicVo.investmentScale"/>
+						<s:textfield id="investmentScale" cssClass="inputtext" name="projectBasicVo.investmentScale" maxlength="100"/>
 					</td>
 					<td>项目概况：</td>
 					<td>
-						<s:textfield id="overview" cssClass="inputtext" name="projectBasicVo.overview"/>
+						<s:textfield id="overview" cssClass="inputtext" name="projectBasicVo.overview" maxlength="500"/>
 					</td>
 					<td>项目类别：</td>
-					<td><s:textfield id="category" cssClass="inputtext" name="projectBasicVo.category"/></td>
+					<td><s:textfield id="category" cssClass="inputtext" name="projectBasicVo.category" maxlength="100"/></td>
 				</tr>
 				<tr>
 					<td width="14%">项目地址：<span style="color:#FF0000">*</span></td>
 					<td width="20%" class="formFieldError">
-						<s:textfield id="address" cssClass="inputtext" name="projectBasicVo.address"/>
+						<s:textfield id="address" cssClass="inputtext" name="projectBasicVo.address" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.address'}" /></s:fielderror>
 					</td>
 					<td width="10%">建设性质：<span style="color:#FF0000">*</span></td>
@@ -95,7 +95,7 @@
 					</td>
 					<td width="10%">行业编码：<span style="color:#FF0000">*</span></td>
 					<td width="23%" class="formFieldError">
-						<input id="cc_industryCode" name="projectBasicVo.industryCode.code" style="width:120px;"></input>
+						<input id="cc_industryCode" name="projectBasicVo.industryCode.code" style="width:120px;" maxlength="100"></input>
 						<s:fielderror><s:param value="%{'projectBasicVo.industryCode.code'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -107,12 +107,12 @@
 					</td>
 					<td>行政区划代码：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<input id="cc_zoningCode" name="projectBasicVo.zoningCode.code" style="width: 120px;"></input>
+						<input id="cc_zoningCode" name="projectBasicVo.zoningCode.code" style="width: 120px;" maxlength="100"></input>
 						<s:fielderror ><s:param value="%{'projectBasicVo.zoningCode.code'}" /></s:fielderror>
 					</td>
 					<td>单位项目编号：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="unitId" cssClass="inputtext" name="projectBasicVo.unitId"/>
+						<s:textfield id="unitId" cssClass="inputtext" name="projectBasicVo.unitId" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.unitId'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -122,46 +122,46 @@
 				<tr>
 					<td>单位名称：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="buildUnit" cssClass="inputtext" name="projectBasicVo.buildUnit"/>
+						<s:textfield id="buildUnit" cssClass="inputtext" name="projectBasicVo.buildUnit" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.buildUnit'}" /></s:fielderror>
 					</td>
 					<td>组织机构代码：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="organizationCode" cssClass="inputtext" name="projectBasicVo.organizationCode"/>
+						<s:textfield id="organizationCode" cssClass="inputtext" name="projectBasicVo.organizationCode" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.organizationCode'}" /></s:fielderror>
 					</td>
 					<td>单位联系电话：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="unitPhone" cssClass="inputtext" name="projectBasicVo.unitPhone"/>
+						<s:textfield id="unitPhone" cssClass="inputtext" name="projectBasicVo.unitPhone" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.unitPhone'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>联系人：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="contact" cssClass="inputtext" name="projectBasicVo.contact"/>
+						<s:textfield id="contact" cssClass="inputtext" name="projectBasicVo.contact" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.contact'}" /></s:fielderror>
 					</td>
 					<td>联系人电话：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="phone" cssClass="inputtext" name="projectBasicVo.phone"/>
+						<s:textfield id="phone" cssClass="inputtext" name="projectBasicVo.phone" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.phone'}" /></s:fielderror>
 					</td>
 					<td>联系人邮箱：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="email" cssClass="inputtext" name="projectBasicVo.email"/>
+						<s:textfield id="email" cssClass="inputtext" name="projectBasicVo.email" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.email'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>审批备案机关编号：</td>
 					<td class="formFieldError">
-						<input id="cc_approvalRecordCode" name="projectBasicVo.approvalRecord.code" style="width: 120px;"></input>
+						<input id="cc_approvalRecordCode" name="projectBasicVo.approvalRecord.code" style="width: 120px;" maxlength="100"></input>
 						<s:fielderror ><s:param value="%{'projectBasicVo.approvalRecord.code'}" /></s:fielderror>
 					</td>
 					<td>单位地址：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="unitAddress" cssClass="inputtext" name="projectBasicVo.unitAddress"/>
+						<s:textfield id="unitAddress" cssClass="inputtext" name="projectBasicVo.unitAddress" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.unitAddress'}" /></s:fielderror>
 					</td>
 					<td>形式：</td>
@@ -172,11 +172,11 @@
 				<tr>
 					<td>文号：</td>
 					<td>
-						<s:textfield id="documentId" cssClass="inputtext" name="projectBasicVo.documentId"/>
+						<s:textfield id="documentId" cssClass="inputtext" name="projectBasicVo.documentId" maxlength="100"/>
 					</td>
 					<td>参建单位：</td>
 					<td>
-						<s:textfield id="participation" cssClass="inputtext" name="projectBasicVo.participation"/>
+						<s:textfield id="participation" cssClass="inputtext" name="projectBasicVo.participation" maxlength="100"/>
 					</td>
 					<td>发布部门：</td>
 					<td class="formFieldError">

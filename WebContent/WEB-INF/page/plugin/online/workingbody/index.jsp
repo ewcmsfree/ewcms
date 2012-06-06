@@ -366,7 +366,7 @@
 					var nodes = $('#tt3').tree('getChecked');
 						
 					var parameter = 'workingBodyId=' + tt2_node_id;
-		           	for(var i=0;i<nodes.length;++i){
+		           	for(var i=0;i<nodes.length;i++){
 		           		parameter = parameter + '&organIds=' + nodes[i].id;
 		           	}
 					

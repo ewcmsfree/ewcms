@@ -23,6 +23,16 @@ MaIndex.prototype.init = function(options){
 	ewcmsBOBJ.openDataGrid(datagridId ,{
         columns:[[
                 {field:'id',title:'编号',hidden:true},
+                {field:'release',title:'发布',width:40,
+                	formatter : function(val, rec){
+                		return val ? '&nbsp;是' : '&nbsp;否';
+                	}
+                },
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null) ? "" : rec.organ.name;
+					}	
+                },
 				{field:'employeBasic_cardCode',title:'证件号码',width:150,sortable:true,
                 	formatter : function(val, rec){
                 		return (rec.employeBasic == null) ? "" : rec.employeBasic.cardCode;
@@ -33,18 +43,8 @@ MaIndex.prototype.init = function(options){
 						return (rec.employeBasic == null) ? "" : rec.employeBasic.name;
 					}	
 				},
-                {field:'organ_name',title:'发布部门',width:200,
-					formatter : function(val, rec){
-						return (rec.organ == null) ? "" : rec.organ.name;
-					}	
-                },
                 {field:'published',title:'发布日期',width:145},
-                {field:'denseDescription',title:'所属密级', width:100},
-                {field:'release',title:'发布',width:40,
-                	formatter : function(val, rec){
-                		return val ? '&nbsp;是' : '&nbsp;否';
-                	}
-                }
+                {field:'denseDescription',title:'所属密级', width:100}
           ]]
 	});
 	

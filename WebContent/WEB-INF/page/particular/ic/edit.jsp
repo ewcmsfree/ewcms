@@ -31,7 +31,7 @@
 				<tr>
 					<td>行业名称：</td>
 					<td class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="industryCodeVo.name" size="60"/>
+						<s:textfield id="name" cssClass="inputtext" name="industryCodeVo.name" size="60" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'industryCodeVo.name'}" /></s:fielderror>
 					</td>
 				</tr>

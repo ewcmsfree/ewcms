@@ -3,7 +3,7 @@
 "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
 
 <validators>
-    <field name="enterpriseArticleVo.enterpriseBasic.yyzzzch">
+    <field name="enterpriseBasicVo.name">
         <field-validator type="requiredstring">
             <message>不能为空</message>
         </field-validator>
@@ -13,17 +13,22 @@
         	<message>必须小于200个字</message>
         </field-validator>
     </field>
-	<field name="enterpriseArticleVo.published">
+    <field name="enterpriseBasicVo.yyzzzch">
+        <field-validator type="requiredstring">
+            <message>不能为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>必须小于200个字</message>
+        </field-validator>
+    </field>
+	<field name="enterpriseBasicVo.published">
 		<field-validator type="required">
 			<message>不能为空</message>
 		</field-validator>
 	</field>
-	<field name="enterpriseArticleVo.content.detail">
-		<field-validator type="requiredstring">
-			<message>不能为空</message>
-		</field-validator>
-	</field>
-	<field name="enterpriseArticleVo.organ.id">
+	<field name="enterpriseBasicVo.organ.id">
 		<field-validator type="required">
 			<message>不能为空</message>
 		</field-validator>

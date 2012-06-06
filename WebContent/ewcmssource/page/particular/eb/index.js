@@ -28,6 +28,11 @@ EbIndex.prototype.init = function(options){
                 		return val ? '&nbsp;是' : '&nbsp;否';
                 	}
                 },
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null) ? "" : rec.organ.name;
+					}	
+                },
 				{field:'yyzzzch',title:'营业执照注册号',width:150,sortable:true},
                 {field:'name',title:'企业名称',width:200},
                 {field:'published',title:'发布时间',width:85},
@@ -43,11 +48,6 @@ EbIndex.prototype.init = function(options){
                 {field:'jyqx',title:'经营期限',width:120},
                 {field:'zs',title:'住所',width:120},
                 {field:'denseDescription',title:'所属密级',width:100}
-                {field:'organ_name',title:'发布部门',width:200,
-					formatter : function(val, rec){
-						return (rec.organ == null) ? "" : rec.organ.name;
-					}	
-                }
           ]]
 	});
 	

@@ -30,6 +30,11 @@ PbIndex.prototype.init = function(options){
                 		return val ? '&nbsp;是' : '&nbsp;否';
                 	}
                 },
+                {field:'organ_name',title:'发布部门',width:200,
+					formatter : function(val, rec){
+						return (rec.organ == null)? "" : rec.organ.name;
+					}	
+                },
 				{field:'code',title:'项目编号',width:150,sortable:true},
                 {field:'name',title:'项目名称',width:200},
                 {field:'buildTime',title:'建设时间',width:85},
@@ -41,25 +46,19 @@ PbIndex.prototype.init = function(options){
                 {field:'unitAddress',title:'单位地址',width:200},
                 {field:'zoningName',title:'行政区划名称',width:80,
                 	formatter : function(val, rec) {
-                		if (rec.zoningCode != null){
-                			return (rec.zoningCode == null) ? "" : rec.zoningCode.name;
-                		}
+                		return (rec.zoningCode == null) ? "" : rec.zoningCode.name;
                 	}
                 },
                 {field:'organizationCode',title:'组织机构代码',width:80},
                 {field:'industryName',title:'行业名称',width:80,
                 	formatter : function(val, rec){
-                		if (rec.industryCode != null){
-                			return (rec.industryCode == null) ? "" : rec.industryCode.name;
-                		}
+               			return (rec.industryCode == null) ? "" : rec.industryCode.name;
                 	}	
                 },
                 {field:'category', title:'项目类别', width: 120},
                 {field:'approvalRecordName',title:'审批备案机关名称',width:120,
                 	formatter : function(val, rec){
-                		if (rec.approvalRecord != null){
-                			return (rec.approvalRecord == null) ? "" : rec.approvalRecord.name;
-                		}
+               			return (rec.approvalRecord == null) ? "" : rec.approvalRecord.name;
                 	}	
                 },
                 {field:'contact',title:'联系人',width:120},
@@ -69,12 +68,7 @@ PbIndex.prototype.init = function(options){
                 {field:'natureDescription',title:'建设性质',width:100},
                 {field:'shapeDescription',title:'形式',width:100},
                 {field:'documentId',title:'文号',width:100},
-                {field:'participation',title:'参建单位',width:200},
-                {field:'organ_name',title:'发布部门',width:200,
-					formatter : function(val, rec){
-						return (rec.organ == null)? "" : rec.organ.name;
-					}	
-                }
+                {field:'participation',title:'参建单位',width:200}
           ]]
 	});
     

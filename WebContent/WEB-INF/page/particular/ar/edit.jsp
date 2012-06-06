@@ -31,7 +31,7 @@
 				<tr>
 					<td>机关单位名称：</td>
 					<td class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="approvalRecordVo.name" size="60"/>
+						<s:textfield id="name" cssClass="inputtext" name="approvalRecordVo.name" size="60" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'approvalRecordVo.name'}" /></s:fielderror>
 					</td>
 				</tr>

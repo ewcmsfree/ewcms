@@ -15,39 +15,29 @@
         <script type="text/javascript">
 	        $(function(){
 	            <s:include value="../../alertMessage.jsp"/>
-	            
-	            $('#cc_publishingSector').combobox({
-	        		url: '<s:url namespace="/particular/ps" action="findPsToEb"><s:param name="enterpriseBasicId" value="enterpriseBasicVo.id"></s:param></s:url>',
-	        		valueField:'id',
-	                textField:'text',
-	        		editable:false,
-	        		multiple:false,
-	        		cascadeCheck:false,
-	        		panelWidth:120
+		        $('#tt_organ').combotree('setValue', $('#organId').val());
+	            $('#tt_organ').combotree($('#organShow').val());
+	            $('#tt_organ').combotree({
+	            	onBeforeSelect: function(node){
+	                    if (node.id == null) {
+	                   		$.messager.alert('提示','根节点不能选择','info');
+	                   		return;
+	                   	}
+	            	}
 	            });
+		        var height = $(window).height() - $("#inputBarTable").height() - 10;
+	        	var width = $(window).width() - 80*2;
+	        	$("div #_DivContainer").css("height",height + "px");
+	        	try{
+	        		if (tinyMCE.getInstanceById('_Content_1') != null){
+	        			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 110));
+	        		}else{
+	        			$("#_Content_1").css("width", (width + 2) + "px");
+	        			$("#_Content_1").css("height", (height - 210) + "px");
+	        		}
+	        	}catch(errRes){
+	        	}
 	        });
-	        $('#tt_organ').combotree('setValue', $('#organId').val());
-            $('#tt_organ').combotree($('#organShow').val());
-            $('#tt_organ').combotree({
-            	onBeforeSelect: function(node){
-                    if (node.id == null) {
-                   		$.messager.alert('提示','根节点不能选择','info');
-                   		return;
-                   	}
-            	}
-            });
-	        var height = $(window).height() - $("#inputBarTable").height() - 10;
-        	var width = $(window).width() - 80*2;
-        	$("div #_DivContainer").css("height",height + "px");
-        	try{
-        		if (tinyMCE.getInstanceById('_Content_1') != null){
-        			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 110));
-        		}else{
-        			$("#_Content_1").css("width", (width + 2) + "px");
-        			$("#_Content_1").css("height", (height - 210) + "px");
-        		}
-        	}catch(errRes){
-        	}
         </script>
         <ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>
@@ -57,14 +47,14 @@
 				<tr>
 					<td width="20%">姓名：<span style="color:#FF0000">*</span></td>
 					<td width="80%" class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="employeBasicVo.name"/>
+						<s:textfield id="name" cssClass="inputtext" name="employeBasicVo.name" size="20" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'employeBasicVo.name'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>性别：</td>
 					<td>
-						<s:select list="@com.ewcms.content.particular.model.EmployeBasic$Sex@values()" listValue="description" name="employeBasicVo.sex" id="employeBasicVo_sex" headerKey="" headerValue="----请选择----"></s:select>
+						<s:select list="@com.ewcms.content.particular.model.EmployeBasic$Sex@values()" listValue="description" name="employeBasicVo.sex" id="employeBasicVo_sex"></s:select>
 					</td>
 				</tr>
 				<tr>
@@ -84,20 +74,20 @@
 				<tr>
 					<td>证件类型：</td>
 					<td>
-						<s:select list="@com.ewcms.content.particular.model.EmployeBasic$CardType@values()" listValue="description" name="employeBasicVo.cardType" id="employeBasicVo_cardType" headerKey="" headerValue="----请选择----"></s:select>
+						<s:select list="@com.ewcms.content.particular.model.EmployeBasic$CardType@values()" listValue="description" name="employeBasicVo.cardType" id="employeBasicVo_cardType"></s:select>
 					</td>
 				</tr>
 				<tr>
 					<td>证件号码：</td>
 					<td class="formFieldError">
-						<s:textfield id="cardCode" cssClass="inputtext" name="employeBasicVo.cardCode"/>
+						<s:textfield id="cardCode" cssClass="inputtext" name="employeBasicVo.cardCode" size="30" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'employeBasicVo.cardCode'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>所属密级：</td>
 					<td>
-						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="employeBasicVo.dense" id="employeBasicVo_dense" headerKey="" headerValue="----请选择----"></s:select>
+						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="employeBasicVo.dense" id="employeBasicVo_dense"></s:select>
 					</td>
 				</tr>
 			</table>

@@ -16,16 +16,6 @@
 	        $(function(){
 	            <s:include value="../../alertMessage.jsp"/>
 	            
-	            $('#cc_publishingSector').combobox({
-	        		url: '<s:url namespace="/particular/ps" action="findPsToEa"><s:param name="employeArticleId" value="employeArticleVo.id"></s:param></s:url>',
-	        		valueField:'id',
-	                textField:'text',
-	        		editable:false,
-	        		multiple:false,
-	        		cascadeCheck:false,
-	        		panelWidth:120
-	            });
-	            
 	            $('#cc_employeBasic').combogrid({
 					panelWidth:850,
 					value:'<s:property value="employeArticleVo.employeBasic.cardCode"/>',
@@ -34,13 +24,13 @@
 					url:'<s:url namespace="/particular/ma" action="findMbAll"/>',
 					columns:[[
 		                        {field:'id',title:'编号',hidden:true},
-								{field:'name',title:'姓名',width:150,sortable:true},
-				                {field:'sexDescription',title:'性别',width:60},
-				                {field:'publishingSector_name',title:'发布部门',width:200,
+				                {field:'organ_name',title:'发布部门',width:200,
 									formatter : function(val, rec){
-										return rec.publishingSector.name;
+										return (rec.organ == null)? "" : rec.organ.name;
 									}	
 				                },
+								{field:'name',title:'姓名',width:150,sortable:true},
+				                {field:'sexDescription',title:'性别',width:60},
 				                {field:'published',title:'发布时间',width:145},
 				                {field:'cardTypeDescription',title:'证件类型',width:200},
 				                {field:'cardCode',title:'证件号码',width:150},
@@ -83,7 +73,7 @@
 				<tr>
 					<td width="10%">姓名：<span style="color:#FF0000">*</span></td>
 					<td width="40%"  class="formFieldError">
-						<input id="cc_employeBasic" name="employeArticleVo.employeBasic.cardCode" style="width:150px;" size="20"></input>
+						<input id="cc_employeBasic" name="employeArticleVo.employeBasic.cardCode" style="width:150px;" size="20" maxlength="100"></input>
 						(<span id="employeBasic_cardCode"><s:property value="employeArticleVo.employeBasic.cardCode"/></span>)
 						<s:fielderror ><s:param value="%{'employeArticleVo.employeBasic.cardCode'}" /></s:fielderror>
 					</td>

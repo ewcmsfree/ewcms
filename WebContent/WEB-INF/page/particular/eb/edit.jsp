@@ -16,15 +16,6 @@
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
             
-            $('#cc_publishingSector').combobox({
-        		url: '<s:url namespace="/particular/ps" action="findPsToEb"><s:param name="enterpriseBasicId" value="enterpriseBasicVo.id"></s:param></s:url>',
-        		valueField:'id',
-                textField:'text',
-        		editable:false,
-        		multiple:false,
-        		cascadeCheck:false,
-        		panelWidth:120
-            });
 	        $('#tt_organ').combotree('setValue', $('#organId').val());
             $('#tt_organ').combotree($('#organShow').val());
             $('#tt_organ').combotree({
@@ -57,7 +48,7 @@
 				<tr>
 					<td>企业名称：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<s:textfield id="name" cssClass="inputtext" name="enterpriseBasicVo.name"/>
+						<s:textfield id="name" cssClass="inputtext" name="enterpriseBasicVo.name" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'enterpriseBasicVo.name'}" /></s:fielderror>
 					</td>
 					<td>发布部门：<span style="color:#FF0000">*</span></td>
@@ -72,17 +63,18 @@
 					</td>
 				</tr>
 				<tr>
-					<td>营业执照注册号：</td>
-					<td>
-						<s:textfield id="yyzzzch" cssClass="inputtext" name="enterpriseBasicVo.yyzzzch"/>
+					<td>营业执照注册号：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
+						<s:textfield id="yyzzzch" cssClass="inputtext" name="enterpriseBasicVo.yyzzzch" maxlength="100"/>
+						<s:fielderror ><s:param value="%{'enterpriseBasicVo.yyzzzch'}" /></s:fielderror>
 					</td>
 					<td>营业执照登记机关：</td>
 					<td>
-						<s:textfield id="yyzzdjjg" cssClass="inputtext" name="enterpriseBasicVo.yyzzdjjg"/>
+						<s:textfield id="yyzzdjjg" cssClass="inputtext" name="enterpriseBasicVo.yyzzdjjg" maxlength="100"/>
 					</td>
 					<td>法人代表：</td>
 					<td>
-						<s:textfield id="frdb" cssClass="inputtext" name="enterpriseBasicVo.frdb"/>
+						<s:textfield id="frdb" cssClass="inputtext" name="enterpriseBasicVo.frdb" maxlength="100"/>
 					</td>
 				</tr>
 				<tr>
@@ -92,45 +84,45 @@
 					</td>
 					<td>经营范围：</td>
 					<td>
-						<s:textfield id="jyfw" cssClass="inputtext" name="enterpriseBasicVo.jyfw"/>
+						<s:textfield id="jyfw" cssClass="inputtext" name="enterpriseBasicVo.jyfw" maxlength="100"/>
 					</td>
 					<td>组织机构登记机关：</td>
 					<td>
-						<s:textfield id="zzjgdjjg" cssClass="inputtext" name="enterpriseBasicVo.zzjgdjjg"/>
+						<s:textfield id="zzjgdjjg" cssClass="inputtext" name="enterpriseBasicVo.zzjgdjjg" maxlength="100"/>
 					</td>
 				</tr>
 				<tr>
 					<td>组织机构代码：</td>
 					<td>
-						<s:textfield id="zzjgdm" cssClass="inputtext" name="enterpriseBasicVo.zzjgdm"/>
+						<s:textfield id="zzjgdm" cssClass="inputtext" name="enterpriseBasicVo.zzjgdm" maxlength="100"/>
 					</td>
 					<td>企业类型：</td>
 					<td>
-						<s:textfield id="qyrx" cssClass="inputtext" name="enterpriseBasicVo.qyrx"/>
+						<s:textfield id="qyrx" cssClass="inputtext" name="enterpriseBasicVo.qyrx" maxlength="100"/>
 					</td>
 					<td>注册资本：</td>
 					<td>
-						<s:textfield id="zzzb" cssClass="inputtext" name="enterpriseBasicVo.zzzb"/>
+						<s:textfield id="zzzb" cssClass="inputtext" name="enterpriseBasicVo.zzzb" maxlength="100"/>
 					</td>
 				</tr>
 				<tr>
 					<td>实缴注册资本：</td>
 					<td>
-						<s:textfield id="sjzzzb" cssClass="inputtext" name="enterpriseBasicVo.sjzzzb"/>
+						<s:textfield id="sjzzzb" cssClass="inputtext" name="enterpriseBasicVo.sjzzzb" maxlength="100"/>
 					</td>
 					<td>经营期限：</td>
 					<td>
-						<s:textfield id="jyqx" cssClass="inputtext" name="enterpriseBasicVo.jyqx"/>
+						<s:textfield id="jyqx" cssClass="inputtext" name="enterpriseBasicVo.jyqx" maxlength="100"/>
 					</td>
 					<td>住所：</td>
 					<td>
-						<s:textfield id="zs" cssClass="inputtext" name="enterpriseBasicVo.zs"/>
+						<s:textfield id="zs" cssClass="inputtext" name="enterpriseBasicVo.zs" maxlength="100"/>
 					</td>
 				</tr>
 				<tr>
 					<td>所属密级：</td>
 					<td>
-						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="enterpriseBasicVo.dense" id="enterpriseBasicVo_dense" headerKey="" headerValue="----请选择----"></s:select>
+						<s:select list="@com.ewcms.content.particular.model.Dense@values()" listValue="description" name="enterpriseBasicVo.dense" id="enterpriseBasicVo_dense"></s:select>
 					</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>

@@ -74,7 +74,7 @@ function delOperate(){
         return ;
     }
     var ids = '';
-    for(var i=0;i<rows.length;++i){
+    for(var i=0;i<rows.length;i++){
         ids =ids + 'selections=' + rows[i].id +'&';
     }
     $.messager.confirm("提示","确定要删除所选记录吗?",function(r){

@@ -222,7 +222,7 @@ function delOperate() {
 	}
 
 	var parameter = 'selections=' + rows[0].id;
-	for ( var i = 1; i < rows.length - 1; ++i) {
+	for ( var i = 1; i < rows.length; i++) {
 		parameter = parameter + '&selections=' + rows[i].id;
 	}
 	$.messager.confirm('提示', '确定要删除所选记录到回收站吗?', function(r) {

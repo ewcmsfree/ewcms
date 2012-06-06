@@ -122,7 +122,7 @@
 
 	            var url = '<s:url namespace="/document/recyclebin" action="restore"/>';
 	            var ids = 'channelId=' + channelId + '&';
-	            for(var i=0;i<rows.length;++i){
+	            for(var i=0;i<rows.length;i++){
 	            	ids =ids + 'selections=' + rows[i].id +'&';
 	            }
 	    		$.messager.confirm("提示","确定要恢复所选记录吗?",function(r){
@@ -172,7 +172,7 @@
 
                 var url = '<s:url namespace="/document/recyclebin" action="delete"/>';
                 var ids = 'channelId=' + channelId + '&';
-                for(var i=0;i<rows.length;++i){
+                for(var i=0;i<rows.length;i++){
                     ids =ids + 'selections=' + rows[i].id +'&';
                 }
                 $.messager.confirm("提示","确定要删除所选记录吗?",function(r){

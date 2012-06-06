@@ -7,6 +7,11 @@
         <field-validator type="requiredstring">
             <message>不能为空</message>
         </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">200</param>
+        	<param name="trim">true</param>
+        	<message>必须小于200个字</message>
+        </field-validator>
     </field>
 	<field name="employeArticleVo.published">
 		<field-validator type="required">
@@ -18,7 +23,7 @@
 			<message>不能为空</message>
 		</field-validator>
 	</field>
-		<field name="employeArticleVo.organ.id">
+	<field name="employeArticleVo.organ.id">
 		<field-validator type="required">
 			<message>不能为空</message>
 		</field-validator>

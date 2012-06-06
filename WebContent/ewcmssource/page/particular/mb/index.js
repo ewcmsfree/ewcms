@@ -25,13 +25,13 @@ MbIndex.prototype.init = function(options){
                 		return val ? '&nbsp;是' : '&nbsp;否';
                 	}
                 },
-				{field:'name',title:'姓名',width:150,sortable:true},
-                {field:'sexDescription',title:'性别',width:60},
                 {field:'organ_name',title:'发布部门',width:200,
 					formatter : function(val, rec){
 						return (rec.organ == null) ? "" : rec.organ.name;
 					}	
                 },
+				{field:'name',title:'姓名',width:150,sortable:true},
+                {field:'sexDescription',title:'性别',width:60},
                 {field:'published',title:'发布时间',width:145},
                 {field:'cardTypeDescription',title:'证件类型',width:200},
                 {field:'cardCode',title:'证件号码',width:150},

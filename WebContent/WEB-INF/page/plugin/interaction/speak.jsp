@@ -56,7 +56,7 @@
                     return ;
                 }
                 var ids = '';
-                for(var i=0;i<rows.length;++i){
+                for(var i=0;i<rows.length;i++){
                     ids =ids + 'selections=' + rows[i].id +'&';
                 }              
                 if(esc){

@@ -76,7 +76,7 @@
 	            }
 	            var parameter = {};
 			    var url_param = '?articleId=' + $("#articleId").attr("value");
-	           	for(var i=0;i<rows.length;++i){
+	           	for(var i=0;i<rows.length;i++){
 	           		url_param += '&selectIds=' + rows[i].id;
 	           	}
 	           	url_param = '<s:url namespace="/document/relation" action="delete"/>' + url_param + '';
@@ -134,7 +134,7 @@
 			function saveRelation(){
 				var rows = editifr_article.getRelationRows();
 			    var url_param = '?articleId=' + $("#articleId").attr("value");
-	           	for(var i=0;i<rows.length;++i){
+	           	for(var i=0;i<rows.length;i++){
 	           		url_param += '&selectIds=' + rows[i].article.id;
 	           	}
 	           	url_param = '<s:url namespace="/document/relation" action="save"/>' + url_param + '';

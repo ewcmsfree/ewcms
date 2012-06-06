@@ -70,14 +70,14 @@
 			        return ;
 			    }
 			    var ids = '';
-			    for(var i=0;i<rows.length;++i){
+			    for(var i=0;i<rows.length;i++){
 			        ids =ids + 'selections=' + rows[i].id +'&';
 			    }
 			    $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
 			        if (r){
 			            $.post('<s:url namespace="/notes" action="delete"/>',ids,function(data){          	
 			            	$.messager.alert('成功','删除成功','info');
-			                for (var i=0;i<rows.length;++i){ 
+			                for (var i=0;i<rows.length;i++){ 
 			                	$(window.parent.document).find('#div_notes_memo_' + rows[i].id).remove();             	
 			                }
 			            	$('#tt').datagrid('clearSelections');

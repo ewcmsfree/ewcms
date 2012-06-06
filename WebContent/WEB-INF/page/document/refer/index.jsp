@@ -89,7 +89,7 @@
 					return;
 				}
 				var parameter = 'channelId=' + $('#channelId').val();
-	           	for(var i=0;i<rows.length;++i){
+	           	for(var i=0;i<rows.length;i++){
 	           		parameter = parameter + '&articleMainIds=' + rows[i].id;
 	           	}
 				$.post('<s:url namespace="/document/refer" action="save"/>', parameter ,function(data) {
@@ -111,7 +111,7 @@
 					return;
 				}
 				var parameter = '';
-	           	for(var i=0;i<rows.length;++i){
+	           	for(var i=0;i<rows.length;i++){
 	           		parameter = parameter + '&articleMainIds=' + rows[i].id;
 	           	}
 				$.post('<s:url namespace="/document/refer" action="delete"/>', parameter ,function(data) {
