@@ -34,7 +34,7 @@ import com.ewcms.core.site.model.Organ;
  * <li>name:人员姓名</li> 
  * <li>sex:性别</li> 
  * <li>publishingSector:发布部门</li>
- * <li>published:发布时间</li>
+ * <li>organ:组织机构</li>
  * <li>cardType:证件类型</li>
  * <li>cardCode:证件号码</li>
  * <li>dense:所属密级</li>

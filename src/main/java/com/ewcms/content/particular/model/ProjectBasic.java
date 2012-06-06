@@ -53,7 +53,7 @@ import com.ewcms.core.site.model.Organ;
  * <li>shape:形式</li>
  * <li>documentId:文号</li>
  * <li>participation:参建单位</li>
- * <li>publishingSector:发布部门</li>
+ * <li>organ:组织机构</li>
  * <li>channelId:专栏编号</li>
  * <li>release:发布</li>
  * </ul>

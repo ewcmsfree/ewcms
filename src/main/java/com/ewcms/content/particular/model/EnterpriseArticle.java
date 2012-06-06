@@ -32,7 +32,7 @@ import com.ewcms.core.site.model.Organ;
  * <ul>
  * <li>id:编号</li>
  * <li>enterpriseBasic:营业执照注册号</li>
- * <li>publishingSector:发布部门</li>
+ * <li>organ:组织机构</li>
  * <li>content:内容</li>
  * <li>published:发布日期</li>
  * <li>dense:所属密级</li>
