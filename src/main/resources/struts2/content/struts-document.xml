@@ -38,7 +38,7 @@
 		<action name="beApproval" class="com.ewcms.content.document.web.ArticleMainAction" method="beApproval"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
-		<action name="index">
+		<action name="index" class="com.ewcms.content.document.web.RecycleBinAction">
 			<result>/WEB-INF/page/document/recyclebin/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.content.document.web.RecycleBinAction" method="delete"/>
@@ -108,6 +108,11 @@
 	<package name="document.tree" extends="struts-default" namespace="/document/tree">
 		<action name="index">
 			<result>/WEB-INF/page/document/article/tree.jsp</result>
+		</action>
+	</package>
+	<package name="document.recyclebin.tree" extends="struts-default" namespace="/document/recyclebin/tree">
+		<action name="index">
+			<result>/WEB-INF/page/document/recyclebin/tree.jsp</result>
 		</action>
 	</package>
 	<package name="document.refer"  extends="struts-default" namespace="/document/refer">

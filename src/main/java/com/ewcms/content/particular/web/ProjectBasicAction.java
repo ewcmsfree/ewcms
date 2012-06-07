@@ -92,16 +92,17 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 
 	@Override
 	protected ProjectBasic getOperator(Long pk) {
+		ProjectBasic projectBasic = particularFac.findProjectBasicById(pk);
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
 		}else{
 			organShow = "disable";
 			Organ organ = particularFac.findOrganByUserName();
-			if (organ != null){
+			if (organ != null && organ.getId() != null && organ.getId() > 0){
 				organId = organ.getId();
 			}
 		}
-		return particularFac.findProjectBasicById(pk);
+		return projectBasic;
 	}
 
 	@Override

@@ -60,7 +60,7 @@
 			      					<li class="user_main_input">
                             			<input class="txtvalidatecodecssclass" type="text" name="j_checkcode"/>
 			        				</li>
-                            		<img id="id_checkcode" width="65px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 5px;" />
+                            		<li><img id="id_checkcode" width="65px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 5px;" /></li>
 			        			</ul>
 			    				<ul>
 			      					<li class="user_main_text">记&nbsp;&nbsp;&nbsp;&nbsp;住：</li>
@@ -100,7 +100,7 @@
 			    <dd id="user_bottom">
 				  	<ul>
 				    	<li class="user_bottom_l"></li>
-				    	<li class="user_bottom_c"></li>
+				    	<li class="user_bottom_c" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://218.65.14.14/user.doc"><font>工程领域操作手册下载</font></a></li>
 					    <li class="user_bottom_r"></li>
 					</ul>
 				</dd>

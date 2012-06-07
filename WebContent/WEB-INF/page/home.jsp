@@ -155,7 +155,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('文章回收站','document/recyclebin/index.do')">
+                        <a href="javascript:_home.addTab('文章回收站','document/recyclebin/tree/index.do')">
                             <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
                         </a>
@@ -195,7 +195,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('网上咨询','plugin/advisor/index.do')">
+                        <a href="javascript:_home.addTab('网上咨询','plugin/online/advisor/index.do')">
                             <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
                             <span>网上咨询</span>
                         </a>

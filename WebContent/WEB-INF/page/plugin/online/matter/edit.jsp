@@ -97,7 +97,6 @@
                 selItem = 0;
             	$("#annex-window").window("close");
             }            
-            <s:property value="javaScript"/>
         </script>		
 	</head>
 	<body onload="tipMessage();">

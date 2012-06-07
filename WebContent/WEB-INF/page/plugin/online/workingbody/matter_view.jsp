@@ -23,7 +23,6 @@
 				    top:0
     			});
     		});
-            <s:property value="javaScript"/>
         </script>		
 	</head>
 	<body>

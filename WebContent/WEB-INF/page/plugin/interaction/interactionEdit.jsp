@@ -4,11 +4,7 @@
 <html>
     <head>
         <title>互动信息</title>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/default/easyui.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/theme/icon.css"/>'>
-        <link rel="stylesheet" type="text/css" href='<s:url value="/source/css/ewcms.css"/>'>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery-1.4.2.min.js"/>'></script>
-        <script type="text/javascript" src='<s:url value="/source/js/jquery.easyui.min.js"/>'></script>
+		<s:include value="../../../taglibs.jsp"/>
         <script type="text/javascript">
             //机构目录树初始
             $(function(){

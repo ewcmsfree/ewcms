@@ -9,7 +9,7 @@
             $(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url name="/plugin/online/advisor" action="query"/>'); 
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/plugin/online/advisor" action="query"/>'); 
             	ewcmsBOBJ.delToolItem('新增');
               	ewcmsBOBJ.delToolItem('修改');
               	ewcmsBOBJ.delToolItem('删除');
@@ -44,7 +44,7 @@
 				
                 $('#tt').datagrid({
                   onDblClickRow:function(rowIndex, rowData){
-                      var url = '<s:url name="/plugin/online/advisor" action="edit"/>?id='+rowData.id;
+                      var url = '<s:url namespace="/plugin/online/advisor" action="edit"/>?id='+rowData.id;
                       $("#editifr").attr('src',url);
                       openWindow('#edit-window',{height:380,width:600});
                   }

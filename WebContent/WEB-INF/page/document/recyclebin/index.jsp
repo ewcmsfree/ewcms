@@ -14,7 +14,7 @@
 			var trackURL = '<s:url namespace="/document/track" action="index"/>';
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/recyclebin" action="query"/>');
+				ewcmsBOBJ.setQueryURL("<s:url namespace='/document/recyclebin' action='query'><s:param name='channelId' value='channelId'></s:param></s:url>");
 
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
@@ -69,7 +69,7 @@
 
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
-				ewcmsOOBJ.setDeleteURL('<s:url namespace="/document/recyclebin" action="delete"/>');
+				ewcmsOOBJ.setDeleteURL("<s:url namespace='/document/recyclebin' action='delete'><s:param name='channelId' value='channelId'></s:param></s:url>");
 				
 				$("#tt").datagrid({
 					view : detailview,
@@ -88,31 +88,8 @@
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}
 				});
-				
-				//站点专栏目录树初始
-				$('#tt2').tree({
-					checkbox: false,
-					url: '<s:url namespace="/site/channel" action="tree"/>',
-					onClick:function(node){
-						channelId = node.id;
-						var rootnode = $('#tt2').tree('getRoot');
-						if(rootnode.id == node.id) return;
-
-						var url='<s:url namespace="/document/recyclebin" action="query"/>';
-						url = url + "?channelId=" + node.id;
-						$("#tt").datagrid({
-			            	pageNumber:1,
-			                url:url
-			            });
-					}
-				});
 			});
 
-			//重载站点专栏目录树
-			function channelTreeLoad(){
-				$('#tt2').tree('reload');
-			}
-			
 			function restoreOperate(){
 	            var rows = $("#tt").datagrid('getSelections');
 	            if(rows.length == 0){
@@ -120,14 +97,14 @@
 	                return;
 	            }
 
-	            var url = '<s:url namespace="/document/recyclebin" action="restore"/>';
-	            var ids = 'channelId=' + channelId + '&';
+	            var url = "<s:url namespace='/document/recyclebin' action='restore'/>";
+	            var parameters = "channelId=" + $("#channelId").val();
 	            for(var i=0;i<rows.length;i++){
-	            	ids =ids + 'selections=' + rows[i].id +'&';
+	            	parameters = parameters + "&selections=" + rows[i].id;
 	            }
 	    		$.messager.confirm("提示","确定要恢复所选记录吗?",function(r){
 	    			if (r){
-			           	$.post(url,ids,function(data){
+			           	$.post(url,parameters,function(data){
 			    		    $.messager.alert('成功','恢复文档成功');
 			    		    $("#tt").datagrid('clearSelections');
 			    		    $("#tt").datagrid('reload');
@@ -138,8 +115,7 @@
 			
 			function initOperateQuery(){
 				$('#tt').datagrid('clearSelections');
-				var url='<s:url namespace="/document/recyclebin" action="query"/>';
-				url = url + "?channelId=" + channelId;
+				var url="<s:url namespace='/document/recyclebin' action='query'><s:param name='channelId' value='channelId'></s:param></s:url>";
 				$("#tt").datagrid({
 	            	pageNumber:1,
 	                url:url
@@ -153,8 +129,7 @@
                 value = value.replace(/\=/g,"']=");
                 value = value.replace(/\&/g,"&parameters['");  
 
-                var url = '<s:url namespace="/document/recyclebin" action="query"/>';
-                url += "?channelId=" + channelId + "&" + value;
+                var url = "<s:url namespace='/document/recyclebin' action='query'><s:param name='channelId' value='channelId'></s:param></s:url>";
                 $("#tt").datagrid({
                     pageNumber:1,
                     url:url
@@ -171,13 +146,13 @@
                 }
 
                 var url = '<s:url namespace="/document/recyclebin" action="delete"/>';
-                var ids = 'channelId=' + channelId + '&';
-                for(var i=0;i<rows.length;i++){
-                    ids =ids + 'selections=' + rows[i].id +'&';
+                var parameters = "channelId=" + $("#channelId").val();
+                for(var i = 0; i < rows.length; i++){
+                	parameters = parameters + "&selections=" + rows[i].id;
                 }
                 $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
                     if (r){
-                        $.post(url,ids,function(data){
+                        $.post(url,parameters,function(data){
                             $.messager.alert('成功','删除文档成功!');
                             $("#tt").datagrid('clearSelections');
                             $("#tt").datagrid('reload');
@@ -189,9 +164,7 @@
 		<ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>
 	<body class="easyui-layout">
-		<div region="west"  title='<img src="<s:url value="/ewcmssource/easyui/themes/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="channelTreeLoad();"/> 站点专栏' split="true" style="width:180px;">
-			<ul  id="tt2"></ul>
-		</div>
+		<s:hidden name="channelId" id="channelId"></s:hidden>
 		<div region="center" style="padding:2px;" border="false">
 			<table id="tt" fit="true"></table>
 	 	</div>
