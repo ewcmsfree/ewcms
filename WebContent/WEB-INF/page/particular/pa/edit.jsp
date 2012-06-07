@@ -24,9 +24,9 @@
 					url:'<s:url namespace="/particular/pa" action="findPbAll"/>',
 					columns:[[
 		                        {field:'id',title:'编号',hidden:true},
-				                {field:'publishingSectorName',title:'发布部门名称',width:200,
+				                {field:'organ_name',title:'发布部门',width:200,
 				                	formatter : function(val, rec){
-				                		return (rec.publishingSector == null) ? "" : rec.publishingSector.name;
+				                		return (rec.organ == null) ? "" : rec.organ.name;
 				                	}	
 				                },
 								{field:'code',title:'项目编号',width:150,sortable:true},
@@ -47,7 +47,6 @@
 				                {field:'industryName',title:'行业名称',width:80,
 				                	formatter : function(val, rec){
 				                		return (rec.industryCode == null) ? "" : rec.industryCode.name;
-				                		}
 				                	}	
 				                },
 				                {field:'approvalRecordName',title:'审批备案机关名称',width:120,
