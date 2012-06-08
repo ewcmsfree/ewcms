@@ -45,43 +45,43 @@ public class EwcmsJobChannelService implements EwcmsJobChannelServiceable {
 	public Long saveOrUpdateJobChannel(Integer channelId, PageDisplayVO vo, Boolean isAppChildenChannel) throws BaseException{
 		Channel channel = channelDAO.get(channelId);
 		if (channel != null) {
-			JobInfo alqcJob = new JobInfo();
+			JobInfo jobInfo = new JobInfo();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0){
-				alqcJob = jobInfoDAO.get(vo.getJobId());
+				jobInfo = jobInfoDAO.get(vo.getJobId());
 			}
 			
-			if (alqcJob == null) {
+			if (jobInfo == null) {
 				throw new BaseException("定时任务已经被删除,请重新操作!","定时任务已经被删除,请重新操作!");
 			}
 			
-			alqcJob = ConversionUtil.constructAlqcJobVo(alqcJob,vo);
+			jobInfo = ConversionUtil.constructJobInfoVo(jobInfo,vo);
 
 			EwcmsJobChannel jobChannel = new EwcmsJobChannel();
 			jobChannel.setSubChannel(isAppChildenChannel);
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0) {
 				jobChannel.setId(vo.getJobId());
-				jobChannel.setJobClass(alqcJob.getJobClass());
+				jobChannel.setJobClass(jobInfo.getJobClass());
 			}else{
-				JobClass alqcJobClass = null;
-				alqcJobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
-				if (alqcJobClass.getId() == null) {
-					alqcJobClass.setClassEntity(JobClassEntity.JOB_CHANNEL);
-					alqcJobClass.setClassName("频道定时器类");
-					alqcJobClass.setDescription("频道定时器类");
-					jobClassDAO.persist(alqcJobClass);
+				JobClass jobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_CHANNEL);
+				if (jobClass == null) {
+					jobClass = new JobClass();
+					jobClass.setClassEntity(JobClassEntity.JOB_CHANNEL);
+					jobClass.setClassName("频道定时器类");
+					jobClass.setDescription("频道定时器类");
+					jobClassDAO.persist(jobClass);
 				}
-				jobChannel.setJobClass(alqcJobClass);
+				jobChannel.setJobClass(jobClass);
 			}
 
-			jobChannel.setDescription(alqcJob.getDescription());
-			jobChannel.setLabel(alqcJob.getLabel());
-			jobChannel.setNextFireTime(alqcJob.getNextFireTime());
-			jobChannel.setOutputLocale(alqcJob.getOutputLocale());
-			jobChannel.setPreviousFireTime(alqcJob.getPreviousFireTime());
-			jobChannel.setState(alqcJob.getState());
-			jobChannel.setTrigger(alqcJob.getTrigger());
-			jobChannel.setUserName(alqcJob.getUserName());
-			jobChannel.setVersion(alqcJob.getVersion());
+			jobChannel.setDescription(jobInfo.getDescription());
+			jobChannel.setLabel(jobInfo.getLabel());
+			jobChannel.setNextFireTime(jobInfo.getNextFireTime());
+			jobChannel.setOutputLocale(jobInfo.getOutputLocale());
+			jobChannel.setPreviousFireTime(jobInfo.getPreviousFireTime());
+			jobChannel.setState(jobInfo.getState());
+			jobChannel.setTrigger(jobInfo.getTrigger());
+			jobChannel.setUserName(jobInfo.getUserName());
+			jobChannel.setVersion(jobInfo.getVersion());
 			jobChannel.setChannel(channel);
 			if (jobChannel.getId() == null) {
 				return schedulingFac.saveScheduleJob(jobChannel);

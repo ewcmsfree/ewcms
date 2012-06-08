@@ -64,13 +64,17 @@
 				</tr>
 				<tr>
 					<td>项目名称：<span style="color:#FF0000">*</span></td>
-					<td colspan="5" class="formFieldError">
+					<td colspan="3" class="formFieldError">
 						<s:textfield id="name" cssClass="inputtext" name="projectBasicVo.name" size="60" maxlength="100"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.name'}" /></s:fielderror>
 					</td>
+					<td>发布日期：<span style="color:#FF0000">*</span></td>
+					<td class="formFieldError">
+						<ewcms:datepicker id="published" name="projectBasicVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<s:fielderror ><s:param value="%{'projectBasicVo.published'}" /></s:fielderror>
+					</td>
 				</tr>
 				<tr>
-					
 					<td>投资规模：</td>
 					<td>
 						<s:textfield id="investmentScale" cssClass="inputtext" name="projectBasicVo.investmentScale" maxlength="100"/>

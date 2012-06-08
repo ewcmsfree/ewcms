@@ -40,6 +40,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	public Long updEmployeArticle(EmployeArticle employeArticle) {
 		setEmployeBasic(employeArticle);
 		setPublishingSector(employeArticle);
+		employeArticle.setRelease(false);
 		employeArticleDAO.merge(employeArticle);
 		return employeArticle.getId();
 	}

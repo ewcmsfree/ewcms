@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * 转换成Date(java.sql.Date)数据类型
@@ -37,6 +38,9 @@ class SqlDateConvert implements ConvertDateable<Date> {
     public Date parse(String value) throws ConvertException {
 
         try {
+        	if (value == null || value.equals("")){
+        		return new Date(SHORT_DEFAULT.parse(SHORT_DEFAULT.format(new java.util.Date(Calendar.getInstance().getTime().getTime()))).getTime());
+        	}
             if (format != null) {
                 return new Date(format.parse(value).getTime());
             }

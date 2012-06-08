@@ -18,6 +18,9 @@ class BigDecimalConvert implements Convertable<BigDecimal> {
     @Override
     public BigDecimal parse(String value)throws ConvertException{
         try {
+        	if (value == null || value.equals("")){
+        		return new BigDecimal("0");
+        	}
             return new BigDecimal(value);
         } catch (NumberFormatException e) {
             throw new ConvertException(e);

@@ -22,6 +22,9 @@ class ByteConvert implements Convertable<Byte> {
     @Override
     public Byte parse(String value) throws ConvertException {
         try {
+        	if (value == null || value.equals("")){
+        		return 0;
+        	}
             return Byte.valueOf(value);
         } catch (NumberFormatException e) {
             throw new ConvertException(e);

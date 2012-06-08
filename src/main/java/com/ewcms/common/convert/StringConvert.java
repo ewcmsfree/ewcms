@@ -15,7 +15,7 @@ class StringConvert implements Convertable<String> {
 
     @Override
     public String parse(String value) {
-        return value;
+    	return (value == null) ? "" : value;
     }
 
     @Override

@@ -40,6 +40,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 	public Long updEnterpriseArticle(EnterpriseArticle enterpriseArticle) {
 		setEnterpriseBasic(enterpriseArticle);
 		setPublishingSector(enterpriseArticle);
+		enterpriseArticle.setRelease(false);
 		enterpriseArticleDAO.merge(enterpriseArticle);
 		return enterpriseArticle.getId();
 	}

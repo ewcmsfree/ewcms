@@ -16,6 +16,9 @@ class ShortConvert implements Convertable<Short> {
     @Override
     public Short parse(String value)throws ConvertException {
         try{
+        	if (value == null || value.equals("")){
+        		return 0;
+        	}
             return Short.valueOf(value);
         }catch(NumberFormatException e){
             throw new ConvertException(e);

@@ -92,6 +92,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 		setApprovalRecord(projectBasic);
 		setIndustryCode(projectBasic);
 		setPublishingSector(projectBasic);
+		projectBasic.setRelease(false);
 		
 		if (code_new.equals(code_old)){
 			projectBasicDAO.merge(projectBasic);

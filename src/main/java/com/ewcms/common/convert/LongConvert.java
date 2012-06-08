@@ -16,6 +16,9 @@ class LongConvert implements Convertable<Long> {
     @Override
     public Long parse(String value)throws ConvertException {
         try {
+        	if (value == null || value.equals("")){
+        		return 0L;
+        	}
             return Long.valueOf(value);
         } catch (NumberFormatException e) {
             throw new ConvertException(e);

@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.Calendar;
 
 /**
  * 转换成Time数据类型
@@ -31,6 +32,9 @@ class SqlTimeConvert implements ConvertDateable<Time> {
     public Time parse(String value)throws ConvertException {
 
         try {
+        	if (value == null || value.equals("")){
+        		return new Time(DEFAULT.parse(DEFAULT.format(new java.util.Date(Calendar.getInstance().getTime().getTime()))).getTime());
+        	}
             if(format != null){
                 return new Time(format.parse(value).getTime());
             }

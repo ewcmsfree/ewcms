@@ -176,7 +176,7 @@ public class JobInfoAction extends CrudBaseAction<PageDisplayVO, Long> {
 				JobClass alqcJobClass = schedulingFac.findByJobClass(getPageDisplayVo().getJobClassId());
 				jobInfo.setJobClass(alqcJobClass);
 			}
-			jobInfo = ConversionUtil.constructAlqcJobVo(jobInfo, getPageDisplayVo());
+			jobInfo = ConversionUtil.constructJobInfoVo(jobInfo, getPageDisplayVo());
 			
 			if (isUpdateOperator()) {
 				operatorState = OperatorState.UPDATE;

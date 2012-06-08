@@ -68,7 +68,8 @@ PbIndex.prototype.init = function(options){
                 {field:'natureDescription',title:'建设性质',width:100},
                 {field:'shapeDescription',title:'形式',width:100},
                 {field:'documentId',title:'文号',width:100},
-                {field:'participation',title:'参建单位',width:200}
+                {field:'participation',title:'参建单位',width:200},
+                {field:'published',title:'发布日期',width:145},
           ]]
 	});
     

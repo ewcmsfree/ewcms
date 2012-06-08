@@ -16,6 +16,9 @@ class DoubleConvert implements Convertable<Double> {
     @Override
     public Double parse(String value)throws ConvertException {
         try{
+        	if (value == null || value.equals("")){
+        		return 0d;
+        	}
             return Double.valueOf(value);
         }catch(NumberFormatException e){
             throw new ConvertException(e);

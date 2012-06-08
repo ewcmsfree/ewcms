@@ -20,6 +20,9 @@ class BooleanConvert implements Convertable<Boolean> {
 
     @Override
     public Boolean parse(String value)throws ConvertException {
+    	if (value == null || value.equals("")){
+    		return false;
+    	}
         return Boolean.valueOf(value);
     }
 

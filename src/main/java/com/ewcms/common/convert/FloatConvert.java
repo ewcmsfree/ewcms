@@ -16,6 +16,9 @@ class FloatConvert implements Convertable<Float> {
     @Override
     public Float parse(String value) throws ConvertException{
         try{
+        	if (value == null || value.equals("")){
+        		return 0f;
+        	}
             return Float.valueOf(value);
         }catch(NumberFormatException e){
             throw new ConvertException(e);

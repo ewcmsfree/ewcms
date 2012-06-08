@@ -70,22 +70,22 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 				throw new BaseException("定时任务已经被删除,请重新操作!","定时任务已经被删除,请重新操作!");
 			}
 			
-			jobInfo = ConversionUtil.constructAlqcJobVo(jobInfo,vo);
+			jobInfo = ConversionUtil.constructJobInfoVo(jobInfo,vo);
 
 			EwcmsJobReport jobReport = new EwcmsJobReport();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0) {
 				jobReport.setId(vo.getJobId());
 				jobReport.setJobClass(jobInfo.getJobClass());
 			}else{
-				JobClass alqcJobClass = null;
-				alqcJobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_REPORT);
-				if (alqcJobClass.getId() == null) {
-					alqcJobClass.setClassEntity(JobClassEntity.JOB_REPORT);
-					alqcJobClass.setClassName("报表定时器类");
-					alqcJobClass.setDescription("报表定时器类");
-					jobClassDAO.persist(alqcJobClass);
+				JobClass jobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_REPORT);
+				if (jobClass == null) {
+					jobClass = new JobClass();
+					jobClass.setClassEntity(JobClassEntity.JOB_REPORT);
+					jobClass.setClassName("报表定时器类");
+					jobClass.setDescription("报表定时器类");
+					jobClassDAO.persist(jobClass);
 				}
-				jobReport.setJobClass(alqcJobClass);
+				jobReport.setJobClass(jobClass);
 			}
 			
 			if (reportType.equals("text")){

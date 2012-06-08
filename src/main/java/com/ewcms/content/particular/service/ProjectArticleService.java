@@ -40,6 +40,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 	public Long updProjectArticle(ProjectArticle projectArticle) {
 		setProjectBasic(projectArticle);
 		setPublishingSector(projectArticle);
+		projectArticle.setRelease(false);
 		projectArticleDAO.merge(projectArticle);
 		return projectArticle.getId();
 	}

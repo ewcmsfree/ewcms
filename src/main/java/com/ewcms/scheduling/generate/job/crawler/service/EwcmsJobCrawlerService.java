@@ -45,42 +45,42 @@ public class EwcmsJobCrawlerService implements EwcmsJobCrawlerServiceable {
 	public Long saveOrUpdateJobCrawler(Long gatherId, PageDisplayVO vo) throws BaseException{
 		Gather gather = gatherDAO.get(gatherId);
 		if (gather != null) {
-			JobInfo alqcJob = new JobInfo();
+			JobInfo jobInfo = new JobInfo();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0){
-				alqcJob = jobInfoDAO.get(vo.getJobId());
+				jobInfo = jobInfoDAO.get(vo.getJobId());
 			}
 			
-			if (alqcJob == null) {
+			if (jobInfo == null) {
 				throw new BaseException("定时任务已经被删除,请重新操作!","定时任务已经被删除,请重新操作!");
 			}
 			
-			alqcJob = ConversionUtil.constructAlqcJobVo(alqcJob,vo);
+			jobInfo = ConversionUtil.constructJobInfoVo(jobInfo,vo);
 
 			EwcmsJobCrawler jobCrawler = new EwcmsJobCrawler();
 			if (vo.getJobId() != null && vo.getJobId().intValue() > 0) {
 				jobCrawler.setId(vo.getJobId());
-				jobCrawler.setJobClass(alqcJob.getJobClass());
+				jobCrawler.setJobClass(jobInfo.getJobClass());
 			}else{
-				JobClass alqcJobClass = null;
-				alqcJobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_CRAWLER);
-				if (alqcJobClass.getId() == null) {
-					alqcJobClass.setClassEntity(JobClassEntity.JOB_CRAWLER);
-					alqcJobClass.setClassName("采集定时器类");
-					alqcJobClass.setDescription("采集定时器类");
-					jobClassDAO.persist(alqcJobClass);
+				JobClass jobClass = jobClassDAO.findByJobClassByClassEntity(JobClassEntity.JOB_CRAWLER);
+				if (jobClass == null) {
+					jobClass = new JobClass();
+					jobClass.setClassEntity(JobClassEntity.JOB_CRAWLER);
+					jobClass.setClassName("采集定时器类");
+					jobClass.setDescription("采集定时器类");
+					jobClassDAO.persist(jobClass);
 				}
-				jobCrawler.setJobClass(alqcJobClass);
+				jobCrawler.setJobClass(jobClass);
 			}
 
-			jobCrawler.setDescription(alqcJob.getDescription());
-			jobCrawler.setLabel(alqcJob.getLabel());
-			jobCrawler.setNextFireTime(alqcJob.getNextFireTime());
-			jobCrawler.setOutputLocale(alqcJob.getOutputLocale());
-			jobCrawler.setPreviousFireTime(alqcJob.getPreviousFireTime());
-			jobCrawler.setState(alqcJob.getState());
-			jobCrawler.setTrigger(alqcJob.getTrigger());
-			jobCrawler.setUserName(alqcJob.getUserName());
-			jobCrawler.setVersion(alqcJob.getVersion());
+			jobCrawler.setDescription(jobInfo.getDescription());
+			jobCrawler.setLabel(jobInfo.getLabel());
+			jobCrawler.setNextFireTime(jobInfo.getNextFireTime());
+			jobCrawler.setOutputLocale(jobInfo.getOutputLocale());
+			jobCrawler.setPreviousFireTime(jobInfo.getPreviousFireTime());
+			jobCrawler.setState(jobInfo.getState());
+			jobCrawler.setTrigger(jobInfo.getTrigger());
+			jobCrawler.setUserName(jobInfo.getUserName());
+			jobCrawler.setVersion(jobInfo.getVersion());
 			jobCrawler.setGather(gather);
 			if (jobCrawler.getId() == null) {
 				return schedulingFac.saveScheduleJob(jobCrawler);

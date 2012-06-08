@@ -16,6 +16,9 @@ class IntegerConvert implements Convertable<Integer> {
     @Override
     public Integer parse(String value)throws ConvertException {
         try{
+        	if (value == null || value.equals("")){
+        		return 0;
+        	}
             return Integer.valueOf(value);
         }catch(NumberFormatException e){
             throw new ConvertException(e);

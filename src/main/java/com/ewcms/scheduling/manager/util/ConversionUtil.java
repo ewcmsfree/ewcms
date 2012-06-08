@@ -67,31 +67,31 @@ public class ConversionUtil {
 		return value;
 	}
 	
-	public static PageDisplayVO constructPageVo(JobInfo alqcJob) {
+	public static PageDisplayVO constructPageVo(JobInfo jobInfo) {
 		SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		PageDisplayVO pageDisplayVo = new PageDisplayVO();
-		if (alqcJob == null) return pageDisplayVo;
+		if (jobInfo == null) return pageDisplayVo;
 		// 任务(Job)信息 //
-		pageDisplayVo.setJobId(alqcJob.getId());
-		pageDisplayVo.setJobVersion(alqcJob.getVersion());
-		pageDisplayVo.setLabel(alqcJob.getLabel());
-		pageDisplayVo.setUserName(alqcJob.getUserName());
-		pageDisplayVo.setDescription(alqcJob.getDescription());
-		if (alqcJob.getJobClass() != null){
-			pageDisplayVo.setJobClassId(alqcJob.getJobClass().getId());
+		pageDisplayVo.setJobId(jobInfo.getId());
+		pageDisplayVo.setJobVersion(jobInfo.getVersion());
+		pageDisplayVo.setLabel(jobInfo.getLabel());
+		pageDisplayVo.setUserName(jobInfo.getUserName());
+		pageDisplayVo.setDescription(jobInfo.getDescription());
+		if (jobInfo.getJobClass() != null){
+			pageDisplayVo.setJobClassId(jobInfo.getJobClass().getId());
 		}
 		// 开始状态 //
-		if (alqcJob.getTrigger().getStartType().intValue() == 1) {// 立刻执行 //
+		if (jobInfo.getTrigger().getStartType().intValue() == 1) {// 立刻执行 //
 			pageDisplayVo.setStart(1);
 		} else {// 开始时间 //
 			pageDisplayVo.setStart(2);
-			Date startDate = alqcJob.getTrigger().getStartDate();
+			Date startDate = jobInfo.getTrigger().getStartDate();
 			if (startDate != null){
 				pageDisplayVo.setStartDate(bartDateFormat.format(startDate));
 			}
 		}
 		// 调度计划 //
-		JobTrigger trigger = alqcJob.getTrigger();
+		JobTrigger trigger = jobInfo.getTrigger();
 		if (trigger != null) {
 			pageDisplayVo.setTriggerId(trigger.getId());
 			pageDisplayVo.setTriggerVersion(trigger.getVersion());
@@ -159,7 +159,7 @@ public class ConversionUtil {
 		return pageDisplayVo;
 	}
 	
-	public static JobInfo constructAlqcJobVo(JobInfo jobInfo, PageDisplayVO pageDisplayVo) {
+	public static JobInfo constructJobInfoVo(JobInfo jobInfo, PageDisplayVO pageDisplayVo) {
 		SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			jobInfo.setVersion(pageDisplayVo.getJobVersion());
@@ -257,20 +257,20 @@ public class ConversionUtil {
 	/**
 	 * 如果调度器中有参数值与原参数的默认值不相等,则使用调度器中的参数值
 	 * 
-	 * @param alqcJobParameters
+	 * @param ewcmsJobParameters
 	 *            调度器参数集合
 	 * @param pageShowParams
 	 *            页面原参数集合
 	 * @return 页面原参数集合
 	 */
-	public static List<PageShowParam> coversionParameterFromPage(List<EwcmsJobParameter> alqcJobParameters, List<PageShowParam> pageShowParams) {
+	public static List<PageShowParam> coversionParameterFromPage(List<EwcmsJobParameter> ewcmsJobParameters, List<PageShowParam> pageShowParams) {
 		for (PageShowParam pageShowParam : pageShowParams) {
 			Long paramId = pageShowParam.getId();
 			String enName = pageShowParam.getEnName();
 			String pageValue = pageShowParam.getDefaultValue();
-			for (EwcmsJobParameter alqcJobParameter : alqcJobParameters) {
-				if (paramId.intValue() == alqcJobParameter.getParameter().getId().intValue() && enName.equals(alqcJobParameter.getParameter().getEnName())) {
-					String value = alqcJobParameter.getParameterValue();
+			for (EwcmsJobParameter ewcmsJobParameter : ewcmsJobParameters) {
+				if (paramId.intValue() == ewcmsJobParameter.getParameter().getId().intValue() && enName.equals(ewcmsJobParameter.getParameter().getEnName())) {
+					String value = ewcmsJobParameter.getParameterValue();
 					if (value != null && !value.equals(pageValue)) {
 						pageShowParam.setDefaultValue(value);
 						break;
@@ -307,10 +307,10 @@ public class ConversionUtil {
 					String enName = parameter.getEnName();
 					String value = (String) request.getParameter(parameter.getEnName());
 					Boolean mate = false;
-					for (EwcmsJobParameter alqcJobParameter : ewcmsJobParameters){
-						String jobEnName = alqcJobParameter.getParameter().getEnName();
+					for (EwcmsJobParameter ewcmsJobParameter : ewcmsJobParameters){
+						String jobEnName = ewcmsJobParameter.getParameter().getEnName();
 						if (enName.equals(jobEnName)){
-							alqcJobParameter.setParameterValue(value);
+							ewcmsJobParameter.setParameterValue(value);
 							mate = true;
 							break;
 						}

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * 转换成Timestamp数据类型的值
@@ -31,6 +32,9 @@ class SqlTimestampConvert implements ConvertDateable<Timestamp> {
     public Timestamp parse(String value) throws ConvertException {
 
         try {
+        	if (value == null || value.equals("")){
+        		return new Timestamp(DEFAULT.parse(DEFAULT.format(new java.util.Date(Calendar.getInstance().getTime().getTime()))).getTime());
+        	}
            if(format != null){
                 return new Timestamp(format.parse(value).getTime());
             }

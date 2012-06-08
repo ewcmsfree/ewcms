@@ -33,6 +33,7 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	@Override
 	public Long updEmployeBasic(EmployeBasic employeBasic) {
 		setPublishingSector(employeBasic);
+		employeBasic.setRelease(false);
 		employeBasicDAO.merge(employeBasic);
 		return employeBasic.getId();
 	}

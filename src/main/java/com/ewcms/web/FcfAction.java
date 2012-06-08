@@ -61,7 +61,8 @@ public class FcfAction extends EwcmsBaseAction {
 			Element set = xml.addNode(graph, "set");
 			set.addAttribute("name", String.format("%02d",key) + "月");
 			set.addAttribute("value", total.toString());
-			set.addAttribute("color", Integer.toHexString((int) (Math.random() * 255 * 255 * 255)).toUpperCase());
+			//set.addAttribute("color", Integer.toHexString((int) (Math.random() * 255 * 255 * 255)).toUpperCase());
+			set.addAttribute("color", "FF0000");
 		}
 		
 		Struts2Util.renderHtml(xml.getXML(), "encoding:UTF-8","no-cache:false");	
@@ -93,7 +94,8 @@ public class FcfAction extends EwcmsBaseAction {
 			Element set = xml.addNode(graph, "set");
 			set.addAttribute("name", String.format("%02d",key) + "月");
 			set.addAttribute("value", total.toString());
-			set.addAttribute("color", Integer.toHexString((int) (Math.random() * 255 * 255 * 255)).toUpperCase());
+			//set.addAttribute("color", Integer.toHexString((int) (Math.random() * 255 * 255 * 255)).toUpperCase());
+			set.addAttribute("color", "FF0000");
 		}
 		
 		Struts2Util.renderHtml(xml.getXML(), "encoding:UTF-8","no-cache:false");	

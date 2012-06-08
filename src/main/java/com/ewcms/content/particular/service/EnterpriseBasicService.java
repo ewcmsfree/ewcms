@@ -33,6 +33,7 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	@Override
 	public Long updEnterpriseBasic(EnterpriseBasic enterpriseBasic) {
 		setPublishingSector(enterpriseBasic);
+		enterpriseBasic.setRelease(false);
 		enterpriseBasicDAO.merge(enterpriseBasic);
 		return enterpriseBasic.getId();
 	}

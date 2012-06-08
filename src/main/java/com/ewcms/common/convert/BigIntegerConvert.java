@@ -18,6 +18,9 @@ class BigIntegerConvert implements Convertable<BigInteger> {
     @Override
     public BigInteger parse(String value) throws ConvertException {
         try {
+        	if (value == null || value.equals("")){
+        		return new BigInteger("0");
+        	}
             return new BigInteger(value);
         } catch (NumberFormatException e) {
             throw new ConvertException(e);

@@ -9,6 +9,7 @@ package com.ewcms.common.convert;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,6 +38,9 @@ class DateConvert implements ConvertDateable<Date> {
     @Override
     public Date parse(String value) throws ConvertException {
         try {
+        	if (value == null || value.equals("")){
+        		return SHORT_DEFAULT.parse(SHORT_DEFAULT.format(new Date(Calendar.getInstance().getTime().getTime())));
+        	}
             if (format != null) {
                 return format.parse(value);
             }
