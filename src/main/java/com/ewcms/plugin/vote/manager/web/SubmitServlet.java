@@ -124,7 +124,7 @@ public class SubmitServlet extends HttpServlet {
 		    out = resp.getOutputStream();
 		    resp.setCharacterEncoding("utf-8");
 		    resp.setContentType("text/html; charset=utf-8");
-		    out.write(output.getBytes());
+		    out.write(output.toString().getBytes("UTF-8"));
 		    out.flush();
 		    
     		if (out != null){

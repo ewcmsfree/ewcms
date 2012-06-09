@@ -71,7 +71,7 @@
 					</td>
 					<td>发布日期：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<ewcms:datepicker id="published" name="projectBasicVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<ewcms:datepicker id="published" name="projectBasicVo.published" option="inputsimple" format="yyyy-MM-dd"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.published'}" /></s:fielderror>
 					</td>
 				</tr>

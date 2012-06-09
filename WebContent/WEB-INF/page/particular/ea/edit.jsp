@@ -100,7 +100,7 @@
 				<tr>
 					<td>发布日期：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<ewcms:datepicker id="published" name="enterpriseArticleVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<ewcms:datepicker id="published" name="enterpriseArticleVo.published" option="inputsimple" format="yyyy-MM-dd"/>
 						<s:fielderror ><s:param value="%{'enterpriseArticleVo.published'}" /></s:fielderror>
 					</td>
 					<td>所属密级：<span style="color:#FF0000">*</span></td>

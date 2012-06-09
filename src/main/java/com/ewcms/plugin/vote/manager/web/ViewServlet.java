@@ -53,7 +53,7 @@ public class ViewServlet extends HttpServlet {
 			out = resp.getOutputStream();
 	    	resp.setCharacterEncoding("UTF-8");
 	    	resp.setContentType("text/html; charset=UTF-8");
-	    	out.write(output.toString().getBytes());
+	    	out.write(output.toString().getBytes("UTF-8"));
 	    	out.flush();
 		}finally{
     		if (out != null){

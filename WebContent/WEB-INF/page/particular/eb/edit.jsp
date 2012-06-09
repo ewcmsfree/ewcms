@@ -58,9 +58,9 @@
 						<select id="tt_organ" name="enterpriseBasicVo.organ.id" style="width: 120px;"></select>
 						<s:fielderror ><s:param value="%{'enterpriseBasicVo.organ.id'}" /></s:fielderror>
 					</td>
-					<td>发布时间：<span style="color:#FF0000">*</span></td>
+					<td>发布日期：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<ewcms:datepicker id="published" name="enterpriseBasicVo.published" option="inputsimple" format="yyyy-MM-dd HH:mm:ss"/>
+						<ewcms:datepicker id="published" name="enterpriseBasicVo.published" option="inputsimple" format="yyyy-MM-dd"/>
 						<s:fielderror ><s:param value="%{'projectBasicVo.published'}" /></s:fielderror>
 					</td>
 				</tr>
