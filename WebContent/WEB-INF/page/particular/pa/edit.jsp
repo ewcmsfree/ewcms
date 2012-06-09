@@ -65,11 +65,14 @@
 					]],
 					onClickRow : function(rowIndex, rowData){
 						$('#projectBasic_code').html(rowData.code);
+					},
+					onSelect : function(rowIndex, rowData){
+						$("#projectBasic_code").html(rowData.code);
 					}
 				});
-	            $('#tt_organ').combotree('setValue', $('#organId').val());
-	            $('#tt_organ').combotree($('#organShow').val());
+	            
 	            $('#tt_organ').combotree({
+	            	url:"<s:url namespace='/particular' action='tree'/>",
 	            	onBeforeSelect: function(node){
 	                    if (node.id == null) {
 	                   		$.messager.alert('提示','根节点不能选择','info');
@@ -77,6 +80,9 @@
 	                   	}
 	            	}
 	            });
+	            $('#tt_organ').combotree($('#organShow').val());
+	            $("#tt_organ").combotree("setValue", <s:if test="((projectArticleVo.organ==null) || (projectArticleVo.organ.id==null))">''</s:if><s:else><s:property value="projectArticleVo.organ.id"/></s:else>);
+
 	        	var height = $(window).height() - $("#inputBarTable").height() - 10;
 	        	var width = $(window).width() - 30*2;
 	        	$("div #_DivContainer").css("height",height + "px");
@@ -106,7 +112,7 @@
 					</td>
 					<td width="10%">发布部门：<span style="color:#FF0000">*</span></td>
 					<td width="40%" class="formFieldError">
-						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="projectArticleVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<select id="tt_organ" name="projectArticleVo.organ.id" style="width: 120px;"></select>
 						<s:fielderror ><s:param value="%{'projectArticleVo.organ.id'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -155,7 +161,6 @@
 			<s:hidden id="projectArticleId" name="projectArticleVo.id"/>
 			<s:hidden id="particularContentId" name="projectArticleVo.content.id"/>
 			<s:hidden id="organShow" name="organShow"/>
-			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
            	<s:iterator value="selections" var="id">
                <s:hidden name="selections" value="%{id}"/>

@@ -42,16 +42,17 @@
         		panelWidth:120
             });
             
-            $('#tt_organ').combotree('setValue', $('#organId').val());
-            $('#tt_organ').combotree($('#organShow').val());
             $('#tt_organ').combotree({
-            	onBeforeSelect: function(node){
+               	url:"<s:url namespace='/particular' action='tree'/>",
+               	onBeforeSelect: function(node){
                     if (node.id == null) {
                    		$.messager.alert('提示','根节点不能选择','info');
                    		return;
                    	}
             	}
             });
+            $('#tt_organ').combotree($('#organShow').val());
+            $("#tt_organ").combotree("setValue", <s:if test="((projectBasicVo.organ==null) || (projectBasicVo.organ.id==null))">''</s:if><s:else><s:property value="projectBasicVo.organ.id"/></s:else>);
         });
         </script>
         <ewcms:datepickerhead></ewcms:datepickerhead>		
@@ -184,7 +185,7 @@
 					</td>
 					<td>发布部门：</td>
 					<td class="formFieldError">
-						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="projectBasicVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<select id="tt_organ" name="projectBasicVo.organ.id" style="width: 120px;"></select>
 						<s:fielderror ><s:param value="%{'projectBasicVo.organ.id'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -234,7 +235,6 @@
 			<s:hidden id="projectBasicId" name="projectBasicVo.id"/>
 			<s:hidden id="code" name="projectBasicVo.code"/>
 			<s:hidden id="organShow" name="organShow"/>
-			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

@@ -41,9 +41,7 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 	
 	private Integer channelId;
 	
-	private String organShow;
-	
-	private Integer organId;
+	private String organShow = "disable";
 	
 	public Integer getChannelId() {
 		return channelId;
@@ -59,14 +57,6 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 
 	public void setOrganShow(String organShow) {
 		this.organShow = organShow;
-	}
-
-	public Integer getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(Integer organId) {
-		this.organId = organId;
 	}
 
 	public ProjectBasic getProjectBasicVo() {
@@ -95,12 +85,6 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 		ProjectBasic projectBasic = particularFac.findProjectBasicById(pk);
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
-		}else{
-			organShow = "disable";
-			Organ organ = particularFac.findOrganByUserName();
-			if (organ != null && organ.getId() != null && organ.getId() > 0){
-				organId = organ.getId();
-			}
 		}
 		return projectBasic;
 	}
@@ -127,16 +111,16 @@ public class ProjectBasicAction extends CrudBaseAction<ProjectBasic, Long> {
 
 	@Override
 	protected ProjectBasic createEmptyVo() {
+		ProjectBasic projectBasic = new ProjectBasic();
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
 		}else{
-			organShow = "disable";
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ != null){
-				organId = organ.getId();
+				projectBasic.setOrgan(organ);
 			}
 		}
-		return new ProjectBasic();
+		return projectBasic;
 	}
 	
 	private File xmlFile;

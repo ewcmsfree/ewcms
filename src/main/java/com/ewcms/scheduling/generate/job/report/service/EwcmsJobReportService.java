@@ -15,7 +15,6 @@ import com.ewcms.plugin.report.manager.service.ChartReportServiceable;
 import com.ewcms.plugin.report.manager.service.TextReportServiceable;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.TextReport;
-import com.ewcms.plugin.report.model.TextReport.Type;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.JobClassEntity;
 import com.ewcms.scheduling.generate.job.report.dao.EwcmsJobReportDAO;
@@ -92,7 +91,7 @@ public class EwcmsJobReportService implements EwcmsJobReportServiceable {
 				if (vo.getOutputFormats() != null && vo.getOutputFormats().length > 0){
 					jobReport.setOutputFormat(ConversionUtil.arrayToString(vo.getOutputFormats()));
 				}else{
-					jobReport.setOutputFormat(String.valueOf(Type.PDF));
+					jobReport.setOutputFormat(String.valueOf(EwcmsJobReport.OUTPUT_FORMAT_PDF));
 				}
 			}
 			jobReport.setEwcmsJobParameters(ewcmsJobParameters);

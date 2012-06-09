@@ -16,9 +16,8 @@
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
             
-	        $('#tt_organ').combotree('setValue', $('#organId').val());
-            $('#tt_organ').combotree($('#organShow').val());
             $('#tt_organ').combotree({
+            	 url : "<s:url namespace='/particular' action='tree'/>",
             	onBeforeSelect: function(node){
                     if (node.id == null) {
                    		$.messager.alert('提示','根节点不能选择','info');
@@ -26,6 +25,9 @@
                    	}
             	}
             });
+            $('#tt_organ').combotree($('#organShow').val());
+            $("#tt_organ").combotree("setValue", <s:if test="((enterpriseBasicVo.organ==null) || (enterpriseBasicVo.organ.id==null))">''</s:if><s:else><s:property value="enterpriseBasicVo.organ.id"/></s:else>);
+
             var height = $(window).height() - $("#inputBarTable").height() - 10;
         	var width = $(window).width() - 80*2;
         	$("div #_DivContainer").css("height",height + "px");
@@ -53,7 +55,7 @@
 					</td>
 					<td>发布部门：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="enterpriseBasicVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<select id="tt_organ" name="enterpriseBasicVo.organ.id" style="width: 120px;"></select>
 						<s:fielderror ><s:param value="%{'enterpriseBasicVo.organ.id'}" /></s:fielderror>
 					</td>
 					<td>发布时间：<span style="color:#FF0000">*</span></td>
@@ -163,7 +165,6 @@
 			<s:hidden id="enterpriseBasicId" name="enterpriseBasicVo.id"/>
 			<s:hidden id="particularContentId" name="enterpriseBasicVo.content.id"/>
 			<s:hidden id="organShow" name="organShow"/>
-			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

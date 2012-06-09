@@ -14,9 +14,15 @@
 					checkbox: false,
 					url: '<s:url namespace="/site/channel" action="tree"/>',
 					onClick:function(node){
-						if (node.id == $('#tt2').tree('getRoot')) return;
-						var url='<s:url namespace="/vote/questionnaire" action="index"/>';
-						url = url + "?channelId=" + node.id;
+						if (node.id == $('#tt2').tree('getRoot')){
+							url = '';
+						}else{
+							if (node.attributes.type == 'ARTICLE'){
+								url = '<s:url namespace="/vote/questionnaire" action="index"/>' + '?channelId=' + node.id;
+							}else {
+								url = '';
+							}
+						}
 						$('#mainifr').attr('src',url);
 						$('#subjectifr').attr('src','');
 					}

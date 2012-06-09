@@ -38,27 +38,39 @@
     </head>
     <body class="easyui-layout">
         <div region="north" split="true" class="head">
-			<div id="top">
-				<img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0
-			    <div id="toppiz">
-			   	<div class="huanying">
-			       <span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span>
-			   	</div>
-			   <div style="float:right;margin-top:5px;margin-right:10px;">
-		           <a id="button-main" href="#" style="border:0;padding:0;"><img src="<s:url value='/ewcmssource/image/exit.png'/>" width="17" height="17" style="border:0;"/></a>
-		       </div>
-			   	<div class="anniu">
-			   		<div class="bs">
-						<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
-						<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
-						<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
-						<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
-					</div>
-			   </div>
-					<div style="float:right;padding-top:42px;margin-right:10px;">
-                        <span id="tipMessage" style="color:red;font-size:13px;width:100px;"></span>
-                    </div>
-			 </div>
+        	<table width="100%">
+        		<tr>
+        			<td width="50%" style="text-align: left"><img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0</td>
+        			<td width="50%">
+        				<table width="100%">
+        					<tr>
+			        			<td height="30px" width="97%" style="text-align: right"><span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span></td>
+        						<td width="2%"><a id="button-main" href="#" style="border:0;padding:0;"><img src="<s:url value='/ewcmssource/image/exit.png'/>" width="17" height="17" style="border:0;"/></a></td>
+        						<td width="1%"></td>
+        					</tr>
+        					<tr>
+        						<td height="20px" colspan="2" >
+        							<table width="100%">
+        								<tr>
+        									<td width="75%" style="text-align:right;">
+			        							<span id="tipMessage" style="color:red;font-size:13px;"></span>
+			        						</td>
+			        						<td width="30%" style="text-align:left">
+			        							<div class="bs">
+													<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
+													<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
+													<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
+													<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
+												</div>
+			        						</td>
+			        					</tr>
+			        				</table>
+			        			</td>
+        					</tr>
+        				</table>
+        			</td>
+        		</tr>
+        	</table>
              <div id="mm" class="easyui-menu" style="width:120px;display:none;">
                 <div  id="switch-menu" iconCls="icon-switch">站点切换</div>
                 <div class="menu-sep"></div>
@@ -68,7 +80,6 @@
                 <div id="progress-menu">发布进度</div>
                 <div class="menu-sep"></div>
                 <div id="exit-menu" iconCls="icon-exit">退出</div>
-             </div>
              </div>
         </div>
         <div region="south" style="height:2px;background:#efefef;overflow:hidden;"></div>

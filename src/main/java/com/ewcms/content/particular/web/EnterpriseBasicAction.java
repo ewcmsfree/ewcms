@@ -31,10 +31,8 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 
 	private Integer channelId;
 	
-	private String organShow;
+	private String organShow = "disable";
 	
-	private Integer organId;
-
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -49,14 +47,6 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 
 	public void setOrganShow(String organShow) {
 		this.organShow = organShow;
-	}
-
-	public Integer getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(Integer organId) {
-		this.organId = organId;
 	}
 
 	public EnterpriseBasic getEnterpriseBasicVo() {
@@ -84,12 +74,6 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 	protected EnterpriseBasic getOperator(Long pk) {
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
-		}else{
-			organShow = "disable";
-			Organ organ = particularFac.findOrganByUserName();
-			if (organ != null){
-				organId = organ.getId();
-			}
 		}
 		return particularFac.findEnterpriseBasicById(pk);
 	}
@@ -111,16 +95,16 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 
 	@Override
 	protected EnterpriseBasic createEmptyVo() {
+		EnterpriseBasic enterpriseBasic = new EnterpriseBasic();
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
 		}else{
-			organShow = "disable";
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ != null){
-				organId = organ.getId();
+				enterpriseBasic.setOrgan(organ);
 			}
 		}
-		return new EnterpriseBasic();
+		return enterpriseBasic;
 	}
 	
 	public void pub(){

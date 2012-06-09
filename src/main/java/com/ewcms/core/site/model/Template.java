@@ -36,18 +36,19 @@ import org.hibernate.annotations.Formula;
 
 /**
  * <ul>
- * <li>id:编号
- * <li>name:模板名称
- * <li>describe:模板说明
- * <li>updTime:模板最后修改时间
- * <li>size:模板大小
- * <li>parentId:模板父目录
- * <li>templateEntity: 模板实体
- * <li>channelId:模板所属专栏
- * <li>path:模板路径
- * <li>site:模板所属站点
- * <li>uriPattern:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html
- * <li>type:模板类型
+ * <li>id:编号</li>
+ * <li>name:模板名称</li>
+ * <li>describe:模板说明</li>
+ * <li>updTime:模板最后修改时间</li>
+ * <li>size:模板大小</li>
+ * <li>parentId:模板父目录</li>
+ * <li>templateEntity: 模板实体</li>
+ * <li>channelId:模板所属专栏</li>
+ * <li>path:模板路径</li>
+ * <li>site:模板所属站点</li>
+ * <li>uriPattern:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html</li>
+ * <li>type:模板类型</li>
+ * <li>appChild:应用子栏目(TODO 未加应用于子栏目)</li>
  * </ul>
  * 
  * @author 周冬初
@@ -57,8 +58,11 @@ import org.hibernate.annotations.Formula;
 @Table(name = "site_template")
 @SequenceGenerator(name = "seq_site_template", sequenceName = "seq_site_template_id", allocationSize = 1)
 public class Template implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 3402146114224682928L;
+
 	private static final String PATH_SEPARATOR = "/";
+	
 	@Id
 	@GeneratedValue(generator = "seq_site_template", strategy = GenerationType.SEQUENCE)
 	private Integer id;
@@ -94,7 +98,7 @@ public class Template implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TemplateType type;
     @Column()
-    private Boolean enabledUse = false; 
+    private Boolean enabledUse = false;
     
 	public Boolean getEnabledUse() {
 		return enabledUse;
@@ -216,11 +220,12 @@ public class Template implements Serializable {
         this.type = type;
     }
 
-    @PreUpdate
+	@PreUpdate
 	@PrePersist
 	public void afterPersist(){
 		constructPath();
 	}
+	 
 	private void constructPath() {
 		StringBuilder builder = new StringBuilder();
 		for (Template template = this; template != null; template = template.parent) {

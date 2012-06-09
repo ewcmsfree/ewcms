@@ -22,6 +22,7 @@
                addSaveState:<s:property value="addSaveState"/>,
                username:'<s:property value="username"/>'
            });
+           $("#tt_organ").combotree("setValue", <s:if test="((user.organ==null) || (user.organ.id==null))">''</s:if><s:else><s:property value="user.organ.id"/></s:else>);
        });
             
     </script>
@@ -46,7 +47,7 @@
                            </tr>
                            <tr>
                            		<td width="120px">部门：</td>
-                           		<td><ul id="tt_organ" name="user.organ.id"></ul></td>
+                           		<td><select id="tt_organ" name="user.organ.id" style="width:230px;height:200px;"/></td>
                            </tr>
                            <s:if test="eventOP == 'add'">
                            <tr>

@@ -59,7 +59,7 @@ home.prototype.init = function(opts){
     $('#switch-menu').bind('click',function(){
         var item = $('#mm').menu('getItem','#switch-menu');
         if(!item.disabled){
-            openWindow(windowId,{width:450,height:280,title:'站点切换',url:opts.siteswitch});            
+            openWindow(windowId,{width:500,height:280,title:'站点切换',url:opts.siteswitch});            
         }
     });
     $('#progress-menu').bind('click',function(){

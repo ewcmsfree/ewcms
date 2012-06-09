@@ -27,6 +27,7 @@ public class BodyTag extends AbstractUITag {
 	private String option = "inputsimple";
 	private String lang = "auto";
 	private String format = "yyyy-MM-dd";
+	
 	@Override
     public Component getBean(ValueStack stack, HttpServletRequest request, HttpServletResponse response) {
         return new Body(stack, request, response);

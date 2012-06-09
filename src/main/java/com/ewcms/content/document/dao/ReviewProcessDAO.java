@@ -39,7 +39,7 @@ public class ReviewProcessDAO extends JpaDAO<Long, ReviewProcess> {
 		String hql = "From ReviewProcess As p Where p.channelId=:channelId";
 
 		TypedQuery<ReviewProcess> query = this.getEntityManager().createQuery(hql, ReviewProcess.class);
-		query.setParameter(1, channelId);
+		query.setParameter("channelId", channelId);
 
 		return query.getResultList();
 	}

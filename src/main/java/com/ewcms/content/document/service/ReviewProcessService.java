@@ -53,7 +53,7 @@ public class ReviewProcessService implements ReviewProcessServiceable {
 		
 		setUpReviewUserAndGroup(reviewProcess, userNames, groupNames);
 		
-		if (vos == null){
+		if (vos == null || vos.isEmpty()){
 			reviewProcess.setPrevProcess(null);
 			reviewProcessDAO.persist(reviewProcess);
 		}else{

@@ -27,6 +27,8 @@ import com.ewcms.plugin.report.manager.util.TextDesignUtil;
 import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.Parameter;
 import com.ewcms.plugin.report.model.TextReport;
+import com.ewcms.scheduling.generate.job.report.dao.EwcmsJobReportDAO;
+import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
 
 /**
  * 
@@ -40,6 +42,8 @@ public class TextReportService implements TextReportServiceable {
 	private TextReportDAO textReportDAO;
 	@Autowired
 	private CategoryReportDAO categorReportDAO;
+	@Autowired
+	private EwcmsJobReportDAO ewcmsJobReportDAO;
 	
 	@Override
 	public Long addTextReport(TextReport textReport) throws BaseException {
@@ -110,6 +114,17 @@ public class TextReportService implements TextReportServiceable {
 				textReports.remove(textReport);
 				categoryReport.setTexts(textReports);
 				categorReportDAO.merge(categoryReport);
+			}
+		}
+		List<EwcmsJobReport> ewcmsJobReports = textReportDAO.findEwcmsJobReportByTextReportId(textReportId);
+		if (ewcmsJobReports != null && !ewcmsJobReports.isEmpty()){
+			for (EwcmsJobReport ewcmsJobReport : ewcmsJobReports){
+				if (ewcmsJobReport.getChartReport() == null){
+					ewcmsJobReportDAO.remove(ewcmsJobReport);
+				}else{
+					ewcmsJobReport.setTextReport(null);
+					ewcmsJobReportDAO.merge(ewcmsJobReport);
+				}
 			}
 		}
 		textReportDAO.removeByPK(textReportId);

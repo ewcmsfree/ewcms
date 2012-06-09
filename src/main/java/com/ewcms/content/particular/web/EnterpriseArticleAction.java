@@ -32,10 +32,8 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	private Integer channelId;
 	
-	private String organShow;
+	private String organShow = "disable";
 	
-	private Integer organId;
-
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -50,14 +48,6 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	public void setOrganShow(String organShow) {
 		this.organShow = organShow;
-	}
-
-	public Integer getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(Integer organId) {
-		this.organId = organId;
 	}
 
 	public EnterpriseArticle getEnterpriseArticleVo() {
@@ -85,12 +75,6 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 	protected EnterpriseArticle getOperator(Long pk) {
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
-		}else{
-			organShow = "disable";
-			Organ organ = particularFac.findOrganByUserName();
-			if (organ != null){
-				organId = organ.getId();
-			}
 		}
 		return particularFac.findEnterpriseArticleById(pk);
 	}
@@ -112,16 +96,16 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	@Override
 	protected EnterpriseArticle createEmptyVo() {
+		EnterpriseArticle enterpriseArticle = new EnterpriseArticle();
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
 		}else{
-			organShow = "disable";
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ != null){
-				organId = organ.getId();
+				enterpriseArticle.setOrgan(organ);
 			}
 		}
-		return new EnterpriseArticle();
+		return enterpriseArticle;
 	}
 	
 	public void findEbAll(){

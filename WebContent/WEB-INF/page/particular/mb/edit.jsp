@@ -15,17 +15,19 @@
         <script type="text/javascript">
 	        $(function(){
 	            <s:include value="../../alertMessage.jsp"/>
-		        $('#tt_organ').combotree('setValue', $('#organId').val());
-	            $('#tt_organ').combotree($('#organShow').val());
 	            $('#tt_organ').combotree({
-	            	onBeforeSelect: function(node){
+	            	url : "<s:url namespace='/particular' action='tree'/>",
+	            	onBeforeSelect : function(node){
 	                    if (node.id == null) {
 	                   		$.messager.alert('提示','根节点不能选择','info');
 	                   		return;
 	                   	}
 	            	}
 	            });
-		        var height = $(window).height() - $("#inputBarTable").height() - 10;
+	            $('#tt_organ').combotree($('#organShow').val());
+	            $("#tt_organ").combotree("setValue", <s:if test="((employeBasicVo.organ==null) || (employeBasicVo.organ.id==null))">''</s:if><s:else><s:property value="employeBasicVo.organ.id"/></s:else>);
+
+	            var height = $(window).height() - $("#inputBarTable").height() - 10;
 	        	var width = $(window).width() - 80*2;
 	        	$("div #_DivContainer").css("height",height + "px");
 	        	try{
@@ -60,7 +62,7 @@
 				<tr>
 					<td>发布部门：<span style="color:#FF0000">*</span></td>
 					<td class="formFieldError">
-						<input id="tt_organ" url="<s:url namespace='/particular' action='tree'/>" name="employeBasicVo.organ.id" class="easyui-combotree" style="width: 120px;"></input>
+						<select id="tt_organ" name="employeBasicVo.organ.id" style="width: 120px;"></select>
 						<s:fielderror ><s:param value="%{'employeBasicVo.organ.id'}" /></s:fielderror>
 					</td>
 				</tr>
@@ -93,7 +95,6 @@
 			</table>
 			<s:hidden id="employeBasicId" name="employeBasicVo.id"/>
 			<s:hidden id="organShow" name="organShow"/>
-			<s:hidden id="organId" name="organId"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>

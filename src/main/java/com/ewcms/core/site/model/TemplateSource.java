@@ -34,19 +34,20 @@ import org.hibernate.annotations.Formula;
 
 /**
  * <ul>
- * <li>id:编号
- * <li>name:模板资源名称
- * <li>describe:资源说明
- * <li>updTime:资源 最后修改时间
- * <li>size:资源大小
- * <li>parentId:资源父目录
- * <li>sourceEntity: 资源实体
- * <li>channelId:资源所属专栏
- * <li>site:资源所属站点
- * <li>channelId:资源路径
- * <li>release:资源是否已发布
- * 
+ * <li>id:编号</li>
+ * <li>name:模板资源名称</li>
+ * <li>describe:资源说明</li>
+ * <li>updTime:资源 最后修改时间</li>
+ * <li>size:资源大小</li>
+ * <li>parentId:资源父目录</li>
+ * <li>sourceEntity: 资源实体</li>
+ * <li>channelId:资源所属专栏</li>
+ * <li>site:资源所属站点</li>
+ * <li>channelId:资源路径</li>
+ * <li>release:资源是否已发布</li>
+ * <li>appChild:应用子栏目(TODO 未加应用于子栏目)</li>
  * </ul>
+ * 
  * @author 周冬初
  * 
  */
@@ -87,6 +88,7 @@ public class TemplateSource implements Serializable {
 	private String uniquePath;
     @Column()
     private Boolean release = false;
+    
     
 	public String getUniquePath() {
 		return uniquePath;

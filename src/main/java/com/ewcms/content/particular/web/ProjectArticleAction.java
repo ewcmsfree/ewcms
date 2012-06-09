@@ -32,10 +32,8 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 	
 	private Integer channelId;
 
-	private String organShow;
+	private String organShow = "disable";
 	
-	private Integer organId;
-
 	public Integer getChannelId() {
 		return channelId;
 	}
@@ -54,14 +52,6 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	public void setOrganShow(String organShow) {
 		this.organShow = organShow;
-	}
-
-	public Integer getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(Integer organId) {
-		this.organId = organId;
 	}
 
 	public void setProjectArticleVo(ProjectArticle projectArticle) {
@@ -85,12 +75,6 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 	protected ProjectArticle getOperator(Long pk) {
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
-		}else{
-			organShow = "disable";
-			Organ organ = particularFac.findOrganByUserName();
-			if (organ != null){
-				organId = organ.getId();
-			}
 		}
 		return particularFac.findProjectArticleById(pk);
 	}
@@ -112,16 +96,16 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	@Override
 	protected ProjectArticle createEmptyVo() {
+		ProjectArticle projectArticle = new ProjectArticle();
 		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
 			organShow = "enable";
 		}else{
-			organShow = "disable";
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ != null){
-				organId = organ.getId();
+				projectArticle.setOrgan(organ);
 			}
 		}
-		return new ProjectArticle();
+		return projectArticle;
 	}
 	
 	public void findPbAll(){

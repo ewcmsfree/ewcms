@@ -24,10 +24,11 @@
 				<tr>
 					<td>
 						<table class="formtable" width="100%" height="100%">
-						<s:iterator value="categoryReports" >
+						<s:iterator value="categoryReports" var="categoryReport">
 							<tr>
 								<td colspan="4" bgcolor="#a9c9e2" height="20"><font color="#1E4176"><b><s:property value="name"/>报表集</b></font></td>
 							</tr>
+							<s:if test="(texts != null) && (texts.size() > 0)">
 							<tr>
 								<td colspan="4"><b>文字报表：</b></td>
 							</tr>
@@ -42,6 +43,8 @@
        							</s:if>
 							</s:iterator>
 							</tr>
+							</s:if>
+							<s:if test="(charts != null) && (charts.size() > 0)">
 							<tr>
 								<td colspan="4"><b>图型报表：</b></td>
 							</tr>
@@ -56,6 +59,7 @@
        							</s:if>
 							</s:iterator>
 							</tr>
+							</s:if>
 						</s:iterator>
 						</table>
 					</td>

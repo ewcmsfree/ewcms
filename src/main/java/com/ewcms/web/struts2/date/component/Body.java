@@ -52,7 +52,7 @@ public class Body extends UIBean {
 	public void setFormat(String format) {
 		this.format = format;
 	}
-
+    
 	@Override
 	protected String getDefaultTemplate() {
 		return TEMPLATE;

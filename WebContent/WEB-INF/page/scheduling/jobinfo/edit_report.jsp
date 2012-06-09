@@ -30,8 +30,7 @@
 						}
 					}
 				}
-				obName = "paraMap['" + name + "']";
-				document.all[obName].value = strValue;
+				document.all[name].value = strValue;
 			}
 				
 			function isNumber(str){
@@ -78,7 +77,7 @@
 				<tr>
 					<td colspan="4" align="left"><font color="#0066FF"><b>参数信息</b></font></td>
 				</tr>
-				<s:iterator id="param" value="pageShowParams" >
+				<s:iterator id="param" value="pageShowParams" var="pageShowParam">
 				<tr>
 					<td>
 					  <s:if test="(cnName!=null)&&(cnName.length()>0)">
@@ -89,18 +88,21 @@
 					  </s:else>
 					</td>
 					<td colspan="3">
-					  <s:if test='(type.name().equals("TEXT")) || (type.name().equals("BOOLEAN")) || (type.name().equals("SQL")) || (type.name().equals("SESSION"))'>
-					    <s:textfield name="paraMap['%{enName}']" value="%{defaultValue}"/>
+					  <s:if test='(type.name().equals("TEXT")) || (type.name().equals("SQL")) || (type.name().equals("SESSION"))'>
+					    <s:textfield name="%{enName}" value="%{defaultValue}"/>
+					  </s:if>
+					  <s:if test='(type.name().equals("BOOLEAN"))'>
+					  	<s:checkbox name="%{enName}" value="%{defaultValue}"/>
 					  </s:if>
 					  <s:if test='type.name().equals("LIST")'>
-					    <s:select list="value" name="paraMap['%{enName}']"/>
+					    <s:select list="value" name="%{enName}" value="%{defaultValue}"/>
 					  </s:if>		
 					  <s:if test='type.name().equals("CHECK")'>
 					    <s:checkboxlist list="value" name="%{enName}" onclick="checkBoxValue('%{enName}');"/>
-						<s:hidden name="paraMap['%{enName}']"/>
+						<s:hidden name="%{enName}" value="%{defaultValue}"/>
 					  </s:if>		
 					  <s:if test='type.name().equals("DATE")'>
-						<ewcms:datepicker name="paraMap['%{enName}']"/>
+						<s:textfield name="%{enName}" size="20" value="%{defaultValue}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" cssClass="Wdate" theme="simple"/>
 					  </s:if>		
 					</td>
 				  </tr>

@@ -36,7 +36,7 @@
 			                		}
 			                	}
 			                },
-			                {field:'remarks',title:'说明',width:500},
+			                {field:'remarks',title:'说明',width:400},
 			                {field:'download',title:'下载',width:30,
 			                	formatter:function(val,rec){
 			                		return "&nbsp;<a href='javascript:void(0);' onclick='download(" +  rec.id + ");'><img src='../../ewcmssource/css/icons/download.png' width='13px' height='13px' title='下载' style='border:0'/></a>";
@@ -121,6 +121,7 @@
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0);" onclick="javascript:$('#editifr').attr('src','');$('#edit-window').window('close');">关闭</a>
                 </div>
             </div>
         </div>	

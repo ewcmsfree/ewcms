@@ -23,6 +23,8 @@ import com.ewcms.plugin.report.manager.util.ParameterSetValueUtil;
 import com.ewcms.plugin.report.model.CategoryReport;
 import com.ewcms.plugin.report.model.ChartReport;
 import com.ewcms.plugin.report.model.Parameter;
+import com.ewcms.scheduling.generate.job.report.dao.EwcmsJobReportDAO;
+import com.ewcms.scheduling.generate.job.report.model.EwcmsJobReport;
 
 /**
  * 
@@ -36,6 +38,8 @@ public class ChartReportService implements ChartReportServiceable {
 	private ChartReportDAO chartReportDAO;
 	@Autowired
 	private CategoryReportDAO categorReportDAO;
+	@Autowired
+	private EwcmsJobReportDAO ewcmsJobReportDAO;
 	
 	@Override
 	public Long addChartReport(ChartReport chartReport){
@@ -120,6 +124,17 @@ public class ChartReportService implements ChartReportServiceable {
 				chartReports.remove(chartReport);
 				categoryReport.setCharts(chartReports);
 				categorReportDAO.merge(categoryReport);
+			}
+		}
+		List<EwcmsJobReport> ewcmsJobReports = chartReportDAO.findEwcmsJobReportByChartReportId(chartReportId);
+		if (ewcmsJobReports != null && !ewcmsJobReports.isEmpty()){
+			for (EwcmsJobReport ewcmsJobReport : ewcmsJobReports){
+				if (ewcmsJobReport.getTextReport() == null) {
+					ewcmsJobReportDAO.remove(ewcmsJobReport);
+				}else{
+					ewcmsJobReport.setChartReport(null);
+					ewcmsJobReportDAO.merge(ewcmsJobReport);
+				}
 			}
 		}
 		chartReportDAO.removeByPK(chartReportId);
