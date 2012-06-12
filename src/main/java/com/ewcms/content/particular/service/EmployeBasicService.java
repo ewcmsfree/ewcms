@@ -25,20 +25,20 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 
 	@Override
 	public Long addEmployeBasic(EmployeBasic employeBasic) {
-		setPublishingSector(employeBasic);
+		setOrgan(employeBasic);
 		employeBasicDAO.persist(employeBasic);
 		return employeBasic.getId();
 	}
 
 	@Override
 	public Long updEmployeBasic(EmployeBasic employeBasic) {
-		setPublishingSector(employeBasic);
+		setOrgan(employeBasic);
 		employeBasic.setRelease(false);
 		employeBasicDAO.merge(employeBasic);
 		return employeBasic.getId();
 	}
 
-	private void setPublishingSector(EmployeBasic employeBasic){
+	private void setOrgan(EmployeBasic employeBasic){
 		Integer organId = employeBasic.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		employeBasic.setOrgan(organ);

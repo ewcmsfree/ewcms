@@ -16,6 +16,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.core.site.model.Template;
+import com.ewcms.core.site.model.TemplateType;
 
 /**
  * @author 周冬初
@@ -119,14 +120,27 @@ public class TemplateDAO extends JpaDAO<Integer, Template> {
 	/**
 	 * 获取专栏所有模板
 	 * 
-	 * @param id 专栏编号
+	 * @param channelId 专栏编号
 	 * @return 模板集合
 	 */
-	public List<Template> getTemplatesInChannel(final Integer id){
-		String hql = "From Template o Where o.channelId=? order by o.type";
-		TypedQuery<Template> query = this.getEntityManager().createQuery(hql,
-		Template.class);
-		query.setParameter(1, id);
+	public List<Template> getTemplatesInChannel(final Integer channelId){
+		String hql = "From Template o Where o.channelId=:channelId order by o.type";
+		TypedQuery<Template> query = this.getEntityManager().createQuery(hql, Template.class);
+		query.setParameter("channelId", channelId);
 		return query.getResultList();
-	}	
+	}
+	
+	public Template findTemplateByChannelIdAndTemplateType(final Integer channelId, final TemplateType templateType){
+		String hql = "From Template t Where t.channelId=:channelId And t.type=:templateType";
+		TypedQuery<Template> query = this.getEntityManager().createQuery(hql, Template.class);
+		query.setParameter("channelId", channelId);
+		query.setParameter("templateType", templateType);
+		
+		Template template = null;
+		try{
+			template = (Template) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		return template;
+	}
 }

@@ -25,20 +25,20 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	
 	@Override
 	public Long addEnterpriseBasic(EnterpriseBasic enterpriseBasic) {
-		setPublishingSector(enterpriseBasic);
+		setOrgan(enterpriseBasic);
 		enterpriseBasicDAO.persist(enterpriseBasic);
 		return enterpriseBasic.getId();
 	}
 
 	@Override
 	public Long updEnterpriseBasic(EnterpriseBasic enterpriseBasic) {
-		setPublishingSector(enterpriseBasic);
+		setOrgan(enterpriseBasic);
 		enterpriseBasic.setRelease(false);
 		enterpriseBasicDAO.merge(enterpriseBasic);
 		return enterpriseBasic.getId();
 	}
 
-	private void setPublishingSector(EnterpriseBasic enterpriseBasic){
+	private void setOrgan(EnterpriseBasic enterpriseBasic){
 		Integer organId = enterpriseBasic.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		enterpriseBasic.setOrgan(organ);

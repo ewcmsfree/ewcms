@@ -48,7 +48,6 @@ import org.hibernate.annotations.Formula;
  * <li>site:模板所属站点</li>
  * <li>uriPattern:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html</li>
  * <li>type:模板类型</li>
- * <li>appChild:应用子栏目(TODO 未加应用于子栏目)</li>
  * </ul>
  * 
  * @author 周冬初
@@ -215,6 +214,14 @@ public class Template implements Serializable {
 	public TemplateType getType() {
         return type;
     }
+	
+	public String getTypeDescription(){
+		if (type != null){
+			return type.getDescription();
+		}else{
+			return TemplateType.HOME.getDescription();
+		}
+	}
 
     public void setType(TemplateType type) {
         this.type = type;
@@ -237,7 +244,7 @@ public class Template implements Serializable {
 			builder.insert(0, PATH_SEPARATOR);
 		}
 		path = removeStartAndEndPathSeparator(builder.toString());
-		uniquePath=getSite().getId().toString()+PATH_SEPARATOR+path;
+		uniquePath = getSite().getId().toString()+ PATH_SEPARATOR + path;
 	}
 
 	private String removeStartAndEndPathSeparator(final String dir) {

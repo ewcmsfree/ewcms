@@ -31,7 +31,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	@Override
 	public Long addEmployeArticle(EmployeArticle employeArticle) {
 		setEmployeBasic(employeArticle);
-		setPublishingSector(employeArticle);
+		setOrgan(employeArticle);
 		employeArticleDAO.persist(employeArticle);
 		return employeArticle.getId();
 	}
@@ -39,7 +39,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	@Override
 	public Long updEmployeArticle(EmployeArticle employeArticle) {
 		setEmployeBasic(employeArticle);
-		setPublishingSector(employeArticle);
+		setOrgan(employeArticle);
 		employeArticle.setRelease(false);
 		employeArticleDAO.merge(employeArticle);
 		return employeArticle.getId();
@@ -53,7 +53,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 		employeArticle.setEmployeBasic(employeBasic);
 	}
 	
-	private void setPublishingSector(EmployeArticle employeArticle){
+	private void setOrgan(EmployeArticle employeArticle){
 		Integer organId = employeArticle.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		employeArticle.setOrgan(organ);

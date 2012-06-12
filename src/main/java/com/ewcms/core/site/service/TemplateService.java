@@ -4,9 +4,6 @@
  * http://www.ewcms.com
  */
 
-/**
- * 
- */
 package com.ewcms.core.site.service;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.history.History;
+import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.dao.TemplateDAO;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
+import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -28,39 +28,39 @@ import com.ewcms.web.util.EwcmsContextUtil;
 public class TemplateService implements TemplateServiceable{
 
 	@Autowired
-	private TemplateDAO templateDao;
-	
+	private TemplateDAO templateDAO;
+	@Autowired
+	private ChannelDAO channelDAO;
 	
 	public Template getTemplate(Integer id){
-		return templateDao.get(id);
+		return templateDAO.get(id);
 	}
+	
 	@History(modelObjectIndex = 0)	
 	public Integer addTemplate(Template vo){
-		templateDao.persist(vo);
+		templateDAO.persist(vo);
 		return vo.getId();
 	}
 	
 	@History(modelObjectIndex = 0)	
 	public Integer updTemplate(Template vo){
-		templateDao.merge(vo);	
+		templateDAO.merge(vo);	
 		updPubPath(vo);
 		return vo.getId();
 	}
+	
 	/**
 	 * 模板目录发生修改，需要更新模板发布路径，并且包括其子模板路径
 	 * 
-	 * @param channel
-	 *            模板
+	 * @param channel 模板
 	 */
 	private void updPubPath(final Template vo) {
-		for (Template child : templateDao.getTemplateChildren(vo.getId(), getCurSite().getId(), null)) {
+		for (Template child : templateDAO.getTemplateChildren(vo.getId(), getCurSite().getId(), null)) {
 			child.setPath(null);
 			updPubPath(child);
 		}
-		templateDao.merge(vo);
+		templateDAO.merge(vo);
 	}
-
-
 	
 	public void delTemplateBatch(List<Integer> idList){
 		for(Integer id :idList){
@@ -69,11 +69,11 @@ public class TemplateService implements TemplateServiceable{
 	}
 	
 	public void delTemplate(Integer id){
-		templateDao.removeByPK(id);
+		templateDAO.removeByPK(id);
 	}
 	
 	public List<Template> getTemplateList(){
-		return templateDao.getTemplateList(getCurSite().getId());
+		return templateDAO.getTemplateList(getCurSite().getId());
 	}
 	/**
 	 * 获取跟模板集
@@ -122,8 +122,8 @@ public class TemplateService implements TemplateServiceable{
 	
 	private List<Template> getTemplateChildren(Integer parentId,String channelName){
 		if(channelName!=null && getTemplate(parentId).getName().equals(channelName))
-			return templateDao.getTemplateChildren(parentId,EwcmsContextUtil.getCurrentSite().getId(),Integer.valueOf(channelName));
-		return templateDao.getTemplateChildren(parentId,EwcmsContextUtil.getCurrentSite().getId(),null);
+			return templateDAO.getTemplateChildren(parentId,EwcmsContextUtil.getCurrentSite().getId(),Integer.valueOf(channelName));
+		return templateDAO.getTemplateChildren(parentId,EwcmsContextUtil.getCurrentSite().getId(),null);
 	}  
 	/**
 	 * 获取站点专栏模板根目录
@@ -146,7 +146,7 @@ public class TemplateService implements TemplateServiceable{
 	 */     
     public Template channelTemplate(String tplName){
     	if(tplName==null||tplName.length()==0){
-        	Template vo = templateDao.getChannelTemplate(getSiteTplName(),getCurSite().getId(),null);
+        	Template vo = templateDAO.getChannelTemplate(getSiteTplName(),getCurSite().getId(),null);
         	if(vo == null){//没有站点专栏模板节点，就创建
         		vo = new Template();
         		vo.setDescribe(getCurSite().getSiteName()+"专栏模板目录");
@@ -154,12 +154,12 @@ public class TemplateService implements TemplateServiceable{
         		vo.setSite(getCurSite());
         		vo.setPath(getSiteTplName());
         		vo.setSize("0KB");
-        		templateDao.persist(vo);
+        		templateDAO.persist(vo);
         	} 
         	return vo;
     	}else{
     		Integer parentId = channelTPLRoot().getId();
-    		Template vo = templateDao.getChannelTemplate(tplName,getCurSite().getId(),parentId);
+    		Template vo = templateDAO.getChannelTemplate(tplName,getCurSite().getId(),parentId);
         	if(vo == null){//没有站点专栏模板节点，就创建
         		vo = new Template();
         		vo.setDescribe(tplName+"专栏模板目录");
@@ -168,7 +168,7 @@ public class TemplateService implements TemplateServiceable{
         		vo.setPath(getSiteTplName()+"/"+tplName);
         		vo.setSize("0KB");
         		vo.setParent(channelTPLRoot());
-        		templateDao.persist(vo);
+        		templateDAO.persist(vo);
         	} 
         	return vo;
     	}
@@ -177,22 +177,70 @@ public class TemplateService implements TemplateServiceable{
 	private Site getCurSite(){
 		return EwcmsContextUtil.getCurrentSite();
 	}
+	
 	private String getSiteTplName(){
 		return getCurSite().getId()+"tpl";
 	}
 	
 	@Override
 	public List<Template> getTemplatesInChannel(Integer id) {
-		return templateDao.getTemplatesInChannel(id);
+		return templateDAO.getTemplatesInChannel(id);
 	}
 	
 	@Override
 	public Template getTemplateByUniquePath(String path) {
-		return templateDao.getTemplateByPath(path);
+		return templateDAO.getTemplateByPath(path);
 	}
 	
 	@Override
 	public String getUniquePathOfChannelTemplate(Integer siteId, Integer channelId, String name) {
 		return siteId.toString()+"/"+siteId.toString()+"tpl/"+channelId.toString()+"/"+name;
+	}
+	
+	@Override
+	public void saveAppChild(Integer channelId, List<Integer> templateIds) {
+		List<Template> templates = new ArrayList<Template>();
+		for (Integer templateId : templateIds){
+			Template template = templateDAO.get(templateId);
+			templates.add(template);
+		}
+		templateChild(channelId, channelId, templates);
+	}
+	
+	private void templateChild(Integer initChannelId, Integer channelId, List<Template> templates){
+		List<Channel> channels = channelDAO.getChannelChildren(channelId);
+		if (channels != null && !channels.isEmpty()){
+			for (Channel channel : channels){
+				for (Template template : templates){
+					Template dbTemplate = templateDAO.findTemplateByChannelIdAndTemplateType(channel.getId(), template.getType());
+					if (dbTemplate != null) continue;
+					
+					TemplateEntity templateEntity = template.getTemplateEntity();
+					TemplateEntity newTemplateEntity = new TemplateEntity();
+					newTemplateEntity.setTplEntity(templateEntity.getTplEntity());
+					
+					Template newTemplate = new Template();
+					
+					newTemplate.setTemplateEntity(newTemplateEntity);
+					newTemplate.setSite(template.getSite());
+					newTemplate.setChannelId(channel.getId());
+					newTemplate.setUriPattern(getSiteTplName() + "/" + channel.getId());
+					newTemplate.setDescribe(template.getDescribe());
+					newTemplate.setType(template.getType());
+					
+					String name = template.getName();
+					String newName = "app_" + initChannelId + "_" + name;
+					
+					newTemplate.setName(newName);
+					newTemplate.setParent(channelTemplate(channel.getId().toString()));
+
+					try{
+						addTemplate(newTemplate);
+					}catch(Exception e){
+					}
+				}
+				templateChild(initChannelId, channel.getId(), templates);
+			}
+		}
 	}
 }

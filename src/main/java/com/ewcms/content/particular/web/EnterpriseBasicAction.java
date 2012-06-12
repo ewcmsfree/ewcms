@@ -72,7 +72,7 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 
 	@Override
 	protected EnterpriseBasic getOperator(Long pk) {
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getAutoritynames().contains("ROLE_ADMIN")){
 			organShow = "enable";
 		}
 		return particularFac.findEnterpriseBasicById(pk);
@@ -96,7 +96,7 @@ public class EnterpriseBasicAction extends CrudBaseAction<EnterpriseBasic, Long>
 	@Override
 	protected EnterpriseBasic createEmptyVo() {
 		EnterpriseBasic enterpriseBasic = new EnterpriseBasic();
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getAutoritynames().contains("ROLE_ADMIN")){
 			organShow = "enable";
 		}else{
 			Organ organ = particularFac.findOrganByUserName();

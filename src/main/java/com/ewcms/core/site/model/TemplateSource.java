@@ -33,6 +33,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Formula;
 
 /**
+ * 模板资源
+ * 
  * <ul>
  * <li>id:编号</li>
  * <li>name:模板资源名称</li>
@@ -45,10 +47,10 @@ import org.hibernate.annotations.Formula;
  * <li>site:资源所属站点</li>
  * <li>channelId:资源路径</li>
  * <li>release:资源是否已发布</li>
- * <li>appChild:应用子栏目(TODO 未加应用于子栏目)</li>
  * </ul>
  * 
  * @author 周冬初
+ * @author wuzhijun
  * 
  */
 @Entity

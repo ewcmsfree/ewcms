@@ -102,7 +102,8 @@
 		</action>	
 		<action name="setProperty" class="com.ewcms.core.site.web.TemplateAction" method="setTemplateProperty">
 			<result name="input">/WEB-INF/page/site/template/templateset.jsp</result>
-		</action>				               	
+		</action>
+		<action name="appChild" class="com.ewcms.core.site.web.TemplateAction" method="appChild"/>
 	</package>
 	
     <package name="site.template.source"  extends="struts-default" namespace="/site/template/source">

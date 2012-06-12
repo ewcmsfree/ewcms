@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -35,12 +37,13 @@ import com.ewcms.web.util.EwcmsContextUtil;
  * 实现专栏服务
  * 
  * @author 周冬初
+ * @author wuzhijun
  */
 @Service
 public class ChannelService implements ChannelServiceable{
     
     @Autowired
-    private ChannelDAO channelDao;
+    private ChannelDAO channelDAO;
     
     @Autowired
     private EwcmsAclServiceable aclService;
@@ -67,7 +70,7 @@ public class ChannelService implements ChannelServiceable{
     
     @Override
     public void addOrUpdatePermission(Integer id, String name, Integer mask) {
-        Channel channel = channelDao.get(id);
+        Channel channel = channelDAO.get(id);
         Assert.notNull(channel, "channel is null");
         
         aclService.addOrUpdatePermission(channel, name, mask);
@@ -75,7 +78,7 @@ public class ChannelService implements ChannelServiceable{
 
     @Override
     public void removePermission(Integer id, String name) {
-        Channel channel = channelDao.get(id);
+        Channel channel = channelDAO.get(id);
         Assert.notNull(channel, "channel is null");
         
         aclService.removePermission(channel, name);
@@ -83,7 +86,7 @@ public class ChannelService implements ChannelServiceable{
 
     @Override
     public void updateInheriting(Integer id, boolean inheriting) {
-        Channel channel = channelDao.get(id);
+        Channel channel = channelDAO.get(id);
         Assert.notNull(channel, "channel is null");
         
         Channel parent = inheriting ? channel.getParent() : null;
@@ -93,13 +96,36 @@ public class ChannelService implements ChannelServiceable{
     @Override
     public List<ChannelNode> getChannelChildren(Integer id,Boolean publicenable) {
         List<ChannelNode> nodes = new ArrayList<ChannelNode>();
-        List<Channel> channels = channelDao.getChannelChildren(id);
+        List<Channel> channels = channelDAO.getChannelChildren(id);
+		List<String> autorityNames = (List<String>) EwcmsContextUtil.getAutoritynames();
+		List<String> groupNames = (List<String>)EwcmsContextUtil.getGroupnames();
+		UserDetails userDetail = EwcmsContextUtil.getUserDetails();
+        Boolean permit = false;
         for (Channel channel : channels) {
-            if (publicenable && !channel.getPublicenable()) {
-                continue;
+            if (publicenable && !channel.getPublicenable()) continue;
+            permit = false;
+            if (autorityNames.contains("ROLE_ADMIN")){
+            	permit = true;
+            }else{
+	            //根据用户组和用户查询显示栏目
+	            Acl acl = findAclOfChannel(channel);
+	            if(acl == null || acl.getEntries() == null || acl.getEntries().isEmpty()) continue;
+	            List<AccessControlEntry> aces = acl.getEntries();
+	            
+	            for(AccessControlEntry ace : aces){
+	            	Sid sid = ace.getSid();
+	                String n = (sid instanceof PrincipalSid) ? ((PrincipalSid)sid).getPrincipal() : ((GrantedAuthoritySid)sid).getGrantedAuthority();
+	    			if (groupNames.contains(n) || userDetail.getUsername().equals(n)){
+	    				permit = true;
+	    				break;
+	    			}
+	            }
             }
-            ChannelNode node = new ChannelNode(channel,getPermissionsofChannel(channel));
-            nodes.add(node);
+            
+            if (permit){
+	            ChannelNode node = new ChannelNode(channel,getPermissionsofChannel(channel));
+	            nodes.add(node);
+            }
         }
         return nodes;
     }
@@ -129,7 +155,7 @@ public class ChannelService implements ChannelServiceable{
     
     @Override
     public ChannelNode channelNodeRoot() {
-        Channel channel = channelDao.getChannelRoot(getCurSite().getId());
+        Channel channel = channelDAO.getChannelRoot(getCurSite().getId());
         if (channel == null) {
             channel = new Channel();
             channel.setDir("");
@@ -138,7 +164,7 @@ public class ChannelService implements ChannelServiceable{
             channel.setUrl("");
             channel.setName(getCurSite().getSiteName());
             channel.setSite(getCurSite());
-            channelDao.persist(channel);
+            channelDAO.persist(channel);
             initAclOfChannel(channel,false,false);
         }
         return new ChannelNode(channel,getPermissionsofChannel(channel));
@@ -146,7 +172,7 @@ public class ChannelService implements ChannelServiceable{
     
     @Override
     public Channel getChannelRoot() {
-        Channel channel = channelDao.getChannelRoot(getCurSite().getId());
+        Channel channel = channelDAO.getChannelRoot(getCurSite().getId());
         return channel;
     }
     
@@ -155,9 +181,9 @@ public class ChannelService implements ChannelServiceable{
         Assert.notNull(parentId, "parentId is null");
         Channel channel = new Channel();
         channel.setName(name);
-        channel.setParent(channelDao.get(parentId));
+        channel.setParent(channelDAO.get(parentId));
         channel.setSite(getCurSite());
-        channelDao.persist(channel);
+        channelDAO.persist(channel);
         initAclOfChannel(channel,true,true);
         return channel.getId();
     }
@@ -166,12 +192,12 @@ public class ChannelService implements ChannelServiceable{
     public void renameChannel(Integer id, String name) {
         Channel vo = getChannel(id);
         vo.setName(name);
-        channelDao.merge(vo);
+        channelDAO.merge(vo);
     }
 
     @Override
     public Integer updChannel(Channel channel) {
-        channelDao.merge(channel);
+        channelDAO.merge(channel);
         updAbsUrlAndPubPath(channel.getId(),getCurSite().getId());
         return channel.getId();
     }
@@ -185,25 +211,25 @@ public class ChannelService implements ChannelServiceable{
      * @param siteId 站点编号
      */
     private void updAbsUrlAndPubPath(int channelId,int siteId) {
-        Channel channel = channelDao.get(channelId);
+        Channel channel = channelDAO.get(channelId);
         if(channel == null || (int)channel.getSite().getId() != siteId){
             return;
         }
-        List<Channel> children = channelDao.getChannelChildren(channelId);
+        List<Channel> children = channelDAO.getChannelChildren(channelId);
         for (Channel child : children ) {
             child.setAbsUrl(null);
             child.setPubPath(null);
-            channelDao.merge(child);
+            channelDAO.merge(child);
             updAbsUrlAndPubPath(child.getId(),siteId);
         }
     }
 
     public void delChannel(Integer id) {
-        channelDao.removeByPK(id);
+        channelDAO.removeByPK(id);
     }
 
     public Channel getChannel(Integer id) {
-        return channelDao.get(id);
+        return channelDAO.get(id);
     }
 
     private Site getCurSite() {
@@ -212,7 +238,7 @@ public class ChannelService implements ChannelServiceable{
 
 	@Override
 	public Channel getChannelRoot(Integer siteId) {
-		return channelDao.getChannelRoot(siteId);
+		return channelDAO.getChannelRoot(siteId);
 	}
 
 	@Override
@@ -222,11 +248,11 @@ public class ChannelService implements ChannelServiceable{
 
 	@Override
 	public List<Channel> getChannelChildren(Integer id) {
-		return channelDao.getChannelChildren(id);
+		return channelDAO.getChannelChildren(id);
 	}
 
 	@Override
 	public Channel getChannelByUrlOrPath(Integer siteId, String path) {
-		return channelDao.getChannelByURL(siteId, path);
+		return channelDAO.getChannelByURL(siteId, path);
 	}
 }

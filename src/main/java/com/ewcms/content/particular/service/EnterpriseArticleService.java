@@ -31,7 +31,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 	@Override
 	public Long addEnterpriseArticle(EnterpriseArticle enterpriseArticle) {
 		setEnterpriseBasic(enterpriseArticle);
-		setPublishingSector(enterpriseArticle);
+		setOrgan(enterpriseArticle);
 		enterpriseArticleDAO.persist(enterpriseArticle);
 		return enterpriseArticle.getId();
 	}
@@ -39,7 +39,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 	@Override
 	public Long updEnterpriseArticle(EnterpriseArticle enterpriseArticle) {
 		setEnterpriseBasic(enterpriseArticle);
-		setPublishingSector(enterpriseArticle);
+		setOrgan(enterpriseArticle);
 		enterpriseArticle.setRelease(false);
 		enterpriseArticleDAO.merge(enterpriseArticle);
 		return enterpriseArticle.getId();
@@ -53,7 +53,7 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 		enterpriseArticle.setEnterpriseBasic(enterpriseBasic);
 	}
 	
-	private void setPublishingSector(EnterpriseArticle enterpriseArticle){
+	private void setOrgan(EnterpriseArticle enterpriseArticle){
 		Integer organId = enterpriseArticle.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		enterpriseArticle.setOrgan(organ);

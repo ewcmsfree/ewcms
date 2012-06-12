@@ -73,7 +73,7 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 
 	@Override
 	protected ProjectArticle getOperator(Long pk) {
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getAutoritynames().contains("ROLE_ADMIN")){
 			organShow = "enable";
 		}
 		return particularFac.findProjectArticleById(pk);
@@ -97,7 +97,7 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 	@Override
 	protected ProjectArticle createEmptyVo() {
 		ProjectArticle projectArticle = new ProjectArticle();
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getAutoritynames().contains("ROLE_ADMIN")){
 			organShow = "enable";
 		}else{
 			Organ organ = particularFac.findOrganByUserName();

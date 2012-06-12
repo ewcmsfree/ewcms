@@ -59,4 +59,11 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
 	 * 
 	 */     
     public Template channelTemplate(String tplName);
+    
+    /**
+     * 把模板应用于子栏目
+     * @param channelId 栏目编号
+     * @param templateIds 选择应用的模板
+     */
+    public void saveAppChild(Integer channelId, List<Integer> templateIds);
 }

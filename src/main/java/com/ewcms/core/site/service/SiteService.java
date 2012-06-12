@@ -31,17 +31,17 @@ import com.ewcms.web.vo.TreeNode;
 public class SiteService implements SiteServiceable{
 
 	@Autowired
-	private SiteDAO siteDao;
+	private SiteDAO siteDAO;
 
 	public Integer addSite(Integer parentId, String siteName, Integer organId) {
 		Site vo = new Site();
 		vo.setSiteName(siteName);
 		if(parentId!=null)
-		vo.setParent(siteDao.get(parentId));
+		vo.setParent(siteDAO.get(parentId));
 		Organ organVo = new Organ();
 		organVo.setId(organId);
 		vo.setOrgan(organVo);
-		siteDao.persist(vo);
+		siteDAO.persist(vo);
 		return vo.getId();
 	}
 	
@@ -65,7 +65,7 @@ public class SiteService implements SiteServiceable{
 	}
 
 	public Integer updSite(Site vo) {
-		siteDao.merge(vo);
+		siteDAO.merge(vo);
 		Site currSite = getCurSite();
 		if(currSite != null){
 			if(currSite.getId() == vo.getId()){
@@ -76,20 +76,20 @@ public class SiteService implements SiteServiceable{
 	}
 
 	public void delSite(Integer id) {
-		siteDao.removeByPK(id);
+		siteDAO.removeByPK(id);
 	}
 
 	public Site getSite(Integer id) {
-		return siteDao.get(id);
+		return siteDAO.get(id);
 	}
 
 	public List<Site> getSiteListByOrgans(Integer[] organs, Boolean publicenable) {
-		return siteDao.getSiteListByOrgans(organs, publicenable);
+		return siteDAO.getSiteListByOrgans(organs, publicenable);
 	}
 
 	public void updSiteParent(Integer organId, Integer parentId,
 			Integer newParentId) {
-		siteDao.updSiteParent(organId, parentId, newParentId);
+		siteDAO.updSiteParent(organId, parentId, newParentId);
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class SiteService implements SiteServiceable{
 	 */
 	public List<TreeNode> getSiteChildren(Integer parentId, Integer organId) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
-		List<Site> siteList = siteDao.getSiteChildren(parentId, organId);
+		List<Site> siteList = siteDAO.getSiteChildren(parentId, organId);
 		for (Site vo : siteList) {
 			TreeNode tnVo = new TreeNode();
 			tnVo.setId(vo.getId().toString());

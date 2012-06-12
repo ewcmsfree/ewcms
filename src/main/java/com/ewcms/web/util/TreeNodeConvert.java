@@ -57,8 +57,7 @@ public class TreeNodeConvert {
 		return tnList;
 	}
 
-	public static int treeNodePermission(Map<String, String> attributes,
-			Set<Permission> permissions) {
+	public static int treeNodePermission(Map<String, String> attributes, Set<Permission> permissions) {
 		String permission = "";
 		int max = -1;
 		if (permissions != null &&!permissions.isEmpty()) {
@@ -74,7 +73,7 @@ public class TreeNodeConvert {
 		attributes.put("maxpermission", String.valueOf(max));
 		return max;
 	}
-
+	
 	public static List<TreeNode> templateConvert(List<Template> tplList) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
 		if (tplList == null)

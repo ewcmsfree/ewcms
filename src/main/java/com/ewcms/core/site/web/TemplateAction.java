@@ -470,4 +470,27 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			return "0 KB";
 		return String.valueOf(dfom.format(size / 1000)) + " KB";
 	}
+	
+	private Integer channelId;
+	
+	public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
+	public void appChild(){
+		try{
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				siteFac.saveAppChild(getChannelId(), getSelections());
+				Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目成功!"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目失败!"));
+			}
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目出现系统错误!"));
+		}
+	}
 }

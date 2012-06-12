@@ -31,7 +31,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 	@Override
 	public Long addProjectArticle(ProjectArticle projectArticle) {
 		setProjectBasic(projectArticle);
-		setPublishingSector(projectArticle);
+		setOrgan(projectArticle);
 		projectArticleDAO.persist(projectArticle);
 		return projectArticle.getId();
 	}
@@ -39,7 +39,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 	@Override
 	public Long updProjectArticle(ProjectArticle projectArticle) {
 		setProjectBasic(projectArticle);
-		setPublishingSector(projectArticle);
+		setOrgan(projectArticle);
 		projectArticle.setRelease(false);
 		projectArticleDAO.merge(projectArticle);
 		return projectArticle.getId();
@@ -53,7 +53,7 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 		projectArticle.setProjectBasic(projectBasic);
 	}
 
-	private void setPublishingSector(ProjectArticle projectArticle){
+	private void setOrgan(ProjectArticle projectArticle){
 		Integer organId = projectArticle.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		projectArticle.setOrgan(organ);

@@ -25,14 +25,14 @@ import com.ewcms.web.util.EwcmsContextUtil;
 @Service
 public class TemplateSourceService implements TemplateSourceServiceable{
 	@Autowired
-	private TemplateSourceDAO templateSourceDao;
+	private TemplateSourceDAO templateSourceDAO;
 	
 	public TemplateSource getTemplateSource(Integer id){
-		return templateSourceDao.get(id);
+		return templateSourceDAO.get(id);
 	}
 	
 	public Integer addTemplateSource(TemplateSource vo){
-		templateSourceDao.persist(vo);
+		templateSourceDAO.persist(vo);
 		return vo.getId();
 	}
 	
@@ -48,16 +48,16 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	 *            模板
 	 */
 	private void updPubPath(final TemplateSource vo) {
-		for (TemplateSource child : templateSourceDao.getTemplateSourceChildren(vo.getId(), getCurSite().getId())) {
+		for (TemplateSource child : templateSourceDAO.getTemplateSourceChildren(vo.getId(), getCurSite().getId())) {
 			child.setPath(null);
 			updPubPath(child);
 		}
-		templateSourceDao.merge(vo);
+		templateSourceDAO.merge(vo);
 	}
 
 
 	public void delTemplateSource(Integer id){
-		templateSourceDao.removeByPK(id);
+		templateSourceDAO.removeByPK(id);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	}	
 	
     private List<TemplateSource> getTemplateSourceChildren(Integer parentId,Boolean channelEnable){
-        List<TemplateSource> srcList = templateSourceDao.getTemplateSourceChildren(parentId,EwcmsContextUtil.getCurrentSite().getId());
+        List<TemplateSource> srcList = templateSourceDAO.getTemplateSourceChildren(parentId,EwcmsContextUtil.getCurrentSite().getId());
         List<TemplateSource> validateList = new ArrayList<TemplateSource>();
         for(TemplateSource vo:srcList){
         	if(!channelEnable&&vo.getName().equals(getSiteSrcName())){
@@ -97,7 +97,7 @@ public class TemplateSourceService implements TemplateSourceServiceable{
     
     public TemplateSource channelTemplateSource(String srcName){
     	if(srcName==null||srcName.length()==0){
-        	TemplateSource vo = templateSourceDao.getChannelTemplateSource(getSiteSrcName(),getCurSite().getId(),null);
+        	TemplateSource vo = templateSourceDAO.getChannelTemplateSource(getSiteSrcName(),getCurSite().getId(),null);
         	if(vo == null){//没有站点专栏模板节点，就创建
         		vo = new TemplateSource();
         		vo.setDescribe(getCurSite().getSiteName()+"专栏资源目录");
@@ -105,12 +105,12 @@ public class TemplateSourceService implements TemplateSourceServiceable{
         		vo.setSite(getCurSite());
         		vo.setSize("0KB");
         		vo.setPath(getSiteSrcName());
-        		templateSourceDao.persist(vo);
+        		templateSourceDAO.persist(vo);
         	}
         	return vo;
     	}else{
     		Integer parentId = channelSRCRoot().getId();
-    		TemplateSource vo = templateSourceDao.getChannelTemplateSource(srcName,getCurSite().getId(),parentId);
+    		TemplateSource vo = templateSourceDAO.getChannelTemplateSource(srcName,getCurSite().getId(),parentId);
         	if(vo == null){//没有站点专栏模板节点，就创建
         		vo = new TemplateSource();
         		vo.setDescribe(srcName+"专栏资源目录");
@@ -119,7 +119,7 @@ public class TemplateSourceService implements TemplateSourceServiceable{
         		vo.setSize("0KB");
         		vo.setParent(channelSRCRoot());
         		vo.setPath(getSiteSrcName()+"/"+srcName);
-        		templateSourceDao.persist(vo);
+        		templateSourceDAO.persist(vo);
         	} 
         	return vo;
     	}    	
@@ -135,23 +135,23 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 
 	@Override
 	public List<TemplateSource> findPublishTemplateSources(Integer siteId, Boolean forceAgain) {
-		return templateSourceDao.getPublishTemplateSources(siteId, forceAgain);
+		return templateSourceDAO.getPublishTemplateSources(siteId, forceAgain);
 	}
 
 	@Override
 	public List<TemplateSource> getTemplateSourceChildren(Integer id) {
-		return templateSourceDao.getTemplateSourceChildren(id, getCurSite().getId());
+		return templateSourceDAO.getTemplateSourceChildren(id, getCurSite().getId());
 	}
 
 	@Override
 	public void publishTemplateSourceSuccess(Integer id) {
 		TemplateSource vo = getTemplateSource(id);
 		vo.setRelease(true);
-		templateSourceDao.persist(vo);
+		templateSourceDAO.persist(vo);
 	}
 
 	@Override
 	public TemplateSource getTemplateSourceByUniquePath(String path) {
-		return templateSourceDao.getTemplateSourceByPath(getCurSite().getId()+path);
+		return templateSourceDAO.getTemplateSourceByPath(getCurSite().getId()+path);
 	}	
 }

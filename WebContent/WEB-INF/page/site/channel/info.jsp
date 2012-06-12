@@ -17,15 +17,9 @@
 				<tr>
 					<td>专栏(<s:property value="channelVo.id"/>)：</td>
 					<td  width="80%" class="formFieldError">
-						 <s:checkbox name="channelVo.publicenable"></s:checkbox>是否发布
+						 <s:checkbox id="publicenable" name="channelVo.publicenable"/><label for="publicenable">是否发布</label>
 					</td>
 				</tr>
-				<tr>
-					<td>类型：</td>
-					<td>
-						<s:select list="@com.ewcms.core.site.model.Channel$Type@values()" listValue="description" name="channelVo.type" id="channelVo_type"></s:select>
-					</td>
-				</tr>													
 				<s:if test="channelVo.parent == null && !hasFieldErrors()">
 					<tr>
 						<td>站点名称：</td>
@@ -48,6 +42,12 @@
 					</tr>														
 				</s:if>	
 				<s:else>
+					<tr>
+						<td>专栏类型：</td>
+						<td>
+							<s:select list="@com.ewcms.core.site.model.Channel$Type@values()" listValue="description" name="channelVo.type" id="channelVo_type"></s:select>
+						</td>
+					</tr>													
 					<tr>
 						<td>专栏访问相对地址：</td>
 						<td  width="80%" class="formFieldError">

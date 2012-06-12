@@ -61,8 +61,10 @@ public class UserService extends AbstractService implements UserServiceable{
     public String addUser(final String username,final String password,
             final boolean enabled,final Date accountStart,final  Date accountEnd,
             final UserInfo userInfo, final Integer organId)throws UserServiceException {
-        
-    	Organ organ = siteFac.getOrgan(organId);
+    	Organ organ = null;
+        if (organId != null){
+        	organ = siteFac.getOrgan(organId);
+        }
     	
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");
@@ -116,7 +118,10 @@ public class UserService extends AbstractService implements UserServiceable{
     public String updateUser(final String username,
             final boolean enabled,final Date accountStart,
             final Date accountEnd,final UserInfo userInfo, final Integer organId) throws UserServiceException{
-    	Organ organ = siteFac.getOrgan(organId);
+    	Organ organ = null;
+    	if (organId != null){
+    		organ = siteFac.getOrgan(organId);
+    	}
     	
         if(accountStart !=null && accountEnd != null ){
             Assert.isTrue(accountEnd.getTime() > accountStart.getTime(),"account date start > end");

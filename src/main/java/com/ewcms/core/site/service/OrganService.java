@@ -26,27 +26,28 @@ import com.ewcms.web.vo.TreeNode;
 @Service
 public class OrganService {
 	@Autowired
-	private OrganDAO organDao;
+	private OrganDAO organDAO;
+	
 	public Integer addOrgan(Integer parentId, String organName) {
 		Organ vo = new Organ();
 		if(parentId != null)
-		vo.setParent(organDao.get(parentId));
+		vo.setParent(organDAO.get(parentId));
 		vo.setName(organName);
-		organDao.persist(vo);
+		organDAO.persist(vo);
 		return vo.getId();
 	}
 
 	public Integer updOrgan(Organ vo) {
-		organDao.merge(vo);
+		organDAO.merge(vo);
 		return vo.getId();
 	}
 
 	public void delOrgan(Integer id) {
-		organDao.removeByPK(id);
+		organDAO.removeByPK(id);
 	}
 
 	public Organ getOrgan(Integer id) {
-		return organDao.get(id);
+		return organDAO.get(id);
 	}
 
 	public Integer saveOrganInfo(Organ vo) {
@@ -71,7 +72,7 @@ public class OrganService {
 	}	
 	private List<TreeNode> getOrganChildren(Integer parentId) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
-		List<Organ> organList = organDao.getOrganChildren(parentId);
+		List<Organ> organList = organDAO.getOrganChildren(parentId);
 		for (Organ vo : organList) {
 			TreeNode tnVo = new TreeNode();
 			tnVo.setId(vo.getId().toString());

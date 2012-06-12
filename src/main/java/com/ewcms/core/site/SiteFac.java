@@ -275,4 +275,9 @@ public class SiteFac{
 	public TemplateSource channelSRCRoot() {
 		return templateSourceService.channelSRCRoot();
 	}
+	
+    public void saveAppChild(Integer channelId, List<Integer> templateIds){
+    	templateService.saveAppChild(channelId, templateIds);
+    }
+
 }

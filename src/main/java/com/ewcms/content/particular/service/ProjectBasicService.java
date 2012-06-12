@@ -64,7 +64,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 		setZoningCode(projectBasic);
 		setApprovalRecord(projectBasic);
 		setIndustryCode(projectBasic);
-		setPublishingSector(projectBasic);
+		setOrgan(projectBasic);
 		
 		projectBasicDAO.persist(projectBasic);
 		return projectBasic.getId();
@@ -91,7 +91,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 		setZoningCode(projectBasic);
 		setApprovalRecord(projectBasic);
 		setIndustryCode(projectBasic);
-		setPublishingSector(projectBasic);
+		setOrgan(projectBasic);
 		projectBasic.setRelease(false);
 		
 		if (code_new.equals(code_old)){
@@ -138,7 +138,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 		projectBasic.setIndustryCode(industryCode);
 	}
 	
-	private void setPublishingSector(ProjectBasic projectBasic){
+	private void setOrgan(ProjectBasic projectBasic){
 		Integer organId = projectBasic.getOrgan().getId();
 		Organ organ = siteFac.getOrgan(organId);
 		projectBasic.setOrgan(organ);
