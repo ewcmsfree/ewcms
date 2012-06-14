@@ -9,20 +9,17 @@
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/pb/index.js"/>'></script>
 		<script type="text/javascript">
-			var pbIndex = new PbIndex({
-				queryUrl:'<s:url namespace="/particular/pb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				inputUrl:'<s:url namespace="/particular/pb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				deleteUrl:'<s:url namespace="/particular/pb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				importUrl:'<s:url namespace="/particular/pb" action="import"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				generatorUrl:'<s:url namespace="/particular/pb" action="export"/>',
-				pubUrl:'<s:url namespace="/particular/pb" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				unPubUrl:'<s:url namespace="/particular/pb" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
-			});
+			var queryUrl='<s:url namespace="/particular/pb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var inputUrl='<s:url namespace="/particular/pb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var deleteUrl='<s:url namespace="/particular/pb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var importUrl='<s:url namespace="/particular/pb" action="import"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var generatorUrl='<s:url namespace="/particular/pb" action="export"/>';
+			var pubUrl='<s:url namespace="/particular/pb" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var unPubUrl='<s:url namespace="/particular/pb" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var datagridId="#tt";
+			var queryWinID="#query-window";
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>
-				pbIndex.init({
-		        	datagridId:'#tt'
-				});
 			});
 		</script>		
 	</head>
@@ -56,16 +53,18 @@
                                 <td class="tdinput">
                                     <input type="text" id="name" name="name" class="inputtext"/>
                                 </td>
+                             </tr>
+                             <tr>
  	                            <td class="tdtitle">建设性质：</td>
 	                            <td class="tdinput">
 	                                <s:select list="@com.ewcms.content.particular.model.ProjectBasic$Nature@values()" listValue="description" name="buildNature" id="buildNature" headerKey="" headerValue="------请选择------"/>
 	                            </td>
-                        	</tr>
-							<tr>
 	                            <td class="tdtitle">行业编码：</td>
 	                            <td class="tdinput">
 	                            	<input id="cc_industryCode" name="industryCode" style="width:150px;"></input>
 	                            </td>
+                        	</tr>
+							<tr>
 	                            <td class="tdtitle">行政区划代码：</td>
 	                            <td class="tdinput">
 	                            	<input id="cc_zoningCode" name="zoningCode" style="width: 150px;"></input>

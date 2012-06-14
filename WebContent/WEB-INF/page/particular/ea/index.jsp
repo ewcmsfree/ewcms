@@ -9,18 +9,15 @@
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/ea/index.js"/>'></script>
 		<script type="text/javascript">
-			var eaIndex = new EaIndex({
-				queryUrl:'<s:url namespace="/particular/ea" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				inputUrl:'<s:url namespace="/particular/ea" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				deleteUrl:'<s:url namespace="/particular/ea" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				pubUrl:'<s:url namespace="/particular/ea" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				unPubUrl:'<s:url namespace="/particular/ea" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
-			});
+			var queryUrl='<s:url namespace="/particular/ea" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var inputUrl='<s:url namespace="/particular/ea" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var deleteUrl='<s:url namespace="/particular/ea" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var pubUrl='<s:url namespace="/particular/ea" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var unPubUrl='<s:url namespace="/particular/ea" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var datagridId='#tt';
+			var queryWinID="#query-window";
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>
-				eaIndex.init({
-		        	datagridId:'#tt'
-				});
 			});
 		</script>		
 	</head>

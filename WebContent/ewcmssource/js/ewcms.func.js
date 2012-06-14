@@ -15,7 +15,9 @@ function iframeFitHeight(oIframe){
 function openWindow(winID,options){
 	ewcmsBOBJ.openWindow(winID,options);
 }
-
+function openWindow1(options){
+	ewcmsBOBJ.openWindow1(options);
+}
 function querySearch(formID){
 	if(typeof(formID) == 'undefined'){
 		ewcmsOOBJ.querySearch();

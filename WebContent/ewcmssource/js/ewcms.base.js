@@ -165,6 +165,36 @@ function EwcmsBase(){
         }
 		$(windowID).window('open');
 	}
+	
+	this.openWindow1 = function(options){
+		if(typeof(options) == 'undefined')options = {};
+		var win = window.top.document.createElement("div");
+		win.setAttribute("id", "open_window_top");
+		win.setAttribute("style", "padding:0px;");
+        window.top.document.body.appendChild(win);   
+        window.top.$(win).window({
+ 		   title: (options.title ? options.title : '窗口'),
+		   width: (options.width ? options.width : winWidth),
+		   height: (options.height ? options.height : winHeight),
+		   left:(options.left ? options.left : (window.screen.width - (options.width ? options.width : winWidth))/2),
+		   top:(options.top ? options.top : (document.body.scrollHeight + 100 - (options.height ? options.height : winHeight))/2),
+		   modal: (options.modal ? options.modal : true),
+		   maximizable:(options.maximizable ? options.maximizable : true),
+		   minimizable:(options.minimizable ? options.minimizable : false), 
+           shadow: false, 
+           closed: true,  
+           draggable:true,  
+           zIndex:999,  
+           inline:true,  
+           content:function(){
+        	   return '<iframe scrolling="auto" frameborder="0"  src="' + options.url + '" style="width:100%;height:100%;"></iframe>';
+           },
+           onClose:function(){  
+               window.setTimeout(function(){$(win).window('destroy',false)},  0);
+           }    
+        })  
+       window.top.$(win).window('open');
+    }
 
 	/*ewcms关闭窗口*/
 	this.closeWindow = function(windowID){
@@ -322,7 +352,6 @@ function EwcmsOperate(){
 	this.saveOperator = function(iframeID){
 	    if(typeof(iframeID) == 'undefined'|| iframeID == '')iframeID = 'editifr';
 	    window.frames[iframeID].document.forms[0].submit();
-	    
 	}
 	            
 	/*添加操作*/ 

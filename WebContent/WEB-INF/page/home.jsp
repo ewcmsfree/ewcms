@@ -82,7 +82,8 @@
                 <div id="exit-menu" iconCls="icon-exit">退出</div>
              </div>
         </div>
-        <div region="south" style="height:2px;background:#efefef;overflow:hidden;"></div>
+        <div region="south" split="true" style="height:2px;background:#efefef;overflow:hidden;"></div>
+        <div region="east" split="true" style="height:2px;width:2px;background:#efefef;overflow:hidden;"></div>  
         <div region="west" split="true" title="EWCMS平台菜单" style="width:180px;padding:1px;overflow:hidden;">
             <div id="mainmenu" class="easyui-accordion" fit="true" border="false">
                  <sec:authorize ifAnyGranted="ROLE_ADMIN">
@@ -316,7 +317,7 @@
             </div>
         </div>
         <div region="center" style="overflow:hidden;">
-            <div class="easyui-tabs"  id="systemtab" fit="true" border="false">
+            <div class="easyui-tabs" id="systemtab" fit="true" border="false">
                 <div title="首页" style="padding:5px;overflow:hidden;">
                     <div style="margin-top:10px;">
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
@@ -459,8 +460,8 @@
         </div>
         <div id="edit-window" class="easyui-window" closed="true" icon="icon-winedit" style="display:none;">
             <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding: 10px;">
-                    <iframe id="editifr" name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
+                <div region="center" border="false" style="padding: 10px;" fit="true">
+                    <iframe id="editifr" name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="auto"></iframe>
                 </div>
                 <div region="south" border="false" style="padding-right:20px;text-align:right;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="window.frames['editifr'].pageSubmit();">确定</a>

@@ -9,18 +9,15 @@
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/particular/mb/index.js"/>'></script>
 		<script type="text/javascript">
-			var mbIndex = new MbIndex({
-				queryUrl:'<s:url namespace="/particular/mb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				inputUrl:'<s:url namespace="/particular/mb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				deleteUrl:'<s:url namespace="/particular/mb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				pubUrl:'<s:url namespace="/particular/mb" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>',
-				unPubUrl:'<s:url namespace="/particular/mb" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>'
-			});
+			var queryUrl='<s:url namespace="/particular/mb" action="query"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var inputUrl='<s:url namespace="/particular/mb" action="input"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var deleteUrl='<s:url namespace="/particular/mb" action="delete"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var pubUrl='<s:url namespace="/particular/mb" action="pub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var unPubUrl='<s:url namespace="/particular/mb" action="unPub"><s:param name="channelId" value="channelId"></s:param></s:url>';
+			var datagridId='#tt';
+			var queryWinID="#query-window";
 			$(function(){
 				<s:include value="../../alertMessage.jsp"/>
-				mbIndex.init({
-		        	datagridId:'#tt'
-				});
 			});
 		</script>		
 	</head>

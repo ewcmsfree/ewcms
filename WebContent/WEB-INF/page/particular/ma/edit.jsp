@@ -55,7 +55,7 @@
 	            $('#tt_organ').combotree($('#organShow').val());
 	            $("#tt_organ").combotree("setValue", <s:if test="((employeArticleVo.organ==null) || (employeArticleVo.organ.id==null))">''</s:if><s:else><s:property value="employeArticleVo.organ.id"/></s:else>);
 	            
-	        	var height = $(window).height() - $("#inputBarTable").height() - 10;
+	        	var height = $(window).height() - $("#inputBarTable").height() - 38;
 	        	var width = $(window).width() - 30*2;
 	        	$("div #_DivContainer").css("height",height + "px");
 	        	try{
@@ -68,6 +68,20 @@
 	        	}catch(errRes){
 	        	}
 	       });
+		   parent.$(window).resize(function(){
+		   		var height = $(window).height() - $("#inputBarTable").height() - 38;
+		    	var width = $(window).width() - 30*2;
+		        $("div #_DivContainer").css("height",height + "px");
+		        try{
+		        	if (tinyMCE.getInstanceById('_Content_1') != null){
+		        		tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 135));
+		        	}else{
+		        		$("#_Content_1").css("width", (width + 2) + "px");
+		        		$("#_Content_1").css("height", (height - 142) + "px");
+		        	}
+		        }catch(errRes){
+		        }
+		    });
         </script>
         <ewcms:datepickerhead></ewcms:datepickerhead>		
 	</head>
@@ -137,5 +151,8 @@
                <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			
 		</s:form>
+		<div style="width:100%;height:16px;position:absolute;text-align:center;height:28px;line-height:28px;background-color:#f6f6f6;bottom:0px;left:0px;">
+	    	<a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="document.forms[0].submit();">保存</a>
+	    </div>
 	</body>
 </html>

@@ -11,7 +11,6 @@
         <script type="text/javascript">
         $(function(){
             <s:include value="../../alertMessage.jsp"/>
-        		
             $('#cc_industryCode').combobox({
         		url: '<s:url namespace="/particular/ic" action="findIndustryCodeAll"><s:param name="projectBasicId" value="projectBasicVo.id"></s:param></s:url>',
         		valueField:'id',
@@ -237,8 +236,11 @@
 			<s:hidden id="organShow" name="organShow"/>
 			<s:hidden id="channelId" name="channelId"/>
             <s:iterator value="selections" var="id">
-                <s:hidden name="selections" value="%{id}"/>
+                <s:hidden id="selections" name="selections" value="%{id}"/>
             </s:iterator>			
 		</s:form>
+		<div style="width:100%;height:16px;position:absolute;text-align:center;height:28px;line-height:28px;background-color:#f6f6f6;bottom:0px;left:0px;">
+	    	<a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="document.forms[0].submit();">保存</a>
+	    </div>
 	</body>
 </html>
