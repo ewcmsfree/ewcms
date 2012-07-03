@@ -18,6 +18,7 @@
             	clock.display(document.getElementById("clock"));
             	
                 ewcmsBOBJ = new EwcmsBase();
+                ewcmsOOBJ = new EwcmsOperate();
                 _home.init({
                     user:'<s:url action="user" namespace="/account"/>',
                     password:'<s:url action="password" namespace="/account"/>',

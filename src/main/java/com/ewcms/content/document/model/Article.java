@@ -114,11 +114,11 @@ public class Article implements Serializable {
     @GeneratedValue(generator = "seq_content_article",strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "title", nullable = false, length = 100)
+	@Column(name = "title", nullable = false)
 	private String title;
-	@Column(name = "short_title", length = 50)
+	@Column(name = "short_title")
 	private String shortTitle;
-	@Column(name = "sub_title", length = 100)
+	@Column(name = "sub_title")
 	private String subTitle;
 	@Column(name = "author")
 	private String author;

@@ -185,15 +185,19 @@ function EwcmsBase(){
            closed: true,  
            draggable:true,  
            zIndex:999,  
-           inline:true,  
+           inline:true,
            content:function(){
         	   return '<iframe scrolling="auto" frameborder="0"  src="' + options.url + '" style="width:100%;height:100%;"></iframe>';
            },
-           onClose:function(){  
-               window.setTimeout(function(){$(win).window('destroy',false)},  0);
-           }    
-        })  
-       window.top.$(win).window('open');
+           onClose:function(){
+        	   $(datagridId).datagrid('clearSelections');
+        	   $(datagridId).datagrid("reload");
+               window.setTimeout(function(){
+            	   window.top.$(win).window("destroy", false);
+               },  100);
+           }
+        });
+        window.top.$(win).window("open");
     }
 
 	/*ewcms关闭窗口*/

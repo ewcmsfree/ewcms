@@ -29,6 +29,7 @@ import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.util.ConvertToPinYin;
 import com.ewcms.security.acls.domain.EwcmsPermission;
 import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -183,6 +184,7 @@ public class ChannelService implements ChannelServiceable{
         channel.setName(name);
         channel.setParent(channelDAO.get(parentId));
         channel.setSite(getCurSite());
+        channel.setDir(ConvertToPinYin.covert(name));
         channelDAO.persist(channel);
         initAclOfChannel(channel,true,true);
         return channel.getId();
