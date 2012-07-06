@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.ewcms.content.document.DocumentFacable;
+import com.ewcms.web.context.EwcmsContextHolder;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.util.XMLUtil;
 
@@ -42,6 +43,8 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 
 	public void createArticle() throws Exception {
+		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
+		
 		XMLUtil xml = new XMLUtil();
 		Element graph = xml.addRoot("graph");
 		// xml.addAttribute(graph, "caption", "文章编辑数");
@@ -52,7 +55,7 @@ public class FcfAction extends EwcmsBaseAction {
 		xml.addAttribute(graph, "decimalPrecision", "0");// 小数精确度，0为精确到个位
 		// xml.addAttribute(graph, "showValues", "0");// 在报表上不显示数值
 		xml.addAttribute(graph, "formatNumberScale", "0");
-		Map<Integer, Long> map = documentFac.findCreateArticleFcfChart(getYearCreate());
+		Map<Integer, Long> map = documentFac.findCreateArticleFcfChart(getYearCreate(), siteId);
 		Iterator<Entry<Integer, Long>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Integer, Long> m = (Map.Entry<Integer, Long>)it.next();
@@ -79,13 +82,15 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 	
 	public void releaseArticle() throws Exception{
+		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
+		
 		XMLUtil xml = new XMLUtil();
 		Element graph = xml.addRoot("graph");
 		xml.addAttribute(graph, "basefontsize", "12");
 		xml.addAttribute(graph, "showNames", "1");
 		xml.addAttribute(graph, "decimalPrecision", "0");
 		xml.addAttribute(graph, "formatNumberScale", "0");
-		Map<Integer, Long> map = documentFac.findReleaseArticleFcfChart(getYearRelease());
+		Map<Integer, Long> map = documentFac.findReleaseArticleFcfChart(getYearRelease(), siteId);
 		Iterator<Entry<Integer, Long>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Integer, Long> m = (Map.Entry<Integer, Long>)it.next();
@@ -112,13 +117,15 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 
 	public void releaseArticlePerson() throws Exception{
+		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
+
 		XMLUtil xml = new XMLUtil();
 		Element graph = xml.addRoot("graph");
 		xml.addAttribute(graph, "basefontsize", "12");
 		xml.addAttribute(graph, "showNames", "1");
 		xml.addAttribute(graph, "decimalPrecision", "0");
 		xml.addAttribute(graph, "formatNumberScale", "0");
-		Map<String, Long> map = documentFac.findReleaseArticlePersonFcfChart(getYearPerson());
+		Map<String, Long> map = documentFac.findReleaseArticlePersonFcfChart(getYearPerson(), siteId);
 		Iterator<Entry<String, Long>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Long> m = (Map.Entry<String, Long>)it.next();

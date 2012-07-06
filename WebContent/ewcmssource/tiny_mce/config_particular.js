@@ -12,7 +12,7 @@ tinyMCE.init({
 	// Theme options
 	theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,|,preview,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid",
 	theme_advanced_buttons2 : "formatselect,fontselect,fontsizeselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,|,fullscreen,code",
-	theme_advanced_buttons3 : "sub,sup,|,charmap,emotions,iespell,advhr,|print,|,ltr,rtl,|,ewcmsImage,ewcmsAnnex,ewcmsVote,ewcmsFlash,ewcmsVideo,|,help",
+	theme_advanced_buttons3 : "sub,sup,|,charmap,emotions,iespell,advhr,|,print,|,ltr,rtl,|,ewcmsImage,ewcmsAnnex,ewcmsVote,ewcmsFlash,ewcmsVideo,|,help",
 	theme_advanced_buttons4 : "",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",

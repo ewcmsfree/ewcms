@@ -249,7 +249,7 @@ public interface ArticleMainServiceable {
 	 * @param year
 	 * @return
 	 */
-	public Map<Integer, Long> findCreateArticleFcfChart(Integer year);
+	public Map<Integer, Long> findCreateArticleFcfChart(Integer year, Integer siteId);
 	
 	/**
 	 * 根据年份查询所有月的发布文章数，供FusionCharts使用
@@ -257,7 +257,7 @@ public interface ArticleMainServiceable {
 	 * @param year 年份
 	 * @return Map
 	 */
-	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year);
+	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year, Integer siteId);
 	
 	/**
 	 * 根据年份查询建立者的发布文章数，供FusionCharts使用
@@ -265,7 +265,7 @@ public interface ArticleMainServiceable {
 	 * @param year 年份
 	 * @return Map
 	 */
-	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year);
+	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year, Integer siteId);
 	
 	/**
 	 * 查询文章主体

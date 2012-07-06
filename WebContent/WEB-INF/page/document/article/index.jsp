@@ -138,6 +138,14 @@
                 </div>
             </div>
         </div>
+        <div id="btnSearchSub" style="width:80px;">
+        	<div id="btnSearch" iconCls="icon-search" onclick="queryCallBack();">条件</div>
+	        <div id="btnBack" iconCls="icon-back" onclick="initOperateQuery();">缺省</div>
+        </div>
+        <div id="btnOperateSub" style="width:80px;">
+        	<div id="btnSearch" iconCls="icon-copy" onclick="copyOperate();">复制</div>
+	        <div id="btnBack" iconCls="icon-move" onclick="moveOperate();">移动</div>
+        </div>
         <div id="btnSortSub" style="width:80px;display:none;">
         	<div id="btnSortSet" iconCls="icon-sortset" onclick="sortOperate('<s:url namespace='/document/article' action='isSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>','<s:url namespace='/document/article' action='sortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">设置</div>
 	        <div id="btnSortClear" iconCls="icon-sortclear" onclick="clearSortOperate('<s:url namespace='/document/article' action='clearSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">清除</div>

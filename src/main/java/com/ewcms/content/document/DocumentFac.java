@@ -304,18 +304,18 @@ public class DocumentFac implements DocumentFacable {
 	}
 
 	@Override
-	public Map<Integer, Long> findCreateArticleFcfChart(Integer year) {
-		return articleMainService.findCreateArticleFcfChart(year);
+	public Map<Integer, Long> findCreateArticleFcfChart(Integer year, Integer siteId) {
+		return articleMainService.findCreateArticleFcfChart(year, siteId);
 	}
 
 	@Override
-	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year) {
-		return articleMainService.findReleaseArticleFcfChart(year);
+	public Map<Integer, Long> findReleaseArticleFcfChart(Integer year, Integer siteId) {
+		return articleMainService.findReleaseArticleFcfChart(year, siteId);
 	}
 
 	@Override
-	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year) {
-		return articleMainService.findReleaseArticlePersonFcfChart(year);
+	public Map<String, Long> findReleaseArticlePersonFcfChart(Integer year, Integer siteId) {
+		return articleMainService.findReleaseArticlePersonFcfChart(year, siteId);
 	}
 
 	@Override

@@ -27,10 +27,12 @@ $(function() {
 	ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
 	ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
 	ewcmsBOBJ.addToolItem('预览', 'icon-article-preview', previewOperate, 'btnPreview')
-	ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
-	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
-	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
-	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
+	ewcmsBOBJ.addToolItem('查询', 'icon-search', null, 'btnSearchParent')
+//	ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
+//	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
+	ewcmsBOBJ.addToolItem('操作', '', null, 'btnOperate');
+//	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
+//	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
 	ewcmsBOBJ.addToolItem('置顶', 'icon-top', null, 'btnTop');
 	ewcmsBOBJ.addToolItem('排序', 'icon-sort', null, 'btnSort');
 	ewcmsBOBJ.addToolItem('审核', 'icon-review', null, 'btnReview');
@@ -132,6 +134,8 @@ function previewOperate(){
 
 //把子菜单添加到相应的父节点上
 function initSubMenu() {
+	$('#btnSearchParent .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSearchSub'});
+	$('#btnOperate .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnOperateSub'});
 	$('#btnSort .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnSortSub'});
 	$('#btnReview .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnReviewSub'});
 	$('#btnPub .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnPubSub'});

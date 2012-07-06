@@ -55,9 +55,20 @@ public class Channel implements Serializable {
 	private static final long serialVersionUID = 7813916065025966481L;
 
 	public enum Type {
-		NODE("节点"), ARTICLE("文章信息"), PROJECT("项目基本信息"), PROJECTARTICLE("项目文章信息"), ENTERPRISE(
-				"企业基本信息"), ENTERPRISEARTICLE("企业文章信息"), EMPLOYE("从业人员基本信息"), EMPLOYEARTICLE(
-				"从业人员文章信息"), LEADER("领导信息"), LEADERARTICLE("领导专栏"), ONLINE("网上办事");
+		NODE("节点"), 
+		ARTICLE("文章信息"), 
+		LEADER("领导信息"), 
+		LEADERARTICLE("领导专栏"), 
+		ONLINE("网上办事"),
+		INTERACTION("政民互动"),
+		SPEAK("留言审核"),
+		ADVISOR("网上咨询"),
+		PROJECT("项目基本信息"), 
+		PROJECTARTICLE("项目文章信息"), 
+		ENTERPRISE("企业基本信息"), 
+		ENTERPRISEARTICLE("企业文章信息"), 
+		EMPLOYE("从业人员基本信息"), 
+		EMPLOYEARTICLE("从业人员文章信息");
 
 		private String description;
 

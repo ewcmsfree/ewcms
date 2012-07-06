@@ -108,10 +108,10 @@ function window_resize(){
 	$("div #_DivContainer").css("height",height + "px");
 	try{
 		if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
-			tinyMCE.getInstanceById('_Content_' + currentPage).theme.resizeTo(width,(height - 107));
+			tinyMCE.getInstanceById('_Content_' + currentPage).theme.resizeTo(width,(height - 138));
 		}else{
 			$("#_Content_" + currentPage).css("width", (width + 2) + "px");
-			$("#_Content_" + currentPage).css("height", (height - 40) + "px");
+			$("#_Content_" + currentPage).css("height", (height - 48) + "px");
 		}
 	}catch(errRes){
 	}

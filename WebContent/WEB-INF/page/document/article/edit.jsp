@@ -41,10 +41,10 @@
 										<td width="100%" style="border: 0px solid;">
 											<a class="easyui-linkbutton" iconCls="icon-article-create" href="javascript:void(0)" onclick="createArticle('<s:url action='input' namespace='/document/article'><s:param name='channelId' value='channelId'></s:param></s:url>');return false;">新建</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-save" href="javascript:void(0)" onclick="saveArticle();return false;">保存</a>
-											<a class="easyui-linkbutton" iconCls="icon-article-review" href="javascript:void(0)" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,$('#articleMainId').val());return false;">提交审核</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-review" href="javascript:void(0)" onclick="submitReview('<s:url action='submitReview' namespace='/document/article'/>',<s:property value="channelId"/>,$('#articleMainId').val());return false;">审核</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-keyword" href="javascript:void(0)" onclick="getKeywordOrSummary('keyWord','<s:url action="keyword" escapeAmp="false"/>');return false;">提取关键字</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-summary" href="javascript:void(0)" onclick="getKeywordOrSummary('summary','<s:url action="summary" escapeAmp="false"/>');return false;">提取摘要</a>
-											<a class="easyui-linkbutton" iconCls="icon-article-history" href="javascript:void(0)" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">历史内容</a>
+											<a class="easyui-linkbutton" iconCls="icon-article-history" href="javascript:void(0)" onclick="selectHistory('<s:url action='selectId' namespace='/document/history'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">历史</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-relation" href="javascript:void(0)" onclick="selectRelation('<s:url action='relation' namespace='/document/relation'><s:param name='articleId' value='articleVo.id'></s:param></s:url>');return false;">相关文章</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-cookies" href="javascript:void(0)" onclick="ewcmsCookies();return false;">常用项</a>
 											<a class="easyui-linkbutton" iconCls="icon-article-show" href="javascript:void(0)" onclick="showHide();return false;"><s:label id="showHideLabel" value="展开"></s:label>&nbsp;</a>
@@ -174,7 +174,7 @@
 			  					<table id="_Table1" width="1000" border="0" cellpadding="10" bgcolor="#FFFFFF" style="margin: 5px auto;">
 			  						<tr>
 			  							<td valign="top">
-			  								<div id="DivContent">
+			  								<div id="DivContent" align="center">
 			  									<table id="tableContent" width="100%" height="100%" cellpadding="0" cellspacing="0">
 													<s:iterator value="articleVo.contents" status="contentsStatus" >
 														<s:if test="#contentsStatus.index==0">
@@ -222,14 +222,14 @@
 								</s:a>
 							</span>
 						</td>
-						<td width="20%" height="20" valign="middle" align="right" style="padding-right: 10px;" bgcolor="#F7F8FD" class="pagetab">最后保存时间:
+						<td width="20%" height="20" valign="middle" align="right" bgcolor="#F7F8FD" class="pagetab" style="vertical-align: middle;">最后保存时间:
 							<span id="saveTime_general"><s:if test="modified!=null"><s:date name="articleVo.modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
 						</td>
 					</tr>
 				</table>
 				<table width="100%" id="pageBarTable_title" style="display:none">
 					<tr>
-						<td width="100%" height="20" valign="middle" align="left" style="padding-right: 10px;" bgcolor="#F7F8FD" class="pagetab">最后保存时间:
+						<td width="100%" height="20" valign="middle" bgcolor="#F7F8FD" class="pagetab" align="left" style="">最后保存时间:
 							<span id="saveTime_title"><s:if test="modified!=null"><s:date name="articleVo.modified" format="yyyy-MM-dd HH:mm:ss" /></s:if></span>
 						</td>
 					</tr>

@@ -60,7 +60,7 @@
 			      					<li class="user_main_input">
                             			<input class="txtvalidatecodecssclass" type="text" name="j_checkcode"/>
 			        				</li>
-                            		<li><img id="id_checkcode" width="65px" height="20px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 5px;" /></li>
+                            		<li><img id="id_checkcode" width="100px" height="30px" src="<s:url value="/checkcode.jpg"/>" alt="checkcode.jpg" title="看不清,换一张" style="padding-left: 5px;" /></li>
 			        			</ul>
 			    				<ul>
 			      					<li class="user_main_text">记&nbsp;&nbsp;&nbsp;&nbsp;住：</li>

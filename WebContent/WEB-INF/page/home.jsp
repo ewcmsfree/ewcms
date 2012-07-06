@@ -53,10 +53,10 @@
         						<td height="20px" colspan="2" >
         							<table width="100%">
         								<tr>
-        									<td width="75%" style="text-align:right;">
+        									<td width="65%" style="text-align:right;">
 			        							<span id="tipMessage" style="color:red;font-size:13px;"></span>
 			        						</td>
-			        						<td width="30%" style="text-align:left">
+			        						<td width="35%" style="text-align:left">
 			        							<div class="bs">
 													<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
 													<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
@@ -214,7 +214,7 @@
                         </a>
                     </div>
                 </div>
-                </sec:authorize>                
+                </sec:authorize>  
                 <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">
                 <div title="站点资源" style="overflow:auto;">
                     <div class="nav-item">
@@ -231,6 +231,7 @@
                     </div>
                 </div>
                 </sec:authorize>
+                <!-- 
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
                 <div title="网络采集" style="overflow:auto;">
                     <div class="nav-item">
@@ -253,6 +254,7 @@
                     </div>
                 </div>
                 </sec:authorize>
+                 -->
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
                	<div title="报表管理" style="overflow:auto;">
                	    <div class="nav-item">
@@ -293,6 +295,7 @@
                	    </div>
                	</div>
                 </sec:authorize>
+                <!-- 
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
                 <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
@@ -315,6 +318,7 @@
                     </div>
                 </div>
                 </sec:authorize>
+                 -->
             </div>
         </div>
         <div region="center" style="overflow:hidden;">

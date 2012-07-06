@@ -23,6 +23,18 @@
 						}else{
 							if (node.attributes.type == 'ARTICLE'){
 								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'LEADER'){
+								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'LEADERARTICLE'){
+								url = '<s:url namespace="/document/refer" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'ONLINE'){
+								url = '<s:url namespace="/plugin/online/workingbody" action="index"/>' + '?channelId=' + currentnode.id;
+							}else if (node.attributes.type == 'INTERACTION'){
+								url = '<s:url namespace="/plguin/interaction/" action="index"/>';
+							}else if (node.attributes.type == 'SPEAK'){
+								url = '<s:url namespace="/plguin/interaction/" action="speak"/>';
+							}else if (node.attributes.type == 'ADVISOR'){
+								url = '<s:url namespace="/plugin/online/advisor/" action="index"/>';
 							}else if (node.attributes.type == 'PROJECT'){
 								url = '<s:url namespace="/particular/pb" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'PROJECTARTICLE'){
@@ -35,12 +47,6 @@
 								url = '<s:url namespace="/particular/mb" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'EMPLOYEARTICLE'){	
 								url = '<s:url namespace="/particular/ma" action="index"/>' + '?channelId=' + currentnode.id;
-							}else if (node.attributes.type == 'LEADER'){
-								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;
-							}else if (node.attributes.type == 'LEADERARTICLE'){
-								url = '<s:url namespace="/document/refer" action="index"/>' + '?channelId=' + currentnode.id;
-							}else if (node.attributes.type == 'ONLINE'){
-								url = '<s:url namespace="/plugin/online/workingbody" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'NODE'){
 								url = '';
 							}

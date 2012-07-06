@@ -107,7 +107,7 @@ public class ConvertToPinYinTest {
 	
 	@Test
 	public void converterToPinYin() {
-		String chinese = "就业信息2";
+		String chinese = "政府重要工作";
 		String pinyinString = "";
 		char[] charArray = chinese.toCharArray();
 		// 根据需要定制输出格式，我用默认的即可
