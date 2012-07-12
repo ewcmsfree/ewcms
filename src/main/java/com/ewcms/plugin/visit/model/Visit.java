@@ -101,14 +101,13 @@ public class Visit implements Serializable {
 	@Column()
 	private String type;
 	@Column()
-	private String catalogInnerCode;
+	private Integer channelId;
 	@Column()
 	private Long leafID;
 	@Column()
 	private Long siteID;
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "visitTime")
-	private Date visitTime;
+	@Column()
+	private Long visitTime;
 	@Column()
 	private String host;
 	@Column()
@@ -266,12 +265,12 @@ public class Visit implements Serializable {
 		this.type = type;
 	}
 
-	public String getCatalogInnerCode() {
-		return catalogInnerCode;
+	public Integer getChannelId() {
+		return channelId;
 	}
 
-	public void setCatalogInnerCode(String catalogInnerCode) {
-		this.catalogInnerCode = catalogInnerCode;
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
 	}
 
 	public Long getLeafID() {
@@ -290,11 +289,11 @@ public class Visit implements Serializable {
 		this.siteID = siteID;
 	}
 
-	public Date getVisitTime() {
+	public Long getVisitTime() {
 		return visitTime;
 	}
 
-	public void setVisitTime(Date visitTime) {
+	public void setVisitTime(Long visitTime) {
 		this.visitTime = visitTime;
 	}
 

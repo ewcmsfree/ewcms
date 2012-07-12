@@ -46,7 +46,7 @@
     				  '    </tr>' +
     				  '    <tr>' +
     				  '       <td align=\"right\">说明：</td>' +
-    				  '       <td><textarea name=\"legend\" cols=\"140\" rows=\"1\"></textarea></td>' +
+    				  '       <td><textarea name=\"legend\" cols=\"110\" rows=\"1\"></textarea></td>' +
     				  '    </tr>' + 
     				  '</table>';
     			temp.rows.item(temp.rows.length - 1).cells.item(0).innerHTML = sHTML;
@@ -68,34 +68,23 @@
     		}
     		var selItem = 0;
     		function selectAnnex(selectId){
+    			ewcmsBOBJ = new EwcmsBase();
         		selItem = selectId;
-				openAnnexWindow();
+        		ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,top:5,title:"附件选择", url:'<s:url action="insert" namespace="/resource"/>?type=annex'});
 			}
-            function openAnnexWindow(){
-            	$('#systemtab_annex').tabs('select','本地附件');
-                $('#uploadifr_annex_id').attr('src','<s:url action="upload" namespace="/resource/annex"/>?multi=false');
-                openWindow("#annex-window",{width:600,height:500,top:5,title:"附件选择"});
-            }
             function insertAnnexOperator(){
-                var tab = $('#systemtab_annex').tabs('getSelected');
-                var title = tab.panel('options').title;
-                if (selItem > 0){
-	                if(title == '本地附件'){
-	                    uploadifr.insert(function(data){
-	                        $.each(data,function(index,value){
-		            			$("#filePath_" + selItem).attr("value","../.." + value.releasePath);
-	                        });
-	                    });
-	                }else{
-	                    queryifr.insert(function(data){
-	                        $.each(data,function(index,value){
-	                        	$("#filePath_" + selItem).attr("value","../.." + value.releasePath);
-	                        });
-	                    });
-	                }
-                }
+            	uploadifr_insert.insert(function(data,success){
+            		if (success){
+            			$.each(data, function(index,value){
+            				alert(value.uri);
+            				$("#filePath_" + selItem).attr("value", value.uri);
+            			});
+            		}else{
+            			$.messager.alert('错误', '插入失败', 'error');
+            		}
+            	});
                 selItem = 0;
-            	$("#annex-window").window("close");
+            	$("#insert-window").window("close");
             }            
         </script>		
 	</head>
@@ -256,21 +245,18 @@
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			
 		</s:form>
-		<div id="annex-window" class="easyui-window" closed="true" icon="icon-save" title="插入附件" style="display:none;">
+		<div style="width:100%;height:16px;position:absolute;text-align:center;height:28px;line-height:28px;background-color:#f6f6f6;bottom:0px;left:0px;">
+	    	<a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="document.forms[0].submit();">保存</a>
+	    </div>
+		
+		<div id="insert-window" class="easyui-window" closed="true" icon="icon-save" title="插入" style="display:none;">
             <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding:10px 5px 10px 0;background:#fff;border:1px solid #ccc;overflow: hidden;">
-                    <div class="easyui-tabs" id="systemtab_annex" border="false" fit="true"  plain="true">
-                        <div title="本地附件"  style="padding: 5px;" cache="true">
-                            <iframe src="" id="uploadifr_annex_id"  name="uploadifr" class="editifr" scrolling="no"></iframe>
-                        </div>
-                        <div title="服务器附件" cache="true">
-                            <iframe src="" id="queryifr_annex_id"  name="queryifr" class="editifr" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
+            	<div region="center" border="false">
+             		<iframe src="" id="uploadifr_insert_id"  name="uploadifr_insert" class="editifr" scrolling="no"></iframe>
+             	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnexOperator()">插入</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#annex-window').window('close');return false;">取消</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnexOperator();">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>	

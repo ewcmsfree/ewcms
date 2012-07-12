@@ -57,6 +57,7 @@ public class Channel implements Serializable {
 	public enum Type {
 		NODE("节点"), 
 		ARTICLE("文章信息"), 
+		RETRIEVAL("公文检索"),
 		LEADER("领导信息"), 
 		LEADERARTICLE("领导专栏"), 
 		ONLINE("网上办事"),

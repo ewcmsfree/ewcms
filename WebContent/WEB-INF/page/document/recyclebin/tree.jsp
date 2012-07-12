@@ -18,7 +18,7 @@
 						rootnode = $('#tt2').tree('getRoot');
 						if (rootnode.id == node.id){return;}
 						var url = '';
-						if (node.attributes.type == 'ARTICLE'){
+						if (node.attributes.type == 'ARTICLE' || node.attributes.type == 'RETRIEVAL'){
 							url = '<s:url namespace="/document/recyclebin" action="index"/>' + '?channelId=' + node.id;
 						}else {
 							url = '';

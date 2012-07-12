@@ -547,6 +547,13 @@
 			<version>${mockito.all.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/WebContent/WEB-INF/lib/pinyin4j-2.5.0.jar</systemPath>
+		</dependency>
 		<!-- 
 		<dependency>
 			<groupId>org.unitils</groupId>

@@ -7,16 +7,26 @@
 		<title>事项基本信息</title>	
 		<s:include value="../../../taglibs.jsp"/>
 		<script>
+			var datagridId="#tt";
 			$(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/plugin/online/matter" action="query"/>');
 
-				ewcmsBOBJ.setWinWidth(980);
-				ewcmsBOBJ.setWinHeight(590);
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+			    
+				ewcmsBOBJ.addToolItem('新增','icon-add', addOperate, 'addToolbar');
+				ewcmsBOBJ.addToolItem('修改','icon-edit', editOperate, 'editToolbar');
+				ewcmsBOBJ.addToolItem('删除', 'icon-remove', removeOperate, 'removeToolbar');
+				ewcmsBOBJ.addToolItem('上移','icon-up',upOperate,'upOperate');
+              	ewcmsBOBJ.addToolItem('下移','icon-down',downOperate,'downOperate');
+				ewcmsBOBJ.addToolItem('查询', 'icon-search', queryOperate,'queryToolbar');
+				ewcmsBOBJ.addToolItem('缺省查询','icon-back', defQueryOperate, 'defQueryToolbar');
 				
-				ewcmsBOBJ.addToolItem('上移','icon-up','upOperate');
-              	ewcmsBOBJ.addToolItem('下移','icon-down','downOperate');
 				ewcmsBOBJ.openDataGrid('#tt',{
 					singleSelect:true,
 					columns:[[
@@ -47,6 +57,48 @@
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/plugin/online/matter" action="delete"/>');				
 			});
 
+			function addOperate(){
+				openWindow1({title:'新增事项基本信息', url:'<s:url namespace="/plugin/online/matter" action="input"/>', width:900, height:633});
+			}
+
+			function editOperate(){
+				var rows = $(datagridId).datagrid('getSelections');
+			    if(rows.length == 0){
+			        $.messager.alert('提示','请选择修改记录','info');
+			        return;
+			    }
+			    var url = '<s:url namespace="/plugin/online/matter" action="input"/>';            
+			    var index = url.indexOf("?");
+			    if (index == -1){
+			        url = url + '?';
+			    }else{
+			        url = url + "&";
+			    }
+			    callBackId = function(row){
+			        return row.id;
+			    }
+			    if(typeof(options) == 'undefined')options = {};	    
+			    if(options.callBackId){
+			        callBackId = options.callBackId;
+			    }
+			    for(var i=0;i<rows.length;++i){
+			        url += 'selections=' + callBackId(rows[i]) +'&';
+			    }
+			    ewcmsBOBJ.openWindow1({title:'修改事项基本信息', url:url, width:980, height:610})
+			}
+			
+			function removeOperate(){
+				ewcmsOOBJ.delOperateBack();
+			}
+
+			function queryOperate(){
+				ewcmsBOBJ.openWindow("#query-window");
+			}
+
+			function defQueryOperate(){
+				ewcmsOOBJ.initOperateQueryBack();
+			}
+			
 			function upOperate(){
 				var rows = $("#tt").datagrid("getSelections");
 				if (rows.length == 0){

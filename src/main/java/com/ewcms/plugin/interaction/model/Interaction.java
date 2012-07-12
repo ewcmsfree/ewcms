@@ -14,7 +14,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,11 +28,13 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "plugin_interaction")
+@SequenceGenerator(name = "seq_plugin_interaction", sequenceName = "seq_plugin_interaction_id", allocationSize = 1)
 public class Interaction implements Serializable {
 
 	private static final long serialVersionUID = 3018757843242796157L;
 	
 	@Id
+	@GeneratedValue(generator = "seq_plugin_interaction", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name="username")
     private String username;
