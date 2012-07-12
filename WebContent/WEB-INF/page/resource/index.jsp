@@ -17,16 +17,16 @@
     </head>
     <body>
         <div class="easyui-tabs"  id="systemtab" border="false" fit="true">
-            <div title="图片"  style="padding: 5px;">
+            <div title="图片"  style="padding: 2px;">
                 <iframe id="imageifr" src="<s:url action="manage"/>?type=image" class="editifr" scrolling="no"></iframe>
             </div>
-            <div title="FLASH" style="padding:5px;">
+            <div title="FLASH" style="padding:2px;">
                 <iframe id="flashifr" src="" class="editifr" scrolling="no"></iframe>
             </div>
-            <div title="视频和音频" style="padding: 5px;">
+            <div title="视频和音频" style="padding: 2px;">
                 <iframe id="videoifr" src="" class="editifr" scrolling="no"></iframe>
             </div>
-            <div title="附件" style="padding: 5px;">
+            <div title="附件" style="padding: 2px;">
                 <iframe id="annexifr" src="" class="editifr" scrolling="no"></iframe>
             </div>
         </div>

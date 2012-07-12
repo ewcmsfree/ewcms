@@ -246,10 +246,13 @@ public class Resource implements Serializable {
     public void prePersist(){
         createTime = new Date(System.currentTimeMillis());
         updateTime = new Date(System.currentTimeMillis());
-        path = resourcePath(site,uri);
+        uri = uri.replace("\\", "/");
+        path = resourcePath(site,uri).replace("\\", "/").replace("//", "/");
         if(StringUtils.isNotBlank(thumbUri)){
-            thumbPath = resourcePath(site,thumbUri);
+        	thumbUri = thumbUri.replace("\\", "/");
+            thumbPath = resourcePath(site,thumbUri).replace("\\", "/").replace("//", "/");;
         }
+        
     }
     
     @PreUpdate

@@ -46,6 +46,7 @@ public class ResourceRender extends AbstractResourceRender{
      */
     @Override
     protected boolean output(HttpServletResponse response,String uri)throws IOException{
+    	//TODO window与Unix路径问题
         Resource resource = resourceService.getResourceByUri(uri);
         if(resource == null){
             logger.debug("Resource is not exist,uri is {}",uri);

@@ -102,10 +102,10 @@ manage.prototype.init = function(urls){
         columns:[[
            {field:'ck',checkbox:true},
            {field:'thumbUri',title:'引导图',width:180,align:'center',formatter:function(val,row){
-               if(val){
+               if(row.type=='IMAGE'){
                    return '<img src="' + context + val +'" style="height:48px;"/>';    
                }else{
-                   return '<div style="height:48px;">&nbsp;</div>';
+                   return '<div style="height:48px;">无</div>';
                }
            }},
            {field:'id',title:'编号',width:120,sortable:true,hidden:true},
