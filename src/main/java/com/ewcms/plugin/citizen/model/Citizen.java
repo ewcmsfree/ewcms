@@ -3,7 +3,7 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-package com.ewcms.plugin.online.model;
+package com.ewcms.plugin.citizen.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +21,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.ewcms.plugin.online.model.Matter;
 
 /**
  * 公民

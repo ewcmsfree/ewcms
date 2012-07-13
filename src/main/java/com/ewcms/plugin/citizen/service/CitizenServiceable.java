@@ -3,11 +3,11 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-package com.ewcms.plugin.online.service;
+package com.ewcms.plugin.citizen.service;
 
 import java.util.List;
 
-import com.ewcms.plugin.online.model.Citizen;
+import com.ewcms.plugin.citizen.model.Citizen;
 
 
 /**

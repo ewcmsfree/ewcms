@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ewcms.plugin.citizen.model.Citizen;
 import com.ewcms.plugin.online.OnlineFacable;
-import com.ewcms.plugin.online.model.Citizen;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;

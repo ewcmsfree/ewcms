@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.dao.OrganDAO;
 import com.ewcms.core.site.model.Organ;
-import com.ewcms.plugin.online.dao.CitizenDAO;
+import com.ewcms.plugin.citizen.dao.CitizenDAO;
+import com.ewcms.plugin.citizen.model.Citizen;
 import com.ewcms.plugin.online.dao.MatterAnnexDAO;
 import com.ewcms.plugin.online.dao.MatterDAO;
-import com.ewcms.plugin.online.model.Citizen;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.MatterAnnex;
 

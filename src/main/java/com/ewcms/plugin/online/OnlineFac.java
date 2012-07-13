@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.document.model.Article;
+import com.ewcms.plugin.citizen.model.Citizen;
+import com.ewcms.plugin.citizen.service.CitizenServiceable;
 import com.ewcms.plugin.online.model.Advisor;
-import com.ewcms.plugin.online.model.Citizen;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.WorkingBody;
 import com.ewcms.plugin.online.service.AdvisorService;
-import com.ewcms.plugin.online.service.CitizenServiceable;
 import com.ewcms.plugin.online.service.MatterServiceable;
 import com.ewcms.plugin.online.service.WorkingBodyServiceable;
 import com.ewcms.web.vo.TreeNode;

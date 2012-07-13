@@ -119,6 +119,12 @@
                             <span>文章分类</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                    	<a href="javascript:_home.addTab('公民信息', 'citizen/index.do')">
+                            <img src="ewcmssource/image/citizen.png" style="border:0"/><br/>
+                            <span>公民信息</span>
+                    	</a>
+                    </div>
                 </div>
                 <div title="权限管理" style="overflow:auto;">
                    <div class="nav-item">

@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.ewcms.content.document.model.Article;
+import com.ewcms.plugin.citizen.model.Citizen;
 import com.ewcms.plugin.online.model.Advisor;
-import com.ewcms.plugin.online.model.Citizen;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.WorkingBody;
 import com.ewcms.web.vo.TreeNode;

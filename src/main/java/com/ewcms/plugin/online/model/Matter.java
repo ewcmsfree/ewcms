@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.ewcms.core.site.model.Organ;
+import com.ewcms.plugin.citizen.model.Citizen;
 
 /**
  * 事项基本信息

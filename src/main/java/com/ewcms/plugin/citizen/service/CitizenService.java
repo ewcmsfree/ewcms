@@ -3,15 +3,15 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-package com.ewcms.plugin.online.service;
+package com.ewcms.plugin.citizen.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.plugin.online.dao.CitizenDAO;
-import com.ewcms.plugin.online.model.Citizen;
+import com.ewcms.plugin.citizen.dao.CitizenDAO;
+import com.ewcms.plugin.citizen.model.Citizen;
 
 /**
  *

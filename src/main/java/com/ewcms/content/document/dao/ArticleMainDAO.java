@@ -206,7 +206,7 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     	String hql = "Select a.owner As person, Count(a.id) As total " +
     				 "From ArticleMain As m Left Join m.article As a " +
 		     		 ", Channel As c Right Join c.site As s " +
-    				 " Where And c.id=m.channelId And s.id=:siteId " + 
+    				 " Where c.id=m.channelId And s.id=:siteId " + 
     				 " And YEAR(a.published)=:year And a.status=:status And a.delete=false " +
     				 " Group By a.owner";
     	TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);

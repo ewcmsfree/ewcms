@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="citizen" extends="struts-default" namespace="/citizen">
+		<action name="index">
+			<result>/WEB-INF/page/plugin/citizen/index.jsp</result>
+		</action>
+		<action name="delete" class="com.ewcms.plugin.citizen.web.CitizenAction" method="delete"/>
+		<action name="input" class="com.ewcms.plugin.citizen.web.CitizenAction" method="input">
+			<result name="input">/WEB-INF/page/plugin/citizen/edit.jsp</result>
+		</action>
+		<action name="save" class="com.ewcms.plugin.citizen.web.CitizenAction" method="save">
+			<result>/WEB-INF/page/plugin/citizen/edit.jsp</result>
+			<result name="input">/WEB-INF/page/plugin/citizen/edit.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.plugin.citizen.web.CitizenQueryAction" method="query"/>
+		<action name="citizenAll" class="com.ewcms.plugin.citizen.web.CitizenAction" method="citizenAll"/>
+	</package>
+</struts>	

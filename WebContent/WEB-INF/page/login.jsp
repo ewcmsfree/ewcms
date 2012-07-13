@@ -97,6 +97,7 @@
 			    	</ul>
 		    	</dd>
 		    	</s:form>
+		    	<!-- 
 			    <dd id="user_bottom">
 				  	<ul>
 				    	<li class="user_bottom_l"></li>
@@ -104,6 +105,7 @@
 					    <li class="user_bottom_r"></li>
 					</ul>
 				</dd>
+				 -->
 			</dl>
 		</div>
      </body>
