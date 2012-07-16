@@ -250,7 +250,7 @@ public class Resource implements Serializable {
         path = resourcePath(site,uri).replace("\\", "/").replace("//", "/");
         if(StringUtils.isNotBlank(thumbUri)){
         	thumbUri = thumbUri.replace("\\", "/");
-            thumbPath = resourcePath(site,thumbUri).replace("\\", "/").replace("//", "/");;
+            thumbPath = resourcePath(site,thumbUri).replace("\\", "/").replace("//", "/");
         }
         
     }

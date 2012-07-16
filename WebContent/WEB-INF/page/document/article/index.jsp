@@ -19,7 +19,7 @@
 			treeURL = "<s:url namespace='/site/channel' action='tree'/>";
 			trackURL = "<s:url namespace='/document/track' action='index'/>";
 			effectiveURL = "<s:url namespace='/document/article' action='reviewEffective'><s:param name='channelId' value='channelId'></s:param></s:url>";
-			previewURL = "/template/preview?channelId=" + $("#channelId").val();
+			previewURL = "/template/preview?channelId=<s:property value='channelId'/>";
 		</script>
 	</head>
 	<body class="easyui-layout">

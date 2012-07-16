@@ -7,7 +7,7 @@
 		<s:include value="../../../taglibs.jsp"/>
 		<script type="text/javascript"> 
 	    	$(function() {
-		        <s:include value="../../alertMessage.jsp"/>
+		        <s:include value="../../../alertMessage.jsp"/>
 	    	});
 		</script> 				
 	</head>

@@ -97,15 +97,13 @@
 			    	</ul>
 		    	</dd>
 		    	</s:form>
-		    	<!-- 
 			    <dd id="user_bottom">
 				  	<ul>
 				    	<li class="user_bottom_l"></li>
-				    	<li class="user_bottom_c" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://218.65.14.14/user.doc"><font>工程领域操作手册下载</font></a></li>
+				    	<li class="user_bottom_c" style="text-align: center;"><!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://218.65.14.14/user.doc"><font>工程领域操作手册下载</font></a> --></li>
 					    <li class="user_bottom_r"></li>
 					</ul>
 				</dd>
-				 -->
 			</dl>
 		</div>
      </body>

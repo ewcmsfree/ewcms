@@ -356,7 +356,7 @@ function submitReviewOperate(url) {
 }
 //发布选项栏目的文章
 function pubOperate(url) {
-	$.post(url, {'channelId' : $('#channelId').val()}, function(data) {
+	$.post(url, {}, function(data) {
 		if (data == 'system-false') {
 			$.messager.alert('提示', '系统错误', 'error');
 			return;

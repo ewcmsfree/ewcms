@@ -171,7 +171,7 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
      * @throws FileSystemException
      */
     protected FileObject getTargetFileObject(FileObject root, String path)throws FileSystemException {
-        FileObject out = root.resolveFile(path,NameScope.DESCENDENT);
+        FileObject out = root.resolveFile(path ,NameScope.DESCENDENT);
         if (!out.exists()) {
             out.createFile();
         }
@@ -185,7 +185,7 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
     
     @Override
     public void copy(File sourceFile,String targetPath)throws PublishException {
-        
+        //TODO 资源路径与发布中径相同时，资源文件会变成空文件
         if(!sourceFile.exists()){
             logger.debug("Source file path's {} is not exists.",sourceFile.getPath());
             return ;
@@ -195,11 +195,18 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
         logger.debug("Server file's path is {}", targetFullPath);
         logger.debug("Source file's path is {}  ",sourceFile.getPath());
         
-        FileObject root =null;
+        FileObject root = null;
         FileObject target = null;
         try {
             root = getRootFileObject();
-            target = getTargetFileObject(root, targetFullPath);
+            //target = getTargetFileObject(root, targetFullPath);
+            //-------------- Windows下设置本地发布通过 未没其他发布方式----------------------
+            targetPath = targetPath.replace("\\", "/").replace("//", "/");
+            if (targetPath.indexOf("/") == 0){
+            	targetPath = targetPath.substring(1);
+            }
+            target = getTargetFileObject(root, targetPath);
+            //--------------------------------------------------------------
             FileContent fileContent = target.getContent();
             
             OutputStream out = fileContent.getOutputStream();
@@ -245,7 +252,14 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
         FileObject target = null;
         try {
             root = getRootFileObject();
-            target = getTargetFileObject(root, targetFullPath);
+            //target = getTargetFileObject(root, targetFullPath);
+            //-------------- Windows下设置本地发布通过 未没其他发布方式----------------------
+            targetPath = targetPath.replace("\\", "/").replace("//", "/");
+            if (targetPath.indexOf("/") == 0){
+            	targetPath = targetPath.substring(1);
+            }
+            target = getTargetFileObject(root, targetPath);
+            //--------------------------------------------------------------
             FileContent fileContent = target.getContent();
             OutputStream stream = fileContent.getOutputStream();
             stream.write(content);

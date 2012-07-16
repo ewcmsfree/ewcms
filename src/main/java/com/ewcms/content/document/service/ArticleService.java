@@ -64,6 +64,7 @@ public class ArticleService implements ArticlePublishServiceable {
 	public void publishArticleSuccess(Long id, String url) {
 		Article article = articleDAO.get(id);
 		Assert.notNull(article);
+		url = url.replace("\\", "/").replace("//", "/");
 		article.setUrl(url);
 		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);

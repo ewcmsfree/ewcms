@@ -23,7 +23,7 @@ public class LocalDeployOperatorTest {
     @Test
     public void testGetTargtRoot()throws Exception{
         
-        DeployOperatorable operator = new LocalDeployOperator.Builder("/tmp").build();
+        DeployOperatorable operator = new LocalDeployOperator.Builder("e:/tmp").build();
         LocalDeployOperator localOperator = (LocalDeployOperator)operator;
         
         FileObject target = localOperator.getRootFileObject();

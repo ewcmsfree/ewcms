@@ -57,7 +57,22 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 
 
 	public void delTemplateSource(Integer id){
+		delTemplateSourceChildren(id, getCurSite().getId());
 		templateSourceDAO.removeByPK(id);
+	}
+	
+	private void delTemplateSourceChildren(Integer id, Integer siteId){
+		List<TemplateSource> templateSources = templateSourceDAO.getTemplateSourceChildren(id, getCurSite().getId());
+		if (templateSources != null && !templateSources.isEmpty()){
+			for (TemplateSource templateSource : templateSources){
+				List<TemplateSource> templateSourceChildrens = templateSourceDAO.getTemplateSourceChildren(templateSource.getId(), siteId);
+				if (templateSourceChildrens != null && !templateSourceChildrens.isEmpty()){
+					delTemplateSourceChildren(templateSource.getId(), siteId);
+				}else{
+					templateSourceDAO.remove(templateSource);
+				}
+			}
+		}
 	}
 	
 	/**

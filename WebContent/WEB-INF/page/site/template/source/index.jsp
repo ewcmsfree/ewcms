@@ -129,7 +129,7 @@
 					$.messager.alert('提示','不允许删除该资源');
 					 return;
 				}     			
-    			$.messager.confirm('', '确认要删除 ' + node.text + '资源吗?', function(r){
+    			$.messager.confirm('提示', '确认要删除 ' + node.text + '资源吗?', function(r){
     				if (r){
     	    	    	//删除资源			
     		            $.post('<s:url action="del"/>',{'sourceVo.id':getNodeId(node)},function(data){
