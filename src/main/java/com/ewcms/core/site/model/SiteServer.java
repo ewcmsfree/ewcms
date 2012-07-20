@@ -21,6 +21,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.ewcms.publication.deploy.DeployOperatorFactory;
+import com.ewcms.publication.deploy.DeployOperatorable;
+
 /**
  * <li>id:编号 
  * <li>path:发布路径
@@ -38,6 +41,25 @@ import javax.persistence.Table;
 public class SiteServer implements Serializable {
 
 	private static final long serialVersionUID = -1138195790814414334L;
+	
+	public enum OutputType {
+	    
+	    LOCAL("本地"),SFTP("sftp"),FTP("ftp"),FTPS("ftps"),SMB("windows共享");
+	    
+		private String description;
+		
+		private OutputType(String description){
+			this.description = description;
+		}
+		
+		public String getDescription(){
+			return description;
+		}
+		
+		public DeployOperatorable deployOperator(SiteServer server){
+		    return DeployOperatorFactory.factory(server);
+		}
+	}
 	
 	@Id
     @GeneratedValue(generator = "seq_site_siteserver", strategy = GenerationType.SEQUENCE)

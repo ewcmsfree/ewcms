@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ewcms.core.site.model.OutputType;
+import com.ewcms.core.site.model.SiteServer.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 

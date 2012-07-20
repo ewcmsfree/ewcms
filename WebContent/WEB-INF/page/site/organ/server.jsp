@@ -8,6 +8,8 @@
 		<script type="text/javascript"> 
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>
+		        var value = $("#outputType").val();
+		        outputTypeChange(value);
 	    	});
 	    	
 			function outputTypeChange(valuestr){
@@ -51,7 +53,7 @@
 				<tr>
 					<td>发布类型：</td>
 					<td class="formFieldError">
-						<s:select list="outputTypeList" name="siteVo.siteServer.outputType" cssClass="inputtext"  listKey="name()" listValue="description"  onchange="outputTypeChange(this.value);" headerKey="" headerValue="------请选择------"/>
+						<s:select id="outputType" name="siteVo.siteServer.outputType" cssClass="inputtext" list="@com.ewcms.core.site.model.SiteServer$OutputType@values()" listValue="description" onchange="outputTypeChange(this.value);" headerKey="" headerValue="------请选择------"></s:select>
 					</td>				
 				</tr>
 				<tr id="serverInfo1" style="display:none;">

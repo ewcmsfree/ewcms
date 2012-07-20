@@ -3,8 +3,8 @@
  * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  * http://www.ewcms.com
  */
-
 package com.ewcms.core.site.service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +69,22 @@ public class TemplateService implements TemplateServiceable{
 	}
 	
 	public void delTemplate(Integer id){
+		delTemplateChildren(id);
 		templateDAO.removeByPK(id);
+	}
+	
+	private void delTemplateChildren(Integer id){
+		List<Template> templates = templateDAO.getTemplateChildren(id, getCurSite().getId(), null);
+		if (templates != null && !templates.isEmpty()){
+			for (Template template : templates){
+				List<Template> templateChildrens = templateDAO.getTemplateChildren(template.getId(), getCurSite().getId(), null);
+				if (templateChildrens != null && !templateChildrens.isEmpty()){
+					delTemplateChildren(template.getId());
+				}else{
+					templateDAO.remove(template);
+				}
+			}
+		}
 	}
 	
 	public List<Template> getTemplateList(){

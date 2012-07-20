@@ -9,13 +9,11 @@
  */
 package com.ewcms.core.site.web;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.SiteFac;
-import com.ewcms.core.site.model.OutputType;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.publication.deploy.DeployOperatorable;
@@ -164,10 +162,6 @@ public class SetupAction extends CrudBaseAction<Site, Integer> {
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
-	}
-	
-	public List<OutputType> getOutputTypeList() {
-		return Arrays.asList(OutputType.values());
 	}
 	
 	/**

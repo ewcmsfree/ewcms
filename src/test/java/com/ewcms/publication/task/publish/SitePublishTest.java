@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ewcms.core.site.model.OutputType;
+import com.ewcms.core.site.model.SiteServer.OutputType;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.publication.task.Taskable;
