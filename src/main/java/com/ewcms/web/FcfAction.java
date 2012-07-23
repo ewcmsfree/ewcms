@@ -43,6 +43,7 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 
 	public void createArticle() throws Exception {
+		if (EwcmsContextHolder.getContext().getSite() == null) return;
 		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
 		
 		XMLUtil xml = new XMLUtil();
@@ -82,6 +83,7 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 	
 	public void releaseArticle() throws Exception{
+		if (EwcmsContextHolder.getContext().getSite() == null) return;
 		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
 		
 		XMLUtil xml = new XMLUtil();
@@ -117,6 +119,7 @@ public class FcfAction extends EwcmsBaseAction {
 	}
 
 	public void releaseArticlePerson() throws Exception{
+		if (EwcmsContextHolder.getContext().getSite() == null) return;
 		Integer siteId = EwcmsContextHolder.getContext().getSite().getId();
 
 		XMLUtil xml = new XMLUtil();

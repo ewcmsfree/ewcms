@@ -194,7 +194,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	public String importSource() {
 		if (sourceFile != null) {
 			if (sourceFileContentType != null
-					&& "application/zip,application/x-zip-compressed".indexOf(sourceFileContentType) != -1) {
+					&& "application/octet-stream,application/zip,application/x-zip-compressed".indexOf(sourceFileContentType) != -1) {
 				paraseSourceZIPFile();
 			} else {
 				getSourceVo().setSite(getCurrentSite());

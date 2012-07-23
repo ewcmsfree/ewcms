@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.core.site.model.Template.TemplateType;
 import com.ewcms.publication.service.ArticlePublishServiceable;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 import com.ewcms.publication.service.ResourcePublishServiceable;

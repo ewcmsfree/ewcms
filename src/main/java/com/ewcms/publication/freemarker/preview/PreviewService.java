@@ -20,7 +20,7 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.core.site.model.Template.TemplateType;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.EwcmsConfigurationFactory;
 import com.ewcms.publication.freemarker.generator.DetailGenerator;
@@ -87,7 +87,7 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
             factory.setTemplateService(templateService);
             return factory.createConfiguration();
         }catch(Exception e){
-            logger.error("Freemarker configure created error:{}",e);
+            logger.warn("Freemarker configure created error:{}",e);
             throw new PublishException(messages.getMessage("error.publication.createConfigure","Freemarker's configure created fail."));
         }
     }
@@ -160,7 +160,7 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
         
         Template template = templateService.getTemplate(id);
         if(template == null){
-            logger.error("Template is not exist,Id is {}." , id);
+            logger.warn("Template is not exist,Id is {}." , id);
             throw new PublishException(messages.getMessage("error.publication.templateNotExist","Template is not exist."));
         }
         Channel channel = channelService.getChannel(template.getChannelId());
@@ -176,7 +176,7 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
             viewDetailTemplate(out,channel.getSite(),channel,template);
             break;
         default:
-            logger.error("Template type is not genrator page,Type is {}." , template.getType());
+            logger.warn("Template type is not genrator page,Type is {}." , template.getType());
             throw new PublishException(messages.getMessage("error.publication.templateType","Template type is not genrator page."));
         }
     }
@@ -186,13 +186,13 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
         
         Channel channel = channelService.getChannel(channelId);
         if(channel == null){
-            logger.error("Channel  not exist,Id is {}." , channelId);
+            logger.warn("Channel  not exist,Id is {}." , channelId);
             throw new PublishException(messages.getMessage("error.publication.channelNotExist","Channel is not exist"));
         }
         
         Article article = articleService.getArticle(id);
         if(article == null){
-            logger.error("Article  not exist,Id is {}." , id);
+            logger.warn("Article  not exist,Id is {}." , id);
             throw new PublishException(messages.getMessage("error.publication.articleNotExist","Article is not exist"));
         }
      
@@ -205,8 +205,8 @@ public class PreviewService implements PreviewServiceable ,MessageSourceAware{
         }
         
         if (template == null){
-            logger.error("Channel's detail template not exist,channel id is {}",channelId);
-            throw new PublishException(messages.getMessage("error.publication.detailTemplateNotExist","Channel's detail template not exist."));
+            logger.warn("Channel's detail template not exist,channel id is {}",channelId);
+            throw new PublishException(messages.getMessage("error.publication.detailTemplateNotExist", "Channel's detail template not exist."));
         }
         Generatorable generator = new DetailGenerator(
                 configuration,channel.getSite(),channel,

@@ -146,8 +146,7 @@ function channelPermission(rootnode, currentnode) {
 	initSubMenu();
 	if (rootnode.id == currentnode.id) {
 		disableButtons();
-		$('#btnSearch').linkbutton('disable');
-		$('#btnBack').linkbutton('disable');
+		$('#btnSearchParent').linkbutton('enable');
 		if (currentnode.attributes.maxpermission >= 4) {
 			$('#btnPub').linkbutton('enable');
 			$('#btnPublishOk').attr('style', 'display:block;');
@@ -645,12 +644,11 @@ function disableButtons() {
 	$('#btnUpd').linkbutton('disable');
 	$('#btnRemove').linkbutton('disable');
 	$('#btnPreview').linkbutton('disable');
-	$('#btnCopy').linkbutton('disable');
-	$('#btnMove').linkbutton('disable');
 	$('#btnSort').linkbutton('disable');
 	$('#btnReview').linkbutton('disable');
 	$('#btnPub').linkbutton('disable');
 	$('#btnTop').linkbutton('disable');
+	$('#btnOperate').linkbutton('disable');
 	$('#btnSortSet').attr('style', 'display:none;');
 	$('#btnSortClear').attr('style', 'display:none;');
 	$('#btnReviewSubmit').attr('style', 'display:none;');
@@ -660,6 +658,8 @@ function disableButtons() {
 	$('#btnBreakArticle').attr('style', 'display:none;');
 	$('#btnTopSet').attr('style','display:none;');
 	$('#btnTopCancel').attr('style','display:none;');
+	$('#btnCopy').attr('style','display:none;');
+	$('#btnMove').attr('style','display:none;');
 }
 //主菜单/子菜单可用
 function enableButtons() {
@@ -667,12 +667,11 @@ function enableButtons() {
 	$('#btnUpd').linkbutton('enable');
 	$('#btnRemove').linkbutton('enable');
 	$('#btnPreview').linkbutton('enable');
-	$('#btnCopy').linkbutton('enable');
-	$('#btnMove').linkbutton('enable');
 	$('#btnSort').linkbutton('enable');
 	$('#btnReview').linkbutton('enable');
 	$('#btnPub').linkbutton('enable');
 	$('#btnTop').linkbutton('enable');
+	$('#btnOperate').linkbutton('enable');
 	$('#btnSortSet').attr('style', 'display:block;');
 	$('#btnSortClear').attr('style', 'display:block;');
 	$('#btnReviewSubmit').attr('style', 'display:block;');
@@ -682,6 +681,8 @@ function enableButtons() {
 	$('#btnBreakArticle').attr('style', 'display:block;');
 	$('#btnTopSet').attr('style','display:block;');
 	$('#btnTopCancel').attr('style','display:block;');
+	$('#btnCopy').attr('style','display:block;');
+	$('#btnMove').attr('style','display:block;');
 }
 //显示文章操作过程中用户输入的原因页面
 function showReason(url){

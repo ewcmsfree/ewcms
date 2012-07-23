@@ -68,7 +68,7 @@
 			}	
 
 			function previewTPL(idValue){
-				window.open('/template/preview?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
+				window.open('<s:url value="/template/preview"/>?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
 			}					
 			
 			function appChild(){
@@ -163,7 +163,7 @@
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:selectTPL();">确定</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:closeWindow('#template-window');">取消</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#template-window').window('close');">取消</a>
                 </div>
             </div>
         </div>               

@@ -62,6 +62,19 @@ public class Template implements Serializable {
 
 	private static final String PATH_SEPARATOR = "/";
 	
+	public enum TemplateType {
+	    HOME("专栏首页"),LIST("专栏列表"),DETAIL("文章内容");
+		private String description;
+		
+		private TemplateType(String description){
+			this.description = description;
+		}
+		
+		public String getDescription(){
+			return description;
+		}
+	}
+	
 	@Id
 	@GeneratedValue(generator = "seq_site_template", strategy = GenerationType.SEQUENCE)
 	private Integer id;
@@ -219,7 +232,7 @@ public class Template implements Serializable {
 		if (type != null){
 			return type.getDescription();
 		}else{
-			return TemplateType.HOME.getDescription();
+			return "---请选择类型---";
 		}
 	}
 

@@ -25,7 +25,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
-import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.core.site.model.Template.TemplateType;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.freemarker.FreemarkerTest;
 import com.ewcms.publication.service.ArticlePublishServiceable;

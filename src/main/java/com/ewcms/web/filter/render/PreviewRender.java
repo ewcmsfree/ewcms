@@ -111,7 +111,7 @@ public class PreviewRender implements Renderable{
             }
             return true;
         }catch(PublishException e){
-            logger.error("Preview is error:{}",e.toString());
+            logger.warn("Preview is error: {}", e.toString());
             renderError(stream,e);
             return false;
         }

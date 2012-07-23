@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
-import com.ewcms.core.site.model.TemplateType;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -176,7 +174,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public String importTemplate() {
 		if (templateFile != null) {
 			if (templateFileContentType != null
-					&& "application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
+					&& "application/octet-stream,application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
 				parseTemplateZIPFile();
 			} else {
 				getTemplateVo().setSite(getCurrentSite());
@@ -454,15 +452,6 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 //			outputInfo(e.toString());
 //		}
 //	}
-
-	/**
-	 * 模板类型选择
-	 * 
-	 * @return 记录集
-	 */
-	public List<TemplateType> getTemplateTypeList() {
-		return Arrays.asList(TemplateType.values());
-	}
 
 	private String converKB(long size) {
 		DecimalFormat dfom = new DecimalFormat("####.0");

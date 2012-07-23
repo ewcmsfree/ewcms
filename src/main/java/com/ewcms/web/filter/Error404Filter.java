@@ -93,7 +93,8 @@ public class Error404Filter implements Filter, InitializingBean {
         
         String uri = request.getRequestURI();
         logger.warn("This is not path = {}",uri);
-        response.sendError(HttpServletResponse.SC_NOT_FOUND,uri);
+        responseWrapper.sendError(HttpServletResponse.SC_NOT_FOUND,uri);
+        //response.sendError(HttpServletResponse.SC_NOT_FOUND,uri);
     }
     
     public ResourceServiceable getResourceService() {

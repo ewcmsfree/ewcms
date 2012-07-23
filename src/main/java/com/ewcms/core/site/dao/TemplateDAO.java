@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import com.ewcms.common.dao.JpaDAO;
 import com.ewcms.core.site.model.Template;
-import com.ewcms.core.site.model.TemplateType;
+import com.ewcms.core.site.model.Template.TemplateType;
 
 /**
  * @author 周冬初

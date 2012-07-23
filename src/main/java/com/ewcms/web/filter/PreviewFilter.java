@@ -116,7 +116,7 @@ public class PreviewFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse rep,FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         String uri = request.getRequestURI();
-        if(!StringUtils.startsWith(uri, PREVIEW_PATH)){
+        if(!StringUtils.endsWith(uri, PREVIEW_PATH)){
             logger.debug("Uri is not preview address");
             chain.doFilter(req, rep);
             return ;

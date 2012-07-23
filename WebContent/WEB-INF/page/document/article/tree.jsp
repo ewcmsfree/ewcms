@@ -19,7 +19,7 @@
 						currentnode = node;
 						var url = '';
 						if (rootnode.id == currentnode.id){
-							url = '<s:url namespace="/document/article" action="index"/>';
+							url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;;
 						}else{
 							if (node.attributes.type == 'ARTICLE' || node.attributes.type == 'RETRIEVAL'){
 								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id;

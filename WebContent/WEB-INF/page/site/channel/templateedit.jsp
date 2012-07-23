@@ -30,7 +30,7 @@
 				<tr>
 					<td>模板类型：</td>
 					<td>
-						<s:select list="templateTypeList" name="templateVo.type" listKey="name()" listValue="description" headerKey="" headerValue="------请选择------"/>
+						<s:select list="@com.ewcms.core.site.model.Template$TemplateType@values()" listValue="description" name="templateVo.type" id="templateVo.type" headerKey="" headerValue="------请选择------"></s:select>
 					</td>
 				</tr>
 				<tr>
