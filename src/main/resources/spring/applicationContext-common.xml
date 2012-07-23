@@ -69,10 +69,12 @@
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename">
-			<array>
+		<property name="basenames">
+			<list>
 				<value>classpath:com/ewcms/security/messages</value>
-			</array>
+				<value>classpath:com/ewcms/publication/messages</value>
+				<value>classpath:com/ewcms/publication/preview/service/article</value>
+			</list>
 		</property>
 	</bean>
 
