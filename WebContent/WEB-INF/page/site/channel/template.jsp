@@ -62,8 +62,8 @@
 				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template"/>');
 			});			
 			function editTPL(idValue){
-				$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
-				ewcmsBOBJ.openWindow("#pop-window",{width:800,height:370,title:"模板编辑"});
+				//$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
+				ewcmsBOBJ.openWindow1({width:800,height:370,title:"模板编辑",url:'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue});
 				//top._home.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
 			}	
 

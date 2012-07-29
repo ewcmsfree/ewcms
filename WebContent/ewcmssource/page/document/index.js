@@ -117,6 +117,9 @@ $(function() {
 	
 	disableButtons();
 	channelPermission(rootnode, currentnode);
+	if ($('#node').val()=='true'){
+		nodeArticleMenu();
+	}
 });
 
 function previewOperate(){
@@ -169,6 +172,16 @@ function channelPermission(rootnode, currentnode) {
 		enableButtons();
 		return;
 	}
+}
+function nodeArticleMenu(){
+	disableButtons();
+	$('#btnSearchParent').linkbutton('disable');
+	if (currentnode.attributes.maxpermission >= 4) {
+		$('#btnPub').linkbutton('enable');
+		$('#btnPublishOk').attr('style', 'display:block;');
+		$('#btnPublishRec').attr('style','display:block;');
+	}
+	return;
 }
 //重读选择的栏目中文章
 function articleReload() {

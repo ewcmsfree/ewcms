@@ -30,6 +30,8 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	private DocumentFacable documentFac;
 	
 	private Integer channelId;
+	
+	private Boolean node=false;
 
 	public Integer getChannelId() {
 		return channelId;
@@ -37,6 +39,14 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
+	}
+
+	public Boolean getNode() {
+		return node;
+	}
+
+	public void setNode(Boolean node) {
+		this.node = node;
 	}
 
 	public ArticleMain getArticleMainVo() {

@@ -48,7 +48,7 @@
 							}else if (node.attributes.type == 'EMPLOYEARTICLE'){	
 								url = '<s:url namespace="/particular/ma" action="index"/>' + '?channelId=' + currentnode.id;
 							}else if (node.attributes.type == 'NODE'){
-								url = '';
+								url = '<s:url namespace="/document/article" action="index"/>' + '?channelId=' + currentnode.id + '&node=true';
 							}
 						}
 						$("#editifr").attr('src', url);

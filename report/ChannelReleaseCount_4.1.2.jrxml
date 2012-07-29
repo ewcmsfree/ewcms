@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ChannelReleaseCount_4.1.2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.4641000000000024"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="9"/>
 	<parameter name="publishedBegin" class="java.util.Date">
 		<parameterDescription><![CDATA[发布日期开始]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new Date(Calendar.getInstance().getTime().getTime())]]></defaultValueExpression>
@@ -130,21 +130,6 @@ order by c.type, c.id, typename, c.name]]>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="0" width="237" height="20"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-					<font fontName="宋体" size="12" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[栏目名称]]></text>
-			</staticText>
-			<staticText>
 				<reportElement mode="Transparent" x="458" y="0" width="97" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -174,12 +159,8 @@ order by c.type, c.id, typename, c.name]]>
 				</textElement>
 				<text><![CDATA[栏目类型]]></text>
 			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="237" height="20"/>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="237" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -187,11 +168,16 @@ order by c.type, c.id, typename, c.name]]>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="宋体" size="12" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[栏目名称]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="458" y="0" width="97" height="20"/>
 				<box>
@@ -222,6 +208,20 @@ order by c.type, c.id, typename, c.name]]>
 					<textFieldExpression><![CDATA[$F{typename}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
+			<textField>
+				<reportElement x="0" y="0" width="237" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
