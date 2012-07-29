@@ -151,12 +151,11 @@ public class DetailTask extends TaskBase{
         
         @Override
         protected List<TaskProcessable> getTaskProcesses() {
-            
             List<TaskProcessable> processes = new ArrayList<TaskProcessable>();
             List<Article> articles = (hasPublishIds() ? getArticleOfPublishIds() : getArticleOfChannel());
             for(Article article : articles){
-                final int total = article.getContentTotal();
-                if(total ==  0){
+                Integer total = article.getContentTotal();
+                if(total == null || total.intValue() ==  0){
                     continue;
                 }
                 Generatorable[] generators = new Generatorable[total];
