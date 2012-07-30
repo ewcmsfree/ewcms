@@ -117,32 +117,34 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException {
-		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
-		Assert.notNull(articleMain);
-		Article article = articleMain.getArticle();
-		Assert.notNull(article);
-		if (article.getStatus() == Status.DRAFT || article.getStatus() == Status.REEDIT) {
-			ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
-			if (reviewProcess == null ){
-				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "发布版。", "");
-
-				article.setStatus(Status.PRERELEASE);
-				article.setReviewProcess(null);
-			}else{
-				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
-
-				article.setStatus(Status.REVIEW);
-				article.setReviewProcess(reviewProcess);
+	public void submitReviewArticleMain(List<Long> articleMainIds, Integer channelId) throws BaseException {
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
+			Assert.notNull(articleMain);
+			Article article = articleMain.getArticle();
+			Assert.notNull(article);
+			if (article.getStatus() == Status.DRAFT || article.getStatus() == Status.REEDIT) {
+				ReviewProcess reviewProcess = reviewProcessDAO.findFirstReviewProcessByChannel(channelId);
+				if (reviewProcess == null ){
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "发布版。", "");
+	
+					article.setStatus(Status.PRERELEASE);
+					article.setReviewProcess(null);
+				}else{
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
+	
+					article.setStatus(Status.REVIEW);
+					article.setReviewProcess(reviewProcess);
+				}
+				
+				if (article.getPublished() == null) {
+					article.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
+				}
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
+//			}else{
+//				throw new BaseException("","只有在初稿或重新编辑状态下才能提交审核");
 			}
-			
-			if (article.getPublished() == null) {
-				article.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
-			}
-			articleMain.setArticle(article);
-			articleMainDAO.merge(articleMain);
-		}else{
-			throw new BaseException("","只有在初稿或重新编辑状态下才能提交审核");
 		}
 	}
 
@@ -395,20 +397,22 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void breakArticleMain(Long articleMainId, Integer channelId) throws BaseException {
-		ArticleMain articleMain = articleMainDAO.get(articleMainId);
-		Assert.notNull(articleMain);
-		Article article = articleMain.getArticle();
-		Assert.notNull(article);
-		if (article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.RELEASE || article.getStatus() == Status.REVIEWBREAK){
-
-			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "已退回到重新编辑状态。", "");
-			
-			article.setStatus(Status.REEDIT);
-			articleMain.setArticle(article);
-			articleMainDAO.merge(articleMain);
-		}else{
-			throw new BaseException("","只有在审核中断、发布版、已发布版状态下才能退回");
+	public void breakArticleMain(List<Long> articleMainIds, Integer channelId) throws BaseException {
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.get(articleMainId);
+			Assert.notNull(articleMain);
+			Article article = articleMain.getArticle();
+			Assert.notNull(article);
+			if (article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.RELEASE || article.getStatus() == Status.REVIEWBREAK){
+	
+				operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "已退回到重新编辑状态。", "");
+				
+				article.setStatus(Status.REEDIT);
+				articleMain.setArticle(article);
+				articleMainDAO.merge(articleMain);
+//			}else{
+//				throw new BaseException("","只有在审核中断、发布版、已发布版状态下才能退回");
+			}
 		}
 	}
 	

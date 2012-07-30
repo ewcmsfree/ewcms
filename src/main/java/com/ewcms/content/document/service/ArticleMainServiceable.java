@@ -72,7 +72,7 @@ public interface ArticleMainServiceable {
 	 * @param channelId 频道编号
 	 * @throws BaseException
 	 */
-	public void breakArticleMain(Long articleMainId, Integer channelId) throws BaseException;
+	public void breakArticleMain(List<Long> articleMainIds, Integer channelId) throws BaseException;
 
 	/**
 	 * 清除文章主体排序
@@ -220,12 +220,12 @@ public interface ArticleMainServiceable {
 	/**
 	 * 提交审核文章主体(只对初稿和重新编辑状态的文章进行发布)
 	 * 
-	 * @param articleMainId 文章主体编号
+	 * @param articleMainId 文章主体编号集合
 	 * @param channelId 频道编号
 	 * @return Boolean true:提交成功,false:提交失败
 	 * @throws BaseException
 	 */
-	public void submitReviewArticleMain(Long articleMainId, Integer channelId) throws BaseException;
+	public void submitReviewArticleMain(List<Long> articleMainIds, Integer channelId) throws BaseException;
 	
 	/**
 	 * 文章主体是否置顶

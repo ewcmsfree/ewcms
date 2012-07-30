@@ -376,6 +376,7 @@ function pubOperate(url) {
 			$.messager.alert('提示', '没有发布权限', 'info');
 			return;
 		} else {
+			articleReload();
 			$.messager.alert('提示', '发布成功', 'info');
 			return;
 		}
@@ -556,14 +557,15 @@ function breakOperate(url) {
 		$.messager.alert('提示', '请选择退回记录', 'info');
 		return;
 	}
-	if (rows.length > 1) {
-		$.messager.alert('提示', '只能选择一个退回', 'info');
-		return;
+//	if (rows.length > 1) {
+//		$.messager.alert('提示', '只能选择一个退回', 'info');
+//		return;
+//	}
+
+	var parameter = '';
+	for ( var i = 0; i < rows.length; i++) {
+		parameter = parameter + '&selections=' + rows[i].id;
 	}
-
-	var parameter = {};
-	parameter['selections'] = rows[0].id;
-
 	$.post(url, parameter, function(data) {
 		if (data != 'true') {
 			if (data == 'system-false') {

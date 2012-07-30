@@ -87,8 +87,8 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	public void submitReview() {
 		try {
-			if (getSelections() != null && getSelections().size() == 1 && getChannelId() != null){
-				documentFac.submitReviewArticleMain(getSelections().get(0), getChannelId());
+			if (getSelections() != null && getSelections().size() >= 1 && getChannelId() != null){
+				documentFac.submitReviewArticleMain(getSelections(), getChannelId());
 				Struts2Util.renderJson(JSONUtil.toJSON("true"));
 			}
 		} catch (AccessDeniedException e) {
@@ -207,8 +207,12 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 
 	public void sortArticle(){
 		try{
-			documentFac.moveArticleMainSort(getSelections().get(0), getChannelId(), getSort(), getIsInsert(), getIsTop());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			if (getSelections() != null && getSelections().size() == 1 && getChannelId() != null){
+				documentFac.moveArticleMainSort(getSelections().get(0), getChannelId(), getSort(), getIsInsert(), getIsTop());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		}catch(Exception e){
@@ -218,8 +222,10 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void isSortArticle(){
 		try{
-			Boolean isSort = documentFac.findArticleMainByChannelAndEqualSort(getChannelId(), getSort(), getIsTop());
-			Struts2Util.renderJson(JSONUtil.toJSON(isSort.toString()));
+			if (getChannelId() != null){
+				Boolean isSort = documentFac.findArticleMainByChannelAndEqualSort(getChannelId(), getSort(), getIsTop());
+				Struts2Util.renderJson(JSONUtil.toJSON(isSort.toString()));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		}catch(Exception e){
@@ -234,8 +240,12 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void clearSortArticle(){
 		try{
-			documentFac.clearArticleMainSort(getSelections(), getChannelId());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				documentFac.clearArticleMainSort(getSelections(), getChannelId());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		}catch(Exception e){
@@ -245,8 +255,12 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 	
 	public void breakArticle(){
 		try{
-			documentFac.breakArticleMain(getSelections().get(0), getChannelId());
-			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
+				documentFac.breakArticleMain(getSelections(), getChannelId());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
 		}catch(BaseException e){
