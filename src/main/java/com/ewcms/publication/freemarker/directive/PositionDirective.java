@@ -79,7 +79,11 @@ public class PositionDirective implements TemplateDirectiveModel {
             String mark = getMarkValue(params);
             for (Iterator<Channel> iterator = levels.iterator(); iterator.hasNext();) {
                 Channel channel = iterator.next();
-                builder.append("<a href=\"").append(channel.getAbsUrl()).append("\">");
+                if (channel.getAbsUrl() == null || channel.getAbsUrl().trim().length() == 0){
+                	builder.append("<a href=\"/").append("\">");
+                }else{
+                	builder.append("<a href=\"").append(channel.getAbsUrl()).append("\">");
+                }
                 builder.append(channel.getName());
                 builder.append("</a>");
                 if (iterator.hasNext()) {
