@@ -253,7 +253,10 @@ function delOperate() {
 //缺省查询
 function initOperateQuery() {
 	$('#tt').datagrid('clearSelections');
-	articleReload();
+	$('#tt').datagrid( {
+		pageNumber : 1,
+		url : url
+	});
 }
 //有条件查询
 function querySearch_Article(url) {
