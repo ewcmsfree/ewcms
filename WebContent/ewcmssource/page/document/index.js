@@ -165,7 +165,7 @@ function channelPermission(rootnode, currentnode) {
 		enableButtons();
 		$('#btnPublishOk').attr('style', 'display:none;');
 		$('#btnPublishRec').attr('style','display:none;');
-		//$('#btnBreakArticle').attr('style', 'display:none;');
+		$('#btnBreakArticle').attr('style', 'display:none;');
 		return;
 	}
 	if (currentnode.attributes.maxpermission >= 4) {
@@ -357,6 +357,10 @@ function submitReviewOperate(url) {
 			}
 			return;
 		} else {
+			//for (var i=0; i<rows.length;i++){
+				//var rowIndex = $('#tt').datagrid('getRowIndex',rows[i]);
+				//$("#tt").datagrid("updateRow",{index:rowIndex,row:{statusDescription:"发布版"}});
+			//}
 			$('#tt').datagrid('clearSelections');
 			articleReload();
 			$.messager.alert('提示', '文章提交审核成功', 'info');
@@ -669,7 +673,7 @@ function disableButtons() {
 	$('#btnReviewProcess').attr('style', 'display:none;');
 	$('#btnPublishOk').attr('style', 'display:none;');
 	$('#btnPublishRec').attr('style','display:none;');
-	//$('#btnBreakArticle').attr('style', 'display:none;');
+	$('#btnBreakArticle').attr('style', 'display:none;');
 	$('#btnTopSet').attr('style','display:none;');
 	$('#btnTopCancel').attr('style','display:none;');
 	$('#btnCopy').attr('style','display:none;');
@@ -692,7 +696,7 @@ function enableButtons() {
 	$('#btnReviewProcess').attr('style', 'display:block;');
 	$('#btnPublishOk').attr('style', 'display:block;');
 	$('#btnPublishRec').attr('style','display:block;');
-	//$('#btnBreakArticle').attr('style', 'display:block;');
+	$('#btnBreakArticle').attr('style', 'display:block;');
 	$('#btnTopSet').attr('style','display:block;');
 	$('#btnTopCancel').attr('style','display:block;');
 	$('#btnCopy').attr('style','display:block;');

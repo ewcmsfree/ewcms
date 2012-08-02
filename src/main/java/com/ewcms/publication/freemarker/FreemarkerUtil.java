@@ -239,7 +239,7 @@ public class FreemarkerUtil {
             try{
                 return Integer.valueOf((String)value);    
             }catch(NumberFormatException e){
-                logger.error("Value is {},not is Integer",value);
+//                logger.warn("Value is {},not is Integer",value);
                 return null;
             }
         }else{

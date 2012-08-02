@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Index;
 
 /**
  * 相关文章
@@ -48,6 +49,7 @@ public class Relation implements Serializable {
 	private Integer sort;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = Article.class)
 	@JoinColumn(name="relation_article_id")
+	@Index(name = "idx_relation_article_id")
 	private Article article;
 
 	public Integer getId() {

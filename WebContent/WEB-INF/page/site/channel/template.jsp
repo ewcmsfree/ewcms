@@ -7,6 +7,7 @@
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript"> 
 			var tpltreeURL = '<s:url value="/site/template/tree.do" />';
+			var datagridId="#tt";
 			function browseTPL(){
 				openWindow("#template-window");
 			}

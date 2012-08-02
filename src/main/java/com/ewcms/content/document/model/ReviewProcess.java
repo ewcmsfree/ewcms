@@ -25,6 +25,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Index;
 
 /**
  * 审核流程定义
@@ -54,16 +55,19 @@ public class ReviewProcess implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "channel_id", nullable = false)
+	@Index(name = "idx_process_channel_id")
 	private Integer channelId;
 	@Column(name = "name", nullable = false)
 	private String name;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ReviewUser.class, orphanRemoval = true)
 	@JoinColumn(name = "process_id")
 	@OrderBy(value = "id")
+	@Index(name = "idx_user_process_id")
 	private List<ReviewUser> reviewUsers = new ArrayList<ReviewUser>();
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = ReviewGroup.class, orphanRemoval = true)
 	@JoinColumn(name = "process_id")
 	@OrderBy(value = "id")
+	@Index(name = "idx_group_process_id")
 	private List<ReviewGroup> reviewGroups = new ArrayList<ReviewGroup>();
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = ReviewProcess.class)
 	@JoinColumn(name = "next_id")

@@ -133,6 +133,7 @@ public class Article implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Content.class,fetch=FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "page asc")
+	@Index(name = "idx_content_article_id")
 	private List<Content> contents = new ArrayList<Content>();
 	@Column(name = "image")
 	private String image;
@@ -149,6 +150,7 @@ public class Article implements Serializable {
 	private Date published;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified", nullable = false)
+	@Index(name = "idx_article_modified")
 	private Date modified;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -161,6 +163,7 @@ public class Article implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Relation.class)
 	@JoinColumn(name = "article_id")
 	@OrderBy(value = "sort")
+	@Index(name = "idx_article_relation_id")
 	private List<Relation> relations = new ArrayList<Relation>();
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false)
@@ -168,6 +171,7 @@ public class Article implements Serializable {
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = Category.class)
 	@JoinTable(name = "content_article_category", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
+	@Index(name = "idx_article_category_id")
 	private List<Category> categories = new ArrayList<Category>();
 	@Column(name = "total")
 	private Integer contentTotal;
@@ -175,6 +179,7 @@ public class Article implements Serializable {
 	private Boolean inside;
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = ReviewProcess.class)
 	@JoinColumn(name="reviewprocess_id")
+	@Index(name = "idx_article_reviewprocess_id")
 	private ReviewProcess reviewProcess;
 	
 	public Article() {

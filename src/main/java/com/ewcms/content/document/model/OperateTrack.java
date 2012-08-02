@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 文章操作记录
  * 
@@ -46,8 +48,10 @@ public class OperateTrack implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "articlemain_id")
+	@Index(name = "idx_track_articlemain_id")
 	private Long articleMainId;
 	@Column(name = "username")
+	@Index(name = "idx_track_username")
 	private String userName;
 	@Column(name = "userrealname")
 	private String userRealName;

@@ -52,6 +52,7 @@ public class ArticleMain implements Serializable {
 	private Integer channelId;
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Article.class)
 	@JoinColumn(name = "article_id")
+	@Index(name = "idx_articlemain_article_id")
 	private Article article;
 	@Column(name = "reference")
 	private Boolean reference;

@@ -159,9 +159,8 @@
 	    <div id="btnPubSub" style="width:80px;display:none;">
 	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>&recursion=false');" >独立</div>
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>&recursion=true');" >关联</div>
-	    	<!-- <div id="btnPublishSep" class="menu-sep"></div>
+	    	 <div id="btnPublishSep" class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">退回</div>
-	    	 -->
 	    </div>
 	    <div id="btnTopSub" style="width:80px;display:none;">
 	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
