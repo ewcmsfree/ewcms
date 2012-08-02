@@ -144,6 +144,9 @@ public class PositionDirective implements TemplateDirectiveModel {
     private List<Channel> getChannelLevels(final Channel channel) {
         List<Channel> levels = new ArrayList<Channel>();
         for (Channel c = channel; EmptyUtil.isNotNull(c); c = c.getParent()) {   
+        	if (c.getAbsUrl() == null || c.getAbsUrl().trim().length() == 0){
+        		c.setAbsUrl("/");
+        	}
             levels.add(0, c);
         }
         return levels;

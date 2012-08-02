@@ -23,8 +23,9 @@
 		</script>
 	</head>
 	<body class="easyui-layout">
-		<s:hidden name="channelId" id="channelId"></s:hidden>
-		<s:hidden name="node" id="node"></s:hidden>
+		<s:hidden name="channelId" id="channelId"/>
+		<s:hidden name="node" id="node"/>
+		<s:hidden name="pageNo" id="pageNo"/>
 		<div region="center" style="padding:2px;" border="false">
 			<table id="tt" fit="true"></table>
 	 	</div>

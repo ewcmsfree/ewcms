@@ -186,7 +186,6 @@ function nodeArticleMenu(){
 //重读选择的栏目中文章
 function articleReload() {
 	$('#tt').datagrid( {
-		pageNumber : 1,
 		url : queryURL
 	});
 	channelPermission(rootnode, currentnode);

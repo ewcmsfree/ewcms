@@ -25,6 +25,7 @@ import com.ewcms.publication.freemarker.directive.ChannelListDirective;
 import com.ewcms.publication.freemarker.directive.IncludeDirective;
 import com.ewcms.publication.freemarker.directive.IndexDirective;
 import com.ewcms.publication.freemarker.directive.PositionDirective;
+import com.ewcms.publication.freemarker.directive.component.CountDirective;
 import com.ewcms.publication.freemarker.directive.page.PageOutDirective;
 import com.ewcms.publication.freemarker.directive.page.SkipDirective;
 import com.ewcms.publication.freemarker.directive.page.SkipNumberDirective;
@@ -88,6 +89,8 @@ public class EwcmsConfigurationFactory extends FreeMarkerConfigurationFactory im
         freemarkerVariables.put("index", new IndexDirective());
         
         freemarkerVariables.put("include", new IncludeDirective(channelService,templateService));
+        
+//        freemarkerVariables.put("count", new CountDirective());
         
         super.setFreemarkerVariables(freemarkerVariables);
     }

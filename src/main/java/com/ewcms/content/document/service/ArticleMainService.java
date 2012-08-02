@@ -199,6 +199,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
 					target_article.setInside(article.getInside());
 					target_article.setOwner(EwcmsContextUtil.getUserName());
+					target_article.setContentTotal(article.getContentTotal());
 
 					
 					ArticleMain articleMain_new = new ArticleMain();

@@ -54,7 +54,7 @@ public class PageOut {
     }
 
     public String getUrl() {
-        return url;
+        return url.replace("\\", "/").replace("//", "/");
     }
     
     public Boolean isActive(){
