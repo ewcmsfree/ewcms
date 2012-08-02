@@ -522,9 +522,9 @@ public class ArticleMainService implements ArticleMainServiceable {
 			article.setPublished(published);
 		}
 
-		if (article.getStatus() == Status.RELEASE || article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.REVIEW) {
-			// throw new BaseException("error.document.article.notupdate","只能在初稿或重新编辑下才能修改");
-		} else {
+//		if (article.getStatus() == Status.RELEASE || article.getStatus() == Status.PRERELEASE || article.getStatus() == Status.REVIEW) {
+//			// throw new BaseException("error.document.article.notupdate","只能在初稿或重新编辑下才能修改");
+//		} else {
 			Article article_old = articleMain.getArticle();
 			Assert.notNull(article_old);
 			if (article.getType() == Type.GENERAL) {
@@ -552,7 +552,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMainDAO.merge(articleMain);
 
 			operateTrackService.addOperateTrack(articleMainId, article_old.getStatusDescription(), "修改。", "");
-		}
+//		}
 		return articleMain.getId();
 	}
 	

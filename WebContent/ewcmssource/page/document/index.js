@@ -165,7 +165,7 @@ function channelPermission(rootnode, currentnode) {
 		enableButtons();
 		$('#btnPublishOk').attr('style', 'display:none;');
 		$('#btnPublishRec').attr('style','display:none;');
-		$('#btnBreakArticle').attr('style', 'display:none;');
+		//$('#btnBreakArticle').attr('style', 'display:none;');
 		return;
 	}
 	if (currentnode.attributes.maxpermission >= 4) {
@@ -215,13 +215,13 @@ function updOperate() {
 			$.messager.alert('提示', '引用文章不能修改', 'info');
 			return;
 		}
-		if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑') {
+		//if (rows[0].article.statusDescription == '初稿' || rows[0].article.statusDescription == '重新编辑') {
 			var url_param = '&selections='	+ rows[0].id;
 			window.open(inputURL + url_param,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
-		} else {
-			$.messager.alert('提示', '文章只能在初稿或重新编辑状态在才能修改', 'info');
-			return;
-		}
+		//} else {
+		//	$.messager.alert('提示', '文章只能在初稿或重新编辑状态在才能修改', 'info');
+		//	return;
+		//}
 	} else {
 		$.messager.alert('提示', '请选择栏目', 'info');
 		return;
@@ -669,7 +669,7 @@ function disableButtons() {
 	$('#btnReviewProcess').attr('style', 'display:none;');
 	$('#btnPublishOk').attr('style', 'display:none;');
 	$('#btnPublishRec').attr('style','display:none;');
-	$('#btnBreakArticle').attr('style', 'display:none;');
+	//$('#btnBreakArticle').attr('style', 'display:none;');
 	$('#btnTopSet').attr('style','display:none;');
 	$('#btnTopCancel').attr('style','display:none;');
 	$('#btnCopy').attr('style','display:none;');
@@ -692,7 +692,7 @@ function enableButtons() {
 	$('#btnReviewProcess').attr('style', 'display:block;');
 	$('#btnPublishOk').attr('style', 'display:block;');
 	$('#btnPublishRec').attr('style','display:block;');
-	$('#btnBreakArticle').attr('style', 'display:block;');
+	//$('#btnBreakArticle').attr('style', 'display:block;');
 	$('#btnTopSet').attr('style','display:block;');
 	$('#btnTopCancel').attr('style','display:block;');
 	$('#btnCopy').attr('style','display:block;');
