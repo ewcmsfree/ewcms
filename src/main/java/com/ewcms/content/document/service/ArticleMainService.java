@@ -131,12 +131,26 @@ public class ArticleMainService implements ArticleMainServiceable {
 					article.setStatus(Status.PRERELEASE);
 					article.setReviewProcess(null);
 				}else{
-					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
-	
-					article.setStatus(Status.REVIEW);
-					article.setReviewProcess(reviewProcess);
+					UserDetails userDetails = EwcmsContextUtil.getUserDetails();
+					Collection<GrantedAuthority> authorities = userDetails.getAuthorities();
+					Boolean isAdmin = false;
+					for (GrantedAuthority ga : authorities){
+						if (ga.getAuthority().toUpperCase().equals("ROLE_ADMIN")){
+							operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "管理员直接跳过流程进入发布版。", "");
+							
+							article.setStatus(Status.PRERELEASE);
+							article.setReviewProcess(null);
+							isAdmin = true;
+						}
+					}
+
+					if (!isAdmin){
+						operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(),"已提交到【" + reviewProcess.getName() + "】进行审核。", "");
+		
+						article.setStatus(Status.REVIEW);
+						article.setReviewProcess(reviewProcess);
+					}
 				}
-				
 				if (article.getPublished() == null) {
 					article.setPublished(new Date(Calendar.getInstance().getTime().getTime()));
 				}
@@ -250,7 +264,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
 		if (isNotNull(channelId)) {
-			webPublish.publishChannel(channelId,false,recursion);
+			webPublish.publishChannel(channelId, false, recursion);
 		}
 	}
 	

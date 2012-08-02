@@ -6,6 +6,8 @@
 
 package com.ewcms.core.site;
 
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.ewcms.core.site.service.OrganService;
 import com.ewcms.core.site.service.SiteServiceable;
 import com.ewcms.core.site.service.TemplateServiceable;
 import com.ewcms.core.site.service.TemplateSourceServiceable;
+import com.ewcms.publication.PublishException;
 import com.ewcms.web.vo.TreeNode;
 import freemarker.template.Configuration;
 
@@ -280,4 +283,8 @@ public class SiteFac{
     	templateService.saveAppChild(channelId, templateIds);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+	public void forceRelease(Integer channelId) throws PublishException{
+		channelService.forceRelease(channelId);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.security.acls.model.Permission;
 
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.publication.PublishException;
 import com.ewcms.publication.service.ChannelPublishServiceable;
 
 /**
@@ -114,4 +115,12 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
     public void delChannel(Integer id);
 
     public Channel getChannel(Integer id);
+    
+	/**
+	 * 强制发布文章
+	 * 
+	 * @param channelId 频道编号
+	 * @throws PublishException 
+	 */
+	public void forceRelease(Integer channelId) throws PublishException;
 }

@@ -40,6 +40,7 @@
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.addToolItem("导入","icon-print","browseTPL");
 				ewcmsBOBJ.addToolItem("应用子栏目","","appChild")
+				ewcmsBOBJ.addToolItem("强制发布","","forceRelease");
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
@@ -102,6 +103,12 @@
 			        error:function(XMLHttpRequest, textStatus, errorThrown){
 			        }
 			    });
+			}
+			function forceRelease(){
+				$.post("<s:url namespace='/site/template' action='forceRelease'/>?channelId=<s:property value='channelVo.id'/>", {}, function(data) {
+					$.messager.alert('提示', data, 'info');
+				});
+				return false;
 			}
 			function loadingEnable(){
 				   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");

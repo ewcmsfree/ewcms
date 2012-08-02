@@ -598,7 +598,7 @@ function reviewOperate() {
 	if (rows[0].article.status == 'REVIEW') {
 		var parameter = {};
 		parameter['selections'] = rows[0].id;
-		parameter['channelId'] = $('#channelId').val();
+		//parameter['channelId'] = $('#channelId').val();
 		$.post(effectiveURL, parameter, function(data) {
 			if (data == 'true'){
 				ewcmsBOBJ.openWindow('#review-window', {

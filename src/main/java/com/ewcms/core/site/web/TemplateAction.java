@@ -22,6 +22,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
@@ -482,4 +484,20 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目出现系统错误!"));
 		}
 	}
+	
+	public void forceRelease() {
+		try {
+			if (getChannelId() != null){
+				siteFac.forceRelease(getChannelId());
+				Struts2Util.renderJson(JSONUtil.toJSON("强制发布成功"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("强制发布失败"));
+			}
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("没有强制发布权限"));
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("系统错误"));
+		}
+	}
+
 }

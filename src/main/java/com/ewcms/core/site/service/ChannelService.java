@@ -6,6 +6,8 @@
 
 package com.ewcms.core.site.service;
 
+import static com.ewcms.common.lang.EmptyUtil.isNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +32,8 @@ import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.util.ConvertToPinYin;
+import com.ewcms.publication.PublishException;
+import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.security.acls.domain.EwcmsPermission;
 import com.ewcms.security.acls.service.EwcmsAclServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -45,9 +49,10 @@ public class ChannelService implements ChannelServiceable{
     
     @Autowired
     private ChannelDAO channelDAO;
-    
     @Autowired
     private EwcmsAclServiceable aclService;
+	@Autowired
+	private WebPublishFacable webPublish;
 
     private Set<Permission> getPermissionsofChannel(Channel channel) {
         Assert.notNull(channel, "channel is null");
@@ -256,5 +261,12 @@ public class ChannelService implements ChannelServiceable{
 	@Override
 	public Channel getChannelByUrlOrPath(Integer siteId, String path) {
 		return channelDAO.getChannelByURL(siteId, path);
+	}
+	
+	@Override
+	public void forceRelease(Integer channelId) throws PublishException{
+		if (isNotNull(channelId)) {
+			webPublish.publishChannel(channelId, true, false);
+		}
 	}
 }
