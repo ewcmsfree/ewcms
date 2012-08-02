@@ -6,8 +6,6 @@
 
 package com.ewcms.core.site;
 
-import static com.ewcms.common.lang.EmptyUtil.isNotNull;
-
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;

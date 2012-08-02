@@ -9,11 +9,10 @@ package com.ewcms.publication.freemarker.directive.component;
 import java.io.IOException;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import com.ewcms.content.document.model.Article;
-import com.ewcms.core.site.model.Site;
 import com.ewcms.publication.freemarker.FreemarkerUtil;
 import com.ewcms.publication.freemarker.GlobalVariable;
 import com.ewcms.publication.freemarker.directive.PropertyDirective;
@@ -31,7 +30,7 @@ import freemarker.template.TemplateModel;
 // TODO 是否可以通过统计分析替代
 public class CountDirective extends PropertyDirective {
 
-	private static final Logger logger = LoggerFactory.getLogger(CountDirective.class);
+//	private static final Logger logger = LoggerFactory.getLogger(CountDirective.class);
 
 	private static final String PARAM_ELEMENT_ID_VALUE = "elementId";
 	private static final String PARAM_CALLBACK_VALUE = "callback";
@@ -93,6 +92,7 @@ public class CountDirective extends PropertyDirective {
 		return builder.toString();
 	}
 
+	@SuppressWarnings("rawtypes")
 	private String getParamValue(final Map params, final String name) throws TemplateException {
 		return FreemarkerUtil.getString(params, name);
 	}
