@@ -78,7 +78,7 @@ public class UriRule implements UriRuleable{
             String formatValue = formatValue(value,format);
             uri = StringUtils.replace(uri, exp, formatValue);
         }
-        
+        uri = uri.replace("\\", "/").replace("//", "/");
         return FilenameUtils.normalize(uri);
     }
     
