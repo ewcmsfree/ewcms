@@ -553,8 +553,9 @@ function openVoteWidnow(){
 function insertVote(){
 	var rows = editifr_vote.getVoteRows();
 	var urlAndContextName = editifr_vote.$('#urlAndContextName').val();
+	var host = "http://" + window.location.host;
 	for (var i=0;i<rows.length;i++){
-		var html_obj= "<iframe src='"  + urlAndContextName + "/view.vote?id=" + rows[i].id + "' frameborder='0' scrolling='auto' style='padding:1px;' with='100%' height='100%'></iframe>";
+		var html_obj= "<iframe src='" + host + urlAndContextName + "/view.vote?id=" + rows[i].id + "' frameborder='0' scrolling='no' style='padding:1px;' width='100%' height='100%' onload='this.height=500'></iframe>";
 		if (tinyMCE.getInstanceById('_Content_' + currentPage) != null){
 			tinyMCE.execInstanceCommand('_Content_' + currentPage,'mceInsertContent',false,html_obj);
 		}

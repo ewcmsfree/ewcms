@@ -9,7 +9,7 @@
             $(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url action="query"/>'); 
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/plguin/interaction" action="query"/>'); 
             	ewcmsBOBJ.delToolItem('新增');
               	ewcmsBOBJ.delToolItem('修改');
               	ewcmsBOBJ.delToolItem('删除');
@@ -60,10 +60,10 @@
             });
             function queryInteractionSearch(options){
                 if(typeof(options) == 'undefined')options = {};
-                var tableid = (options.tableid ? options.tableid : globaoptions.tableid);
-                var windowid = (options.windowid ? options.windowid : globaoptions.querywindowid);
-                var url = (options.url ? options.url : globaoptions.queryURL);
-                var formid = (options.formid ? options.formid : globaoptions.queryformid);
+                var tableid = (options.tableid ? options.tableid : "#tt");
+                var windowid = (options.windowid ? options.windowid : "#tt");
+                var url = (options.url ? options.url : '<s:url namespace="/plguin/interaction" action="query"/>');
+                var formid = (options.formid ? options.formid : "queryform");
 
                 var value = $(formid).serialize();
                 var index = url.indexOf("?");
@@ -90,10 +90,6 @@
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                     <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator();$('#edit-window').window('close');queryInteractionSearch('');return false;">保存</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#edit-window').window('close');">取消</a>
                 </div>
             </div>
         </div>

@@ -57,7 +57,11 @@ public class ResourceRender extends AbstractResourceRender{
             realPath = resource.getThumbPath();
         }
         
-        IOUtils.copy(new FileInputStream(realPath), response.getOutputStream());
+        try{
+        	IOUtils.copy(new FileInputStream(realPath), response.getOutputStream());
+        }catch(Exception e){
+        	logger.warn("Resource is not exit,real path is{}", realPath);
+        }
         response.flushBuffer();
         
         return true;

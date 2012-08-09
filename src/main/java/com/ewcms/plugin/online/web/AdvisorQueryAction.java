@@ -13,7 +13,7 @@ import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
-import com.ewcms.plugin.interaction.model.Interaction;
+import com.ewcms.plugin.online.model.Advisor;
 import com.ewcms.web.QueryBaseAction;
 
 /**
@@ -51,7 +51,7 @@ public class AdvisorQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
 			String cacheKey, int rows, int page, Order order) {
-		EntityQueryable query = queryFactory.createEntityQuery(Interaction.class).setPage(page).setRow(rows);
+		EntityQueryable query = queryFactory.createEntityQuery(Advisor.class).setPage(page).setRow(rows);
         if (replay != 0) {
             if (replay == 1) {
                 query.eq("state", 1);

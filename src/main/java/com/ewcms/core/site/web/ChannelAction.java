@@ -9,10 +9,7 @@
  */
 package com.ewcms.core.site.web;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.core.site.model.ChannelEntity;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.web.CrudBaseAction;
@@ -236,20 +232,10 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				vo.setMaxSize(getChannelVo().getMaxSize());
 				vo.setDescribe(getChannelVo().getDescribe());
 				vo.setType(getChannelVo().getType());
+				vo.setIconUrl(getChannelVo().getIconUrl());
 			}
 
 			vo.setPublicenable(getChannelVo().getPublicenable());
-			if (iconFile != null) {
-				ChannelEntity entityVo = vo.getChannelEntity();
-				if (entityVo == null)
-					entityVo = new ChannelEntity();
-				byte[] buffer = new byte[Integer.parseInt(String.valueOf(iconFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(iconFile), Integer.parseInt(String
-						.valueOf(iconFile.length())));
-				in.read(buffer);
-				entityVo.setIconEntity(buffer);
-				vo.setChannelEntity(entityVo);
-			}
 			siteFac.updChannel(vo);
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
@@ -258,7 +244,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 		setChannelVo(siteFac.getChannel(getChannelVo().getId()));
 		return INPUT;
 	}
-
+	
 	public void importChannelTPL() {
 		try {
 			Template template = siteFac.getTemplate(Integer.parseInt(getChannelVo().getName()));

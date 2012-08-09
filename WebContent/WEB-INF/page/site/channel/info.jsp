@@ -9,7 +9,35 @@
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>
 	    	});
-		</script>
+	    	function openImageWindow(){
+	    		var ewcmsBOBJ = new EwcmsBase();
+	    	    var url = '<s:url action="insert" namespace="/resource"/>?type=image&multi=false';
+	    	    ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,title:"图片选择",url:url});
+	    	}
+	    	function indertIconUrl(){
+	    		uploadifr_insert.insert(function(data,success){
+	    			if (success){
+	    				$.each(data, function(index,value){
+	    	    			$("#viewImage").attr("src", value.uri);
+	    	    			$("#iconUrl").attr("value", value.uri);
+	    			   });
+	    			   $("#insert-window").window("close");
+	    			}else{
+	    				$.messager.alert('错误', '插入失败', 'error');
+	    			}
+	    	    });
+	    	}		
+	    	function clearImage(){
+	    		$("#viewImage").attr("src","../../ewcmssource/image/article/nopicture.jpg");
+	    		$("#iconUrl").attr("value","");
+	    	}
+	    	function pinYin(){
+	    		var channelName = $('#channelVo_name').val();
+	    		$.post('<s:url action="pinYin" namespace="/site/template"/>', {'channelName':channelName} ,function(data) {
+	    			$('#channelVo_dir').val(data);
+	    		});
+	    	}
+	    </script>
 	</head>
 	<body>
 		<s:form action="saveInfo" namespace="/site/channel"  method="post" enctype="multipart/form-data">
@@ -57,13 +85,13 @@
 					<tr>
 						<td>专栏名称：</td>
 						<td  width="80%">
-							<s:textfield name="channelVo.name" size="30" readonly="true" cssClass="inputdisabled"/>
+							<s:textfield id="channelVo_name" name="channelVo.name" size="30" readonly="true" cssClass="inputdisabled"/><input type="button" value="名称转拼音" onclick="pinYin();"/>
 						</td>
 					</tr>
 					<tr>
 						<td >专栏目录：</td>
 						<td class="formFieldError">
-							<s:textfield name="channelVo.dir" cssClass="inputtext" size="20"/>
+							<s:textfield id="channelVo_dir" name="channelVo.dir" cssClass="inputtext" size="20"/>
 							<s:fielderror ><s:param value="%{'channelVo.dir'}" /></s:fielderror>
 						</td>				
 					</tr>	
@@ -98,7 +126,17 @@
 					<tr>
 						<td>引导图：</td>
 						<td>
-							<s:file name="iconFile" cssClass="inputtext" size="50"/>				
+							<a href="javascript:void(0);" onclick="openImageWindow();return false;" style="text-decoration:none;">
+							<s:textfield id="iconUrl" name="channelVo.iconUrl" cssStyle="display:none;"/>
+			        		<s:if test="channelVo.iconUrl!=null&&channelVo.iconUrl!=''">
+			        			<img id="viewImage" name="viewImage" width="120px" height="90px" src="../..<s:property value='channelVo.iconUrl'/>"/>
+			        		</s:if>
+			        		<s:else>
+			        			<img id="viewImage" name="viewImage" width="120px" height="90px" src="<s:url value='/ewcmssource/image/article/nopicture.jpg'/>"/>
+			        		</s:else>
+			        		</a>
+			        		
+			        		<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearImage();return false;" style="vertical-align:bottom;">清除图片</a>				
 						</td>				
 					</tr>										
 				<tr>
@@ -112,5 +150,16 @@
 			</table>
 			<s:hidden name="channelVo.id"/>					
 		</s:form>
+		<div id="insert-window" class="easyui-window" closed="true" icon="icon-save" title="插入" style="display:none;">
+            <div class="easyui-layout" fit="true">
+            	<div region="center" border="false">
+             		<iframe src="" id="uploadifr_insert_id"  name="uploadifr_insert" class="editifr" scrolling="no"></iframe>
+             	</div>
+                <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="indertIconUrl();">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>	
 	</body>
 </html>

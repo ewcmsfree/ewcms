@@ -213,7 +213,7 @@
 							  										<td align="right">原文件：</td>
 							  										<td>
 							  											<s:if test="url!=''">
-																		<a href="../<s:property value='url'/>" target="_blank">下载</a>
+																		<a href="<s:property value='url'/>" target="_blank">下载</a>
 																		</s:if>
 																		<s:else>
 																		无文件下载

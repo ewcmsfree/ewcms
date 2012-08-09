@@ -87,26 +87,26 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 //			if (!servletContentName.equals("")){
 //				servletContentName = servletContentName;
 //			}
-			
-			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
-			if (questionnaire == null) return new StringBuffer("<p>没有问卷调查</p>");
-			
 			StringBuffer view = new StringBuffer();
-			
-			view.append("<div id='voteView' name='voteView'>调查：" + questionnaire.getTitle() + "\n");
 			view.append("<link rel='stylesheet' type='text/css' href='" + servletContentName + "/ewcmssource/page/vote/vote.css'/>\n");
 			view.append("<script language='javascript' src='" + servletContentName + "/ewcmssource/page/vote/vote.js'></script>\n");
+			view.append("<div class='diaocha'>").append("<p class='bt01'></p>").append("<div class='dc_detail'>");			
+			
+			Questionnaire questionnaire = questionnaireDAO.get(questionnaireId);
+			if (questionnaire == null) return view.append("<p class='dc_tit'>没有问卷调查</p>").append("</div>").append("</div>");
+			
+			view.append("<p class='dc_tit'>" + questionnaire.getTitle() + "</p>\n");
 			
 			if ((questionnaire.getVoteEnd()!= null && questionnaire.getVoteEnd()) || (questionnaire.getEndTime() != null && questionnaire.getEndTime().getTime() < Calendar.getInstance().getTime().getTime())){
-				view.append("<p>对不起，此调查已结束，不再接受投票</p>");
+				view.append("<p class='dc_tit'>对不起，此调查已结束，不再接受投票</p>");
 			}else{
 				List<Subject> subjects = questionnaire.getSubjects();
 				if (subjects == null || subjects.isEmpty())	return new StringBuffer("<p>没有问卷调查</p>");
 				
 				view.append("<div id='vote_" + questionnaireId + "' class='votecontainer' style='text-align:left'>\n");
 				view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
-				view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'>\n");
-				view.append("  <input type='hidden' id='voteEnd' name='voteEnd' value='" + questionnaire.getVoteEnd() + "'>\n");
+				view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'/>\n");
+				view.append("  <input type='hidden' id='voteEnd' name='voteEnd' value='" + questionnaire.getVoteEnd() + "'/>\n");
 				view.append("    <dl>\n");
 				
 				Boolean isItemEntity = false;
@@ -174,7 +174,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				}
 				view.append("    <dl>\n");
 				view.append("       <dd>\n");
-				view.append("         <input type='submit' value='提交' onclick='return checkVote(" + questionnaireId + ");'>&nbsp;&nbsp;");
+				view.append("         <input type='submit' value='提交' onclick='return checkVote(" + questionnaireId + ");'>  ");
 				if (questionnaire.getStatus() != Questionnaire.Status.NOVIEW){
 					view.append("         <input type='button' value='查看' onclick='javascript:window.open(\"" + servletContentName + "/result.vote?id=" + questionnaireId + "\",\"_blank\")'>\n");
 				}
@@ -183,7 +183,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				view.append("  </form>\n");
 				view.append("</div>\n");
 			}
-			view.append("</div>");
+			view.append("</div>").append("</div>");
 			
 			return view;
 		}catch(Exception e){

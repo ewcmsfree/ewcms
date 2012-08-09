@@ -69,7 +69,7 @@ public class WorkingBody implements Serializable {
 	@OrderBy(value = "sort,id")
 	private List<Matter> matters;
 	@ManyToMany(cascade = {CascadeType.ALL}, targetEntity = ArticleMain.class, fetch = FetchType.LAZY)
-	@JoinTable(name = "plugin_workingbody_articlermc", joinColumns = @JoinColumn(name = "workingbody_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articleMain_id", referencedColumnName = "id"))
+	@JoinTable(name = "plugin_workingbody_articlemain", joinColumns = @JoinColumn(name = "workingbody_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "articleMain_id", referencedColumnName = "id"))
 	@OrderBy("id")
 	private List<ArticleMain> articleMains;
 	@Column(name = "channel_id")

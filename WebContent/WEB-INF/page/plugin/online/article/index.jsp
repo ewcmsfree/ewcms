@@ -7,77 +7,69 @@
 		<s:include value="../../../taglibs.jsp"/>
 		<script>
 			$(function(){
-				//基本变量初始
-				setGlobaVariable({
-					inputURL:'<s:url namespace="/plugin/online/article" action="input?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>',
-					queryURL:'<s:url namespace="/plugin/online/article" action="query?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>',
-					deleteURL:'<s:url namespace="/plugin/online/article" action="delete?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>',
-					editwidth:1000,
-					editheight:700
-				});
-				//数据表格定义 						
-				openDataGrid({
+				ewcmsBOBJ = new EwcmsBase();
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/plugin/online/article" action="query?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>');
+				
+				ewcmsBOBJ.delToolItem('新增');
+				ewcmsBOBJ.delToolItem('修改');
+				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.delToolItem('查询');
+				ewcmsBOBJ.delToolItem('缺省查询');
+				
+				ewcmsBOBJ.addToolItem('新增','icon-add',addOperate);
+				ewcmsBOBJ.addToolItem('修改','icon-edit',updOperate);
+				ewcmsBOBJ.addToolItem('移动','icon-move',moveOperate);
+				//ewcmsBOBJ.addToolItem('删除','icon-remove', delOperateBack);
+				//ewcmsBOBJ.addToolItem('查询','icon-search', queryOperateBack);
+				//ewcmsBOBJ.addToolItem('缺省查询','icon-back', initOperateQuery);
+				
+				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
-								{field:'id',title:'序号',width:40,sortable:true},
-								{field:'topFlag',title:'属性',width:60,
-									formatter:function(val,rec){
-										var pro = [];
-										if (rec.article.topFlag) pro.push("<img src='../../source/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶'/>"); 
-										if (rec.article.commentFlag) pro.push("<img src='../../source/image/article/comment.gif' width='13px' height='13px' title='允许评论'/>");
-										if (rec.article.copyoutFlag) pro.push("<img src='../../source/image/article/copyout.gif' width='13px' height='13px' title='复制源'");
-										if (rec.article.copyFlag) pro.push("<img src='../../source/image/article/copy.gif' width='13px' height='13px' title='复制'/>");
-										return pro.join("");
-									}
-								},
-								{field:'title',title:'标题[字体大小][分类属性]',width:400,
-				                 	formatter:function(val,rec){
-										var fontSize = "12";
-			                 			var spanStyle = "";
-			                 			var titleStyle = rec.article.titleStyle;
-			                 			if (titleStyle != ""){
-				                 			try{
-				                 				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
-				                     			spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
-				                 			}catch(e){
-					                 			spanStyle = titleStyle;
-				                 			}
-			                 			}
-			                 			var classPro = [];
-			                 			if (rec.article.imageFlag) classPro.push("图片");
-				                 		if (rec.article.videoFlag) classPro.push("视频");
-					                 	if (rec.article.annexFlag) classPro.push("附件");
-						                if (rec.article.hotFlag) classPro.push("热点");
-							            if (rec.article.recommendFlag) classPro.push("推荐");
-								        var classValue = "";
-								        if (classPro.length > 0){
-											classValue = "<span style='color:#FF0000;'>[" + classPro.join(",") + "]</span>";
-									    }
-			                 			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
-				            		}
-							    },
-							    {field:'typeDescription',title:'文章类型',width:60,
-								    formatter:function(val,rec){
-								    	return rec.article.typeDescription;
-							    	}
-								},
-					            {field:'author',title:'作者',width:60,
-							    	formatter:function(val,rec){
-							    		return rec.article.author;
-							    	}
-						        },
-					            {field:'statusDescription',title:'状态',width:80},
-					            {field:'published',title:'发布时间',width:125},
-					            {field:'modified',title:'修改时间',width:125}
-					        ]],
-			         toolbar:[
-								{text:'新增',iconCls:'icon-add',handler:addOperate},'-',
-								{text:'修改',iconCls:'icon-edit',handler:updOperate},'-',
-								{text:'移动',iconCls:'icon-move',handler:moveOperate},'-',
-								{text:'删除',iconCls:'icon-remove', handler:delOperateBack},'-',
-								{text:'查询',iconCls:'icon-search', handler:queryOperateBack},'-',
-								{text:'缺省查询',iconCls:'icon-back', handler:initOperateQuery},'-'
-						     ]
+					    {field : 'id',title : '编号',width : 50,sortable:true},
+						{field : 'flags',title : '属性',width : 60,
+						    formatter : function(val, rec) {
+							    var pro = [];
+								if (rec.top) pro.push("<img src='../../ewcmssource/image/article/top.gif' width='13px' height='13px' title='有效期限:永久置顶' style='border:0'/>");
+								if (rec.article.comment) pro.push("<img src='../../ewcmssource/image/article/comment.gif' width='13px' height='13px' title='允许评论' style='border:0'/>");
+								if (rec.article.type == "TITLE") pro.push("<img src='../../ewcmssource/image/article/title.gif' width='13px' height='13px' title='标题新闻' style='border:0'/>");
+								if (rec.reference) pro.push("<img src='../../ewcmssource/image/article/reference.gif' width='13px' height='13px' title='引用新闻' style='border:0'/>");
+								if (rec.article.inside) pro.push("<img src='../../ewcmssource/image/article/inside.gif' width='13px' height='13px' title='内部标题' style='border:0'/>");
+								return pro.join("");
+							}
+						},
+						{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
+							formatter : function(val, rec) {
+								var classPro = [];
+								var categories = rec.article.categories;
+								for ( var i = 0; i < categories.length; i++) {
+									classPro.push(categories[i].categoryName);
+								}
+								var classValue = "";
+								if (classPro.length > 0) {
+									classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
+								}
+								return rec.article.title + classValue;
+							}
+						},
+						{field : 'statusDescription',title : '状态',width : 120,sortable:true,
+							formatter : function(val, rec) {
+								var processName = "";
+								if (rec.article.status == 'REVIEW' && rec.article.reviewProcess != null){
+									processName = "(" + rec.article.reviewProcess.name + ")";
+								}
+								return rec.article.statusDescription + processName;
+							}
+						}, 
+						{field : 'published',title : '发布时间',width : 145,sortable:true,formatter : function(val, rec) {return rec.article.published;}}, 
+						{field : 'modified',title : '修改时间',width : 145,sortable:true,formatter : function(val, rec) {return rec.article.modified;}}, 
+						{field : 'sort',title : '排序号',width : 50}
+					]]
 				});
+				
+				ewcmsOOBJ = new EwcmsOperate();
+				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				ewcmsOOBJ.setInputURL('<s:url namespace="/plugin/online/article" action="input?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>');
+				ewcmsOOBJ.setDeleteURL('<s:url namespace="/plugin/online/article" action="delete?workingBodyId=' + $('#workingBodyId').val() + '&channelId=' + $('#channelId').val() + '"/>');
 			});
 			function articleReload(){
 				var url='<s:url namespace="/plugin/online/article" action="query"/>';

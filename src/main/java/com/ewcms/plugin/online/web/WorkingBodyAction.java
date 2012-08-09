@@ -65,9 +65,9 @@ public class WorkingBodyAction extends ActionSupport {
 	}
 
 	public String queryChannelStatus(){
-		if (status.toLowerCase().trim().equals("workingbody")){
-			return "article";
-		}else if (status.toLowerCase().trim().equals("matter")){
+//		if (status.toLowerCase().trim().equals("workingbody")){
+//			return "article";
+		if (status.toLowerCase().trim().equals("matter")){
 			Matter matter = onlineOfficeFac.getMatter(getWorkingBodyId());
 			setMatterVo(matter);
 			return "matter";

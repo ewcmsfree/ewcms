@@ -106,6 +106,7 @@
 		</action>
 		<action name="appChild" class="com.ewcms.core.site.web.TemplateAction" method="appChild"/>
 		<action name="forceRelease" class="com.ewcms.core.site.web.TemplateAction" method="forceRelease"/>
+		<action name="pinYin" class="com.ewcms.core.site.web.TemplateAction" method="pinYin"/>
 	</package>
 	
     <package name="site.template.source"  extends="struts-default" namespace="/site/template/source">
@@ -160,6 +161,7 @@
 		<action name="del" class="com.ewcms.core.site.web.ChannelAction" method="delChannel"/>
 		<action name="moveto" class="com.ewcms.core.site.web.ChannelAction" method="movetoChannel"/>
 		<action name="importtpl" class="com.ewcms.core.site.web.ChannelAction" method="importChannelTPL"/>
+		<action name="viewFile" class="com.ewcms.core.site.web.ChannelAction" method="viewFile"/>
 		<action name="edit" class="com.ewcms.core.site.web.ChannelAction">
 			<result>/WEB-INF/page/site/channel/edit.jsp</result>
 		</action>

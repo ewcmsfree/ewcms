@@ -4,7 +4,7 @@
 <html>
     <head>
         <title>互动信息</title>
-		<s:include value="../../../taglibs.jsp"/>
+		<s:include value="../../taglibs.jsp"/>
         <script type="text/javascript">
             //机构目录树初始
             $(function(){
@@ -38,7 +38,7 @@
         </style>
     </head>
     <body>
-        <s:form action="edit" method="post">
+        <s:form namespace="/plguin/interaction" action="edit" method="post">
             <table class="formtable" align="center">
                 <tr>
                     <td width="100">编号：</td>
@@ -87,7 +87,7 @@
                 <tr>
                     <td height="100">内容：</td>
                     <td>
-                        <div style="height:80;overflow: auto;"><s:property value="interaction.content"/></div>
+                        <div style="height:40;overflow: auto;"><s:property value="interaction.content"/></div>
                     </td>
                 </tr>
                 <tr>
@@ -106,5 +106,8 @@
             <s:hidden name="id"/>
             <s:hidden name="update" value="true"/>
         </s:form>
+        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+             <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="document.forms[0].submit();">保存</a>
+        </div>
     </body>
 </html>

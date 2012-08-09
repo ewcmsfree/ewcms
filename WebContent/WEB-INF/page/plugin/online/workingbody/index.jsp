@@ -444,8 +444,10 @@
 					<div class="menu-sep"></div>
 					<div icon="icon-citizen-add" onclick="selCitizen();">选择公民</div>
 					<div icon="icon-citizen-del" onclick="removeCitizen();">移除公民</div>
+					<!-- 
 					<div class="menu-sep"></div>
 					<div icon="icon-reload" onclick="pubLeadingWindow();">发布</div>
+					 -->
 				</div>	    	
 			</div>
 			<div title="事项基本信息" style="padding: 0px;">

@@ -106,7 +106,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		hql = hql.replace("@joinTable@", joinTable);
 		countHql = countHql.replace("@joinTable@", joinTable);
 		
-		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Desc";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
@@ -165,14 +165,14 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	@Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
 		String hql = "Select o From ArticleMain As o Left Join o.article AS r, Where r.delete=false And o.id In (:id) And o.channelId=:channelId ";
-		String countHql = "Select count(o.id) From ArticleMain As o Left Join o.article AS r, Where r.delete=false And o.id In (:id) And o.channelId=:channelId ";
+		String countHql = "Select count(o.id) From ArticleMain As o Left  Join o.article AS r, Where r.delete=false And o.id In (:id) And o.channelId=:channelId ";
 		
 		boolean isPermissionIsChannel = getPermissionIsChannel();
 		if (!isPermissionIsChannel){
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
-		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Des";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

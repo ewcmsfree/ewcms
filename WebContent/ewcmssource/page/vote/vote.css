@@ -1,3 +1,12 @@
+.diaocha{ width:600px; height:400px; margin:20px auto; }
+.diaocha .bt01{ width:650px; height:35px; border-bottom: 2px solid #990; background: url(../../images/vote/wsdc.jpg) no-repeat; }
+.diaocha .list03{ padding:10px; }
+.diaocha .list03 li{ height:30px; line-height:30px; background: url(../../images/vote/biao2.gif) no-repeat 0px center; padding-left: 15px; }
+.dc_detail{ width:500px; margin:0px auto; }
+.dc_detail .dc_tit{ font-size:14px; font-weight:bold; color:#C60; height:40px; line-height:45px; }
+.dc_detail form p{ margin-bottom:10px; }
+.dc_detail form .btn input{ margin:0px 30px; }
+
 .votecontainer{
 	margin:0 auto;
 	padding:0 10px;

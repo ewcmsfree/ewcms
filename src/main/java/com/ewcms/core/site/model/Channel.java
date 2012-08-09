@@ -12,12 +12,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostUpdate;
 import javax.persistence.SequenceGenerator;
@@ -117,9 +115,6 @@ public class Channel implements Serializable {
 	private int childrenCount = 0;
 	@Column(length = 200)
 	private String describe;
-	@OneToOne(cascade = { CascadeType.ALL }, targetEntity = ChannelEntity.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "iconEntityId", nullable = true)
-	private ChannelEntity channelEntity;
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;
@@ -232,15 +227,6 @@ public class Channel implements Serializable {
 
 	public void setDescribe(String describe) {
 		this.describe = describe;
-	}
-
-	@JsonIgnore
-	public ChannelEntity getChannelEntity() {
-		return channelEntity;
-	}
-
-	public void setChannelEntity(ChannelEntity channelEntity) {
-		this.channelEntity = channelEntity;
 	}
 
 	public boolean hasChildren() {

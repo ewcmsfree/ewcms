@@ -9,12 +9,8 @@ import static org.junit.Assert.*;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PatternTest {
-	
-	private static final Logger logger = LoggerFactory.getLogger(PatternTest.class);
 	
 	@Test
 	public void testRegex(){

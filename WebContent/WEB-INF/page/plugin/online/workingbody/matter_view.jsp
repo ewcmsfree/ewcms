@@ -3,12 +3,12 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 	<head>
-		<title>用户信息</title>
+		<title>事项信息</title>
 		<s:include value="../../../taglibs.jsp"	/>
         <script type="text/javascript">
             $(function(){
     			$('#w').window({
-    				title: '领导基本信息',
+    				title: '事项信息',
     				collapsible:false,
 				    minimizable:false,
 				    maximizable:false,
@@ -129,26 +129,31 @@
 										<table align="center" border="0" width="100%" height="100%" id="second">
 											<tr>
 												<td width="100%" height="450" align="center">
-													<div style="overflow: auto;border-right: 1px solid; border-top: 1px solid; border-left: 1px solid; border-bottom: 1px solid; width: 100%; height: 100%">
+													<div style="OVERFLOW-Y:auto;OVERFLOW-X:hidden;border-right: 1px solid; border-top: 1px solid; border-left: 1px solid; border-bottom: 1px solid; width: 100%; height:450;">
 														<table width="100%" id="third_1">
 														<s:iterator value="matterVo.matterAnnexs" status="matterAnnexStatus" var="matterAnnex">
-											    			<tr id="image_upd_tr_${matterAnnexStatus.index + 1}">
+											    			<tr id="image_upd_tr_<s:property value='#matterAnnexStatus.index+1'/>">
 												    			<td>
 													   				<table border="1" style="border-collapse: collapse" width="100%">
 									  									<tr>
-									  										<td align="center" colspan="2"><font color="#0000FF"></font>第 ${matterAnnexStatus.index + 1} 条信息&nbsp;&nbsp;
-									  											<input type="hidden" id="matterAnnexId" name="matterAnnexId" value="${id}"/>
+									  										<td align="center" colspan="2"><font color="#0000FF"></font>第 <s:property value='#matterAnnexStatus.index+1'/> 条信息&nbsp;&nbsp;
+									  											<input type="hidden" id="matterAnnexId" name="matterAnnexId" value="<s:property value='id'/>"/>
 									  										</td>
 									  									</tr> 
 									  									<tr>
 									  										<td align="right">原文件：</td>
 									  										<td>
-																				<a href="../${url}" target="_blank">下载</a>							  											
+																				<s:if test="url!=''">
+																				<a href="<s:property value='url'/>" target="_blank">下载</a>
+																				</s:if>
+																				<s:else>
+																				无文件下载
+																				</s:else>						  											
 									  										</td>
 									  									</tr>
 									 									<tr>
 									 										<td align="right">说明：</td> 
-									  										<td><textarea name="legend" cols="140" readonly="true" rows="1"><s:property value="%{legend}" default=""/></textarea></td>
+									  										<td><textarea name="legend" cols="70" readonly="true" rows="1"><s:property value="%{legend}" default=""/></textarea></td>
 									  									</tr>
 									  								</table>
 								  								</td>

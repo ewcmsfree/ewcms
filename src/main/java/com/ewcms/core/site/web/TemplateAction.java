@@ -27,6 +27,7 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.core.site.SiteFac;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
+import com.ewcms.core.site.util.ConvertToPinYin;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -500,4 +501,21 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 	}
 
+	private String channelName;
+	
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+	public void pinYin(){
+		if (getChannelName() != null && getChannelName().trim().length() > 0){
+			Struts2Util.renderJson(JSONUtil.toJSON(ConvertToPinYin.covert(getChannelName())));
+		}else{
+			Struts2Util.renderJson(JSONUtil.toJSON(""));
+		}
+	}
 }

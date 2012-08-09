@@ -46,8 +46,8 @@ public class MatterArticleQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
 			String cacheKey, int rows, int page, Order order) {
-		String hql = "Select r From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article AS a Where r.deleteFlag=false And c.id=:workingBodyId And c.channelId=:channelId ";
-		String countHql = "Select count(r.id) From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article AS a Where r.deleteFlag=false And c.id=:workingBodyId And c.channelId=:channelId ";
+		String hql = "Select r From WorkingBody As c Right Join c.articleMains AS r Right Join r.article AS a Where a.delete=false And c.id=:workingBodyId And c.channelId=:channelId ";
+		String countHql = "Select count(r.id) From WorkingBody As c Right Join c.articleMains AS r Right Join r.article AS a Where a.delete=false And c.id=:workingBodyId And c.channelId=:channelId ";
 		
 		Integer id = getParameterValue(Integer.class, "id", "查询编号错误，应该是整型");
 		if (EmptyUtil.isNotNull(id)){
@@ -59,7 +59,7 @@ public class MatterArticleQueryAction extends QueryBaseAction {
 			hql += " And a.title Like :title";
 			countHql += " And a.title Like :title";
 		}
-		hql += " Order By a.topFlag Desc, r.published Desc Nulls Last, r.modified Desc Nulls Last, r.id";
+		hql += " Order By Case When r.top Is Null Then 1 Else 0 End, r.top Desc, r.sort Asc, Case When a.published Is Null Then 1 Else 0 End, a.published Desc, Case When a.modified Is Null Then 1 Else 0 End, a.modified Desc, r.id";
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (EmptyUtil.isNotNull(id)){
 			query.setParameter("id", id);
@@ -77,8 +77,8 @@ public class MatterArticleQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory,
 			int rows, int page, String[] selections, Order order) {
-		String hql = "Select r From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article AS a Where r.deleteFlag=false And r.id In (:id) And c.id=:workingBodyId And c.channelId=:channelId Order By a.topFlag Desc, r.published Desc Nulls Last, r.modified Desc Nulls Last, r.id";
-		String countHql = "Select count(r.id) From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article a Where r.deleteFlag=false And r.id In (:id) And c.id=:workingBodyId And c.channelId=:channelId";
+		String hql = "Select r From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article AS a Where a.delete=false And r.id In (:id) And c.id=:workingBodyId And c.channelId=:channelId Order By Case When r.top Is Null Then 1 Else 0 End, r.top Desc, r.sort Asc, Case When a.published Is Null Then 1 Else 0 End, a.published Desc, Case When a.modified Is Null Then 1 Else 0 End, a.modified Desc, r.id";
+		String countHql = "Select count(r.id) From WorkingBody As c Right Join c.articleRmcs AS r RIGHT JOIN r.article a Where a.delete=false And r.id In (:id) And c.id=:workingBodyId And c.channelId=:channelId";
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		query.setParameter("id", getIds(Integer.class));
 		query.setParameter("workingBodyId", getWorkingBodyId());

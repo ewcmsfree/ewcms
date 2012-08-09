@@ -19,7 +19,7 @@
         <action name="findAllCitizen" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="findAllCitizen"/>
         <action name="queryChannelStatus" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="queryChannelStatus">
             <result name="matter">/WEB-INF/page/plugin/online/workingbody/matter_view.jsp</result>
-            <result name="article">/WEB-INF/page/plugin/online/article/index.jsp</result>
+            <!-- <result name="article">/WEB-INF/page/plugin/online/article/index.jsp</result> -->
         </action>
         <action name="pubLeadingWindow" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="pubLeadingWindow"/>
         <action name="addMatterToWorkingBody" class="com.ewcms.plugin.online.web.WorkingBodyAction" method="addMatterToWorkingBody"/>
