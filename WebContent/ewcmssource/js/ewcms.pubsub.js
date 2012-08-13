@@ -15,7 +15,7 @@ var pubsub = {
             pubsub.connection.write("<script>document.domain = '" + document.domain + "'");
             pubsub.connection.write("</html>");
             pubsub.connection.close();
-            pubsub.iframediv = comet.connection.createElement("div");
+            pubsub.iframediv = pubsub.connection.createElement("div");
             pubsub.connection.appendChild(pubsub.iframediv);
             pubsub.connection.parentWindow.pubsub = pubsub;
             pubsub.iframediv.innerHTML = "<iframe id='pubsub_iframe' src='" + url + "'></iframe>";

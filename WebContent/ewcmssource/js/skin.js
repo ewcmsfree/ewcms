@@ -5,6 +5,7 @@
 	});
 	var c = readCookie('style');
 	if (c) switchStylestyle(c);
+	else switchStylestyle('cupertino');
 });
 
 function switchStylestyle(styleName){
