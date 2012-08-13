@@ -92,9 +92,9 @@ public class InteractionAction extends ActionSupport {
                 fac.interactionChecked(id, checked);
             }
             fac.interactionBackRatio(organId);
-            interaction = new Interaction();
-            replay = "";
-            id = null;
+            interaction = fac.getInteraction(id);
+//            replay = "";
+//            id = null;
         } else {
             interaction = fac.getInteraction(id);
             organId = interaction.getOrganId();
