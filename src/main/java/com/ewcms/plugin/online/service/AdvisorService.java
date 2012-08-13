@@ -49,6 +49,7 @@ public class AdvisorService {
     }
 
     public Advisor get(Integer id){
+    	if (id == null) return new Advisor();
         return advisorDAO.get(id);
     }
 }

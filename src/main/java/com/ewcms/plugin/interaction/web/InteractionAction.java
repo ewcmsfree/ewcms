@@ -84,7 +84,6 @@ public class InteractionAction extends ActionSupport {
 
     @Override
     public String execute() {
-
         if (update) {
             fac.interactionOrgan(id, organId, organName);
             fac.interactionReplay(id, replay);
@@ -92,7 +91,7 @@ public class InteractionAction extends ActionSupport {
                 fac.interactionChecked(id, checked);
             }
             fac.interactionBackRatio(organId);
-            interaction = fac.getInteraction(id);
+            id = null;
         } else {
             interaction = fac.getInteraction(id);
             organId = interaction.getOrganId();
@@ -100,7 +99,6 @@ public class InteractionAction extends ActionSupport {
             replay = interaction.getReplay();
             checked = interaction.isChecked();
         }
-
         return SUCCESS;
     }
 }

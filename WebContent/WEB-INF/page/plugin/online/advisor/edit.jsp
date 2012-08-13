@@ -6,6 +6,11 @@
         <title>网上咨询回复</title>
 		<s:include value="../../../taglibs.jsp"/>
         <script type="text/javascript">
+        	$(function(){
+        		if ($('#id').val()==""){
+        			parent.closeWindow();
+        		}
+        	});
             <s:if test="success">
                 parent.queryAdvisorSearch('');
             </s:if>
@@ -47,7 +52,7 @@
                 <tr>
                     <td height="100">内容：</td>
                     <td>
-                        <div style="height:80;overflow: auto;"><s:property value="advisor.content"/></div>
+                        <div style="height:40;overflow: auto;"><s:property value="advisor.content"/></div>
                     </td>
                 </tr>
                 <tr>
@@ -63,7 +68,10 @@
                     </td>
                 </tr>
             </table>
-            <s:hidden name="id"/>
+            <s:hidden id="id" name="id"/>
         </s:form>
+        <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+             <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="document.forms[0].submit();">保存</a>
+        </div>
     </body>
 </html>

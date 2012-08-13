@@ -68,7 +68,7 @@ public class AdvisorAction extends ActionSupport {
             if(checked != null){
                 fac.interactionChecked(id,checked);
             }
-            interaction = fac.getInteraction(id);
+            id = null;
         }else{
              interaction = fac.getInteraction(id);
              replay = interaction.getReplay();

@@ -53,10 +53,10 @@
             
             function queryAdvisorSearch(options){
                 if(typeof(options) == 'undefined')options = {};
-                var tableid = (options.tableid ? options.tableid : globaoptions.tableid);
-                var windowid = (options.windowid ? options.windowid : globaoptions.querywindowid);
-                var url = (options.url ? options.url : globaoptions.queryURL);
-                var formid = (options.formid ? options.formid : globaoptions.queryformid);
+                var tableid = (options.tableid ? options.tableid : '#tt');
+                var windowid = (options.windowid ? options.windowid : '#edit-window');
+                var url = (options.url ? options.url : '<s:url namespace="/plugin/online/advisor" action="query"/>');
+                var formid = (options.formid ? options.formid : '#queryform');
 
                 var value = $(formid).serialize();
                 var index = url.indexOf("?");
@@ -66,13 +66,14 @@
                     url = url + '&' + value;
                 }
                 $(tableid).datagrid({
-                    pageNumber:1,
                     url:url
                 });
                 $(windowid).window('close');
             }
 
-
+			function closeWindow(){
+				queryAdvisorSearch('');
+			}
         </script>
     </head>
     <body class="easyui-layout">
@@ -83,10 +84,6 @@
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                     <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
-                </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator();$('#edit-window').window('close');return false;">保存</a>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#edit-window').window('close');">取消</a>
                 </div>
             </div>
         </div>

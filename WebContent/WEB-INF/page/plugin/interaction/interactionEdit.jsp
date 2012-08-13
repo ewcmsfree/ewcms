@@ -8,6 +8,9 @@
         <script type="text/javascript">
             //机构目录树初始
             $(function(){
+            	if ($('#id').val()==""){
+        			parent.closeWindow();
+        		}
                 $('#organ_tree').tree({
                     checkbox: false,
                     url: '<s:url action="tree" namespace="/site/organ"/>',
@@ -103,7 +106,7 @@
                     </td>
                 </tr>
             </table>
-            <s:hidden name="id"/>
+            <s:hidden id="id" name="id"/>
             <s:hidden name="update" value="true"/>
         </s:form>
         <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">

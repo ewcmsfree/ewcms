@@ -61,9 +61,9 @@
             function queryInteractionSearch(options){
                 if(typeof(options) == 'undefined')options = {};
                 var tableid = (options.tableid ? options.tableid : "#tt");
-                var windowid = (options.windowid ? options.windowid : "#tt");
+                var windowid = (options.windowid ? options.windowid : "#edit-window");
                 var url = (options.url ? options.url : '<s:url namespace="/plguin/interaction" action="query"/>');
-                var formid = (options.formid ? options.formid : "queryform");
+                var formid = (options.formid ? options.formid : "#queryform");
 
                 var value = $(formid).serialize();
                 var index = url.indexOf("?");
@@ -73,13 +73,14 @@
                     url = url + '&' + value;
                 }
                 $(tableid).datagrid({
-                    pageNumber:1,
                     url:url
                 });
                 $(windowid).window('close');
             }
 
-           
+            function closeWindow(){
+            	queryInteractionSearch('');
+			}
         </script>
     </head>
     <body class="easyui-layout">
