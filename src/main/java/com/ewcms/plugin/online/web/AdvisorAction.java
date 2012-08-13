@@ -61,7 +61,6 @@ public class AdvisorAction extends ActionSupport {
     
     @Override
     public String execute(){
-
         if(replay != null && checked != null){
             if(replay != null){
                 fac.interactionReplay(id, replay);
@@ -69,15 +68,12 @@ public class AdvisorAction extends ActionSupport {
             if(checked != null){
                 fac.interactionChecked(id,checked);
             }
-            interaction = new Interaction();
-            replay = "";
-            id = null;
+            interaction = fac.getInteraction(id);
         }else{
              interaction = fac.getInteraction(id);
              replay = interaction.getReplay();
              checked = interaction.isChecked();
         }
-       
         return SUCCESS;
     }
 }

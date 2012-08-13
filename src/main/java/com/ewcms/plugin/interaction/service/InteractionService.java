@@ -30,6 +30,7 @@ public class InteractionService {
     private SpeakDAO speakDAO;
 
     public Interaction getInteraction(Integer id) {
+    	if (id == null) return new Interaction();
         return interactionDAO.get(id);
     }
 
