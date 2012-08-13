@@ -57,8 +57,7 @@ public class InteractionQueryAction extends QueryBaseAction {
     }
 
 	@Override
-	protected Resultable queryResult(QueryFactory queryFactory,
-			String cacheKey, int rows, int page, Order order) {
+	protected Resultable queryResult(QueryFactory queryFactory,	String cacheKey, int rows, int page, Order order) {
 		EntityQueryable query = queryFactory.createEntityQuery(Interaction.class).setPage(page).setRow(rows);
         if (checked != 0) {
             if (checked == 1) {
@@ -92,8 +91,7 @@ public class InteractionQueryAction extends QueryBaseAction {
 	}
 
 	@Override
-	protected Resultable querySelectionsResult(QueryFactory queryFactory,
-			int rows, int page, String[] selections, Order order) {
+	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
 		// TODO Auto-generated method stub
 		return null;
 	}

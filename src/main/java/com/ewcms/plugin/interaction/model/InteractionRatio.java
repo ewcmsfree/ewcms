@@ -12,10 +12,7 @@ package com.ewcms.plugin.interaction.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +21,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "plugin_interaction_backratio")
-@SequenceGenerator(name = "seq_plugin_interaction_backratio", sequenceName = "seq_plugin_interaction_backratio_id", allocationSize = 1)
 public class InteractionRatio implements Serializable {
 
 	private static final long serialVersionUID = -823177356332483391L;
