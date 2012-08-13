@@ -30,7 +30,6 @@ public class InteractionRatio implements Serializable {
 	private static final long serialVersionUID = -823177356332483391L;
 
 	@Id
-	@GeneratedValue(generator = "seq_plugin_interaction_backratio", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name = "ratio")
     private Integer ratio;
