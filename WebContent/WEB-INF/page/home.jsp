@@ -329,7 +329,7 @@
         </div>
         <div region="center" style="overflow:hidden;">
             <div class="easyui-tabs" id="systemtab" fit="true" border="false">
-                <div title="首页" style="padding:5px;overflow:hidden;">
+                <div title="首页" style="padding:5px;overflow:auto;">
                     <div style="margin-top:10px;">
                         <center><h2>欢迎使用EWCMS企业网站内容管理系统</h2></center>
                     </div>
