@@ -167,7 +167,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				if (questionnaire.getVerifiCode()){
 					view.append("    <dl>\n");
 					view.append("      <dd>\n");
-					view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"/" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
+					view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
 					view.append("        <input type='text' name='j_checkcode' class='checkcode' size='10' maxlength='4' title='验证码不区分大小写'/>");
 					view.append("      </dd>\n");
 					view.append("    </dl>\n");
