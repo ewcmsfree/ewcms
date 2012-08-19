@@ -36,6 +36,7 @@
 		<action name="topArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="topArticle"/>
 		<action name="reviewEffective" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewEffective"/>
 		<action name="beApproval" class="com.ewcms.content.document.web.ArticleMainAction" method="beApproval"/>
+		<action name="shareArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="shareArticle"/>
 	</package>
 	<package name="document.recyclebin" extends="struts-default" namespace="/document/recyclebin">
 		<action name="index" class="com.ewcms.content.document.web.RecycleBinAction">
@@ -126,5 +127,12 @@
 			<result>/WEB-INF/page/document/refer/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.content.document.web.ReferArticleAction" method="delete"/>
+	</package>
+	<package name="document.share" extends="struts-default" namespace="/document/share">
+		<action name="index">
+			<result>/WEB-INF/page/document/share/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.content.document.web.ShareQueryAction" method="query"/>
+		<action name="copy" class="com.ewcms.content.document.web.ShareAction" method="copy"/>
 	</package>
 </struts>	

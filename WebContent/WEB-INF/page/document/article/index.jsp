@@ -29,7 +29,6 @@
 		<div region="center" style="padding:2px;" border="false">
 			<table id="tt" fit="true"></table>
 	 	</div>
-	 	
         <div id="query-window" class="easyui-window" closed="true" icon='icon-search' title="查询"  style="display:none;">
             <div class="easyui-layout" fit="true"  >
                 <div region="center" border="false" >
@@ -161,6 +160,10 @@
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>&recursion=true');" >关联</div>
 	    	 <div id="btnPublishSep" class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">退回</div>
+	    </div>
+	    <div id="btnShareSub" style="width:80px;display:none;">
+	    	<div id="btnShareSet" iconCls="icon-top-set" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
+	        <div id="btnShareCancel" iconCls="icon-top-cancel" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
 	    </div>
 	    <div id="btnTopSub" style="width:80px;display:none;">
 	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>

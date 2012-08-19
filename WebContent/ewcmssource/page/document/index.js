@@ -28,12 +28,9 @@ $(function() {
 	ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
 	ewcmsBOBJ.addToolItem('预览', 'icon-article-preview', previewOperate, 'btnPreview')
 	ewcmsBOBJ.addToolItem('查询', 'icon-search', null, 'btnSearchParent')
-//	ewcmsBOBJ.addToolItem('查询', 'icon-search', queryCallBack, 'btnSearch');
-//	ewcmsBOBJ.addToolItem('缺省查询', 'icon-back', initOperateQuery, 'btnBack');
 	ewcmsBOBJ.addToolItem('操作', '', null, 'btnOperate');
-//	ewcmsBOBJ.addToolItem('复制', 'icon-copy', copyOperate, 'btnCopy');
-//	ewcmsBOBJ.addToolItem('移动', 'icon-move', moveOperate, 'btnMove');
 	ewcmsBOBJ.addToolItem('置顶', 'icon-top', null, 'btnTop');
+	ewcmsBOBJ.addToolItem('共享', 'icon-share', null, 'btnShare');
 	ewcmsBOBJ.addToolItem('排序', 'icon-sort', null, 'btnSort');
 	ewcmsBOBJ.addToolItem('审核', 'icon-review', null, 'btnReview');
 	ewcmsBOBJ.addToolItem('发布', 'icon-publish', null, 'btnPub');
@@ -49,6 +46,7 @@ $(function() {
 					if (rec.article.type == "TITLE") pro.push("<img src='../../ewcmssource/image/article/title.gif' width='13px' height='13px' title='标题新闻' style='border:0'/>");
 					if (rec.reference) pro.push("<img src='../../ewcmssource/image/article/reference.gif' width='13px' height='13px' title='引用新闻' style='border:0'/>");
 					if (rec.article.inside) pro.push("<img src='../../ewcmssource/image/article/inside.gif' width='13px' height='13px' title='内部标题' style='border:0'/>");
+					if (rec.share) pro.push("<img src='../../ewcmssource/image/article/share.gif' width='13px' height='13px' title='共享' style='border:0'/>");
 					return pro.join("");
 				}
 			},
@@ -143,6 +141,7 @@ function initSubMenu() {
 	$('#btnReview .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnReviewSub'});
 	$('#btnPub .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnPubSub'});
 	$('#btnTop .l-btn-left').attr('class', 'easyui-linkbutton').menubutton({menu : '#btnTopSub'});
+	$('#btnShare .l-btn-left').attr('class','easyui-linkbutton').menubutton({menu : '#btnShareSub'});
 }
 //根据权限显示相应的菜单
 function channelPermission(rootnode, currentnode) {
@@ -259,14 +258,14 @@ function initOperateQuery() {
 	});
 }
 //有条件查询
-function querySearch_Article(url) {
+function querySearch_Article() {
 	$('#tt').datagrid('clearSelections');
 	var value = $('#queryform').serialize();
 	value = 'parameters[\'' + value;
 	value = value.replace(/\=/g, '\']=');
 	value = value.replace(/\&/g, '&parameters[\'');
 
-	url += queryURL + '&' + value;
+	var url = queryURL + '&' + value;
 	$('#tt').datagrid( {
 		pageNumber : 1,
 		url : url
@@ -556,6 +555,37 @@ function topOperate(url, top){
 	}
 	return false;
 }
+//设置文章共享
+function shareOperate(url, share){
+	if (currentnode.id != rootnode.id) {
+		var rows = $('#tt').datagrid('getSelections');
+		if (rows.length == 0) {
+			$.messager.alert('提示', '请选择记录', 'info');
+			return;
+		}
+		var parameter = 'isShare=' + share;
+		for ( var i = 0; i < rows.length; i++) {
+			parameter = parameter + '&selections=' + rows[i].id;
+		}
+		$.post(url, parameter, function(data) {
+			if (data == 'true') {
+				if (share){
+					$.messager.alert('提示', '设置文章共享成功', 'info');
+				}else{
+					$.messager.alert('提示', '取消文章共享成功', 'info');
+				}
+				$('#tt').datagrid('clearSelections');
+				articleReload();
+			} else if (data == 'system-false') {
+				$.messager.alert('提示', '系统错误', 'error');
+			} else if (data == 'accessdenied') {
+				$.messager.alert('提示', '没有设置文章共享权限', 'info');
+			}
+			return;
+		});
+	}
+	return false;
+}
 //文章退回到重新编辑状态(文章只有处于审核中...、发布版、已发布两个状态才能退回)
 function breakOperate(url) {
 	var rows = $('#tt').datagrid('getSelections');
@@ -669,6 +699,7 @@ function disableButtons() {
 	$('#btnReview').linkbutton('disable');
 	$('#btnPub').linkbutton('disable');
 	$('#btnTop').linkbutton('disable');
+	$('#btnShare').linkbutton('disable');
 	$('#btnOperate').linkbutton('disable');
 	$('#btnSortSet').attr('style', 'display:none;');
 	$('#btnSortClear').attr('style', 'display:none;');
@@ -679,6 +710,8 @@ function disableButtons() {
 	$('#btnBreakArticle').attr('style', 'display:none;');
 	$('#btnTopSet').attr('style','display:none;');
 	$('#btnTopCancel').attr('style','display:none;');
+	$('#btnShareSet').attr('style','display:none;');
+	$('#btnShareCancel').attr('style','display:none');
 	$('#btnCopy').attr('style','display:none;');
 	$('#btnMove').attr('style','display:none;');
 }
@@ -692,6 +725,7 @@ function enableButtons() {
 	$('#btnReview').linkbutton('enable');
 	$('#btnPub').linkbutton('enable');
 	$('#btnTop').linkbutton('enable');
+	$('#btnShare').linkbutton('enable');
 	$('#btnOperate').linkbutton('enable');
 	$('#btnSortSet').attr('style', 'display:block;');
 	$('#btnSortClear').attr('style', 'display:block;');
@@ -702,6 +736,8 @@ function enableButtons() {
 	$('#btnBreakArticle').attr('style', 'display:block;');
 	$('#btnTopSet').attr('style','display:block;');
 	$('#btnTopCancel').attr('style','display:block;');
+	$('#btnShareSet').attr('style','display:block;');
+	$('#btnShareCancel').attr('style','display:block;');
 	$('#btnCopy').attr('style','display:block;');
 	$('#btnMove').attr('style','display:block;');
 }

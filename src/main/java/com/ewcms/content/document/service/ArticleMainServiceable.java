@@ -92,6 +92,15 @@ public interface ArticleMainServiceable {
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
 
 	/**
+	 * 从共享库中拷贝文章
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 * @return Boolean true:拷贝成功,false:拷贝失败
+	 */
+	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
+	
+	/**
 	 * 删除文章主体
 	 * 
 	 * @param articleMainId 文章主体编号
@@ -289,4 +298,12 @@ public interface ArticleMainServiceable {
 	 * @param articleMainId 文章主体编号数组
 	 */
 	public void removeArticleMain(Long[] articleMainIds);
+	
+	/**
+	 * 文章是否共享
+	 * 
+	 * @param articleMainIds 文章主体编号
+	 * @param share 是否共享(true:共享,false:不共享)
+	 */
+	public void shareArticleMain(List<Long> articleMainIds, Boolean share);
 }

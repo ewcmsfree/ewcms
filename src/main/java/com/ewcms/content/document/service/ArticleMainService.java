@@ -231,6 +231,71 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}
 		return true;
 	}
+	
+	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds){
+		ArticleMain articleMain = null;
+		Article article = null;
+		for (Integer target_channelId : channelIds) {
+			for (Long articleMainId : articleMainIds) {
+				articleMain = articleMainDAO.get(articleMainId);
+				if (isNull(articleMain)) continue;
+				if (isNotNull(articleMain.getReference()) && articleMain.getReference()) continue;
+				article = articleMain.getArticle();
+				if (isNull(article)) continue;
+				if (articleMain.getChannelId() != null && target_channelId != articleMain.getChannelId()) {
+					Article target_article = new Article();
+
+					target_article.setStatus(Status.DRAFT);
+					target_article.setPublished(null);
+					if (article.getType() == Type.TITLE){
+						target_article.setUrl(article.getUrl());
+					}else{
+						target_article.setUrl(null);
+					}
+					target_article.setDelete(article.getDelete());
+
+					List<Content> contents = article.getContents();
+					List<Content> contents_target = new ArrayList<Content>();
+					for (Content content : contents) {
+						Content content_target = new Content();
+						content_target.setDetail(content.getDetail());
+						content_target.setPage(content.getPage());
+
+						contents_target.add(content_target);
+					}
+					target_article.setContents(contents_target);
+
+					target_article.setTitle(article.getTitle());
+					target_article.setShortTitle(article.getShortTitle());
+					target_article.setSubTitle(article.getSubTitle());
+					target_article.setAuthor(article.getAuthor());
+					target_article.setOrigin(article.getOrigin());
+					target_article.setKeyword(article.getKeyword());
+					target_article.setTag(article.getTag());
+					target_article.setSummary(article.getSummary());
+					target_article.setImage(article.getImage());
+					target_article.setComment(article.getComment());
+					target_article.setType(article.getType());
+					target_article.setModified(new Date(Calendar.getInstance().getTime().getTime()));
+					target_article.setInside(article.getInside());
+					target_article.setOwner(EwcmsContextUtil.getUserName());
+					target_article.setContentTotal(article.getContentTotal());
+
+					
+					ArticleMain articleMain_new = new ArticleMain();
+					articleMain_new.setArticle(target_article);
+					articleMain_new.setChannelId(target_channelId);
+					
+					articleMainDAO.persist(articleMain_new);
+					articleMainDAO.flush(articleMain_new);
+					
+					String target_channelName = channelDAO.get(target_channelId).getName();
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从共享库中复制到『" + target_channelName + "』栏目。", "");
+					operateTrackService.addOperateTrack(articleMain_new.getId(), target_article.getStatusDescription(),"从共享库中复制。", "");
+				}
+			}
+		}
+	}
 
 	@Override
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
@@ -682,4 +747,22 @@ public class ArticleMainService implements ArticleMainServiceable {
 			}
 		}
 	}
+	
+	@Override
+	public void shareArticleMain(List<Long> articleMainIds, Boolean share) {
+		Assert.notNull(articleMainIds);
+		for (Long articleMainId : articleMainIds){
+			ArticleMain articleMain = articleMainDAO.get(articleMainId);
+			if (articleMain == null) continue;
+			if (articleMain.getShare() != share){
+				articleMain.setShare(share);
+				articleMainDAO.merge(articleMain);
+
+				String desc = "设为共享。";
+				if (!share) desc = "取消共享。";
+				operateTrackService.addOperateTrack(articleMainId, articleMain.getArticle().getStatusDescription(), desc, "");
+			}
+		}
+	}
+
 }

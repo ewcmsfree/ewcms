@@ -281,6 +281,28 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 		}
 	}
 	
+	private Boolean isShare;
+	
+	public Boolean getIsShare() {
+		return isShare;
+	}
+
+	public void setIsShare(Boolean isShare) {
+		this.isShare = isShare;
+	}
+
+	public void shareArticle(){
+		try{
+			documentFac.shareArticleMain(getSelections(), getIsShare(), getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
+
+	
 	public void reviewEffective(){
 		try{
 			Boolean effective =  documentFac.reviewArticleMainIsEffective(getSelections().get(0), getChannelId());

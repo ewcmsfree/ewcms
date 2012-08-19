@@ -115,7 +115,13 @@ public class DocumentFac implements DocumentFacable {
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> target_channels, Integer source_channelId) {
 		return articleMainService.copyArticleMainToChannel(articleMainIds, target_channels, source_channelId);
 	}
-
+	
+	@Override
+	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds){
+		articleMainService.copyArticleMainFromShare(articleMainIds, channelIds);
+	}
+	
+	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') "
 			+ "or hasPermission(#source_channelId,'com.ewcms.core.site.model.Channel','WRITE') "
@@ -331,5 +337,13 @@ public class DocumentFac implements DocumentFacable {
 	@Override
 	public void removeArticleMain(Long[] articleMainIds) {
 		articleMainService.removeArticleMain(articleMainIds);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','WRITE') "
+			+ "or hasPermission(#channelId,'com.ewcms.core.site.model.Channel','ADMIN') ")
+	public void shareArticleMain(List<Long> articleMainIds, Boolean share, Integer channelId) {
+		articleMainService.shareArticleMain(articleMainIds, share);
 	}
 }

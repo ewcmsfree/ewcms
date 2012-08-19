@@ -174,9 +174,15 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="javascript:_home.addTab('文章回收站','document/recyclebin/tree/index.do')">
+                        <a href="javascript:_home.addTab('回收站','document/recyclebin/tree/index.do')">
                             <img src="ewcmssource/image/recyclebin.png" style="border:0"/><br/>
                             <span>回收站</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="javascript:_home.addTab('共享库','document/share/index.do')">
+                            <img src="ewcmssource/image/share.png" style="border:0"/><br/>
+                            <span>共享库</span>
                         </a>
                     </div>
                     <div class="nav-item">

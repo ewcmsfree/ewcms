@@ -6,7 +6,7 @@
 
 <html>
 	<head>
-		<title>领导栏目</title>	
+		<title>引用文章</title>	
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/easyui/ext/datagrid-detailview.js"/>'></script>
 		<script type="text/javascript">
@@ -32,7 +32,7 @@
                                       if (rec.article.type=="TITLE") pro.push("<img src='../../ewcmssource/image/article/title.gif' width='13px' height='13px' title='标题新闻'/>");
                                       if (rec.reference) pro.push("<img src='../../ewcmssource/image/article/reference.gif' width='13px' height='13px' title='引用新闻'/>");
                                       if (rec.article.inside) pro.push("<img src='../../ewcmssource/image/article/inside.gif' width='13px' height='13px' title='内部标题'/>");
-                                      
+                                      if (rec.share) pro.push("<img src='../../ewcmssource/image/article/share.gif' width='13px' height='13px' title='共享' style='border:0'/>");
                                       return pro.join("");
                                   }
                               },

@@ -30,6 +30,7 @@ import org.hibernate.annotations.Index;
  * <li>channelId:频道编号</li>
  * <li>article:文章信息</li>
  * <li>reference:是否引用</li>
+ * <li>share:是否共享</li>
  * <li>sort:排序</li>
  * <li>top:新闻置顶</li>
  * </ul>
@@ -61,11 +62,14 @@ public class ArticleMain implements Serializable {
 	@Column(name = "top")
 	@Index(name="idx_articlemain_top")
 	private Boolean top;
+	@Column(name = "share")
+	private Boolean share;
 	
 	public ArticleMain(){
 		reference = false;
 		sort = null;
 		top = false;
+		share = false;
 	}
 	
 	public Long getId() {
@@ -114,6 +118,14 @@ public class ArticleMain implements Serializable {
 
 	public void setTop(Boolean top) {
 		this.top = top;
+	}
+
+	public Boolean getShare() {
+		return share;
+	}
+
+	public void setShare(Boolean share) {
+		this.share = share;
 	}
 
 	@Override

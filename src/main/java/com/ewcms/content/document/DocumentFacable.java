@@ -115,6 +115,14 @@ public interface DocumentFacable {
 	public Boolean copyArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId);
 
 	/**
+	 * 从共享库拷贝到频道
+	 * 
+	 * @param articleMainIds 文章主体编号集合
+	 * @param channelIds 频道编号集合
+	 */
+	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
+	
+	/**
 	 * 移动文章主体
 	 * 
 	 * @param articleMainIds 文章主体编号集合
@@ -426,4 +434,12 @@ public interface DocumentFacable {
 	 * @param articleMainId 文章主体编号数组
 	 */
 	public void removeArticleMain(Long[] articleMainIds);
+	
+	/**
+	 * 文章是否共享
+	 * 
+	 * @param articleMainIds 文章主体编号
+	 * @param share 是否共享(true:共享,false:不共享)
+	 */
+	public void shareArticleMain(List<Long> articleMainIds, Boolean share, Integer channelId);
 }
