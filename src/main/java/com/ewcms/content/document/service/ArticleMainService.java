@@ -297,6 +297,35 @@ public class ArticleMainService implements ArticleMainServiceable {
 		}
 	}
 
+	public void refenceArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds){
+		ArticleMain articleMain = null;
+		Article article = null;
+		for (Integer target_channelId : channelIds) {
+			for (Long articleMainId : articleMainIds) {
+				articleMain = articleMainDAO.get(articleMainId);
+				if (isNull(articleMain)) continue;
+				if (isNotNull(articleMain.getReference()) && articleMain.getReference()) continue;
+				article = articleMain.getArticle();
+				if (isNull(article)) continue;
+				if (articleMain.getChannelId() != null && target_channelId != articleMain.getChannelId()) {
+					ArticleMain articleMain_new = new ArticleMain();
+					articleMain_new.setArticle(article);
+					articleMain_new.setChannelId(target_channelId);
+					articleMain_new.setReference(true);
+					articleMain_new.setSort(articleMain.getSort());
+					articleMain_new.setTop(articleMain.getTop());
+
+					articleMainDAO.persist(articleMain_new);
+					articleMainDAO.flush(articleMain_new);
+					
+					String target_channelName = channelDAO.get(target_channelId).getName();
+					operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "从共享库中引用到『" + target_channelName + "』栏目。", "");
+					operateTrackService.addOperateTrack(articleMain_new.getId(), article.getStatusDescription(),"从共享库中引用。", "");
+				}
+			}
+		}
+	}
+	
 	@Override
 	public Boolean moveArticleMainToChannel(List<Long> articleMainIds, List<Integer> channelIds, Integer source_channelId) {
 		ArticleMain articleMain = null;

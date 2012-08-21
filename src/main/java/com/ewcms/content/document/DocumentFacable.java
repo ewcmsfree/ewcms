@@ -121,6 +121,14 @@ public interface DocumentFacable {
 	 * @param channelIds 频道编号集合
 	 */
 	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
+
+	/**
+	 * 从共享库引用文章
+	 * 
+	 * @param articleMainIds 文章主体编号集合　
+	 * @param channelIds 频道编号集合
+	 */
+	public void refenceArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
 	
 	/**
 	 * 移动文章主体

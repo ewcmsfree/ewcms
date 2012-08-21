@@ -12,18 +12,13 @@ import static com.ewcms.common.lang.EmptyUtil.isStringNotEmpty;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import com.ewcms.common.query.Resultable;
-import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
-import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.content.document.model.Article.Type;
 import com.ewcms.web.QueryBaseAction;
-import com.ewcms.web.QueryBaseAction.Order;
-import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
  * @author 吴智俊

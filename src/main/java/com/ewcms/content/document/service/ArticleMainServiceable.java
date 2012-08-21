@@ -96,9 +96,16 @@ public interface ArticleMainServiceable {
 	 * 
 	 * @param articleMainIds 文章主体编号集合
 	 * @param channelIds 频道编号集合
-	 * @return Boolean true:拷贝成功,false:拷贝失败
 	 */
 	public void copyArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
+	
+	/**
+	 * 从共享库引用文章
+	 * 
+	 * @param articleMainIds 文章主体编号集合　
+	 * @param channelIds 频道编号集合
+	 */
+	public void refenceArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds);
 	
 	/**
 	 * 删除文章主体

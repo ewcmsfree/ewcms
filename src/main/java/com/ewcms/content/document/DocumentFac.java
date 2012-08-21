@@ -121,6 +121,10 @@ public class DocumentFac implements DocumentFacable {
 		articleMainService.copyArticleMainFromShare(articleMainIds, channelIds);
 	}
 	
+	@Override
+	public void refenceArticleMainFromShare(List<Long> articleMainIds, List<Integer> channelIds){
+		articleMainService.refenceArticleMainFromShare(articleMainIds, channelIds);
+	}
 	
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN') "

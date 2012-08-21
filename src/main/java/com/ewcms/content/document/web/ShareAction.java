@@ -88,4 +88,17 @@ public class ShareAction extends CrudBaseAction<ArticleMain, Long> {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}
 	}
+	
+	public void refence(){
+		try{
+			if (getSelections() != null && getSelections().size() > 0 && getSelectChannelIds() != null && getSelectChannelIds().size() > 0) {
+				documentFac.refenceArticleMainFromShare(getSelections(), getSelectChannelIds());
+				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+			}else{
+				Struts2Util.renderJson(JSONUtil.toJSON("false"));
+			}
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
 }

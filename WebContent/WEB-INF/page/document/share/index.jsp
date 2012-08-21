@@ -18,6 +18,7 @@
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
 				ewcmsBOBJ.delToolItem('删除');
+				ewcmsBOBJ.addToolItem('引用','icon-refence',refenceOperate);
 				ewcmsBOBJ.addToolItem('复制','icon-copy',copyOperate);
 				ewcmsBOBJ.addToolItem('预览', 'icon-article-preview', previewOperate, 'btnPreview')
 	
@@ -79,10 +80,26 @@
 					$.messager.alert('提示', '请选择复制记录', 'info');
 					return;
 				}
-				ewcmsBOBJ.openWindow('#moveorcopy-window', {
+				ewcmsBOBJ.openWindow('#copy-window', {
 					width : 300,
 					height : 400,
 					title : '复制文章选择'
+				});
+			}
+			function refenceOperate(){
+				$('#tt2').tree( {
+					checkbox : true,
+					url : "<s:url namespace='/site/channel' action='tree'/>"
+				});
+				var rows = $('#tt').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('提示', '请选择引用记录', 'info');
+					return;
+				}
+				ewcmsBOBJ.openWindow('#refence-window', {
+					width : 300,
+					height : 400,
+					title : '引用文章选择'
 				});
 			}
 			function copyArticle(url) {
@@ -107,9 +124,38 @@
 				$.post(url, parameter, function(data) {
 					if (data == 'true') {
 						$.messager.alert('成功', '复制文章成功', 'info');
-						$('#moveorcopy-window').window('close');
+						$('#copy-window').window('close');
 					}else{
 						$.messager.alert('失败','复制文章失败','error');
+						return;
+					}
+				});
+			}
+			function refenceArticle(url) {
+				var checkeds = $('#tt2').tree('getChecked')
+				if (checkeds.length == 0) {
+					$.messager.alert('提示', '请选择引用到目标的栏目', 'info');
+					return;
+				}
+				var rootnode_tt2 = $('#tt2').tree('getRoot');
+
+				var parameter = '';
+				var rows = $('#tt').datagrid('getSelections');
+				for ( var i = 0; i < rows.length; i++) {
+					parameter = parameter + '&selections=' + rows[i].id;
+				}
+
+				for ( var i = 0; i < checkeds.length; i++) {
+					if (checkeds[i].id != rootnode_tt2.id) {
+						parameter = parameter + '&selectChannelIds=' + checkeds[i].id;
+					}
+				}
+				$.post(url, parameter, function(data) {
+					if (data == 'true') {
+						$.messager.alert('成功', '引用文章成功', 'info');
+						$('#copy-window').window('close');
+					}else{
+						$.messager.alert('失败','引用文章失败','error');
 						return;
 					}
 				});
@@ -198,14 +244,25 @@
                 </div>
             </div>
         </div>
-        <div id="moveorcopy-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+        <div id="copy-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false">
                 	<ul id="tt3"></ul>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <span id="span_copy"><a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="copyArticle('<s:url namespace='/document/share' action='copy'/>');">确定</a></span>
-                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#moveorcopy-window').window('close');">取消</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#copy-window').window('close');">取消</a>
+                </div>
+            </div>
+        </div>
+        <div id="refence-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+            <div class="easyui-layout" fit="true" >
+                <div region="center" border="false">
+                	<ul id="tt2"></ul>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <span id="span_copy"><a id="copyArticle" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="refenceArticle('<s:url namespace='/document/share' action='refence'/>');">确定</a></span>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#refence-window').window('close');">取消</a>
                 </div>
             </div>
         </div>

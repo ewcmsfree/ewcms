@@ -134,5 +134,6 @@
 		</action>
 		<action name="query" class="com.ewcms.content.document.web.ShareQueryAction" method="query"/>
 		<action name="copy" class="com.ewcms.content.document.web.ShareAction" method="copy"/>
+		<action name="refence" class="com.ewcms.content.document.web.ShareAction" method="refence"/>
 	</package>
 </struts>	
