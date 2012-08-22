@@ -239,7 +239,7 @@ public class TemplateService implements TemplateServiceable{
 					newTemplate.setTemplateEntity(newTemplateEntity);
 					newTemplate.setSite(template.getSite());
 					newTemplate.setChannelId(channel.getId());
-					newTemplate.setUriPattern(getSiteTplName() + "/" + channel.getId());
+					//newTemplate.setUriPattern(getSiteTplName() + "/" + channel.getId());
 					newTemplate.setDescribe(template.getDescribe());
 					newTemplate.setType(template.getType());
 					
