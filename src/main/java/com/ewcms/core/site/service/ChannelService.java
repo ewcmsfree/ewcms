@@ -264,9 +264,9 @@ public class ChannelService implements ChannelServiceable{
 	}
 	
 	@Override
-	public void forceRelease(Integer channelId) throws PublishException{
+	public void forceRelease(Integer channelId, Boolean children) throws PublishException{
 		if (isNotNull(channelId)) {
-			webPublish.publishChannel(channelId, true, false);
+			webPublish.publishChannel(channelId, true, children);
 		}
 	}
 }

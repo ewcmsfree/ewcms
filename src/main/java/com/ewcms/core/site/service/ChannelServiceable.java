@@ -120,7 +120,8 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	 * 强制发布文章
 	 * 
 	 * @param channelId 频道编号
+	 * @param children 应用于子栏目
 	 * @throws PublishException 
 	 */
-	public void forceRelease(Integer channelId) throws PublishException;
+	public void forceRelease(Integer channelId, Boolean children) throws PublishException;
 }

@@ -282,7 +282,7 @@ public class SiteFac{
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
-	public void forceRelease(Integer channelId) throws PublishException{
-		channelService.forceRelease(channelId);
+	public void forceRelease(Integer channelId, Boolean children) throws PublishException{
+		channelService.forceRelease(channelId, children);
 	}
 }

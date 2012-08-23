@@ -41,7 +41,7 @@
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.addToolItem("导入","icon-print","browseTPL");
 				ewcmsBOBJ.addToolItem("应用子栏目","","appChild")
-				ewcmsBOBJ.addToolItem("强制发布","","forceRelease");
+				ewcmsBOBJ.addToolItem("强制发布","","forceOperate");
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
@@ -105,10 +105,14 @@
 			        }
 			    });
 			}
+			function forceOperate(){
+				ewcmsBOBJ.openWindow('#force-window',{width : 550,height : 200,title : '强制发布'});
+			}
 			function forceRelease(){
-				$.post("<s:url namespace='/site/template' action='forceRelease'/>?channelId=<s:property value='channelVo.id'/>", {}, function(data) {
+				$.post("<s:url namespace='/site/template' action='forceRelease'/>?channelId=<s:property value='channelVo.id'/>", {children : $('input[name=\'channelRadio\']:checked').val()}, function(data) {
 					$.messager.alert('提示', data, 'info');
 				});
+				$('#force-window').window('close');
 				return false;
 			}
 			function loadingEnable(){
@@ -163,7 +167,6 @@
                 </div>
             </div>
         </div>
-        
         <div id="template-window" class="easyui-window" closed="true"   style="display:none;overflow:hidden;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false">
@@ -179,6 +182,30 @@
             <div class="easyui-layout" fit="true">
                 <div region="center" border="false">
                 	<iframe id="editifr_pop"  name="editifr_pop" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+        <div id="force-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+            <div class="easyui-layout" fit="true" >
+                <div region="center" border="false" style="padding: 5px;">
+                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#99BBE8" style="border: #99BBE8 1px solid;">
+                        <tr align="center">
+                            <td height="30" width="30%">操作</td>
+                            <td height="30" width="70%">说明</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="channelRadio" name="channelRadio" list='#{0:"本栏目"}' cssStyle="vertical-align: middle;" value="0"></s:radio></td>
+                            <td height="40">&nbsp;只对本栏目进行强制发布</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="channelRadio" name="channelRadio"  list='#{1:"本栏目及子栏目"}' cssStyle="vertical-align: middle;"></s:radio></td>
+                            <td height="40">&nbsp;对本栏目及本栏目所属子栏目进行强制发布</td>
+                        </tr>
+                    </table>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:forceRelease();">确定</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#force-window').window('close');return false;">取消</a>
                 </div>
             </div>
         </div>

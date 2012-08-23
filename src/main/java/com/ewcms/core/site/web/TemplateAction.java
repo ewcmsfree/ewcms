@@ -486,10 +486,23 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 	}
 	
+	private Integer children;
+	
+	public Integer getChildren() {
+		return children;
+	}
+
+	public void setChildren(Integer children) {
+		this.children = children;
+	}
+
 	public void forceRelease() {
 		try {
-			if (getChannelId() != null){
-				siteFac.forceRelease(getChannelId());
+			if (getChannelId() != null && getChildren() != null){
+				if (getChildren().intValue() == 1)
+					siteFac.forceRelease(getChannelId(), true);
+				else
+					siteFac.forceRelease(getChannelId(), false);
 				Struts2Util.renderJson(JSONUtil.toJSON("强制发布成功"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("强制发布失败"));
