@@ -221,4 +221,14 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     	}
     	return map;
     }
+    
+    public List<ArticleMain> findArticleMainByTitlePrerelease(){
+    	String hql = "Select m From ArticleMain As m Left Join m.article As a Where a.type=:type And a.status=:status And a.delete=false And m.reference=false And a.url Is Not Null";
+    	
+    	TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+    	query.setParameter("type", Article.Type.TITLE);
+    	query.setParameter("status", Article.Status.PRERELEASE);
+    	
+    	return query.getResultList();
+    }
 }

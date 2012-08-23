@@ -358,6 +358,17 @@ public class ArticleMainService implements ArticleMainServiceable {
 	@Override
 	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
 		if (isNotNull(channelId)) {
+			List<ArticleMain> articleMains = articleMainDAO.findArticleMainByTitlePrerelease();
+			if (articleMains != null && !articleMains.isEmpty()){
+				for (ArticleMain articleMain : articleMains){
+					Article article = articleMain.getArticle();
+					if (article != null && article.getUrl().trim().length() > 0){
+						article.setStatus(Article.Status.RELEASE);
+						articleMain.setArticle(article);
+						articleMainDAO.merge(articleMain);
+					}
+				}
+			}
 			webPublish.publishChannel(channelId, false, recursion);
 		}
 	}
