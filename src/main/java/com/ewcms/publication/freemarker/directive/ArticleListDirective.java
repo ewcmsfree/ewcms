@@ -156,8 +156,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             logger.debug("Channel's id is {}",id);
             channel = channelService.getChannel(siteId,id);
             if(channel == null){
-                logger.warn("Channel's id is {},it is not exist.",id);
-                throw new TemplateModelException("Channel id is "+id+",it is not exist");
+                logger.error("Channel's id is {},it is not exist.",id);
+                //throw new TemplateModelException("Channel id is "+id+",it is not exist");
             }
             return channel;
         }
@@ -173,8 +173,8 @@ public class ArticleListDirective implements TemplateDirectiveModel {
             value = UriFormat.formatChannelPath(value);
             channel = channelService.getChannelByUrlOrPath(siteId, value);
             if(channel == null){
-                logger.warn("Channel's path or variable is {},it is not exist.",value);
-                throw new TemplateModelException("Channel's path or variable is "+value+",it is not exist");
+                logger.error("Channel's path or variable is {},it is not exist.",value);
+                //throw new TemplateModelException("Channel's path or variable is "+value+",it is not exist");
             }
             return channel;
         }
