@@ -16,12 +16,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,13 +33,11 @@ import com.ewcms.core.site.model.Organ;
  */
 @Entity
 @Table(name = "plugin_online_advisory")
-@SequenceGenerator(name = "seq_plugin_online_advisory", sequenceName = "seq_plugin_online_advisory_id", allocationSize = 1)
 public class Advisor implements Serializable {
 
 	private static final long serialVersionUID = 6224654774927203618L;
 
 	@Id
-	@GeneratedValue(generator = "seq_plugin_online_advisory", strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name = "username")
     private String username;
