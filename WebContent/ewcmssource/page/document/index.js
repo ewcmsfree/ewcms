@@ -188,6 +188,9 @@ function articleReload() {
 		url : queryURL
 	});
 	channelPermission(rootnode, currentnode);
+	if ($('#node').val()=='true'){
+		nodeArticleMenu();
+	}
 }
 //新增文章
 function addOperate() {
@@ -273,6 +276,9 @@ function querySearch_Article() {
 
 	$('#query-window').window('close');
 	channelPermission(rootnode, currentnode);
+	if ($('#node').val()=='true'){
+		nodeArticleMenu();
+	}
 }
 //移动文章到其他栏目
 function moveArticle(url) {
