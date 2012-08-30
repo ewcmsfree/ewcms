@@ -25,6 +25,7 @@
 		<action name="move" class="com.ewcms.content.document.web.ArticleMainAction" method="move"/>
 		<action name="submitReview" class="com.ewcms.content.document.web.ArticleMainAction" method="submitReview"/>
 		<action name="pubArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="pubArticle"/>
+		<action name="associateRelease" class="com.ewcms.content.document.web.ArticleMainAction" method="associateRelease"/>
 		<action name="reviewArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="reviewArticle"/>
 		<action name="isSortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="isSortArticle"/>
 		<action name="sortArticle" class="com.ewcms.content.document.web.ArticleMainAction" method="sortArticle"/>

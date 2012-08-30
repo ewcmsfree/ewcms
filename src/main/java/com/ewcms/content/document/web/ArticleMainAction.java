@@ -14,6 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.content.document.BaseException;
 import com.ewcms.content.document.DocumentFacable;
 import com.ewcms.content.document.model.ArticleMain;
+import com.ewcms.publication.PublishException;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -100,22 +101,27 @@ public class ArticleMainAction extends CrudBaseAction<ArticleMain, Long> {
 		}
 	}
 
-	public Boolean recursion;
-	
-	public Boolean getRecursion() {
-		return recursion;
-	}
-
-	public void setRecursion(Boolean recursion) {
-		this.recursion = recursion;
-	}
-
 	public void pubArticle() {
 		try {
-			documentFac.pubArticleMainByChannel(getChannelId(), getRecursion());
+			documentFac.pubArticleMainByChannel(getChannelId(), false, false);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (AccessDeniedException e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		} catch (PublishException e){
+			Struts2Util.renderJson(JSONUtil.toJSON(e));
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
+		}
+	}
+	
+	public void associateRelease(){
+		try{
+			documentFac.associateRelease(getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (AccessDeniedException e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("accessdenied"));
+		} catch (PublishException e){
+			Struts2Util.renderJson(JSONUtil.toJSON(e));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
 		}

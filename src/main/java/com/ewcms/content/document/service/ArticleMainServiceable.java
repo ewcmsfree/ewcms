@@ -200,10 +200,19 @@ public interface ArticleMainServiceable {
 	 * 发布文章主体
 	 * 
 	 * @param channelId 频道编号
-	 * @param recursion 是否递归发布
+	 * @param again 是否重复发布
+	 * @param children 是否发布子频道
 	 * @throws PublishException 
 	 */
-	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException;
+	public void pubArticleMainByChannel(Integer channelId, Boolean again, Boolean children) throws PublishException;
+	
+	/**
+	 * 关联发布
+	 * 
+	 * @param channelId 频道编号
+	 * @throws PpublishException
+	 */
+	public void associateRelease(Integer channelId) throws PublishException;
 	
 	/**
 	 * 恢复文章主体

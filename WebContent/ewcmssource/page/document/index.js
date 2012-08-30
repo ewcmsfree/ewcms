@@ -380,6 +380,9 @@ function pubOperate(url) {
 		} else if (data == 'accessdenied') {
 			$.messager.alert('提示', '没有发布权限', 'info');
 			return;
+		} else if (data != 'true'){
+			$.messager.alert('提示', data, 'info');
+			return;
 		} else {
 			articleReload();
 			$.messager.alert('提示', '发布成功', 'info');

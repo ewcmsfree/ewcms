@@ -41,7 +41,9 @@ import com.ewcms.content.document.model.ReviewUser;
 import com.ewcms.content.document.util.search.ExtractKeywordAndSummary;
 import com.ewcms.content.history.History;
 import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.dao.TemplateDAO;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.security.manage.service.GroupServiceable;
@@ -65,6 +67,8 @@ public class ArticleMainService implements ArticleMainServiceable {
 	private WebPublishFacable webPublish;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private TemplateDAO templateDAO;
 	@Autowired
 	private UserServiceable userService;
 	
@@ -356,8 +360,12 @@ public class ArticleMainService implements ArticleMainServiceable {
 	}
 
 	@Override
-	public void pubArticleMainByChannel(Integer channelId, Boolean recursion) throws PublishException {
+	public void pubArticleMainByChannel(Integer channelId, Boolean again, Boolean children) throws PublishException {
 		if (isNotNull(channelId)) {
+			Channel channel = channelDAO.get(channelId);
+			if (!channel.getPublicenable()){
+				throw new PublishException("栏目不允许发布文章");
+			}
 			List<ArticleMain> articleMains = articleMainDAO.findArticleMainByTitlePrerelease();
 			if (articleMains != null && !articleMains.isEmpty()){
 				for (ArticleMain articleMain : articleMains){
@@ -369,7 +377,28 @@ public class ArticleMainService implements ArticleMainServiceable {
 					}
 				}
 			}
-			webPublish.publishChannel(channelId, false, recursion);
+			webPublish.publishChannel(channelId, again, children);
+		}
+	}
+	
+	@Override
+	public void associateRelease(Integer channelId) throws PublishException{
+		if (isNotNull(channelId)){
+			pubArticleMainByChannel(channelId, false, false);
+			
+			List<Template> templates = templateDAO.getTemplatesInChannel(channelId);
+			if (templates != null && !templates.isEmpty()){
+				for (Template template : templates){
+					webPublish.publishTemplateContent(template.getId(), false);
+				}
+			}
+			List<Channel> channelChildrens = channelDAO.getChannelChildren(channelId);
+			if (channelChildrens != null && !channelChildrens.isEmpty()){
+				for (Channel channelChildren : channelChildrens){
+					if (channelChildren.getPublicenable())
+						associateRelease(channelChildren.getId());
+				}
+			}
 		}
 	}
 	
