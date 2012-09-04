@@ -775,7 +775,6 @@
 					</includes>
 					<excludes>
 						<exclude>pom.xml</exclude>
-						<exclude>pom-scm.xml</exclude>
 						<exclude>LICENSE.txt</exclude>
 						<exclude>**/src/main/resources/**</exclude>
 						<exclude>**/src/test/resources/**</exclude>

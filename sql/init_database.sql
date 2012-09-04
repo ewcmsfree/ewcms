@@ -28,7 +28,7 @@ INSERT INTO auth_group_authorities (group_name,authority_name) VALUES ('GROUP_US
 INSERT INTO auth_user (username,enabled,password,create_time) VALUES ('admin',true,'b594510740d2ac4261c1b2fe87850d08',now());
 
 --用户信息
-INSERT INTO auth_userinfo (username,name) VALUES ('admin','admin');
+INSERT INTO auth_userinfo (username,name) VALUES ('admin','管理员');
 
 --用户组成员
 INSERT INTO auth_group_members (group_name,username) VALUES ('GROUP_ADMIN','admin');
