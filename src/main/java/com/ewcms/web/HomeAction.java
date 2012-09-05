@@ -13,7 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.web.context.EwcmsContextHolder;
@@ -38,7 +38,7 @@ public class HomeAction extends EwcmsBaseAction {
     private Integer yearPerson = Calendar.getInstance().get(Calendar.YEAR);
     
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	
 	@Autowired
 	private SecurityFacable securityFac;

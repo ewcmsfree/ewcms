@@ -34,7 +34,7 @@ import com.ewcms.content.particular.model.ProjectBasic.Nature;
 import com.ewcms.content.particular.model.ProjectBasic.Shape;
 import com.ewcms.content.particular.model.ZoningCode;
 import com.ewcms.content.particular.util.XmlConvert;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 
 @Service
@@ -51,7 +51,7 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	@Autowired
 	private IndustryCodeDAO industryCodeDAO; 
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	
 	@Override
 	public Long addProjectBasic(ProjectBasic projectBasic) throws BaseException {

@@ -68,8 +68,9 @@ public abstract class AbstractQuery implements Queryable {
     }
 
     protected int getCacheCount(ResultCacheable cache,int count) {
-        return (cache.getMaxResult() == -1 || cache.getMaxResult() > count) ? 
-                count  : cache.getMaxResult();
+//        return (cache.getMaxResult() == -1 || cache.getMaxResult() < count) ? 
+//                count  : cache.getMaxResult();
+    	return count;
     }
     
     protected CacheResultable getCacheResult(ResultCacheable cache,String cacheKey,

@@ -22,7 +22,7 @@ import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.content.document.model.Article.Type;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -36,7 +36,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
     @Autowired
-    private SiteFac siteFac;
+    private SiteFacable siteFac;
 
 	private Integer channelId;
 	
@@ -100,6 +100,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		}
 		
 		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
@@ -149,7 +150,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
     }
 
     @Override

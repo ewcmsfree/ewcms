@@ -24,10 +24,11 @@ import com.ewcms.web.vo.TreeNode;
  * 
  */
 @Service
-public class OrganService {
+public class OrganService implements OrganServiceable{
 	@Autowired
 	private OrganDAO organDAO;
 	
+	@Override
 	public Integer addOrgan(Integer parentId, String organName) {
 		Organ vo = new Organ();
 		if(parentId != null)
@@ -37,39 +38,40 @@ public class OrganService {
 		return vo.getId();
 	}
 
+	@Override
 	public Integer updOrgan(Organ vo) {
 		organDAO.merge(vo);
 		return vo.getId();
 	}
 
+	@Override
 	public void delOrgan(Integer id) {
 		organDAO.removeByPK(id);
 	}
 
+	@Override
 	public Organ getOrgan(Integer id) {
 		return organDAO.get(id);
 	}
 
+	@Override
 	public Integer saveOrganInfo(Organ vo) {
 		Organ oldvo = getOrgan(vo.getId());
 		oldvo.setOrganInfo(vo.getOrganInfo());
 		updOrgan(oldvo);
 		return oldvo.getOrganInfo().getId();
 	}
-	/**
-	 * 获取跟机构集
-	 * 
-	 */ 	
+
+	@Override
 	public List<TreeNode> getOrganTreeList(){
 		return getOrganChildren(null);
 	}
-	/**
-	 * 获取机构子机构集
-	 * 
-	 */ 	
+
+	@Override
 	public List<TreeNode> getOrganTreeList(Integer parentId){
 		return getOrganChildren(parentId);
 	}	
+	
 	private List<TreeNode> getOrganChildren(Integer parentId) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
 		List<Organ> organList = organDAO.getOrganChildren(parentId);

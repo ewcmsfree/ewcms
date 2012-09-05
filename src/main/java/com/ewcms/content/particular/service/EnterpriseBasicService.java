@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.content.particular.dao.EnterpriseBasicDAO;
 import com.ewcms.content.particular.model.EnterpriseBasic;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 
 @Service
@@ -21,7 +21,7 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	@Autowired
 	private EnterpriseBasicDAO enterpriseBasicDAO;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	
 	@Override
 	public Long addEnterpriseBasic(EnterpriseBasic enterpriseBasic) {

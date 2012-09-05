@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.web.CrudBaseAction;
@@ -34,7 +34,7 @@ public class OrganAction extends CrudBaseAction<Organ, Integer> {
 	private static final long serialVersionUID = -8775454105957516242L;
 	
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	private File iconFile;
 	private Integer id;
 

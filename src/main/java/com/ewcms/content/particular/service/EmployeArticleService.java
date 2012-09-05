@@ -15,7 +15,7 @@ import com.ewcms.content.particular.dao.EmployeArticleDAO;
 import com.ewcms.content.particular.dao.EmployeBasicDAO;
 import com.ewcms.content.particular.model.EmployeArticle;
 import com.ewcms.content.particular.model.EmployeBasic;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 
 @Service
@@ -26,7 +26,7 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 	@Autowired
 	private EmployeArticleDAO employeArticleDAO;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	
 	@Override
 	public Long addEmployeArticle(EmployeArticle employeArticle) {

@@ -39,14 +39,14 @@ public class GroupAction extends ActionSupport{
     private String eventOP = ADD_OPERATION;
     
     @Autowired
-    private SecurityFacable fac;
+    private SecurityFacable securityFac;
     
     /**
      * 判断用户组名称是否存在
      */
     public void hasGroupname(){
         String format = "{\"exist\":%b}";
-        boolean exist = fac.hasGroupname(name);
+        boolean exist = securityFac.hasGroupname(name);
         JsonBaseAction json = new JsonBaseAction();
         json.render(String.format(format, exist));
     }
@@ -61,7 +61,7 @@ public class GroupAction extends ActionSupport{
         
         eventOP = UPDATE_OPERATION;
         fullname = name;
-        Group group = fac.getGroup(name);
+        Group group = securityFac.getGroup(name);
         if(group == null){
             addActionError(name +"用户组不存在");
         }else{
@@ -84,13 +84,13 @@ public class GroupAction extends ActionSupport{
         try{
             if(isUpdateOperator()){
                 fullname = name;
-                fac.updateGroup(name, remark);
+                securityFac.updateGroup(name, remark);
                 addActionMessage("用户组修改成功");
             }else{
-                if(fac.hasGroupname(name)){
+                if(securityFac.hasGroupname(name)){
                     addActionError("用户组已经存在");
                 }else{
-                    fullname = fac.addGroup(name, remark);
+                    fullname = securityFac.addGroup(name, remark);
                     if(newGroupNames == null){
                         newGroupNames = new ArrayList<String>();
                        }
@@ -107,7 +107,7 @@ public class GroupAction extends ActionSupport{
     
     public void delete(){
         JsonBaseAction json = new JsonBaseAction();
-        fac.removeGroup(name);
+        securityFac.removeGroup(name);
         json.renderSuccess();
     }
     
@@ -153,9 +153,5 @@ public class GroupAction extends ActionSupport{
 
     public void setNewGroupNames(List<String> newGroupNames) {
         this.newGroupNames = newGroupNames;
-    }
-
-    public void setFac(SecurityFacable fac) {
-        this.fac = fac;
     }
 }

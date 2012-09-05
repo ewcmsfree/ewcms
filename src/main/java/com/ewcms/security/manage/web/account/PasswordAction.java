@@ -28,7 +28,7 @@ public class PasswordAction extends ActionSupport{
     private String againPassword;
     
     @Autowired
-    private SecurityFacable fac;
+    private SecurityFacable securityFac;
     
     @Override
     public String input(){
@@ -45,7 +45,7 @@ public class PasswordAction extends ActionSupport{
             return ERROR;
         }
         try{
-            fac.changePassword(oldPassword, password);
+            securityFac.changePassword(oldPassword, password);
             addActionMessage("修改密码成功");
             return SUCCESS;
         }catch(AuthenticationException e){
@@ -76,9 +76,5 @@ public class PasswordAction extends ActionSupport{
 
     public void setAgainPassword(String againPassword) {
         this.againPassword = againPassword;
-    }
-
-    public void setFac(SecurityFacable fac) {
-        this.fac = fac;
     }
 }

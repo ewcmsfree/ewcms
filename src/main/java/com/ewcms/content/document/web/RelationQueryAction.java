@@ -38,11 +38,13 @@ public class RelationQueryAction extends QueryBaseAction {
         String hql = "Select r.article From Article AS o Right Join o.relations AS r Where o.id=:articleId Order By r.sort ";
         String countHql = "Select Count(r.id) From Article AS o Right Join o.relations AS r WHERE o.id=:articleId ";
         
+        hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+        
         HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		query.setParameter("articleId", getArticleId());
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 
     }
 

@@ -39,11 +39,13 @@ public class OperateTrackQueryAction extends QueryBaseAction {
 		String hql = "Select t From OperateTrack As t Where t.articleMainId=:articleMainId Order By t.id Desc ";
 		String countHql = "Select count(t.id) From OperateTrack As t Where t.articleMainId=:articleMainId ";
 		
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		query.setParameter("articleMainId", getArticleMainId());
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

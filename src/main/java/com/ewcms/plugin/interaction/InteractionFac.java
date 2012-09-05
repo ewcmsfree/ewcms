@@ -11,9 +11,10 @@
 package com.ewcms.plugin.interaction;
 
 import com.ewcms.plugin.interaction.model.Interaction;
-import com.ewcms.plugin.interaction.service.InteractionService;
+import com.ewcms.plugin.interaction.service.InteractionServiceable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  *
  * @author wangwei
@@ -22,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class InteractionFac implements InteractionFacable {
 
     @Autowired
-    private InteractionService interactionService;
+    private InteractionServiceable interactionService;
 
     @Override
     public void interactionChecked(Integer id,Boolean checked) {

@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.web.vo.DataGrid;
 
@@ -31,7 +31,7 @@ public class SiteSwitchAction extends EwcmsBaseAction {
     private Integer rows = 5;
     
     @Autowired
-    private SiteFac siteFac;
+    private SiteFacable siteFac;
     
     public String execute(){
         siteId = getCurrentSite().getId();
@@ -61,9 +61,5 @@ public class SiteSwitchAction extends EwcmsBaseAction {
 
     public void setRows(Integer rows) {
         this.rows = rows;
-    }
-
-    public SiteFac getSiteFac() {
-        return siteFac;
     }
 }

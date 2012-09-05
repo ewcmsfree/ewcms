@@ -23,7 +23,7 @@ import java.util.zip.ZipFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.publication.WebPublishFacable;
@@ -41,7 +41,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	@Autowired
 	private WebPublishFacable webPublish;
 	private File sourceFile;

@@ -24,7 +24,7 @@ import java.util.zip.ZipFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.util.ConvertToPinYin;
@@ -41,7 +41,7 @@ import com.ewcms.web.vo.TreeNode;
 public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	private static final long serialVersionUID = 1L;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	private File templateFile;
 	private String templateFileFileName;
 	private String templateFileContentType;

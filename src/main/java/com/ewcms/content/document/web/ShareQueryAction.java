@@ -76,6 +76,7 @@ public class ShareQueryAction extends QueryBaseAction {
 		}
 
 		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Desc";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
@@ -122,7 +123,7 @@ public class ShareQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
     }
 
 	@Override

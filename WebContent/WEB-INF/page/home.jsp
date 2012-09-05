@@ -28,12 +28,14 @@
                     hasSite:'<s:property value="hasSite"/>'
                 });
                 
-                $(window).unload(function() {
-                    pubsub.onUnload();
-                }).load(function(){
-                    var url = 'pubsub/message/<s:property value="userName"/>';
-                    pubsub.initialize(url);
-                });
+                try{
+	                $(window).unload(function() {
+	                    pubsub.onUnload();
+	                }).load(function(){
+	                    var url = 'pubsub/message/<s:property value="userName"/>';
+	                    pubsub.initialize(url);
+	                });
+                }catch(e){}
             });
         </script>
     </head>

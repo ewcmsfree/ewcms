@@ -16,7 +16,9 @@ JAVA_OPTS='-server -Xms512m -Xmx768m -XX:NewSize=128m -XX:MaxNewSize=192m -XX:Su
 把<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>替换成
 <Connector connectionTimeout="20000" executor="tomcatThreadPool" maxKeepAliveRequests="1" maxThreads="150" port="8080" protocol="org.apache.coyote.http11.Http11NioProtocol" redirectPort="8443" URIEncoding="UTF-8"/>
 
-
+Crawl
+修改/nutch/conf目录下的：crawl-urlfilter.txt，nutch-site.xml
+修改/nutch/bin目录下的:nutch，recrawl.sh,新增urls文件
 bin/nutch crawl urls -dir /www/crawl -depth 4 -threads 5 -topN 1000 >&logs/log1.log
     其中
         urls目录中的文件里记录了待爬网站地址

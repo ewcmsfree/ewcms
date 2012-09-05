@@ -21,7 +21,7 @@ import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.stereotype.Controller;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.security.manage.SecurityFacable;
 import com.ewcms.web.JsonBaseAction;
@@ -45,7 +45,7 @@ public class AclAction extends JsonBaseAction{
     private Boolean inherit;
 
     @Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
     
     @Autowired
     private SecurityFacable securityFac;
@@ -239,10 +239,6 @@ public class AclAction extends JsonBaseAction{
         this.type = type;
     }
     
-    public void setSiteFac(SiteFac siteFac) {
-        this.siteFac = siteFac;
-    }
-
     public void setSecurityFac(SecurityFacable securityFac) {
         this.securityFac = securityFac;
     }

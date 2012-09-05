@@ -31,7 +31,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 import com.ewcms.security.manage.model.Authority;
 import com.ewcms.security.manage.model.Group;
@@ -55,7 +55,7 @@ public class UserService extends AbstractService implements UserServiceable{
     private SaltSource saltSource;
     
     @Autowired(required = false)
-    private SiteFac siteFac;
+    private SiteFacable siteFac;
     
     @Override
     public String addUser(final String username,final String password,

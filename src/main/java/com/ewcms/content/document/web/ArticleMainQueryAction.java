@@ -22,7 +22,7 @@ import com.ewcms.common.query.jpa.HqlQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.content.document.model.Article.Status;
 import com.ewcms.content.document.model.Article.Type;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.web.QueryBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 
@@ -37,7 +37,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	private DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	//@Autowired
 	//private DocumentFacable documentFac;
 	    
@@ -107,8 +107,10 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		countHql = countHql.replace("@joinTable@", joinTable);
 		
 		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Desc";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
+		
 		if (isNotNull(id)){
 			query.setParameter("id", id);
 		}
@@ -159,7 +161,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
     }
 
 	@Override

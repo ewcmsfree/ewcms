@@ -46,7 +46,7 @@ public class DetailAction extends ActionSupport{
     private Boolean showTitle = Boolean.TRUE;
     
     @Autowired
-    private SecurityFacable fac;
+    private SecurityFacable securityFac;
     
     @Override
     public String execute(){
@@ -54,7 +54,7 @@ public class DetailAction extends ActionSupport{
     }
     
     public void query(){
-        Group group = fac.getGroup(name);
+        Group group = securityFac.getGroup(name);
         
         JsonBaseAction json = new JsonBaseAction();
         
@@ -97,7 +97,7 @@ public class DetailAction extends ActionSupport{
     public void addAuthsAndUsers(){
         JsonBaseAction json = new JsonBaseAction();
         try{
-            fac.addAuthsAndUsersToGroup(name, authNames, usernames);
+            securityFac.addAuthsAndUsersToGroup(name, authNames, usernames);
             json.renderSuccess();    
         }catch(UserServiceException e){
             json.renderError(e.getMessage());
@@ -110,7 +110,7 @@ public class DetailAction extends ActionSupport{
     public void removeAuthsAndUsers(){
         JsonBaseAction json = new JsonBaseAction();
         try{
-            fac.removeAuthsAndUsersInGroup(name, authNames, usernames);
+            securityFac.removeAuthsAndUsersInGroup(name, authNames, usernames);
             json.renderSuccess();    
         }catch(UserServiceException e){
             json.renderError(e.getMessage());

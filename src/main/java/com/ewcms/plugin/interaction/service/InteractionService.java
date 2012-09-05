@@ -22,18 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author wangwei
  */
 @Service
-public class InteractionService {
+public class InteractionService implements InteractionServiceable {
 
     @Autowired
     private InteractionDAO interactionDAO;
     @Autowired
     private SpeakDAO speakDAO;
 
+    @Override
     public Interaction getInteraction(Integer id) {
     	if (id == null) return new Interaction();
         return interactionDAO.get(id);
     }
 
+    @Override
     public void interactionChecked(Integer id, Boolean checked) {
         Interaction interaction = interactionDAO.get(id);
         if (interaction == null) {
@@ -43,6 +45,7 @@ public class InteractionService {
         interactionDAO.persist(interaction);
     }
 
+    @Override
     public void interactionReplay(Integer id, String replay) {
         Interaction interaction = interactionDAO.get(id);
         if (interaction == null) {
@@ -61,6 +64,7 @@ public class InteractionService {
         interactionDAO.persist(interaction);
     }
 
+    @Override
     public void interactionOrgan(Integer id, Integer organId, String organName) {
         Interaction interaction = interactionDAO.get(id);
         if (interaction == null) {
@@ -71,6 +75,7 @@ public class InteractionService {
         interactionDAO.persist(interaction);
     }
 
+    @Override
     public void speakChecked(Integer id, boolean checked) {
         Speak speak = speakDAO.get(id);
         if (speak == null) {
@@ -80,6 +85,7 @@ public class InteractionService {
         speakDAO.persist(speak);
     }
 
+    @Override
     public void interactionBackRatio(Integer id) {
         interactionDAO.interactionBackRatio(id);
     }

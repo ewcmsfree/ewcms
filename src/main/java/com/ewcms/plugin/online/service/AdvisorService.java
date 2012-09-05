@@ -21,11 +21,12 @@ import org.springframework.stereotype.Service;
  * @author wangwei
  */
 @Service
-public class AdvisorService {
+public class AdvisorService implements AdvisorServiceable{
 
     @Autowired
     private AdvisorDAO advisorDAO;
 
+    @Override
     public void release(Integer id,boolean pub){
         Advisor advisor = advisorDAO.get(id);
         if(advisor == null){
@@ -35,6 +36,7 @@ public class AdvisorService {
         advisorDAO.persist(advisor);
     }
 
+    @Override
     public void replay(Integer id, String replay) {
         Advisor advisor = advisorDAO.get(id);
         if(advisor == null){
@@ -48,6 +50,7 @@ public class AdvisorService {
         advisorDAO.persist(advisor);
     }
 
+    @Override
     public Advisor get(Integer id){
     	if (id == null) return new Advisor();
         return advisorDAO.get(id);

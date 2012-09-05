@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.content.particular.dao.EmployeBasicDAO;
 import com.ewcms.content.particular.model.EmployeBasic;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Organ;
 
 @Service
@@ -21,7 +21,7 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	@Autowired
 	private EmployeBasicDAO employeBasicDAO;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 
 	@Override
 	public Long addEmployeBasic(EmployeBasic employeBasic) {

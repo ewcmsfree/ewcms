@@ -17,7 +17,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.ChannelNode;
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
@@ -34,7 +34,7 @@ import com.ewcms.web.vo.TreeNode;
 public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	private static final long serialVersionUID = 1L;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	private Integer id;
 	private File iconFile;
 

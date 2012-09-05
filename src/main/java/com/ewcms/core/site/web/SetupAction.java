@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.publication.deploy.DeployOperatorable;
@@ -29,7 +29,7 @@ import com.ewcms.web.vo.TreeNode;
 public class SetupAction extends CrudBaseAction<Site, Integer> {
 	private static final long serialVersionUID = 1L;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	private Integer id;
 	
 	public Site getSiteVo() {

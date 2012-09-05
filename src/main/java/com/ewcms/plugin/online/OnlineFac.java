@@ -17,7 +17,7 @@ import com.ewcms.plugin.citizen.service.CitizenServiceable;
 import com.ewcms.plugin.online.model.Advisor;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.WorkingBody;
-import com.ewcms.plugin.online.service.AdvisorService;
+import com.ewcms.plugin.online.service.AdvisorServiceable;
 import com.ewcms.plugin.online.service.MatterServiceable;
 import com.ewcms.plugin.online.service.WorkingBodyServiceable;
 import com.ewcms.web.vo.TreeNode;
@@ -36,7 +36,7 @@ public class OnlineFac implements OnlineFacable {
     @Autowired
     private CitizenServiceable citizenService;
     @Autowired
-    private AdvisorService advisorService;
+    private AdvisorServiceable advisorService;
 
     @Override
     public Integer addMatter(Matter matter, List<String> filePaths, List<String> legends) {

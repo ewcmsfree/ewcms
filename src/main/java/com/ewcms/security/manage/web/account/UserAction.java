@@ -26,18 +26,18 @@ public class UserAction extends ActionSupport{
 	private UserInfo userInfo;
     
     @Autowired
-    private SecurityFacable fac;
+    private SecurityFacable securityFac;
     
     @Override
     public String input(){
-        userInfo = fac.getCurrentUserInfo();
+        userInfo = securityFac.getCurrentUserInfo();
         return INPUT;
     }
     
     @Override
     public String execute(){
         try{
-            fac.updateUserInfo(userInfo);
+            securityFac.updateUserInfo(userInfo);
             this.addActionMessage("修改用户信息成功");
             return SUCCESS;
         }catch(Exception e){
@@ -52,9 +52,5 @@ public class UserAction extends ActionSupport{
     
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
-    }
-
-    public void setFac(SecurityFacable fac) {
-        this.fac = fac;
     }
 }
