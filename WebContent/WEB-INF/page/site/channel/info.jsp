@@ -37,6 +37,14 @@
 	    			$('#channelVo_dir').val(data);
 	    		});
 	    	}
+	    	function updateChannelTypeDesc(){
+	    		var node = parent.parent.selectedNode
+	    		var oldName = node.text;
+	    		var oldType = node.attributes.typeDesc;
+	    		var newType = $('#channelVo_type').find("option:selected").text();
+	    		node.text = oldName.replace(oldType,newType);
+				parent.parent.$('#tt2').tree('update',node);
+	    	}
 	    </script>
 	</head>
 	<body>
@@ -142,7 +150,7 @@
 				<tr>
 					<td colspan="2" style="padding:0;">
 						<div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-						    <a class="easyui-linkbutton" icon="icon-save" href="javascript:document.forms[0].submit();">保存</a>
+						    <a class="easyui-linkbutton" icon="icon-save" href="javascript:updateChannelTypeDesc();document.forms[0].submit();">保存</a>
 						    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:document.forms[0].reset();">重置</a>
 					    </div>								
 					</td>

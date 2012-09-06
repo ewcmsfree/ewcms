@@ -7,6 +7,7 @@
 		<s:include value="../../taglibs.jsp"/>
 		<script>
 			//站点专栏目录树初始
+			var selectedNode;
 			$(function(){
 				$('#tt2').tree({
 					checkbox: false,
@@ -16,6 +17,7 @@
 		    	    		$.messager.alert('提示','您不具有该操作权限');
 		    	    		return false;
 						}
+						selectedNode = node;
 						var url='<s:url action="edit"/>';
 						url = url + "? channelVo.id=" + node.id;
 						$("#editifr").attr('src',url);
