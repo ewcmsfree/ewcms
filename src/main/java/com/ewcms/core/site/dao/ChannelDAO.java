@@ -34,7 +34,7 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 		if (parentId == null){
 			return new ArrayList<Channel>();
 		}
-	    String hql = "From Channel o Where o.parent.id=:parentId Order By o.id";
+	    String hql = "From Channel o Where o.parent.id=:parentId Order By o.sort, o.id";
 
 	    TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
 	    query.setParameter("parentId", parentId);
@@ -78,5 +78,49 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
 			
 		}
 		return channel;
-	}		
+	}
+	
+	public Long findMaxSiblingChannel(final Integer parentId){
+		String hql = "Select Max(c.sort) From Channel As c Where c.parent.id=:parentId";
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("parentId", parentId);
+		Long maxSort = 0L;
+		try{
+			maxSort = (Long) query.getSingleResult();
+		}catch(NoResultException e){
+		}
+		if (maxSort == null){
+			maxSort = 0L;
+		}
+		return maxSort;
+	}
+
+	public Channel findChannelByParentIdAndSort(final Integer parentId, final Long sort){
+    	String hql = "From Channel As o Where o.parent.id=:parentId And o.sort=:sort";
+        
+        TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+        query.setParameter("parentId", parentId);
+        query.setParameter("sort", sort);
+
+        Channel channel = null;
+        try{
+        	channel = (Channel) query.getSingleResult();
+        }catch(NoResultException e){
+        }
+        return channel;
+	}
+	
+	public List<Integer> findChannelParent(){
+		String hql = "Select o.parent.id from Channel As o group by o.parent.id order by o.parent.id";
+		TypedQuery<Integer> query = this.getEntityManager().createQuery(hql, Integer.class);
+		return query.getResultList();
+	}
+	
+	public List<Channel> findChannelByGreaterThanSort(final Integer parentId, final Long sort){
+		String hql = "From Channel As o Where o.parent.id=:parentId And o.sort>:sort Order By o.sort Asc";
+		TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+		query.setParameter("parentId", parentId);
+		query.setParameter("sort", sort);
+		return query.getResultList();
+	}
 }

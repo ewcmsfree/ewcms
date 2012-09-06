@@ -196,10 +196,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	 */
 	public void movetoChannel() {
 		try {
-			Channel vo = siteFac.getChannel(getChannelVo().getId());
-			Channel parentVo = siteFac.getChannel(getChannelVo().getParent().getId());
-			vo.setParent(parentVo);
-			siteFac.updChannel(vo);
+			siteFac.moveToChannel(getChannelVo().getId(), getChannelVo().getParent().getId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
@@ -262,6 +259,43 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 			vo.setChannelId(getChannelVo().getId());
 			siteFac.addTemplate(vo);
 		} catch (Exception e) {
+		}
+	}
+	
+	private Integer channelId;
+	private Integer parentId;
+	
+	public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public void upChannel(){
+		try {
+			siteFac.upChannel(getChannelId(), getParentId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void downChannel(){
+		try {
+			siteFac.downChannel(getChannelId(), getParentId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
 }

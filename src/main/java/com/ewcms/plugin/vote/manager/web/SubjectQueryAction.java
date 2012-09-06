@@ -55,8 +55,9 @@ public class SubjectQueryAction extends QueryBaseAction {
 			countHql += " And s.status=:status";
 		}
 		
-		hql += " Order By s.sort";
-
+		hql += " Order By s.sort Asc ";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
 		if (isNotNull(id)){
@@ -70,7 +71,7 @@ public class SubjectQueryAction extends QueryBaseAction {
 		}
 		query.setParameter("questionnaireId", getQuestionnaireId());
     	
-    	return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+    	return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

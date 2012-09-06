@@ -8,7 +8,7 @@ package com.ewcms.scheduling.manager.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ewcms.core.site.SiteFac;
+import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.scheduling.BaseException;
 import com.ewcms.scheduling.generate.job.channel.EwcmsJobChannelFacable;
@@ -28,7 +28,7 @@ public class JobChannelAction extends ActionSupport {
 	@Autowired
 	private EwcmsJobChannelFacable ewcmsJobChannelFac;
 	@Autowired
-	private SiteFac siteFac;
+	private SiteFacable siteFac;
 	
 	private Integer channelId;
 	private Boolean subChannel;

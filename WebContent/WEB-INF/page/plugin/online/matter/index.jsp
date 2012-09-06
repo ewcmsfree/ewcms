@@ -58,7 +58,7 @@
 			});
 
 			function addOperate(){
-				openWindow1({title:'新增事项基本信息', url:'<s:url namespace="/plugin/online/matter" action="input"/>', width:900, height:633});
+				openWindow1({title:'新增事项基本信息', url:'<s:url namespace="/plugin/online/matter" action="input"/>', width:900, height:580});
 			}
 
 			function editOperate(){
@@ -84,7 +84,7 @@
 			    for(var i=0;i<rows.length;++i){
 			        url += 'selections=' + callBackId(rows[i]) +'&';
 			    }
-			    ewcmsBOBJ.openWindow1({title:'修改事项基本信息', url:url, width:980, height:610})
+			    ewcmsBOBJ.openWindow1({title:'修改事项基本信息', url:url, width:900, height:580})
 			}
 			
 			function removeOperate(){

@@ -184,5 +184,7 @@
         <action name="saveAcl" class="com.ewcms.core.site.web.AclAction" method="save"/>
         <action name="removeAcl" class="com.ewcms.core.site.web.AclAction" method="remove"/>
         <action name="inheritAcl" class="com.ewcms.core.site.web.AclAction" method="updateInherit"/>
+        <action name="up" class="com.ewcms.core.site.web.ChannelAction" method="upChannel"/>
+        <action name="down" class="com.ewcms.core.site.web.ChannelAction" method="downChannel"/>
 	</package>
 </struts>	

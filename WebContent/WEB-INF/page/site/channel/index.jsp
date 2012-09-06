@@ -210,6 +210,53 @@
 				url = url + "? channelVo.id=" + node.id;
 				$("#editifr").attr('src',url);  						
 			}
+			
+			function upChannel(){
+				//判断是否选择了操作模板
+    			var node = getSelectNode();
+    			if(!node) return;
+    			if(node.attributes.maxpermission<16){
+    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		return false;
+				}
+    			var rootnode = $('#tt2').tree('getRoot');
+    			if(rootnode.id == node.id){
+					$.messager.alert('提示','不允许移动站点');
+					 return;
+				}
+    			var parentNode = $('#tt2').tree('getParent',node.target);
+    			  
+    			$.post('<s:url action="up"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
+			    	if(data == 'false'){
+		    	    	$.messager.alert('提示','专栏上移动失败');
+		    	    	return;
+			        }
+		    	});
+			}
+			
+			function downChannel(){
+				//判断是否选择了操作模板
+    			var node = getSelectNode();
+    			if(!node) return;
+    			if(node.attributes.maxpermission<16){
+    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		return false;
+				}
+    			var rootnode = $('#tt2').tree('getRoot');
+    			if(rootnode.id == node.id){
+					$.messager.alert('提示','不允许移动站点');
+					 return;
+				}
+    			var parentNode = $('#tt2').tree('getParent',node.target);
+    			  
+    			$.post('<s:url action="down"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
+			    	if(data == 'false'){
+		    	    	$.messager.alert('提示','专栏下移动失败');
+		    	    	return;
+			        }
+		    	});
+			}
+			
 			//操作菜单初始
 			$(function(){
 				$('#opmenu').click(function(e){
@@ -237,6 +284,8 @@
 			<div icon="icon-remove" onclick="delChannel();">删除</div>   
 			<div icon="icon-ok" onclick="parseChannel();">粘贴</div>	
 			<div icon="icon-cut" onclick="cutChannel(this);">剪切</div>	
+			<div icon="icon-up" onclick="upChannel();">上移</div>
+			<div icon="icon-down" onclick="downChannel();">下移</div>
 		</div>	    	
 	</body>
 </html>

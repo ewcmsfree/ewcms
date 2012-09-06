@@ -38,8 +38,6 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 	
 	@Autowired
 	private SiteFacable siteFac;
-	//@Autowired
-	//private DocumentFacable documentFac;
 	    
 	private Integer channelId;
 		

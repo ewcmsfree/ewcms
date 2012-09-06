@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.core.site;
 
 import java.util.List;
@@ -129,4 +134,28 @@ public interface SiteFacable {
 
 	public void forceRelease(Integer channelId, Boolean children)
 			throws PublishException;
+	
+	/**
+	 * 同一级目录下的专栏下移一位
+	 * 
+	 * @param channelId 选中栏目编号
+	 * @param parentId 选中栏目的上一级栏目编号
+	 */
+	public void downChannel(Integer channelId, Integer parentId);
+	
+	/**
+	 * 同一级目录下的专栏上移一位
+	 * 
+	 * @param channelId 选中栏目编号
+	 * @param parentId 选中栏目的上一级栏目编号
+	 */
+	public void upChannel(Integer channelId, Integer parentId);
+	
+	/**
+	 * 移动专栏
+	 * 
+	 * @param channel
+	 * @param parentId
+	 */
+	public void moveToChannel(Integer channel, Integer parentId);
 }

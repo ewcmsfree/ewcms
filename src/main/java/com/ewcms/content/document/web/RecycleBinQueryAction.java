@@ -99,7 +99,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 			countHql += " And r.owner=:owner ";
 		}
 		
-		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, o.id Desc";
 		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);

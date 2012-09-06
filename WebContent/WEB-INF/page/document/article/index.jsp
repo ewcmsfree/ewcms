@@ -144,6 +144,11 @@
 	        <div id="btnBack" iconCls="icon-back" onclick="initOperateQuery();">缺省</div>
         </div>
         <div id="btnOperateSub" style="width:80px;">
+            <div id="btnAdd" iconCls="icon-add" onclick="addOperate();">新增</div>
+            <div id="btnUpd" iconCls="icon-edit" onclick="updOperate();">修改</div>
+            <div id="btnOperateSep1" class="menu-sep"></div>
+            <div id="btnRemove" iconCls="icon-remove" onclick="delOperate();">删除</div>
+            <div id="btnOperateSep2" class="menu-sep"></div>
         	<div id="btnCopy" iconCls="icon-copy" onclick="copyOperate();">复制</div>
 	        <div id="btnMove" iconCls="icon-move" onclick="moveOperate();">移动</div>
         </div>
@@ -158,7 +163,7 @@
 	    <div id="btnPubSub" style="width:80px;display:none;">
 	    	<div id="btnPublishOk" iconCls="icon-publishok" onclick="pubOperate('<s:url namespace='/document/article' action='pubArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');" >独立</div>
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='associateRelease'><s:param name='channelId' value='channelId'></s:param></s:url>');" >关联</div>
-	    	 <div id="btnPublishSep" class="menu-sep"></div>
+	    	<div id="btnPublishSep" class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">退回</div>
 	    </div>
 	    <div id="btnShareSub" style="width:80px;display:none;">

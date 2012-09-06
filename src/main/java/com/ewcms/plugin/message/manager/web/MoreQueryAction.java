@@ -44,7 +44,8 @@ public class MoreQueryAction extends QueryBaseAction {
 			countHql += " And s.title Like :title";
 		}
 		
-		hql += " Order By s.sendTime Desc, s.id Desc";
+		hql += " Order By s.sendTime Desc, s.id Desc ";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
@@ -60,7 +61,7 @@ public class MoreQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

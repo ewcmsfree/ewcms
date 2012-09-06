@@ -32,7 +32,7 @@ public class InteractionAction extends ActionSupport {
     private Boolean checked;
     private Boolean update = false;
     @Autowired
-    private InteractionFacable fac;
+    private InteractionFacable interactionFac;
 
     public void setId(Integer id) {
         this.id = id;
@@ -85,15 +85,15 @@ public class InteractionAction extends ActionSupport {
     @Override
     public String execute() {
         if (update) {
-            fac.interactionOrgan(id, organId, organName);
-            fac.interactionReplay(id, replay);
+            interactionFac.interactionOrgan(id, organId, organName);
+            interactionFac.interactionReplay(id, replay);
             if (checked != null) {
-                fac.interactionChecked(id, checked);
+                interactionFac.interactionChecked(id, checked);
             }
-            fac.interactionBackRatio(organId);
+            interactionFac.interactionBackRatio(organId);
             id = null;
         } else {
-            interaction = fac.getInteraction(id);
+            interaction = interactionFac.getInteraction(id);
             organId = interaction.getOrganId();
             organName = interaction.getOrganName();
             replay = interaction.getReplay();

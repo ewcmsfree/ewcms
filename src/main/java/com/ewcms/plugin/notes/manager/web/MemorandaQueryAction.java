@@ -78,7 +78,8 @@ public class MemorandaQueryAction extends QueryBaseAction {
 		}
 		
 		hql += " Order By m.noteDate Desc, m.warnTime Desc, m.id Desc";
-		
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
 			query.setParameter("id", id);
@@ -117,7 +118,7 @@ public class MemorandaQueryAction extends QueryBaseAction {
 		
 		setDateFormat(DATE_FORMAT);
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
     }
 
     @Override

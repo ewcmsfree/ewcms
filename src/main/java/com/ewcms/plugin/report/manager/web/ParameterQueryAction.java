@@ -44,13 +44,15 @@ public class ParameterQueryAction extends QueryBaseAction{
 		if (reportType.equals("chart")){
 			reportName = "ChartReport";
 		}
-		String hql = "Select p From " + reportName + " As r Left Join r.parameters As p Where r.id=:reportId Order By p.id ";
+		String hql = "Select p From " + reportName + " As r Left Join r.parameters As p Where r.id=:reportId Order By p.id Desc";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		String countHql = "Select Count(p.id) From " + reportName + " As r Left Join r.parameters As p Where r.id=:reportId ";
+		
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		query.setParameter("reportId", getReportId());
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

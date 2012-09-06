@@ -68,8 +68,9 @@ public class SubjectItemQueryAction extends QueryBaseAction {
 			countHql +=" And i.voteNumber<=:voteNumberEnd";
 		}
 		
-		hql += " Order By i.sort";
-
+		hql += " Order By i.sort Asc ";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		
 		if (isNotNull(id)){
@@ -89,7 +90,7 @@ public class SubjectItemQueryAction extends QueryBaseAction {
 		}
 		query.setParameter("subjectId", getSubjectId());
     	
-    	return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+    	return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

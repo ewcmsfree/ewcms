@@ -49,7 +49,8 @@ public class DomainQueryAction extends QueryBaseAction {
 			countHql += " And u.url Like :url";
 		}
 		
-		hql += " Order By u.level";
+		hql += " Order By u.level Asc ";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)){
@@ -61,7 +62,7 @@ public class DomainQueryAction extends QueryBaseAction {
 
 		query.setParameter("gatherId", getGatherId());
 		
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

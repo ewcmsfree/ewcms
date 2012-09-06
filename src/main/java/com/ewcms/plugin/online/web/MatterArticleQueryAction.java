@@ -59,7 +59,9 @@ public class MatterArticleQueryAction extends QueryBaseAction {
 			hql += " And a.title Like :title";
 			countHql += " And a.title Like :title";
 		}
-		hql += " Order By Case When r.top Is Null Then 1 Else 0 End, r.top Desc, r.sort Asc, Case When a.published Is Null Then 1 Else 0 End, a.published Desc, Case When a.modified Is Null Then 1 Else 0 End, a.modified Desc, r.id";
+		hql += " Order By Case When r.top Is Null Then 1 Else 0 End, r.top Desc, r.sort Asc, Case When a.published Is Null Then 1 Else 0 End, a.published Desc, Case When a.modified Is Null Then 1 Else 0 End, a.modified Desc, r.id Desc ";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
+
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (EmptyUtil.isNotNull(id)){
 			query.setParameter("id", id);
@@ -71,7 +73,8 @@ public class MatterArticleQueryAction extends QueryBaseAction {
 		query.setParameter("channelId", getChannelId());
 		
 		setDateFormat(DATE_FORMAT);		
-		return query.queryCacheResult(cacheKey);
+		
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override

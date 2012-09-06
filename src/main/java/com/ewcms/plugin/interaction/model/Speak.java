@@ -34,7 +34,7 @@ public class Speak implements Serializable {
     private String username;
     @Column(name = "name")
     private String name;
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
     @Column(name = "ip")
     private String ip;

@@ -190,6 +190,7 @@ public class ChannelService implements ChannelServiceable{
         channel.setParent(channelDAO.get(parentId));
         channel.setSite(getCurSite());
         channel.setDir(ConvertToPinYin.covert(name));
+        channel.setSort(channelDAO.findMaxSiblingChannel(parentId) + 1);
         channelDAO.persist(channel);
         initAclOfChannel(channel,true,true);
         return channel.getId();
@@ -268,5 +269,65 @@ public class ChannelService implements ChannelServiceable{
 		if (isNotNull(channelId)) {
 			webPublish.publishChannel(channelId, true, children);
 		}
+	}
+	
+	@Override
+	public void downChannel(Integer channelId, Integer parentId) {
+		if (channelId != null && parentId != null){
+			Long maxSort = channelDAO.findMaxSiblingChannel(parentId);
+			Channel channel = channelDAO.get(channelId);
+			if (channel.getSort().longValue() != maxSort.longValue()){
+				Long sort = channel.getSort();
+				sort = sort + 1;
+				
+				Channel channel_prev = channelDAO.findChannelByParentIdAndSort(parentId, sort);
+				
+				channel.setSort(sort);
+				channel_prev.setSort(sort - 1);
+				
+				channelDAO.merge(channel);
+				channelDAO.merge(channel_prev);
+			}
+		}
+	}
+
+	@Override
+	public void upChannel(Integer channelId, Integer parentId) {
+		if (channelId != null && parentId != null){
+			Channel channel = channelDAO.get(channelId);
+			if (channel.getSort().longValue() > 1){
+				Long sort = channel.getSort();
+				sort = sort - 1;
+				Channel channel_prev = channelDAO.findChannelByParentIdAndSort(parentId, sort);
+				
+				channel.setSort(sort);
+				channel_prev.setSort(sort + 1);
+				
+				channelDAO.merge(channel);
+				channelDAO.merge(channel_prev);
+			}
+		}
+	}
+
+	@Override
+	public void moveToChannel(Integer channelId, Integer parentId) {
+		Channel moveChannel = channelDAO.get(channelId);
+		Long sort = moveChannel.getSort();
+		Integer moveParentId = moveChannel.getParent().getId();
+		
+		Channel targetParentChannel = channelDAO.get(parentId);
+		Long maxSort = channelDAO.findMaxSiblingChannel(parentId);
+		moveChannel.setParent(targetParentChannel);
+		moveChannel.setSort(maxSort + 1);
+		
+		List<Channel> channels = channelDAO.findChannelByGreaterThanSort(moveParentId, sort);
+		if (channels != null && !channels.isEmpty()){
+			for (Channel channel : channels){
+				channel.setSort(channel.getSort() - 1);
+				channelDAO.merge(channel);
+			}
+		}	
+		
+		updChannel(moveChannel);
 	}
 }

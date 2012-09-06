@@ -124,4 +124,28 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	 * @throws PublishException 
 	 */
 	public void forceRelease(Integer channelId, Boolean children) throws PublishException;
+	
+	/**
+	 * 同一级目录下的专栏下移一位
+	 * 
+	 * @param channelId 选中栏目编号
+	 * @param parentId 选中栏目的上一级栏目编号
+	 */
+	public void downChannel(Integer channelId, Integer parentId);
+	
+	/**
+	 * 同一级目录下的专栏上移一位
+	 * 
+	 * @param channelId 选中栏目编号
+	 * @param parentId 选中栏目的上一级栏目编号
+	 */
+	public void upChannel(Integer channelId, Integer parentId);
+	
+	/**
+	 * 移动专栏
+	 * 
+	 * @param channel
+	 * @param parentId
+	 */
+	public void moveToChannel(Integer channel, Integer parentId);
 }

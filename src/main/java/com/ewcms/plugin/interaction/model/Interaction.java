@@ -39,9 +39,9 @@ public class Interaction implements Serializable {
     private String title;
     @Column(name="type")
     private Integer type = 1;
-    @Column(name="content")
+    @Column(name="content", columnDefinition="text")
     private String content;
-    @Column(name="replay")
+    @Column(name="replay", columnDefinition="text")
     private String replay;
     @Column(name="state")
     private int state = 0;

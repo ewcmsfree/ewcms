@@ -35,7 +35,7 @@ public class RelationQueryAction extends QueryBaseAction {
 	
     @Override
     protected Resultable queryResult(QueryFactory queryFactory, String cacheKey, int rows, int page, Order order) {
-        String hql = "Select r.article From Article AS o Right Join o.relations AS r Where o.id=:articleId Order By r.sort ";
+        String hql = "Select r.article From Article AS o Right Join o.relations AS r Where o.id=:articleId Order By r.sort Asc ";
         String countHql = "Select Count(r.id) From Article AS o Right Join o.relations AS r WHERE o.id=:articleId ";
         
         hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
@@ -50,7 +50,7 @@ public class RelationQueryAction extends QueryBaseAction {
 
     @Override
     protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-        String hql = "Select r.article From Article AS o Right Join o.relations AS r Where o.id=:articleId Order By r.sort ";
+        String hql = "Select r.article From Article AS o Right Join o.relations AS r Where o.id=:articleId Order By r.sort Asc";
         String countHql = "Select Count(r.id) From Article AS o Right Join o.relations AS r Where o.id=:articleId ";
         
         HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);

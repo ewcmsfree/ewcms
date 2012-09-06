@@ -45,9 +45,9 @@ public class Advisor implements Serializable {
     private String name;
     @Column(name = "title")
     private String title;
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition="text")
     private String content;
-    @Column(name = "replay")
+    @Column(name = "replay", columnDefinition="text")
     private String replay;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Organ.class)
     @JoinColumn(name = "organ_id")

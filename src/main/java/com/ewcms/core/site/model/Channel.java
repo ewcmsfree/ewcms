@@ -118,6 +118,8 @@ public class Channel implements Serializable {
 	@Column(name = "type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Type type;
+	@Column(name = "sort")
+	private Long sort;
 
 	public Channel() {
 		type = Type.NODE;
@@ -300,6 +302,14 @@ public class Channel implements Serializable {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public Long getSort() {
+		return sort;
+	}
+
+	public void setSort(Long sort) {
+		this.sort = sort;
 	}
 
 	@Override

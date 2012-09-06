@@ -332,4 +332,22 @@ public class SiteFac implements SiteFacable{
 	public void forceRelease(Integer channelId, Boolean children) throws PublishException{
 		channelService.forceRelease(channelId, children);
 	}
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+	@Override
+	public void downChannel(Integer channelId, Integer parentId) {
+		channelService.downChannel(channelId, parentId);
+	}
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+	@Override
+	public void upChannel(Integer channelId, Integer parentId) {
+		channelService.upChannel(channelId, parentId);
+	}
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+	@Override
+	public void moveToChannel(Integer channel, Integer parentId) {
+    	channelService.moveToChannel(channel, parentId);
+	}
 }

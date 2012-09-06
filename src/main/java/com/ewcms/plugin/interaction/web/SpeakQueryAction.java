@@ -69,12 +69,13 @@ public class SpeakQueryAction extends QueryBaseAction {
 //        if(organId != 1){
 //            where.append(" And i.organId=").append(organId);
 //        }
-        String orderString = " Order By s.date";
+        String orderString = " Order By s.date Desc ";
+        String limitString = " Limit " + rows + " OffSet " + (rows * (page + 1));
         
-        hql = hql + where.toString() + orderString;
+        hql = hql + where.toString() + orderString + limitString;
         countHql = countHql + where.toString();
         
-        return  queryFactory.createHqlQuery(hql, countHql).queryCacheResult(cacheKey);		
+        return  queryFactory.createHqlQuery(hql, countHql).queryResult();		
 	}
 
 	@Override

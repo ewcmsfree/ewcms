@@ -20,13 +20,13 @@
                             {field:'id',title:'序号',width:40},
                             {field:'username',title:'用户名',width:100},
                             {field:'name',title:'昵名',width:100},
-                            {field:'title',title:'标题',width:200},
+                            {field:'title',title:'标题',width:400},
                             {field:'organName',title:'单位',width:200},
-                            {field:'type',title:'类型',width:60,
+                            {field:'type',title:'类型',width:80,
                                 formatter:function(val,rec){
-                                    if (val == 1){return '咨询';}
-                                    if (val == 2){return '投诉';}
-                                    if (val == 3){return '建议'};
+                                    if (val == 1){return '在线咨询';}
+                                    if (val == 2){return '投诉监督';}
+                                    if (val == 3){return '建言献策'};
                                 }
                             },
                             {field:'state',title:'状态',width:60,
@@ -44,7 +44,8 @@
                                     }
                                 }
                             },
-                            {field:'date',title:'日期',width:100}
+                            {field:'date',title:'提问日期',width:120},
+                            {field:'replayDate',title:'回复日期',width:120}
                         ]]
                 });
 				ewcmsOOBJ = new EwcmsOperate();

@@ -57,6 +57,7 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 		}
 
 		hql += " Order By m.read, m.readTime Desc, m.id Desc";
+		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		if (isNotNull(id)) {
@@ -87,7 +88,7 @@ public class MsgReceiveQueryAction extends QueryBaseAction {
 
 		setDateFormat(DATE_FORMAT);
 
-		return query.setRow(rows).setPage(page).queryCacheResult(cacheKey);
+		return query.setRow(rows).setPage(page).queryResult();
 	}
 
 	@Override
