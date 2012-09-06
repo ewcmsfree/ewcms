@@ -20,6 +20,12 @@
   password:123456
   
   
-最近开始使用TinyMCE作为手头一个小项目的在线编辑器，在测试过程中，遇到一个小问题：TinyMCE默认的段落缩进功能采用的方法是在标签中插入padding-left:30px样式。而通常我们需要的功能是段落首行缩进两个中文字符的空白，经过尝试，只需对timy_mce.js中的代码作很小的改动就可以实现这样的功能，具体是把上述js文件中所有的paddingLeft改为textIndent（共有6处），然后引用编辑器的时候在tinyMCE.init()中加入indentation : '2em',配置行。上述改动涉及到timy_mce.js中以下三个函数的定义：Indent : function()、Outdent : function()、queryStateOutdent : function()。
-
-当然，更简便的办法是不用TinyMCE提供的缩进代码，直接在页面中写 p { text-indent:2em; }这样的样式来控制，但这样做的缺点是使内容中所有的段落都缩进两个字符，而我想要的是可以手动控制缩进，因为并非所有的段落都需要缩进。
+使用TinyMCE作为在线编辑器，在测试过程中，遇到一个小问题：
+TinyMCE默认的段落缩进功能采用的方法是在标签中插入padding-left:30px样式。
+而通常我们需要的功能是段落首行缩进两个中文字符的空白，经过尝试，只需对timy_mce.js中的代码作很小的改动就可以实现这样的功能，
+具体是把上述js文件中所有的paddingLeft改为textIndent（共有6处），
+然后引用编辑器的时候在tinyMCE.init()中加入indentation : '2em',配置行。
+上述改动涉及到timy_mce.js中以下三个函数的定义：Indent : function()、Outdent : function()、queryStateOutdent : function()。
+当然，更简便的办法是不用TinyMCE提供的缩进代码，
+直接在页面中写 p { text-indent:2em; }这样的样式来控制，但这样做的缺点是使内容中所有的段落都缩进两个字符，
+而我想要的是可以手动控制缩进，因为并非所有的段落都需要缩进。
