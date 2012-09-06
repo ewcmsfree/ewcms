@@ -7,27 +7,8 @@
 		<s:include value="../../../taglibs.jsp"	/>
         <script type="text/javascript">
 	        $(function(){
-	        	$('#systemtab').tabs('select','事项基本信息');
-	        	$('#systemtab_annex').tabs('select','本地附件');
-                $('#systemtab_annex').tabs({
-                    onSelect:function(title){
-                        if(title == '本地附件'){
-                            var src = '<s:url action="upload" namespace="/resource/annex"/>?multi=false';
-                            $("#uploadifr_annex_id").attr('src',src);
-                        }else{
-                            var src = '<s:url action="browse" namespace="/resource/annex"/>?multi=false';
-                            $("#queryifr_annex_id").attr('src',src);
-                        }
-                    }
-                });
+	        	<s:include value="../../../alertMessage.jsp"/>
 	        });
-			function tipMessage(){
-			    <s:if test="hasActionMessages()">  
-			        <s:iterator value="actionMessages">  
-						$.messager.alert('提示','<s:property escape="false"/>','info');
-			        </s:iterator>  
-		     	</s:if>  
-			}
 			var i = <s:if test="matterVo.matterAnnexs.size>0"><s:property value="matterVo.matterAnnexs.size"/></s:if><s:else>0</s:else>;
             function addAnnexTable(){
             	var temp = document.getElementById("third");
@@ -70,13 +51,12 @@
     		function selectAnnex(selectId){
     			ewcmsBOBJ = new EwcmsBase();
         		selItem = selectId;
-        		ewcmsBOBJ.openWindow("#insert-window",{width:600,height:500,top:5,title:"附件选择", url:'<s:url action="insert" namespace="/resource"/>?type=annex'});
+        		ewcmsBOBJ.openWindow("#insert-window",{width:600,height:450,top:2,title:"附件选择", url:'<s:url action="insert" namespace="/resource"/>?type=annex&multi=false'});
 			}
-            function insertAnnexOperator(){
-            	uploadifr_insert.insert(function(data,success){
+            function insertAnnex(){
+            	annex_insert.insert(function(data,success){
             		if (success){
             			$.each(data, function(index,value){
-            				alert(value.uri);
             				$("#filePath_" + selItem).attr("value", value.uri);
             			});
             		}else{
@@ -88,7 +68,7 @@
             }            
         </script>		
 	</head>
-	<body onload="tipMessage();">
+	<body>
 		<s:form action="save" namespace="/plugin/online/matter">
 			<div class="easyui-tabs" id="systemtab" border="false">
 				<div title="事项基本信息" style="padding: 5px;">	
@@ -191,8 +171,8 @@
 								<input type="button" name="addAnnex" value="添加附件" onclick="addAnnexTable();"/>
 								<table align="center" border="0" width="100%" height="100%" id="second">
 									<tr>
-										<td width="100%" height="450" align="center">
-											<div style="OVERFLOW-Y:auto;OVERFLOW-X:hidden;border-right: 1px solid; border-top: 1px solid; border-left: 1px solid; border-bottom: 1px solid; width: 100%; height:450;">
+										<td width="100%" height="350" align="center">
+											<div style="OVERFLOW-Y:auto;OVERFLOW-X:hidden;border-right: 1px solid; border-top: 1px solid; border-left: 1px solid; border-bottom: 1px solid; width: 100%; height:350;">
 												<table width="100%" id="third_1">
 												<s:iterator value="matterVo.matterAnnexs" status="matterAnnexStatus" var="matterAnnex">
 									    			<tr id="image_upd_tr_<s:property value='#matterAnnexStatus.index+1'/>">
@@ -252,10 +232,10 @@
 		<div id="insert-window" class="easyui-window" closed="true" icon="icon-save" title="插入" style="display:none;">
             <div class="easyui-layout" fit="true">
             	<div region="center" border="false">
-             		<iframe src="" id="uploadifr_insert_id"  name="uploadifr_insert" class="editifr" scrolling="no"></iframe>
+             		<iframe src="" id="annex_insert_id"  name="annex_insert" class="editifr" scrolling="no"></iframe>
              	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
-                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnexOperator();">插入</a>
+                    <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnex();">插入</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
                 </div>
             </div>

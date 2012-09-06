@@ -127,8 +127,8 @@ public class WorkingBodyAction extends ActionSupport {
 				for (int i = 0; i < select_matterIds.length; i++){
 					matterIds.add(new Integer(select_matterIds[i]));
 				}
-				onlineOfficeFac.addMatterToWorkingBody(getParentId(), matterIds, getChannelId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				List<Integer> newMatterIds = onlineOfficeFac.addMatterToWorkingBody(getParentId(), matterIds, getChannelId());
+				Struts2Util.renderJson(JSONUtil.toJSON(newMatterIds));
 			}
 		}catch(Exception e){
 			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
@@ -292,8 +292,8 @@ public class WorkingBodyAction extends ActionSupport {
 	public void addOrganToMatter(){
 		try{
 			if (getOrganId() != null && getMatterId() != null){
-				onlineOfficeFac.addOrganToMatter(getMatterId(), getOrganId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String matterName = onlineOfficeFac.addOrganToMatter(getMatterId(), getOrganId());
+				Struts2Util.renderJson(JSONUtil.toJSON(matterName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
@@ -315,8 +315,8 @@ public class WorkingBodyAction extends ActionSupport {
 	public void addOrganToWorkingBody(){
 		try{
 			if (getOrganIds() != null && getOrganIds().length > 0 && getWorkingBodyId() != null){
-				onlineOfficeFac.addOrganToWorkingBody(getWorkingBodyId(), Arrays.asList(getOrganIds()));
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String workingBodyName = onlineOfficeFac.addOrganToWorkingBody(getWorkingBodyId(), Arrays.asList(getOrganIds()));
+				Struts2Util.renderJson(JSONUtil.toJSON(workingBodyName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
@@ -328,8 +328,8 @@ public class WorkingBodyAction extends ActionSupport {
 	public void removeOrganFromWorkingBody(){
 		try{
 			if (getWorkingBodyId() != null){
-				onlineOfficeFac.removeOrganFromWorkingBOdy(getWorkingBodyId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String workingBodyName = onlineOfficeFac.removeOrganFromWorkingBody(getWorkingBodyId());
+				Struts2Util.renderJson(JSONUtil.toJSON(workingBodyName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
@@ -341,8 +341,8 @@ public class WorkingBodyAction extends ActionSupport {
 	public void removeOrganFromMatter(){
 		try{
 			if (getMatterId() != null){
-				onlineOfficeFac.removeOrganFromMatter(getMatterId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String matterName = onlineOfficeFac.removeOrganFromMatter(getMatterId());
+				Struts2Util.renderJson(JSONUtil.toJSON(matterName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
@@ -359,8 +359,8 @@ public class WorkingBodyAction extends ActionSupport {
 				for (int i = 0; i < select_citizenIds.length; i++){
 					citizenIds.add(new Integer(select_citizenIds[i]));
 				}
-				onlineOfficeFac.addCitizenToMatter(getMatterId(), citizenIds);
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String matterName = onlineOfficeFac.addCitizenToMatter(getMatterId(), citizenIds);
+				Struts2Util.renderJson(JSONUtil.toJSON(matterName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}
@@ -372,8 +372,8 @@ public class WorkingBodyAction extends ActionSupport {
 	public void removeCitizenFromMatter(){
 		try{
 			if (getMatterId() != null){
-				onlineOfficeFac.removeCitizenFromMatter(getMatterId());
-				Struts2Util.renderJson(JSONUtil.toJSON("true"));
+				String matterName = onlineOfficeFac.removeCitizenFromMatter(getMatterId());
+				Struts2Util.renderJson(JSONUtil.toJSON(matterName));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("false"));
 			}

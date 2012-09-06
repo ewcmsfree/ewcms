@@ -19,6 +19,7 @@ import com.ewcms.plugin.online.dao.MatterAnnexDAO;
 import com.ewcms.plugin.online.dao.MatterDAO;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.MatterAnnex;
+import com.ewcms.plugin.online.util.FormatText;
 
 /**
  *
@@ -176,26 +177,50 @@ public class MatterService implements MatterServiceable {
 	}
 	
 	@Override
-	public void addOrganToMatter(Integer matterId, Integer organId){
-		if (matterId == null || organId == null) return;
+	public String addOrganToMatter(Integer matterId, Integer organId){
+		if (matterId == null || organId == null) return "";
 		Matter matter = matterDAO.get(matterId);
 		Organ organ = organDAO.get(organId);
 		matter.setOrgan(organ);
 		matterDAO.merge(matter);
+		
+		return tranformMatterText(matter);
 	}
 	
 	@Override
-	public void removeOrganFromMatter(Integer matterId){
-		if (matterId == null) return;
+	public String removeOrganFromMatter(Integer matterId){
+		if (matterId == null) return "";
 		Matter matter = matterDAO.get(matterId);
 		matter.setOrgan(null);
 		matterDAO.merge(matter);
+		
+		return tranformMatterText(matter);
 	}
 	
+	private String tranformMatterText(Matter matter){
+		String organName = "";
+		Organ organ = matter.getOrgan();
+    	if (organ != null) {
+    		organName = FormatText.ORGAN_NAME_BEGIN + organ.getName() + FormatText.ORGAN_NAME_END;
+    	}
+        
+        String citizenName = "";
+        List<Citizen> citizens = matter.getCitizens();
+        if (citizens != null && !citizens.isEmpty()){
+	        for (Citizen citizen : citizens){
+	        	citizenName = citizenName + "," + citizen.getName();
+	        }
+	        citizenName = citizenName.substring(1);
+	        citizenName = FormatText.CITIZEN_NAME_BEGIN + citizenName + FormatText.CITIZEN_NAME_END;
+        }
+        
+        return matter.getName() + organName + citizenName;
+    }
+	
 	@Override
-	public void addCitizenToMatter(Integer matterId, List<Integer> citizenIds){
-    	if (matterId == null) return;
-    	if (citizenIds == null || citizenIds.isEmpty()) return;
+	public String addCitizenToMatter(Integer matterId, List<Integer> citizenIds){
+    	if (matterId == null) return "";
+    	if (citizenIds == null || citizenIds.isEmpty()) return "";
     	Matter matter = matterDAO.get(matterId);
     	List<Citizen> citizens = new ArrayList<Citizen>();
     	for (Integer citizenId : citizenIds){
@@ -204,14 +229,17 @@ public class MatterService implements MatterServiceable {
     	}
     	matter.setCitizens(citizens);
     	matterDAO.merge(matter);
+    	
+    	return tranformMatterText(matter);
 	}
 	
 	@Override
-	public void removeCitizenFromMatter(Integer matterId){
-		if (matterId == null) return;
+	public String removeCitizenFromMatter(Integer matterId){
+		if (matterId == null) return "";
 		Matter matter = matterDAO.get(matterId);
 		matter.setCitizens(null);
 		matterDAO.merge(matter);
 		
+		return tranformMatterText(matter);
 	}
 }

@@ -5,10 +5,8 @@
  */
 package com.ewcms.plugin.online.service;
 
-import java.util.Date;
 import java.util.List;
 
-import com.ewcms.content.document.model.Article;
 import com.ewcms.plugin.online.model.WorkingBody;
 import com.ewcms.web.vo.TreeNode;
 
@@ -55,19 +53,19 @@ public interface WorkingBodyServiceable {
 	public void delWorkingBody(Integer workingBodyId, Integer channelId);
 
 	/**
-	 * 添加领导信息到在线办事主体信息内
+	 * 添加事项基本信息到在线办事主体信息内
 	 * 
 	 * @param workingBodyId 在线办事主体编号
-	 * @param matterIds 领导编号集合
+	 * @param matterIds 事项基本信息编号集合
 	 * @param channelId 频道编号
 	 */
-	public void addMatterToWorkingBody(Integer workingBodyId, List<Integer> matterIds, Integer channelId);
+	public List<Integer> addMatterToWorkingBody(Integer workingBodyId, List<Integer> matterIds, Integer channelId);
 	
 	/**
-	 * 从在线办事主体信息中移除领导信息
+	 * 从在线办事主体信息中移事项基本信息
 	 * 
 	 * @param workingBodyId 在线办事主体编号
-	 * @param matterId 领导编号
+	 * @param matterId 事项基本信息编号
 	 * @param channelId 频道编号
 	 */
 	public void removeMatterFromWorkingBody(Integer workingBodyId, Integer matterId, Integer channelId);
@@ -106,58 +104,19 @@ public interface WorkingBodyServiceable {
 	public void addWorkingBodyRoot(Integer channelId);
 	
 	/**
-	 * 新增办事文章
-	 * 
-	 * @param article 文章对象
-	 * @param workingBodyId 办事主体编号
-	 * @param channelId 频道编号
-	 * @param published 发布日期
-	 * @return 文章主体编号
-	 */
-	public Long addArticleRmcToWorkingBody(Article article, Integer workingBodyId, Integer channelId, Date published);
-	
-	/**
-	 * 修改办事文章
-	 * 
-	 * @param articleRmcId 文章主体编号
-	 * @param article 文章对象
-	 * @param published 发布日期
-	 * @return 文章主体编号 
-	 */
-	public Long updArticleRmcToWorkingBody(Long articleRmcId, Article article, Date published);
-	
-	/**
-	 * 删除办事文章
-	 * 
-	 * @param workingBodyId 办事主体编号
-	 * @param articleRmcId 文章主体集合
-	 * @param channelId 频道编号
-	 */
-	public void delArticleRmcToWorkingBody(Integer workingBodyId, Long articleRmcId, Integer channelId);
-	
-	/**
 	 * 关联组织机构到网上办事主体
 	 * 
 	 * @param workingBodyId 网上办事主体编号
 	 * @param organIds 组织机构编号集合
+	 * @param String 网上办事名称
 	 */
-	public void addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds);
+	public String addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds);
 	
 	/**
 	 * 从网上办事主体中移除关联组织机构
 	 * 
 	 * @param workingBodyId 网上办事主体编号
+	 * @param String 网上办事名称
 	 */
-	public void removeOrganFromWorkingBOdy(Integer workingBodyId);
-	
-	/**
-	 * 发布文章
-	 * 
-	 * @param articleRmcId
-	 * @param channelId
-	 * @return
-	 */
-	public Boolean preReleaseArticleRmc(Long articleRmcId, Integer channelId);
-
-	public Boolean moveArticleRmcToWorkingBody(List<Long> articleRmcIds,	Integer workingBodyId, Integer oldWorkingBodyId);
+	public String removeOrganFromWorkingBody(Integer workingBodyId);
 }

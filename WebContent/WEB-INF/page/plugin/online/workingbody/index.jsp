@@ -7,6 +7,7 @@
 		<s:include value="../../../taglibs.jsp"/>
 		<script>
 			var workingBodyId = 0;
+			var selNode;
 			$(function(){
 				//基本变量初始
 				//创建和设置页面的基本对象 EwcmsBase
@@ -57,20 +58,28 @@
 					$.messager.prompt(node.text, '请输入专栏名', function(r){
 						if (r){
 				            $.post('<s:url namespace="/plugin/online/workingbody" action="addWorkingBody"><s:param name="channelId" value="channelId"></s:param></s:url>',{'parentId':node.id,'workingBodyName':r},function(data){
-					            if(data == 'matter'){
-									$.messager.alert('提示','人员信息下不能添加事项主体','info');
-									return;
-						        }
-						        if (data == 'article'){
-									$.messager.alert('提示','下不能添加事项主体','info');
-									return;
-							    }
+					            //if(data == 'matter'){
+								//	$.messager.alert('提示','人员信息下不能添加事项主体','info');
+								//	return;
+						        //}
+						        //if (data == 'article'){
+								//	$.messager.alert('提示','下不能添加事项主体','info');
+								//	return;
+							    //}
 					            if(data == 'false'){
 				    	    		$.messager.alert('提示','职务添加失败','info');
 				    	    		return;
 					            }
-					            $('#tt2').tree('reload');
 					            $.messager.alert('提示','添加事项主体成功','info');
+					            $('#tt2').tree('append',{
+									parent: node.target,
+									data:[{
+										id:data,
+										iconCls:"icon-folder",
+										text:r
+									}]
+								});	
+								$('#tt2').tree('expand',node.target);
 				    	    });						
 						}
 					});
@@ -148,6 +157,7 @@
     	    		$.messager.alert('提示','请选择要操作的专栏','info');
     	    		return false;
     	    	}
+    	    	selNode = node;
     	    	workingBodyId = node.id;
 				return node;
 			}
@@ -172,7 +182,7 @@
     	    		return;
 				}
 				$.post('<s:url namespace="/plugin/online/workingbody" action="addMatterToWorkingBody"><s:param name="channelId" value="channelId"></s:param></s:url>',{'selectIds':val.toString(),'parentId':workingBodyId},function(data){
-					 if(data == 'false'){
+					 if(data == ''){
 		    	    	$.messager.alert('提示','不能在事项信息下再选择事项信息','info');
 		    	    	return;
 			         }
@@ -180,8 +190,23 @@
 				        $.messager.alert('提示','添加事项信息不成功','info');
 				        return; 
 			         }
-			         $('#tt2').tree('reload');
+			         
+			         for (var i=0; i<data.length;i++){
+				         $('#tt2').tree('append',{
+								parent: selNode.target,
+								data:[{
+									id:data[i],
+									iconCls:"icon-folder",
+									text:$('#cc_matter').combobox('setValue', data[i]).combobox('getText'),
+									attributes:{
+										type:'matter'
+									}
+								}]
+						 });	
+			         }
+					 $('#tt2').tree('expand',selNode.target);
 			         $.messager.alert('提示','选择事项信息成功','info');
+			         $('#matter-window').window('close');
 				});
 			}
 
@@ -194,8 +219,8 @@
         			if (type == 'workingbody'){
         				$.post('<s:url namespace="/plugin/online/workingbody" action="removeMatterFromWorkingBody"><s:param name="channelId" value="channelId"></s:param></s:url>',{'matterId':node.id,'parentId':node_parent.id},function(data){
             				if (data == 'true'){
+            					$('#tt2').tree('remove',node.target);
             					$.messager.alert('提示','移除事项信息成功','info');
-            					$('#tt2').tree('reload');
                 				return;
             				}else{
             					$.messager.alert('提示','移除事项信息失败','info');
@@ -240,8 +265,10 @@
 				        $.messager.alert('提示','添加公民信息不成功','info');
 				        return; 
 			         }
-			         $('#tt2').tree('reload');
+			         selNode.text = data;
+					 $('#tt2').tree('update',selNode);
 			         $.messager.alert('提示','选择公民信息成功','info');
+			         $('#citizen-window').window('close');
 				});
 			}
 
@@ -254,8 +281,9 @@
             				$.messager.alert('提示','移除公民信息失败','info');
                 			return;
             			}
+            			node.text = data;
+						$('#tt2').tree('update',node);
         				$.messager.alert('提示','移除公民信息成功','info');
-        				$('#tt2').tree('reload');
         			});
     			}else{
     				$.messager.alert('提示','只能公民事项信息','info');
@@ -371,22 +399,26 @@
 		           	}
 					
 					$.post('<s:url namespace="/plugin/online/workingbody" action="addOrganToWorkingBody"/>',parameter,function(data){
-						if(data == 'false'){
- 		    	    		$.messager.alert('提示','引用织织失败','info');
+						if(data == 'false' || data == ''){
+ 		    	    		$.messager.alert('提示','引用组织失败','info');
  		    	    		return;
  			            }
+						selNode.text = data;
+						$('#tt2').tree('update',selNode);
 						$.messager.alert('提示','引用组织成功','info');
-						$('#tt2').tree('reload');
+						$('#organ-window').window('close');
 					});
 				}else if (selMode == 'matter'){
 					var node = $('#tt3').tree('getSelected');
 					$.post('<s:url namespace="/plugin/online/workingbody" action="addOrganToMatter"/>',{'matterId':tt2_node_id,'organId':node.id},function(data){
-						if(data == 'false'){
+						if(data == 'false' || data == ''){
  		    	    		$.messager.alert('提示','引用组织失败','info');
  		    	    		return;
  			            }
+						selNode.text = data;
+						$('#tt2').tree('update',selNode);
 						$.messager.alert('提示','引用组织成功','info');
-						$('#tt2').tree('reload');
+						$('#organ-window').window('close');
 					 });
 				}else{
 					tt2_node_id = -1;
@@ -400,19 +432,23 @@
     			var type = node.attributes.type;
     			if (type == 'workingbody'){
 					$.post('<s:url namespace="/plugin/online/workingbody" action="removeOrganFromWorkingBody"/>',{'workingBodyId':node.id},function(data){
-						if (data == 'false'){
+						if (data == 'false' || data == ''){
 							$.messager.alert('提示','移除组织失败','info');
 							return;
 						}
-						$('#tt2').tree('reload');
+						node.text = data;
+						$('#tt2').tree('update',node);
+						$.messager.alert('提示','移除组织成功','info');
 					});
     			}else if (type == 'matter'){
 					$.post('<s:url namespace="/plugin/online/workingbody" action="removeOrganFromMatter"/>',{'matterId':node.id},function(data){
-						if (data == 'false'){
+						if (data == 'false' || data == ''){
 							$.messager.alert('提示','移除组织失败','info');
 							return;
 						}
-						$('#tt2').tree('reload');
+						node.text = data;
+						$('#tt2').tree('update',node);
+						$.messager.alert('提示','移除组织成功','info');
 					});
     			}
 			}

@@ -5,7 +5,6 @@
  */
 package com.ewcms.plugin.online.web;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +21,6 @@ import com.ewcms.content.document.model.Article;
 import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.content.document.model.Content;
 import com.ewcms.content.document.util.search.ExtractKeywordAndSummary;
-import com.ewcms.plugin.online.OnlineFacable;
-import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -40,10 +37,6 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 	private SimpleDateFormat modDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Autowired
 	private DocumentFacable documentFac;
-	@Autowired
-	private OnlineFacable onlineOfficeFac;
-	@Autowired
-	private UserServiceable userService;
 
 	private List<String> textAreaContent;
 	
@@ -130,7 +123,6 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 
 	@Override
 	protected void deleteOperator(Long articleRmcId) {
-		onlineOfficeFac.delArticleRmcToWorkingBody(getWorkingBodyId(), articleRmcId, getChannelId());
 	}
 
 	@Override
@@ -168,32 +160,7 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 
 	@Override
 	protected Long saveOperator(Article vo, boolean isUpdate) {
-		if (getTextAreaContent() != null && !getTextAreaContent().isEmpty()){
-			List<Content> contentList = new ArrayList<Content>();
-			Content contentVo = null;
-			for (int i = 0; i < getTextAreaContent().size(); i++) {
-				if (getTextAreaContent().get(i) != null
-						&& getTextAreaContent().get(i).length() > 0) {
-					contentVo = new Content();
-					contentVo.setDetail(getTextAreaContent().get(i));
-					contentVo.setPage(i + 1);
-					contentList.add(contentVo);
-				}
-			}
-			vo.setContents(contentList);
-		}
-		Date pub_date = null;
-		try {
-			pub_date = bartDateFormat.parse(getPublished());
-		}catch (ParseException e) {
-		}
-		String author = userService.getCurrentUserInfo().getName();
-		vo.setAuthor(author);
-		if (isUpdate) {
-			return onlineOfficeFac.updArticleRmcToWorkingBody(getArticleRmcId(), vo, pub_date); 
-		} else {
-			return onlineOfficeFac.addArticleRmcToWorkingBody(vo, getWorkingBodyId(), getChannelId(),pub_date);
-		}
+		return null;
 	}
 	
 	@Override
@@ -298,13 +265,6 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 	}
 	
 	public void prerelease(){
-		try{
-			if (getArticleRmcId() != null && getChannelId() != null){
-				Struts2Util.renderText(onlineOfficeFac.preReleaseArticleRmc(getArticleRmcId(), getChannelId()).toString());
-			}
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
 	}
 	
 	private Integer moveWorkingBodyId;
@@ -318,35 +278,5 @@ public class MatterArticleAction extends CrudBaseAction<Article, Long> {
 	}
 
 	public void move(){
-		try{
-			if (getMoveWorkingBodyId() != null && getWorkingBodyId() != null){
-				Struts2Util.renderText(onlineOfficeFac.moveArticleRmcToWorkingBody(getSelections(), getWorkingBodyId(), getMoveWorkingBodyId()).toString());
-			}
-		}catch(Exception e){
-			Struts2Util.renderJson(JSONUtil.toJSON("system-false"));
-		}
 	}
-//	private List<Integer> selectChannelIds;
-//
-//	public List<Integer> getSelectChannelIds() {
-//		return selectChannelIds;
-//	}
-//
-//	public void setSelectChannelIds(List<Integer> selectChannelIds) {
-//		this.selectChannelIds = selectChannelIds;
-//	}
-//	
-//	public String copy(){
-//		if (getSelections() != null && getSelections().size() > 0 && getSelectChannelIds() != null && getSelectChannelIds().size() > 0){
-//			onlineOfficeFac.copyArticleRmcToLeaderChannel(getSelections(), getSelectChannelIds(), getChannelId());
-//		}
-//		return NONE;
-//	}
-//	
-//	public String move(){
-//		if (getSelections() != null && getSelections().size() > 0 && getSelectChannelIds() != null && getSelectChannelIds().size() > 0){
-//			onlineOfficeFac.moveArticleRmcToLeaderChannel(getSelections(), getSelectChannelIds(), getChannelId());
-//		}
-//		return NONE;
-//	}
 }

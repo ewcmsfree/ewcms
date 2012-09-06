@@ -5,13 +5,11 @@
  */
 package com.ewcms.plugin.online;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.content.document.model.Article;
 import com.ewcms.plugin.citizen.model.Citizen;
 import com.ewcms.plugin.citizen.service.CitizenServiceable;
 import com.ewcms.plugin.online.model.Advisor;
@@ -44,8 +42,8 @@ public class OnlineFac implements OnlineFacable {
     }
 
     @Override
-    public void addMatterToWorkingBody(Integer workingBodyId, List<Integer> matterIds, Integer channelId) {
-        workingBodyService.addMatterToWorkingBody(workingBodyId, matterIds, channelId);
+    public List<Integer> addMatterToWorkingBody(Integer workingBodyId, List<Integer> matterIds, Integer channelId) {
+        return workingBodyService.addMatterToWorkingBody(workingBodyId, matterIds, channelId);
     }
 
     @Override
@@ -124,48 +122,33 @@ public class OnlineFac implements OnlineFacable {
     }
 
     @Override
-    public Long addArticleRmcToWorkingBody(Article article, Integer workingBodyId, Integer channelId, Date published) {
-        return workingBodyService.addArticleRmcToWorkingBody(article, workingBodyId, channelId, published);
+    public String addOrganToMatter(Integer matterId, Integer organId) {
+        return matterService.addOrganToMatter(matterId, organId);
     }
 
     @Override
-    public void delArticleRmcToWorkingBody(Integer workingBodyId, Long articleRmcId, Integer channelId) {
-        workingBodyService.delArticleRmcToWorkingBody(workingBodyId, articleRmcId, channelId);
+    public String addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds) {
+        return workingBodyService.addOrganToWorkingBody(workingBodyId, organIds);
     }
 
     @Override
-    public Long updArticleRmcToWorkingBody(Long articleRmcId, Article article, Date published) {
-        return workingBodyService.updArticleRmcToWorkingBody(articleRmcId, article, published);
+    public String removeOrganFromMatter(Integer matterId) {
+        return matterService.removeOrganFromMatter(matterId);
     }
 
     @Override
-    public void addOrganToMatter(Integer matterId, Integer organId) {
-        matterService.addOrganToMatter(matterId, organId);
+    public String removeOrganFromWorkingBody(Integer workingBodyId) {
+        return workingBodyService.removeOrganFromWorkingBody(workingBodyId);
     }
 
     @Override
-    public void addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds) {
-        workingBodyService.addOrganToWorkingBody(workingBodyId, organIds);
+    public String addCitizenToMatter(Integer matterId, List<Integer> citizenIds) {
+        return matterService.addCitizenToMatter(matterId, citizenIds);
     }
 
     @Override
-    public void removeOrganFromMatter(Integer matterId) {
-        matterService.removeOrganFromMatter(matterId);
-    }
-
-    @Override
-    public void removeOrganFromWorkingBOdy(Integer workingBodyId) {
-        workingBodyService.removeOrganFromWorkingBOdy(workingBodyId);
-    }
-
-    @Override
-    public void addCitizenToMatter(Integer matterId, List<Integer> citizenIds) {
-        matterService.addCitizenToMatter(matterId, citizenIds);
-    }
-
-    @Override
-    public void removeCitizenFromMatter(Integer matterId) {
-        matterService.removeCitizenFromMatter(matterId);
+    public String removeCitizenFromMatter(Integer matterId) {
+        return matterService.removeCitizenFromMatter(matterId);
     }
 
     @Override
@@ -186,15 +169,5 @@ public class OnlineFac implements OnlineFacable {
     @Override
     public void releaseAdvisor(Integer id,boolean pub) {
         advisorService.release(id,pub);
-    }
-
-    @Override
-    public Boolean preReleaseArticleRmc(Long articleRmcId, Integer channelId) {
-        return workingBodyService.preReleaseArticleRmc(articleRmcId, channelId);
-    }
-
-    @Override
-    public Boolean moveArticleRmcToWorkingBody(List<Long> articleRmcIds, Integer workingBodyId, Integer oldWorkingBodyId) {
-        return workingBodyService.moveArticleRmcToWorkingBody(articleRmcIds, workingBodyId, oldWorkingBodyId);
     }
 }

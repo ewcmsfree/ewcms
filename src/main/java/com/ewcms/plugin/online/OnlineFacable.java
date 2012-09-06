@@ -5,10 +5,8 @@
  */
 package com.ewcms.plugin.online;
 
-import java.util.Date;
 import java.util.List;
 
-import com.ewcms.content.document.model.Article;
 import com.ewcms.plugin.citizen.model.Citizen;
 import com.ewcms.plugin.online.model.Advisor;
 import com.ewcms.plugin.online.model.Matter;
@@ -79,7 +77,7 @@ public interface OnlineFacable {
 	 * @param channelId
 	 *            频道编号
 	 */
-	public void addMatterToWorkingBody(Integer workingBodyId,
+	public List<Integer> addMatterToWorkingBody(Integer workingBodyId,
 			List<Integer> matterIds, Integer channelId);
 
 	/**
@@ -209,49 +207,6 @@ public interface OnlineFacable {
 	public void addWorkingBodyRoot(Integer channelId);
 
 	/**
-	 * 新增办事文章
-	 * 
-	 * @param article
-	 *            文章对象
-	 * @param workingBodyId
-	 *            办事主体编号
-	 * @param channelId
-	 *            频道编号
-	 * @param published
-	 *            发布日期
-	 * @return 文章主体编号
-	 */
-	public Long addArticleRmcToWorkingBody(Article article,
-			Integer workingBodyId, Integer channelId, Date published);
-
-	/**
-	 * 修改办事文章
-	 * 
-	 * @param articleRmcId
-	 *            文章主体编号
-	 * @param article
-	 *            文章对象
-	 * @param published
-	 *            发布日期
-	 * @return 文章主体编号
-	 */
-	public Long updArticleRmcToWorkingBody(Long articleRmcId,
-			Article article, Date published);
-
-	/**
-	 * 删除办事文章
-	 * 
-	 * @param workingBodyId
-	 *            办事主体编号
-	 * @param articleRmcId
-	 *            文章主体集合
-	 * @param channelId
-	 *            频道编号
-	 */
-	public void delArticleRmcToWorkingBody(Integer workingBodyId,
-			Long articleRmcId, Integer channelId);
-
-	/**
 	 * 关联组织机构到网上办事主体
 	 * 
 	 * @param workingBodyId
@@ -259,16 +214,15 @@ public interface OnlineFacable {
 	 * @param organIds
 	 *            组织机构编号集合
 	 */
-	public void addOrganToWorkingBody(Integer workingBodyId,
-			List<Integer> organIds);
+	public String addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds);
 
 	/**
 	 * 从网上办事主体中移除关联组织机构
 	 * 
-	 * @param workingBodyId
-	 *            网上办事主体编号
+	 * @param workingBodyId 网上办事主体编号
+	 * @param String 网上办事名称
 	 */
-	public void removeOrganFromWorkingBOdy(Integer workingBodyId);
+	public String removeOrganFromWorkingBody(Integer workingBodyId);
 
 	/**
 	 * 关联组织机构到事项基本信息
@@ -278,7 +232,7 @@ public interface OnlineFacable {
 	 * @param organId
 	 *            组织机构编号
 	 */
-	public void addOrganToMatter(Integer matterId, Integer organId);
+	public String addOrganToMatter(Integer matterId, Integer organId);
 
 	/**
 	 * 从事项基本信息中移除关联组织
@@ -286,7 +240,7 @@ public interface OnlineFacable {
 	 * @param matterId
 	 *            事项基本信息编号
 	 */
-	public void removeOrganFromMatter(Integer matterId);
+	public String removeOrganFromMatter(Integer matterId);
 
 	/**
 	 * 关联公民信息到事项基本信息
@@ -296,7 +250,7 @@ public interface OnlineFacable {
 	 * @param citizenIds
 	 *            公民编号集合
 	 */
-	public void addCitizenToMatter(Integer matterId, List<Integer> citizenIds);
+	public String addCitizenToMatter(Integer matterId, List<Integer> citizenIds);
 
 	/**
 	 * 从事项基本信息中移除关联公民
@@ -304,7 +258,7 @@ public interface OnlineFacable {
 	 * @param matterId
 	 *            事项基本信息编号
 	 */
-	public void removeCitizenFromMatter(Integer matterId);
+	public String removeCitizenFromMatter(Integer matterId);
 
 	/**
 	 * 查询所有公民对象
@@ -323,16 +277,5 @@ public interface OnlineFacable {
 
 	public Advisor getAdvisor(Integer id);
 
-        public void releaseAdvisor(Integer id,boolean pub);
-
-	/**
-	 * 发布文章
-	 * 
-	 * @param articleRmcId
-	 * @param channelId
-	 * @return
-	 */
-	public Boolean preReleaseArticleRmc(Long articleRmcId, Integer channelId);
-	
-	public Boolean moveArticleRmcToWorkingBody(List<Long> articleRmcIds,	Integer workingBodyId, Integer oldWorkingBodyId);
+    public void releaseAdvisor(Integer id,boolean pub);
 }

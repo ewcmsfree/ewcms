@@ -26,10 +26,10 @@
         </script>		
 	</head>
 	<body>
-		<div id="w" class="easyui-window" title="领导基本信息"  iconCls="icon-matter" style="width:500px;height:200px;padding:3px;background: #fafafa;">
+		<div id="w" class="easyui-window" title="基本信息"  iconCls="icon-matter" style="width:500px;height:200px;padding:3px;background: #fafafa;">
 			<div class="easyui-layout" fit="true">
-				<div region="center" border="false" style="padding:1px;background:#fff;border:1px solid #ccc;">
-					<div class="easyui-tabs" id="systemtab" border="false">
+				<div region="center" border="false" style="OVERFLOW-Y:auto;OVERFLOW-X:hidden;border-right: 1px solid; border-top: 1px solid; border-left: 1px solid; border-bottom: 1px solid;">
+					<div class="easyui-tabs" id="systemtab" border="true">
 						<div title="事项基本信息" style="padding: 5px;">	
 							<table class="formtable" >
 								<tr>

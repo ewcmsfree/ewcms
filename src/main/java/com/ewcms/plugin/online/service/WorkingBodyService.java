@@ -6,16 +6,11 @@
 package com.ewcms.plugin.online.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.content.document.dao.ArticleMainDAO;
-import com.ewcms.content.document.model.Article;
-import com.ewcms.content.document.model.ArticleMain;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.dao.OrganDAO;
 import com.ewcms.core.site.model.Channel;
@@ -25,7 +20,7 @@ import com.ewcms.plugin.online.dao.MatterDAO;
 import com.ewcms.plugin.online.dao.WorkingBodyDAO;
 import com.ewcms.plugin.online.model.Matter;
 import com.ewcms.plugin.online.model.WorkingBody;
-import com.ewcms.publication.WebPublishFacable;
+import com.ewcms.plugin.online.util.FormatText;
 import com.ewcms.web.vo.TreeNode;
 
 /**
@@ -41,34 +36,29 @@ public class WorkingBodyService implements WorkingBodyServiceable {
 	@Autowired
 	private ChannelDAO channelDAO;
 	@Autowired
-	private ArticleMainDAO articleMainDAO;
-	@Autowired
-	private WebPublishFacable webPublish;
-	@Autowired
 	private OrganDAO organDAO;
 	
-	private final static String ORGAN_NAME_BEGIN = "<font color='red'>[";
-	private final static String ORGAN_NAME_END = "]</font>";
-	private final static String CITIZEN_NAME_BEGIN = "<font color='blue'>[";
-	private final static String CITIZEN_NAME_END = "]</font>";
-
 	@Override
-	public void addMatterToWorkingBody(Integer workingBodyId,List<Integer> matterIds, Integer channelId) {
+	public List<Integer> addMatterToWorkingBody(Integer workingBodyId,List<Integer> matterIds, Integer channelId) {
 		WorkingBody workingBody = workingBodyDAO.findWorkingBodyByWorkingBodyIdAndChannelId(workingBodyId, channelId);
-		if (workingBody == null) return;
+		if (workingBody == null) return null;
 		List<Matter> matters = workingBody.getMatters();
+		List<Integer> newMatterIds = new ArrayList<Integer>();
 		
 		for (Integer matterId : matterIds){
 			Matter matter = workingBodyDAO.findMatterByMatterIdAndWorkingBodyId(matterId, workingBodyId, channelId);
 			if (matter == null){
 				matter = matterDAO.get(matterId);
 				if (matter == null) continue;
+				newMatterIds.add(matter.getId());
 				matters.add(matter);
 			}
 		}
 		
 		workingBody.setMatters(matters);
 		workingBodyDAO.merge(workingBody);
+		
+		return newMatterIds;
 	}
 
 	@Override
@@ -123,7 +113,6 @@ public class WorkingBodyService implements WorkingBodyServiceable {
 		matters.remove(matter);
 		workingBody.setMatters(matters);
 		workingBodyDAO.merge(workingBody);
-
 	}
 
 	@Override
@@ -174,7 +163,7 @@ public class WorkingBodyService implements WorkingBodyServiceable {
 	        	organName = organName + "," + organ.getName();
 	        }
 	        organName = organName.substring(1);
-        	organName = ORGAN_NAME_BEGIN + organName + ORGAN_NAME_END;
+        	organName = FormatText.ORGAN_NAME_BEGIN + organName + FormatText.ORGAN_NAME_END;
         }
         treeNode.setText(workingBody.getName() + organName);
         treeNode.getAttributes().put("type", "workingbody");
@@ -212,7 +201,7 @@ public class WorkingBodyService implements WorkingBodyServiceable {
     	String organName = "";
     	Organ organ = matter.getOrgan();
     	if (organ != null) {
-    		organName = ORGAN_NAME_BEGIN + organ.getName() + ORGAN_NAME_END;
+    		organName = FormatText.ORGAN_NAME_BEGIN + organ.getName() + FormatText.ORGAN_NAME_END;
     	}
         String citizenName = "";
         List<Citizen> citizens = matter.getCitizens();
@@ -221,7 +210,7 @@ public class WorkingBodyService implements WorkingBodyServiceable {
 	        	citizenName = citizenName + "," + citizen.getName();
 	        }
 	        citizenName = citizenName.substring(1);
-	        citizenName = CITIZEN_NAME_BEGIN + citizenName + CITIZEN_NAME_END;
+	        citizenName = FormatText.CITIZEN_NAME_BEGIN + citizenName + FormatText.CITIZEN_NAME_END;
         }
         treeNode.setId(matter.getId().toString());
     	treeNode.setChecked(false);
@@ -246,114 +235,9 @@ public class WorkingBodyService implements WorkingBodyServiceable {
     }
     
     @Override
-    public Long addArticleRmcToWorkingBody(Article article, Integer workingBodyId, Integer channelId, Date published){
-    	ArticleMain articleRmc = new ArticleMain();
-    	
-    	if (published != null){
-    		articleRmc.getArticle().setPublished(published);
-    	}
-    	
-    	clearStyleSpace(article);
-		articleRmc.setArticle(article);
-    	
-		WorkingBody workingBody = workingBodyDAO.findWorkingBodyByWorkingBodyIdAndChannelId(workingBodyId, channelId);
-		if (workingBody == null) return null;
-		List<ArticleMain> articleRmcs = workingBody.getArticleMains();
-		if (articleRmcs == null || articleRmcs.isEmpty()) articleRmcs = new ArrayList<ArticleMain>();
-		
-		articleMainDAO.persist(articleRmc);
-		
-		articleRmcs.add(articleRmc);
-		workingBody.setArticleMains(articleRmcs);
-		
-		workingBodyDAO.merge(workingBody);
-		return articleRmc.getId();
-    }
-    
-    @Override
-    public Long updArticleRmcToWorkingBody(Long articleRmcId, Article article, Date published){
-//    	ArticleRmc articleRmc = articleRmcDAO.get(articleRmcId);
-//		
-//    	if (published != null){
-//    		articleRmc.setPublished(published);
-//    	}
-//    	
-//		clearStyleSpace(article);
-//		
-//		if (articleRmc.getStatus() == ArticleRmcStatus.RELEASE || articleRmc.getStatus() == ArticleRmcStatus.PRERELEASE){
-//			articleRmc.setStatus(ArticleRmcStatus.REEDIT);
-//		}
-//		
-//		Article article_old = articleRmc.getArticle();
-//		if (article.getType() == ArticleStatus.GENERAL){
-//			Integer current_version = 1;
-//			List<ContentHistory> contentHistories = null;
-//			if (article_old.getContentHistories().isEmpty()){
-//				contentHistories = new ArrayList<ContentHistory>();
-//			}else{
-//				current_version = article_old.getContentHistories().get(0).getVersion() + 1;
-//				contentHistories = article_old.getContentHistories();
-//			}
-//			
-//			List<Content> contents = article_old.getContents();
-//	
-//			ContentHistory contentHistory = null;
-//			for (Content content : contents){
-//				contentHistory = new ContentHistory();
-//			
-//				contentHistory.setDetail(content.getDetail());
-//				contentHistory.setPage(content.getPage());
-//				contentHistory.setVersion(current_version);
-//				contentHistory.setHistoryTime(new Date(Calendar.getInstance().getTime().getTime()));
-//				
-//				contentHistories.add(contentHistory);
-//			}
-//			article.setContentHistories(contentHistories);
-//		}else if (article.getType() == ArticleStatus.TITLE){
-//			if (article_old.getContentHistories() != null && !article_old.getContentHistories().isEmpty()){
-//				article.setContentHistories(article_old.getContentHistories());
-//			}
-//			if (article_old.getContents() != null && !article_old.getContents().isEmpty()){
-//				article.setContents(article_old.getContents());
-//			}
-//		}
-//		articleRmc.setArticle(article);
-//		articleRmc.setModified(new Date(Calendar.getInstance().getTime().getTime()));
-//		
-//		articleRmcDAO.merge(articleRmc);
-//		return articleRmc.getId();
-        return 0L;
-    }
-    
-    private void clearStyleSpace(Article article){
-//		if (article.getTitleStyle() != null && article.getTitleStyle().length() > 0){
-//			article.setTitleStyle(article.getTitleStyle().trim());
-//		}
-//		if (article.getShortTitleStyle() != null && article.getShortTitleStyle().length() > 0){
-//			article.setShortTitleStyle(article.getShortTitleStyle().trim());
-//		}
-//		if (article.getSubTitleStyle() != null && article.getSubTitleStyle().length() > 0){
-//			article.setSubTitleStyle(article.getSubTitleStyle().trim());
-//		}
-	}
-    
-    @Override
-    public void delArticleRmcToWorkingBody(Integer workingBodyId, Long articleRmcId, Integer channelId){
-    	WorkingBody workingBody = workingBodyDAO.findWorkingBodyByWorkingBodyIdAndChannelId(workingBodyId, channelId);
-		if (workingBody == null) return;
-		List<ArticleMain> articleRmcs = workingBody.getArticleMains();
-		if (articleRmcs == null || articleRmcs.isEmpty()) return;
-		ArticleMain articleRmc = articleMainDAO.get(new Long(articleRmcId));
-		articleRmcs.remove(articleRmc);
-		workingBody.setArticleMains(articleRmcs);
-		workingBodyDAO.merge(workingBody);
-		articleMainDAO.removeByPK(new Long(articleRmcId));
-    }
-    
-    @Override
-    public void addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds){
-    	if (workingBodyId == null) return;
-    	if (organIds == null || organIds.isEmpty()) return;
+    public String addOrganToWorkingBody(Integer workingBodyId, List<Integer> organIds){
+    	if (workingBodyId == null) return "";
+    	if (organIds == null || organIds.isEmpty()) return "";
     	WorkingBody workingBody = workingBodyDAO.get(workingBodyId);
     	List<Organ> organs = new ArrayList<Organ>();
     	for (Integer organId : organIds){
@@ -362,54 +246,28 @@ public class WorkingBodyService implements WorkingBodyServiceable {
     	}
     	workingBody.setOrgans(organs);
     	workingBodyDAO.merge(workingBody);
+    	return tranformWorkingBodyText(workingBody);
     }
     
     @Override
-    public void removeOrganFromWorkingBOdy(Integer workingBodyId){
-    	if (workingBodyId == null) return;
+    public String removeOrganFromWorkingBody(Integer workingBodyId){
+    	if (workingBodyId == null) return "";
     	WorkingBody workingBody = workingBodyDAO.get(workingBodyId);
     	workingBody.setOrgans(null);
     	workingBodyDAO.merge(workingBody);
+    	return tranformWorkingBodyText(workingBody);
     }
     
-	@Override
-	public Boolean preReleaseArticleRmc(Long articleRmcId, Integer channelId) {
-		ArticleMain articleRmc = articleMainDAO.get(new Long(articleRmcId));
-		if (articleRmc.getArticle().getStatus() == Article.Status.DRAFT || articleRmc.getArticle().getStatus()== Article.Status.REEDIT){
-			articleRmc.getArticle().setStatus(Article.Status.PRERELEASE);
-			if (articleRmc.getArticle().getPublished() == null){
-				articleRmc.getArticle().setPublished(new Date(Calendar.getInstance().getTime().getTime()));
-			}
-			articleMainDAO.merge(articleRmc);
-			try {
-				webPublish.publishChannel(channelId, false, false);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public Boolean moveArticleRmcToWorkingBody(List<Long> articleRmcIds, Integer workingBodyId, Integer moveWorkingBodyId){
-		WorkingBody workingBody = workingBodyDAO.get(workingBodyId);
-		WorkingBody moveWorkingBody = workingBodyDAO.get(moveWorkingBodyId);
-		if (workingBody == null || moveWorkingBody == null) return false;
-		List<ArticleMain> articleRmcs = workingBody.getArticleMains();
-		if (articleRmcs == null || articleRmcs.isEmpty()) return false;
-		List<ArticleMain> moveArticleRmcs = moveWorkingBody.getArticleMains();
-		if (moveArticleRmcs == null || moveArticleRmcs.isEmpty()) moveArticleRmcs = new ArrayList<ArticleMain>();
-		ArticleMain articleRmc = null;
-		for (Long articleRmcId : articleRmcIds){
-			articleRmc = articleMainDAO.get(articleRmcId);
-			articleRmcs.remove(articleRmc);
-			moveArticleRmcs.add(articleRmc);
-		}
-		workingBody.setArticleMains(articleRmcs);
-		moveWorkingBody.setArticleMains(moveArticleRmcs);
-		workingBodyDAO.merge(workingBody);
-		workingBodyDAO.merge(moveWorkingBody);
-		return true;	
-	}
+    private String tranformWorkingBodyText(WorkingBody workingBody){
+    	String organName = "";
+        List<Organ> organs = workingBody.getOrgans();
+        if (organs != null && !organs.isEmpty()){
+	        for (Organ organ : organs){
+	        	organName = organName + "," + organ.getName();
+	        }
+	        organName = organName.substring(1);
+        	organName = FormatText.ORGAN_NAME_BEGIN + organName + FormatText.ORGAN_NAME_END;
+        }
+        return workingBody.getName() + organName;
+    }
 }

@@ -77,14 +77,14 @@ public interface MatterServiceable {
 	 * @param matterId 事项基本信息编号
 	 * @param organId 组织机构编号
 	 */
-	public void addOrganToMatter(Integer matterId, Integer organId);
+	public String addOrganToMatter(Integer matterId, Integer organId);
 	
 	/**
 	 * 从事项基本信息中移除关联组织
 	 * 
 	 * @param matterId 事项基本信息编号
 	 */
-	public void removeOrganFromMatter(Integer matterId);
+	public String removeOrganFromMatter(Integer matterId);
 	
 	/**
 	 * 关联公民信息到事项基本信息
@@ -92,12 +92,12 @@ public interface MatterServiceable {
 	 * @param matterId 事项基本信息编号
 	 * @param citizenIds 公民编号集合
 	 */
-	public void addCitizenToMatter(Integer matterId, List<Integer> citizenIds);
+	public String addCitizenToMatter(Integer matterId, List<Integer> citizenIds);
 	
 	/**
 	 * 从事项基本信息中移除关联公民
 	 * 
 	 * @param matterId 事项基本信息编号
 	 */
-	public void removeCitizenFromMatter(Integer matterId);
+	public String removeCitizenFromMatter(Integer matterId);
 }
