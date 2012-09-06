@@ -15253,10 +15253,10 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 					each(selection.getSelectedBlocks(), function(element) {
 						if (command == 'outdent') {
-							value = Math.max(0, parseInt(element.style.paddingLeft || 0) - intentValue);
-							dom.setStyle(element, 'paddingLeft', value ? value + indentUnit : '');
+							value = Math.max(0, parseInt(element.style.textIndent || 0) - intentValue);
+							dom.setStyle(element, 'textIndent', value ? value + indentUnit : '');
 						} else
-							dom.setStyle(element, 'paddingLeft', (parseInt(element.style.paddingLeft || 0) + intentValue) + indentUnit);
+							dom.setStyle(element, 'textIndent', (parseInt(element.style.textIndent || 0) + intentValue) + indentUnit);
 					});
 				} else
 					execNativeCommand(command);
@@ -15358,10 +15358,10 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				var node;
 
 				if (settings.inline_styles) {
-					if ((node = dom.getParent(selection.getStart(), dom.isBlock)) && parseInt(node.style.paddingLeft) > 0)
+					if ((node = dom.getParent(selection.getStart(), dom.isBlock)) && parseInt(node.style.textIndent) > 0)
 						return TRUE;
 
-					if ((node = dom.getParent(selection.getEnd(), dom.isBlock)) && parseInt(node.style.paddingLeft) > 0)
+					if ((node = dom.getParent(selection.getEnd(), dom.isBlock)) && parseInt(node.style.textIndent) > 0)
 						return TRUE;
 				}
 

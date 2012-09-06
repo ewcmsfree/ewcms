@@ -23,12 +23,12 @@ $(function() {
 	ewcmsBOBJ.delToolItem('查询');
 	ewcmsBOBJ.delToolItem('缺省查询');
 
-	ewcmsBOBJ.addToolItem('新增', 'icon-add', addOperate, 'btnAdd');
-	ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
-	ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
+	//ewcmsBOBJ.addToolItem('新增', 'icon-add', addOperate, 'btnAdd');
+	//ewcmsBOBJ.addToolItem('修改', 'icon-edit', updOperate, 'btnUpd');
+	//ewcmsBOBJ.addToolItem('删除', 'icon-remove', delOperate, 'btnRemove');
+	ewcmsBOBJ.addToolItem('操作', 'icon-operate', null, 'btnOperate');
 	ewcmsBOBJ.addToolItem('预览', 'icon-article-preview', previewOperate, 'btnPreview')
 	ewcmsBOBJ.addToolItem('查询', 'icon-search', null, 'btnSearchParent')
-	ewcmsBOBJ.addToolItem('操作', '', null, 'btnOperate');
 	ewcmsBOBJ.addToolItem('置顶', 'icon-top', null, 'btnTop');
 	ewcmsBOBJ.addToolItem('共享', 'icon-share', null, 'btnShare');
 	ewcmsBOBJ.addToolItem('排序', 'icon-sort', null, 'btnSort');
@@ -700,9 +700,9 @@ function copyOperate() {
 }
 //主菜单/子菜单不可用
 function disableButtons() {
-	$('#btnAdd').linkbutton('disable');
-	$('#btnUpd').linkbutton('disable');
-	$('#btnRemove').linkbutton('disable');
+	//$('#btnAdd').linkbutton('disable');
+	//$('#btnUpd').linkbutton('disable');
+	//$('#btnRemove').linkbutton('disable');
 	$('#btnPreview').linkbutton('disable');
 	$('#btnSort').linkbutton('disable');
 	$('#btnReview').linkbutton('disable');
@@ -721,14 +721,17 @@ function disableButtons() {
 	$('#btnTopCancel').attr('style','display:none;');
 	$('#btnShareSet').attr('style','display:none;');
 	$('#btnShareCancel').attr('style','display:none');
+	$('#btnAdd').attr('style','display:none;');
+	$('#btnUpd').attr('style','display:none;');
+	$('#btnRemove').attr('style','display:none;');
 	$('#btnCopy').attr('style','display:none;');
 	$('#btnMove').attr('style','display:none;');
 }
 //主菜单/子菜单可用
 function enableButtons() {
-	$('#btnAdd').linkbutton('enable');
-	$('#btnUpd').linkbutton('enable');
-	$('#btnRemove').linkbutton('enable');
+	//$('#btnAdd').linkbutton('enable');
+	//$('#btnUpd').linkbutton('enable');
+	//$('#btnRemove').linkbutton('enable');
 	$('#btnPreview').linkbutton('enable');
 	$('#btnSort').linkbutton('enable');
 	$('#btnReview').linkbutton('enable');
@@ -747,6 +750,9 @@ function enableButtons() {
 	$('#btnTopCancel').attr('style','display:block;');
 	$('#btnShareSet').attr('style','display:block;');
 	$('#btnShareCancel').attr('style','display:block;');
+	$('#btnAdd').attr('style','display:block;');
+	$('#btnUpd').attr('style','display:block;');
+	$('#btnRemove').attr('style','display:block;');
 	$('#btnCopy').attr('style','display:block;');
 	$('#btnMove').attr('style','display:block;');
 }

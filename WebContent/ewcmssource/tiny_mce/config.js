@@ -6,6 +6,7 @@ tinyMCE.init({
 	language : 'zh-cn',
 	skin : "o2k7",
 	convert_urls : false,//不作任何url转换
+	indentation : '2em',//首行缩进两个中文字符的空白
 	//remove_script_host : false,
 	//relative_urls : false, 
 	plugins : "pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",

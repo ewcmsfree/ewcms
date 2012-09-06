@@ -232,3 +232,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-article-preview{
 	background:url('icons/article_preview.png') no-repeat;
 }
+.icon-operate{
+	background:url('icons/operate.png') no-repeat;
+}
