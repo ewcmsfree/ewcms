@@ -232,7 +232,7 @@
 		<div id="insert-window" class="easyui-window" closed="true" icon="icon-save" title="插入" style="display:none;">
             <div class="easyui-layout" fit="true">
             	<div region="center" border="false">
-             		<iframe src="" id="annex_insert_id"  name="annex_insert" class="editifr" scrolling="no"></iframe>
+             		<iframe src="" id="annex_insert"  name="annex_insert" class="editifr" scrolling="no"></iframe>
              	</div>
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="insertAnnex();">插入</a>
