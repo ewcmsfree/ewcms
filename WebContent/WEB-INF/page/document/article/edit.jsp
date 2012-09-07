@@ -145,7 +145,7 @@
 			        	<td>
 			        		<a href="javascript:void(0);" onclick="openRefenceImageWindow();return false;" style="text-decoration:none;">
 			        		<s:if test="articleVo.image!=null&&articleVo.image!=''">
-			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../../${articleVo.image}"/>
+			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="../..<s:property value="articleVo.image"/>"/>
 			        		</s:if>
 			        		<s:else>
 			        			<img id="referenceImage" name="referenceImage" width="120px" height="90px" src="<s:url value='/ewcmssource/image/article/nopicture.jpg'/>"/>
