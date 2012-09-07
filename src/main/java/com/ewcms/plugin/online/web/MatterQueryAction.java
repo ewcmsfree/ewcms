@@ -21,7 +21,7 @@ public class MatterQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
 			String cacheKey, int rows, int page, Order order) {
-		EntityQueryable query = queryFactory.createEntityQuery(Matter.class).setPage(page).setRow(rows);
+		EntityQueryable query = queryFactory.createEntityQuery(Matter.class).setPage(page).setRow(rows).orderDesc("id");
 		Integer id = getParameterValue(Integer.class,"id", "查询编号错误，应该是整型");
         if (EmptyUtil.isNotNull(id)) query.eq("id", id);
         
@@ -35,7 +35,7 @@ public class MatterQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory,
 			int rows, int page, String[] selections, Order order) {
-		EntityQueryable query = queryFactory.createEntityQuery(Matter.class).setPage(page).setRow(rows);
+		EntityQueryable query = queryFactory.createEntityQuery(Matter.class).setPage(page).setRow(rows).orderDesc("id");
         query.in("id", getIds(Integer.class));
         query.orderAsc("sort");
         query.orderDesc("id");
