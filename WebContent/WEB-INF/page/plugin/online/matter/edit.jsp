@@ -66,7 +66,8 @@
             			$.messager.alert('错误', '插入失败', 'error');
             		}
             	});
-            }            
+            }    
+       
         </script>		
 	</head>
 	<body>
