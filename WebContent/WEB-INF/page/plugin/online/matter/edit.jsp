@@ -55,7 +55,6 @@
 			}
             function insertAnnex(){
             	annex_insert.insert(function(data,success){
-            		alert(success);
             		if (success){
             			$.each(data, function(index,value){
             				$("#filePath_" + selItem).attr("value", value.uri);

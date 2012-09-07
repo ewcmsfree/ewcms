@@ -76,7 +76,10 @@
 									data:[{
 										id:data,
 										iconCls:"icon-folder",
-										text:r
+										text:r,
+										attributes:{
+											type:'workingbody'
+										}
 									}]
 								});	
 								$('#tt2').tree('expand',node.target);
