@@ -148,7 +148,7 @@ function channelPermission(rootnode, currentnode) {
 	initSubMenu();
 	if (rootnode.id == currentnode.id) {
 		disableButtons();
-		$('#btnSearchParent').linkbutton('enable');
+		//$('#btnSearchParent').linkbutton('enable');
 		if (currentnode.attributes.maxpermission >= 4) {
 			$('#btnPub').linkbutton('enable');
 			$('#btnPublishOk').attr('style', 'display:block;');

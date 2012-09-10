@@ -62,7 +62,7 @@
             function queryInteractionSearch(options){
                 if(typeof(options) == 'undefined')options = {};
                 var tableid = (options.tableid ? options.tableid : "#tt");
-                var windowid = (options.windowid ? options.windowid : "#edit-window");
+                var windowid = (options.windowid ? options.windowid : "#query-window");
                 var url = (options.url ? options.url : '<s:url namespace="/plguin/interaction" action="query"/>');
                 var formid = (options.formid ? options.formid : "#queryform");
 
@@ -108,7 +108,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="tdtitle">类容：</td>
+                                <td class="tdtitle">内容：</td>
                                 <td class="tdinput">
                                     <input type="text" id="content_id" name="content" class="inputtext"/>
                                 </td>
@@ -124,16 +124,26 @@
                             <tr>
                                 <td class="tdtitle">回复：</td>
                                 <td class="tdinput">
-                                    <input type="radio" id="checked_id" name="replay" value="0"/>所有&nbsp;&nbsp;
-                                    <input type="radio" id="checked_id" name="replay" value="1"/>回复&nbsp;&nbsp;
-                                    <input type="radio" id="checked_id" name="replay" value="2"/>未回复
+                                    <input type="radio" id="replay_id" name="replay" value="0"/>所有&nbsp;&nbsp;
+                                    <input type="radio" id="replay_id" name="replay" value="1"/>回复&nbsp;&nbsp;
+                                    <input type="radio" id="replay_id" name="replay" value="2"/>未回复
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tdtitle">类型：</td>
+                                <td class="tdinput">
+                                    <input type="radio" id="type_id" name="type" value="0"/>所有&nbsp;&nbsp;
+                                	<input type="radio" id="type_id" name="type" value="1"/>在线咨询&nbsp;&nbsp;
+                                    <input type="radio" id="type_id" name="type" value="2"/>投诉监督&nbsp;&nbsp;
+                                    <input type="radio" id="type_id" name="type" value="3"/>建言献策
                                 </td>
                             </tr>
                         </table>
                     </form>
                 </div>
                 <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
-                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="querySearch('');">查询</a>
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" onclick="queryInteractionSearch();">查询</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#query-window').window('close');">取消</a>
                 </div>
             </div>
         </div>

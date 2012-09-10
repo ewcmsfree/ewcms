@@ -235,3 +235,30 @@ table.cellspacing { border-collapse: separate; }
 .icon-operate{
 	background:url('icons/operate.png') no-repeat;
 }
+.icon-matter{
+	background:url('icons/matter.png') no-repeat;
+}
+.icon-matter-add{
+	background:url('icons/matter_add.png') no-repeat;
+}
+.icon-matter-del{
+	background:url('icons/matter_delete.png') no-repeat;
+}
+.icon-citizen{
+	background:url('icons/citizen.png') no-repeat;
+}
+.icon-citizen-add{
+	background:url('icons/citizen_add.png') no-repeat;
+}
+.icon-citizen-del{
+	background:url('icons/citizen_delete.png') no-repeat;
+}
+.icon-organ{
+	background:url('icons/organ.png') no-repeat;
+}
+.icon-organ-add{
+	background:url('icons/organ_add.png') no-repeat;
+}
+.icon-organ-del{
+	background:url('icons/organ_delete.png') no-repeat;
+}

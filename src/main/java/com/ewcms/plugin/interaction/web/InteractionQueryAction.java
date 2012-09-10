@@ -31,6 +31,7 @@ public class InteractionQueryAction extends QueryBaseAction {
     private int replay;
     private String title;
     private String content;
+    private int type;
 
     public void setChecked(int checked) {
         this.checked = checked;
@@ -56,9 +57,17 @@ public class InteractionQueryAction extends QueryBaseAction {
         this.content = content;
     }
 
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,	String cacheKey, int rows, int page, Order order) {
-		EntityQueryable query = queryFactory.createEntityQuery(Interaction.class).setPage(page).setRow(rows);
+		EntityQueryable query = queryFactory.createEntityQuery(Interaction.class).setPage(page).setRow(rows).orderDesc("date");
         if (checked != 0) {
             if (checked == 1) {
                 query.eq("checked", true);
@@ -74,7 +83,11 @@ public class InteractionQueryAction extends QueryBaseAction {
                 query.eq("state", 0);
             }
         }
-
+        
+        if (type != 0){
+        	query.eq("type", getType());
+        }
+        
         if (EmptyUtil.isStringNotEmpty(title)) {
             query.likeAnywhere("title", title);
         }
@@ -83,16 +96,11 @@ public class InteractionQueryAction extends QueryBaseAction {
             query.likeAnywhere("content", content);
         }	
         
-//        int organId = getOrganId();
-//        if(organId != 1){
-//            query.eq("organId", organId);
-//        }        
 		return query.queryCacheResult(cacheKey);
 	}
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

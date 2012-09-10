@@ -199,7 +199,7 @@
 								parent: selNode.target,
 								data:[{
 									id:data[i],
-									iconCls:"icon-folder",
+									iconCls:"icon-matter",
 									text:$('#cc_matter').combobox('setValue', data[i]).combobox('getText'),
 									attributes:{
 										type:'matter'
@@ -469,14 +469,14 @@
 					</div>
 				</div>
 				<div id="treeopmenu" class="easyui-menu" style="width:100px; padding:4px 0 8px 0;">
-					<div icon="icon-workingbody" onclick="addWorkingBody();">添加办事</div>
+					<div icon="icon-add" onclick="addWorkingBody();">添加办事</div>
 					<div icon="icon-undo" onclick="renameWorkingBody();">重命名办事</div>
 					<div icon="icon-remove" onclick="delWorkingBody();">删除办事</div>
 					<div icon="icon-up" onclick="upWorkingBody();">上移办事</div>
 					<div icon="icon-down" onclick="downWorkingBody();">下移办事</div>
 					<div class="menu-sep"></div>
-					<div icon="icon-organisation-add" onclick="addOrgan();">选择组织</div>
-					<div icon="icon-organisation-del" onclick="removeOrgan();">移除组织</div>
+					<div icon="icon-organ-add" onclick="addOrgan();">选择组织</div>
+					<div icon="icon-organ-del" onclick="removeOrgan();">移除组织</div>
 					<div class="menu-sep"></div>
 					<div icon="icon-matter-add" onclick="selMatter();">选择事项</div>
 					<div icon="icon-matter-del" onclick="removeMatter();">移除事项</div>

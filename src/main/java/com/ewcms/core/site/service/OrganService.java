@@ -79,6 +79,7 @@ public class OrganService implements OrganServiceable{
 			TreeNode tnVo = new TreeNode();
 			tnVo.setId(vo.getId().toString());
 			tnVo.setText(vo.getName());
+			tnVo.setIconCls("icon-organ");
 			if (vo.hasChildren()) {
 				tnVo.setState("closed");
 			} else {

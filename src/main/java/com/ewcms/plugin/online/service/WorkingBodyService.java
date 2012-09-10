@@ -215,6 +215,7 @@ public class WorkingBodyService implements WorkingBodyServiceable {
         treeNode.setId(matter.getId().toString());
     	treeNode.setChecked(false);
     	treeNode.setState("open");
+    	treeNode.setIconCls("icon-matter");
     	treeNode.setText(matter.getName() + organName + citizenName);
     	treeNode.getAttributes().put("type", "matter");
     	treeNode.getAttributes().put("organ", organName);
