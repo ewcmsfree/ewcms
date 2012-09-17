@@ -10,6 +10,8 @@
 
 package com.ewcms.plugin.interaction;
 
+import java.util.Date;
+
 import com.ewcms.plugin.interaction.model.Interaction;
 import com.ewcms.plugin.interaction.service.InteractionServiceable;
 import org.springframework.stereotype.Service;
@@ -31,8 +33,8 @@ public class InteractionFac implements InteractionFacable {
     }
 
     @Override
-    public void interactionReplay(Integer id, String replay) {
-        interactionService.interactionReplay(id, replay);
+	public void interactionReplay(Integer id, String replay, Date date, Date replayDate){
+        interactionService.interactionReplay(id, replay, date, replayDate);
     }
 
     @Override

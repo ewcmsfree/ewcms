@@ -46,11 +46,15 @@ public class InteractionService implements InteractionServiceable {
     }
 
     @Override
-    public void interactionReplay(Integer id, String replay) {
+    public void interactionReplay(Integer id, String replay, Date date, Date replayDate) {
         Interaction interaction = interactionDAO.get(id);
         if (interaction == null) {
             return;
         }
+        if (date != null){
+        	interaction.setDate(date);
+        }
+        
         if (replay == null || replay.trim().length() == 0) {
             interaction.setState(0);
             interaction.setReplay(null);
@@ -58,9 +62,13 @@ public class InteractionService implements InteractionServiceable {
         } else {
             interaction.setState(1);
             interaction.setReplay(replay);
-            interaction.setReplayDate(new Date());
+            if (replayDate == null){
+            	interaction.setReplayDate(new Date());
+            }else{
+            	interaction.setReplayDate(replayDate);
+            }
         }
-
+        
         interactionDAO.persist(interaction);
     }
 

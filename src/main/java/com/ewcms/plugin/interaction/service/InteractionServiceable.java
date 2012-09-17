@@ -5,6 +5,8 @@
  */
 package com.ewcms.plugin.interaction.service;
 
+import java.util.Date;
+
 import com.ewcms.plugin.interaction.model.Interaction;
 
 /**
@@ -15,7 +17,7 @@ public interface InteractionServiceable {
 
 	public void interactionChecked(Integer id, Boolean checked);
 
-	public void interactionReplay(Integer id, String replay);
+	public void interactionReplay(Integer id, String replay, Date date, Date replayDate);
 
 	public void interactionOrgan(Integer id, Integer organId, String organName);
 

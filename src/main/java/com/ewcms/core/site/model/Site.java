@@ -88,7 +88,6 @@ public class Site implements Serializable {
     private Organ organ;
     @Formula(value="(Select count(o.id) From site_site o Where o.parent_id= id)")
     private int childrenCount = 0;
-    
     @OneToOne(cascade={CascadeType.ALL},targetEntity=SiteServer.class)
     @JoinColumn(name="serverId",nullable=true)
     private SiteServer siteServer;

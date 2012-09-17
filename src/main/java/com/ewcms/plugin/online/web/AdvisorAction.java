@@ -10,6 +10,8 @@
 
 package com.ewcms.plugin.online.web;
 
+import java.util.Date;
+
 import com.ewcms.plugin.interaction.InteractionFacable;
 import com.ewcms.plugin.interaction.model.Interaction;
 import com.opensymphony.xwork2.ActionSupport;
@@ -27,6 +29,8 @@ public class AdvisorAction extends ActionSupport {
     private Interaction interaction;
     private Integer id;
     private Boolean checked;
+    private Date date;
+    private Date replayDate;
     
     @Autowired
     private InteractionFacable fac;
@@ -59,21 +63,37 @@ public class AdvisorAction extends ActionSupport {
         this.replay = replay;
     }
     
-    @Override
+    public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Date getReplayDate() {
+		return replayDate;
+	}
+
+	public void setReplayDate(Date replayDate) {
+		this.replayDate = replayDate;
+	}
+
+	@Override
     public String execute(){
         if(replay != null && checked != null){
             if(replay != null){
-                fac.interactionReplay(id, replay);
+                fac.interactionReplay(id, replay, date, replayDate);
             }
             if(checked != null){
                 fac.interactionChecked(id,checked);
             }
-            id = null;
-        }else{
-             interaction = fac.getInteraction(id);
-             replay = interaction.getReplay();
-             checked = interaction.isChecked();
         }
+        interaction = fac.getInteraction(id);
+        replay = interaction.getReplay();
+        checked = interaction.isChecked();
+        date = interaction.getDate();
+        replayDate = interaction.getReplayDate();
         return SUCCESS;
     }
 }

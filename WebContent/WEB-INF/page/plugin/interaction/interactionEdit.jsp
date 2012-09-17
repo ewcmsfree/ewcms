@@ -1,13 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
+
 <html>
     <head>
         <title>互动信息</title>
 		<s:include value="../../taglibs.jsp"/>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/tiny_mce.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_simple.js'/>"></script>
         <script type="text/javascript">
             //机构目录树初始
             $(function(){
+            	<s:include value="../../alertMessage.jsp"/>
+            	
             	if ($('#id').val()==""){
         			parent.closeWindow();
         		}
@@ -34,11 +40,15 @@
                     }
                 });
             });
+            <s:if test="success">
+    			parent.queryInteractionSearch('');
+			</s:if>
         </script>
         <style type="text/css">
             .organ_width {width:250px;}
             .organ_top {border: 1px #a9c9e2 solid;background: #FFFFFF;position:absolute;display: none;height:200px;overflow: auto;}
         </style>
+        <ewcms:datepickerhead></ewcms:datepickerhead>
     </head>
     <body>
         <s:form namespace="/plguin/interaction" action="edit" method="post">
@@ -62,7 +72,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="90px">*提交部门：</td>
+                	<td>提问日期：</td>
+                	<td>
+                		<ewcms:datepicker id="date" name="date" option="inputsimple" format="yyyy-MM-dd"/>
+                	</td>
+                </tr>
+                <tr>
+                    <td width="90px">提交部门：</td>
                     <td>
                         <s:hidden name="organId" id="organ_id_id"/>
                         <s:textfield id="organ_name_id" cssClass="organ_width" name="organName" readonly="true"/>
@@ -76,15 +92,9 @@
                 <tr>
                     <td>互动类型：</td>
                     <td>
-                        <s:if test = "interaction.type == 1">
-                            咨询
-                        </s:if>
-                        <s:if test = "interaction.type == 2">
-                            投诉
-                        </s:if>
-                        <s:if test = "interaction.type == 3">
-                            建议
-                        </s:if>
+                        <s:if test = "interaction.type == 1">咨询</s:if>
+                        <s:if test = "interaction.type == 2">投诉</s:if>
+                        <s:if test = "interaction.type == 3">建议</s:if>
                     </td>
                 </tr>
                 <tr>
@@ -94,10 +104,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>回复：</td>
+                    <td>回复内容：</td>
                     <td>
-                        <s:textarea name="replay" style="height:100px;width:500px"/>
+                        <s:textarea name="replay" class="mceEditor" style="height:150px;width:700px"/>
                     </td>
+                </tr>
+                <tr>
+                	<td>回复日期：</td>
+                	<td>
+                		<ewcms:datepicker id="replayDate" name="replayDate" option="inputsimple" format="yyyy-MM-dd"/>
+                	</td>
                 </tr>
                 <tr>
                     <td>发布：</td>

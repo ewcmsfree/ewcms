@@ -8,7 +8,7 @@
 			<message>必须输入名称</message>
 		</field-validator>
 		<field-validator type="stringlength">
-			<param name="maxLength">10</param>
+			<param name="maxLength">20</param>
 			<message>名称不能大于${maxLength}个字符</message>
 		</field-validator>
 	</field>

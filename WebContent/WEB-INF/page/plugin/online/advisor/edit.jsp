@@ -1,20 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ewcms" uri="/ewcms-tags"%>
+
 <html>
     <head>
         <title>网上咨询回复</title>
 		<s:include value="../../../taglibs.jsp"/>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/tiny_mce.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_simple.js'/>"></script>
         <script type="text/javascript">
-        	$(function(){
-        		if ($('#id').val()==""){
-        			parent.closeWindow();
-        		}
-        	});
-            <s:if test="success">
-                parent.queryAdvisorSearch('');
-            </s:if>
+	        $(function(){
+	        	<s:include value="../../alertMessage.jsp"/>
+	        });
+	        <s:if test="success">
+        		parent.queryAdvisorSearch('');
+    		</s:if>
         </script>
+        <ewcms:datepickerhead></ewcms:datepickerhead>
     </head>
     <body>
         <s:form action="edit" method="post">
@@ -38,6 +41,12 @@
                     </td>
                 </tr>
                 <tr>
+                	<td>提问日期：</td>
+                	<td>
+                		<ewcms:datepicker id="date" name="date" option="inputsimple" format="yyyy-MM-dd"/>
+                	</td>
+                </tr>
+                <tr>
                     <td>咨询：</td>
                     <td>
                         <s:property value="advisor.matter.name"/>
@@ -56,10 +65,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>回复：</td>
+                    <td>回复内容：</td>
                     <td>
-                        <s:textarea name="replay" style="height:100px;width:500px"/>
+                        <s:textarea name="replay" class="mceEditor" style="height:150px;width:700px"/>
                     </td>
+                </tr>
+                <tr>
+                	<td>回复日期：</td>
+                	<td>
+                		<ewcms:datepicker id="replayDate" name="replayDate" option="inputsimple" format="yyyy-MM-dd"/>
+                	</td>
                 </tr>
                 <tr>
                     <td>发布：</td>

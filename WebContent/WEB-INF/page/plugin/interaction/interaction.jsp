@@ -6,6 +6,8 @@
         <title>政民互动</title>
 		<s:include value="../../taglibs.jsp"/>
         <script>
+        	var datagridId='#tt';
+			var queryWinID="#query-window";
             $(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
@@ -31,8 +33,8 @@
                             },
                             {field:'state',title:'状态',width:60,
                                 formatter:function(val,rec){
-                                    if (val == 0){return '待处理';}
-                                    if (val == 1){return '回复';}
+                                    if (val == 0){return '办理中';}
+                                    if (val == 1){return '已回复';}
                                 }
                             },
                              {field:'checked',title:'审核',width:60,
@@ -54,8 +56,9 @@
                 $('#tt').datagrid({
                   onDblClickRow:function(rowIndex, rowData){
                       var url = '<s:url action="edit"/>?id='+rowData.id;
-                      $("#editifr").attr('src',url);
-                      openWindow('#edit-window',{height:380,width:600});
+                      //$("#editifr").attr('src',url);
+                      //openWindow1('#edit-window',{height:380,width:600});
+                      openWindow1({title:'审核政民互动', url:url, width:800, height:500})
                   }
                 });
             });

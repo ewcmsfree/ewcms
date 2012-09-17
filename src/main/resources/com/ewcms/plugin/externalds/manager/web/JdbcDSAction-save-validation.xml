@@ -8,7 +8,7 @@
 			<message>必须输入名称</message>
 		</field-validator>
 		<field-validator type="stringlength">
-			<param name="maxLength">10</param>
+			<param name="maxLength">20</param>
 			<message>名称不能大于${maxLength}个字符</message>
 		</field-validator>
 	</field>
@@ -17,7 +17,7 @@
 			<message>必须输入用户名</message>
 		</field-validator>
 		<field-validator type="stringlength">
-			<param name="maxLength">40</param>
+			<param name="maxLength">255</param>
 			<message>用户名不能大于${maxLength}个字符</message>
 		</field-validator>
 	</field>
@@ -26,7 +26,7 @@
 			<message>必须输入驱动名</message>
 		</field-validator>
 		<field-validator type="stringlength">
-			<param name="maxLength">40</param>
+			<param name="maxLength">255</param>
 			<message>驱动名不能大于${maxLength}字符</message>
 		</field-validator>
 	</field>
@@ -35,7 +35,7 @@
 			<message>必须输入数据库连接URL</message>
 		</field-validator>
 		<field-validator type="stringlength">
-			<param name="maxLength">40</param>
+			<param name="maxLength">255</param>
 			<message>数据库连接URL不能大于${maxLength}字符</message>
 		</field-validator>
 	</field>

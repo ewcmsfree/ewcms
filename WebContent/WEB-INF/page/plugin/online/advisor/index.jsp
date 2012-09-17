@@ -6,6 +6,8 @@
         <title>网上咨询</title>
 		<s:include value="../../../taglibs.jsp"/>
         <script>
+	    	var datagridId='#tt';
+			var queryWinID="#query-window";
             $(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
@@ -23,8 +25,8 @@
                             {field:'title',title:'标题',width:300},
                             {field:'state',title:'状态',width:60,
                                 formatter:function(val,rec){
-                                    if (val == 0){return '待处理';}
-                                    if (val == 1){return '回复';}
+                                    if (val == 0){return '办理中';}
+                                    if (val == 1){return '已回复';}
                                 }
                             },
                              {field:'checked',title:'审核',width:60,
