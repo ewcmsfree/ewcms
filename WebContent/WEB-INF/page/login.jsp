@@ -92,7 +92,7 @@
 			        		</div>
 			        	</li>
 			    		<li class="user_main_r">
-			    			<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" type="image" src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter"/> 
+			    			<img class="ibtnentercssclass" id="ibtnenter" style="cursor:pointer; 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px"  src='<s:url value="/ewcmssource/image/login/user_botton.gif"/>' name="ibtnenter" onclick="document.forms[0].submit();"/> 
 			    		</li>
 			    	</ul>
 		    	</dd>
