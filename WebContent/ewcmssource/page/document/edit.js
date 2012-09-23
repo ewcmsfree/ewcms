@@ -21,14 +21,55 @@ $(function() {
 	for ( var i = 1; i < pages; i++) {
 		$("#pageList").append(getLi_Html(i+1));
 	}
+	
+	var st = new ArticleToolbar("articleTitle","tdTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
+	st.show();
+	
+	//标题
+	if ($("#articleTitleStyle").attr("value") != ""){
+		var styleValue = $("#articleTitleStyle").attr("value");
+		var articleTitleStyle = $("#articleTitle").attr("style") + ";" + styleValue;
+		$("#articleTitle").attr("style",articleTitleStyle);
+		$("#articleTitleStyle").attr("style",styleValue);
+		ArticleToolbarStyle("articleTitle",styleValue);
+	}
+	
+	st = new ArticleToolbar("articleShortTitle","tdShortTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
+	st.show();
+	//短标题
+	if ($("#articleShortTitleStyle").attr("value") != ""){
+		var styleValue = $("#articleShortTitleStyle").attr("value");
+		var articleShortTitleStyle = $("#artilceShortTitle").attr("style") + ";" + styleValue;
+		$("#articleShortTitle").attr("style", articleShortTitleStyle);
+		$("#articleShortTitleStyle").attr("style",styleValue);
+		ArticleToolbarStyle("articleShortTitle",styleValue);
+	}
+
+	st = new ArticleToolbar("articleSubTitle","tdSubTitle","FontColor,Bold,Italic,UnderLine,FontFamily,FontSize");
+	st.show();
+	//副标题
+	if ($("#articleSubTitleStyle").attr("value") != ""){
+		var styleValue = $("#articleSubTitleStyle").attr("value");
+		var articleSubTitleStyle =$("#articleSubTitle").attr("style") + ";" + styleValue;
+		$("#articleSubTitle").attr("style", articleSubTitleStyle);
+		$("#articleSubTitleStyle").attr("style",styleValue);
+		ArticleToolbarStyle("articleSubTitle",styleValue);
+	}
+	
 	//短标题不为空，设置短标题选项选中并显示短标题内容
 	if ($.trim($("#articleShortTitle").val()) != ""){
 		$("#ShowShortTitle").attr("checked", true);
+		var styleValue = $("#articleShortTitleStyle").attr("value");
+		var articleTitleStyle = $("#articleShortTitle").attr("style") + ";" + styleValue;
+		$("#articleShortTitle").attr("style",articleTitleStyle);
 		$("#trShortTitle").show();
 	}
 	//副标题不为空，设置副标题选项选中并显示副标题内容
 	if ($.trim($("#articleSubTitle").val()) != ""){
 		$("#ShowSubTitle").attr("checked", true);
+		var styleValue = $("#articleSubTitleStyle").attr("value");
+		var articleTitleStyle = $("#articleSubTitle").attr("style") + ";" + styleValue;
+		$("#articleSubTitle").attr("style",articleTitleStyle);
 		$("#trSubTitle").show();
 	}
 	//设置短标题选项点击事件
@@ -531,7 +572,19 @@ function insertFileToTinyMCEOperator(){
 					}else if (type=="FLASH"){
 						html_obj = writeFlash({src:value.uri,width:320,height:240});
 					}else if (type=="VIDEO"){
-						html_obj = writeRealMedia({src:value.uri,width:320,height:240});
+						var video_uri = value.uri;
+						var extension = video_uri.replace(/^.*(\.[^\.\?]*)\??.*$/,'$1');
+						if (extension=="rm" || extension=="rmvb"){
+							html_obj = writeRealMedia({src:video_uri,width:320,height:240});
+						}else if(extension=="avi"){
+							html_obj = writeWindowsMedia({src:video_uri,width:320,height:240});
+						}else if (extension=="flv"||extension=="swf"){
+							html_obj = writeFlash({src:video_uri,width:320,height:240});
+						}else if (extension=="wave"){
+							html_obj = writeShockWave({src:video_uri,width:320,height:240});
+						}else{
+							html_obj = writeQuickTime({src:video_uri,width:320,height:240});
+						}
 					}
 					if (tinyMCE.getInstanceById('_Content_' + pages) != null){
 						tinyMCE.execInstanceCommand('_Content_' + pages, 'mceInsertContent', false, html_obj);
@@ -619,43 +672,42 @@ function ewcmsCookiesSet(obj,trId){
 	var id = obj.id;
 	if ($('#' + id).attr('checked') == 'checked'){
 		$.cookie(id + '_' + userName,'true',{expires:14});
-		if (id == 'ewcms_toolbar'){
-			$("div[id='DivToolbar']").each(function(){
-				$(this).show();
-			});
-			$('#ewcms_toolbar').attr('checked', true);
-		}else{
+//		if (id == 'ewcms_toolbar'){
+//			$("div[id='DivToolbar']").each(function(){
+//				$(this).show();
+//			});
+//			$('#ewcms_toolbar').attr('checked', true);
+//		}else{
 			$('#' + trId).show();
-		}
+//		}
 	}else{
 		$.cookie(id + '_' + userName, null);
-		if (id == 'ewcms_toolbar'){
-			$("div[id='DivToolbar']").each(function(){
-				$(this).hide();
-			});
-			$('#ewcms_toolbar').attr('checked', false);
-		}else{
+//		if (id == 'ewcms_toolbar'){
+//			$("div[id='DivToolbar']").each(function(){
+//				$(this).hide();
+//			});
+//			$('#ewcms_toolbar').attr('checked', false);
+//		}else{
 			$('#' + trId).hide();
-		}
+//		}
 	}
 	
 	window_resize();
 }
 //Cookies的初始化
 function ewcmsCookiesInit(){
-	var ewcms_toolbar_cookies = $.cookie("ewcms_toolbar_" + userName);
-	if (ewcms_toolbar_cookies != null){
-		$('#ewcms_toolbar').attr('checked', true);
-		$("div[id='DivToolbar']").each(function(){
-			$(this).show();
-		});
-	}else{
-		$('#ewcms_toolbar').attr('checked', false);
-		$("div[id='DivToolbar']").each(function(){
-			$(this).hide();
-		});
-
-	}
+//	var ewcms_toolbar_cookies = $.cookie("ewcms_toolbar_" + userName);
+//	if (ewcms_toolbar_cookies != null){
+//		$('#ewcms_toolbar').attr('checked', true);
+//		$("div[id='DivToolbar']").each(function(){
+//			$(this).show();
+//		});
+//	}else{
+//		$('#ewcms_toolbar').attr('checked', false);
+//		$("div[id='DivToolbar']").each(function(){
+//			$(this).hide();
+//		});
+//	}
 	for (var i=1;i<=5;i++){
 		var ewcms_cookies = $.cookie("ewcms_" + i + "_" + userName);
 		if (ewcms_cookies != null){
@@ -751,5 +803,51 @@ function initChannel(){
 		$('#cc_channel').combotree('disable');
 	}else{
 		$('#cc_channel').combotree('enable');
+	}
+}
+
+//样式初始化
+function ArticleToolbarStyle(styleID, styleValue){
+	var styleArr = styleValue.split(";");
+	for (var i = 0 ; i < styleArr.length ; i++){
+		var styleKey = styleArr[i].split(":")[0];
+		var styleValue = styleArr[i].split(":")[1];
+		if ($.trim(styleKey) == "font-weight"){//粗体
+			if ($.trim(styleValue) == "bold"){
+				$("#" + styleID + "_Bold").attr("value","bold");
+				$("#" + styleID + "_Bold_Div").attr("style","border:#316ac5 1px solid;background:#c1d2ee");
+				$("#" + styleID + "_Bold_Div").get()[0].isClicked = true;
+			}else{
+				$("#" + styleID + "_Bold").attr("value","normal");
+				$("#" + styleID + "_Bold_Div").attr("style","border:none;background:none");
+				$("#" + styleID + "_Bold_Div").get()[0].isClicked = false;
+			}
+		}else if ($.trim(styleKey) == "font-style"){//斜体
+			if ($.trim(styleValue) == "italic"){
+				$("#" + styleID + "_Italic").attr("value","italic");
+				$("#" + styleID + "_Italic_Div").attr("style","border:#316ac5 1px solid;background:#c1d2ee");
+				$("#" + styleID + "_Italic_Div").get()[0].isClicked = true;
+			}else{
+				$("#" + styleID + "_Italic").attr("value","normal");
+				$("#" + styleID + "_Italic_Div").attr("style","border:none;background:none");
+				$("#" + styleID + "_Italic_Div").get()[0].isClicked = false;
+			}
+		}else if ($.trim(styleKey) == "text-decoration"){//下划线
+			if ($.trim(styleValue) == "underline"){
+				$("#" + styleID + "_UnderLine").attr("value","underline");
+				$("#" + styleID + "_UnderLine_Div").attr("style","border:#316ac5 1px solid;background:#c1d2ee");
+				$("#" + styleID + "_UnderLine_Div").get()[0].isClicked = true;
+			}else{
+				$("#" + styleID + "_UnderLine").attr("value","none");
+				$("#" + styleID + "_UnderLine_Div").attr("style","border:none;background:none");
+				$("#" + styleID + "_UnderLine_Div").get()[0].isClicked = false;
+			}
+		}else if ($.trim(styleKey) == "font-family"){//字体
+			$("#" + styleID + "_FontFamily").attr("value",$.trim(styleValue));
+			$("#" + styleID + "_FontFamily_Select").val($.trim(styleValue));
+		}else if ($.trim(styleKey) == "font-size"){//字号
+			$("#" + styleID + "_FontSize").attr("value",$.trim(styleValue));
+			$("#" + styleID + "_FontSize_Select").val($.trim(styleValue));
+		}
 	}
 }

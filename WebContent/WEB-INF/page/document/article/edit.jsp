@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/edit.js'/>"></script>
+		<script type="text/javascript" src="<s:url value='/ewcmssource/page/document/article-toolbar.js'/>"></script>
 	    <script type="text/javascript">
 	    	pages = <s:if test="articleVo.contents.size>0"><s:property value="articleVo.contents.size"/></s:if><s:else>0</s:else>;
 	    	categoryURL = '<s:url namespace="/document/category" action="findCategoryAll"><s:param name="articleId" value="articleVo.id"></s:param></s:url>';
@@ -57,56 +58,64 @@
 					</tr>
 				</table>
 				<table id="inputBarTable" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F6F9FD" style="border: #B7D8ED 1px solid;" class="formtable" >
-			    	<tr >
-			        	<td width="6%">标题：</td>
-			        	<td width="44%" id="tdTitle" class="formFieldError">
-			        		<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
-			        		<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
-						</td>
-						<td width="6%"></td>
-						<td width="44%" style="vertical-align: middle;">
-							<table width="100%" style="border: 0px solid;">
-			        			<tr>
-				        			<td width="100%" style="border: 0px solid;">
-				        				<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: middle;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
-					           	 		<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: middle;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
-					           	 		<!--<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;使用内部标题</label>-->
-					           	 	</td>
-				           	 	</tr>
-				           	 </table>
+			    	<tr>
+			    		<td width="7%">标题：</td>
+			    		<td width="93%" colspan="3">
+			    			<table width="100%" style="border: 0px solid;">
+			    				<tr>
+			        				<td id="tdTitle" colspan="2" class="formFieldError" style="border: 0px solid; padding-left:0px;">
+			        					<s:textfield id="articleTitle" name="articleVo.title" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"/>
+			        					<s:fielderror><s:param value="%{'articleVo.title'}" /></s:fielderror>
+			        					<s:hidden id="articleTitleStyle" name="articleVo.titleStyle"/>
+									</td>
+									<td style="vertical-align: middle;border: 0px solid;">
+										<table width="100%" style="border: 0px solid;">
+			        						<tr>
+				        						<td style="border: 0px solid;">
+				        							<input type="checkbox" value="checkbox" id="ShowShortTitle" onclick="$('#trShortTitle').toggle()" style="vertical-align: middle;"/><label for="ShowShortTitle">&nbsp;短标题</label>&nbsp;&nbsp;
+					           	 					<input type="checkbox" value="checkbox" id="ShowSubTitle" onclick="$('#trSubTitle').toggle()" style="vertical-align: middle;"/><label for="ShowSubTitle">&nbsp;副标题</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					           	 					<!--<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;使用内部标题</label>-->
+					           	 				</td>
+				           	 				</tr>
+				           	 			</table>
+			        				</td>
+			        			</tr>
+			        		</table>
 			        	</td>
 			        </tr>
 			        <tr id="trShortTitle" style="display:none;">
-			        	<td>短标题：</td>
-			        	<td id="tdShortTitle" colspan="3" class="formFieldError">
+			        	<td width="7%">短标题：</td>
+			        	<td width="93%" id="tdShortTitle" colspan="3" class="formFieldError">
 			        		<s:textfield id="articleShortTitle" name="articleVo.shortTitle" cssClass="inputtext" cssStyle="width:300px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="25"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.shortTitle'}" /></s:fielderror>
+			        		<s:hidden id="articleShortTitleStyle" name="articleVo.shortTitleStyle"/>
 			        	</td>
 			        </tr>
 			        <tr id="trSubTitle" style="display:none;">
-			        	<td>副标题：</td>
-			        	<td id="tdSubTitle" colspan="3" class="formFieldError">
+			        	<td width="7%">副标题：</td>
+			        	<td width="93%" id="tdSubTitle" colspan="3" class="formFieldError">
 			        		<s:textfield id="articleSubTitle" name="articleVo.subTitle" cssClass="inputtext" cssStyle="width:320px;background:url(../../ewcmssource/image/article/rule.gif) repeat-x left bottom;" maxlength="50"></s:textfield>
 			        		<s:fielderror><s:param value="%{'articleVo.subTitle'}" /></s:fielderror>
+			        		<s:hidden id="articleSubTitleStyle" name="articleVo.subTitleStyle"/>
 			        	</td>
 			        </tr>
 			        <tr>
-			        	<td width="6%">内部标题：</td>
-			        	<td width="44%">
+			        	<td width="7%">内部标题：</td>
+			        	<td width="43%">
 			        		<s:checkbox id="inside" name="articleVo.inside" cssStyle="vertical-align: middle;"/><label for="inside">&nbsp;&nbsp;</label>
 			        	</td>
-			        	<td width="6%">频道选择：</td>
-			        	<td width="44%">
+			        	<td width="7%">频道选择：</td>
+			        	<td width="43%">
 			        		<select id="cc_channel" style="width:200px;" required="true"></select>
 			        	</td>
 			        </tr>
 			        <tr id="trShowHide_1" style="display:none">
-			        	<td width="6%">发布日期：</td>
-			        	<td width="44%">
+			        	<td width="7%">发布日期：</td>
+			        	<td width="43%">
 			        		<ewcms:datepicker id="published" name="published" option="inputsimple" format="yyyy-MM-dd HH:mm"/>
 			        	</td>
-			        	<td width="6%">责任编辑：</td>
-			        	<td width="44%">
+			        	<td width="7%">责任编辑：</td>
+			        	<td width="43%">
 			        		<s:textfield name="articleVo.author" size="30"></s:textfield>
 			        	</td>
 			        </tr>

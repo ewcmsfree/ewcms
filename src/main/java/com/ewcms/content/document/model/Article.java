@@ -39,8 +39,11 @@ import org.hibernate.annotations.Index;
  * <ul>
  * <li>id:编号</li>
  * <li>title:标题</li>
+ * <li>titleStyle:标题样式</li>
  * <li>shortTitle:短标题</li>
+ * <li>shortTitleStyle:短标题样式</li>
  * <li>subTitle:副标题</li>
+ * <li>subTitlStyle:副标题样式</li>
  * <li>author:作者</li>
  * <li>origin:来源</li>
  * <li>keyword:关键字</li>
@@ -116,10 +119,16 @@ public class Article implements Serializable {
 	private Long id;
 	@Column(name = "title", nullable = false)
 	private String title;
+	@Column(name = "title_style")
+	private String titleStyle;
 	@Column(name = "short_title")
 	private String shortTitle;
+	@Column(name = "short_title_style")
+	private String shortTitleStyle;
 	@Column(name = "sub_title")
 	private String subTitle;
+	@Column(name = "sub_title_style")
+	private String subTitleStyle;
 	@Column(name = "author")
 	private String author;
 	@Column(name = "origin")
@@ -403,6 +412,30 @@ public class Article implements Serializable {
 
 	public void setReviewProcess(ReviewProcess reviewProcess) {
 		this.reviewProcess = reviewProcess;
+	}
+
+	public String getTitleStyle() {
+		return titleStyle;
+	}
+
+	public void setTitleStyle(String titleStyle) {
+		this.titleStyle = titleStyle;
+	}
+
+	public String getShortTitleStyle() {
+		return shortTitleStyle;
+	}
+
+	public void setShortTitleStyle(String shortTitleStyle) {
+		this.shortTitleStyle = shortTitleStyle;
+	}
+
+	public String getSubTitleStyle() {
+		return subTitleStyle;
+	}
+
+	public void setSubTitleStyle(String subTitleStyle) {
+		this.subTitleStyle = subTitleStyle;
 	}
 
 	@Override

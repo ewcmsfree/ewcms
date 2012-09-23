@@ -123,11 +123,20 @@ public class ArticleDirective extends PropertyDirective{
         map.put("标题", "title");
         map.put("title", "title");
         
+        map.put("标题样式", "titleStyle");
+        map.put("titleStyle", "titleStyle");
+        
         map.put("短标题", "shortTitle");
         map.put("shortTitle", "shortTitle");
         
+        map.put("短标题样式", "shortTitleStyle");
+        map.put("shortTitleStyle", "shortTitleStyle");
+        
         map.put("副标题", "subTitle");
         map.put("subTitle", "subTitle");
+        
+        map.put("副标题样式", "subTitleStyle");
+        map.put("subTitleStyle", "subTitleStyle");
         
         map.put("作者", "author");
         map.put("author", "author");
@@ -181,8 +190,11 @@ public class ArticleDirective extends PropertyDirective{
         
         map.put("id", new DefaultDirectiveOut());
         map.put("title", new LengthDirectiveOut());
+        map.put("titleStyle", new DefaultDirectiveOut());
         map.put("shortTitle", new LengthDirectiveOut());
+        map.put("shortTitleStyle", new DefaultDirectiveOut());
         map.put("subTitle", new LengthDirectiveOut());
+        map.put("subTitleStyle", new DefaultDirectiveOut());
         map.put("author", new LengthDirectiveOut());
         map.put("auditReal", new LengthDirectiveOut());
         map.put("image", new DefaultDirectiveOut());

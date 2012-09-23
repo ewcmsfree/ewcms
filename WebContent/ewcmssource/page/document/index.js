@@ -50,8 +50,19 @@ $(function() {
 					return pro.join("");
 				}
 			},
-			{field : 'title',title : '标题<span style=\"color:red;\">[分类]</span>',width : 500,
+			{field : 'title',title : '标题[字体大小]<span style=\"color:red;\">[分类]</span>',width : 500,
 				formatter : function(val, rec) {
+					var fontSize = "12";
+         			var spanStyle = "";
+         			var titleStyle = rec.article.titleStyle;
+         			if (titleStyle != ""){
+             			try{
+             				fontSize = $.trim(titleStyle.match(/font-size:(.*)px\s*;/)[1]);
+                 			spanStyle = titleStyle.replace(/font-size:(.*)px\s*;/g,"");
+             			}catch(e){
+                 			spanStyle = titleStyle;
+             			}
+         			}
 					var classPro = [];
 					var categories = rec.article.categories;
 					for ( var i = 0; i < categories.length; i++) {
@@ -61,8 +72,8 @@ $(function() {
 					if (classPro.length > 0) {
 						classValue = "<span style='color:red;'>[" + classPro.join(",") + "]</span>";
 					}
-					return rec.article.title + classValue;
-				}
+         			return "<span style='" + spanStyle + "'>" + rec.article.title + "</span>[" + fontSize + "px]" + classValue;
+        		}
 			},
 			{field : 'statusDescription',title : '状态',width : 120,sortable:true,
 				formatter : function(val, rec) {
