@@ -89,7 +89,7 @@ public class HistoryAction extends CrudBaseAction<HistoryModel, Long> {
 			if (getHistoryId() != null) {
 				HistoryModel historyModel = historyModelFac.findByHistoryModel(getHistoryId());
 				if (historyModel.getModelObject() != null && historyModel.getModelObject().length != 0) {
-					String fileName = String.valueOf(getHistoryId());
+					String fileName = String.valueOf(historyModel.getIdType() + "_" + getHistoryId());
 					fileName = URLEncoder.encode(fileName, "UTF-8");
 
 					Object obj = ByteToObject.conversion(historyModel.getModelObject());
