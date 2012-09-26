@@ -89,7 +89,7 @@ public class HistoryAction extends CrudBaseAction<HistoryModel, Long> {
 			if (getHistoryId() != null) {
 				HistoryModel historyModel = historyModelFac.findByHistoryModel(getHistoryId());
 				if (historyModel.getModelObject() != null && historyModel.getModelObject().length != 0) {
-					String fileName = String.valueOf(historyModel.getIdType() + "_" + getHistoryId());
+					String fileName = String.valueOf(historyModel.getIdValue() + "_" + getHistoryId());
 					fileName = URLEncoder.encode(fileName, "UTF-8");
 
 					Object obj = ByteToObject.conversion(historyModel.getModelObject());
@@ -103,6 +103,7 @@ public class HistoryAction extends CrudBaseAction<HistoryModel, Long> {
 					response.setContentType("application/jrxml");
 					response.setCharacterEncoding("UTF-8");
 					response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".html");
+					response.setContentType("text/html;charset=UTF-8");
 
 					pw = response.getWriter();
 
