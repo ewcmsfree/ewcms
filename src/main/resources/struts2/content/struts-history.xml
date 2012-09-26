@@ -11,5 +11,6 @@
 		</action>
 		<action name="delete" class="com.ewcms.content.history.web.HistoryAction" method="delete"/>
 		<action name="query" class="com.ewcms.content.history.web.HistoryQueryAction" method="query"/>
+		<action name="download" class="com.ewcms.content.history.web.HistoryAction" method="download"/>
 	</package>
 </struts>	

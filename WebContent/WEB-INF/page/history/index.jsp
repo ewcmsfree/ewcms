@@ -25,7 +25,14 @@
 							{field:'idName',title:'关键字名称',width:100},
 							{field:'idValue',title:'关键字值',width:100},
 							{field:'idType',title:'关键字类型',width:120},
-							{field:'userName',title:'操作员',width:80}
+							{field:'userName',title:'操作员',width:80},
+							{field:'download',title:'下载',width:30,
+			                	formatter:function(val,rec){
+			                		if (rec.className=="com.ewcms.core.site.model.Template"){
+			                			return "&nbsp;<a href='javascript:void(0);' onclick='download(" +  rec.id + ");'><img src='../ewcmssource/css/icons/download.png' width='13px' height='13px' title='下载' style='border:0'/></a>";
+			                		}
+			                	}
+			                }
 	                  ]],
 	                  pagination:true
 				});
@@ -34,6 +41,9 @@
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/history" action="delete"/>');
 			});
+			function download(id){
+				window.open('<s:url namespace="/history" action="download"/>?historyId=' + id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+			}
 		</script>
 		<ewcms:datepickerhead/>	
 	</head>

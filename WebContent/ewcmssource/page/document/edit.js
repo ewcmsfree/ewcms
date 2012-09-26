@@ -570,7 +570,7 @@ function insertFileToTinyMCEOperator(){
 					}else if (type=="IMAGE"){
 						html_obj = "<p style='text-align: center;'><img border='0' src='" + value.uri + "'/></p><p style='text-align: center;'>" + value.description + "</p>";
 					}else if (type=="FLASH"){
-						html_obj='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="/flvplayer.swf" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="400">' +
+						html_obj='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="/flvplayer.swf" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="320" height="240">' +
 					    '<param name="movie" value="flvplayer.swf" />' +
 					    '<param name="quality" value="high" />' +
 					    '<param name="allowFullScreen" value="true" />' +
@@ -581,15 +581,15 @@ function insertFileToTinyMCEOperator(){
 						var video_uri = value.uri;
 						var extension = video_uri.replace(/^.*(\.[^\.\?]*)\??.*$/,'$1');
 						if (extension==".rm" || extension==".rmvb"){
-							html_obj = writeRealMedia({src:video_uri,width:500,height:400,console:"Clip1",controls:"IMAGEWINDOW,ControlPanel,StatusBar",_ExtentX:11298,_ExtentY:7938,AUTOSTART:0});
+							html_obj = writeRealMedia({src:video_uri,width:320,height:240,console:"Clip1",controls:"IMAGEWINDOW,ControlPanel,StatusBar",_ExtentX:11298,_ExtentY:7938,AUTOSTART:0});
 						}else if(extension==".avi" || extension==".wmv"){
-							html_obj = writeWindowsMedia({src:video_uri,width:500,height:400,data:video_uri,autostart:true,controller:true});
+							html_obj = writeWindowsMedia({src:video_uri,width:320,height:240,data:video_uri,autostart:true,controller:true});
 						}else if (extension==".flv"||extension==".swf"){
-							html_obj = writeFlash({src:video_uri,width:500,height:400,movie:"/flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.ruichang.gov.cn&BufferTime=3"});
+							html_obj = writeFlash({src:video_uri,width:320,height:240,movie:"/flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.ruichang.gov.cn&BufferTime=3"});
 						}else if (extension==".wave"){
-							html_obj = writeShockWave({src:video_uri,width:500,height:400});
+							html_obj = writeShockWave({src:video_uri,width:320,height:240});
 						}else{
-							html_obj = writeQuickTime({src:video_uri,width:500,height:400});
+							html_obj = writeQuickTime({src:video_uri,width:320,height:240});
 						}
 					}
 					if (tinyMCE.getInstanceById('_Content_' + pages) != null){
