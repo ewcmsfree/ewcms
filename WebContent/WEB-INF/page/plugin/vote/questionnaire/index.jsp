@@ -30,6 +30,7 @@
 				ewcmsBOBJ.addToolItem('缺省查询','icon-back',defQueryCallBack);
 	
 				ewcmsBOBJ.openDataGrid('#tt_main',{
+					singleSelect:true,
                     columns:[[
                               {field:'id',title:'编号',width:60},
                               {field:'title',title:'问卷名称',width:500},
