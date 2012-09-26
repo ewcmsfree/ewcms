@@ -8,6 +8,8 @@ tinyMCE.init({
 	convert_urls : false,//不作任何url转换
 	//remove_script_host : false,
 	//relative_urls : false, 
+	media_strict: false,
+	extended_valid_elements: '[id|style|width|height|classid|codebase|*],param[name|value],embed[id|style|width|height|type|src|*],video[*],audio[*],source[*]',
 	plugins : "pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 	// Theme options
 	theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,|,preview,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid",
