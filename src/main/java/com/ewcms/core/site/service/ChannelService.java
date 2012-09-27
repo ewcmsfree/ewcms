@@ -308,6 +308,39 @@ public class ChannelService implements ChannelServiceable{
 			}
 		}
 	}
+	
+	public void moveSortChannel(Integer channelId, Integer parentId, Long sort){
+		if (channelId != null && parentId != null){
+			Channel moveChannel = channelDAO.get(channelId);
+			
+			Long oldSort = moveChannel.getSort();
+			if (sort.longValue() == oldSort.longValue()) return;
+
+			moveChannel.setSort(sort);
+			
+			if (sort.longValue() > oldSort.longValue()){
+				List<Channel> channels = channelDAO.findChannelByParentIdAndLtSort(channelId, parentId, sort, oldSort);
+				if (channels == null || channels.isEmpty()) return;
+				
+				for (Channel channel : channels){
+					sort--;
+					channel.setSort(sort);
+					channelDAO.merge(channel);
+				}
+			}else{
+				List<Channel> channels = channelDAO.findChannelByParentIdAndGtSort(channelId, parentId, sort, oldSort);
+				if (channels == null || channels.isEmpty()) return;
+				
+				for (Channel channel : channels){
+					sort++;
+					channel.setSort(sort);
+					channelDAO.merge(channel);
+				}
+			}
+			
+			channelDAO.merge(moveChannel);
+		}
+	}
 
 	@Override
 	public void moveToChannel(Integer channelId, Integer parentId) {

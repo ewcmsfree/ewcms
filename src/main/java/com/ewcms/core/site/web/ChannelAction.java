@@ -110,36 +110,38 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				}
 				TreeNode treeFile = new TreeNode();
 				treeFile.setId(rootVo.getId().toString());
-				treeFile.setText(rootVo.getName() + "<font color='red'>(站点)</font>");
+				treeFile.setText(rootVo.getName());
 				treeFile.setState("open");
+				treeFile.setIconCls("icon-channel-site");
 				Map<String, String> attributes = new HashMap<String, String>();
-				int max = TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
 				treeFile.setAttributes(attributes);
-				switch (max) {
-				case 1:
-					treeFile.setIconCls("icon-table-refresh");
-					break;
-				case 2:
-					treeFile.setIconCls("icon-table-edit");
-					break;
-				case 4:
-					treeFile.setIconCls("icon-table-pub");
-					break;
-				case 8:
-					treeFile.setIconCls("icon-note-add");
-					break;
-				case 16:
-					treeFile.setIconCls("icon-note-edit");
-					break;
-				case 32:
-					treeFile.setIconCls("icon-note-delete");
-					break;
-				case 64:
-					treeFile.setIconCls("icon-note");
-					break;
-				default:
-					treeFile.setIconCls("icon-note-error");
-				}
+				TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
+//				int max = TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
+//				switch (max) {
+//				case 1:
+//					treeFile.setIconCls("icon-table-refresh");
+//					break;
+//				case 2:
+//					treeFile.setIconCls("icon-table-edit");
+//					break;
+//				case 4:
+//					treeFile.setIconCls("icon-table-pub");
+//					break;
+//				case 8:
+//					treeFile.setIconCls("icon-note-add");
+//					break;
+//				case 16:
+//					treeFile.setIconCls("icon-note-edit");
+//					break;
+//				case 32:
+//					treeFile.setIconCls("icon-note-delete");
+//					break;
+//				case 64:
+//					treeFile.setIconCls("icon-note");
+//					break;
+//				default:
+//					treeFile.setIconCls("icon-note-error");
+//				}
 				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(), isPub)));
 				Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 				return;
@@ -264,6 +266,7 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	
 	private Integer channelId;
 	private Integer parentId;
+	private Long sort;
 	
 	public Integer getChannelId() {
 		return channelId;
@@ -281,6 +284,14 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 		this.parentId = parentId;
 	}
 
+	public Long getSort() {
+		return sort;
+	}
+
+	public void setSort(Long sort) {
+		this.sort = sort;
+	}
+
 	public void upChannel(){
 		try {
 			siteFac.upChannel(getChannelId(), getParentId());
@@ -293,6 +304,15 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 	public void downChannel(){
 		try {
 			siteFac.downChannel(getChannelId(), getParentId());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		} catch (Exception e) {
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void moveSortChannel(){
+		try {
+			siteFac.moveSortChannel(getChannelId(), getParentId(),getSort());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));

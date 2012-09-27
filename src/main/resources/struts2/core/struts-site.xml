@@ -186,5 +186,6 @@
         <action name="inheritAcl" class="com.ewcms.core.site.web.AclAction" method="updateInherit"/>
         <action name="up" class="com.ewcms.core.site.web.ChannelAction" method="upChannel"/>
         <action name="down" class="com.ewcms.core.site.web.ChannelAction" method="downChannel"/>
+        <action name="moveSort" class="com.ewcms.core.site.web.ChannelAction" method="moveSortChannel"></action>
 	</package>
 </struts>	

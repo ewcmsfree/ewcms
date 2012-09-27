@@ -350,4 +350,10 @@ public class SiteFac implements SiteFacable{
 	public void moveToChannel(Integer channel, Integer parentId) {
     	channelService.moveToChannel(channel, parentId);
 	}
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
+	@Override
+    public void moveSortChannel(Integer channelId, Integer parentId, Long sort){
+    	channelService.moveSortChannel(channelId, parentId, sort);
+    }
 }

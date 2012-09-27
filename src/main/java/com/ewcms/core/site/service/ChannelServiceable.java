@@ -142,6 +142,15 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	public void upChannel(Integer channelId, Integer parentId);
 	
 	/**
+	 * 专栏移动到指定的位置
+	 * 
+	 * @param channelId 选中栏目编号
+	 * @param parentId 选　中栏目的上一级栏目编号
+	 * @param sort 移动到的位置
+	 */
+	public void moveSortChannel(Integer channelId, Integer parentId, Long sort);
+	
+	/**
 	 * 移动专栏
 	 * 
 	 * @param channel

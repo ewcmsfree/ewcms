@@ -46,7 +46,7 @@
 								parent: node.target,
 								data:[{
 									id:data,
-									iconCls:"icon-folder",
+									iconCls:"icon-channel-node",
 									text:r,
 									attributes:{
 										maxpermission:64
@@ -227,13 +227,15 @@
 					 return;
 				}
     			var parentNode = $('#tt2').tree('getParent',node.target);
-    			  
-    			$.post('<s:url action="up"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
-			    	if(data == 'false'){
-		    	    	$.messager.alert('提示','专栏上移动失败');
-		    	    	return;
+			    $.post('<s:url action="up"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
+				   	if(data == 'false'){
+				    	$.messager.alert('提示','专栏上移一位失败');
+				    	return;
+				   	}else{
+			        	$.messager.alert('提示','专栏上移一位成功','info');
+			        	$('#tt2').tree('reload', parentNode.target);
 			        }
-		    	});
+				});
 			}
 			
 			function downChannel(){
@@ -253,10 +255,53 @@
     			  
     			$.post('<s:url action="down"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
 			    	if(data == 'false'){
-		    	    	$.messager.alert('提示','专栏下移动失败');
+		    	    	$.messager.alert('提示','专栏下移一位失败');
 		    	    	return;
+			    	}else{
+			        	$.messager.alert('提示','专栏下移一位成功','info');
+			        	$('#tt2').tree('reload', parentNode.target);
 			        }
 		    	});
+			}
+			
+			function moveChannel(){
+				//判断是否选择了操作模板
+    			var node = getSelectNode();
+    			if(!node) return;
+    			if(node.attributes.maxpermission<16){
+    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		return false;
+				}
+    			var rootnode = $('#tt2').tree('getRoot');
+    			if(rootnode.id == node.id){
+					$.messager.alert('提示','不允许移动站点');
+					 return;
+				}
+    			var parentNode = $('#tt2').tree('getParent',node.target);
+    			var children = $('#tt2').tree('getChildren',parentNode.target);
+    			var len = children.length;
+    			$.messager.prompt(node.text, '请输入移位数(1-' + len + ')', function(r){  
+    				if (r){
+    					var regex = /^[0-9]*[1-9][0-9]*$/;
+    					if (regex.test(r)){
+    						if (r > len ){
+    							$.messager.alert('提示','输入的数不能大于' + len);
+    						}else{
+				    			$.post('<s:url action="moveSort"/>',{'channelId':node.id,'parentId':parentNode.id,sort:r},function(data){
+							    	if(data == 'false'){
+						    	    	$.messager.alert('提示','专栏移动失败');
+						    	    	return;
+							        }else{
+							        	$.messager.alert('提示','专栏移动成功','info');
+							        	$('#tt2').tree('reload', parentNode.target);
+							        }
+						    	});
+    						}
+    					}else{
+    						$.messager.alert('提示','请输入正整数','info');
+    					}
+    				}
+    			});
 			}
 			
 			//操作菜单初始
@@ -266,6 +311,7 @@
 						left: e.pageX-20,
 						top: e.pageY+12
 					});
+					$('#editifr').attr('src','');
 					return false;
 				});
 			});
@@ -286,8 +332,10 @@
 			<div icon="icon-remove" onclick="delChannel();">删除</div>   
 			<div icon="icon-ok" onclick="parseChannel();">粘贴</div>	
 			<div icon="icon-cut" onclick="cutChannel(this);">剪切</div>	
+			<div class="menu-sep"></div>
 			<div icon="icon-up" onclick="upChannel();">上移</div>
 			<div icon="icon-down" onclick="downChannel();">下移</div>
+			<div icon="icon-up-down" onclick="moveChannel();">移动</div>
 		</div>	    	
 	</body>
 </html>

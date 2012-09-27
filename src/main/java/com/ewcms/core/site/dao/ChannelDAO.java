@@ -110,6 +110,31 @@ public class ChannelDAO extends JpaDAO<Integer, Channel> {
         return channel;
 	}
 	
+	public List<Channel> findChannelByParentIdAndGtSort(final Integer channelId, final Integer parentId, final Long sort, final Long oldSort){
+    	String hql = "From Channel As o Where o.id!=:channelId And o.parent.id=:parentId And o.sort>=:sort And o.sort<:oldSort Order By o.sort,o.id";
+        
+        TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+        query.setParameter("channelId", channelId);
+        query.setParameter("parentId", parentId);
+        query.setParameter("sort", sort);
+        query.setParameter("oldSort", oldSort);
+
+        return query.getResultList();
+	}
+	
+	public List<Channel> findChannelByParentIdAndLtSort(final Integer channelId, final Integer parentId, final Long sort, final Long oldSort){
+    	String hql = "From Channel As o Where o.id!=:channelId And o.parent.id=:parentId And o.sort<=:sort And o.sort>:oldSort Order By o.sort Desc,o.id";
+        
+        TypedQuery<Channel> query = this.getEntityManager().createQuery(hql, Channel.class);
+        query.setParameter("channelId", channelId);
+        query.setParameter("parentId", parentId);
+        query.setParameter("sort", sort);
+        query.setParameter("oldSort", oldSort);
+
+        return query.getResultList();
+	}
+	
+	
 	public List<Integer> findChannelParent(){
 		String hql = "Select o.parent.id from Channel As o group by o.parent.id order by o.parent.id";
 		TypedQuery<Integer> query = this.getEntityManager().createQuery(hql, Integer.class);

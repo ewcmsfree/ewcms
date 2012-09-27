@@ -56,12 +56,9 @@ public class Channel implements Serializable {
 		NODE("节点"), 
 		ARTICLE("文章信息"), 
 		RETRIEVAL("文章信息(公文)"),
-		LEADER("领导信息"), 
-		LEADERARTICLE("领导专栏"), 
-		ONLINE("网上办事"),
-		INTERACTION("政民互动"),
-		SPEAK("留言审核"),
-		ADVISOR("网上咨询");
+		LEADERARTICLE("文章信息(引用)"), 
+		LEADER("领导信息"),
+		ONLINE("网上办事"),; 
 //		PROJECT("项目基本信息"), 
 //		PROJECTARTICLE("项目文章信息"), 
 //		ENTERPRISE("企业基本信息"), 
@@ -119,7 +116,7 @@ public class Channel implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Type type;
 	@Column(name = "sort")
-	private Long sort;
+	private Long sort = 0L;
 
 	public Channel() {
 		type = Type.NODE;

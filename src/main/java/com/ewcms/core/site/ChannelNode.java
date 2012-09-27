@@ -19,6 +19,7 @@ public class ChannelNode {
     private String channelTypeDes;
     private boolean children;
     private boolean publicable;
+    private String sort;
     private Set<Permission> permissions=new HashSet<Permission>();
     
     public ChannelNode(final Channel channel){
@@ -32,6 +33,7 @@ public class ChannelNode {
         publicable = channel.getPublicenable();
         channelType = channel.getType();
         channelTypeDes = channel.getTypeDescription();
+        sort = Long.toString(channel.getSort());
         this.permissions = permissions;
     }
     
@@ -85,6 +87,14 @@ public class ChannelNode {
 
 	public void setChannelTypeDes(String channelTypeDes) {
 		this.channelTypeDes = channelTypeDes;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 
 	@Override

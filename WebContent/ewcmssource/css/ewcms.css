@@ -100,6 +100,27 @@ table.cellspacing { border-collapse: separate; }
 .icon-table-refresh{
     background:url('icons/table_refresh.png') no-repeat;
 }
+.icon-channel-site{
+	background:url('icons/channel_site.png') no-repeat;
+}
+.icon-channel-article{
+	background:url('icons/channel_article.png') no-repeat;
+}
+.icon-channel-leader{
+	background:url('icons/channel_leader.png') no-repeat;
+}
+.icon-channel-note{
+	background:url('icons/channel_note.png') no-repeat;
+}
+.icon-channel-articlerefer{
+	background:url('icons/channel_articlerefer.png') no-repeat;
+}
+.icon-channel-retrieval{
+	background:url('icons/channel_retrieval.png') no-repeat;
+}
+.icon-channel-online{
+	background:url('icons/channel_online.png') no-repeat;
+}
 .icon-notes-list{
     background:url('icons/notes_list.png') no-repeat;
 }
@@ -119,10 +140,13 @@ table.cellspacing { border-collapse: separate; }
     background:url('icons/wintop.png') no-repeat;
 }
 .icon-down{
-    background:url('icons/icon_down.gif') no-repeat;
+    background:url('icons/down.png') no-repeat;
 }
 .icon-up{
-    background:url('icons/icon_up.gif') no-repeat;
+    background:url('icons/up.png') no-repeat;
+}
+.icon-up-down{
+	background:url('icons/up_down.png') no-repeat;
 }
 .icon-copy{
     background:url('icons/copy.png') no-repeat;

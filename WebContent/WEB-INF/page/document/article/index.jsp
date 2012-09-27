@@ -139,10 +139,6 @@
                 </div>
             </div>
         </div>
-        <div id="btnSearchSub" style="width:80px;">
-        	<div id="btnSearch" iconCls="icon-search" onclick="queryCallBack();">条件</div>
-	        <div id="btnBack" iconCls="icon-back" onclick="initOperateQuery();">缺省</div>
-        </div>
         <div id="btnOperateSub" style="width:80px;">
             <div id="btnAdd" iconCls="icon-add" onclick="addOperate();">新增</div>
             <div id="btnUpd" iconCls="icon-edit" onclick="updOperate();">修改</div>
@@ -152,6 +148,18 @@
         	<div id="btnCopy" iconCls="icon-copy" onclick="copyOperate();">复制</div>
 	        <div id="btnMove" iconCls="icon-move" onclick="moveOperate();">移动</div>
         </div>
+        <div id="btnSearchSub" style="width:80px;">
+        	<div id="btnSearch" iconCls="icon-search" onclick="queryCallBack();">条件</div>
+	        <div id="btnBack" iconCls="icon-back" onclick="initOperateQuery();">缺省</div>
+        </div>
+	    <div id="btnTopSub" style="width:80px;display:none;">
+	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
+	        <div id="btnTopCancel" iconCls="icon-top-cancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
+	    </div>
+	    <div id="btnShareSub" style="width:80px;display:none;">
+	    	<div id="btnShareSet" iconCls="icon-top-set" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
+	        <div id="btnShareCancel" iconCls="icon-top-cancel" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
+	    </div>
         <div id="btnSortSub" style="width:80px;display:none;">
         	<div id="btnSortSet" iconCls="icon-sortset" onclick="sortOperate('<s:url namespace='/document/article' action='isSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>','<s:url namespace='/document/article' action='sortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">设置</div>
 	        <div id="btnSortClear" iconCls="icon-sortclear" onclick="clearSortOperate('<s:url namespace='/document/article' action='clearSortArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">清除</div>
@@ -165,14 +173,6 @@
 	    	<div id="btnPublishRec" iconCls="icon-publishrec" onclick="pubOperate('<s:url namespace='/document/article' action='associateRelease'><s:param name='channelId' value='channelId'></s:param></s:url>');" >关联</div>
 	    	<div id="btnPublishSep" class="menu-sep"></div>
 	    	<div id="btnBreakArticle" iconCls="icon-breakarticle" onclick="breakOperate('<s:url namespace='/document/article' action='breakArticle'><s:param name='channelId' value='channelId'></s:param></s:url>');">退回</div>
-	    </div>
-	    <div id="btnShareSub" style="width:80px;display:none;">
-	    	<div id="btnShareSet" iconCls="icon-top-set" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
-	        <div id="btnShareCancel" iconCls="icon-top-cancel" onclick="shareOperate('<s:url namespace='/document/article' action='shareArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
-	    </div>
-	    <div id="btnTopSub" style="width:80px;display:none;">
-	    	<div id="btnTopSet" iconCls="icon-top-set" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',true);">确定</div>
-	        <div id="btnTopCancel" iconCls="icon-top-cancel" onclick="topOperate('<s:url namespace='/document/article' action='topArticle'><s:param name='channelId' value='channelId'></s:param></s:url>',false);">取消</div>
 	    </div>
 		<div id="reason-window" class="easyui-window" closed="true" style="display:none;">
             <div class="easyui-layout" fit="true">

@@ -38,12 +38,10 @@
 	    		});
 	    	}
 	    	function updateChannelTypeDesc(){
-	    		var node = parent.parent.selectedNode
-	    		var oldName = node.text;
-	    		var oldType = node.attributes.typeDesc;
-	    		var newType = $('#channelVo_type').find("option:selected").text();
-	    		node.text = oldName.replace(oldType,newType);
-				parent.parent.$('#tt2').tree('update',node);
+	    		//var node = parent.parent.selectedNode;
+	    		//var parentNode = $('#tt2').tree('getParent',node.target);
+				//parent.parent.$('#tt2').tree('reload',parentNode.target);
+				//parent.parent.$('#tt2').tree('check', parentNode.target);
 	    	}
 	    </script>
 	</head>
