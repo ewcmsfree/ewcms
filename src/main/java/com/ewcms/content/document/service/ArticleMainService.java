@@ -691,6 +691,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			Date modNow = new Date(Calendar.getInstance().getTime().getTime());
 			
 			article.setOwner(article_old.getOwner());
+			article.setCreateTime(article_old.getCreateTime());
 			article.setModified(modNow);
 			article.setStatus(Article.Status.REEDIT);
 			

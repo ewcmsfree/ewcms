@@ -59,7 +59,7 @@ public class UriRules {
      * @return
      */
     public static UriRuleable newDetail(){
-        String patter = "/document/${a.createTime}/${a.id}_${p}.html";
+        String patter = "/document/${a.published}/${a.id}_${p}.html";
         return newUriRuleBy(patter);
     }
     
