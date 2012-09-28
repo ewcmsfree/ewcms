@@ -52,7 +52,7 @@
 										return '<input type="button" name="Submit" value="预 览" class="inputbutton" onClick="previewTPL('+rec.id+');">';
 								 }},
 				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
-									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+');">';
+									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
 								 }}
 				    ]]
 				});
@@ -63,9 +63,32 @@
 				ewcmsOOBJ.setInputURL('<s:url action="input" namespace="/site/template"/>?templateVo.channelId=<s:property value="channelVo.id"/>');
 				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template"/>');
 			});			
-			function editTPL(idValue){
-				//$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
-				ewcmsBOBJ.openWindow1({width:800,height:370,title:"模板编辑",url:'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue});
+			function editTPL(idValue, path, typeDescription){
+				//$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);\
+				var position="";
+				var currentNode = parent.parent.selectedNode;
+				if (currentNode){
+					var rootNode = parent.parent.$("#tt2").tree('getRoot');
+					var text = [];
+					if (rootNode){
+						position += rootNode.text + " >> ";
+						$.each(currentNode , function(){
+							if (currentNode && currentNode.id != rootNode.id){
+								text.push(currentNode.text);
+								currentNode = parent.parent.$("tt2").tree('getParent',currentNode.target);
+							}
+						});
+					}
+					for (var i = text.length - 1; i > 0; i--){
+						position += text[i] + " >> ";
+					}
+					position += text[i];
+					
+					position += " >> (" + idValue + ")" + path + "(" + typeDescription + ")" ;
+					
+					position = "<span style='color:red;'>当前位置：" + position + "</span>";
+		        }
+				ewcmsBOBJ.openWindow1({width:800,height:390,title:"模板编辑",url:'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue,position:position});
 				//top._home.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
 			}	
 

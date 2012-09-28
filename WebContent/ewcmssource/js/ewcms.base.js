@@ -171,7 +171,8 @@ function EwcmsBase(){
 		var win = window.top.document.createElement("div");
 		win.setAttribute("id", "open_window_top");
 		win.setAttribute("style", "padding:0px;");
-        window.top.document.body.appendChild(win);   
+        window.top.document.body.appendChild(win);
+        var position = options.position ? options.position : "";
         window.top.$(win).window({
  		   title: (options.title ? options.title : '窗口'),
 		   width: (options.width ? options.width : winWidth),
@@ -187,7 +188,7 @@ function EwcmsBase(){
            zIndex:999,  
            inline:true,
            content:function(){
-        	   return '<iframe scrolling="auto" frameborder="0"  src="' + options.url + '" style="width:100%;height:100%;"></iframe>';
+        	   return position + '<iframe scrolling="no" frameborder="0"  src="' + options.url + '" style="width:100%;height:95%;"></iframe>';
            },
            onClose:function(){
         	   $(datagridId).datagrid('clearSelections');
