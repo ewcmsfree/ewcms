@@ -8,17 +8,17 @@
 		<script>
 			var folderparten = /^[0-9A-Za-z_]*$/;
 			var fileparten = /^[a-zA-z0-9._]*$/;
+			var currentNode;
 			//资源目录树初始
 			$(function(){
 				$('#tt2').tree({
 					checkbox: false,
 					url: '<s:url action="tree"/>',
 					onDblClick:function(node){
-		    			if(node.iconCls == ""){
-							var url='<s:url action="edit"/>';
-							url = url + "? sourceVo.id=" + getNodeId(node);
-							$("#editifr").attr('src',url);
-		    			}
+						currentNode = node;
+						var url='<s:url action="edit"/>';
+						url = url + "? sourceVo.id=" + getNodeId(node);
+						$("#editifr").attr('src',url);
 					}
 				});
 			});
@@ -96,7 +96,7 @@
     	    	//重命名资源 		
 				$.messager.prompt(node.text, '请修改名称', function(r){
 					if (r){
-						if(node.iconCls != ""){
+						if(node.iconCls == "icon-channel-node"){
 							if(!folderparten.exec(r)){
 			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
 			    	    		return;
@@ -235,7 +235,7 @@
     			var node = getSelectNode();
     			if(!node) return;
     			//判断是否选择的是文件夹
-    			if(node.iconCls == ""){
+    			if(node.iconCls == "icon-channel-node"){
     				$.messager.alert('提示','请选择文件夹');	
     				return ;
     			}
@@ -248,7 +248,7 @@
     			var node = getSelectNode();
     			if(!node) return;
     			//判断是否选择的是文件夹
-    			if(node.iconCls != ""){
+    			if(node.iconCls == "icon-channel-node"){
     				$.messager.alert('提示','请选择文件');	
     				return ;
     			}			

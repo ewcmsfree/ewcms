@@ -22,7 +22,7 @@ public class TreeNode implements Serializable {
 	private String id;
 	private String text;
 	private Boolean checked = false;
-	private String iconCls = "icon-folder";
+	private String iconCls = "icon-channel-site";
 	private List<TreeNode> children;
 	private String state;
 	private Map<String, String> attributes = new HashMap<String, String>();

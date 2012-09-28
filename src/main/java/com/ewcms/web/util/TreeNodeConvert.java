@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.springframework.security.acls.model.Permission;
 
@@ -25,6 +26,15 @@ import com.ewcms.web.vo.TreeNode;
  * 
  */
 public class TreeNodeConvert {
+	private final static Pattern FILTERS_CSS = Pattern.compile(".*(\\.(css))$");
+	private final static Pattern FILTERS_HTML = Pattern.compile(".*(\\.(html|htm))$");
+	private final static Pattern FILTERS_JS = Pattern.compile(".*(\\.(js))$");
+	private final static Pattern FILTERS_PICTURE = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?|psd))$");
+	private final static Pattern FILTERS_VOIDE = Pattern.compile(".*(\\.(mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma))$");
+	private final static Pattern FILTERS_WORD = Pattern.compile(".*(\\.(doc|doc?|dot|rtf|olk|scd|wri|wpd|wtf|wps))$");
+	private final static Pattern FILTERS_EXCEL = Pattern.compile(".*(\\.(xl?|wk?))$");
+	private final static Pattern FILTERS_POWERPOINT = Pattern.compile(".*(\\.(ppt?|pps?|pot?))$");
+	
 	public static List<TreeNode> channelNodeConvert(List<ChannelNode> cnList) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
 		if (cnList == null)
@@ -92,6 +102,19 @@ public class TreeNodeConvert {
 			return tnList;
 		for (Template vo : tplList) {
 			TreeNode tnVo = new TreeNode();
+			String name = vo.getName();
+			tnVo.setIconCls("icon-channel-note");
+			if (name != null && name.length() > 0){
+				name = name.toLowerCase();
+				if (FILTERS_CSS.matcher(name).matches()) tnVo.setIconCls("icon-resource-css");
+				else if (FILTERS_JS.matcher(name).matches()) tnVo.setIconCls("icon-resource-js");
+				else if (FILTERS_HTML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
+				else if (FILTERS_PICTURE.matcher(name).matches()) tnVo.setIconCls("icon-resource-picture");
+				else if (FILTERS_VOIDE.matcher(name).matches()) tnVo.setIconCls("icon-resource-voide");
+				else if (FILTERS_WORD.matcher(name).matches()) tnVo.setIconCls("icon-resource-word");
+				else if (FILTERS_EXCEL.matcher(name).matches()) tnVo.setIconCls("icon-resource-excel");
+				else if (FILTERS_POWERPOINT.matcher(name).matches()) tnVo.setIconCls("icon-resource-powerpoint");
+			}
 			Map<String, String> attributes = new HashMap<String, String>();
 			attributes.put("path", vo.getPath());
 			tnVo.setAttributes(attributes);
@@ -105,20 +128,33 @@ public class TreeNodeConvert {
 				}
 			} else {
 				tnVo.setState("open");
-				tnVo.setIconCls("");
 			}
 			tnList.add(tnVo);
 		}
 		return tnList;
 	}
 
-	public static List<TreeNode> templateSourceConvert(
-			List<TemplateSource> srcList) {
+	public static List<TreeNode> templateSourceConvert(List<TemplateSource> srcList) {
 		List<TreeNode> tnList = new ArrayList<TreeNode>();
 		if (srcList == null)
 			return tnList;
 		for (TemplateSource vo : srcList) {
 			TreeNode tnVo = new TreeNode();
+			
+			tnVo.setIconCls("icon-channel-note");
+			String name = vo.getName();
+			if (name != null && name.length() > 0){
+				name = name.toLowerCase();
+				if (FILTERS_CSS.matcher(name).matches()) tnVo.setIconCls("icon-resource-css");
+				else if (FILTERS_JS.matcher(name).matches()) tnVo.setIconCls("icon-resource-js");
+				else if (FILTERS_HTML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
+				else if (FILTERS_PICTURE.matcher(name).matches()) tnVo.setIconCls("icon-resource-picture");
+				else if (FILTERS_VOIDE.matcher(name).matches()) tnVo.setIconCls("icon-resource-voide");
+				else if (FILTERS_WORD.matcher(name).matches()) tnVo.setIconCls("icon-resource-word");
+				else if (FILTERS_EXCEL.matcher(name).matches()) tnVo.setIconCls("icon-resource-excel");
+				else if (FILTERS_POWERPOINT.matcher(name).matches()) tnVo.setIconCls("icon-resource-powerpoint");
+			}
+			
 			tnVo.setId(vo.getId().toString());
 			tnVo.setText(vo.getName());
 			if (vo.getSourceEntity() == null) {
@@ -129,7 +165,6 @@ public class TreeNodeConvert {
 				}
 			} else {
 				tnVo.setState("open");
-				tnVo.setIconCls("");
 			}
 			tnList.add(tnVo);
 		}

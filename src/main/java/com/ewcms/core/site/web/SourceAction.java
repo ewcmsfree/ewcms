@@ -179,6 +179,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			TreeNode treeFile = new TreeNode();
 			treeFile.setText(getCurrentSite().getSiteName());
 			treeFile.setState("open");
+			treeFile.setIconCls("icon-channel-site");
 			treeFile.setChildren(TreeNodeConvert.templateSourceConvert(siteFac.getTemplaeSourceTreeList(false)));
 			Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 			return;

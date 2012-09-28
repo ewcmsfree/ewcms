@@ -18,6 +18,28 @@
         </script>	
 	</head>
 	<body>
+		<script type="text/javascript">
+			var currentNode = parent.parent.currentNode;
+			if (currentNode){
+				var position = "";
+				var rootNode = parent.parent.$('#tt2').tree('getRoot');
+				var text = [];
+				if (rootNode){
+					position += rootNode.text + " >> ";
+					$.each(currentNode , function(){
+						if (currentNode && currentNode.id != rootNode.id){
+							text.push(currentNode.text);
+							currentNode = parent.parent.$('#tt2').tree('getParent',currentNode.target);
+						}
+					});
+				}
+				for (var i = text.length - 1; i > 0; i--){
+					position += text[i] + " >> ";
+				}
+				position += text[i];
+				document.write("<span style='color:red;'>当前位置：" + position + "</span>");
+			}
+		</script>
 		<s:form action="saveContent" namespace="/site/template">
 			<table class="formtable" >
 				<tr>

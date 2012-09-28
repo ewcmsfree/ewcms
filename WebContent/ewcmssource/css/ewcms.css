@@ -286,3 +286,27 @@ table.cellspacing { border-collapse: separate; }
 .icon-organ-del{
 	background:url('icons/organ_delete.png') no-repeat;
 }
+.icon-resource-css{
+	background:url('icons/resource_css.png') no-repeat;
+}
+.icon-resource-html{
+	background:url('icons/resource_html.png') no-repeat;
+}
+.icon-resource-js{
+	background:url('icons/resource_js.png') no-repeat;
+}
+.icon-resource-picture{
+	background:url('icons/resource_picture.png') no-repeat;
+}
+.icon-resource-voide{
+	background:url('icons/resource_voide.png') no-repeat;
+}
+.icon-resource-word{
+	background:url('icons/resource_word.png') no-repeat;
+}
+.icon-resource-powerpoint{
+	background:url('icons/resource_powerpoint.png') no-repeat;
+}
+.icon-resource-excel{
+	background:url('icons/resource_excel.png') no-repeat;
+}
