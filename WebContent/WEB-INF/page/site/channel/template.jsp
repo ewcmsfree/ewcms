@@ -69,22 +69,27 @@
 				var currentNode = parent.parent.selectedNode;
 				if (currentNode){
 					var rootNode = parent.parent.$("#tt2").tree('getRoot');
-					var text = [];
-					if (rootNode){
+					if (rootNode && (currentNode.id == rootNode.id)){
 						position += rootNode.text + " >> ";
-						$.each(currentNode , function(){
-							if (currentNode && currentNode.id != rootNode.id){
-								text.push(currentNode.text);
-								currentNode = parent.parent.$("tt2").tree('getParent',currentNode.target);
+					}else{
+						var text = [];
+						if (rootNode){
+							position += rootNode.text + " >> ";
+							$.each(currentNode , function(){
+								if (currentNode && currentNode.id != rootNode.id){
+									text.push(currentNode.text);
+									currentNode = parent.parent.$("tt2").tree('getParent',currentNode.target);
+								}
+							});
+						}
+						for (var i = text.length - 1; i > 0; i--){
+							if (typeof(text[i])!="undefined"){
+								position += text[i] + " >> ";
 							}
-						});
-					}
-					for (var i = text.length - 1; i > 0; i--){
+						}
 						position += text[i] + " >> ";
 					}
-					position += text[i];
-					
-					position += " >> (" + idValue + ")" + path + "(" + typeDescription + ")" ;
+					position += "(" + idValue + ")" + path + "(" + typeDescription + ")" ;
 					
 					position = "<span style='color:red;'>当前位置：" + position + "</span>";
 		        }
