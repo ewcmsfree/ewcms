@@ -33,7 +33,11 @@ public class ChannelNode {
         publicable = channel.getPublicenable();
         channelType = channel.getType();
         channelTypeDes = channel.getTypeDescription();
-        sort = Long.toString(channel.getSort());
+        try{
+        	sort = Long.toString(channel.getSort());
+        }catch(Exception e){
+        	sort = "1";
+        }
         this.permissions = permissions;
     }
     
