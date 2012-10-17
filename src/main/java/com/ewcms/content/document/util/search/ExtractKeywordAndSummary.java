@@ -28,6 +28,7 @@ import com.ewcms.content.document.util.analyzer.lucene.IKAnalyzer;
 import com.ewcms.content.document.util.analyzer.lucene.IKQueryParser;
 
 /**
+ * 提取文章内容的关键字和摘要信息
  * 
  * @author 吴智俊
  */
@@ -166,6 +167,7 @@ public class ExtractKeywordAndSummary {
 		return filterChars.indexOf(s) < 0 && filterChars.indexOf(e) < 0;
 	}
 
+	@SuppressWarnings("resource")
 	public static String getTextAbstract(String title, String content) {
 		try {
 			content = getTextFromHtml(content);
