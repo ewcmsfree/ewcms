@@ -9,6 +9,7 @@ var categoryURL, insertURL, voteURL, treeURL, saveURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
+var flvUrlPrefix = "http://www.ruichang.gov.cn";
 var userName;
 
 $(function() {
@@ -570,12 +571,12 @@ function insertFileToTinyMCEOperator(){
 					}else if (type=="IMAGE"){
 						html_obj = "<p style='text-align: center;'><img border='0' src='" + value.uri + "'/></p><p style='text-align: center;'>" + value.description + "</p>";
 					}else if (type=="FLASH"){
-						html_obj='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="/flvplayer.swf" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="320" height="240">' +
+						html_obj='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="/flvplayer.swf" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="480" height="360">' +
 					    '<param name="movie" value="flvplayer.swf" />' +
 					    '<param name="quality" value="high" />' +
 					    '<param name="allowFullScreen" value="true" />' +
 					    '<param name="FlashVars" value="vcastr_file=' + value.uri + '&LogoText=www.ruichang.gov.cn&BufferTime=3" />' +
-					    '<embed src="/flvplayer.swf" allowfullscreen="true" flashvars="vcastr_file=' + value.uri + '&LogoText=www.ruichang.gov.cn" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="400"></embed>' +
+					    '<embed src="flvplayer.swf" allowfullscreen="true" flashvars="vcastr_file=' + value.uri + '&LogoText=www.ruichang.gov.cn" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="400"></embed>' +
 					    '</object>';
 					}else if (type=="VIDEO"){
 						var video_uri = value.uri;
@@ -585,7 +586,7 @@ function insertFileToTinyMCEOperator(){
 						}else if(extension==".avi" || extension==".wmv"){
 							html_obj = writeWindowsMedia({src:video_uri,width:320,height:240,data:video_uri,autostart:true,controller:true});
 						}else if (extension==".flv"||extension==".swf"){
-							html_obj = writeFlash({src:video_uri,width:320,height:240,movie:"/flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.ruichang.gov.cn&BufferTime=3"});
+							html_obj = writeFlash({src:video_uri,width:480,height:360,movie: "flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.ruichang.gov.cn&BufferTime=3"});
 						}else if (extension==".wave"){
 							html_obj = writeShockWave({src:video_uri,width:320,height:240});
 						}else{
