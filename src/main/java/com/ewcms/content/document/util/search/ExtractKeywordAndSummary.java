@@ -167,7 +167,6 @@ public class ExtractKeywordAndSummary {
 		return filterChars.indexOf(s) < 0 && filterChars.indexOf(e) < 0;
 	}
 
-	@SuppressWarnings("resource")
 	public static String getTextAbstract(String title, String content) {
 		try {
 			content = getTextFromHtml(content);

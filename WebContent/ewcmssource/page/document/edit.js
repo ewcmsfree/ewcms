@@ -9,7 +9,6 @@ var categoryURL, insertURL, voteURL, treeURL, saveURL;
 var pages = 1; // 页数
 var currentPage = 1;// 当前选中的页
 var noImage = "../../ewcmssource/image/article/nopicture.jpg";
-var flvUrlPrefix = "http://www.ruichang.gov.cn";
 var userName;
 
 $(function() {
