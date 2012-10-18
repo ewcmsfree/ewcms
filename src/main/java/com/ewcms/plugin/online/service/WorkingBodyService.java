@@ -166,6 +166,7 @@ public class WorkingBodyService implements WorkingBodyServiceable {
         	organName = FormatText.ORGAN_NAME_BEGIN + organName + FormatText.ORGAN_NAME_END;
         }
         treeNode.setText(workingBody.getName() + organName);
+        treeNode.setIconCls("icon-channel-online");
         treeNode.getAttributes().put("type", "workingbody");
         treeNode.getAttributes().put("organ", organName);
         treeNode.getAttributes().put("citizen", "");

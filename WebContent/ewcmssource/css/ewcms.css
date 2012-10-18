@@ -121,6 +121,24 @@ table.cellspacing { border-collapse: separate; }
 .icon-channel-online{
 	background:url('icons/channel_online.png') no-repeat;
 }
+.icon-channel-project{
+	background:url('icons/channel_project.png') no-repeat;
+}
+.icon-channel-projectarticle{
+	background:url('icons/channel_projectarticle.png') no-repeat;
+}
+.icon-channel-enterprise{
+	background:url('icons/channel_enterprise.png') no-repeat;
+}
+.icon-channel-enterprisearticle{
+	background:url('icons/channel_enterprisearticle.png') no-repeat;
+}
+.icon-channel-employe{
+	background:url('icons/channel_employe.png') no-repeat;
+}
+.icon-channel-employearticle{
+	background:url('icons/channel_employearticle.png') no-repeat;
+}
 .icon-notes-list{
     background:url('icons/notes_list.png') no-repeat;
 }

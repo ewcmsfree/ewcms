@@ -60,6 +60,12 @@ public class TreeNodeConvert {
 			case ONLINE : tnVo.setIconCls("icon-channel-online");break;
 			case LEADERARTICLE :tnVo.setIconCls("icon-channel-articlerefer");break;
 			case RETRIEVAL : tnVo.setIconCls("icon-channel-retrieval");break;
+			case PROJECT : tnVo.setIconCls("icon-channel-project");break;
+			case PROJECTARTICLE : tnVo.setIconCls("icon-channel-projectarticle");break;
+			case ENTERPRISE : tnVo.setIconCls("icon-channel-enterprise");break;
+			case ENTERPRISEARTICLE : tnVo.setIconCls("icon-channel-enterprisearticle");break;
+			case EMPLOYE : tnVo.setIconCls("icon-channel-employe");break;
+			case EMPLOYEARTICLE : tnVo.setIconCls("icon-channel-employearticle");break;
 			default : tnVo.setIconCls("icon-channel-note");
 			}
 			treeNodePermission(attributes, vo.getPermissions());

@@ -58,13 +58,13 @@ public class Channel implements Serializable {
 		RETRIEVAL("文章信息(公文)"),
 		LEADERARTICLE("文章信息(引用)"), 
 		LEADER("领导信息"),
-		ONLINE("网上办事"),; 
-//		PROJECT("项目基本信息"), 
-//		PROJECTARTICLE("项目文章信息"), 
-//		ENTERPRISE("企业基本信息"), 
-//		ENTERPRISEARTICLE("企业文章信息"), 
-//		EMPLOYE("从业人员基本信息"), 
-//		EMPLOYEARTICLE("从业人员文章信息");
+		ONLINE("网上办事"),
+		PROJECT("项目基本信息"), 
+		PROJECTARTICLE("项目文章信息"), 
+		ENTERPRISE("企业基本信息"), 
+		ENTERPRISEARTICLE("企业文章信息"), 
+		EMPLOYE("从业人员基本信息"), 
+		EMPLOYEARTICLE("从业人员文章信息");
 
 		private String description;
 
