@@ -51,7 +51,8 @@ $(function(){
 });
 
 function addOperate(){
-	openWindow1({title:'新增项目文章信息', url:inputUrl, width:930, height:633});
+	//openWindow1({title:'新增项目文章信息', url:inputUrl, width:930, height:633});
+	window.open(inputUrl,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
 }
 function editOperate(){
 	var rows = $(datagridId).datagrid('getSelections');
@@ -76,7 +77,8 @@ function editOperate(){
     for(var i=0;i<rows.length;++i){
         url += 'selections=' + callBackId(rows[i]) +'&';
     }
-    ewcmsBOBJ.openWindow1({title:'修改项目文章信息', url:url, width:930, height:633})
+    //ewcmsBOBJ.openWindow1({title:'修改项目文章信息', url:url, width:930, height:633})
+    window.open(url,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=' + (window.screen.width - 1280) / 2 + ',top=' + (window.screen.height - 700)/ 2);
 }
 
 function removeOperate(){
