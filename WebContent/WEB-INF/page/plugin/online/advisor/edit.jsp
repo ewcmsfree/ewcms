@@ -27,58 +27,58 @@
                     <td>
                         <s:property value="advisor.id"/>
                     </td>
-                </tr>
-                <tr>
-                    <td>标题：</td>
-                    <td>
-                        <s:property value="advisor.title"/>
-                    </td>
-                </tr>
-                <tr>
                     <td>用户：</td>
                     <td>
                         <s:property value="advisor.name"/>
                     </td>
                 </tr>
                 <tr>
+                    <td>标题：</td>
+                    <td colspan="3">
+                    	<s:textfield id="title" name="title" size="60"></s:textfield>
+                        <!--<s:property value="advisor.title"/>-->
+                    </td>
+                </tr>
+                <tr>
                 	<td>提问日期：</td>
-                	<td>
+                	<td colspan="3">
                 		<ewcms:datepicker id="date" name="date" option="inputsimple" format="yyyy-MM-dd"/>
                 	</td>
                 </tr>
                 <tr>
                     <td>咨询：</td>
-                    <td>
+                    <td colspan="3">
                         <s:property value="advisor.matter.name"/>
                     </td>
                 </tr>
                 <tr>
                     <td>咨询单位：</td>
-                    <td>
+                    <td colspan="3">
                         <s:property value="advisor.organ.name"/>
                     </td>
                 </tr>
                 <tr>
                     <td height="100">内容：</td>
-                    <td>
-                        <div style="height:40;overflow: auto;"><s:property value="advisor.content"/></div>
+                    <td colspan="3">
+                    	<s:textarea name="content" class="mceEditor" style="height:130px;width:700px"/>
+                        <!--  <div style="height:40;overflow: auto;"><s:property value="advisor.content"/></div>-->
                     </td>
                 </tr>
                 <tr>
                     <td>回复内容：</td>
-                    <td>
-                        <s:textarea name="replay" class="mceEditor" style="height:150px;width:700px"/>
+                    <td colspan="3">
+                        <s:textarea name="replay" class="mceEditor" style="height:130px;width:700px"/>
                     </td>
                 </tr>
                 <tr>
                 	<td>回复日期：</td>
-                	<td>
+                	<td colspan="3">
                 		<ewcms:datepicker id="replayDate" name="replayDate" option="inputsimple" format="yyyy-MM-dd"/>
                 	</td>
                 </tr>
                 <tr>
                     <td>发布：</td>
-                    <td>
+                    <td colspan="3">
                         <s:radio name="checked" list="#{'true':'通过','false':'未通过'}"/>
                     </td>
                 </tr>

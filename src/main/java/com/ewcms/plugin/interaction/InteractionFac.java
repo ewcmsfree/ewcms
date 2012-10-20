@@ -33,8 +33,8 @@ public class InteractionFac implements InteractionFacable {
     }
 
     @Override
-	public void interactionReplay(Integer id, String replay, Date date, Date replayDate){
-        interactionService.interactionReplay(id, replay, date, replayDate);
+	public void interactionReplay(Integer id, String replay, Date date, Date replayDate, String content, String title, Integer type){
+        interactionService.interactionReplay(id, replay, date, replayDate, content, title, type);
     }
 
     @Override

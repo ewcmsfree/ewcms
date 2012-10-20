@@ -31,6 +31,8 @@ public class AdvisorAction extends ActionSupport {
     private Boolean checked;
     private Date date;
     private Date replayDate;
+    private String content;
+    private String title;
     
     @Autowired
     private InteractionFacable fac;
@@ -79,11 +81,27 @@ public class AdvisorAction extends ActionSupport {
 		this.replayDate = replayDate;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
     public String execute(){
         if(replay != null && checked != null){
             if(replay != null){
-                fac.interactionReplay(id, replay, date, replayDate);
+                fac.interactionReplay(id, replay, date, replayDate, content, title, 0);
             }
             if(checked != null){
                 fac.interactionChecked(id,checked);
@@ -94,6 +112,8 @@ public class AdvisorAction extends ActionSupport {
         checked = interaction.isChecked();
         date = interaction.getDate();
         replayDate = interaction.getReplayDate();
+        content = interaction.getContent();
+        title = interaction.getTitle();
         return SUCCESS;
     }
 }

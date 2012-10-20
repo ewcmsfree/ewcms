@@ -61,6 +61,8 @@ public class Interaction implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="replay_date")
     private Date replayDate;
+    @Column(name="tel")
+    private String tel;
 
     public boolean isChecked() {
         return checked;
@@ -182,7 +184,15 @@ public class Interaction implements Serializable {
         this.replayDate = replayDate;
     }
 
-    @Override
+    public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

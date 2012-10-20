@@ -24,7 +24,7 @@ public interface InteractionFacable {
     
     public void interactionChecked(Integer id,Boolean checked);
 
-	public void interactionReplay(Integer id, String replay, Date date, Date replayDate);
+	public void interactionReplay(Integer id, String replay, Date date, Date replayDate, String content, String title, Integer type);
 
     public void interactionOrgan(Integer id,Integer organId,String organName);
 

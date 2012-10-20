@@ -54,32 +54,35 @@
         <s:form namespace="/plguin/interaction" action="edit" method="post">
             <table class="formtable" align="center">
                 <tr>
-                    <td width="100">编号：</td>
-                    <td>
+                    <td width="10%">编号：</td>
+                    <td width="40%">
                         <s:property value="interaction.id"/>
                     </td>
-                </tr>
-                <tr>
-                    <td>标题：</td>
-                    <td>
-                        <s:property value="interaction.title"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>用户：</td>
-                    <td>
+                    <td width="10%">用户：</td>
+                    <td width="40%">
                         <s:property value="interaction.name"/>
                     </td>
                 </tr>
                 <tr>
-                	<td>提问日期：</td>
-                	<td>
+                    <td width="10%">标题：</td>
+                    <td width="90%" colspan="3">
+                    	<s:textfield id="title" name="title" size="60"></s:textfield>
+                        <!--<s:property value="interaction.title"/>-->
+                    </td>
+                </tr>
+                <tr>
+                	<td width="10%">提问日期：</td>
+                	<td width="40%">
                 		<ewcms:datepicker id="date" name="date" option="inputsimple" format="yyyy-MM-dd"/>
+                	</td>
+                	<td width="10%">联系电话：</td>
+                	<td width="40%">
+                		<s:property value="interaction.tel"/>
                 	</td>
                 </tr>
                 <tr>
-                    <td width="90px">提交部门：</td>
-                    <td>
+                    <td width="10%">提交部门：</td>
+                    <td width="40%">
                         <s:hidden name="organId" id="organ_id_id"/>
                         <s:textfield id="organ_name_id" cssClass="organ_width" name="organName" readonly="true"/>
                         <input type="button" id="organ_button_id" value="部门"/>
@@ -88,36 +91,31 @@
                             <div id ="organ_tree"></div>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>互动类型：</td>
-                    <td>
-                        <s:if test = "interaction.type == 1">咨询</s:if>
-                        <s:if test = "interaction.type == 2">投诉</s:if>
-                        <s:if test = "interaction.type == 3">建议</s:if>
+                    <td width="10%">互动类型：</td>
+                    <td width="40%">
+                    	<s:radio list="#{'1':'在线咨询','2':'投诉监督','3':'建言献策'}" name="type"/>
                     </td>
                 </tr>
                 <tr>
                     <td height="100">内容：</td>
-                    <td>
-                        <div style="height:40;overflow: auto;"><s:property value="interaction.content"/></div>
+                    <td colspan="3">
+                    	<s:textarea name="content" class="mceEditor" style="height:130px;width:700px"/>
+                        <!-- <div style="height:40;overflow: auto;"><s:property value="interaction.content"/></div> -->
                     </td>
                 </tr>
                 <tr>
                     <td>回复内容：</td>
-                    <td>
-                        <s:textarea name="replay" class="mceEditor" style="height:150px;width:700px"/>
+                    <td colspan="3">
+                        <s:textarea name="replay" class="mceEditor" style="height:130px;width:700px"/>
                     </td>
                 </tr>
                 <tr>
-                	<td>回复日期：</td>
-                	<td>
+                	<td width="10%">回复日期：</td>
+                	<td width="40%">
                 		<ewcms:datepicker id="replayDate" name="replayDate" option="inputsimple" format="yyyy-MM-dd"/>
                 	</td>
-                </tr>
-                <tr>
-                    <td>发布：</td>
-                    <td>
+                    <td width="10%">发布：</td>
+                    <td width="40%">
                         <s:radio name="checked" list="#{'true':'通过','false':'未通过'}"/>
                     </td>
                 </tr>

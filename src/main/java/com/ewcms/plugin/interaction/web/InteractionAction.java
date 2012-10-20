@@ -35,6 +35,9 @@ public class InteractionAction extends ActionSupport {
 	private Boolean update = false;
 	private Date date;
 	private Date replayDate;
+	private String content;
+	private String title;
+	private Integer type;
 	
 	@Autowired
 	private InteractionFacable interactionFac;
@@ -103,11 +106,35 @@ public class InteractionAction extends ActionSupport {
 		this.replayDate = replayDate;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
 	@Override
 	public String execute() {
 		if (update) {
 			interactionFac.interactionOrgan(id, organId, organName);
-			interactionFac.interactionReplay(id, replay, date, replayDate);
+			interactionFac.interactionReplay(id, replay, date, replayDate, content, title, type);
 			if (checked != null) {
 				interactionFac.interactionChecked(id, checked);
 			}
@@ -121,6 +148,9 @@ public class InteractionAction extends ActionSupport {
 		checked = interaction.isChecked();
 		date = interaction.getDate();
 		replayDate = interaction.getReplayDate();
+		content = interaction.getContent();
+		title = interaction.getTitle();
+		type = interaction.getType();
 		return SUCCESS;
 	}
 }

@@ -13,4 +13,5 @@ tinyMCE.init({
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_statusbar_location : "bottom",
+	content_css : tinyMCE.baseURI.getURI() + "/css/content.css"
 });

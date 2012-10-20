@@ -47,7 +47,8 @@
                                 }
                             },
                             {field:'date',title:'提问日期',width:120},
-                            {field:'replayDate',title:'回复日期',width:120}
+                            {field:'replayDate',title:'回复日期',width:120},
+                            {field:'tel',title:'联系电话',width:180}
                         ]]
                 });
 				ewcmsOOBJ = new EwcmsOperate();
@@ -58,7 +59,7 @@
                       var url = '<s:url action="edit"/>?id='+rowData.id;
                       //$("#editifr").attr('src',url);
                       //openWindow1('#edit-window',{height:380,width:600});
-                      openWindow1({title:'审核政民互动', url:url, width:800, height:500})
+                      openWindow1({title:'审核政民互动', url:url, width:800, height:550})
                   }
                 });
             });

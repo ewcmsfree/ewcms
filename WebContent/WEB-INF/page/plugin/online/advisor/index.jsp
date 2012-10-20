@@ -48,7 +48,7 @@
                   onDblClickRow:function(rowIndex, rowData){
                       var url = '<s:url namespace="/plugin/online/advisor" action="edit"/>?id='+rowData.id;
                       $("#editifr").attr('src',url);
-                      openWindow('#edit-window',{height:380,width:600});
+                      openWindow('#edit-window',{height:455,width:600});
                   }
                 });
             });
