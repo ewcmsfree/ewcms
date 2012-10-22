@@ -17,10 +17,17 @@
 	            <s:include value="../../alertMessage.jsp"/>
 	            
 	            $('#cc_projectBasic').combogrid({
-					panelWidth:850,
+					panelWidth:870,
 					value: '<s:property value="projectArticleVo.projectBasic.code"/>',
 					idField:'code',
 					textField:'name',
+					pagination : true,
+                    striped: true,  
+                    rownumbers:true,
+                    collapsible:false,
+                    fit: true,
+                    pageSize: 5,
+                    pageList: [5],
 					url:'<s:url namespace="/particular/pa" action="findPbAll"/>',
 					columns:[[
 		                        {field:'id',title:'编号',hidden:true},

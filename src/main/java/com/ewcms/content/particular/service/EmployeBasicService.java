@@ -55,8 +55,13 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	}
 
 	@Override
-	public List<EmployeBasic> findEmployeBasicAll() {
-		return employeBasicDAO.findProjectBasicAll();
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows) {
+		return employeBasicDAO.findEmployeBasicByPageAndRows(page, rows);
+	}
+	
+	@Override
+	public Long findEmployeBasicTotal(){
+		return employeBasicDAO.findEmployeBasicTotal();
 	}
 	
 	@Override

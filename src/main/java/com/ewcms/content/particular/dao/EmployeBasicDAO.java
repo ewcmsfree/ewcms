@@ -17,10 +17,18 @@ import com.ewcms.content.particular.model.EmployeBasic;
 
 @Repository
 public class EmployeBasicDAO extends JpaDAO<Long, EmployeBasic> {
-	public List<EmployeBasic> findProjectBasicAll(){
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(final Integer page, final Integer rows){
 		String hql = "From EmployeBasic As e Where e.release=true And e.organ!=null Order By e.cardCode";
 		TypedQuery<EmployeBasic> query = this.getEntityManager().createQuery(hql, EmployeBasic.class);
+		query.setFirstResult(rows * (page - 1));
+		query.setMaxResults(rows);
 		return query.getResultList();
+	}
+	
+	public Long findEmployeBasicTotal(){
+		String hql = "Select Count(e.id) From EmployeBasic As e Where e.release=true And e.organ!=null";
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		return query.getSingleResult();
 	}
 	
 	public EmployeBasic findEmployeBasicByCardCode(final String cardCode){

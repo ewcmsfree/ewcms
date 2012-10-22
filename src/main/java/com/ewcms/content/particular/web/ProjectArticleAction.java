@@ -6,7 +6,9 @@
 
 package com.ewcms.content.particular.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -108,9 +110,32 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 		return projectArticle;
 	}
 	
+	private int page; //当前页,名字必须为page  
+	private int rows ; //每页大小,名字必须为rows  
+	
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	
 	public void findPbAll(){
-		List<ProjectBasic> pbs = particularFac.findProjectBasicAll();
-		Struts2Util.renderJson(JSONUtil.toJSON(pbs));
+		List<ProjectBasic> pbs = particularFac.findProjectBasicByPageAndRows(page, rows);
+		Long total = particularFac.findProjectBasicTotal();
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("total", total);
+		result.put("rows", pbs);
+		Struts2Util.renderJson(JSONUtil.toJSON(result));
 	}
 	
 	public void pub(){

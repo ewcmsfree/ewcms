@@ -55,8 +55,13 @@ public class EnterpriseBasicService implements EnterpriseBasicServiceable {
 	}
 
 	@Override
-	public List<EnterpriseBasic> findEnterpriseBasicAll() {
-		return enterpriseBasicDAO.findProjectBasicAll();
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows) {
+		return enterpriseBasicDAO.findEnterpriseBasicByPageAndRows(page, rows);
+	}
+	
+	@Override
+	public Long findEnterpriseBasicTotal(){
+		return enterpriseBasicDAO.findEnterpriseBasicTotal();
 	}
 	
 	@Override

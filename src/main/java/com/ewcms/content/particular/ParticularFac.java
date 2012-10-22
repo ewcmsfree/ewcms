@@ -183,8 +183,12 @@ public class ParticularFac implements ParticularFacable {
 	}
 	
 	@Override
-	public List<ProjectBasic> findProjectBasicAll(){
-		return projectBasicService.findProjectBasicAll();
+	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows){
+		return projectBasicService.findProjectBasicByPageAndRows(page, rows);
+	}
+	
+	public Long findProjectBasicTotal(){
+		return projectBasicService.findProjectBasicTotal();
 	}
 	
 	@Override
@@ -228,8 +232,13 @@ public class ParticularFac implements ParticularFacable {
 	}
 	
 	@Override
-	public List<EnterpriseBasic> findEnterpriseBasicAll(){
-		return enterpriseBasicService.findEnterpriseBasicAll();
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows){
+		return enterpriseBasicService.findEnterpriseBasicByPageAndRows(page, rows);
+	}
+	
+	@Override
+	public Long findEnterpriseBasicTotal(){
+		return enterpriseBasicService.findEnterpriseBasicTotal();
 	}
 	
 	@Override
@@ -273,10 +282,15 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public List<EmployeBasic> findEmployeBasicAll() {
-		return employeBasicService.findEmployeBasicAll();
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows) {
+		return employeBasicService.findEmployeBasicByPageAndRows(page, rows);
 	}
 
+	@Override
+	public Long findEmployeBasicTotal(){
+		return employeBasicService.findEmployeBasicTotal();
+	}
+	
 	@Override
 	public Long addEmployeArticle(EmployeArticle employeArticle) {
 		return employeArticleService.addEmployeArticle(employeArticle);

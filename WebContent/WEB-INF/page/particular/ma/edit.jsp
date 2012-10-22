@@ -17,10 +17,17 @@
 	            <s:include value="../../alertMessage.jsp"/>
 	            
 	            $('#cc_employeBasic').combogrid({
-					panelWidth:850,
+					panelWidth:870,
 					value:'<s:property value="employeArticleVo.employeBasic.cardCode"/>',
 					idField:'cardCode',
 					textField:'name',
+					pagination : true,
+                    striped: true,  
+                    rownumbers:true,
+                    collapsible:false,
+                    fit: true,
+                    pageSize: 5,
+                    pageList: [5],
 					url:'<s:url namespace="/particular/ma" action="findMbAll"/>',
 					columns:[[
 		                        {field:'id',title:'编号',hidden:true},

@@ -17,10 +17,17 @@
 	            <s:include value="../../alertMessage.jsp"/>
 	            
 	            $('#cc_enterpriseBasic').combogrid({
-					panelWidth:850,
+					panelWidth:870,
 					value:'<s:property value="enterpriseArticleVo.enterpriseBasic.yyzzzch"/>',
 					idField:'yyzzzch',
 					textField:'name',
+					pagination : true,
+                    striped: true,  
+                    rownumbers:true,
+                    collapsible:false,
+                    fit: true,
+                    pageSize: 5,
+                    pageList: [5],
 					url:'<s:url namespace="/particular/ea" action="findEbAll"/>',
 					columns:[[
 							{field:'id',title:'编号',hidden:true},

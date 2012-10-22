@@ -155,8 +155,13 @@ public class ProjectBasicService implements ProjectBasicServiceable {
 	}
 	
 	@Override
-	public List<ProjectBasic> findProjectBasicAll(){
-		return projectBasicDAO.findProjectBasicAll();
+	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows){
+		return projectBasicDAO.findProjectBasicByPageAndRows(page, rows);
+	}
+	
+	@Override
+	public Long findProjectBasicTotal(){
+		return projectBasicDAO.findProjectBasicTotal();
 	}
 	
 	@Override

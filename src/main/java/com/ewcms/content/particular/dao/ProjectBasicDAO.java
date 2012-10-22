@@ -19,10 +19,18 @@ import com.ewcms.content.particular.model.ProjectBasic;
 @Repository
 public class ProjectBasicDAO extends JpaDAO<Long, ProjectBasic> {
 	
-	public List<ProjectBasic> findProjectBasicAll(){
+	public List<ProjectBasic> findProjectBasicByPageAndRows(final Integer page, final Integer rows){
 		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null Order By p.code";
 		TypedQuery<ProjectBasic> query = this.getEntityManager().createQuery(hql, ProjectBasic.class);
+		query.setFirstResult(rows * (page - 1));
+		query.setMaxResults(rows);
 		return query.getResultList();
+	}
+	
+	public Long findProjectBasicTotal(){
+		String hql = "Select Count(p.id) From ProjectBasic As p Where p.release=true And p.organ!=null";
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		return query.getSingleResult();
 	}
 	
 	public ProjectBasic findProjectBasicByCode(final String code){

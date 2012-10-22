@@ -17,10 +17,18 @@ import com.ewcms.content.particular.model.EnterpriseBasic;
 
 @Repository
 public class EnterpriseBasicDAO extends JpaDAO<Long, EnterpriseBasic> {
-	public List<EnterpriseBasic> findProjectBasicAll(){
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(final Integer page, final Integer rows){
 		String hql = "From EnterpriseBasic As e Where e.release=true And e.organ!=null Order By e.yyzzzch";
 		TypedQuery<EnterpriseBasic> query = this.getEntityManager().createQuery(hql, EnterpriseBasic.class);
+		query.setFirstResult(rows * (page - 1));
+		query.setMaxResults(rows);
 		return query.getResultList();
+	}
+	
+	public Long findEnterpriseBasicTotal(){
+		String hql = "Select Count(e.id) From EnterpriseBasic As e Where e.release=true And e.organ!=null";
+		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		return query.getSingleResult();
 	}
 	
 	public EnterpriseBasic findEnterpriseBasicByYyzzzch(final String yyzzzch){
