@@ -55,13 +55,13 @@ public class EmployeBasicService implements EmployeBasicServiceable {
 	}
 
 	@Override
-	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows) {
-		return employeBasicDAO.findEmployeBasicByPageAndRows(page, rows);
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows, String name) {
+		return employeBasicDAO.findEmployeBasicByPageAndRows(page, rows, name);
 	}
 	
 	@Override
-	public Long findEmployeBasicTotal(){
-		return employeBasicDAO.findEmployeBasicTotal();
+	public Long findEmployeBasicTotal(String name){
+		return employeBasicDAO.findEmployeBasicTotal(name);
 	}
 	
 	@Override

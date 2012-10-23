@@ -19,17 +19,19 @@ import com.ewcms.content.particular.model.ProjectBasic;
 @Repository
 public class ProjectBasicDAO extends JpaDAO<Long, ProjectBasic> {
 	
-	public List<ProjectBasic> findProjectBasicByPageAndRows(final Integer page, final Integer rows){
-		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null Order By p.code";
+	public List<ProjectBasic> findProjectBasicByPageAndRows(final Integer page, final Integer rows, final String name){
+		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null And p.name Like :name Order By p.code";
 		TypedQuery<ProjectBasic> query = this.getEntityManager().createQuery(hql, ProjectBasic.class);
+		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(rows * (page - 1));
 		query.setMaxResults(rows);
 		return query.getResultList();
 	}
 	
-	public Long findProjectBasicTotal(){
-		String hql = "Select Count(p.id) From ProjectBasic As p Where p.release=true And p.organ!=null";
+	public Long findProjectBasicTotal(final String name){
+		String hql = "Select Count(p.id) From ProjectBasic As p Where p.release=true And p.organ!=null And p.name Like :name";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
+		query.setParameter("name", "%" + name + "%");
 		return query.getSingleResult();
 	}
 	

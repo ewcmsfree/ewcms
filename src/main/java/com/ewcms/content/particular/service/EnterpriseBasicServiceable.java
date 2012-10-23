@@ -18,9 +18,9 @@ public interface EnterpriseBasicServiceable {
 	
 	public EnterpriseBasic findEnterpriseBasicById(Long id);
 	
-	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows);
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findEnterpriseBasicTotal();
+	public Long findEnterpriseBasicTotal(String name);
 	
 	public void pubEnterpriseBasic(List<Long> enterpriseBasicIds);
 	

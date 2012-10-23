@@ -349,7 +349,7 @@ function EwcmsOperate(){
 	    }
 	    if(!isExistID(datagridID))return;
 	    $(datagridID).datagrid({
-	        'url':url
+	        url:url
 	    });
 	}
 				

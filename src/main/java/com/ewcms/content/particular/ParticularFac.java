@@ -183,12 +183,12 @@ public class ParticularFac implements ParticularFacable {
 	}
 	
 	@Override
-	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows){
-		return projectBasicService.findProjectBasicByPageAndRows(page, rows);
+	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows, String name){
+		return projectBasicService.findProjectBasicByPageAndRows(page, rows, name);
 	}
 	
-	public Long findProjectBasicTotal(){
-		return projectBasicService.findProjectBasicTotal();
+	public Long findProjectBasicTotal(String name){
+		return projectBasicService.findProjectBasicTotal(name);
 	}
 	
 	@Override
@@ -232,13 +232,13 @@ public class ParticularFac implements ParticularFacable {
 	}
 	
 	@Override
-	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows){
-		return enterpriseBasicService.findEnterpriseBasicByPageAndRows(page, rows);
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows, String name){
+		return enterpriseBasicService.findEnterpriseBasicByPageAndRows(page, rows, name);
 	}
 	
 	@Override
-	public Long findEnterpriseBasicTotal(){
-		return enterpriseBasicService.findEnterpriseBasicTotal();
+	public Long findEnterpriseBasicTotal(String name){
+		return enterpriseBasicService.findEnterpriseBasicTotal(name);
 	}
 	
 	@Override
@@ -282,13 +282,13 @@ public class ParticularFac implements ParticularFacable {
 	}
 
 	@Override
-	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows) {
-		return employeBasicService.findEmployeBasicByPageAndRows(page, rows);
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows, String name) {
+		return employeBasicService.findEmployeBasicByPageAndRows(page, rows, name);
 	}
 
 	@Override
-	public Long findEmployeBasicTotal(){
-		return employeBasicService.findEmployeBasicTotal();
+	public Long findEmployeBasicTotal(String name){
+		return employeBasicService.findEmployeBasicTotal(name);
 	}
 	
 	@Override

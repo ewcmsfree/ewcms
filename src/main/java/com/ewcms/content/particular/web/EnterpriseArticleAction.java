@@ -112,6 +112,7 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 	
 	private int page; //当前页,名字必须为page  
 	private int rows ; //每页大小,名字必须为rows  
+	private String name;
 	
 	public int getPage() {
 		return page;
@@ -129,9 +130,17 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 		this.rows = rows;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public void findEbAll(){
-		List<EnterpriseBasic> pbs = particularFac.findEnterpriseBasicByPageAndRows(page, rows);
-		Long total = particularFac.findEnterpriseBasicTotal();
+		List<EnterpriseBasic> pbs = particularFac.findEnterpriseBasicByPageAndRows(page, rows, name);
+		Long total = particularFac.findEnterpriseBasicTotal(name);
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", total);
 		result.put("rows", pbs);

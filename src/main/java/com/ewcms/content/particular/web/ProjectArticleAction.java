@@ -112,6 +112,7 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 	
 	private int page; //当前页,名字必须为page  
 	private int rows ; //每页大小,名字必须为rows  
+	private String name;
 	
 	public int getPage() {
 		return page;
@@ -129,9 +130,17 @@ public class ProjectArticleAction extends CrudBaseAction<ProjectArticle, Long> {
 		this.rows = rows;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public void findPbAll(){
-		List<ProjectBasic> pbs = particularFac.findProjectBasicByPageAndRows(page, rows);
-		Long total = particularFac.findProjectBasicTotal();
+		List<ProjectBasic> pbs = particularFac.findProjectBasicByPageAndRows(page, rows, name);
+		Long total = particularFac.findProjectBasicTotal(name);
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", total);
 		result.put("rows", pbs);

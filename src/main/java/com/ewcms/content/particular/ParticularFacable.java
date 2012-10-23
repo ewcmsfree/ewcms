@@ -75,9 +75,9 @@ public interface ParticularFacable {
 	
 	public ProjectArticle findProjectArticleById(Long id);
 	
-	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows);
+	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findProjectBasicTotal();
+	public Long findProjectBasicTotal(String name);
 	
 	public void addProjectBasicByImportXml(File file, Integer channelId, String fileType);
 	
@@ -91,9 +91,9 @@ public interface ParticularFacable {
 	
 	public EnterpriseBasic findEnterpriseBasicById(Long id);
 	
-	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows);
+	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findEnterpriseBasicTotal();
+	public Long findEnterpriseBasicTotal(String name);
 	
 	public Long addEnterpriseArticle(EnterpriseArticle enterpriseArticle);
 	
@@ -111,9 +111,9 @@ public interface ParticularFacable {
 	
 	public EmployeBasic findEmployeBasicById(Long id);
 	
-	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows);
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findEmployeBasicTotal();
+	public Long findEmployeBasicTotal(String name);
 
 	public Long addEmployeArticle(EmployeArticle employeArticle);
 	

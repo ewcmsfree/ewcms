@@ -23,9 +23,9 @@ public interface ProjectBasicServiceable {
 	
 	public ProjectBasic findProjectBasicById(Long id);
 	
-	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows);
+	public List<ProjectBasic> findProjectBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findProjectBasicTotal();
+	public Long findProjectBasicTotal(String name);
 	
 	public void addProjectBasicByImportXml(File file, Integer channelId, String fileType);
 	

@@ -18,9 +18,9 @@ public interface EmployeBasicServiceable {
 	
 	public EmployeBasic findEmployeBasicById(Long id);
 	
-	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows);
+	public List<EmployeBasic> findEmployeBasicByPageAndRows(Integer page, Integer rows, String name);
 	
-	public Long findEmployeBasicTotal();
+	public Long findEmployeBasicTotal(String name);
 	
 	public void pubEmployeBasic(List<Long> employeBasicIds);
 	
