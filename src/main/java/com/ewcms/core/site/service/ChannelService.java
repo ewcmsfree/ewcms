@@ -114,18 +114,7 @@ public class ChannelService implements ChannelServiceable{
             	permit = true;
             }else{
 	            //根据用户组和用户查询显示栏目
-	            Acl acl = findAclOfChannel(channel);
-	            if(acl == null || acl.getEntries() == null || acl.getEntries().isEmpty()) continue;
-	            List<AccessControlEntry> aces = acl.getEntries();
-	            
-	            for(AccessControlEntry ace : aces){
-	            	Sid sid = ace.getSid();
-	                String n = (sid instanceof PrincipalSid) ? ((PrincipalSid)sid).getPrincipal() : ((GrantedAuthoritySid)sid).getGrantedAuthority();
-	    			if (groupNames.contains(n) || userDetail.getUsername().equals(n)){
-	    				permit = true;
-	    				break;
-	    			}
-	            }
+            	permit = getEntriesInheriting(channel, autorityNames, groupNames, userDetail);
             }
             
             if (permit){
@@ -134,6 +123,28 @@ public class ChannelService implements ChannelServiceable{
             }
         }
         return nodes;
+    }
+    
+    private Boolean getEntriesInheriting(Channel channel, List<String> autorityNames, List<String> groupNames, UserDetails userDetail){
+    	Acl acl = findAclOfChannel(channel);
+        if(acl == null || acl.getEntries() == null || acl.getEntries().isEmpty()) return false;
+        List<AccessControlEntry> aces = acl.getEntries();
+        
+        for(AccessControlEntry ace : aces){
+        	Sid sid = ace.getSid();
+            String n = (sid instanceof PrincipalSid) ? ((PrincipalSid)sid).getPrincipal() : ((GrantedAuthoritySid)sid).getGrantedAuthority();
+			if (groupNames.contains(n) || userDetail.getUsername().equals(n)){
+				return true;
+			}
+        }
+        
+        Boolean inherit = acl.isEntriesInheriting();
+        if (!inherit) return false;
+      	
+        Channel parent = channel.getParent();
+       	if (parent == null) return false;
+       	
+       	return getEntriesInheriting(parent, autorityNames, groupNames, userDetail);
     }
     
     /**

@@ -54,7 +54,7 @@ public class SiteFac implements SiteFacable{
     
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")
     @Override
-    public void addOrUpdatePermission(Integer id,String name,int mask){
+    public void addOrUpdatePermission(Integer id,String name, Integer mask){
     	channelService.addOrUpdatePermission(id, name, mask);
     }
     

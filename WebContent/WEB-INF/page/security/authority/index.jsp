@@ -28,8 +28,8 @@
     </script>
 </head>
  <body class="easyui-layout">
-     <div region="center" border="false" style="padding: 5px;">
-         <table id="tt"></table>
+     <div region="center" border="false" style="padding: 2px;">
+         <table id="tt" fit="true"></table>
      </div>
 </body>
 </html>

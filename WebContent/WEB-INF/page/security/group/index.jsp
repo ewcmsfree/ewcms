@@ -33,7 +33,7 @@
     </script>
 </head>
 <body class="easyui-layout">
-    <div region="center" border="false" style="padding: 5px;">
+    <div region="center" border="false" style="padding: 2px;">
          <table id="tt" toolbar="#tb" style="display:none;"></table>
          <div id="tb" style="padding:5px;height:auto;display:none;">
              <div style="margin-bottom:5px">

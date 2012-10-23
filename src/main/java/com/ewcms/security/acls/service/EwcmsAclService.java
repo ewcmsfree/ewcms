@@ -147,13 +147,13 @@ public class EwcmsAclService extends JdbcMutableAclService implements EwcmsAclSe
         MutableAcl acl = getMutableAcl(objectIdentity);
         if(parentIdentity == null){
             acl.setEntriesInheriting(Boolean.FALSE);
-            updateAcl(acl);    
+            acl.setParent(null);
+        }else{
+	        Acl parentAcl = getMutableAcl(parentIdentity);
+	        acl.setParent(parentAcl);
+	        acl.setEntriesInheriting(Boolean.TRUE);
         }
-        
-        Acl parentAcl = getMutableAcl(parentIdentity);
-        acl.setParent(parentAcl);
-        acl.setEntriesInheriting(Boolean.TRUE);
-        updateAcl(acl);    
+        updateAcl(acl);
     }
     
     private Sid getSid(String name){

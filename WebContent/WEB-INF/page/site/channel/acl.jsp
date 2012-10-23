@@ -25,10 +25,10 @@
         });
   	 </script>
 </head>
-<body>
-    <div style="padding: 10px;">
-        <table id="tt" style="margin: 5px;"></table>
-    </div>
+<body class="easyui-layout">
+   <div region="center" style="padding:2px;" border="false">
+	 	<table id="tt" fit="true"></table>	
+	</div>
     <div id="edit-window" class="easyui-window" closed="true" icon='icon-winedit'>
           <div class="easyui-layout" fit="true" >
                 <div region="center" border="false" style="padding: 10px 5px;">

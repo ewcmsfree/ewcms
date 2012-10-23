@@ -25,7 +25,7 @@ import com.ewcms.web.vo.TreeNode;
 public interface SiteFacable {
 	public Acl findAclOfChannel(final Channel channel);
 
-	public void addOrUpdatePermission(Integer id, String name, int mask);
+	public void addOrUpdatePermission(Integer id, String name, Integer mask);
 
 	public void removePermission(Integer id, String name);
 

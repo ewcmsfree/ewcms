@@ -140,8 +140,7 @@ public class AclAction extends JsonBaseAction{
             return ;
         }
              
-        List<Map<String,Object>> items = permissionItems(
-                acl.getEntries(),acl.isEntriesInheriting());
+        List<Map<String,Object>> items = permissionItems(acl.getEntries(),acl.isEntriesInheriting());
         
         renderObject(new DataGrid(items.size(),items));
     }

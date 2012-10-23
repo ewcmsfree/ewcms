@@ -13,7 +13,6 @@ var ChannelAcl = function(urls){
 ChannelAcl.prototype.init = function(opts){
     var urls = this._urls;
     $('#tt').propertygrid({
-        width:450,
         height:'auto',
         url:urls.queryUrl,
         showGroup:true,
@@ -22,8 +21,25 @@ ChannelAcl.prototype.init = function(opts){
         loadMsg:'',
         columns:[[
             {field:'ck',checkbox:true},
-            {field:'name',title:'名称',width:300},
-            {field:"value",title:'权限',width:150}
+            {field:'name',title:'名称',width:100},
+            {field:'value',title:'权限',width:50},
+            {field:'explain',title:'说明',width:400,
+            	formatter : function(val, rec) {
+            		if (rec.value=='1'){
+            			return '<font color="blue">具有访问本栏目内信息列表的权利</font>，<font color="red">但不具有对栏目内信息的操作权利</font>。';
+            		}else if (rec.value=='2'){
+            			return '<font color="blue">具有对本栏目内信息进行基本(新增、修改、删除等)操作的权利</font>，<font color="red">但不具有发布的权利。</font>';
+            		}else if (rec.value=='4'){
+            			return '<font color="blue">具有对本栏目内信息所有操作的权利</font>。';
+            		}else if (rec.value=='64'){
+            			return '<font color="blue">具有对本栏目进行管理的权利</font>。';
+            		}else if (rec.value=='true'){
+            			return '<font color="blue">继承了上级栏目所有权利</font>。';
+            		}else if (rec.value=='false'){
+            			return '<font color="red">不继承上级栏目所有权利</font>。';
+            		}
+            	}
+            }
         ]],
         onBeforeLoad:function(param){
              param['id'] = opts.id;    
@@ -40,6 +56,7 @@ ChannelAcl.prototype.init = function(opts){
               var params = {};
               params['id'] = opts.id;
               if(data.name == '继承权限'){
+            	  if(typeof(changes.value) == 'undefined') return;
                   params['inherit'] = changes.value;
                   $.post(urls.inheritUrl,params,function(data){
                       if(!data.success){
@@ -47,6 +64,7 @@ ChannelAcl.prototype.init = function(opts){
                       }
                    });
               }else{
+            	  if(typeof(changes.value) == 'undefined') return;
                   params['name'] = data.name;
                   params['mask'] = changes.value;
                   $.post(urls.saveUrl,params,function(data){
