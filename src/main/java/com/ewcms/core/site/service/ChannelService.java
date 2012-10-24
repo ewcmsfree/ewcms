@@ -8,10 +8,14 @@ package com.ewcms.core.site.service;
 
 import static com.ewcms.common.lang.EmptyUtil.isNotNull;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -29,8 +33,12 @@ import org.springframework.util.Assert;
 
 import com.ewcms.core.site.ChannelNode;
 import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.dao.TemplateDAO;
+import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.Template;
+import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.util.ConvertToPinYin;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishFacable;
@@ -49,6 +57,10 @@ public class ChannelService implements ChannelServiceable{
     
     @Autowired
     private ChannelDAO channelDAO;
+    @Autowired
+    private TemplateDAO templateDAO;
+    @Autowired
+    private TemplateSourceDAO templateSourceDAO;
     @Autowired
     private EwcmsAclServiceable aclService;
 	@Autowired
@@ -373,5 +385,80 @@ public class ChannelService implements ChannelServiceable{
 		}	
 		
 		updChannel(moveChannel);
+	}
+	
+	@Override
+	public void exportChannelZip(Integer channelId, ZipOutputStream zos, String channelPath){
+		try{
+			Channel channel = getChannel(channelId);
+			if (channel == null) return;
+
+			//创建栏目目录
+			String filePath = channelPath + channel.getName() + "/";
+			ZipEntry zipEntry = new ZipEntry(filePath);
+			zipEntry.setUnixMode(755);
+			zos.putNextEntry(zipEntry);
+
+			//创建栏目目录下一级的“模板”目录
+			String templatePath = filePath + "模板/";
+			zipEntry = new ZipEntry(templatePath);
+			zipEntry.setUnixMode(755);
+			zos.putNextEntry(zipEntry);
+			
+			//创建栏目目录下一级的“资源”目录
+			String templateSourcePath = filePath + "资源/";
+			zipEntry = new ZipEntry(templateSourcePath);
+			zipEntry.setUnixMode(755);
+			zos.putNextEntry(zipEntry);
+			
+			List<Template> templates = templateDAO.getTemplatesInChannel(channelId);
+			List<TemplateSource> templateSources = templateSourceDAO.getTemplateSourceInChannel(channelId);
+			
+			for (Template template : templates){
+				if (template == null || template.getTemplateEntity() == null) continue;
+				String fileName = template.getName();
+				
+				zipEntry = new ZipEntry(templatePath + fileName);
+				zipEntry.setUnixMode(644);
+				
+				zos.putNextEntry(zipEntry);
+				
+				BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(template.getTemplateEntity().getTplEntity()));
+				int b;
+				while((b = bis.read())!=-1){  
+					zos.write(b);  
+		        }  
+				
+				zos.closeEntry();
+				bis.close();
+			}
+			
+			for (TemplateSource templateSource : templateSources){
+				if (templateSource == null || templateSource.getSourceEntity() == null) continue;
+				String fileName = templateSource.getName();
+				
+				zipEntry = new ZipEntry(templateSourcePath + fileName);
+				zipEntry.setUnixMode(644);
+				zos.putNextEntry(zipEntry);
+				
+				BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(templateSource.getSourceEntity().getSrcEntity()));
+				int b;
+				while((b = bis.read())!=-1){  
+					zos.write(b);  
+		        }  
+				
+				zos.closeEntry();
+				bis.close();
+			}
+			
+			List<Channel> childrenChannels = getChannelChildren(channelId);
+			if (childrenChannels != null){
+				for (Channel childrenChannel : childrenChannels){
+					exportChannelZip(childrenChannel.getId(), zos, filePath);
+				}
+			}
+		}catch(Exception e){
+			
+		}
 	}
 }

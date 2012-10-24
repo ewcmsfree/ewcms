@@ -108,5 +108,12 @@ public class TemplateSourceDAO extends JpaDAO<Integer, TemplateSource> {
 		}catch(NoResultException e){
 		}
 		return templateSource;
-	}	
+	}
+	
+	public List<TemplateSource> getTemplateSourceInChannel(final Integer channelId){
+		String hql = "From TemplateSource o Where o.channelId=:channelId";
+		TypedQuery<TemplateSource> query = this.getEntityManager().createQuery(hql, TemplateSource.class);
+		query.setParameter("channelId", channelId);
+		return query.getResultList();
+	}
 }

@@ -237,6 +237,12 @@
 				$("#editifr").attr('src',url);    			
 			}
 			
+			function exportTemplate(){
+				var node = getSelectNode();
+    			if(!node) return;
+				window.open('<s:url action="exportzip"/>?id='+ getNodeId(node));
+			}
+			
 			function editTemplate(){
 				//判断是否选择了操作模板
     			var node = getSelectNode();
@@ -286,13 +292,16 @@
 			
 		<div id="treeopmenu" class="easyui-menu" style="width:100px; padding:4px 0 8px 0;">
 			<div icon="icon-add" onclick="addTemplate();">新建模板</div>
-			<div icon="icon-folder" onclick="addFolder();">文件夹</div>
+			<div icon="icon-folder" onclick="addFolder();">新建文件夹</div>
 			<div icon="icon-undo" onclick="renameTemplate();">重命名</div>	
 			<div icon="icon-edit" onclick="editTemplate();">编辑</div>			
 			<div icon="icon-remove" onclick="delTemplate();">删除</div>
-			<div icon="icon-redo" onclick="importTemplate();">导入</div>	
-			<div icon="icon-ok" onclick="parseTemplate();">粘贴</div>	
+			<div class="menu-sep"></div>
 			<div icon="icon-cut" onclick="cutTemplate(this);">剪切</div>									
+			<div icon="icon-paste" onclick="parseTemplate();">粘贴</div>	
+			<div class="menu-sep"></div>
+			<div icon="icon-zip-import" onclick="importTemplate();">导入</div>	
+			<div icon="icon-zip-export" onclick="exportTemplate();">导出ZIP</div>
 		</div>	  	
 	</body>
 </html>

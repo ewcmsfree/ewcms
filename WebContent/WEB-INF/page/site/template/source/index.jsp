@@ -243,6 +243,12 @@
 				$("#editifr").attr('src',url);    			
 			}
 			
+			function exportSource(){
+				var node = getSelectNode();
+    			if(!node) return;
+				window.open('<s:url action="exportzip"/>?id='+ getNodeId(node));
+			}
+			
 			function editSource(){
 				//判断是否选择了操作模板
     			var node = getSelectNode();
@@ -300,13 +306,17 @@
 		</div>
 		<div id="treeopmenu" class="easyui-menu" style="width:100px; padding:4px 0 8px 0;">
 			<div icon="icon-add" onclick="addSource();">新建资源</div>
-			<div icon="icon-folder" onclick="addFolder();">文件夹</div>
+			<div icon="icon-folder" onclick="addFolder();">新建文件夹</div>
 			<div icon="icon-undo" onclick="renameSource();">重命名</div>
 			<div icon="icon-edit" onclick="editSource();">编辑</div>	
 			<div icon="icon-remove" onclick="delSource();">删除</div>
-			<div icon="icon-redo" onclick="importSource();">导入</div>	
-			<div icon="icon-ok" onclick="parseSource();">粘贴</div>
+			<div class="menu-sep"></div>
 			<div icon="icon-cut" onclick="cutSource(this);">剪切</div>
+			<div icon="icon-paste" onclick="parseSource();">粘贴</div>
+			<div class="menu-sep"></div>
+			<div icon="icon-zip-import" onclick="importSource();">导入</div>	
+			<div icon="icon-zip-export" onclick="exportSource();">导出ZIP</div>
+			<div class="menu-sep"></div>
 			<div icon="icon-table-pub" onclick="pubSource();">发布资源</div>
 		</div>
 	</body>

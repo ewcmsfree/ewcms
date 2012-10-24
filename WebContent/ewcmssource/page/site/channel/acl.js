@@ -105,6 +105,13 @@ ChannelAcl.prototype.init = function(opts){
                     }
                 },'info');
             }
+        },'-',{
+           	id:'btnok',
+            text:'保存',
+            iconCls:'icon-save',
+            handler:function(){
+            	$.messager.alert('提示','保存成功','info');
+            }
         }]
     });    
     

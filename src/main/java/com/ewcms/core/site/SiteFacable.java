@@ -8,6 +8,7 @@ package com.ewcms.core.site;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.Permission;
 
@@ -67,8 +68,7 @@ public interface SiteFacable {
 
 	public List<Template> getTemplateList();
 
-	public List<ChannelNode> getChannelChildren(Integer parentId,
-			Boolean publicenable);
+	public List<ChannelNode> getChannelChildren(Integer parentId,Boolean publicenable);
 
 	public Integer addChannel(Integer parentId, String name);
 
@@ -83,6 +83,14 @@ public interface SiteFacable {
 	public Channel getChannelRoot();
 
 	public ChannelNode channelNodeRoot();
+	
+	/**
+	 * 根据父节点编号查询子栏目列表
+	 * 
+	 * @param Integer parentId 父栏目编号
+	 * @return List 栏目列表
+	 */
+	public List<Channel> getChannelChildren(Integer parentId);
 
 	public List<Template> getTemplaeTreeList(Boolean channelEnable);
 
@@ -167,4 +175,30 @@ public interface SiteFacable {
 	 * @param sort 移动到的位置
 	 */
 	public void moveSortChannel(Integer channelId, Integer parentId, Long sort);
+	
+	/**
+	 * 导出栏目中的模板和资源文件
+	 * 
+	 * @param channelId
+	 * @return
+	 */
+	public void exportChannelZip(Integer channelId, ZipOutputStream zos, String channelPath);
+
+    /**
+     * 导出模板生成ZIP文件
+     * 
+     * @param templateId
+     * @param zos
+     * @param templatePath
+     */
+    public void exportTemplateZip(Integer templateId, ZipOutputStream zos, String templatePath);
+
+    /**
+     * 导出模板生成ZIP文件
+     * 
+     * @param templateSourceId
+     * @param zos
+     * @param templateSourcePath
+     */
+    public void exportTemplateSourceZip(Integer templateSourceId, ZipOutputStream zos, String templateSourcePath);
 }

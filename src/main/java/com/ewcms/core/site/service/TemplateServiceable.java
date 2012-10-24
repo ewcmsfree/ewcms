@@ -10,6 +10,9 @@
 package com.ewcms.core.site.service;
 
 import java.util.List;
+
+import org.apache.tools.zip.ZipOutputStream;
+
 import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.service.TemplatePublishServiceable;
 
@@ -66,4 +69,13 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
      * @param templateIds 选择应用的模板
      */
     public void saveAppChild(Integer channelId, List<Integer> templateIds);
+    
+    /**
+     * 导出模板生成ZIP文件
+     * 
+     * @param templateId
+     * @param zos
+     * @param templatePath
+     */
+    public void exportTemplateZip(Integer templateId, ZipOutputStream zos, String templatePath);
 }

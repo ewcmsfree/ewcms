@@ -42,7 +42,7 @@
 				ewcmsOOBJ.setDeleteURL('<s:url namespace="/history" action="delete"/>');
 			});
 			function download(id){
-				window.open('<s:url namespace="/history" action="download"/>?historyId=' + id,'popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+				window.open('<s:url namespace="/history" action="download"/>?historyId=' + id);
 			}
 		</script>
 		<ewcms:datepickerhead/>	

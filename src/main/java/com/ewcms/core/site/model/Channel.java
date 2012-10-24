@@ -40,6 +40,7 @@ import org.hibernate.annotations.Formula;
  * <li>describe:专栏说明</li>
  * <li>channelEntity:专栏引导图</li>
  * <li>channelType:专栏类型</li>
+ * <li>sort:排序号</li>
  * </ul>
  * 
  * @author 周冬初

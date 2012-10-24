@@ -11,6 +11,8 @@ package com.ewcms.core.site.service;
 
 import java.util.List;
 
+import org.apache.tools.zip.ZipOutputStream;
+
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.publication.service.TemplateSourcePublishServiceable;
 
@@ -53,4 +55,13 @@ public interface TemplateSourceServiceable extends TemplateSourcePublishServicea
      * @return
      */
     public TemplateSource getTemplateSourceByUniquePath(String path);    
+    
+    /**
+     * 导出模板生成ZIP文件
+     * 
+     * @param templateSourceId
+     * @param zos
+     * @param templateSourcePath
+     */
+    public void exportTemplateSourceZip(Integer templateSourceId, ZipOutputStream zos, String templateSourcePath);
 }

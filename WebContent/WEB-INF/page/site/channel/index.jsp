@@ -212,7 +212,6 @@
 				url = url + "? channelVo.id=" + node.id;
 				$("#editifr").attr('src',url);  						
 			}
-			
 			function upChannel(){
 				//判断是否选择了操作模板
     			var node = getSelectNode();
@@ -315,6 +314,11 @@
 					return false;
 				});
 			});
+			function exportZip(){
+    			var node = getSelectNode();
+	    		if(!node) return;
+	    		window.open('<s:url action="exportzip"/>?id=' + node.id);
+			}
 		</script>		
 	</head>
 	<body class="easyui-layout" onload="loadHomePage();">
@@ -330,12 +334,14 @@
 			<div icon="icon-undo" onclick="renameChannel();">重命名</div>
 			<div icon="icon-edit" onclick="editChannel();">编辑</div>	   
 			<div icon="icon-remove" onclick="delChannel();">删除</div>   
-			<div icon="icon-ok" onclick="parseChannel();">粘贴</div>	
-			<div icon="icon-cut" onclick="cutChannel(this);">剪切</div>	
+			<div icon="icon-paste" onclick="parseChannel();">粘贴</div>	
+			<div icon="icon-cut" onclick="cutChannel(this);">剪切</div>
 			<div class="menu-sep"></div>
 			<div icon="icon-up" onclick="upChannel();">上移</div>
 			<div icon="icon-down" onclick="downChannel();">下移</div>
 			<div icon="icon-up-down" onclick="moveChannel();">移动</div>
+			<div class="menu-sep"></div>
+			<div icon="icon-zip-export" onclick="exportZip();">导出ZIP</div>
 		</div>	    	
 	</body>
 </html>

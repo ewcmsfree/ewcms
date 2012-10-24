@@ -74,6 +74,12 @@ ALTER TABLE site_site
       ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE site_site DROP COLUMN serverdir;
 
+-- 新增site_channel字段
+ALTER TABLE site_channel ADD COLUMN sort BIGINT;
+
+-- 更新site_channel表记录
+UPDATE site_channel SET sort=id;
+
 --Update content
 ALTER TABLE doc_article ALTER COLUMN id TYPE BIGINT;
 ALTER TABLE doc_article RENAME COLUMN comment_flag TO "comment";
@@ -86,6 +92,9 @@ ALTER TABLE doc_article ADD COLUMN reviewprocess_id BIGINT;
 ALTER TABLE doc_article ADD COLUMN published TIMESTAMP WITHOUT TIME ZONE;
 ALTER TABLE doc_article ADD COLUMN status VARCHAR(25);
 ALTER TABLE doc_article ADD COLUMN createtime TIMESTAMP WITHOUT TIME ZONE;
+ALTER TABLE doc_article ADD COLUMN short_title_style CHARACTER VARYING(255);
+ALTER TABLE doc_article ADD COLUMN sub_title_style CHARACTER VARYING(255);
+ALTER TABLE doc_article ADD COLUMN title_style CHARACTER VARYING(255);
 
 -- 新增/修改doc_articlermc字段
 ALTER TABLE doc_articlermc ALTER COLUMN id TYPE BIGINT;
@@ -136,7 +145,7 @@ ALTER TABLE doc_articlermc DROP COLUMN published;
 ALTER TABLE doc_articlermc DROP COLUMN restore_author;
 ALTER TABLE doc_articlermc DROP COLUMN status;
 ALTER TABLE doc_articlermc DROP COLUMN url;
-
+      
 -- 表doc_article重命名为content_article
 ALTER TABLE doc_article RENAME TO content_article;
 -- 序列seq_doc_article_id重命名为seq_content_article_id

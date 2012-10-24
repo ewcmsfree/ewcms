@@ -74,7 +74,7 @@ table.cellspacing { border-collapse: separate; }
 }
 
 .icon-folder{
-    background:url('icons/tree_folder.gif') no-repeat;
+    background:url('icons/tree_folder.png') no-repeat;
 }
 .icon-note-add{
     background:url('icons/note_add.png') no-repeat;
@@ -327,4 +327,25 @@ table.cellspacing { border-collapse: separate; }
 }
 .icon-resource-excel{
 	background:url('icons/resource_excel.png') no-repeat;
+}
+.icon-zip-export{
+	background:url('icons/zip_export.png') no-repeat;
+}
+.icon-zip-import{
+	background:url('icons/zip_import.png') no-repeat;
+}
+.icon-paste{
+	background:url('icons/paste.png') no-repeat;
+}
+.icon-save{
+	background:url('icons/save.png') no-repeat;
+}
+.icon-applied-child{
+	background:url('icons/applied_child.png') no-repeat;
+}
+.icon-force-operate{
+	background:url('icons/force_operate.png') no-repeat;
+}
+.icon-refence{
+	background:url('icons/refence.png') no-repeat;
 }

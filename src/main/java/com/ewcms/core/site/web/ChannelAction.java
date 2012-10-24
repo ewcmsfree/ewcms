@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.ChannelNode;
@@ -316,6 +320,35 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
+	
+	public void exportZip(){
+		ZipOutputStream zos = null;
+		try{
+			if (id != null){
+				HttpServletResponse response = ServletActionContext.getResponse();
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("application/x-download;charset=UTF-8");
+				response.setHeader("Content-Disposition", "attachment; filename=channel" + id + ".zip");
+				
+				zos = new ZipOutputStream(response.getOutputStream());
+				zos.setEncoding("UTF-8");
+				
+				siteFac.exportChannelZip(id, zos, "");
+				zos.flush();
+				zos.close();
+			}
+		}catch(Exception e){
+			
+		}finally {
+			if (zos != null){
+				try{
+					zos.close();
+					zos = null;
+				}catch(Exception e){
+				}
+			}
 		}
 	}
 }

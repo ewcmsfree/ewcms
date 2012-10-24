@@ -6,7 +6,6 @@
 
 package com.ewcms.content.history.web;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -95,24 +94,16 @@ public class HistoryAction extends CrudBaseAction<HistoryModel, Long> {
 					Object obj = ByteToObject.conversion(historyModel.getModelObject());
 					Template template = (Template) obj;
 					
-					;
-					byte[] bytes = new byte[template.getTemplateEntity().getTplEntity().length];
-					bytes = template.getTemplateEntity().getTplEntity();
+					String templateSource = new String(template.getTemplateEntity().getTplEntity(), "UTF-8");
 					
 					HttpServletResponse response = ServletActionContext.getResponse();
-					response.setContentType("application/jrxml");
 					response.setCharacterEncoding("UTF-8");
 					response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".html");
-					response.setContentType("text/html;charset=UTF-8");
+					response.setContentType("application/x-download;charset=UTF-8");
 
 					pw = response.getWriter();
-
-					response.setContentLength(bytes.length);
-					in = new ByteArrayInputStream(bytes);
-					int len = 0;
-					while ((len = in.read()) > -1) {
-						pw.write(len);
-					}
+					pw.write(templateSource);
+					
 					pw.flush();
 				} else {
 					this.addActionError("没有文件可供下载");

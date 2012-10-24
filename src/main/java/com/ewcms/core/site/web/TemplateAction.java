@@ -10,17 +10,27 @@
 package com.ewcms.core.site.web;
 
 import java.io.BufferedInputStream;
+//import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
+//import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+//import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+//import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -29,6 +39,7 @@ import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.util.ConvertToPinYin;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.util.TreeNodeConvert;
@@ -207,6 +218,124 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 				getTemplateVo().setPath(siteFac.getTemplate(getTemplateVo().getParent().getId()).getPath());
 		}
 		return INPUT;
+	}
+	
+	private String zipName;
+	
+	public String getZipName() {
+		return zipName;
+	}
+
+	public void setZipName(String zipName) {
+		this.zipName = zipName;
+	}
+
+//	public void exportTemplateZip(){
+//		ZipOutputStream zos = null;
+//		try{
+//			if (getSelections() != null && getSelections().size() > 0 && zipName != null && zipName.length() > 0){
+//				Map<String, String> files = new HashMap<String, String>();
+//				for (Integer templateId : getSelections()){
+//					Template template = siteFac.getTemplate(templateId);
+//					if (template == null || template.getTemplateEntity() == null) continue;
+//					String templateSource = new String(template.getTemplateEntity().getTplEntity(), "UTF-8");
+//					String fileName = template.getName();
+//					fileName = URLEncoder.encode(fileName, "UTF-8");
+//					files.put(fileName, templateSource);
+//				}
+//				if (!files.isEmpty()){ 
+//					Iterator<Entry<String, String>> it = files.entrySet().iterator();
+//					ZipEntry zipEntry;
+//					
+//					HttpServletResponse response = ServletActionContext.getResponse();
+//					response.setCharacterEncoding("UTF-8");
+//					response.setContentType("application/x-download;charset=UTF-8");
+//					response.setHeader("Content-Disposition", "attachment; filename=" + zipName + ".zip");
+//					
+//					zos = new ZipOutputStream(response.getOutputStream());  
+//					
+//					while (it.hasNext()){
+//						Entry<String, String> entry = it.next();
+//						String key = entry.getKey();
+//						String value = entry.getValue();
+//						
+//						zipEntry = new ZipEntry(key);
+//						zipEntry.setSize(value.length());
+//						
+//						zos.putNextEntry(zipEntry);
+//						
+//						byte[] buffer = new byte[1024];  
+//					    int length = 0; 
+//					    
+//						BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(value.getBytes()));
+//						while((length = bis.read(buffer))!=-1){  
+//			                zos.write(buffer, 0, length);  
+//			            }  
+//						
+//						zos.closeEntry();
+//						bis.close();
+//					}
+//					zos.flush();
+//					zos.close();
+//				}
+//			}
+//		}catch(Exception e){
+//		}finally {
+//			if (zos != null){
+//				try{
+//					zos.close();
+//					zos = null;
+//				}catch(Exception e){
+//				}
+//			}
+//		}
+//	}
+	
+	public void downLoadTemplate(){
+		PrintWriter pw = null;
+		InputStream in = null;
+		if (getSelections() != null && getSelections().size() == 1){
+			try {
+				Template template = siteFac.getTemplate(getSelections().get(0));
+				if (template != null && template.getTemplateEntity() != null){
+					String templateSource = new String(template.getTemplateEntity().getTplEntity(), "UTF-8");
+					if (templateSource != null && templateSource.length() > 0){
+						String fileName = template.getName();
+						fileName = URLEncoder.encode(fileName, "UTF-8");
+						
+						HttpServletResponse response = ServletActionContext.getResponse();
+						response.setCharacterEncoding("UTF-8");
+						response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+						response.setContentType("application/x-download;charset=UTF-8");
+		
+						pw = response.getWriter();
+						pw.write(templateSource);
+						
+						pw.flush();
+					}
+				}else{
+					this.addActionError("没有文件可供下载");
+				}
+			}catch(Exception e){
+			}finally {
+				if (pw != null) {
+					try {
+						pw.close();
+						pw = null;
+					} catch (Exception e) {
+					}
+				}
+				if (in != null) {
+					try {
+						in.close();
+						in = null;
+					} catch (Exception e) {
+					}
+				}
+			}
+		}else{
+			this.addActionError("没有文件可供下载");
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -529,6 +658,39 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON(ConvertToPinYin.covert(getChannelName())));
 		}else{
 			Struts2Util.renderJson(JSONUtil.toJSON(""));
+		}
+	}
+	
+	public void exportZip(){
+		ZipOutputStream zos = null;
+		try{
+			HttpServletResponse response = ServletActionContext.getResponse();
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/x-download;charset=UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=template" + id + ".zip");
+			zos = new ZipOutputStream(response.getOutputStream());
+			zos.setEncoding("UTF-8");
+			
+			if (id != null){
+				siteFac.exportTemplateZip(id, zos, "");
+			}else{
+				List<Template> templates = siteFac.getTemplaeTreeList(false);
+				for (Template template : templates){
+					siteFac.exportTemplateZip(template.getId(), zos, EwcmsContextUtil.getCurrentSite().getSiteName() + "/");
+				}
+			}
+			zos.flush();
+			zos.close();
+		}catch(Exception e){
+			
+		}finally {
+			if (zos != null){
+				try{
+					zos.close();
+					zos = null;
+				}catch(Exception e){
+				}
+			}
 		}
 	}
 }

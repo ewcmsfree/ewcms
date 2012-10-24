@@ -9,13 +9,19 @@
  */
 package com.ewcms.core.site.service;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ewcms.core.site.dao.TemplateSourceDAO;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.TemplateSource;
+import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -168,5 +174,47 @@ public class TemplateSourceService implements TemplateSourceServiceable{
 	@Override
 	public TemplateSource getTemplateSourceByUniquePath(String path) {
 		return templateSourceDAO.getTemplateSourceByPath(getCurSite().getId()+path);
+	}
+
+	@Override
+	public void exportTemplateSourceZip(Integer templateSourceId, ZipOutputStream zos, String templateSourcePath) {
+		try{
+			TemplateSource templateSource = getTemplateSource(templateSourceId);
+			if (templateSource == null) return;
+
+			TemplatesrcEntity templatesrcEntity = templateSource.getSourceEntity();
+			
+			String filePath = templateSourcePath + templateSource.getName();
+			ZipEntry zipEntry;
+			if (templatesrcEntity == null){
+				filePath += "/";
+				
+				//创建栏目目录
+				zipEntry = new ZipEntry(filePath);
+				zipEntry.setUnixMode(755);
+				zos.putNextEntry(zipEntry);
+				
+				List<TemplateSource> templateSourceChildrens = templateSourceDAO.getTemplateSourceChildren(templateSource.getId(), getCurSite().getId());
+				
+				for (TemplateSource templateSourceChildren : templateSourceChildrens){
+					exportTemplateSourceZip(templateSourceChildren.getId(), zos, filePath);
+				}
+			}else{
+				zipEntry = new ZipEntry(filePath);
+				zipEntry.setUnixMode(644);
+				zos.putNextEntry(zipEntry);
+				
+				BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(templatesrcEntity.getSrcEntity()));
+				int b;
+				while((b = bis.read())!=-1){  
+					zos.write(b);  
+		        }  
+				
+				zos.closeEntry();
+				bis.close();
+			}
+		}catch(Exception e){
+			
+		}
 	}	
 }

@@ -5,9 +5,13 @@
  */
 package com.ewcms.core.site.service;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -256,6 +260,48 @@ public class TemplateService implements TemplateServiceable{
 				}
 				templateChild(initChannelId, channel.getId(), templates);
 			}
+		}
+	}
+
+	@Override
+	public void exportTemplateZip(Integer templateId, ZipOutputStream zos, String templatePath) {
+		try{
+			Template template = getTemplate(templateId);
+			if (template == null) return;
+
+			TemplateEntity templateEntity = template.getTemplateEntity();
+			
+			String filePath = templatePath + template.getName();
+			ZipEntry zipEntry;
+			if (templateEntity == null){
+				filePath += "/";
+				
+				//创建栏目目录
+				zipEntry = new ZipEntry(filePath);
+				zipEntry.setUnixMode(755);
+				zos.putNextEntry(zipEntry);
+				
+				List<Template> templateChildrens = templateDAO.getTemplateChildren(template.getId(), getCurSite().getId(), null);
+				
+				for (Template templateChildren : templateChildrens){
+					exportTemplateZip(templateChildren.getId(), zos, filePath);
+				}
+			}else{
+				zipEntry = new ZipEntry(filePath);
+				zipEntry.setUnixMode(644);
+				zos.putNextEntry(zipEntry);
+				
+				BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(templateEntity.getTplEntity()));
+				int b;
+				while((b = bis.read())!=-1){  
+					zos.write(b);  
+		        }  
+				
+				zos.closeEntry();
+				bis.close();
+			}
+		}catch(Exception e){
+			
 		}
 	}
 }

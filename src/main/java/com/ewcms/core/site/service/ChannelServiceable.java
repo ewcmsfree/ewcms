@@ -9,6 +9,7 @@ package com.ewcms.core.site.service;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.Permission;
 
@@ -157,4 +158,19 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	 * @param parentId
 	 */
 	public void moveToChannel(Integer channel, Integer parentId);
+	
+	/**
+	 * 根据父节点编号查询子栏目列表
+	 * 
+	 * @param Integer parentId 父栏目编号
+	 * @return List 栏目列表
+	 */
+	public List<Channel> getChannelChildren(Integer parentId);
+	
+	/**
+	 * 导出栏目中的模板和资源文件
+	 * 
+	 * @param channelId
+	 */
+	public void exportChannelZip(Integer channelId, ZipOutputStream zos, String channelPath);
 }

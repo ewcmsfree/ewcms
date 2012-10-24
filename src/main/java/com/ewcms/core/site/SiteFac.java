@@ -8,6 +8,8 @@ package com.ewcms.core.site;
 
 import java.util.List;
 import java.util.Set;
+
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.model.Acl;
@@ -356,4 +358,24 @@ public class SiteFac implements SiteFacable{
     public void moveSortChannel(Integer channelId, Integer parentId, Long sort){
     	channelService.moveSortChannel(channelId, parentId, sort);
     }
+
+	@Override
+	public List<Channel> getChannelChildren(Integer parentId) {
+		return channelService.getChannelChildren(parentId);
+	}
+	
+	public void exportChannelZip(Integer channelId, ZipOutputStream zos, String channelPath){
+		channelService.exportChannelZip(channelId, zos, channelPath);
+	}
+
+	@Override
+	public void exportTemplateZip(Integer templateId, ZipOutputStream zos, String templatePath) {
+		templateService.exportTemplateZip(templateId, zos, templatePath);
+	}
+
+	@Override
+	public void exportTemplateSourceZip(Integer templateSourceId, ZipOutputStream zos, String templateSourcePath) {
+		templateSourceService.exportTemplateSourceZip(templateSourceId, zos, templateSourcePath);
+	}
+
 }

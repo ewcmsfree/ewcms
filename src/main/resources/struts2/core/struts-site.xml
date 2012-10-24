@@ -107,6 +107,9 @@
 		<action name="appChild" class="com.ewcms.core.site.web.TemplateAction" method="appChild"/>
 		<action name="forceRelease" class="com.ewcms.core.site.web.TemplateAction" method="forceRelease"/>
 		<action name="pinYin" class="com.ewcms.core.site.web.TemplateAction" method="pinYin"/>
+	    <action name="exporttpl" class="com.ewcms.core.site.web.TemplateAction" method="exportTemplateZip"/>
+	    <action name="downloadtpl" class="com.ewcms.core.site.web.TemplateAction" method="downLoadTemplate"/>
+        <action name="exportzip" class="com.ewcms.core.site.web.TemplateAction" method="exportZip"/>
 	</package>
 	
     <package name="site.template.source"  extends="struts-default" namespace="/site/template/source">
@@ -148,6 +151,7 @@
         <action name="saveContent" class="com.ewcms.core.site.web.SourceAction" method="saveContent">
             <result name="input">/WEB-INF/page/site/template/source/content.jsp</result>
         </action>
+        <action name="exportzip" class="com.ewcms.core.site.web.SourceAction" method="exportZip"/>
     </package>
     	
 	<package name="site.channel"  extends="struts-default" namespace="/site/channel"> 	
@@ -186,6 +190,7 @@
         <action name="inheritAcl" class="com.ewcms.core.site.web.AclAction" method="updateInherit"/>
         <action name="up" class="com.ewcms.core.site.web.ChannelAction" method="upChannel"/>
         <action name="down" class="com.ewcms.core.site.web.ChannelAction" method="downChannel"/>
-        <action name="moveSort" class="com.ewcms.core.site.web.ChannelAction" method="moveSortChannel"></action>
+        <action name="moveSort" class="com.ewcms.core.site.web.ChannelAction" method="moveSortChannel"/>
+        <action name="exportzip" class="com.ewcms.core.site.web.ChannelAction" method="exportZip"/>
 	</package>
 </struts>	

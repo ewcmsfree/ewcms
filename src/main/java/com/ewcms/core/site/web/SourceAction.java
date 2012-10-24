@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.core.site.SiteFacable;
@@ -28,6 +32,7 @@ import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
 import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.web.CrudBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.util.TreeNodeConvert;
@@ -436,5 +441,38 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		if (size <= 0)
 			return "0 KB";
 		return String.valueOf(dfom.format(size / 1000)) + " KB";
+	}
+	
+	public void exportZip(){
+		ZipOutputStream zos = null;
+		try{
+			HttpServletResponse response = ServletActionContext.getResponse();
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/x-download;charset=UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=souce" + id + ".zip");
+			
+			zos = new ZipOutputStream(response.getOutputStream());
+			zos.setEncoding("UTF-8");
+			if (id != null){
+				siteFac.exportTemplateSourceZip(id, zos, "");
+			}else{
+				List<TemplateSource> templateSources = siteFac.getTemplaeSourceTreeList(false);
+				for (TemplateSource source : templateSources){
+					siteFac.exportTemplateSourceZip(source.getId(), zos, EwcmsContextUtil.getCurrentSite().getSiteName() + "/");
+				}
+			}
+			zos.flush();
+			zos.close();
+		}catch(Exception e){
+			
+		}finally {
+			if (zos != null){
+				try{
+					zos.close();
+					zos = null;
+				}catch(Exception e){
+				}
+			}
+		}
 	}
 }

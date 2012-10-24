@@ -39,9 +39,10 @@
 				//创建和设置页面的基本对象 EwcmsBase`
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
-				ewcmsBOBJ.addToolItem("导入","icon-print","browseTPL");
-				ewcmsBOBJ.addToolItem("应用子栏目","","appChild")
-				ewcmsBOBJ.addToolItem("强制发布","","forceOperate");
+				ewcmsBOBJ.addToolItem('导入','icon-zip-import','browseTPL');
+				//ewcmsBOBJ.addToolItem('导出','','exportTPL');
+				ewcmsBOBJ.addToolItem('应用子栏目','icon-applied-child','appChild')
+				ewcmsBOBJ.addToolItem('强制发布','icon-force-operate','forceOperate');
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},
@@ -54,6 +55,10 @@
 				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
 									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
 								 }}
+								 //,
+								 //{field:'down',title:'下载',width:70,align:'center',formatter:function(val,rec){
+								 //	return '<input type="button" name="Submit" value="下 载" class="inputbutton" onClick="downloadTPL('+rec.id+');">';
+								 //}}
 				    ]]
 				});
 				
@@ -100,6 +105,23 @@
 			function previewTPL(idValue){
 				window.open('<s:url value="/template/preview"/>?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
 			}					
+			
+			//function exportTPL(){
+			//	var rows = $('#tt').datagrid('getSelections');
+			//	if (rows.length == 0) {
+			//		$.messager.alert('提示', '请选择删除记录', 'info');
+			//		return;
+			//	}
+			//	var parameter = '?zipName=' + parent.parent.selectedNode.text;
+			//	for ( var i = 0; i < rows.length; i++) {
+			//		parameter = parameter + '&selections=' + rows[i].id;
+			//	}
+			//	window.open('<s:url namespace="/site/template" action="exporttpl"/>' + parameter);
+			//}
+			
+			function downloadTPL(idValue){
+				window.open('<s:url namespace="/site/template" action="downloadtpl"/>?selections=' + idValue);
+			}
 			
 			function appChild(){
 				var rows = $("#tt").datagrid("getSelections");
