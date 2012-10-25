@@ -153,7 +153,7 @@
                     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_WRITER,ROLE_USER">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('专题与栏目','site/channel/index.do')">
-                            <img src="ewcmssource/image/package.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/channel.png" style="border:0;"/><br/>
                             <span>专题与栏目</span>
                         </a>
                     </div>
@@ -161,7 +161,7 @@
                     <sec:authorize ifAnyGranted="ROLE_ADMIN">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('模板与资源','site/template/index.do')">
-                            <img src="ewcmssource/image/kontact.png" style="border:0;"/><br/>
+                            <img src="ewcmssource/image/template_resource.png" style="border:0;"/><br/>
                             <span>模板与资源</span>
                         </a>
                     </div>
@@ -211,19 +211,19 @@
                 <div title="互动服务" style="overflow:auto;">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('政民互动','plguin/interaction/index.do')">
-                            <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/interaction.png" style="border:0"/><br/>
                             <span>政民互动</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('留言审核','plguin/interaction/speak.do')">
-                            <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/speak.png" style="border:0"/><br/>
                             <span>留言审核</span>
                         </a>
                     </div>
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('网上咨询','plugin/online/advisor/index.do')">
-                            <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/advisor.png" style="border:0"/><br/>
                             <span>网上咨询</span>
                         </a>
                     </div>
@@ -233,7 +233,7 @@
                 <div title="站点资源" style="overflow:auto;">
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('资源管理','resource/manage/index.do')">
-                            <img src="ewcmssource/image/kontact.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/resources.png" style="border:0"/><br/>
                             <span>资源管理</span>
                         </a>
                     </div>
