@@ -43,34 +43,24 @@
         <div region="north" split="true" class="head">
         	<table width="100%">
         		<tr>
-        			<td width="50%" style="text-align: left"><img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0</td>
-        			<td width="50%">
-        				<table width="100%">
-        					<tr>
-			        			<td height="30px" width="97%" style="text-align: right"><span style="font-size:13px;font-weight: bold;"><span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span> | <span id="clock"></span></td>
-        						<td width="2%"><a id="button-main" href="#" style="border:0;padding:0;"><img src="<s:url value='/ewcmssource/image/exit.png'/>" width="17" height="17" style="border:0;"/></a></td>
-        						<td width="1%"></td>
-        					</tr>
-        					<tr>
-        						<td height="20px" colspan="2" >
-        							<table width="100%">
-        								<tr>
-        									<td width="65%" style="text-align:right;">
-			        							<span id="tipMessage" style="color:red;font-size:13px;"></span>
-			        						</td>
-			        						<td width="35%" style="text-align:left">
-			        							<div class="bs">
-													<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
-													<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
-													<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
-													<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
-												</div>
-			        						</td>
-			        					</tr>
-			        				</table>
-			        			</td>
-        					</tr>
-        				</table>
+        			<td width="70%" style="text-align: left"><img src='<s:url value="/ewcmssource/image/top_bg_ewcms.gif"/>' height="35px" border="0" style="border:0;padding-left:4px;padding-top:13px;"/> | 企业网站站群内容管理系统V2.0</td>
+        			<td width="30%">
+        				<div style="position: absolute;right: 10px;text-align: right;top: 5px;width: 50%;">
+        					<span style="font-size:13px;font-weight: bold;">
+        						<span id="user-name"><s:property value="realName"/></span> <s:property value="siteName"/>欢迎你</span>
+        						 | 
+        						<span id="clock"></span>
+        						<a id="button-main" href="#" style="border:0;padding:0;"><img src="<s:url value='/ewcmssource/image/exit.png'/>" width="15" height="15" style="border:0;padding-top:5px;"/></a>
+        				</div>
+        				<div class="bs" style="margin-top:30px;padding-right:160px;">
+							<a class="styleswitch a5" style="cursor: pointer" title="灰色" rel="pepper-grinder"></a>		
+							<a class="styleswitch a4" style="cursor: pointer" title="黑色" rel="dark-hive"></a>	
+							<a class="styleswitch a2" style="cursor: pointer" title="浅蓝色" rel="cupertino"></a>
+							<a class="styleswitch a1" style="cursor: pointer" title="谈黄色" rel="sunny"></a>
+        				</div>
+        				<div style="margin-top:30px;">
+							<span id="tipMessage" style="color:red;font-size:13px;"></span>
+						</div>
         			</td>
         		</tr>
         	</table>
@@ -314,19 +304,19 @@
                 <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
                          <a href="javascript:_home.addTab('审批备案','particular/ar/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/particular_ar.png" style="border:0"/><br/>
                             <span>审批备案</span>
                         </a>
                     </div>
                     <div class="nav-item">
                          <a href="javascript:_home.addTab('行业编码','particular/ic/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/particular_ic.png" style="border:0"/><br/>
                             <span>行业编码</span>
                         </a>
                     </div>
                     <div class="nav-item">
                          <a href="javascript:_home.addTab('行政区划','particular/zc/index.do')">
-                            <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
+                            <img src="ewcmssource/image/particular_zc.png" style="border:0"/><br/>
                             <span>行政区划</span>
                         </a>
                     </div>

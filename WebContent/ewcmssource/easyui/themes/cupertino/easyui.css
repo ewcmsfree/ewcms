@@ -1654,8 +1654,8 @@ a.s-btn-plain-active .s-btn-downarrow{
 }
 
 .bs{ }
-.bs a{ width:10px; height:9px; margin-right:10px; float:left; }
-.bs .a1{ background:url(../../../image/skin/sunny.gif) no-repeat;float:left;margin-left:55px;display:inline;margin-top:2px;}
+.bs a{ width:10px; height:9px; margin-right:10px; float:right; }
+.bs .a1{ background:url(../../../image/skin/sunny.gif) no-repeat;float:right;display:inline;margin-top:2px;}
 .bs .a2{ background:url(../../../image/skin/cupertino-check.gif) no-repeat;margin-top:2px;}
 .bs .a3{  background:url(../../../image/skin/default.gif) no-repeat;margin-top:2px;}
 .bs .a4{  background:url(../../../image/skin/dark-hive.gif) no-repeat;margin-top:2px;}

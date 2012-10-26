@@ -12,18 +12,19 @@ package com.ewcms.core.site.web;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
 import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -129,17 +130,19 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 	@Override
 	protected Integer saveOperator(TemplateSource vo, boolean isUpdate) {
 		TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
+		InputStream in = null;
 		try {
 			if (sourceFile != null) {
 				getSourceVo().setSize(converKB(sourceFile.length()));
 
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+				in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
 						.valueOf(sourceFile.length())));
 				in.read(buffer);
 				tplEntityVo.setSrcEntity(buffer);
 				getSourceVo().setSourceEntity(tplEntityVo);
-
+				
+				in.close();
 			}
 			if (isUpdate) {
 				TemplateSource oldvo = siteFac.getTemplateSource(getSourceVo().getId());
@@ -163,8 +166,14 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 				return siteFac.addTemplateSource(getSourceVo());
 			}
 		} catch (Exception e) {
-			//this.outputInfo(e.toString());
 			return null;
+		} finally {
+			try {
+				if (in != null){
+					in.close();
+					in = null;
+				}
+			} catch (IOException e){}
 		}
 	}
 
@@ -208,8 +217,9 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 				getSourceVo().setSize(converKB(sourceFile.length()));
 				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
+				InputStream in = null;
 				try {
-					InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+					in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
 							.valueOf(sourceFile.length())));
 					in.read(buffer);
 
@@ -222,8 +232,16 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 						getSourceVo().setParent(siteFac.getTemplateSource(getSourceVo().getParent().getId()));
 					}
 					siteFac.addTemplateSource(getSourceVo());
+					
+					in.close();
 				} catch (Exception e) {
-					//outputInfo(e.toString());
+				} finally {
+					try {
+						if (in != null){
+							in.close();
+							in = null;
+						}
+					} catch (IOException e){}
 				}
 			}
 		} else {
@@ -233,11 +251,10 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		return INPUT;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void paraseSourceZIPFile() {
 		try {
 			ZipFile zfile = new ZipFile(sourceFile);
-			Enumeration zList = zfile.entries();
+			Enumeration zList = zfile.getEntries();
 			Map<String, Integer> dirMap = new HashMap<String, Integer>();
 			ZipEntry ze = null;
 			String[] pathArr;
@@ -271,15 +288,12 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 					tplEntityVo.setSrcEntity(buffer);
 					vo.setSourceEntity(tplEntityVo);
 					siteFac.addTemplateSource(vo);
-					buffer = null;
 					in.close();
 				} catch (Exception e) {
-					//outputInfo(e.toString());
 				}
 			}
 			zfile.close();
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 		}
 	}
 
@@ -300,7 +314,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			Integer tplId = siteFac.addTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -320,7 +333,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			Integer tplId = siteFac.addTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON(tplId));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -336,7 +348,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			siteFac.updTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -349,7 +360,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			siteFac.delTemplateSource(getSourceVo().getId());
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -368,7 +378,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			siteFac.updTemplateSource(vo);
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
@@ -393,23 +402,25 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		    webPublish.publishTemplateSources(new int[]{getSourceVo().getId()});
 			Struts2Util.renderJson(JSONUtil.toJSON("true"));
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 			Struts2Util.renderJson(JSONUtil.toJSON("false"));
 		}
 	}
 
 	public String saveInfo() {
+		InputStream in = null;
 		try {
 			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			if (sourceFile != null) {
 				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
 				vo.setSize(converKB(sourceFile.length()));
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
+				in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
 						.valueOf(sourceFile.length())));
 				in.read(buffer);
 				tplEntityVo.setSrcEntity(buffer);
 				vo.setSourceEntity(tplEntityVo);
+				
+				in.close();
 			}
 			vo.setName(sourceFileFileName);
 			vo.setDescribe(getSourceVo().getDescribe());
@@ -417,6 +428,13 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
 			addActionMessage("数据保存失败！");
+		} finally {
+			try {
+				if (in != null){
+					in.close();
+					in = null;
+				}
+			} catch (IOException e) {}
 		}
 		return INPUT;
 	}
@@ -448,7 +466,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		try{
 			HttpServletResponse response = ServletActionContext.getResponse();
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("application/x-download;charset=UTF-8");
+			response.setContentType("application/zip;charset=UTF-8");
 			response.setHeader("Content-Disposition", "attachment; filename=souce" + id + ".zip");
 			
 			zos = new ZipOutputStream(response.getOutputStream());

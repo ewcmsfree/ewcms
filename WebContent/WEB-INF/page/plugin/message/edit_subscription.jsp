@@ -26,7 +26,8 @@
 				<tr>
 					<td>内容：</td>
 					<td>
-						<s:textarea id="detail" name="msgContentVo.detail" cols="50"></s:textarea>
+`						<s:textarea id="detail" name="msgContentVo.detail" cols="50"></s:textarea>
+						<s:fielderror><s:param value="%{'msgContentVo.detail'}"/></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
 			</table>

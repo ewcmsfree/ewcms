@@ -36,12 +36,19 @@ public class IO {
 	}
 	
 	public static void writeBytesToFile(byte[] bytes, String destination) {
+		FileChannel fc = null;
 		try {
-			FileChannel fc = new FileOutputStream(destination).getChannel();
+			fc = new FileOutputStream(destination).getChannel();
 			fc.write(ByteBuffer.wrap(bytes));
 			fc.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			try {
+				if (fc != null){
+					fc.close();
+					fc = null;
+				}
+			} catch (IOException e){}
 		}
 	}
 }

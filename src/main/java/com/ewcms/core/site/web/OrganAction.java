@@ -12,6 +12,7 @@ package com.ewcms.core.site.web;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -206,15 +207,24 @@ public class OrganAction extends CrudBaseAction<Organ, Integer> {
 			vo.setUpdateTime(getOrganVo().getUpdateTime());
 			vo.setDescripe(getOrganVo().getDescripe());
 			if (iconFile != null) {
+				InputStream in = null;
 				try {
 					byte[] buffer = new byte[Integer.parseInt(String
 							.valueOf(iconFile.length()))];
-					InputStream in = new BufferedInputStream(
+					in = new BufferedInputStream(
 							new FileInputStream(iconFile),
 							Integer.parseInt(String.valueOf(iconFile.length())));
 					in.read(buffer);
 					vo.setIcon(buffer);
+					in.close();
 				} catch (Exception e) {
+				} finally {
+					try{
+						if (in != null){
+							in.close();
+							in = null;
+						}
+					} catch (IOException e){}
 				}
 			}
 			siteFac.updOrgan(vo);

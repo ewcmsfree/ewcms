@@ -31,7 +31,7 @@
         </script>		
 	</head>
 	<body>
-		<s:form id="notesForm" action="save" namespace="/message/send">
+		<s:form id="messageForm" action="save" namespace="/message/send">
 			<table class="formtable">
 				<tr>
 					<td width="60">标题：</td>
@@ -40,10 +40,11 @@
 						<s:fielderror ><s:param value="%{'msgSendVo.title'}" /></s:fielderror>&nbsp;&nbsp;<label style="color: red;">*</label>
 					</td>
 				</tr>
-				<tr>
+				<tr class="formFieldError">
 					<td>内容：</td>
 					<td>
 						<s:textarea id="content" name="content" cols="50"></s:textarea>
+						<s:fielderror><s:param value="%{'content'}"/></s:fielderror>&nbsp;&nbsp;<label style="color:red;">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -59,7 +60,7 @@
 				    </td>
 				</tr>
 			</table>
-			<s:hidden id="msgSendId" name="msgSendVo.id"/>
+			<s:hidden name="msgSendVo.id"/>
             <s:iterator value="selections" var="id">
                 <s:hidden name="selections" value="%{id}"/>
             </s:iterator>			

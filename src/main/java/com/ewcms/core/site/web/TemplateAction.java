@@ -10,26 +10,23 @@
 package com.ewcms.core.site.web;
 
 import java.io.BufferedInputStream;
-//import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
-//import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-//import java.util.Map.Entry;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-//import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
 import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -137,16 +134,19 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	@Override
 	protected Integer saveOperator(Template vo, boolean isUpdate) {
 		TemplateEntity tplEntityVo = new TemplateEntity();
+		InputStream in = null;
 		try {
 			if (templateFile != null) {
 				getTemplateVo().setSize(converKB(templateFile.length()));
 
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+				in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
 						.valueOf(templateFile.length())));
 				in.read(buffer);
 				tplEntityVo.setTplEntity(buffer);
 				getTemplateVo().setTemplateEntity(tplEntityVo);
+				
+				in.close();
 
 			}
 			if (isUpdate) {
@@ -172,8 +172,14 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 				return siteFac.addTemplate(getTemplateVo());
 			}
 		} catch (Exception e) {
-			//this.outputInfo(e.toString());
 			return null;
+		} finally {
+			try {
+				if (in != null){
+					in.close();
+					in = null;
+				}
+			} catch (IOException e) {}
 		}
 	}
 
@@ -188,16 +194,17 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public String importTemplate() {
 		if (templateFile != null) {
 			if (templateFileContentType != null
-					&& "application/octet-stream,application/zip,application/x-zip-compressed".indexOf(templateFileContentType) != -1) {
+					&& "application/octet-stream,application/zip,application/x-zip-compressed,application/x-download".indexOf(templateFileContentType) != -1) {
 				parseTemplateZIPFile();
 			} else {
 				getTemplateVo().setSite(getCurrentSite());
 				getTemplateVo().setName(templateFileFileName);
 				getTemplateVo().setSize(converKB(templateFile.length()));
 				TemplateEntity tplEntityVo = new TemplateEntity();
+				InputStream in = null;
 				try {
 					byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
-					InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+					in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
 							.valueOf(templateFile.length())));
 					in.read(buffer);
 					tplEntityVo.setTplEntity(buffer);
@@ -208,8 +215,15 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 						getTemplateVo().setParent(siteFac.getTemplate(getTemplateVo().getParent().getId()));
 					}
 					siteFac.addTemplate(getTemplateVo());
+					in.close();
 				} catch (Exception e) {
-					//outputInfo(e.toString());
+				} finally {
+					try {
+						if (in != null){
+							in.close();
+							in = null;
+						}
+					} catch (IOException e) {}
 				}
 			}
 
@@ -230,67 +244,6 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		this.zipName = zipName;
 	}
 
-//	public void exportTemplateZip(){
-//		ZipOutputStream zos = null;
-//		try{
-//			if (getSelections() != null && getSelections().size() > 0 && zipName != null && zipName.length() > 0){
-//				Map<String, String> files = new HashMap<String, String>();
-//				for (Integer templateId : getSelections()){
-//					Template template = siteFac.getTemplate(templateId);
-//					if (template == null || template.getTemplateEntity() == null) continue;
-//					String templateSource = new String(template.getTemplateEntity().getTplEntity(), "UTF-8");
-//					String fileName = template.getName();
-//					fileName = URLEncoder.encode(fileName, "UTF-8");
-//					files.put(fileName, templateSource);
-//				}
-//				if (!files.isEmpty()){ 
-//					Iterator<Entry<String, String>> it = files.entrySet().iterator();
-//					ZipEntry zipEntry;
-//					
-//					HttpServletResponse response = ServletActionContext.getResponse();
-//					response.setCharacterEncoding("UTF-8");
-//					response.setContentType("application/x-download;charset=UTF-8");
-//					response.setHeader("Content-Disposition", "attachment; filename=" + zipName + ".zip");
-//					
-//					zos = new ZipOutputStream(response.getOutputStream());  
-//					
-//					while (it.hasNext()){
-//						Entry<String, String> entry = it.next();
-//						String key = entry.getKey();
-//						String value = entry.getValue();
-//						
-//						zipEntry = new ZipEntry(key);
-//						zipEntry.setSize(value.length());
-//						
-//						zos.putNextEntry(zipEntry);
-//						
-//						byte[] buffer = new byte[1024];  
-//					    int length = 0; 
-//					    
-//						BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(value.getBytes()));
-//						while((length = bis.read(buffer))!=-1){  
-//			                zos.write(buffer, 0, length);  
-//			            }  
-//						
-//						zos.closeEntry();
-//						bis.close();
-//					}
-//					zos.flush();
-//					zos.close();
-//				}
-//			}
-//		}catch(Exception e){
-//		}finally {
-//			if (zos != null){
-//				try{
-//					zos.close();
-//					zos = null;
-//				}catch(Exception e){
-//				}
-//			}
-//		}
-//	}
-	
 	public void downLoadTemplate(){
 		PrintWriter pw = null;
 		InputStream in = null;
@@ -306,7 +259,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 						HttpServletResponse response = ServletActionContext.getResponse();
 						response.setCharacterEncoding("UTF-8");
 						response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-						response.setContentType("application/x-download;charset=UTF-8");
+						response.setContentType("application/zip;charset=UTF-8");
 		
 						pw = response.getWriter();
 						pw.write(templateSource);
@@ -338,11 +291,10 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void parseTemplateZIPFile() {
 		try {
 			ZipFile zfile = new ZipFile(templateFile);
-			Enumeration zList = zfile.entries();
+			Enumeration zList = zfile.getEntries();
 			Map<String, Integer> dirMap = new HashMap<String, Integer>();
 			ZipEntry ze = null;
 			String[] pathArr;
@@ -377,13 +329,12 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					tplEntityVo.setTplEntity(buffer);
 					vo.setTemplateEntity(tplEntityVo);
 					siteFac.addTemplate(vo);
+					in.close();
 				} catch (Exception e) {
-					//outputInfo(e.toString());
 				}
 			}
 			zfile.close();
 		} catch (Exception e) {
-			//outputInfo(e.toString());
 		}
 	}
 
@@ -534,6 +485,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	}
 
 	public String saveInfo() {
+		InputStream in = null;
 		try {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
 			vo.setDescribe(getTemplateVo().getDescribe());
@@ -541,18 +493,27 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 				vo.setSize(converKB(templateFile.length()));
 				TemplateEntity tplEntityVo = new TemplateEntity();
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
-				InputStream in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
+				in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
 						.valueOf(templateFile.length())));
 				in.read(buffer);
 				tplEntityVo.setTplEntity(buffer);
 				vo.setTemplateEntity(tplEntityVo);
 				vo.setName(templateFileFileName);
+				
+				in.close();
 			}
 			siteFac.updTemplate(vo);
 
 			addActionMessage("数据保存成功！");
 		} catch (Exception e) {
 			addActionMessage("数据保存失败！");
+		} finally {
+			try{
+				if (in != null){
+					in.close();
+					in = null;
+				}
+			} catch(IOException e){}
 		}
 		return INPUT;
 	}

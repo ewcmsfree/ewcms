@@ -35,14 +35,14 @@ import javax.persistence.Table;
  * <li>language:语言</li>
  * <li>userAgent:用户代理</li>
  * <li>os:操作系统</li>
- * <li>javaEnabled:java启用</li>
- * <li>flashEnabled:flash启用</li>
+ * <li>javaEnabled:java是否启用</li>
+ * <li>flashEnabled:flash是否启用</li>
  * <li>flashVersion:flash版本</li>
- * <li>cookieEnable:cookie启用</li>
+ * <li>cookieEnable:cookie是否启用</li>
  * <li>type:类型</li>
  * <li>catalogInnerCode:</li>
  * <li>leafID:</li>
- * <li>siteID:</li>
+ * <li>siteID:站点编号</li>
  * <li>visitTime:访问时间</li>
  * <li>host:主机</li>
  * <li>event:</li>

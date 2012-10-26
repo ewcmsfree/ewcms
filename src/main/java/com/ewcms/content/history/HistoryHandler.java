@@ -36,7 +36,6 @@ public class HistoryHandler {
 	@Autowired
 	private HistoryModelDAO historyModelDAO;
 
-	@SuppressWarnings("unused")
 	@Pointcut("@annotation(ahistory)")
 	private void save(History ahistory) {
 	}

@@ -130,7 +130,7 @@
 					$.messager.alert('提示','不允许删除该模板');
 					 return;
 				}     			
-    			$.messager.confirm('', '确认要删除 ' + node.text + '模板吗?', function(r){
+    			$.messager.confirm('提示', '确认要删除 ' + node.text + '模板吗?', function(r){
     				if (r){
     	    	    	//删除模板			
     		            $.post('<s:url action="del"/>',{'templateVo.id':getNodeId(node)},function(data){

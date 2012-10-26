@@ -14,8 +14,7 @@
 
 			function selectTPL(){
 				var node = $('#tt2').tree('getSelected');
-    	    	if(node == null || typeof(node) == 'undefined' || node.iconCls != "")
-    	    	{
+    	    	if(node == null || typeof(node) == 'undefined'){
     	    		$.messager.alert('提示','请选择模板文件');
     	    		return false;
     	    	}
