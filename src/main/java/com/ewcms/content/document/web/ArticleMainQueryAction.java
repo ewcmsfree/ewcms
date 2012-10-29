@@ -98,8 +98,14 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		String joinTable = "";
 		if (!isPermissionIsChannel){
 			joinTable = " Left Join r.reviewProcess As p Left Join p.reviewUsers As u Left Join p.reviewGroups As g ";
-			hql += " And (r.owner=:owner Or u.userName=:userName Or g.groupName In (:groupName)) ";
-			countHql += " And (r.owner=:owner Or u.userName=:userName Or g.groupName In (:groupName)) ";
+			hql += " And (r.owner=:owner Or u.userName=:userName ";
+			countHql += " And (r.owner=:owner Or u.userName=:userName ";
+			if (EwcmsContextUtil.getGroupnames() != null && EwcmsContextUtil.getGroupnames().size() > 0){
+				hql += " Or g.groupName In (:groupName)";
+				countHql += " Or g.groupName In (:groupName)";
+			}
+			hql += " ) ";
+			countHql += " ) ";
 		}
 		hql = hql.replace("@joinTable@", joinTable);
 		countHql = countHql.replace("@joinTable@", joinTable);
@@ -152,7 +158,8 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		if (!isPermissionIsChannel){
 			query.setParameter("owner", EwcmsContextUtil.getUserName());
 			query.setParameter("userName", EwcmsContextUtil.getUserName());
-			query.setParameter("groupName", EwcmsContextUtil.getGroupnames());
+			if (EwcmsContextUtil.getGroupnames() != null && EwcmsContextUtil.getGroupnames().size() > 0)
+				query.setParameter("groupName", EwcmsContextUtil.getGroupnames());
 		}
 		
 		query.setParameter("channelId", getChannelId());

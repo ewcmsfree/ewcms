@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -252,6 +251,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		return INPUT;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void paraseSourceZIPFile() {
 		try {
 			ZipFile zfile = new ZipFile(sourceFile);

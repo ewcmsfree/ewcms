@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -291,6 +290,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void parseTemplateZIPFile() {
 		try {
 			ZipFile zfile = new ZipFile(templateFile);

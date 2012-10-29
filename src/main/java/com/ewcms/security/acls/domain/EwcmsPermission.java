@@ -12,14 +12,16 @@ public class EwcmsPermission extends AbstractPermission{
 
 	private static final long serialVersionUID = 2981918244450659548L;
 	
-	public static final EwcmsPermission READ = new EwcmsPermission(1 << 0, 'R'); // 1
-    public static final EwcmsPermission WRITE = new EwcmsPermission(1 << 1, 'W'); // 2
-    public static final EwcmsPermission PUBLISH = new EwcmsPermission(1 << 2,'P'); // 4
+	public static final EwcmsPermission READ = new EwcmsPermission(1 << 0, 'R'); // 1 文章的显示
+    public static final EwcmsPermission WRITE = new EwcmsPermission(1 << 1, 'W'); // 2 文章的新建与修改
+    public static final EwcmsPermission REMOVE = new EwcmsPermission(1 << 2, 'M'); // 4 文章的删除
+    public static final EwcmsPermission VERIFY = new EwcmsPermission( 1 << 3, 'V'); // 8 文章的审核
+    public static final EwcmsPermission PUBLISH = new EwcmsPermission(1 << 4,'P'); // 16 文章的发布
     //专栏管理权限
-    public static final EwcmsPermission CREATE = new EwcmsPermission(1 << 3, 'C'); // 8
-    public static final EwcmsPermission UPDATE = new EwcmsPermission(1 << 4, 'U'); // 16
-    public static final EwcmsPermission DELETE = new EwcmsPermission(1 << 5, 'D'); // 32
-    public static final EwcmsPermission ADMIN = new EwcmsPermission(1 << 6, 'A'); // 64
+    public static final EwcmsPermission CREATE = new EwcmsPermission(1 << 5, 'C'); // 32
+    public static final EwcmsPermission UPDATE = new EwcmsPermission(1 << 6, 'U'); // 64
+    public static final EwcmsPermission DELETE = new EwcmsPermission(1 << 7, 'D'); // 128
+    public static final EwcmsPermission ADMIN = new EwcmsPermission(1 << 8, 'A'); // 256
     
     protected EwcmsPermission(int mask) {
         super(mask);
@@ -35,6 +37,12 @@ public class EwcmsPermission extends AbstractPermission{
         }
         if(mask == WRITE.getMask()){
             return WRITE;
+        }
+        if(mask == REMOVE.getMask()){
+        	return REMOVE;
+        }
+        if(mask == VERIFY.getMask()){
+        	return VERIFY;
         }
         if(mask == PUBLISH.getMask()){
             return PUBLISH;

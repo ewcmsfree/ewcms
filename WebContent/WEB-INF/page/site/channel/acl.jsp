@@ -51,10 +51,15 @@
                            <tr>
                                <td width="60px">权限：</td>
                                <td>
-                                   <input type="radio" value="1" name="mask" checked style="vertical-align:middle;"/><span style="vertical-align:middle;">读</span>&nbsp;&nbsp;
-                                   <input type="radio" value="2" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">写</span>&nbsp;&nbsp;
-                                   <input type="radio" value="4" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">发布</span>&nbsp;&nbsp;
-                                   <input type="radio" value="64" name="mask"style="vertical-align:middle;"/><span style="vertical-align:middle;">管理</span>&nbsp;&nbsp;
+                                   <input type="radio" value="1" name="mask" checked style="vertical-align:middle;"/><span style="vertical-align:middle;">读文章</span>&nbsp;&nbsp;
+                                   <input type="radio" value="2" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">写文章</span>&nbsp;&nbsp;
+                                   <input type="radio" value="4" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">删除文章</span>&nbsp;&nbsp;
+                                   <input type="radio" value="8" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">审核文章</span>&nbsp;&nbsp;
+                                   <input type="radio" value="16" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">发布文章</span>&nbsp;&nbsp;
+                                   <input type="radio" value="32" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">新建栏目</span>&nbsp;&nbsp;
+                                   <input type="radio" value="64" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">修改栏目</span>&nbsp;&nbsp;
+                                   <input type="radio" value="128" name="mask" style="vertical-align:middle;"/><span style="vertical-align:middle;">删除栏目</span>&nbsp;&nbsp;
+                                   <input type="radio" value="256" name="mask"style="vertical-align:middle;"/><span style="vertical-align:middle;">管理员</span>&nbsp;&nbsp;
                                </td>
                            </tr>
                         </table>

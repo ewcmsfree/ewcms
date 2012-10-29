@@ -250,8 +250,8 @@ public class AclAction extends JsonBaseAction{
         editor.put("options",options);
         List<Map<String,Object>> comboboxData = new ArrayList<Map<String,Object>>();
         options.put("data", comboboxData);
-        Integer[] values = new Integer[]{1,2,4,64};
-        String[] texts = new String[]{"读","写","发布","管理"};
+        Integer[] values = new Integer[]{1,2,4,8,16,32,64,128,256};
+        String[] texts = new String[]{"读文章","写文章","删除文章","审核文章","发布文章","新建栏目","修改栏目","删除栏目","管理员"};
         for(int i = 0 ; i < values.length ; i++){
             Map<String,Object> data = new HashMap<String,Object>();    
             data.put("value", values[i]);

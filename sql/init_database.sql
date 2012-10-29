@@ -10,9 +10,9 @@ DELETE FROM auth_authority;
 --初始数据
 --角色(权限)设定
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_ADMIN','管理员');
+INSERT INTO auth_authority (name,remark) VALUES ('ROLE_WRITER','作者用户');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_EDITOR','责任编辑');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_RESOURCE','资源管理');
-INSERT INTO auth_authority (name,remark) VALUES ('ROLE_WRITER','作者用户');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_USER','普通用户');
 
 --用户组
