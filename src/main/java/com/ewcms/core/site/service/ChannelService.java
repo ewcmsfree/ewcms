@@ -39,7 +39,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateSource;
-import com.ewcms.core.site.util.ConvertToPinYin;
+import com.ewcms.core.site.util.ConvertUtil;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.security.acls.domain.EwcmsPermission;
@@ -212,7 +212,7 @@ public class ChannelService implements ChannelServiceable{
         channel.setName(name);
         channel.setParent(channelDAO.get(parentId));
         channel.setSite(getCurSite());
-        channel.setDir(ConvertToPinYin.covert(name));
+        channel.setDir(ConvertUtil.pinYin(name));
         channel.setSort(channelDAO.findMaxSiblingChannel(parentId) + 1);
         channelDAO.persist(channel);
         initAclOfChannel(channel,true,true);

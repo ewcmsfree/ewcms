@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.TemplateSource;
 import com.ewcms.core.site.model.TemplatesrcEntity;
+import com.ewcms.core.site.util.ConvertUtil;
 import com.ewcms.publication.WebPublishFacable;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -133,7 +134,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		InputStream in = null;
 		try {
 			if (sourceFile != null) {
-				getSourceVo().setSize(converKB(sourceFile.length()));
+				getSourceVo().setSize(ConvertUtil.kb(sourceFile.length()));
 
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
 				in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
@@ -214,7 +215,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			} else {
 				getSourceVo().setSite(getCurrentSite());
 				getSourceVo().setName(sourceFileFileName);
-				getSourceVo().setSize(converKB(sourceFile.length()));
+				getSourceVo().setSize(ConvertUtil.kb(sourceFile.length()));
 				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
 				InputStream in = null;
@@ -412,7 +413,7 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 			TemplateSource vo = siteFac.getTemplateSource(getSourceVo().getId());
 			if (sourceFile != null) {
 				TemplatesrcEntity tplEntityVo = new TemplatesrcEntity();
-				vo.setSize(converKB(sourceFile.length()));
+				vo.setSize(ConvertUtil.kb(sourceFile.length()));
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(sourceFile.length()))];
 				in = new BufferedInputStream(new FileInputStream(sourceFile), Integer.parseInt(String
 						.valueOf(sourceFile.length())));
@@ -454,13 +455,6 @@ public class SourceAction extends CrudBaseAction<TemplateSource, Integer> {
 		return INPUT;
 	}
 
-	private String converKB(long size) {
-		DecimalFormat dfom = new DecimalFormat("####.0");
-		if (size <= 0)
-			return "0 KB";
-		return String.valueOf(dfom.format(size / 1000)) + " KB";
-	}
-	
 	public void exportZip(){
 		ZipOutputStream zos = null;
 		try{

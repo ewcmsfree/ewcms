@@ -39,8 +39,7 @@
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.addToolItem('导入','icon-zip-import','browseTPL');
-				//ewcmsBOBJ.addToolItem('导出','','exportTPL');
-				ewcmsBOBJ.addToolItem('应用子栏目','icon-applied-child','appChild')
+				ewcmsBOBJ.addToolItem('应用栏目','icon-applied-child','appChildOperate')
 				ewcmsBOBJ.addToolItem('强制发布','icon-force-operate','forceOperate');
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
@@ -54,10 +53,6 @@
 				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
 									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
 								 }}
-								 //,
-								 //{field:'down',title:'下载',width:70,align:'center',formatter:function(val,rec){
-								 //	return '<input type="button" name="Submit" value="下 载" class="inputbutton" onClick="downloadTPL('+rec.id+');">';
-								 //}}
 				    ]]
 				});
 				
@@ -68,7 +63,6 @@
 				ewcmsOOBJ.setDeleteURL('<s:url action="delete" namespace="/site/template"/>');
 			});			
 			function editTPL(idValue, path, typeDescription){
-				//$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);\
 				var position="";
 				var currentNode = parent.parent.selectedNode;
 				if (currentNode){
@@ -98,28 +92,23 @@
 					position = "<span style='color:red;'>当前位置：" + position + "</span>";
 		        }
 				ewcmsBOBJ.openWindow1({width:800,height:390,title:"模板编辑",url:'<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue,position:position});
-				//top._home.addTab('模板编辑','<s:url action="editContent" namespace="/site/template"/>?templateVo.id='+idValue);
 			}	
 
 			function previewTPL(idValue){
 				window.open('<s:url value="/template/preview"/>?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
 			}					
 			
-			//function exportTPL(){
-			//	var rows = $('#tt').datagrid('getSelections');
-			//	if (rows.length == 0) {
-			//		$.messager.alert('提示', '请选择删除记录', 'info');
-			//		return;
-			//	}
-			//	var parameter = '?zipName=' + parent.parent.selectedNode.text;
-			//	for ( var i = 0; i < rows.length; i++) {
-			//		parameter = parameter + '&selections=' + rows[i].id;
-			//	}
-			//	window.open('<s:url namespace="/site/template" action="exporttpl"/>' + parameter);
-			//}
-			
 			function downloadTPL(idValue){
 				window.open('<s:url namespace="/site/template" action="downloadtpl"/>?selections=' + idValue);
+			}
+			
+			function appChildOperate(){
+				var rows = $('#tt').datagrid('getSelections');
+					if (rows.length == 0) {
+						$.messager.alert('提示', '请选择应用栏目的模板记录', 'info');
+						return;
+					}
+				ewcmsBOBJ.openWindow('#appchildren-window',{width : 550,height : 200,title : '应用栏目'});
 			}
 			
 			function appChild(){
@@ -129,6 +118,7 @@
 		            return;
 		        }
 				var parameters = "?channelId=<s:property value='channelVo.id'/>";
+				parameters += "&cover=" + $('input[name=\'appchildrenRadio\']:checked').val();
 				for ( var i = 0; i < rows.length; i++) {
 					parameters += '&selections=' + rows[i].id;
 				}
@@ -234,6 +224,31 @@
                 </div>
             </div>
         </div>
+        <div id="appchildren-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
+            <div class="easyui-layout" fit="true" >
+                <div region="center" border="false" style="padding: 5px;">
+                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#99BBE8" style="border: #99BBE8 1px solid;">
+                        <tr align="center">
+                            <td height="30" width="30%">操作</td>
+                            <td height="30" width="70%">说明</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="appchildrenRadio" name="appchildrenRadio" list='#{0:"只新增不更新"}' cssStyle="vertical-align: middle;" value="0"></s:radio></td>
+                            <td height="40">&nbsp;只新增不存在的模板，并不更新存在的模板</td>
+                        </tr>
+                        <tr>
+                            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;<s:radio id="appchildrenRadio" name="appchildrenRadio"  list='#{1:"新增并更新"}' cssStyle="vertical-align: middle;"></s:radio></td>
+                            <td height="40">&nbsp;新增不存在的模板，并更新已存在的模板</td>
+                        </tr>
+                    </table>
+                </div>
+                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+                    <a class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)"  onclick="javascript:appChild();">确定</a>
+                    <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)"  onclick="javascript:$('#appchildren-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
+        
         <div id="force-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false" style="padding: 5px;">

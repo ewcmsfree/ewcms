@@ -34,7 +34,7 @@ import org.springframework.security.access.AccessDeniedException;
 import com.ewcms.core.site.SiteFacable;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
-import com.ewcms.core.site.util.ConvertToPinYin;
+import com.ewcms.core.site.util.ConvertUtil;
 import com.ewcms.web.CrudBaseAction;
 import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.web.util.JSONUtil;
@@ -137,7 +137,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		InputStream in = null;
 		try {
 			if (templateFile != null) {
-				getTemplateVo().setSize(converKB(templateFile.length()));
+				getTemplateVo().setSize(ConvertUtil.kb(templateFile.length()));
 
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
 				in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
@@ -199,7 +199,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			} else {
 				getTemplateVo().setSite(getCurrentSite());
 				getTemplateVo().setName(templateFileFileName);
-				getTemplateVo().setSize(converKB(templateFile.length()));
+				getTemplateVo().setSize(ConvertUtil.kb(templateFile.length()));
 				TemplateEntity tplEntityVo = new TemplateEntity();
 				InputStream in = null;
 				try {
@@ -490,7 +490,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Template vo = siteFac.getTemplate(getTemplateVo().getId());
 			vo.setDescribe(getTemplateVo().getDescribe());
 			if (templateFile != null) {
-				vo.setSize(converKB(templateFile.length()));
+				vo.setSize(ConvertUtil.kb(templateFile.length()));
 				TemplateEntity tplEntityVo = new TemplateEntity();
 				byte[] buffer = new byte[Integer.parseInt(String.valueOf(templateFile.length()))];
 				in = new BufferedInputStream(new FileInputStream(templateFile), Integer.parseInt(String
@@ -546,13 +546,6 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 //		}
 //	}
 
-	private String converKB(long size) {
-		DecimalFormat dfom = new DecimalFormat("####.0");
-		if (size <= 0)
-			return "0 KB";
-		return String.valueOf(dfom.format(size / 1000)) + " KB";
-	}
-	
 	private Integer channelId;
 	
 	public Integer getChannelId() {
@@ -563,10 +556,23 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 		this.channelId = channelId;
 	}
 
+	private Integer cover;
+	
+	public Integer getCover() {
+		return cover;
+	}
+
+	public void setCover(Integer cover) {
+		this.cover = cover;
+	}
+
 	public void appChild(){
 		try{
-			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0){
-				siteFac.saveAppChild(getChannelId(), getSelections());
+			if (getChannelId() != null && getSelections() != null && getSelections().size() > 0 && getCover() != null){
+				if (getCover().intValue() == 1)
+					siteFac.saveAppChild(getChannelId(), getSelections(), true);
+				else
+					siteFac.saveAppChild(getChannelId(), getSelections(), false);
 				Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目成功!"));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("模板应用于子栏目失败!"));
@@ -585,7 +591,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 	public void setChildren(Integer children) {
 		this.children = children;
 	}
-
+	
 	public void forceRelease() {
 		try {
 			if (getChannelId() != null && getChildren() != null){
@@ -616,7 +622,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 
 	public void pinYin(){
 		if (getChannelName() != null && getChannelName().trim().length() > 0){
-			Struts2Util.renderJson(JSONUtil.toJSON(ConvertToPinYin.covert(getChannelName())));
+			Struts2Util.renderJson(JSONUtil.toJSON(ConvertUtil.pinYin(getChannelName())));
 		}else{
 			Struts2Util.renderJson(JSONUtil.toJSON(""));
 		}

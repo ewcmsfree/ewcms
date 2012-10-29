@@ -325,8 +325,8 @@ public class SiteFac implements SiteFacable{
 	}
 	
     @Override
-    public void saveAppChild(Integer channelId, List<Integer> templateIds){
-    	templateService.saveAppChild(channelId, templateIds);
+    public void saveAppChild(Integer channelId, List<Integer> templateIds, Boolean cover){
+    	templateService.saveAppChild(channelId, templateIds, cover);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id,'com.ewcms.core.site.model.Channel','ADMIN')")

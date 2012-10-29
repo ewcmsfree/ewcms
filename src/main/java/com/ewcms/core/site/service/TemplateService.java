@@ -8,6 +8,8 @@ package com.ewcms.core.site.service;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.tools.zip.ZipEntry;
@@ -22,6 +24,7 @@ import com.ewcms.core.site.model.Channel;
 import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
+import com.ewcms.core.site.util.ConvertUtil;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -217,48 +220,63 @@ public class TemplateService implements TemplateServiceable{
 	}
 	
 	@Override
-	public void saveAppChild(Integer channelId, List<Integer> templateIds) {
+	public void saveAppChild(Integer channelId, List<Integer> templateIds, Boolean cover) {
 		List<Template> templates = new ArrayList<Template>();
 		for (Integer templateId : templateIds){
 			Template template = templateDAO.get(templateId);
 			templates.add(template);
 		}
-		templateChild(channelId, channelId, templates);
+		templateChild(channelId, channelId, templates, cover);
 	}
 	
-	private void templateChild(Integer initChannelId, Integer channelId, List<Template> templates){
+	private void templateChild(Integer initChannelId, Integer channelId, List<Template> templates, Boolean cover){
 		List<Channel> channels = channelDAO.getChannelChildren(channelId);
 		if (channels != null && !channels.isEmpty()){
 			for (Channel channel : channels){
 				for (Template template : templates){
 					Template dbTemplate = templateDAO.findTemplateByChannelIdAndTemplateType(channel.getId(), template.getType());
-					if (dbTemplate != null) continue;
-					
+
 					TemplateEntity templateEntity = template.getTemplateEntity();
 					TemplateEntity newTemplateEntity = new TemplateEntity();
-					newTemplateEntity.setTplEntity(templateEntity.getTplEntity());
-					
-					Template newTemplate = new Template();
-					
-					newTemplate.setTemplateEntity(newTemplateEntity);
-					newTemplate.setSite(template.getSite());
-					newTemplate.setChannelId(channel.getId());
-					//newTemplate.setUriPattern(getSiteTplName() + "/" + channel.getId());
-					newTemplate.setDescribe(template.getDescribe());
-					newTemplate.setType(template.getType());
-					
-					String name = template.getName();
-					String newName = "app_" + initChannelId + "_" + name;
-					
-					newTemplate.setName(newName);
-					newTemplate.setParent(channelTemplate(channel.getId().toString()));
-
-					try{
-						addTemplate(newTemplate);
-					}catch(Exception e){
+					if (dbTemplate != null){
+						if (!cover) continue;
+						if (templateEntity != null && templateEntity.getTplEntity() != null && templateEntity.getTplEntity().length != 0){
+							newTemplateEntity.setTplEntity(templateEntity.getTplEntity());
+							dbTemplate.setSize(ConvertUtil.kb(templateEntity.getTplEntity().length));
+							dbTemplate.setTemplateEntity(newTemplateEntity);
+							try{
+								updTemplate(dbTemplate);
+							}catch(Exception e){
+							}
+						}
+					}else{
+						Template newTemplate = new Template();
+						newTemplate.setUpdTime(new Date(Calendar.getInstance().getTime().getTime()));
+						newTemplate.setChannelId(channel.getId());
+						if (templateEntity != null && templateEntity.getTplEntity() != null && templateEntity.getTplEntity().length != 0){
+							newTemplateEntity.setTplEntity(templateEntity.getTplEntity());
+							newTemplate.setSize(ConvertUtil.kb(templateEntity.getTplEntity().length));
+						}else{
+							newTemplate.setSize(ConvertUtil.kb(0));
+						}
+						
+						newTemplate.setTemplateEntity(newTemplateEntity);
+						newTemplate.setSite(template.getSite());
+						newTemplate.setDescribe(template.getDescribe());
+						newTemplate.setType(template.getType());
+						
+						String name = template.getName();
+						String newName = "app_" + initChannelId + "_" + name;
+						
+						newTemplate.setName(newName);
+						newTemplate.setParent(channelTemplate(channel.getId().toString()));
+						try{
+							addTemplate(newTemplate);
+						}catch(Exception e){
+						}
 					}
 				}
-				templateChild(initChannelId, channel.getId(), templates);
+				templateChild(initChannelId, channel.getId(), templates, cover);
 			}
 		}
 	}

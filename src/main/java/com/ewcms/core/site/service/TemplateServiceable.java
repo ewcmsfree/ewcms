@@ -67,8 +67,9 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
      * 把模板应用于子栏目
      * @param channelId 栏目编号
      * @param templateIds 选择应用的模板
+     * @param cover 是否覆盖
      */
-    public void saveAppChild(Integer channelId, List<Integer> templateIds);
+    public void saveAppChild(Integer channelId, List<Integer> templateIds, Boolean cover);
     
     /**
      * 导出模板生成ZIP文件

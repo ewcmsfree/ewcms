@@ -138,10 +138,9 @@ public interface SiteFacable {
 
 	public TemplateSource channelSRCRoot();
 
-	public void saveAppChild(Integer channelId, List<Integer> templateIds);
+	public void saveAppChild(Integer channelId, List<Integer> templateIds, Boolean cover);
 
-	public void forceRelease(Integer channelId, Boolean children)
-			throws PublishException;
+	public void forceRelease(Integer channelId, Boolean children) throws PublishException;
 	
 	/**
 	 * 同一级目录下的专栏下移一位

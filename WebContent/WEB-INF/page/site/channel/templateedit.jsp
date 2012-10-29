@@ -22,15 +22,15 @@
 				</tr>			
 				<tr>
 					<td>模板文件：</td>
-					<td class="formFieldError" width="80%">
+					<td>
 						<s:file name="templateFile" cssClass="inputtext" size="50"/>
-						<s:fielderror><s:param value="%{'templateFile'}" /></s:fielderror>
 					</td>
 				</tr>
 				<tr>
 					<td>模板类型：</td>
-					<td>
+					<td class="formFieldError">
 						<s:select list="@com.ewcms.core.site.model.Template$TemplateType@values()" listValue="description" name="templateVo.type" id="templateVo.type" headerKey="" headerValue="------请选择------"></s:select>
+						<s:fielderror ><s:param value="%{'templateVo.type'}" /></s:fielderror>&nbsp;&nbsp;<label style="color:red;">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -43,7 +43,7 @@
 					<td>说明：</td>
 					<td class="formFieldError">
 						<s:textfield name="templateVo.describe" cssClass="inputtext"/>
-						<s:fielderror ><s:param value="%{'templateVo.descripe'}" /></s:fielderror>
+						<s:fielderror><s:param value="%{'templateVo.describe'}" /></s:fielderror>&nbsp;&nbsp;<label style="color:red;">*</label>
 					</td>				
 				</tr>
 			</table>
