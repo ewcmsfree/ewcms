@@ -200,4 +200,12 @@ public interface SiteFacable {
      * @param templateSourcePath
      */
     public void exportTemplateSourceZip(Integer templateSourceId, ZipOutputStream zos, String templateSourcePath);
+    
+    /**
+     * 从历史记录中还原指定的模板记录
+     * 
+     * @param templateId
+     * @param historyId
+     */
+    public Boolean restoreTemplate(Integer templateId, Long historyId);
 }

@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.lang.EmptyUtil;
+import com.handsome.ip.IPSeeker;
 
 /**
  * 
@@ -30,14 +31,13 @@ public class VisitUtil {
 	private static final Logger logger = LoggerFactory
 			.getLogger(VisitUtil.class);
 
-	private static String districtCodes[];
-	private static Object ipRanges[];
+//	private static String districtCodes[];
+//	private static Object ipRanges[];
 	private static Object mutex = new Object();
 	private static String langCodeArr[];
 	private static String langNameArr[];
 	private static int TRANSACTION_ID_LENGTH = 32;
-	private static char cs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-			.toCharArray();
+	private static char cs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
 
 	/**
 	 * 域名
@@ -81,22 +81,12 @@ public class VisitUtil {
 	 * @return
 	 */
 	public static String getDistrictCode(String strIP) {
-		initIPRanges();
-		long ip = convertIP(strIP);
-		for (int j = 0; j < districtCodes.length; j++) {
-			long arr[] = (long[]) ipRanges[j];
-			if (ip >= arr[0] && ip <= arr[arr.length - 1]) {
-				for (int k = 0; k < arr.length; k += 2) {
-					long i1 = arr[k];
-					long i2 = arr[k + 1];
-					if (ip >= i1 && ip <= i2)
-						return districtCodes[j];
-				}
-
-			}
+		try{
+			IPSeeker ipSeeker = new IPSeeker("QQWry.Dat", "");
+			return ipSeeker.getIPLocation(strIP).getCountry();
+		}catch(Exception e){
+			return "未知";
 		}
-
-		return "000999";
 	}
 
 	/**
@@ -457,34 +447,31 @@ public class VisitUtil {
 	 * @return
 	 */
 	public static String getBrowser(String useragent) {
+		String browser = "其他";
 		if (useragent.indexOf("Netscape") > 0)
-			return "Netscape";
-		if (useragent.indexOf("Firefox/1.") > 0)
-			return "Firefox 1.x";
-		if (useragent.indexOf("Firefox/2.") > 0)
-			return "Firefox 2.x";
-		if (useragent.indexOf("Firefox/3.") > 0)
-			return "Firefox 3.x";
-		if (useragent.indexOf("Safari") > 0)
-			return "Safari";
-		if (useragent.indexOf("Opera") > 0)
-			return "Opera";
-		if (useragent.indexOf("Chrome") > 0)
+			browser = "Netscape";
+		else if (useragent.indexOf("Firefox") > 0){
+			for (int i = 16; i > 0; i--){
+				if (useragent.indexOf("Firefox/" + i + ".") > 0){
+					browser = "Firefox " + i;
+					break;
+				}
+			}
+		}
+		else if (useragent.indexOf("Safari") > 0)
+			browser = "Safari";
+		else if (useragent.indexOf("Opera") > 0)
+			browser = "Opera";
+		else if (useragent.indexOf("Chrome") > 0)
 			return "Chrome";
-		if (useragent.indexOf("MSIE 8") > 0)
-			return "IE8";
-		if (useragent.indexOf("MSIE 7") > 0)
-			return "IE7";
-		if (useragent.indexOf("MSIE 6") > 0)
-			return "IE6";
-		if (useragent.indexOf("MSIE 5") > 0)
-			return "IE5";
-		if (useragent.indexOf("MSIE 4") > 0)
-			return "IE4";
-		if (useragent.indexOf("MSIE 3") > 0)
-			return "IE3";
-		else
-			return "其他";
+		else if (useragent.indexOf("MSIE") > 0) {
+			for (int i = 12; i > 2; i--){
+				if (useragent.indexOf("MSIE " + i) > 0){
+					browser = "IE" + i;
+				}
+			}
+		}
+		return browser;
 	}
 
 	/**
@@ -526,38 +513,38 @@ public class VisitUtil {
 		return new String(out);
 	}
 
-	private static void initIPRanges() {
-		if (districtCodes == null)
-			synchronized (mutex) {
-				if (districtCodes == null) {
-					// DataTable dt = (new
-					// QueryBuilder("select IPRanges,DistrictCode from ZDIPRange")).executeDataTable();
-					// String codes[] = new String[dt.getRowCount()];
-					// ipRanges = new Object[dt.getRowCount()];
-					String codes[] = new String[10];
-					ipRanges = new Object[10];
-					// for(int i = 0; i < dt.getRowCount(); i++){
-					for (int i = 0; i < 10; i++) {
-						// String code = dt.getString(i, 1);
-						// String ranges = dt.getString(i, 0);
-						String code = "1";
-						String ranges = "1";
-						codes[i] = code;
-						String arr[] = ranges.split(",");
-						long r[] = new long[arr.length * 2];
-						for (int j = 0; j < arr.length; j++) {
-							String arr2[] = arr[j].split("+");
-							r[2 * j] = Long.parseLong(arr2[0]);
-							r[2 * j + 1] = r[2 * j] + Long.parseLong(arr2[1]);
-						}
-
-						ipRanges[i] = r;
-					}
-
-					districtCodes = codes;
-				}
-			}
-	}
+//	private static void initIPRanges() {
+//		if (districtCodes == null)
+//			synchronized (mutex) {
+//				if (districtCodes == null) {
+//					// DataTable dt = (new
+//					// QueryBuilder("select IPRanges,DistrictCode from ZDIPRange")).executeDataTable();
+//					// String codes[] = new String[dt.getRowCount()];
+//					// ipRanges = new Object[dt.getRowCount()];
+//					String codes[] = new String[10];
+//					ipRanges = new Object[10];
+//					// for(int i = 0; i < dt.getRowCount(); i++){
+//					for (int i = 0; i < 10; i++) {
+//						// String code = dt.getString(i, 1);
+//						// String ranges = dt.getString(i, 0);
+//						String code = "1";
+//						String ranges = "1";
+//						codes[i] = code;
+//						String arr[] = ranges.split(",");
+//						long r[] = new long[arr.length * 2];
+//						for (int j = 0; j < arr.length; j++) {
+//							String arr2[] = arr[j].split("+");
+//							r[2 * j] = Long.parseLong(arr2[0]);
+//							r[2 * j + 1] = r[2 * j] + Long.parseLong(arr2[1]);
+//						}
+//
+//						ipRanges[i] = r;
+//					}
+//
+//					districtCodes = codes;
+//				}
+//			}
+//	}
 
 	public static String getCookieValue(HttpServletRequest request,
 			String cookieName) {
@@ -594,7 +581,10 @@ public class VisitUtil {
 		Cookie cookies[] = request.getCookies();
 		boolean cookieexistflag = false;
 		String contextPath = request.getContextPath();
-		contextPath = contextPath.substring(0, contextPath.length() - 1);
+		int length = contextPath.length();
+		if (length > 1){
+			contextPath = contextPath.substring(0, length - 1);
+		}
 		try {
 			cValue = URLEncoder.encode(cValue, "UTF-8");
 		} catch (UnsupportedEncodingException e) {

@@ -349,3 +349,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-refence{
 	background:url('icons/refence.png') no-repeat;
 }
+.icon-visit-analysis{
+	background:url('icons/visit_analysis.png') no-repeat;
+}

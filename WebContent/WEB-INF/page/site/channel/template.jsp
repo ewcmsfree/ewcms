@@ -52,6 +52,9 @@
 								 }},
 				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
 									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
+								 }},
+								 {field:'history',title:'历史',width:70,align:'center',formatter:function(val,rec){
+									 return '<input type="button" name="Submit" value="历 史" class="inputbutton" onClick="historyTPL(' + rec.id + ');">';
 								 }}
 				    ]]
 				});
@@ -154,6 +157,10 @@
 				$('#force-window').window('close');
 				return false;
 			}
+			function historyTPL(value){
+				var url = '<s:url namespace="/site/template/history" action="index"/>?templateId=' + value;
+				ewcmsBOBJ.openWindow('#pop-window',{url : url, width : 550,height : 350,title : '历史记录选择'});
+			}
 			function loadingEnable(){
 				   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
 				   $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
@@ -248,7 +255,6 @@
                 </div>
             </div>
         </div>
-        
         <div id="force-window" class="easyui-window" closed="true" style="display:none;overflow:hidden;">
             <div class="easyui-layout" fit="true" >
                 <div region="center" border="false" style="padding: 5px;">

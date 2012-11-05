@@ -120,32 +120,6 @@ public class ChannelAction extends CrudBaseAction<Channel, Integer> {
 				Map<String, String> attributes = new HashMap<String, String>();
 				treeFile.setAttributes(attributes);
 				TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
-//				int max = TreeNodeConvert.treeNodePermission(attributes, rootVo.getPermissions());
-//				switch (max) {
-//				case 1:
-//					treeFile.setIconCls("icon-table-refresh");
-//					break;
-//				case 2:
-//					treeFile.setIconCls("icon-table-edit");
-//					break;
-//				case 4:
-//					treeFile.setIconCls("icon-table-pub");
-//					break;
-//				case 8:
-//					treeFile.setIconCls("icon-note-add");
-//					break;
-//				case 16:
-//					treeFile.setIconCls("icon-note-edit");
-//					break;
-//				case 32:
-//					treeFile.setIconCls("icon-note-delete");
-//					break;
-//				case 64:
-//					treeFile.setIconCls("icon-note");
-//					break;
-//				default:
-//					treeFile.setIconCls("icon-note-error");
-//				}
 				treeFile.setChildren(TreeNodeConvert.channelNodeConvert(siteFac.getChannelChildren(rootVo.getId(), isPub)));
 				Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[] { treeFile }));
 				return;

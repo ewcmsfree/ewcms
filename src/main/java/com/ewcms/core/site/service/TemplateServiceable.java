@@ -79,4 +79,12 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
      * @param templatePath
      */
     public void exportTemplateZip(Integer templateId, ZipOutputStream zos, String templatePath);
+    
+    /**
+     * 从历史记录中还原指定的模板记录
+     * 
+     * @param templateId
+     * @param historyId
+     */
+    public Boolean restoreTemplate(Integer templateId, Long historyId);
 }

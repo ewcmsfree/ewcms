@@ -14,10 +14,10 @@ var _zcms_stat = function(param){
 		}
 	}
 	_zcms_d = p["Dest"];
-	_zcms_s = p["SiteID"];
-	_zcms_c = p["CatalogInnerCode"];
-	_zcms_l = p["LeafID"];
-	_zcms_t = p["Type"];
+	_zcms_s = p["siteId"];
+	_zcms_c = p["articleId"];
+	_zcms_l = p["channelId"];
+	_zcms_t = p["type"];
 	p["sr"] = screen.width+"x"+screen.height;
 	p["cd"] = screen.colorDepth;
 	p["fv"] = _zcms_stat.fv();
@@ -116,9 +116,9 @@ function _zcms_bu(){
 	if(_zcms_d){ 
 		var p = {};
 		p["Event"] = "Unload";
-		p["LeafID"] = _zcms_l;
-		p["SiteID"] = _zcms_s;
-		p["CatalogInnerCode"] = _zcms_c;
+		p["channelId"] = _zcms_l;
+		p["siteId"] = _zcms_s;
+		p["articleId"] = _zcms_c;
 		if(_zcms_c&&!_zcms_l){
 	  	//p["Trace"] = pos.join(";");//will implement in 2.0
 			p["Type"] = _zcms_t;
@@ -144,7 +144,7 @@ function _zcms_ka(){
 		_zcms_lt_ka = t;
 		var p = {};
 		p["Event"] = "KeepAlive";
-		p["SiteID"] = _zcms_s;
+		p["siteId"] = _zcms_s;
 		var dest = _zcms_d+"?"+_zcms_stat.mq(p);
 		var s = document.createElement("script");
 		s.src = dest;

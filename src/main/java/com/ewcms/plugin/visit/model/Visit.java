@@ -6,29 +6,24 @@
 package com.ewcms.plugin.visit.model;
 
 import java.io.Serializable;
-//import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-//import javax.persistence.Temporal;
-//import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Index;
 
 /**
  * 访问统计
  * 
  * <ul>
- * <li>id:编号</li>
- * <li>url:</li>
+ * <li>uniqueID:编号</li>
+ * <li>url:地址</li>
  * <li>referer:</li>
  * <li>ip:IP地址</li>
  * <li>uvFlag:UV标志</li>
  * <li>rvFlag:RV标志</li>
- * <li>uniqueID:编号</li>
  * <li>ipFlag:IP标志</li>
  * <li>screen:分辨率</li>
  * <li>colorDepth:色彩深度</li>
@@ -40,8 +35,8 @@ import javax.persistence.Table;
  * <li>flashVersion:flash版本</li>
  * <li>cookieEnable:cookie是否启用</li>
  * <li>type:类型</li>
- * <li>catalogInnerCode:</li>
- * <li>leafID:</li>
+ * <li>articleId:文章编号</li>
+ * <li>channelId:频道编号</li>
  * <li>siteID:站点编号</li>
  * <li>visitTime:访问时间</li>
  * <li>host:主机</li>
@@ -57,15 +52,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "plugin_visit")
-@SequenceGenerator(name = "seq_plugin_visit", sequenceName = "seq_plugin_visit_id", allocationSize = 1)
 public class Visit implements Serializable {
 
 	private static final long serialVersionUID = -4173049848036627669L;
 
+	@Column(name = "uniqueId", insertable = true, updatable = false, nullable = true)
 	@Id
-	@GeneratedValue(generator = "seq_plugin_visit", strategy = GenerationType.SEQUENCE)
-	@Column(name = "id")
-	private Long id;
+	@Index(name = "plugin_visit_unique_id_idx")
+	private String uniqueID;
 	@Column(name = "url")
 	private String url;
 	@Column()
@@ -76,8 +70,6 @@ public class Visit implements Serializable {
 	private Boolean uvFlag;
 	@Column()
 	private Boolean rvFlag;
-	@Column()
-	private String uniqueID;
 	@Column()
 	private Boolean ipFlag;
 	@Column()
@@ -103,7 +95,7 @@ public class Visit implements Serializable {
 	@Column()
 	private Integer channelId;
 	@Column()
-	private Long leafID;
+	private Long articleId;
 	@Column()
 	private Long siteID;
 	@Column()
@@ -120,14 +112,6 @@ public class Visit implements Serializable {
 	private Long stickTime;
 	@Column()
 	private Long frequency;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getUrl() {
 		return url;
@@ -274,11 +258,11 @@ public class Visit implements Serializable {
 	}
 
 	public Long getLeafID() {
-		return leafID;
+		return articleId;
 	}
 
 	public void setLeafID(Long leafID) {
-		this.leafID = leafID;
+		this.articleId = leafID;
 	}
 
 	public Long getSiteID() {
@@ -344,30 +328,4 @@ public class Visit implements Serializable {
 	public void setFrequency(Long frequency) {
 		this.frequency = frequency;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Visit other = (Visit) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
 }

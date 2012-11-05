@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.content.history.History;
+import com.ewcms.content.history.dao.HistoryModelDAO;
+import com.ewcms.content.history.model.HistoryModel;
+import com.ewcms.content.history.util.ByteToObject;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.dao.TemplateDAO;
 import com.ewcms.core.site.model.Channel;
@@ -38,6 +41,8 @@ public class TemplateService implements TemplateServiceable{
 	private TemplateDAO templateDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private HistoryModelDAO historyModelDAO;
 	
 	public Template getTemplate(Integer id){
 		return templateDAO.get(id);
@@ -320,6 +325,30 @@ public class TemplateService implements TemplateServiceable{
 			}
 		}catch(Exception e){
 			
+		}
+	}
+
+	@Override
+	public Boolean restoreTemplate(Integer templateId, Long historyId) {
+		Boolean result = false;
+		try{
+			HistoryModel historyModel = historyModelDAO.get(historyId);
+			String className = Template.class.getPackage().getName() + "." + Template.class.getSimpleName();
+			if (className.equals(historyModel.getClassName())){
+				Template oldTemplate = templateDAO.get(templateId);
+				TemplateEntity oldTemplateEntity = oldTemplate.getTemplateEntity();
+				Object obj = ByteToObject.conversion(historyModel.getModelObject());
+				Template template = (Template) obj;
+				TemplateEntity templateEntity = template.getTemplateEntity();
+				if (templateEntity == null) return result;
+				if (oldTemplateEntity == null) oldTemplateEntity = new TemplateEntity();
+				oldTemplateEntity.setTplEntity(templateEntity.getTplEntity());
+				templateDAO.merge(oldTemplate);
+				return true;
+			}
+			return result;
+		}catch (Exception e){
+			return result;
 		}
 	}
 }

@@ -378,4 +378,9 @@ public class SiteFac implements SiteFacable{
 		templateSourceService.exportTemplateSourceZip(templateSourceId, zos, templateSourcePath);
 	}
 
+	@Override
+	public Boolean restoreTemplate(Integer templateId, Long historyId) {
+		return templateService.restoreTemplate(templateId, historyId);
+	}
+
 }

@@ -69,17 +69,6 @@ public class TreeNodeConvert {
 			default : tnVo.setIconCls("icon-channel-note");
 			}
 			treeNodePermission(attributes, vo.getPermissions());
-//			int max = treeNodePermission(attributes, vo.getPermissions());
-//			switch(max){
-//				case 1:tnVo.setIconCls("icon-table-refresh");break;
-//				case 2:tnVo.setIconCls("icon-table-edit");break;
-//				case 4:tnVo.setIconCls("icon-table-pub");break;
-//				case 8:tnVo.setIconCls("icon-note-add");break;
-//				case 16:tnVo.setIconCls("icon-note-edit");break;
-//				case 32:tnVo.setIconCls("icon-note-delete");break;
-//				case 64:tnVo.setIconCls("icon-note");break;
-//				default:tnVo.setIconCls("icon-note-error");
-//			}
 			tnList.add(tnVo);
 		}
 		return tnList;
