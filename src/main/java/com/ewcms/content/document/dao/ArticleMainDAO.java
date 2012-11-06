@@ -185,12 +185,13 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
         			 "From ArticleMain As m Left Join m.article As a " +
         		     ", Channel As c Right Join c.site As s " +
         		     " Where c.id=m.channelId And s.id=:siteId " +
-        		     " And YEAR(a.published)=:year And a.delete=false " +
+        		     " And YEAR(a.published)=:year And a.status=:status And a.delete=false" +
         			 " Group By MONTH(a.published)";
         
         TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
         query.setParameter("year", year);
         query.setParameter("siteId", siteId);
+        query.setParameter("status", Status.RELEASE);
         
         List<Object[]> results = query.getResultList();
         for (Object[] result : results) {
