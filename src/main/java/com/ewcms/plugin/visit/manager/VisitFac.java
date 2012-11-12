@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.plugin.visit.manager.service.ClientServiceable;
 import com.ewcms.plugin.visit.manager.service.IpRangeServiceable;
+import com.ewcms.plugin.visit.manager.service.SummaryServiceable;
 import com.ewcms.plugin.visit.manager.service.VisitServiceable;
-import com.ewcms.plugin.visit.manager.vo.ArticleVisitVo;
 import com.ewcms.plugin.visit.manager.vo.InAndExitVo;
 import com.ewcms.plugin.visit.manager.vo.LastVisitVo;
 import com.ewcms.plugin.visit.manager.vo.OnlineVo;
@@ -28,11 +29,10 @@ public class VisitFac implements VisitFacable {
 	private VisitServiceable visitService;
 	@Autowired
 	private IpRangeServiceable ipRangeService;
-
-	@Override
-	public String findVisitSummaryReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
-		return visitService.findVisitSummaryReport(startDate, endDate, labelCount, siteId);
-	}
+	@Autowired
+	private SummaryServiceable summaryService;
+	@Autowired
+	private ClientServiceable clientService;
 
 	@Override
 	public void addVisitByLoadEvent(Visit visit, VisitItem visitItem) {
@@ -49,142 +49,137 @@ public class VisitFac implements VisitFacable {
 		visitService.addVisitByUnloadEvent(visit, visitItem);
 	}
 
-	@Override
-	public String findVisitFirstAddDate(Integer siteId) {
-		return visitService.findVisitFirstAddDate(siteId);
-	}
-
-	@Override
-	public Integer findVisitDay(Integer siteId) {
-		return visitService.findVisitDay(siteId);
-	}
-
-	@Override
-	public List<SummaryVo> findVisitSummaryTable(Integer siteId) {
-		return visitService.findVisitSummaryTable(siteId);
-	}
-
-	@Override
-	public IpRange findIpRangeByIp(Long ipBegin, Long ipEnd) {
+	public IpRange findIpRangeByIp(Long ipBegin, Long ipEnd){
 		return ipRangeService.findIpRangeByIp(ipBegin, ipEnd);
 	}
-
-	@Override
-	public List<SummaryVo> findVisitSiteTable(String startDate, String endDate, Integer siteId) {
-		return visitService.findVisitSiteTable(startDate, endDate, siteId);
-	}
-
-	@Override
-	public List<LastVisitVo> findLastVisit(String startDate, String endDate, Integer rows, Integer siteId){
-		return visitService.findLastVisit(startDate, endDate, rows, siteId);
-	}
-
-	@Override
-	public List<SummaryVo> findHourVisitTable(String startDate, String endDate, Integer siteId) {
-		return visitService.findHourVisitTable(startDate, endDate, siteId);
-	}
-
-	@Override
-	public String findHourVisitReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
-		return visitService.findHourVisitReport(startDate, endDate, labelCount, siteId);
-	}
-
-	@Override
-	public List<InAndExitVo> findEntranceVisit(String startDate, String endDate, Integer rows, Integer siteId) {
-		return visitService.findEntranceVisit(startDate, endDate, rows, siteId);
-	}
 	
 	@Override
-	public String findEmtranceVisitCountPv(String url, String startDate, String endDate, Integer labelCount, Integer siteId){
-		return visitService.findEmtranceVisitCountPv(url, startDate, endDate, labelCount, siteId);
+	public String findFirstDate(Integer siteId) {
+		return summaryService.findFirstDate(siteId);
 	}
 
 	@Override
-	public List<InAndExitVo> findExitVisit(String startDate, String endDate, Integer rows, Integer siteId) {
-		return visitService.findExitVisit(startDate, endDate, rows, siteId);
-	}
-	
-	@Override
-	public String findExitVisitCountPv(String url, String startDate, String endDate, Integer labelCount, Integer siteId){
-		return visitService.findExitVisitCountPv(url, startDate, endDate, labelCount, siteId);
+	public Integer findDays(Integer siteId) {
+		return summaryService.findDays(siteId);
 	}
 
 	@Override
-	public List<SummaryVo> findHostVisit(String startDate, String endDate, Integer rows, Integer siteId) {
-		return visitService.findHostVisit(startDate, endDate, rows, siteId);
+	public List<SummaryVo> findSummaryTable(Integer siteId) {
+		return summaryService.findSummaryTable(siteId);
 	}
 
 	@Override
-	public String findHostVisitCountPv(String host, String startDate, String endDate, Integer labelCount, Integer siteId) {
-		return visitService.findHostVisitCountPv(host, startDate, endDate, labelCount, siteId);
+	public String findSummaryReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findSummaryReport(startDate, endDate, labelCount, siteId);
 	}
 
 	@Override
-	public String findHostVisitReport(String startDate, String endDate, Integer rows, Integer siteId) {
-		return visitService.findHostVisitReport(startDate, endDate, rows, siteId);
+	public List<SummaryVo> findSiteTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findSiteTable(startDate, endDate, siteId);
 	}
 
 	@Override
-	public List<SummaryVo> findCountryVisitTable(String startDate, String endDate, Integer siteId) {
-		return visitService.findCountryVisitTable(startDate, endDate, siteId);
+	public List<LastVisitVo> findLastTable(String startDate, String endDate, Integer rows, Integer siteId) {
+		return summaryService.findLastTable(startDate, endDate, rows, siteId);
 	}
 
 	@Override
-	public String findCountryVisitReport(String startDate, String endDate, Integer siteId) {
-		return visitService.findCountryVisitReport(startDate, endDate, siteId);
+	public List<SummaryVo> findHourTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findHourTable(startDate, endDate, siteId);
 	}
 
 	@Override
-	public String findCountryTrendVisitReport(String startDate, String endDate, String country, Integer labelCount, Integer siteId) {
-		return visitService.findCountryTrendVisitReport(startDate, endDate, country, labelCount, siteId);
+	public String findHourReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findHourReport(startDate, endDate, labelCount, siteId);
 	}
 
 	@Override
-	public String findOnlineVisitReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
-		return visitService.findOnlineVisitReport(startDate, endDate, labelCount, siteId);
+	public List<InAndExitVo> findEntranceTable(String startDate, String endDate, Integer rows, Integer siteId) {
+		return summaryService.findEntranceTable(startDate, endDate, rows, siteId);
 	}
 
 	@Override
-	public List<OnlineVo> findOnlineVisitTable(String startDate, String endDate, Integer siteId) {
-		return visitService.findOnlineVisitTable(startDate, endDate, siteId);
+	public String findEmtranceTrendReport(String url, String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findEmtranceTrendReport(url, startDate, endDate, labelCount, siteId);
 	}
 
 	@Override
-	public List<ArticleVisitVo> findArticleVisit(Integer rows, Integer siteId) {
-		return visitService.findArticleVisit(rows, siteId);
+	public List<InAndExitVo> findExitTable(String startDate, String endDate, Integer rows, Integer siteId) {
+		return summaryService.findExitTable(startDate, endDate, rows, siteId);
 	}
 
 	@Override
-	public String findClientTrendVisitReport(String startDate, String endDate, String fieldName, String fieldValue, Integer labelCount, Integer siteId) {
-		return visitService.findClientTrendVisitReport(startDate, endDate, fieldName, fieldValue, labelCount, siteId);
+	public String findExitTrendReport(String url, String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findExitTrendReport(url, startDate, endDate, labelCount, siteId);
 	}
 
 	@Override
-	public List<SummaryVo> findClientVisitTable(String startDate, String endDate, String fieldName, Integer siteId) {
-		return visitService.findClientVisitTable(startDate, endDate, fieldName, siteId);
+	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer rows, Integer siteId) {
+		return summaryService.findHostTable(startDate, endDate, rows, siteId);
 	}
 
 	@Override
-	public String findClientVisitReport(String startDate, String endDate, String fieldName, Integer siteId) {
-		return visitService.findClientVisitReport(startDate, endDate, fieldName, siteId);
+	public String findHostTrendReport(String host, String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findHostTrendReport(host, startDate, endDate, labelCount, siteId);
 	}
 
 	@Override
-	public List<SummaryVo> findClientBooleanVisitTable(String startDate,
-			String endDate, String fieldName, Integer siteId) {
-		return visitService.findClientBooleanVisitTable(startDate, endDate, fieldName, siteId);
+	public String findHostReport(String startDate, String endDate, Integer rows, Integer siteId) {
+		return summaryService.findHostReport(startDate, endDate, rows, siteId);
 	}
 
 	@Override
-	public String findClientBooleanVisitReport(String startDate,
-			String endDate, String fieldName, Integer siteId) {
-		return visitService.findClientBooleanVisitReport(startDate, endDate, fieldName, siteId);
+	public List<SummaryVo> findCountryTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findCountryTable(startDate, endDate, siteId);
 	}
 
 	@Override
-	public String findClientBooleanTrendVisitReport(String startDate,
-			String endDate, String fieldName, Boolean enabled,
-			Integer labelCount, Integer siteId) {
-		return visitService.findClientBooleanTrendVisitReport(startDate, endDate, fieldName, enabled, labelCount, siteId);
+	public String findCountryReport(String startDate, String endDate, Integer siteId) {
+		return summaryService.findCountryReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findCountryTrendReport(String startDate, String endDate, String country, Integer labelCount, Integer siteId) {
+		return summaryService.findCountryTrendReport(startDate, endDate, country, labelCount, siteId);
+	}
+
+	@Override
+	public String findOnlineReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return summaryService.findOnlineReport(startDate, endDate, labelCount, siteId);
+	}
+
+	@Override
+	public List<OnlineVo> findOnlineTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findOnlineTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public List<SummaryVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId) {
+		return clientService.findClientTable(startDate, endDate, fieldName, siteId);
+	}
+
+	@Override
+	public String findClientReport(String startDate, String endDate, String fieldName, Integer siteId) {
+		return clientService.findClientReport(startDate, endDate, fieldName, siteId);
+	}
+
+	@Override
+	public String findClientTrendReport(String startDate, String endDate, String fieldName, String fieldValue, Integer labelCount, Integer siteId) {
+		return clientService.findClientTrendReport(startDate, endDate, fieldName, fieldValue, labelCount, siteId);
+	}
+
+	@Override
+	public List<SummaryVo> findClientBooleanTable(String startDate, String endDate, String fieldName, Integer siteId) {
+		return clientService.findClientBooleanTable(startDate, endDate, fieldName, siteId);
+	}
+
+	@Override
+	public String findClientBooleanReport(String startDate, String endDate, String fieldName, Integer siteId) {
+		return clientService.findClientBooleanReport(startDate, endDate, fieldName, siteId);
+	}
+
+	@Override
+	public String findClientTrendBooleanReport(String startDate, String endDate, String fieldName, Boolean enabled, Integer labelCount, Integer siteId) {
+		return clientService.findClientTrendBooleanReport(startDate, endDate, fieldName, enabled, labelCount, siteId);
 	}
 }

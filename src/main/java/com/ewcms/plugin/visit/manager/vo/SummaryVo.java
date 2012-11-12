@@ -12,20 +12,20 @@ public class SummaryVo implements Serializable {
 	private static final long serialVersionUID = 9123371582577402503L;
 
 	private String name;
-	private Integer pv;
-	private Integer uv;
-	private Integer ip;
-	private Integer rv;
+	private Long pv;
+	private Long uv;
+	private Long ip;
+	private Long rv;
 	private String avgTime;
 	private String rvRate;
 	private String pvRate;
 	private Long sumPv;
 	
 	public SummaryVo(){
-		pv = 0;
-		uv = 0;
-		ip = 0;
-		rv = 0;
+		pv = 0L;
+		uv = 0L;
+		ip = 0L;
+		rv = 0L;
 		avgTime = "";
 		rvRate = "";
 		pvRate = "";
@@ -45,35 +45,35 @@ public class SummaryVo implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getPv() {
+	public Long getPv() {
 		return pv;
 	}
 
-	public void setPv(Integer pv) {
+	public void setPv(Long pv) {
 		this.pv = pv;
 	}
 
-	public Integer getUv() {
+	public Long getUv() {
 		return uv;
 	}
 
-	public void setUv(Integer uv) {
+	public void setUv(Long uv) {
 		this.uv = uv;
 	}
 
-	public Integer getIp() {
+	public Long getIp() {
 		return ip;
 	}
 
-	public void setIp(Integer ip) {
+	public void setIp(Long ip) {
 		this.ip = ip;
 	}
 
-	public Integer getRv() {
+	public Long getRv() {
 		return rv;
 	}
 
-	public void setRv(Integer rv) {
+	public void setRv(Long rv) {
 		this.rv = rv;
 	}
 

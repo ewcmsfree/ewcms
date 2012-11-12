@@ -11,7 +11,7 @@ import java.util.Map.Entry;
  *
  */
 public class ChartVisitUtil {
-	public static String getLine2DChart(List<String> categories, Map<String, Map<String, Integer>> dataSet, int labelCount) {
+	public static String getLine2DChart(List<String> categories, Map<String, Map<String, Long>> dataSet, int labelCount) {
 		StringBuffer xml = new StringBuffer();
 		String[] Colors = { "1D8BD1", "F1683C", "2AD62A", "FF0000", "006F00",
 				"CCCC00", "0D8ECF", "04D215", "B0DE09", "F8FF01", "FF9E01",
@@ -35,18 +35,18 @@ public class ChartVisitUtil {
 		}
 		xml.append("</categories>");
 		
-		Iterator<Entry<String, Map<String, Integer>>> itDataSet = dataSet.entrySet().iterator();
+		Iterator<Entry<String, Map<String, Long>>> itDataSet = dataSet.entrySet().iterator();
 		int j = 0;
 		while (itDataSet.hasNext()){
-			Map.Entry<String, Map<String, Integer>> entry = itDataSet.next();
+			Map.Entry<String, Map<String, Long>> entry = itDataSet.next();
 			String seriesName = entry.getKey();
-			Map<String, Integer> setMap = entry.getValue();
+			Map<String, Long> setMap = entry.getValue();
 			String color = Colors[((j) % Colors.length)];
 			xml.append("<dataset seriesName='" + seriesName + "' color='" + color + "' anchorBorderColor='" + color + "' anchorBgColor='" + color + "'>");
-			Iterator<Entry<String, Integer>> valueMap = setMap.entrySet().iterator();
+			Iterator<Entry<String, Long>> valueMap = setMap.entrySet().iterator();
 			while (valueMap.hasNext()){
-				Map.Entry<String, Integer> m = valueMap.next();
-				Integer total = m.getValue();
+				Map.Entry<String, Long> m = valueMap.next();
+				Long total = m.getValue();
 				xml.append("<set value='" + total + "'/>");
 			}
 			xml.append("</dataset>");

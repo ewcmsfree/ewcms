@@ -23,7 +23,7 @@
 				parameter['endDate'] = endDate;
 				parameter['url'] = $('#url').val();
 				parameter['labelCount'] = 8;
-				$.post('<s:url namespace="/plugin/visit" action="exitReport"/>', parameter, function(result) {
+				$.post('<s:url namespace="/plugin/visit" action="exitTrendReport"/>', parameter, function(result) {
 			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");

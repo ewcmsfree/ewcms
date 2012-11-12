@@ -15,7 +15,7 @@ public class NumberUtil {
 	 * @param beNumber 被除数
 	 * @return String
 	 */
-	public static String percentage(Integer number, Integer beNumber){
+	public static String percentage(Long number, Long beNumber){
 		String rate = "0.00%";
 		try{
 			if (beNumber != 0) {

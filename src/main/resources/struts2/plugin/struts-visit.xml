@@ -10,140 +10,138 @@
 			<result>/WEB-INF/page/plugin/visit/tree.jsp</result>
 		</action>
 		<action name="tree" class="com.ewcms.plugin.visit.manager.web.VisitTreeAction" method="tree"/>
-		<action name="summary" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		
+		<action name="summary" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="summary">
 			<result>/WEB-INF/page/plugin/visit/summary.jsp</result>
 		</action>
-		<action name="summaryReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="summaryReport"/>
-		<action name="summaryTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="summaryTable"/>
-		<action name="firstAddDate" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="firstAddDate"/>
-		<action name="site" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="summaryReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="summaryReport"/>
+		<action name="summaryTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="summaryTable"/>
+		<action name="firstAddDate" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="firstAddDate"/>
+		<action name="site" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/site.jsp</result>
 		</action>
-		<action name="siteReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="siteReport"/>
-		<action name="siteTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="siteTable"/>
-		<action name="lastVisit" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="siteReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="siteReport"/>
+		<action name="siteTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="siteTable"/>
+		<action name="lastVisit" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/lastVisit.jsp</result>
 		</action>
-		<action name="lastVisitTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="lastVisitTable"/>
-		<action name="hour" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="lastVisitTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="lastVisitTable"/>
+		<action name="hour" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/hour.jsp</result>
 		</action>
-		<action name="hourTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hourTable"/>
-		<action name="hourReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hourReport"/>
-		<action name="entrance" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="hourTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hourTable"/>
+		<action name="hourReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hourReport"/>
+		<action name="entrance" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/entrance.jsp</result>
 		</action>
-		<action name="entranceTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="entranceTable"/>
-		<action name="entranceTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="entranceTrend">
+		<action name="entranceTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="entranceTable"/>
+		<action name="entranceTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="entranceTrend">
 			<result>/WEB-INF/page/plugin/visit/entranceTrend.jsp</result>
 		</action>
-		<action name="entranceReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="entranceReport"/>
-		<action name="exit" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="entranceTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="entranceTrendReport"/>
+		<action name="exit" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/exit.jsp</result>
 		</action>
-		<action name="exitTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="exitTable"/>
-		<action name="exitTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="exitTrend">
+		<action name="exitTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="exitTable"/>
+		<action name="exitTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="exitTrend">
 			<result>/WEB-INF/page/plugin/visit/exitTrend.jsp</result>
 		</action>
-		<action name="exitReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="exitReport"/>
-		<action name="host" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="exitTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="exitTrendReport"/>
+		<action name="host" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/host.jsp</result>
 		</action>
-		<action name="hostTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hostTable"/>
-		<action name="hostTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hostTrend">
+		<action name="hostTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostTable"/>
+		<action name="hostTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostTrend">
 			<result>/WEB-INF/page/plugin/visit/hostTrend.jsp</result>
 		</action>
-		<action name="hostTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hostTrendReport"/>
-		<action name="hostReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="hostReport"/>
-		<action name="district" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="hostTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostTrendReport"/>
+		<action name="hostReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostReport"/>
+		<action name="district" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/district.jsp</result>
 		</action>
-		<action name="countryTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="countryTable"/>
-		<action name="countryReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="countryReport"/>
-		<action name="districtTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="districtTrend">
+		<action name="countryTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryTable"/>
+		<action name="countryReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryReport"/>
+		<action name="districtTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="districtTrend">
 			<result>/WEB-INF/page/plugin/visit/districtTrend.jsp</result>
 		</action>
-		<action name="countryTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="countryTrendReport"/>
-		<action name="online" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="countryTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryTrendReport"/>
+		<action name="online" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/online.jsp</result>
 		</action>
-		<action name="onlineTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="onlineTable"/>
-		<action name="onlineReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="onlineReport"/>
-		<action name="article" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
-			<result>/WEB-INF/page/plugin/visit/article.jsp</result>
-		</action>
-		<action name="articleTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="articleTable"/>
-		<action name="os" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="onlineTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="onlineTable"/>
+		<action name="onlineReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="onlineReport"/>
+		
+		<action name="os" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/os.jsp</result>
 		</action>
-		<action name="osTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="osTable"/>
-		<action name="osReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="osReport"/>
-		<action name="osTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="osTrend">
+		<action name="osTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="osTable"/>
+		<action name="osReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="osReport"/>
+		<action name="osTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="osTrend">
 			<result>/WEB-INF/page/plugin/visit/osTrend.jsp</result>
 		</action>
-		<action name="osTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="osTrendReport"/>
-		<action name="browser" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="osTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="osTrendReport"/>
+		<action name="browser" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/browser.jsp</result>
 		</action>
-		<action name="browserTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="browserTable"/>
-		<action name="browserReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="browserReport"/>
-		<action name="browserTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="browserTrend">
+		<action name="browserTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="browserTable"/>
+		<action name="browserReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="browserReport"/>
+		<action name="browserTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="browserTrend">
 			<result>/WEB-INF/page/plugin/visit/browserTrend.jsp</result>
 		</action>
-		<action name="browserTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="browserTrendReport"/>
-		<action name="language" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="browserTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="browserTrendReport"/>
+		<action name="language" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/language.jsp</result>
 		</action>
-		<action name="languageTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="languageTable"/>
-		<action name="languageReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="languageReport"/>
-		<action name="languageTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="languageTrend">
+		<action name="languageTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="languageTable"/>
+		<action name="languageReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="languageReport"/>
+		<action name="languageTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="languageTrend">
 			<result>/WEB-INF/page/plugin/visit/languageTrend.jsp</result>
 		</action>
-		<action name="languageTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="languageTrendReport"/>
-		<action name="screen" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="languageTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="languageTrendReport"/>
+		<action name="screen" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/screen.jsp</result>
 		</action>
-		<action name="screenTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="screenTable"/>
-		<action name="screenReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="screenReport"/>
-		<action name="screenTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="screenTrend">
+		<action name="screenTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="screenTable"/>
+		<action name="screenReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="screenReport"/>
+		<action name="screenTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="screenTrend">
 			<result>/WEB-INF/page/plugin/visit/screenTrend.jsp</result>
 		</action>
-		<action name="screenTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="screenTrendReport"/>
-		<action name="colorDepth" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="screenTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="screenTrendReport"/>
+		<action name="colorDepth" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/colorDepth.jsp</result>
 		</action>
-		<action name="colorDepthTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="colorDepthTable"/>
-		<action name="colorDepthReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="colorDepthReport"/>
-		<action name="colorDepthTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="colorDepthTrend">
+		<action name="colorDepthTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="colorDepthTable"/>
+		<action name="colorDepthReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="colorDepthReport"/>
+		<action name="colorDepthTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="colorDepthTrend">
 			<result>/WEB-INF/page/plugin/visit/colorDepthTrend.jsp</result>
 		</action>
-		<action name="colorDepthTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="colorDepthTrendReport"/>
-		<action name="flashVersion" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="colorDepthTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="colorDepthTrendReport"/>
+		<action name="flashVersion" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/flashVersion.jsp</result>
 		</action>
-		<action name="flashVersionTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="flashVersionTable"/>
-		<action name="flashVersionReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="flashVersionReport"/>
-		<action name="flashVersionTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="flashVersionTrend">
+		<action name="flashVersionTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="flashVersionTable"/>
+		<action name="flashVersionReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="flashVersionReport"/>
+		<action name="flashVersionTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="flashVersionTrend">
 			<result>/WEB-INF/page/plugin/visit/flashVersionTrend.jsp</result>
 		</action>
-		<action name="flashVersionTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="flashVersionTrendReport"/>	
-		<action name="javaEnabled" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="flashVersionTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="flashVersionTrendReport"/>	
+		<action name="javaEnabled" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/javaEnabled.jsp</result>
 		</action>
-		<action name="javaEnabledTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="javaEnabledTable"/>
-		<action name="javaEnabledReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="javaEnabledReport"/>
-		<action name="javaEnabledTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="javaEnabledTrend">
+		<action name="javaEnabledTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="javaEnabledTable"/>
+		<action name="javaEnabledReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="javaEnabledReport"/>
+		<action name="javaEnabledTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="javaEnabledTrend">
 			<result>/WEB-INF/page/plugin/visit/javaEnabledTrend.jsp</result>
 		</action>
-		<action name="javaEnabledTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="javaEnabledTrendReport"/>	
-		<action name="cookieEnabled" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction">
+		<action name="javaEnabledTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="javaEnabledTrendReport"/>	
+		<action name="cookieEnabled" class="com.ewcms.plugin.visit.manager.web.ClientAction">
 			<result>/WEB-INF/page/plugin/visit/cookieEnabled.jsp</result>
 		</action>
-		<action name="cookieEnabledTable" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="cookieEnabledTable"/>
-		<action name="cookieEnabledReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="cookieEnabledReport"/>
-		<action name="cookieEnabledTrend" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="cookieEnabledTrend">
+		<action name="cookieEnabledTable" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="cookieEnabledTable"/>
+		<action name="cookieEnabledReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="cookieEnabledReport"/>
+		<action name="cookieEnabledTrend" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="cookieEnabledTrend">
 			<result>/WEB-INF/page/plugin/visit/cookieEnabledTrend.jsp</result>
 		</action>
-		<action name="cookieEnabledTrendReport" class="com.ewcms.plugin.visit.manager.web.ChartVisitAction" method="cookieEnabledTrendReport"/>	
+		<action name="cookieEnabledTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="cookieEnabledTrendReport"/>	
 	</package>
 </struts>	

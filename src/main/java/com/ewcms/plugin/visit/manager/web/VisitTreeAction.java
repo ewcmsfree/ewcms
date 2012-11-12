@@ -41,7 +41,7 @@ public class VisitTreeAction extends ActionSupport {
 		oneTreeMap.put("5出口分析", "exit");
 		oneTreeMap.put("6被访主机分析", "host");
 		oneTreeMap.put("7区域分布", "district");
-		oneTreeMap.put("8在线人数", "online");
+		oneTreeMap.put("8在线情况", "online");
 		
 //		twoTreeMap.put("0栏目点击排行", "");
 //		twoTreeMap.put("1文章点击排行", "article");

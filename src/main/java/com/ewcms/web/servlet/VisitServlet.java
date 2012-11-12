@@ -18,7 +18,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.plugin.visit.manager.VisitFacable;
-import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
 import com.ewcms.plugin.visit.util.VisitUtil;
@@ -134,24 +133,6 @@ public class VisitServlet extends HttpServlet {
 				v.setScreen(request.getParameter("sr"));
 				v.setScreen(VisitUtil.getScreen(v.getScreen()));
 				v.setColorDepth(request.getParameter("cd"));
-				
-				Long ip = VisitUtil.convertIP(v.getIp());
-				IpRange ipRange = findVisitFacable().findIpRangeByIp(ip, ip);
-				if (ipRange == null) {
-					v.setCountry("未知");
-					v.setDistrict("未知");
-				}else{
-					String country = ipRange.getCountry();
-					String district = ipRange.getCity();
-					if (EmptyUtil.isStringEmpty(country)){
-						country = "未知";
-					}
-					if (EmptyUtil.isStringEmpty(district)){
-						district = "未知";
-					}
-					v.setCountry(country);
-					v.setDistrict(district);
-				}
 				
 				item.setFrequency(Long.parseLong(request.getParameter("vq")));
 				
