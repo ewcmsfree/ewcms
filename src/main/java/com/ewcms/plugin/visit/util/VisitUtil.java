@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,25 +21,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ewcms.common.lang.EmptyUtil;
-import com.handsome.ip.IPSeeker;
 
 /**
  * 
  * @author wuzhijun
+ * 
  */
 public class VisitUtil {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(VisitUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(VisitUtil.class);
 
-//	private static String districtCodes[];
-//	private static Object ipRanges[];
 	private static Object mutex = new Object();
 	private static String langCodeArr[];
 	private static String langNameArr[];
 	private static int TRANSACTION_ID_LENGTH = 32;
 	private static char cs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
 
+	public final static String UNLOAD_EVENT = "Unload";
+	
 	/**
 	 * 域名
 	 * 
@@ -63,32 +63,57 @@ public class VisitUtil {
 	 */
 	public static long convertIP(String ip) {
 		try {
-			String arr1[] = ip.split(".");
-			long t = (Long.parseLong(arr1[0]) * 0x1000000L
-					+ Long.parseLong(arr1[1]) * 0x10000L
-					+ Long.parseLong(arr1[2]) * 256L + Long.parseLong(arr1[3])) - 1L;
+			String array[] = splitEx(ip, ".");
+			long t = (Long.parseLong(array[0]) * 16777216L
+					+ Long.parseLong(array[1]) * 65536L
+					+ Long.parseLong(array[2]) * 256L
+					+ Long.parseLong(array[3])) - 1L;
 			return t;
 		} catch (Exception e) {
 			logger.warn("错误的IP地址:" + ip);
-			return 0L;
 		}
+		return 0L;
 	}
-
-	/**
-	 * 区域代码
-	 * 
-	 * @param strIP
-	 * @return
-	 */
-	public static String getDistrictCode(String strIP) {
-		try{
-			IPSeeker ipSeeker = new IPSeeker("QQWry.Dat", "");
-			return ipSeeker.getIPLocation(strIP).getCountry();
-		}catch(Exception e){
-			return "未知";
+	
+	private static String[] splitEx (String str, String spilter) {
+		if (str == null) {
+			return null;
 		}
+		if ((spilter == null) || (spilter.equals(""))
+				|| (str.length() < spilter.length())) {
+			String[] t = { str };
+			return t;
+		}
+		ArrayList<String> al = new ArrayList<String>();
+		char[] cs = str.toCharArray();
+		char[] ss = spilter.toCharArray();
+		int length = spilter.length();
+		int lastIndex = 0;
+		for (int i = 0; i <= str.length() - length;) {
+			boolean notSuit = false;
+			for (int j = 0; j < length; j++) {
+				if (cs[(i + j)] != ss[j]) {
+					notSuit = true;
+					break;
+				}
+			}
+			if (!notSuit) {
+				al.add(str.substring(lastIndex, i));
+				i += length;
+				lastIndex = i;
+			} else {
+				i++;
+			}
+		}
+		if (lastIndex <= str.length()) {
+			al.add(str.substring(lastIndex, str.length()));
+		}
+		String[] t = new String[al.size()];
+		for (int i = 0; i < al.size(); i++) {
+			t[i] = ((String) al.get(i));
+		}
+		return t;
 	}
-
 	/**
 	 * 操作系统
 	 * 
@@ -513,41 +538,7 @@ public class VisitUtil {
 		return new String(out);
 	}
 
-//	private static void initIPRanges() {
-//		if (districtCodes == null)
-//			synchronized (mutex) {
-//				if (districtCodes == null) {
-//					// DataTable dt = (new
-//					// QueryBuilder("select IPRanges,DistrictCode from ZDIPRange")).executeDataTable();
-//					// String codes[] = new String[dt.getRowCount()];
-//					// ipRanges = new Object[dt.getRowCount()];
-//					String codes[] = new String[10];
-//					ipRanges = new Object[10];
-//					// for(int i = 0; i < dt.getRowCount(); i++){
-//					for (int i = 0; i < 10; i++) {
-//						// String code = dt.getString(i, 1);
-//						// String ranges = dt.getString(i, 0);
-//						String code = "1";
-//						String ranges = "1";
-//						codes[i] = code;
-//						String arr[] = ranges.split(",");
-//						long r[] = new long[arr.length * 2];
-//						for (int j = 0; j < arr.length; j++) {
-//							String arr2[] = arr[j].split("+");
-//							r[2 * j] = Long.parseLong(arr2[0]);
-//							r[2 * j + 1] = r[2 * j] + Long.parseLong(arr2[1]);
-//						}
-//
-//						ipRanges[i] = r;
-//					}
-//
-//					districtCodes = codes;
-//				}
-//			}
-//	}
-
-	public static String getCookieValue(HttpServletRequest request,
-			String cookieName) {
+	public static String getCookieValue(HttpServletRequest request,	String cookieName) {
 		return getCookieValue(request, cookieName, "");
 	}
 
@@ -570,14 +561,11 @@ public class VisitUtil {
 		return defaultValue;
 	}
 
-	public static void setCookieValue(HttpServletRequest request,
-			HttpServletResponse response, String cookieName, String cValue) {
-		setCookieValue(request, response, cookieName, 0x28de80, cValue);
+	public static void setCookieValue(HttpServletRequest request,HttpServletResponse response, String cookieName, String cValue) {
+		setCookieValue(request, response, cookieName, 2678400, cValue);
 	}
 
-	public static void setCookieValue(HttpServletRequest request,
-			HttpServletResponse response, String cookieName, int maxAge,
-			String cValue) {
+	public static void setCookieValue(HttpServletRequest request, HttpServletResponse response, String cookieName, int maxAge, String cValue) {
 		Cookie cookies[] = request.getCookies();
 		boolean cookieexistflag = false;
 		String contextPath = request.getContextPath();
@@ -606,6 +594,14 @@ public class VisitUtil {
 			cookie.setPath(contextPath);
 			cookie.setMaxAge(maxAge);
 			response.addCookie(cookie);
+		}
+	}
+	
+	public static void main(String[] args) {
+		try{
+			System.out.println(convertIP("202.101.224.68"));
+		}catch (Exception e){
+			
 		}
 	}
 }

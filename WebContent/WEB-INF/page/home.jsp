@@ -87,14 +87,12 @@
                             <span>站点管理</span>
                         </a>
                     </div>
-                    <!-- 
                     <div class="nav-item">
                 		<a href="javascript:_home.addTab('统计分析','plugin/visit/index.do')">
                 			<img src="ewcmssource/image/visit.png" style="border:0"/><br/>
                 			<span>统计分析</span>
                 		</a>
                 	</div>
-                	 -->
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('任务设置','scheduling/jobinfo/index.do')"> 
                             <img src="ewcmssource/image/scheduling_job.png" style="border: 0" /><br/>

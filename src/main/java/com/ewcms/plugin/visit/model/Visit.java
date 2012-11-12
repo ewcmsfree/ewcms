@@ -6,11 +6,18 @@
 package com.ewcms.plugin.visit.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Index;
 
@@ -19,12 +26,6 @@ import org.hibernate.annotations.Index;
  * 
  * <ul>
  * <li>uniqueID:编号</li>
- * <li>url:地址</li>
- * <li>referer:</li>
- * <li>ip:IP地址</li>
- * <li>uvFlag:UV标志</li>
- * <li>rvFlag:RV标志</li>
- * <li>ipFlag:IP标志</li>
  * <li>screen:分辨率</li>
  * <li>colorDepth:色彩深度</li>
  * <li>language:语言</li>
@@ -34,17 +35,13 @@ import org.hibernate.annotations.Index;
  * <li>flashEnabled:flash是否启用</li>
  * <li>flashVersion:flash版本</li>
  * <li>cookieEnable:cookie是否启用</li>
- * <li>type:类型</li>
- * <li>articleId:文章编号</li>
- * <li>channelId:频道编号</li>
- * <li>siteID:站点编号</li>
- * <li>visitTime:访问时间</li>
- * <li>host:主机</li>
- * <li>event:</li>
  * <li>browser:浏览器</li>
- * <li>district:</li>
- * <li>stickTime:停留时间</li>
- * <li>frequency:频率</li>
+ * <li>ip:ip</li>
+ * <li>country:国家</li>
+ * <li>district:区域</li>
+ * <li>siteId:站点编号</li>
+ * <li>addDate:访问日期</li>
+ * <li>rvFlag:回头标志</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -52,121 +49,71 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Table(name = "plugin_visit")
+@SequenceGenerator(name = "seq_plugin_visit", sequenceName = "seq_plugin_visit_id", allocationSize = 1)
 public class Visit implements Serializable {
 
 	private static final long serialVersionUID = -4173049848036627669L;
 
-	@Column(name = "uniqueId", insertable = true, updatable = false, nullable = true)
 	@Id
+    @GeneratedValue(generator = "seq_plugin_visit",strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
+	private Long id;
+	@Column(name = "unique_id")
 	@Index(name = "plugin_visit_unique_id_idx")
-	private String uniqueID;
-	@Column(name = "url")
-	private String url;
-	@Column()
-	private String referer;
-	@Column()
-	private String ip;
-	@Column()
-	private Boolean uvFlag;
-	@Column()
-	private Boolean rvFlag;
-	@Column()
-	private Boolean ipFlag;
-	@Column()
+	private String uniqueId;
+	@Column(name = "screen")
 	private String screen;
-	@Column()
+	@Column(name = "color_depth")
 	private String colorDepth;
-	@Column()
+	@Column(name = "language")
 	private String language;
-	@Column()
+	@Column(name = "user_agent")
 	private String userAgent;
-	@Column()
+	@Column(name = "os")
 	private String os;
-	@Column()
+	@Column(name = "java_enabled")
 	private Boolean javaEnabled;
-	@Column()
+	@Column(name = "flash_enabled")
 	private Boolean flashEnabled;
-	@Column()
+	@Column(name = "falsh_version")
 	private String flashVersion;
-	@Column()
+	@Column(name = "cookie_enabled")
 	private Boolean cookieEnabled;
-	@Column()
-	private String type;
-	@Column()
-	private Integer channelId;
-	@Column()
-	private Long articleId;
-	@Column()
-	private Long siteID;
-	@Column()
-	private Long visitTime;
-	@Column()
-	private String host;
-	@Column()
-	private String event;
-	@Column()
+	@Column(name = "browser")
 	private String browser;
-	@Column()
+	@Column(name = "ip")
+	private String ip;
+	@Column(name = "country")
+	private String country;
+	@Column(name = "district")
 	private String district;
-	@Column()
-	private Long stickTime;
-	@Column()
-	private Long frequency;
+	@Column(name = "site_id")
+	private Integer siteId;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "add_date")
+	private Date addDate;
+	@Column(name = "rv_flag")
+	private Boolean rvFlag;
 
-	public String getUrl() {
-		return url;
+	public Visit(){
+		addDate = new Date(Calendar.getInstance().getTime().getTime());
+		rvFlag = false;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public Long getId() {
+		return id;
 	}
 
-	public String getReferer() {
-		return referer;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setReferer(String referer) {
-		this.referer = referer;
+	public String getUniqueId() {
+		return uniqueId;
 	}
 
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public Boolean getUvFlag() {
-		return uvFlag;
-	}
-
-	public void setUvFlag(Boolean uvFlag) {
-		this.uvFlag = uvFlag;
-	}
-
-	public Boolean getRvFlag() {
-		return rvFlag;
-	}
-
-	public void setRvFlag(Boolean rvFlag) {
-		this.rvFlag = rvFlag;
-	}
-
-	public String getUniqueID() {
-		return uniqueID;
-	}
-
-	public void setUniqueID(String uniqueID) {
-		this.uniqueID = uniqueID;
-	}
-
-	public Boolean getIpFlag() {
-		return ipFlag;
-	}
-
-	public void setIpFlag(Boolean ipFlag) {
-		this.ipFlag = ipFlag;
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
 	}
 
 	public String getScreen() {
@@ -241,68 +188,28 @@ public class Visit implements Serializable {
 		this.cookieEnabled = cookieEnabled;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Integer getChannelId() {
-		return channelId;
-	}
-
-	public void setChannelId(Integer channelId) {
-		this.channelId = channelId;
-	}
-
-	public Long getLeafID() {
-		return articleId;
-	}
-
-	public void setLeafID(Long leafID) {
-		this.articleId = leafID;
-	}
-
-	public Long getSiteID() {
-		return siteID;
-	}
-
-	public void setSiteID(Long siteID) {
-		this.siteID = siteID;
-	}
-
-	public Long getVisitTime() {
-		return visitTime;
-	}
-
-	public void setVisitTime(Long visitTime) {
-		this.visitTime = visitTime;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public String getEvent() {
-		return event;
-	}
-
-	public void setEvent(String event) {
-		this.event = event;
-	}
-
 	public String getBrowser() {
 		return browser;
 	}
 
 	public void setBrowser(String browser) {
 		this.browser = browser;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getDistrict() {
@@ -313,19 +220,52 @@ public class Visit implements Serializable {
 		this.district = district;
 	}
 
-	public Long getStickTime() {
-		return stickTime;
+	public Integer getSiteId() {
+		return siteId;
 	}
 
-	public void setStickTime(Long stickTime) {
-		this.stickTime = stickTime;
+	public void setSiteId(Integer siteId) {
+		this.siteId = siteId;
 	}
 
-	public Long getFrequency() {
-		return frequency;
+	public Date getAddDate() {
+		return addDate;
 	}
 
-	public void setFrequency(Long frequency) {
-		this.frequency = frequency;
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
+	}
+
+	public Boolean getRvFlag() {
+		return rvFlag;
+	}
+
+	public void setRvFlag(Boolean rvFlag) {
+		this.rvFlag = rvFlag;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Visit other = (Visit) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

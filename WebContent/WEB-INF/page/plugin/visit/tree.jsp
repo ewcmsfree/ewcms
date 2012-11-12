@@ -12,7 +12,24 @@
 		$(function() {
 		    $('#tt2').tree({
 		    	checkbox : false,
-		        url:'<s:url namespace="/plugin/visit" action="tree"/>'  
+		        url:'<s:url namespace="/plugin/visit" action="tree"/>',
+		        onClick : function(node) {
+					rootnode = $('#tt2').tree('getRoot');
+					currentnode = node;
+					var url = node.attributes.url;
+					if (typeof(url) == 'undefined' || url == ''){
+						$("#editifr").attr('src', '');
+					}else{
+						url = '<s:url namespace="/plugin/visit" action="' + url + '"/>';
+						$("#editifr").attr('src', url);
+					}
+		        },
+		    	onLoadSuccess : function(node, data){
+		    		var nodeSel = $('#tt2').tree('find', 2);
+		    		$('#tt2').tree('select', nodeSel.target);
+		    		url = '<s:url namespace="/plugin/visit" action="' + nodeSel.attributes.url + '"/>';
+					$("#editifr").attr('src', url);
+		    	}
 		    });  
 		});
 		function visitTreeLoad() {

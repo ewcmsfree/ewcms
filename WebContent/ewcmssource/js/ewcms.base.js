@@ -224,7 +224,6 @@ function EwcmsBase(){
 		$(datagridID).datagrid({
 			title:(options.title ? options.title : ''),
 		    iconCls:(options.iconCls ? options.iconCls : ''),
-		    nowrap: (options.nowrap ? options.nowrap : false),
 		    width:(options.width ? options.width : dgWidth),
 		    height:(options.height ? options.height : dgHeight),
 		    nowrap:(options.nowrap ? options.nowrap : true),
