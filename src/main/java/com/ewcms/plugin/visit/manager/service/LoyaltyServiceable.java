@@ -3,7 +3,6 @@ package com.ewcms.plugin.visit.manager.service;
 import java.util.List;
 
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 
 /**
  * 忠诚度分析
@@ -81,9 +80,9 @@ public interface LoyaltyServiceable {
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
 	 * @param siteId 站点编号
-	 * @return List VisitFreqVo对象集合
+	 * @return List LoyaltyVo对象集合
 	 */
-	public List<VisitorVo> findVisitorTable(String startDate, String endDate, Integer siteId);
+	public List<LoyaltyVo> findVisitorTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 回头率图形
@@ -101,9 +100,9 @@ public interface LoyaltyServiceable {
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
 	 * @param siteId 站点编号
-	 * @return List VisitFreqVo对象集合
+	 * @return List LoyaltyVo对象集合
 	 */
-	public List<VisitorVo> findStickTimeTable(String startDate, String endDate, Integer siteId);
+	public List<LoyaltyVo> findStickTimeTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 停留时间图形

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.plugin.visit.manager.VisitFacable;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.vo.DataGrid;
@@ -76,7 +75,7 @@ public class LoyaltyAction extends VisitBaseAction {
 
 	/*========================== 访问频率 =================================*/
 	public void visitorTable(){
-		List<VisitorVo> list = visitFac.findVisitorTable(getStartDate(), getEndDate(), getSiteId());
+		List<LoyaltyVo> list = visitFac.findVisitorTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
@@ -88,7 +87,7 @@ public class LoyaltyAction extends VisitBaseAction {
 
 	/*========================== 访问频率 =================================*/
 	public void stickTimeTable(){
-		List<VisitorVo> list = visitFac.findStickTimeTable(getStartDate(), getEndDate(), getSiteId());
+		List<LoyaltyVo> list = visitFac.findStickTimeTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}

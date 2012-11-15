@@ -28,9 +28,9 @@ public class ClientService implements ClientServiceable {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
 		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
-		List<String> fieldNames = visitDAO.findClientName(start, end, fieldName, siteId);
+		List<String> fieldNames = visitDAO.findClientNameInDateIntervalByFieldName(start, end, fieldName, siteId);
 		List<ClientVo> clientVos = new ArrayList<ClientVo>();
-		Long sumPv = visitDAO.findPvSumInCountry(start, end, siteId);
+		Long sumPv = visitDAO.findPvSumInDateInterval(start, end, siteId);
 		ClientVo vo = null;
 		for (String name : fieldNames){
 			vo = new ClientVo();
@@ -83,7 +83,7 @@ public class ClientService implements ClientServiceable {
 		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
 		boolean[] fieldNames = {true, false};
 		List<ClientVo> summarys = new ArrayList<ClientVo>();
-		Long pvSum = visitDAO.findPvSumInCountry(start, end, siteId);
+		Long pvSum = visitDAO.findPvSumInDateInterval(start, end, siteId);
 		ClientVo vo = null;
 		String fieldZhName = "Cookie";
 		if (fieldName.equals("javaEnabled")){

@@ -15,12 +15,8 @@ import com.ewcms.plugin.visit.manager.service.VisitServiceable;
 import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
 import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
-import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
-import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
@@ -93,7 +89,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<RecentlyVisitedVo> findLastTable(String startDate, String endDate, Integer siteId) {
+	public List<SummaryVo> findLastTable(String startDate, String endDate, Integer siteId) {
 		return summaryService.findLastTable(startDate, endDate, siteId);
 	}
 
@@ -108,7 +104,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<EntryAndExitVo> findEntranceTable(String startDate, String endDate, Integer siteId) {
+	public List<SummaryVo> findEntranceTable(String startDate, String endDate, Integer siteId) {
 		return summaryService.findEntranceTable(startDate, endDate, siteId);
 	}
 
@@ -118,7 +114,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<EntryAndExitVo> findExitTable(String startDate, String endDate, Integer siteId) {
+	public List<SummaryVo> findExitTable(String startDate, String endDate, Integer siteId) {
 		return summaryService.findExitTable(startDate, endDate, siteId);
 	}
 
@@ -163,7 +159,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<OnlineVo> findOnlineTable(String startDate, String endDate, Integer siteId) {
+	public List<SummaryVo> findOnlineTable(String startDate, String endDate, Integer siteId) {
 		return summaryService.findOnlineTable(startDate, endDate, siteId);
 	}
 
@@ -258,7 +254,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<VisitorVo> findVisitorTable(String startDate, String endDate, Integer siteId) {
+	public List<LoyaltyVo> findVisitorTable(String startDate, String endDate, Integer siteId) {
 		return loyaltyService.findVisitorTable(startDate, endDate, siteId);
 	}
 
@@ -268,7 +264,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<VisitorVo> findStickTimeTable(String startDate, String endDate, Integer siteId) {
+	public List<LoyaltyVo> findStickTimeTable(String startDate, String endDate, Integer siteId) {
 		return loyaltyService.findStickTimeTable(startDate, endDate, siteId);
 	}
 

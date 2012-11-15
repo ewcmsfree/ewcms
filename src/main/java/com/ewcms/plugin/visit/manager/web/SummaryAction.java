@@ -7,9 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.plugin.visit.manager.VisitFacable;
-import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
-import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
@@ -106,7 +103,7 @@ public class SummaryAction extends VisitBaseAction {
 	
 	/*========================== 访问记录 =================================*/
 	public void lastVisitTable(){
-		List<RecentlyVisitedVo> list = visitFac.findLastTable(getStartDate(), getEndDate(), getSiteId());
+		List<SummaryVo> list = visitFac.findLastTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data, TIME_FORMAT));
 	}
@@ -124,7 +121,7 @@ public class SummaryAction extends VisitBaseAction {
 	
 	/*========================== 入口分析 =================================*/
 	public void entranceTable(){
-		List<EntryAndExitVo> list = visitFac.findEntranceTable(getStartDate(), getEndDate(), getSiteId());
+		List<SummaryVo> list = visitFac.findEntranceTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
@@ -140,7 +137,7 @@ public class SummaryAction extends VisitBaseAction {
 	
 	/*========================== 出口分析 =================================*/
 	public void exitTable(){
-		List<EntryAndExitVo> list = visitFac.findExitTable(getStartDate(), getEndDate(), getSiteId());
+		List<SummaryVo> list = visitFac.findExitTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
@@ -196,7 +193,7 @@ public class SummaryAction extends VisitBaseAction {
 
 	/*========================== 在线情况 =================================*/
 	public void onlineTable(){
-		List<OnlineVo> list = visitFac.findOnlineTable(getStartDate(), getEndDate(), getSiteId());
+		List<SummaryVo> list = visitFac.findOnlineTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}

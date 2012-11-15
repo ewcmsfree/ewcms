@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.plugin.visit.manager.dao.VisitDAO;
-import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
-import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.util.ChartVisitUtil;
 import com.ewcms.plugin.visit.util.DateTimeUtil;
@@ -115,8 +112,8 @@ public class SummaryService implements SummaryServiceable {
 	}
 
 	@Override
-	public List<RecentlyVisitedVo> findLastTable(String startDate, String endDate, Integer siteId) {
-		return visitDAO.findAcRecordInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+	public List<SummaryVo> findLastTable(String startDate, String endDate, Integer siteId) {
+		return visitDAO.findAcInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
 	}
 
 	@Override
@@ -137,10 +134,10 @@ public class SummaryService implements SummaryServiceable {
 			for (String dateValue : dateArea){
 				Date date = DateTimeUtil.getStringToDate(dateValue);
 				
-				countIp += visitDAO.findIpCountInHour(date, i, siteId);
-				countUv += visitDAO.findUvCountInHour(date, i, siteId);
-				countPv += visitDAO.findPvCountInHour(date, i, siteId);
-				countRv += visitDAO.findRvCountInHour(date, i, siteId);
+				countIp += visitDAO.findIpCountInDayByHour(date, i, siteId);
+				countUv += visitDAO.findUvCountInDayByHour(date, i, siteId);
+				countPv += visitDAO.findPvCountInDayByHour(date, i, siteId);
+				countRv += visitDAO.findRvCountInDayByHour(date, i, siteId);
 			}
 			vo.setIp(countIp);
 			vo.setUv(countUv);
@@ -186,10 +183,10 @@ public class SummaryService implements SummaryServiceable {
 			for (String dateValue : dateArea){
 				Date date = DateTimeUtil.getStringToDate(dateValue);
 				
-				countIp += visitDAO.findIpCountInHour(date, i, siteId);
-				countUv += visitDAO.findUvCountInHour(date, i, siteId);
-				countPv += visitDAO.findPvCountInHour(date, i, siteId);
-				countRv += visitDAO.findRvCountInHour(date, i, siteId);
+				countIp += visitDAO.findIpCountInDayByHour(date, i, siteId);
+				countUv += visitDAO.findUvCountInDayByHour(date, i, siteId);
+				countPv += visitDAO.findPvCountInDayByHour(date, i, siteId);
+				countRv += visitDAO.findRvCountInDayByHour(date, i, siteId);
 			}
 			vo.setIp(countIp);
 			vo.setUv(countUv);
@@ -218,9 +215,9 @@ public class SummaryService implements SummaryServiceable {
 	}
 
 	@Override
-	public List<EntryAndExitVo> findEntranceTable(String startDate, String endDate, Integer siteId) {
-		List<EntryAndExitVo>  list = visitDAO.findEntrance(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
-		Long sum = visitDAO.findUrlSumInEntrance(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+	public List<SummaryVo> findEntranceTable(String startDate, String endDate, Integer siteId) {
+		List<SummaryVo>  list = visitDAO.findEntranceInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+		Long sum = visitDAO.findUrlCountInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
 		return conversion(list, sum);
 	}
 
@@ -230,7 +227,7 @@ public class SummaryService implements SummaryServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValue = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvCountInEntrance(DateTimeUtil.getStringToDate(category), url, siteId);
+			Long countPv = visitDAO.findUrlCountInDayByUrl(DateTimeUtil.getStringToDate(category), url, siteId);
 			dataValue.put(category, countPv);
 		}
 		dataSet.put(url, dataValue);
@@ -239,9 +236,9 @@ public class SummaryService implements SummaryServiceable {
 	}
 
 	@Override
-	public List<EntryAndExitVo> findExitTable(String startDate, String endDate, Integer siteId) {
-		List<EntryAndExitVo> list = visitDAO.findExit(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
-		Long sum = visitDAO.findUrlSumInExit(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+	public List<SummaryVo> findExitTable(String startDate, String endDate, Integer siteId) {
+		List<SummaryVo> list = visitDAO.findExitInDateIntervalByEvent(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+		Long sum = visitDAO.findUrlCountInDateIntervalByEvent(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
 		return conversion(list, sum);
 	}
 
@@ -251,8 +248,8 @@ public class SummaryService implements SummaryServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValue = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvCountInExit(DateTimeUtil.getStringToDate(category), url, siteId);
-			dataValue.put(category, countPv);
+			Long count = visitDAO.findUrlCountInDayByUrlAndEvent(DateTimeUtil.getStringToDate(category), url, siteId);
+			dataValue.put(category, count);
 		}
 		dataSet.put(url, dataValue);
 		
@@ -261,8 +258,8 @@ public class SummaryService implements SummaryServiceable {
 
 	@Override
 	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer siteId) {
-		List<SummaryVo> list = visitDAO.findHost(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
-		Long sum = visitDAO.findPvSumInHost(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+		List<SummaryVo> list = visitDAO.findHostInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+		Long sum = visitDAO.findPvSumInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
 		if (list == null) return new ArrayList<SummaryVo>(0);
 		if (sum == 0) return list;
 		SummaryVo vo = null;
@@ -280,7 +277,7 @@ public class SummaryService implements SummaryServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValue = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvCountInHost(DateTimeUtil.getStringToDate(category), host, siteId);
+			Long countPv = visitDAO.findPvSumInDayByHost(DateTimeUtil.getStringToDate(category), host, siteId);
 			dataValue.put(category, countPv);
 		}
 		dataSet.put(host, dataValue);
@@ -290,7 +287,7 @@ public class SummaryService implements SummaryServiceable {
 
 	@Override
 	public String findHostReport(String startDate, String endDate, Integer siteId) {
-		List<SummaryVo> list = visitDAO.findHost(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
+		List<SummaryVo> list = visitDAO.findHostInDateInterval(DateTimeUtil.getStringToDate(startDate), DateTimeUtil.getStringToDate(endDate), siteId);
 		Map<String, Long> dataSet = new LinkedHashMap<String, Long>();
 		for (SummaryVo vo : list){
 			dataSet.put(vo.getName(), vo.getSumPv());
@@ -303,18 +300,18 @@ public class SummaryService implements SummaryServiceable {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
 		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
-		List<String> countries = visitDAO.findCountryName(start, end, siteId);
+		List<String> countries = visitDAO.findCountryInDateInterval(start, end, siteId);
 		List<SummaryVo> summarys = new ArrayList<SummaryVo>();
-		Long sumPv = visitDAO.findPvSumInCountry(start, end, siteId);
+		Long sumPv = visitDAO.findPvSumInDateInterval(start, end, siteId);
 		SummaryVo vo = null;
 		for (String country : countries){
 			vo = new SummaryVo();
 			Long countPv = 0L, countUv = 0L, countIp = 0L;
 			for (String category : categories){
 				Date categoryDate = DateTimeUtil.getStringToDate(category);
-				countPv += visitDAO.findPvSumInCountryByCountryName(categoryDate, country, siteId).intValue();
-				countUv += visitDAO.findUvCountInDayByCountryName(categoryDate, country, siteId);
-				countIp += visitDAO.findIpCountInDayByCountryName(categoryDate, country, siteId);
+				countPv += visitDAO.findPvSumInDayByCountry(categoryDate, country, siteId).intValue();
+				countUv += visitDAO.findUvCountInDayByCountry(categoryDate, country, siteId);
+				countIp += visitDAO.findIpCountInDayByCountry(categoryDate, country, siteId);
 			}
 			vo.setIp(countIp);
 			vo.setUv(countUv);
@@ -347,11 +344,11 @@ public class SummaryService implements SummaryServiceable {
 		Map<String, Long> dataValueUv = new LinkedHashMap<String, Long>();
 		Map<String, Long> dataValueIp = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvSumInCountryByCountryName(DateTimeUtil.getStringToDate(category), country, siteId);
+			Long countPv = visitDAO.findPvSumInDayByCountry(DateTimeUtil.getStringToDate(category), country, siteId);
 			dataValuePv.put(category, countPv);
-			Long countUv = visitDAO.findUvCountInDayByCountryName(DateTimeUtil.getStringToDate(category), country, siteId);
+			Long countUv = visitDAO.findUvCountInDayByCountry(DateTimeUtil.getStringToDate(category), country, siteId);
 			dataValueUv.put(category, countUv);
-			Long countIp = visitDAO.findIpCountInDayByCountryName(DateTimeUtil.getStringToDate(category), country, siteId);
+			Long countIp = visitDAO.findIpCountInDayByCountry(DateTimeUtil.getStringToDate(category), country, siteId);
 			dataValueIp.put(category, countIp);
 		}
 		dataSet.put("PV", dataValuePv);
@@ -378,7 +375,7 @@ public class SummaryService implements SummaryServiceable {
 			for (String dateValue : dateArea){
 				Date date = DateTimeUtil.getStringToDate(dateValue);
 				
-				List<Long> stickTimes = visitDAO.findOnline(date, i, siteId);
+				List<Long> stickTimes = visitDAO.findStInHour(date, i, siteId);
 				for (Long stickTime : stickTimes){
 					if (stickTime <= 5*60)	countFive = countFive + 1;
 					else if (stickTime > 5*60 && stickTime <= 10*60) countTen = countTen + 1;
@@ -397,30 +394,27 @@ public class SummaryService implements SummaryServiceable {
 	}
 
 	@Override
-	public List<OnlineVo> findOnlineTable(String startDate, String endDate, Integer siteId) {
-		List<OnlineVo> list = new ArrayList<OnlineVo>();
+	public List<SummaryVo> findOnlineTable(String startDate, String endDate, Integer siteId) {
+		List<SummaryVo> list = new ArrayList<SummaryVo>();
 		List<String> dateArea = DateTimeUtil.getDateArea(startDate, endDate);
 		
-		OnlineVo vo = null;
+		SummaryVo vo = null;
 		for (int i = 0; i <= 23; i++){
 			String start = "" + i + ":00";
 			String end = "" + i + ":59";
-			vo = new OnlineVo();
-			vo.setName(start + " —— " + end);
+			
 			Integer countFive = 0, countTen = 0, countFifteen = 0;
 			for (String dateValue : dateArea){
 				Date date = DateTimeUtil.getStringToDate(dateValue);
 				
-				List<Long> stickTimes = visitDAO.findOnline(date, i, siteId);
+				List<Long> stickTimes = visitDAO.findStInHour(date, i, siteId);
 				for (Long stickTime : stickTimes){
 					if (stickTime <= 5*60)	countFive = countFive + 1;
 					else if (stickTime > 5*60 && stickTime <= 10*60) countTen = countTen + 1;
 					else countFifteen = countFifteen + 1;
 				}
 			}
-			vo.setFive(countFive);
-			vo.setTen(countTen);
-			vo.setFifteen(countFifteen);
+			vo = new SummaryVo(start + " —— " + end, countFive, countTen, countFifteen);
 			list.add(vo);
 		}
 		
@@ -502,14 +496,14 @@ public class SummaryService implements SummaryServiceable {
 		return vo;
 	}
 	
-	private List<EntryAndExitVo> conversion(List<EntryAndExitVo> list, Long sum){
-		if (list == null) return new ArrayList<EntryAndExitVo>(0);
+	private List<SummaryVo> conversion(List<SummaryVo> list, Long sum){
+		if (list == null) return new ArrayList<SummaryVo>(0);
 		if (sum == 0) return list;
 		
-		EntryAndExitVo vo = null;
+		SummaryVo vo = null;
 		for (int i = 0; i < list.size(); i++){
 			vo = list.get(i);
-			vo.setRate(NumberUtil.percentage(vo.getCount(), sum));
+			vo.setEeRate(NumberUtil.percentage(vo.getEeCount(), sum));
 			list.set(i, vo);
 		}
 		return list;

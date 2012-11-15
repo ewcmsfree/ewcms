@@ -31,12 +31,12 @@ public class TrafficService implements TrafficServiceable {
 	public List<TrafficVo> findArticleTable(Integer channelId, Integer siteId) {
 		List<TrafficVo> list = new ArrayList<TrafficVo>();
 		if (channelId == 0) {
-			list = visitDAO.findArticle(null, siteId);
+			list = visitDAO.findArticleByChannelIds(null, siteId);
 		} else{
 			List<Integer> channelIds = new ArrayList<Integer>();
 			getChannelId(channelIds, channelId);
 			channelIds.add(channelId);
-			list = visitDAO.findArticle(channelIds, siteId);
+			list = visitDAO.findArticleByChannelIds(channelIds, siteId);
 		}
 		Collections.sort(list, new ClickVoPvDescComparator());
 		return list;
@@ -57,10 +57,10 @@ public class TrafficService implements TrafficServiceable {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
 		
-		List<TrafficVo> list = visitDAO.findUrl(start, end, siteId);
+		List<TrafficVo> list = visitDAO.findUrlInDateInterval(start, end, siteId);
 		Collections.sort(list, new ClickVoPvDescComparator());
 		
-		Long sumPv = visitDAO.findPvSum(start, end, siteId);
+		Long sumPv = visitDAO.findPvSumInDateInterval(start, end, siteId);
 		TrafficVo vo = null;
 		for (int i = 0; i < list.size(); i++){
 			vo = list.get(i);
@@ -77,7 +77,7 @@ public class TrafficService implements TrafficServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValue = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvCountInDayByUrl(DateTimeUtil.getStringToDate(category), url, siteId);
+			Long countPv = visitDAO.findPvSumInDayByUrl(DateTimeUtil.getStringToDate(category), url, siteId);
 			if (countPv == null) countPv = 0L;
 			dataValue.put(category, countPv);
 		}
@@ -97,7 +97,7 @@ public class TrafficService implements TrafficServiceable {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
 		
-		List<TrafficVo> list = visitDAO.findChannel(start, end, channelParentId, siteId);
+		List<TrafficVo> list = visitDAO.findChannelInDateIntervalByChannelParentId(start, end, channelParentId, siteId);
 		if (list == null || list.isEmpty()) return new ArrayList<TrafficVo>();
 		
 		TrafficVo vo = null;
@@ -111,7 +111,7 @@ public class TrafficService implements TrafficServiceable {
 			channelIds = new ArrayList<Integer>();
 			getChannelId(channelIds, channelId);
 			
-			TrafficVo sumVo = visitDAO.findChannelThisLevelAndChildren(start, end, channelId, channelIds, siteId);
+			TrafficVo sumVo = visitDAO.findChannelInDateIntervalByChannelParentIdAndChannelIds(start, end, channelId, channelIds, siteId);
 			sumPv += sumVo.getPageView();
 			vo.setPageView(sumVo.getPageView());
 			vo.setStickTime(sumVo.getStickTime());
@@ -150,7 +150,7 @@ public class TrafficService implements TrafficServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValue = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long countPv = visitDAO.findPvCountInDayByChannelId(DateTimeUtil.getStringToDate(category), channelId, siteId);
+			Long countPv = visitDAO.findPvSumInDayByChannelId(DateTimeUtil.getStringToDate(category), channelId, siteId);
 			if (countPv == null) countPv = 0L;
 			dataValue.put(category, countPv);
 		}

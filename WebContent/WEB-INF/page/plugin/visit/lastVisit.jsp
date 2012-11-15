@@ -22,7 +22,7 @@
 					rownumbers : true,
 					url : '<s:url namespace="/plugin/visit" action="lastVisitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'ip',title:'IP地址',width:100},
+				            {field:'ipValue',title:'IP地址',width:100},
 				            {field:'country',title:'地域',width:100},
 				            {field:'url',title:'访问页面',width:300,
 				            	formatter : function(val, rec){

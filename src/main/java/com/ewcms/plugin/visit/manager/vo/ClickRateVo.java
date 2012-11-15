@@ -2,6 +2,12 @@ package com.ewcms.plugin.visit.manager.vo;
 
 import java.io.Serializable;
 
+/**
+ * 点击量来源
+ * 
+ * @author wu_zhijun
+ *
+ */
 public class ClickRateVo implements Serializable {
 
 	private static final long serialVersionUID = 226978324493678214L;

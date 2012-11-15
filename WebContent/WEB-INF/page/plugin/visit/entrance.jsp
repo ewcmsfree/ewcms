@@ -22,17 +22,17 @@
 					rownumbers : true,
 					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'url',title:'入口URL',width:500,
+				            {field:'eeUrl',title:'入口URL',width:500,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}
 				            },
-				            {field:'count',title:'入口次数',width:100},
-				            {field:'rate',title:'比例',width:100},
+				            {field:'eeCount',title:'入口次数',width:100},
+				            {field:'eeRate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.url + '\')" style="text-decoration: none">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.eeUrl + '\')" style="text-decoration: none">时间趋势</a>';
 				            	}
 				            }
 				    ]]  

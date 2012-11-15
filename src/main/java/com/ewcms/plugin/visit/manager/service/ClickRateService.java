@@ -37,7 +37,7 @@ public class ClickRateService implements ClickRateServiceable {
 		Long dSum = 0L, sSum = 0L, oSum = 0L;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			List<ClickRateVo> sources = visitDAO.findSourceCountInDay(date, siteId);
+			List<ClickRateVo> sources = visitDAO.findSourceInDay(date, siteId);
 			Long dCount = 0L, sCount = 0L, oCount = 0L;
 			for (ClickRateVo sourceVo : sources){
 				String referer = sourceVo.getReferer();
@@ -82,7 +82,7 @@ public class ClickRateService implements ClickRateServiceable {
 		Long sSum = 0L;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			List<ClickRateVo> sources = visitDAO.findSourceCountInDay(date, siteId);
+			List<ClickRateVo> sources = visitDAO.findSourceInDay(date, siteId);
 			for (ClickRateVo sourceVo : sources){
 				String referer = sourceVo.getReferer();
 				
@@ -126,7 +126,7 @@ public class ClickRateService implements ClickRateServiceable {
 		Map<String, Long> searchMap = new LinkedHashMap<String, Long>();
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			List<ClickRateVo> sources = visitDAO.findSourceCountInDay(date, siteId);
+			List<ClickRateVo> sources = visitDAO.findSourceInDay(date, siteId);
 			for (ClickRateVo sourceVo : sources){
 				String referer = sourceVo.getReferer();
 				
@@ -170,7 +170,7 @@ public class ClickRateService implements ClickRateServiceable {
 		Long wsSum = 0L;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			List<ClickRateVo> sources = visitDAO.findSourceCountInDay(date, siteId);
+			List<ClickRateVo> sources = visitDAO.findSourceInDay(date, siteId);
 			for (ClickRateVo sourceVo : sources){
 				String referer = sourceVo.getReferer();
 				
@@ -211,7 +211,7 @@ public class ClickRateService implements ClickRateServiceable {
 		Map<String, Long> searchMap = new LinkedHashMap<String, Long>();
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			List<ClickRateVo> sources = visitDAO.findSourceCountInDay(date, siteId);
+			List<ClickRateVo> sources = visitDAO.findSourceInDay(date, siteId);
 			for (ClickRateVo sourceVo : sources){
 				String referer = sourceVo.getReferer();
 				

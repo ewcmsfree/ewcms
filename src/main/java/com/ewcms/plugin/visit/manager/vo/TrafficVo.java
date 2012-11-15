@@ -2,6 +2,12 @@ package com.ewcms.plugin.visit.manager.vo;
 
 import java.io.Serializable;
 
+/**
+ * 访问量排行
+ * 
+ * @author wu_zhijun
+ *
+ */
 public class TrafficVo implements Serializable {
 
 	private static final long serialVersionUID = 3387503941545782436L;

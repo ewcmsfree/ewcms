@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.plugin.visit.manager.dao.VisitDAO;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 import com.ewcms.plugin.visit.util.ChartVisitUtil;
 import com.ewcms.plugin.visit.util.DateTimeUtil;
 import com.ewcms.plugin.visit.util.NumberUtil;
@@ -28,8 +27,8 @@ public class LoyaltyService implements LoyaltyServiceable {
 	public List<LoyaltyVo> findFrequencyTable(String startDate, String endDate, Integer siteId) {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
-		List<LoyaltyVo> list = visitDAO.findFrequency(start, end, siteId);
-		Long freqSum = visitDAO.findFrequencySum(start, end, siteId);
+		List<LoyaltyVo> list = visitDAO.findFrequencyInDateInterval(start, end, siteId);
+		Long freqSum = visitDAO.findFrequencyCountInDateInterval(start, end, siteId);
 		Long greaterThanThirty = 0L;
 		List<LoyaltyVo> newVfVo = new ArrayList<LoyaltyVo>();
 		for (LoyaltyVo visitFreqVo : list){
@@ -73,7 +72,7 @@ public class LoyaltyService implements LoyaltyServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValueFreq = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long sumFreq = visitDAO.findFrequencyTrend(DateTimeUtil.getStringToDate(category), frequency, siteId);
+			Long sumFreq = visitDAO.findFrequencyInDayByFrequency(DateTimeUtil.getStringToDate(category), frequency, siteId);
 			dataValueFreq.put(category, sumFreq);
 		}
 		if (frequency < 31L){
@@ -89,8 +88,8 @@ public class LoyaltyService implements LoyaltyServiceable {
 	public List<LoyaltyVo> findDepthTable(String startDate, String endDate, Integer siteId) {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
-		List<LoyaltyVo> list = visitDAO.findDepth(start, end, siteId);
-		Long freqSum = visitDAO.findDepthSum(start, end, siteId);
+		List<LoyaltyVo> list = visitDAO.findDepthInDateInterval(start, end, siteId);
+		Long freqSum = visitDAO.findDepthCountInDateInterval(start, end, siteId);
 		Long greaterThanThirty = 0L;
 		List<LoyaltyVo> newVfVo = new ArrayList<LoyaltyVo>();
 		for (LoyaltyVo loyaltyVo : list){
@@ -134,7 +133,7 @@ public class LoyaltyService implements LoyaltyServiceable {
 		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
 		Map<String, Long> dataValueFreq = new LinkedHashMap<String, Long>();
 		for (String category : categories){
-			Long sumFreq = visitDAO.findDepthTrend(DateTimeUtil.getStringToDate(category), depth, siteId);
+			Long sumFreq = visitDAO.findDepthCountInDateByDepth(DateTimeUtil.getStringToDate(category), depth, siteId);
 			dataValueFreq.put(category, sumFreq);
 		}
 		if (depth < 31L){
@@ -161,27 +160,27 @@ public class LoyaltyService implements LoyaltyServiceable {
 	}
 
 	@Override
-	public List<VisitorVo> findVisitorTable(String startDate, String endDate, Integer siteId) {
-		List<VisitorVo> list = new ArrayList<VisitorVo>();
+	public List<LoyaltyVo> findVisitorTable(String startDate, String endDate, Integer siteId) {
+		List<LoyaltyVo> list = new ArrayList<LoyaltyVo>();
 		List<String> dateArea = DateTimeUtil.getDateArea(startDate, endDate);
-		VisitorVo vo = new VisitorVo();
+		LoyaltyVo vo = new LoyaltyVo();
 		list.add(vo);
 		Long nvSum = 0L, rvSum = 0L;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			Long nv = visitDAO.findVisitorCountInDay(date, false, siteId);
+			Long nv = visitDAO.findRvCountInDayByRvFlag(date, false, siteId);
 			nvSum += nv;
-			Long rv = visitDAO.findVisitorCountInDay(date, true, siteId);
+			Long rv = visitDAO.findRvCountInDayByRvFlag(date, true, siteId);
 			rvSum += rv;
 			Double rr = 0d;
 			if (nv + rv > 0) rr = new Double(NumberUtil.round(rv * 100.0D / (rv + nv), 2));
-			vo = new VisitorVo(dateValue, nv, rv, rr);
+			vo = new LoyaltyVo(dateValue, nv, rv, rr);
 			list.add(vo);
 		}
 		
 		Double rrSum = 0d;
 		if (nvSum + rvSum > 0) rrSum = new Double(NumberUtil.round(rvSum * 100.0D / (rvSum + nvSum), 2));
-		vo = new VisitorVo("总计", nvSum, rvSum, rrSum);
+		vo = new LoyaltyVo("总计", nvSum, rvSum, rrSum);
 		list.set(0, vo);
 		
 		return list;
@@ -194,11 +193,11 @@ public class LoyaltyService implements LoyaltyServiceable {
 		Map<String, String> nvMap = new LinkedHashMap<String, String>();
 		Map<String, String> rvMap = new LinkedHashMap<String, String>();
 		Map<String, String> rrMap = new LinkedHashMap<String, String>();
-		List<VisitorVo> list = findVisitorTable(startDate, endDate, siteId);
+		List<LoyaltyVo> list = findVisitorTable(startDate, endDate, siteId);
 		
 		list.remove(0);
 		
-		for (VisitorVo vo : list){
+		for (LoyaltyVo vo : list){
 			nvMap.put(vo.getName(), String.valueOf(vo.getNewVisitor()));
 			rvMap.put(vo.getName(), String.valueOf(vo.getReturnVisitor()));
 			rrMap.put(vo.getName(), String.valueOf(vo.getReturningRage()));
@@ -213,15 +212,15 @@ public class LoyaltyService implements LoyaltyServiceable {
 	}
 
 	@Override
-	public List<VisitorVo> findStickTimeTable(String startDate, String endDate, Integer siteId) {
-		List<VisitorVo> list = new ArrayList<VisitorVo>();
+	public List<LoyaltyVo> findStickTimeTable(String startDate, String endDate, Integer siteId) {
+		List<LoyaltyVo> list = new ArrayList<LoyaltyVo>();
 		List<String> dateArea = DateTimeUtil.getDateArea(startDate, endDate);
-		VisitorVo vo = null;
+		LoyaltyVo vo = null;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
 			Long stSum = visitDAO.findStSumInDay(date, siteId);
 			Long stCount = visitDAO.findStCountInDay(date, siteId);
-			vo = new VisitorVo(dateValue, stSum, (stCount == 0) ? 0L : (stSum / stCount));
+			vo = new LoyaltyVo(dateValue, stSum, (stCount == 0) ? 0L : (stSum / stCount));
 			list.add(vo);
 		}
 		return list;
@@ -233,9 +232,9 @@ public class LoyaltyService implements LoyaltyServiceable {
 		
 		Map<String, Long> stSumMap = new LinkedHashMap<String, Long>();
 		Map<String, Long> stAvgMap = new LinkedHashMap<String, Long>();
-		List<VisitorVo> list = findStickTimeTable(startDate, endDate, siteId);
+		List<LoyaltyVo> list = findStickTimeTable(startDate, endDate, siteId);
 		
-		for (VisitorVo vo : list){
+		for (LoyaltyVo vo : list){
 			stSumMap.put(vo.getDate(), vo.getStSum());
 			stAvgMap.put(vo.getDate(), vo.getStAvg());
 		}

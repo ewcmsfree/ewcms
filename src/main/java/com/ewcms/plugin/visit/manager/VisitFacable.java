@@ -5,12 +5,8 @@ import java.util.List;
 import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
 import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
-import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
-import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
@@ -40,17 +36,17 @@ public interface VisitFacable {
 	
 	public List<SummaryVo> findSiteTable(String startDate, String endDate, Integer siteId);
 	
-	public List<RecentlyVisitedVo> findLastTable(String startDate, String endDate, Integer siteId);
+	public List<SummaryVo> findLastTable(String startDate, String endDate, Integer siteId);
 	
 	public List<SummaryVo> findHourTable(String startDate, String endDate, Integer siteId);
 	
 	public String findHourReport(String startDate, String endDate, Integer labelCount, Integer siteId);
 	
-	public List<EntryAndExitVo> findEntranceTable(String startDate, String endDate, Integer siteId);
+	public List<SummaryVo> findEntranceTable(String startDate, String endDate, Integer siteId);
 	
 	public String findEmtranceTrendReport(String url, String startDate, String endDate, Integer labelCount, Integer siteId);
 	
-	public List<EntryAndExitVo> findExitTable(String startDate, String endDate, Integer siteId);
+	public List<SummaryVo> findExitTable(String startDate, String endDate, Integer siteId);
 	
 	public String findExitTrendReport(String url, String startDate, String endDate, Integer labelCount, Integer siteId);
 	
@@ -68,7 +64,7 @@ public interface VisitFacable {
 	
 	public String findOnlineReport(String startDate, String endDate, Integer labelCount, Integer siteId);
 	
-	public List<OnlineVo> findOnlineTable(String startDate, String endDate, Integer siteId);
+	public List<SummaryVo> findOnlineTable(String startDate, String endDate, Integer siteId);
 
 	public List<ClientVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId);
 	
@@ -216,9 +212,9 @@ public interface VisitFacable {
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
 	 * @param siteId 站点编号
-	 * @return 
+	 * @return List LoyaltyVo对象集合
 	 */
-	public List<VisitorVo> findVisitorTable(String startDate, String endDate, Integer siteId);
+	public List<LoyaltyVo> findVisitorTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 回头率表格
@@ -238,7 +234,7 @@ public interface VisitFacable {
 	 * @param siteId 站点编号
 	 * @return List VisitFreqVo对象集合
 	 */
-	public List<VisitorVo> findStickTimeTable(String startDate, String endDate, Integer siteId);
+	public List<LoyaltyVo> findStickTimeTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 停留时间图形
