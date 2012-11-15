@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.lang.EmptyUtil;
+import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.model.Channel;
 import com.ewcms.plugin.visit.manager.dao.IpRangeDAO;
 import com.ewcms.plugin.visit.manager.dao.VisitDAO;
 import com.ewcms.plugin.visit.manager.dao.VisitItemDAO;
@@ -28,12 +30,13 @@ public class VisitService implements VisitServiceable {
 	private IpRangeDAO ipRangeDAO;
 	@Autowired
 	private VisitItemDAO visitItemDAO;
+	@Autowired
+	private ChannelDAO channelDAO;
 
 	@Override
 	public void addVisitByLoadEvent(Visit visit, VisitItem visitItem) {
 		Visit dbVisit = findVisitEntity(visit);
 		if (dbVisit == null) {
-			
 			Long ip = VisitUtil.convertIP(visit.getIp());
 			IpRange ipRange = ipRangeDAO.findIpRangeByIp(ip, ip);
 			if (ipRange == null) {
@@ -55,12 +58,14 @@ public class VisitService implements VisitServiceable {
 			visitDAO.persist(visit);
 			visitItem.setUniqueId(visit.getUniqueId());
 			visitItem.setPageView(1L);
+			visitItem.setDepth(findVisitDepth(1L, visitItem.getChannelId()));
 			visitItemDAO.persist(visitItem);
 		} else {
 			VisitItem dbVisitItem = visitItemDAO.findVisitItemByVisitItemPK(dbVisit.getUniqueId(), visitItem.getSiteId(), visitItem.getChannelId(), visitItem.getArticleId(), visitItem.getUrl());
 			if (dbVisitItem == null){
 				visitItem.setUniqueId(dbVisit.getUniqueId());
 				visitItem.setPageView(1L);
+				visitItem.setDepth(findVisitDepth(1L, visitItem.getChannelId()));
 				visitItemDAO.persist(visitItem);
 			}else{
 				dbVisitItem.setPageView(dbVisitItem.getPageView() + 1);
@@ -78,6 +83,7 @@ public class VisitService implements VisitServiceable {
 			VisitItem dbVisitItem = visitItemDAO.findVisitItemByVisitItemPK(dbVisit.getUniqueId(), visitItem.getSiteId(), visitItem.getChannelId(), visitItem.getArticleId(), visitItem.getUrl());
 			if (dbVisitItem != null){
 				dbVisitItem.setStickTime(visitItem.getStickTime() + dbVisitItem.getStickTime());
+				visitItem.setDepth(findVisitDepth(1L, visitItem.getChannelId()));
 				visitItemDAO.merge(dbVisitItem);
 			}
 		}
@@ -88,6 +94,7 @@ public class VisitService implements VisitServiceable {
 		VisitItem dbVisitItem = visitItemDAO.findVisitItemByVisitItemPK(visit.getUniqueId(), visitItem.getSiteId(), visitItem.getChannelId(), visitItem.getArticleId(), visitItem.getUrl());
 		if (dbVisitItem != null){
 			dbVisitItem.setEvent(VisitUtil.UNLOAD_EVENT);
+			visitItem.setDepth(findVisitDepth(1L, visitItem.getChannelId()));
 			visitItemDAO.merge(dbVisitItem);
 		}
 	}
@@ -100,5 +107,15 @@ public class VisitService implements VisitServiceable {
 			return visitDAO.findVisitByVisitPK(uniqueId, addDate, ip);
 		else
 			return null;
+	}
+	
+	private Long findVisitDepth(Long depth, Integer channelId){
+		if (channelId == null) return depth; 
+		Channel channel = channelDAO.get(channelId);
+		if (channel == null)  return depth;
+		Channel parent = channel.getParent();
+		if (parent == null) return depth; 
+		depth = depth + 1;
+		return findVisitDepth(depth, parent.getId());
 	}
 }

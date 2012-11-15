@@ -58,6 +58,8 @@ public class VisitItem implements Serializable {
 	private String url;
 	@Column(name = "referer")
 	private String referer;
+	@Column(name = "depth")
+	private Long depth;
 	
 	public VisitItem(){
 		visitDate = new Date(Calendar.getInstance().getTime().getTime());
@@ -175,6 +177,14 @@ public class VisitItem implements Serializable {
 
 	public void setReferer(String referer) {
 		this.referer = referer;
+	}
+
+	public Long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Long depth) {
+		this.depth = depth;
 	}
 
 	@Override

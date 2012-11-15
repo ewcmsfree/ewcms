@@ -22,14 +22,14 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
-					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&rows=' + $('#rows').val(),
+					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'name',title:'名称',width:200},
 				            {field:'sumPv',title:'次数',width:100},
 				            {field:'pvRate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\')" style="text-decoration: none">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -40,11 +40,8 @@
 				endDate = $('#endDate').val();
 				showChart();
 				$('#tt').datagrid({
-					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&rows=' + $('#rows').val()
+					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
 				});
-			}
-			function view(){
-				refresh();
 			}
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
@@ -70,7 +67,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：被访问主机分析&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> 显示行数 <s:textfield name="rows" id="rows"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a>	<a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">刷新</a>
+						当前报表：被访问主机分析&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">

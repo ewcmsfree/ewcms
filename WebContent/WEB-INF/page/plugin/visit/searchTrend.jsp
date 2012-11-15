@@ -6,58 +6,44 @@
 
 <html>
 	<head>
-		<title>在线人数</title>	
+		<title>时间趋势</title>	
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/visit/dateutil.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
 		<script type="text/javascript">
-			var startDate = dateTimeToString(new Date(new Date() - 30*24*60*60*1000));
-			var endDate = dateTimeToString(new Date());
+			var startDate = parent.$('#startDate').val();
+			var endDate = parent.$('#endDate').val();
 			$(function() {
 				$('#startDate').val(startDate);
 				$('#endDate').val(endDate);
-				$('#tt').datagrid({
-					singleSelect : true,
-					pagination : false,
-					nowrap : true,
-					striped : true,
-					url : '<s:url namespace="/plugin/visit" action="onlineTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
-				    columns:[[  
-				            {field:'name',title:'时段',width:200}, 
-				            {field:'fifteen',title:'15分钟在线',width:150},
-				            {field:'ten',title:'10分钟在线',width:150},  
-				            {field:'five',title:'5分钟在线',width:150}
-				    ]]  
-				});
 			});
 			function showChart(){
 				var parameter = {};
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
-				parameter['labelCount'] = 24;
-				$.post('<s:url namespace="/plugin/visit" action="onlineReport"/>', parameter, function(result) {
+				parameter['domain'] = $('#domain').val();
+				parameter['labelCount'] = 8;
+				$.post('<s:url namespace="/plugin/visit" action="searchTrendReport"/>', parameter, function(result) {
 			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
 			}
-			function refresh(){
+			function view(){
 				startDate = $('#startDate').val();
 				endDate = $('#endDate').val();
 				showChart();
-				$('#tt').datagrid({
-					url:'<s:url namespace="/plugin/visit" action="onlineTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
-				})
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
 	<body class="easyui-layout">
+		 <s:hidden id="domain" name="domain"/>
 		 <div region="north" style="height:310px">
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：在线人数&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
+						从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">
@@ -77,9 +63,6 @@
 					</td>
 				</tr>
 			</table>
-		</div>
-		<div region="center">
-			<table id="tt" fit="true"></table>
 		</div>
 	</body>
 </html>

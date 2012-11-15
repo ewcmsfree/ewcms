@@ -20,19 +20,19 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
-					url : '<s:url namespace="/plugin/visit" action="exitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&rows=' + $('#rows').val(),
+					url : '<s:url namespace="/plugin/visit" action="exitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'url',title:'出口URL',width:500,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
-				            		return '<a href="' + val + '" target="_blank">' + val + '</a>';
+				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}
 				            },
 				            {field:'count',title:'出口次数',width:100},
 				            {field:'rate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.url + '\')">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.url + '\')" style="text-decoration: none">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -40,11 +40,8 @@
 			});
 			function refresh(){
 				$('#tt').datagrid({
-					url : '<s:url namespace="/plugin/visit" action="exitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&rows=' + $('#rows').val()
+					url : '<s:url namespace="/plugin/visit" action="exitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
 				});
-			}
-			function view(){
-				refresh();
 			}
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
@@ -59,7 +56,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：出口分析&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> 显示行数 <s:textfield name="rows" id="rows"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a>	<a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">刷新</a>
+						当前报表：出口分析&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 			</table>

@@ -23,12 +23,16 @@
 					striped : true,
 					url : '<s:url namespace="/plugin/visit" action="colorDepthTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'name',title:'名称',width:200}, 
+				            {field:'name',title:'名称',width:200,
+				            	formatter : function(val, rec){
+									return val + "-bit";				            		
+				            	}	
+				            }, 
 				            {field:'pvRate',title:'比例',width:150},
-				            {field:'pv',title:'PV数量',width:150},  
+				            {field:'pvCount',title:'PV数量',width:150},  
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -44,7 +48,7 @@
 		      		myChart.render("divChart");
 		   		});
 			}
-			function view(){
+			function refresh(){
 				startDate = $('#startDate').val();
 				endDate = $('#endDate').val();
 				showChart();
@@ -55,7 +59,7 @@
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="colorDepthTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&fieldValue=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: value + " 时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: value + "-bit 时间趋势"});
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
@@ -65,7 +69,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：屏幕色度&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">刷新</a>
+						当前报表：屏幕色度&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">

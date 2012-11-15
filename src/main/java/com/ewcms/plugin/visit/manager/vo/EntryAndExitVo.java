@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author wu_zhijun
  * 
  */
-public class InAndExitVo implements Serializable {
+public class EntryAndExitVo implements Serializable {
 	
 	private static final long serialVersionUID = -9076439039318486609L;
 	
@@ -16,13 +16,13 @@ public class InAndExitVo implements Serializable {
 	private Long count;
 	private String rate;
 
-	public InAndExitVo() {
+	public EntryAndExitVo() {
 		url = "";
 		count = 0L;
 		rate = "100.00%";
 	}
 
-	public InAndExitVo(String url, Long count) {
+	public EntryAndExitVo(String url, Long count) {
 		this.url = url;
 		this.count = count;
 	}

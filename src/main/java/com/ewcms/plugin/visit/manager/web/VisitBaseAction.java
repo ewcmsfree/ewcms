@@ -9,7 +9,7 @@ public class VisitBaseAction extends EwcmsBaseAction {
 	private String startDate;
 	private String endDate;
 	private Integer labelCount = 8;
-	private Integer rows = 20;
+	private Integer siteId = getCurrentSite().getId();
 
 	public String getStartDate() {
 		return startDate;
@@ -35,12 +35,7 @@ public class VisitBaseAction extends EwcmsBaseAction {
 		this.labelCount = labelCount;
 	}
 
-	public Integer getRows() {
-		return rows;
+	public Integer getSiteId(){
+		return siteId;
 	}
-
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-
 }

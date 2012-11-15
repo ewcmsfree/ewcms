@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.plugin.visit.manager.VisitFacable;
-import com.ewcms.plugin.visit.manager.vo.SummaryVo;
+import com.ewcms.plugin.visit.manager.vo.ClientVo;
 import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 import com.ewcms.web.vo.DataGrid;
@@ -44,13 +44,13 @@ public class ClientAction extends VisitBaseAction {
 
 	/*========================== 操作系统 =================================*/
 	public void osTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "os", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "os", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void osReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "os", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "os", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 操作系统 时间趋势 =================================*/
@@ -59,18 +59,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void osTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "os", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "os", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 浏览器 =================================*/
 	public void browserTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "browser", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "browser", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void browserReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "browser", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "browser", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 浏览器 时间趋势 =================================*/
@@ -79,18 +79,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void browserTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "browser", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "browser", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 语言 =================================*/
 	public void languageTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "language", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "language", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void languageReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "language", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "language", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 语言 时间趋势 =================================*/
@@ -99,18 +99,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void languageTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "language", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "language", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 屏幕分析辨率 =================================*/
 	public void screenTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "screen",getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "screen",getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void screenReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "screen", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "screen", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 屏幕分析辨率 时间趋势 =================================*/
@@ -119,18 +119,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void screenTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "screen", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "screen", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 屏幕色度 =================================*/
 	public void colorDepthTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "colorDepth", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "colorDepth", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void colorDepthReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "colorDepth", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "colorDepth", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 
 	/*========================== 屏幕色度 时间趋势 =================================*/
@@ -139,18 +139,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void colorDepthTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "colorDepth", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "colorDepth", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 是否支持Applet =================================*/
 	public void javaEnabledTable(){
-		List<SummaryVo> list = visitFac.findClientBooleanTable(getStartDate(), getEndDate(), "javaEnabled", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientBooleanTable(getStartDate(), getEndDate(), "javaEnabled", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void javaEnabledReport(){
-		Struts2Util.renderHtml(visitFac.findClientBooleanReport(getStartDate(), getEndDate(),  "javaEnabled", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientBooleanReport(getStartDate(), getEndDate(),  "javaEnabled", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 是否支持Applet 时间趋势 =================================*/
@@ -159,17 +159,17 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void javaEnabledTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendBooleanReport(getStartDate(), getEndDate(), "javaEnabled", getEnabled(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendBooleanReport(getStartDate(), getEndDate(), "javaEnabled", getEnabled(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== Flash版本 =================================*/
 	public void flashVersionReport(){
-		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "flashVersion", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientReport(getStartDate(), getEndDate(),  "flashVersion", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	public void flashVersionTable(){
-		List<SummaryVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "flashVersion", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientTable(getStartDate(), getEndDate(), "flashVersion", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
@@ -179,18 +179,18 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void flashVersionTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "flashVersion", getFieldValue(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendReport(getStartDate(), getEndDate(), "flashVersion", getFieldValue(), getLabelCount(), getSiteId()));
 	}
 	
 	/*========================== 是否允许Cookies =================================*/
 	public void cookieEnabledTable(){
-		List<SummaryVo> list = visitFac.findClientBooleanTable(getStartDate(), getEndDate(), "cookieEnabled", getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<ClientVo> list = visitFac.findClientBooleanTable(getStartDate(), getEndDate(), "cookieEnabled", getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void cookieEnabledReport(){
-		Struts2Util.renderHtml(visitFac.findClientBooleanReport(getStartDate(), getEndDate(),  "cookieEnabled", getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findClientBooleanReport(getStartDate(), getEndDate(),  "cookieEnabled", getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 是否允许Cookies 时间趋势 =================================*/
@@ -199,6 +199,6 @@ public class ClientAction extends VisitBaseAction {
 	}
 	
 	public void cookieEnabledTrendReport(){
-		Struts2Util.renderHtml(visitFac.findClientTrendBooleanReport(getStartDate(), getEndDate(), "cookieEnabled", getEnabled(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findClientTrendBooleanReport(getStartDate(), getEndDate(), "cookieEnabled", getEnabled(), getLabelCount(), getSiteId()));
 	}
 }

@@ -6,7 +6,7 @@
 
 <html>
 	<head>
-		<title>入口分析</title>	
+		<title>URL点击排行</title>	
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/visit/dateutil.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
@@ -20,19 +20,19 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
-					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
+					url : '<s:url namespace="/plugin/visit" action="urlTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'url',title:'入口URL',width:500,
+				            {field:'url',title:'URL',width:500,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}
 				            },
-				            {field:'count',title:'入口次数',width:100},
-				            {field:'rate',title:'比例',width:100},
+				            {field:'pageView',title:'点击量',width:100},
+				            {field:'pvRate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.url + '\')" style="text-decoration: none">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.url + '\')">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -40,12 +40,12 @@
 			});
 			function refresh(){
 				$('#tt').datagrid({
-					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
+					url : '<s:url namespace="/plugin/visit" action="urlTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
 				});
 			}
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
-				var url = '<s:url namespace="/plugin/visit" action="entranceTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&url=' + value;
+				var url = '<s:url namespace="/plugin/visit" action="urlTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&url=' + value;
 				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title:"时间趋势"});
 			}
 		</script>
@@ -56,7 +56,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：入口分析&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
+						当前报表：URL点击排行&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 			</table>

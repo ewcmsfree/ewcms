@@ -2,8 +2,8 @@ package com.ewcms.plugin.visit.manager.service;
 
 import java.util.List;
 
-import com.ewcms.plugin.visit.manager.vo.InAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.LastVisitVo;
+import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
+import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
 import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 
@@ -65,11 +65,10 @@ public interface SummaryServiceable {
 	 * 
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
-	 * @param rows 显示行数
 	 * @param siteId 站点编号
 	 * @return List LastVisitVo对象集合
 	 */
-	public List<LastVisitVo> findLastTable(String startDate, String endDate, Integer rows, Integer siteId);
+	public List<RecentlyVisitedVo> findLastTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 时段分布统计表格
@@ -97,11 +96,10 @@ public interface SummaryServiceable {
 	 * 
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
-	 * @param rows 显示行数
 	 * @param siteId 站点编号
 	 * @return List InAndExitVo集合对象
 	 */
-	public List<InAndExitVo> findEntranceTable(String startDate, String endDate, Integer rows, Integer siteId);
+	public List<EntryAndExitVo> findEntranceTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 入口分析统计之时间趋势图形
@@ -120,11 +118,10 @@ public interface SummaryServiceable {
 	 * 
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
-	 * @param rows 显示行数
 	 * @param siteId 站点编号
 	 * @return List InAndExitVo对象集合
 	 */
-	public List<InAndExitVo> findExitTable(String startDate, String endDate, Integer rows, Integer siteId);
+	public List<EntryAndExitVo> findExitTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 出口分析统计之时间趋势图形
@@ -143,22 +140,20 @@ public interface SummaryServiceable {
 	 * 
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
-	 * @param rows 显示行数
 	 * @param siteId 站点编号
 	 * @return List SummaryVo对象集合
 	 */
-	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer rows, Integer siteId);
+	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer siteId);
 	
 	/**
 	 * 被访主机分析统计图形
 	 * 
 	 * @param startDate 开始日期
 	 * @param endDate 结束日期
-	 * @param rows 显示行数
 	 * @param siteId 站点编号
 	 * @return String 图形格式字符串
 	 */
-	public String findHostReport(String startDate, String endDate, Integer rows, Integer siteId);
+	public String findHostReport(String startDate, String endDate, Integer siteId);
 
 	/**
 	 * 被访问主机分析统计之时间趋势图形

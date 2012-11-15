@@ -143,5 +143,84 @@
 			<result>/WEB-INF/page/plugin/visit/cookieEnabledTrend.jsp</result>
 		</action>
 		<action name="cookieEnabledTrendReport" class="com.ewcms.plugin.visit.manager.web.ClientAction" method="cookieEnabledTrendReport"/>	
+		
+		<action name="channel" class="com.ewcms.plugin.visit.manager.web.TrafficAction">
+			<result>/WEB-INF/page/plugin/visit/channel.jsp</result>
+		</action>
+		<action name="channelTable" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="channelTable">
+			<result>/WEB-INF/page/plugin/visit/channel.jsp</result>
+		</action>
+		<action name="channelReport" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="channelReport">
+			<result>/WEB-INF/page/plugin/visit/channel.jsp</result>
+		</action>
+		<action name="channelTrend" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="channelTrend">
+			<result>/WEB-INF/page/plugin/visit/channelTrend.jsp</result>
+		</action>
+		<action name="channelTrendReport" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="channelTrendReport"/>
+		<action name="article" class="com.ewcms.plugin.visit.manager.web.TrafficAction">
+			<result>/WEB-INF/page/plugin/visit/article.jsp</result>
+		</action>
+		<action name="articleTable" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="articleTable"/>
+		<action name="url" class="com.ewcms.plugin.visit.manager.web.TrafficAction">
+			<result>/WEB-INF/page/plugin/visit/url.jsp</result>
+		</action>
+		<action name="urlTable" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="urlTable"/>
+		<action name="urlTrend" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="urlTrend">
+			<result>/WEB-INF/page/plugin/visit/urlTrend.jsp</result>
+		</action>
+		<action name="urlTrendReport" class="com.ewcms.plugin.visit.manager.web.TrafficAction" method="urlTrendReport"/>
+		
+		<action name="frequency" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction">
+			<result>/WEB-INF/page/plugin/visit/frequency.jsp</result>
+		</action>
+		<action name="frequencyTable" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="frequencyTable"/>
+		<action name="frequencyReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="frequencyReport"/>
+		<action name="frequencyTrend" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="frequencyTrend">
+			<result>/WEB-INF/page/plugin/visit/frequencyTrend.jsp</result>
+		</action>
+		<action name="frequencyTrendReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="frequencyTrendReport"/>
+		<action name="depth" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction">
+			<result>/WEB-INF/page/plugin/visit/depth.jsp</result>
+		</action>
+		<action name="depthTable" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="depthTable"/>
+		<action name="depthReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="depthReport"/>
+		<action name="depthTrend" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="depthTrend">
+			<result>/WEB-INF/page/plugin/visit/depthTrend.jsp</result>
+		</action>
+		<action name="depthTrendReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="depthTrendReport"/>
+		<action name="visitor" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction">
+			<result>/WEB-INF/page/plugin/visit/visitor.jsp</result>
+		</action>
+		<action name="visitorReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="visitorReport"/>
+		<action name="visitorTable" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="visitorTable"/>
+		<action name="stickTime" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction">
+			<result>/WEB-INF/page/plugin/visit/stickTime.jsp</result>
+		</action>
+		<action name="stickTimeReport" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="stickTimeReport"/>
+		<action name="stickTimeTable" class="com.ewcms.plugin.visit.manager.web.LoyaltyAction" method="stickTimeTable"/>
+		
+		<action name="source" class="com.ewcms.plugin.visit.manager.web.ClickRateAction">
+			<result>/WEB-INF/page/plugin/visit/source.jsp</result>
+		</action>
+		<action name="sourceTable" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="sourceTable"/>
+		<action name="sourceReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="sourceReport"/>
+		<action name="search" class="com.ewcms.plugin.visit.manager.web.ClickRateAction">
+			<result>/WEB-INF/page/plugin/visit/search.jsp</result>
+		</action>
+		<action name="searchTable" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="searchTable"/>
+		<action name="searchReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="searchReport"/>
+		<action name="searchTrend" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="searchTrend">
+			<result>/WEB-INF/page/plugin/visit/searchTrend.jsp</result>
+		</action>
+		<action name="searchTrendReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="searchTrendReport"/>
+		<action name="webSite" class="com.ewcms.plugin.visit.manager.web.ClickRateAction">
+			<result>/WEB-INF/page/plugin/visit/webSite.jsp</result>
+		</action>
+		<action name="webSiteTable" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="webSiteTable"/>
+		<action name="webSiteReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="webSiteReport"/>
+		<action name="webSiteTrend" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="webSiteTrend">
+			<result>/WEB-INF/page/plugin/visit/webSiteTrend.jsp</result>
+		</action>
+		<action name="webSiteTrendReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="webSiteTrendReport"/>
 	</package>
 </struts>	

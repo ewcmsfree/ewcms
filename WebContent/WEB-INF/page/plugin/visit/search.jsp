@@ -6,7 +6,7 @@
 
 <html>
 	<head>
-		<title>操作系统</title>	
+		<title>搜索引擎</title>	
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/page/visit/dateutil.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
@@ -21,14 +21,15 @@
 					pagination : false,
 					nowrap : true,
 					striped : true,
-					url : '<s:url namespace="/plugin/visit" action="osTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
+					url : '<s:url namespace="/plugin/visit" action="searchTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'name',title:'名称',width:200}, 
-				            {field:'pvRate',title:'比例',width:150},
-				            {field:'pvCount',title:'PV数量',width:150},  
+				            {field:'domain',title:'域名',hidden:true},
+				            {field:'domainName',title:'名称',width:200}, 
+				            {field:'domainCount',title:'UV',width:150},
+				            {field:'domainRate',title:'比例',width:150},  
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.domain + '\')">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -38,7 +39,7 @@
 				var parameter = {};
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
-				$.post('<s:url namespace="/plugin/visit" action="osReport"/>', parameter, function(result) {
+				$.post('<s:url namespace="/plugin/visit" action="searchReport"/>', parameter, function(result) {
 			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
@@ -49,12 +50,12 @@
 				endDate = $('#endDate').val();
 				showChart();
 				$('#tt').datagrid({
-					url:'<s:url namespace="/plugin/visit" action="osTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
+					url:'<s:url namespace="/plugin/visit" action="searchTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
 				})
 			}
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
-				var url = '<s:url namespace="/plugin/visit" action="osTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&fieldValue=' + value;
+				var url = '<s:url namespace="/plugin/visit" action="searchTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&domain=' + value;
 				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: value + " 时间趋势"});
 			}
 		</script>
@@ -65,7 +66,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：操作系统&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
+						当前报表：搜索引擎&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">

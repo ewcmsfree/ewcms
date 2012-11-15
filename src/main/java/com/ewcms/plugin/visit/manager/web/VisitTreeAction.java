@@ -26,9 +26,9 @@ public class VisitTreeAction extends ActionSupport {
 	private static final String ICON_CLS_NOTE = "icon-channel-note";
 	private Integer id = 0;
 	private static Map<String, String> oneTreeMap = new TreeMap<String, String>();
-//	private static Map<String, String> twoTreeMap = new TreeMap<String, String>();
-//	private static Map<String, String> threeTreeMap = new TreeMap<String, String>();
-//	private static Map<String, String> fourTreeMap = new TreeMap<String, String>();
+	private static Map<String, String> twoTreeMap = new TreeMap<String, String>();
+	private static Map<String, String> threeTreeMap = new TreeMap<String, String>();
+	private static Map<String, String> fourTreeMap = new TreeMap<String, String>();
 	private static Map<String, String> fiveTreeMap = new TreeMap<String, String>();
 //	private static Map<String, String> sixTreeMap = new TreeMap<String, String>();
 	
@@ -43,19 +43,18 @@ public class VisitTreeAction extends ActionSupport {
 		oneTreeMap.put("7区域分布", "district");
 		oneTreeMap.put("8在线情况", "online");
 		
-//		twoTreeMap.put("0栏目点击排行", "");
-//		twoTreeMap.put("1文章点击排行", "article");
-//		twoTreeMap.put("5URL点击排行", "");
+		twoTreeMap.put("0栏目点击排行", "channel");
+		twoTreeMap.put("1文章点击排行", "article");
+		twoTreeMap.put("5URL点击排行", "url");
 		
-//		threeTreeMap.put("0访问深度", "");
-//		threeTreeMap.put("1访问频率", "");
-//		threeTreeMap.put("2回头率", "");
-//		threeTreeMap.put("3停留时间", "");
+		threeTreeMap.put("0访问深度", "depth");
+		threeTreeMap.put("1访问频率", "frequency");
+		threeTreeMap.put("2回头率", "visitor");
+		threeTreeMap.put("3停留时间", "stickTime");
 		
-//		fourTreeMap.put("0来源组成", "");
-//		fourTreeMap.put("1搜索引擎", "");
-//		fourTreeMap.put("2来源网站", "");
-//		fourTreeMap.put("3关键字分析", "");
+		fourTreeMap.put("0来源组成", "source");
+		fourTreeMap.put("1搜索引擎", "search");
+		fourTreeMap.put("2来源网站", "webSite");
 		
 		fiveTreeMap.put("0操作系统", "os");
 		fiveTreeMap.put("1浏览器", "browser");
@@ -96,9 +95,9 @@ public class VisitTreeAction extends ActionSupport {
 			twoNode.setState("open");
 			twoNode.setIconCls(ICON_CLS_NOTE);
 			
-//			threeNodes = getThreeNode(twoTreeMap.entrySet().iterator()); 
-//			twoNode.setChildren(threeNodes);
-//			twoNodes.add(twoNode);
+			threeNodes = getThreeNode(twoTreeMap.entrySet().iterator()); 
+			twoNode.setChildren(threeNodes);
+			twoNodes.add(twoNode);
 			
 			twoNode = new TreeNode();
 			twoNode.setId((id++).toString());
@@ -106,9 +105,9 @@ public class VisitTreeAction extends ActionSupport {
 			twoNode.setState("open");
 			twoNode.setIconCls(ICON_CLS_NOTE);
 			
-//			threeNodes = getThreeNode(threeTreeMap.entrySet().iterator()); 
-//			twoNode.setChildren(threeNodes);
-//			twoNodes.add(twoNode);
+			threeNodes = getThreeNode(threeTreeMap.entrySet().iterator()); 
+			twoNode.setChildren(threeNodes);
+			twoNodes.add(twoNode);
 			
 			twoNode = new TreeNode();
 			twoNode.setId((id++).toString());
@@ -116,9 +115,9 @@ public class VisitTreeAction extends ActionSupport {
 			twoNode.setState("open");
 			twoNode.setIconCls(ICON_CLS_NOTE);
 			
-//			threeNodes = getThreeNode(fourTreeMap.entrySet().iterator()); 
-//			twoNode.setChildren(threeNodes);
-//			twoNodes.add(twoNode);
+			threeNodes = getThreeNode(fourTreeMap.entrySet().iterator()); 
+			twoNode.setChildren(threeNodes);
+			twoNodes.add(twoNode);
 			
 			twoNode = new TreeNode();
 			twoNode.setId((id++).toString());

@@ -1,5 +1,6 @@
 package com.ewcms.plugin.visit.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -25,5 +26,11 @@ public class NumberUtil {
 		} catch (Exception e){
 		}
 		return rate;
+	}
+	
+	public static double round (double v, int scale) {
+		BigDecimal b = new BigDecimal(Double.toString(v));
+		BigDecimal one = new BigDecimal("1");
+		return b.divide(one, scale, 4).doubleValue();
 	}
 }

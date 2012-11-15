@@ -5,14 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.plugin.visit.manager.service.ClickRateServiceable;
+import com.ewcms.plugin.visit.manager.service.TrafficServiceable;
 import com.ewcms.plugin.visit.manager.service.ClientServiceable;
 import com.ewcms.plugin.visit.manager.service.IpRangeServiceable;
+import com.ewcms.plugin.visit.manager.service.LoyaltyServiceable;
 import com.ewcms.plugin.visit.manager.service.SummaryServiceable;
 import com.ewcms.plugin.visit.manager.service.VisitServiceable;
-import com.ewcms.plugin.visit.manager.vo.InAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.LastVisitVo;
+import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
+import com.ewcms.plugin.visit.manager.vo.TrafficVo;
+import com.ewcms.plugin.visit.manager.vo.ClientVo;
+import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
+import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
 import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
+import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
+import com.ewcms.plugin.visit.manager.vo.VisitorVo;
 import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
@@ -33,6 +41,12 @@ public class VisitFac implements VisitFacable {
 	private SummaryServiceable summaryService;
 	@Autowired
 	private ClientServiceable clientService;
+	@Autowired
+	private TrafficServiceable trafficService;
+	@Autowired
+	private LoyaltyServiceable loyaltyService;
+	@Autowired
+	private ClickRateServiceable clickRateService;
 
 	@Override
 	public void addVisitByLoadEvent(Visit visit, VisitItem visitItem) {
@@ -79,8 +93,8 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<LastVisitVo> findLastTable(String startDate, String endDate, Integer rows, Integer siteId) {
-		return summaryService.findLastTable(startDate, endDate, rows, siteId);
+	public List<RecentlyVisitedVo> findLastTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findLastTable(startDate, endDate, siteId);
 	}
 
 	@Override
@@ -94,8 +108,8 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<InAndExitVo> findEntranceTable(String startDate, String endDate, Integer rows, Integer siteId) {
-		return summaryService.findEntranceTable(startDate, endDate, rows, siteId);
+	public List<EntryAndExitVo> findEntranceTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findEntranceTable(startDate, endDate, siteId);
 	}
 
 	@Override
@@ -104,8 +118,8 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<InAndExitVo> findExitTable(String startDate, String endDate, Integer rows, Integer siteId) {
-		return summaryService.findExitTable(startDate, endDate, rows, siteId);
+	public List<EntryAndExitVo> findExitTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findExitTable(startDate, endDate, siteId);
 	}
 
 	@Override
@@ -114,8 +128,8 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer rows, Integer siteId) {
-		return summaryService.findHostTable(startDate, endDate, rows, siteId);
+	public List<SummaryVo> findHostTable(String startDate, String endDate, Integer siteId) {
+		return summaryService.findHostTable(startDate, endDate, siteId);
 	}
 
 	@Override
@@ -124,8 +138,8 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public String findHostReport(String startDate, String endDate, Integer rows, Integer siteId) {
-		return summaryService.findHostReport(startDate, endDate, rows, siteId);
+	public String findHostReport(String startDate, String endDate, Integer siteId) {
+		return summaryService.findHostReport(startDate, endDate, siteId);
 	}
 
 	@Override
@@ -154,7 +168,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<SummaryVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId) {
+	public List<ClientVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId) {
 		return clientService.findClientTable(startDate, endDate, fieldName, siteId);
 	}
 
@@ -169,7 +183,7 @@ public class VisitFac implements VisitFacable {
 	}
 
 	@Override
-	public List<SummaryVo> findClientBooleanTable(String startDate, String endDate, String fieldName, Integer siteId) {
+	public List<ClientVo> findClientBooleanTable(String startDate, String endDate, String fieldName, Integer siteId) {
 		return clientService.findClientBooleanTable(startDate, endDate, fieldName, siteId);
 	}
 
@@ -181,5 +195,132 @@ public class VisitFac implements VisitFacable {
 	@Override
 	public String findClientTrendBooleanReport(String startDate, String endDate, String fieldName, Boolean enabled, Integer labelCount, Integer siteId) {
 		return clientService.findClientTrendBooleanReport(startDate, endDate, fieldName, enabled, labelCount, siteId);
+	}
+
+	@Override
+	public List<TrafficVo> findArticleTable(Integer channelId, Integer siteId) {
+		return trafficService.findArticleTable(channelId, siteId);
+	}
+
+	@Override
+	public List<TrafficVo> findUrlTable(String startDate, String endDate, Integer siteId) {
+		return trafficService.findUrlTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findUrlTrendReport(String startDate, String endDate, String url, Integer labelCount, Integer siteId) {
+		return trafficService.findUrlTrendReport(startDate, endDate, url, labelCount, siteId);
+	}
+
+	@Override
+	public List<TrafficVo> findChannelTable(String startDate, String endDate, Integer channelParentId, Integer siteId) {
+		return trafficService.findChannelTable(startDate, endDate, channelParentId, siteId);
+	}
+
+	@Override
+	public String findChannelReport(String startDate, String endDate, Integer channelParentId, Integer labelCount, Integer siteId) {
+		return trafficService.findChannelReport(startDate, endDate, channelParentId, labelCount, siteId);
+	}
+
+	@Override
+	public String findChannelTrendReport(String startDate, String endDate, Integer channelId, Integer labelCount, Integer siteId) {
+		return trafficService.findChannelTrendReport(startDate, endDate, channelId, labelCount, siteId);
+	}
+
+	@Override
+	public List<LoyaltyVo> findFrequencyTable(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findFrequencyTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findFrequencyReport(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findFrequencyReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findFrequencyTrendReport(String startDate, String endDate, Long frequency, Integer labelCount, Integer siteId) {
+		return loyaltyService.findFrequencyTrendReport(startDate, endDate, frequency, labelCount, siteId);
+	}
+
+	@Override
+	public List<LoyaltyVo> findDepthTable(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findDepthTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findDepthReport(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findDepthReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findDepthTrendReport(String startDate, String endDate, Long depth, Integer labelCount, Integer siteId) {
+		return loyaltyService.findDepthTrendReport(startDate, endDate, depth, labelCount, siteId);
+	}
+
+	@Override
+	public List<VisitorVo> findVisitorTable(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findVisitorTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findVisitorReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return loyaltyService.findVisitorReport(startDate, endDate, labelCount, siteId);
+	}
+
+	@Override
+	public List<VisitorVo> findStickTimeTable(String startDate, String endDate, Integer siteId) {
+		return loyaltyService.findStickTimeTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findStickTimeReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
+		return loyaltyService.findStickTimeReport(startDate, endDate, labelCount, siteId);
+	}
+
+	@Override
+	public List<ClickRateVo> findSourceTable(String startDate, String endDate,
+			Integer siteId) {
+		return clickRateService.findSourceTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findSourceReport(String startDate, String endDate, Integer siteId) {
+		return clickRateService.findSourceReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public List<ClickRateVo> findSearchTable(String startDate, String endDate,
+			Integer siteId) {
+		return clickRateService.findSearchTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findSearchReport(String startDate, String endDate,
+			Integer siteId) {
+		return clickRateService.findSearchReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findSearchTrendReport(String startDate, String endDate, String domain,
+			Integer labelCount, Integer siteId) {
+		return clickRateService.findSearchTrendReport(startDate, endDate, domain, labelCount, siteId);
+	}
+
+	@Override
+	public List<ClickRateVo> findWebSiteTable(String startDate, String endDate,
+			Integer siteId) {
+		return clickRateService.findWebSiteTable(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findWebSiteReport(String startDate, String endDate,
+			Integer siteId) {
+		return clickRateService.findWebSiteReport(startDate, endDate, siteId);
+	}
+
+	@Override
+	public String findWebSiteTrendReport(String startDate, String endDate,
+			String webSite, Integer labelCount, Integer siteId) {
+		return clickRateService.findWebSiteTrendReport(startDate, endDate, webSite, labelCount, siteId);
 	}
 }

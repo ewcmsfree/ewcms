@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ewcms.plugin.visit.manager.VisitFacable;
-import com.ewcms.plugin.visit.manager.vo.InAndExitVo;
-import com.ewcms.plugin.visit.manager.vo.LastVisitVo;
+import com.ewcms.plugin.visit.manager.vo.EntryAndExitVo;
+import com.ewcms.plugin.visit.manager.vo.RecentlyVisitedVo;
 import com.ewcms.plugin.visit.manager.vo.OnlineVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.web.util.JSONUtil;
@@ -78,54 +78,54 @@ public class SummaryAction extends VisitBaseAction {
 	
 	/*========================== 综合报告 =================================*/
 	public String summary(){
-		setFirstAddDate(visitFac.findFirstDate(getCurrentSite().getId()));
-		setVisitDay(visitFac.findDays(getCurrentSite().getId()));
+		setFirstAddDate(visitFac.findFirstDate(getSiteId()));
+		setVisitDay(visitFac.findDays(getSiteId()));
 		return SUCCESS;
 	}
 	
 	public void summaryTable(){
-		List<SummaryVo> list = visitFac.findSummaryTable(getCurrentSite().getId());
+		List<SummaryVo> list = visitFac.findSummaryTable(getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void summaryReport(){
-		Struts2Util.renderHtml(visitFac.findSummaryReport(getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findSummaryReport(getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 全站点击率 =================================*/
 	public void siteTable(){
-		List<SummaryVo> list = visitFac.findSiteTable(getStartDate(), getEndDate(), getCurrentSite().getId());
+		List<SummaryVo> list = visitFac.findSiteTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void siteReport(){
-		Struts2Util.renderHtml(visitFac.findSummaryReport(getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findSummaryReport(getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 访问记录 =================================*/
 	public void lastVisitTable(){
-		List<LastVisitVo> list = visitFac.findLastTable(getStartDate(), getEndDate(), getRows(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<RecentlyVisitedVo> list = visitFac.findLastTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data, TIME_FORMAT));
 	}
 	
 	/*========================== 时段分布 =================================*/
 	public void hourTable(){
-		List<SummaryVo> list = visitFac.findHourTable(getStartDate(), getEndDate(), getCurrentSite().getId());
+		List<SummaryVo> list = visitFac.findHourTable(getStartDate(), getEndDate(), getSiteId());
 		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void hourReport(){
-		Struts2Util.renderHtml(visitFac.findHourReport(getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findHourReport(getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 入口分析 =================================*/
 	public void entranceTable(){
-		List<InAndExitVo> list = visitFac.findEntranceTable(getStartDate(), getEndDate(), getRows(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<EntryAndExitVo> list = visitFac.findEntranceTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
@@ -135,13 +135,13 @@ public class SummaryAction extends VisitBaseAction {
 	}
 	
 	public void entranceTrendReport(){
-		Struts2Util.renderHtml(visitFac.findEmtranceTrendReport(getUrl(), getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findEmtranceTrendReport(getUrl(), getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 出口分析 =================================*/
 	public void exitTable(){
-		List<InAndExitVo> list = visitFac.findExitTable(getStartDate(), getEndDate(), getRows(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<EntryAndExitVo> list = visitFac.findExitTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
@@ -151,18 +151,18 @@ public class SummaryAction extends VisitBaseAction {
 	}
 	
 	public void exitTrendReport(){
-		Struts2Util.renderHtml(visitFac.findExitTrendReport(getUrl(), getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findExitTrendReport(getUrl(), getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 被访问主机分析 =================================*/
 	public void hostTable(){
-		List<SummaryVo> list = visitFac.findHostTable(getStartDate(), getEndDate(), getRows(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<SummaryVo> list = visitFac.findHostTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void hostReport(){
-		Struts2Util.renderHtml(visitFac.findHostReport(getStartDate(), getEndDate(), getRows(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findHostReport(getStartDate(), getEndDate(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 被访问主机分析 时间趋势 =================================*/
@@ -171,18 +171,18 @@ public class SummaryAction extends VisitBaseAction {
 	}
 	
 	public void hostTrendReport(){
-		Struts2Util.renderHtml(visitFac.findHostTrendReport(getHost(), getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findHostTrendReport(getHost(), getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 区域分布 =================================*/
 	public void countryTable(){
-		List<SummaryVo> list = visitFac.findCountryTable(getStartDate(), getEndDate(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<SummaryVo> list = visitFac.findCountryTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void countryReport(){
-		Struts2Util.renderHtml(visitFac.findCountryReport(getStartDate(), getEndDate(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findCountryReport(getStartDate(), getEndDate(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
 	/*========================== 区域分布 时间趋势=================================*/
@@ -191,17 +191,17 @@ public class SummaryAction extends VisitBaseAction {
 	}
 	
 	public void countryTrendReport(){
-		Struts2Util.renderHtml(visitFac.findCountryTrendReport(getStartDate(), getEndDate(), getCountry(), getLabelCount(), getCurrentSite().getId()));
+		Struts2Util.renderHtml(visitFac.findCountryTrendReport(getStartDate(), getEndDate(), getCountry(), getLabelCount(), getSiteId()));
 	}
 
 	/*========================== 在线情况 =================================*/
 	public void onlineTable(){
-		List<OnlineVo> list = visitFac.findOnlineTable(getStartDate(), getEndDate(), getCurrentSite().getId());
-		DataGrid data = new DataGrid(getRows(), list);
+		List<OnlineVo> list = visitFac.findOnlineTable(getStartDate(), getEndDate(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
 		Struts2Util.renderJson(JSONUtil.toJSON(data));
 	}
 	
 	public void onlineReport(){
-		Struts2Util.renderHtml(visitFac.findOnlineReport(getStartDate(), getEndDate(), getLabelCount(), getCurrentSite().getId()), "encoding:UTF-8","no-cache:false");
+		Struts2Util.renderHtml(visitFac.findOnlineReport(getStartDate(), getEndDate(), getLabelCount(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 }

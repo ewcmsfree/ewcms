@@ -25,12 +25,12 @@
 				    columns:[[  
 				            {field:'name',title:'名称',width:200}, 
 				            {field:'pvRate',title:'比例',width:150},
-				            {field:'pv',title:'PV数量',width:150},  
+				            {field:'pvCount',title:'PV数量',width:150},  
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){
 				            		var value = false;
 				            		if (rec.name=='允许Cookie') value = true;
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\',\'' + value + '\')">时间趋势</a>';
+				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.name + '\',\'' + value + '\')">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -46,7 +46,7 @@
 		      		myChart.render("divChart");
 		   		});
 			}
-			function view(){
+			function refresh(){
 				startDate = $('#startDate').val();
 				endDate = $('#endDate').val();
 				showChart();
@@ -67,7 +67,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：浏览器&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">刷新</a>
+						当前报表：浏览器&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">

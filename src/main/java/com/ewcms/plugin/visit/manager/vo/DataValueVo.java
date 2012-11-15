@@ -3,18 +3,19 @@ package com.ewcms.plugin.visit.manager.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CountVo implements Serializable {
+public class DataValueVo implements Serializable {
 
-	private static final long serialVersionUID = 2487917918381541573L;
+	private static final long serialVersionUID = -1133335235031262104L;
 
 	private Date date;
 	private Long value;
 
-	public CountVo(Date date, Long value){
+	public DataValueVo(Date date, Long value) {
+		super();
 		this.date = date;
 		this.value = value;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
@@ -30,5 +31,4 @@ public class CountVo implements Serializable {
 	public void setValue(Long value) {
 		this.value = value;
 	}
-
 }

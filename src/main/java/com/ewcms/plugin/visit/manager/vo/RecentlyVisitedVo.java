@@ -9,7 +9,7 @@ import java.util.Date;
  * @author wu_zhijun
  *
  */
-public class LastVisitVo implements Serializable {
+public class RecentlyVisitedVo implements Serializable {
 
 	private static final long serialVersionUID = -3678303069641484340L;
 
@@ -25,7 +25,7 @@ public class LastVisitVo implements Serializable {
 	private String language;
 	private String flashVersion;
 
-	public LastVisitVo(String ip, String country, String url, Date visitDate,
+	public RecentlyVisitedVo(String ip, String country, String url, Date visitDate,
 			Date visitTime, String referer, String browser, String os,
 			String screen, String language, String flashVersion) {
 		super();

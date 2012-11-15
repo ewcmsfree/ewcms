@@ -5,23 +5,24 @@
 
 <html>
 	<head>
-		<title>区域分布</title>	
+		<title>文章点击排行</title>	
 		<s:include value="../../taglibs.jsp"/>
-		<script type="text/javascript" src='<s:url value="/ewcmssource/page/visit/dateutil.js"/>'></script>
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
 		<script type="text/javascript">
+			var tableUrl = '<s:url namespace="/plugin/visit" action="articleTable"/>'
+			var channelId = 0;
 			$(function() {
 				$('#tt').datagrid({
 					singleSelect : true,
 					pagination : false,
 					nowrap : true,
 					striped : true,
-					url : '<s:url namespace="/plugin/visit" action="articleTable"/>?rows=' + $('#rows').val(),
+					url : tableUrl,
 				    columns:[[  
 				            {field:'channelName',title:'栏目名称',width:150}, 
 				            {field:'title',title:'标题',width:300,
 				            	formatter : function(val, rec){
-				            		return '<a href="' + rec.url + '">' + val + "</a>";
+				            		return '<a href="' + rec.url + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}	
 				            },
 				            {field:'owner',title:'创建者',width:100},  
@@ -29,11 +30,27 @@
 				            {field:'stickTime',title:'页均停留时间',width:100}
 				    ]]  
 				});
+				$('#cc_channel').combotree({  
+				    url:'<s:url namespace="/site/channel" action="tree"/>',
+				    onClick : function(node){
+				    	var rootnode = $('#cc_channel').combotree('tree').tree('getRoot');
+				    	if (node.id == rootnode.id){
+				    		$('#cc_channel').combotree('setValue', '');
+				    		channelId = 0;
+				    	}else{
+				    		channelId = node.id;
+				    	}
+				    }
+				});
 			});
-			function view(){
+			function refresh(){
+				var param = "";
+				if (channelId != 0){
+					param = '?channelId=' + channelId;
+				}
 				$('#tt').datagrid({
-					url:'<s:url namespace="/plugin/visit" action="articleTable"/>?rows=' + $('#rows').val()
-				})
+					url: tableUrl + param
+				});
 			}
 		</script>
 	</head>
@@ -42,7 +59,7 @@
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：文章点击排行&nbsp;&nbsp;&nbsp;&nbsp;显示行数 <s:textfield name="rows" id="rows"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">刷新</a>
+						当前报表：文章点击排行&nbsp;&nbsp;&nbsp;&nbsp;<select id="cc_channel" style="width:200px;"></select>&nbsp;<a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 			</table>

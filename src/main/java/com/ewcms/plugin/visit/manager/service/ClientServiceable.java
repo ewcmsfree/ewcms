@@ -2,7 +2,7 @@ package com.ewcms.plugin.visit.manager.service;
 
 import java.util.List;
 
-import com.ewcms.plugin.visit.manager.vo.SummaryVo;
+import com.ewcms.plugin.visit.manager.vo.ClientVo;
 
 /**
  * 客户端情况统计
@@ -18,9 +18,9 @@ public interface ClientServiceable {
 	 * @param endDate 结束日期
 	 * @param fieldName 统计字段名称(字段类型为字符型)
 	 * @param siteId 站点编号
-	 * @return List SummaryVo对象集合
+	 * @return List ClientVo对象集合
 	 */
-	public List<SummaryVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId);
+	public List<ClientVo> findClientTable(String startDate, String endDate, String fieldName, Integer siteId);
 	
 	/**
 	 * 客户端情况统计图形(字段类型为字符型)
@@ -55,7 +55,7 @@ public interface ClientServiceable {
 	 * @param siteId 站点编号
 	 * @return List SummaryVo对象集合
 	 */
-	public List<SummaryVo> findClientBooleanTable(String startDate, String endDate, String fieldName, Integer siteId);
+	public List<ClientVo> findClientBooleanTable(String startDate, String endDate, String fieldName, Integer siteId);
 	
 	/**
 	 * 客户情况统计图形(字段类型为布尔型)
