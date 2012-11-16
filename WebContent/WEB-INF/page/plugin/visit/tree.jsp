@@ -18,7 +18,7 @@
 					currentnode = node;
 					var url = node.attributes.url;
 					if (typeof(url) == 'undefined' || url == ''){
-						$("#editifr").attr('src', '');
+						return false;
 					}else{
 						url = '<s:url namespace="/plugin/visit" action="' + url + '"/>';
 						$("#editifr").attr('src', url);

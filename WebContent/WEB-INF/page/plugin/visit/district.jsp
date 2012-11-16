@@ -23,11 +23,11 @@
 					striped : true,
 					url : '<s:url namespace="/plugin/visit" action="countryTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'name',title:'名称',width:200}, 
-				            {field:'pvRate',title:'PV比例',width:150},
-				            {field:'pv',title:'PV数量',width:150},  
-				            {field:'uv',title:'UV数量',width:150},
-				            {field:'ip',title:'IP数量',width:150},
+				            {field:'name',title:'名称',width:120}, 
+				            {field:'pvRate',title:'PV比例',width:100},
+				            {field:'pv',title:'PV数量',width:100},  
+				            {field:'uv',title:'UV数量',width:100},
+				            {field:'ip',title:'IP数量',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
 				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
@@ -41,7 +41,7 @@
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
 				$.post('<s:url namespace="/plugin/visit" action="countryReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -57,7 +57,7 @@
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="districtTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&country=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: value + " 时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title: value + " 时间趋势"});
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
@@ -76,7 +76,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

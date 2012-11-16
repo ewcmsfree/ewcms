@@ -23,10 +23,10 @@
 					striped : true,
 					url : '<s:url namespace="/plugin/visit" action="visitorTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'name',title:'日期',width:200},  
-				            {field:'newVisitor',title:'新访客数量',width:150},  
-				            {field:'returnVisitor',title:'回头客数量',width:150},
-				            {field:'returningRage',title:'回头率',width:150,
+				            {field:'name',title:'日期',width:120},  
+				            {field:'newVisitor',title:'新访客数量',width:100},  
+				            {field:'returnVisitor',title:'回头客数量',width:100},
+				            {field:'returningRage',title:'回头率',width:100,
 				            	formatter : function(val, rec){
 				            		return val + "%";
 				            	}	
@@ -40,7 +40,7 @@
 				parameter['endDate'] = endDate;
 				parameter['labelCount'] = 8;
 				$.post('<s:url namespace="/plugin/visit" action="visitorReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSCombiDY2D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSCombiDY2D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -70,7 +70,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

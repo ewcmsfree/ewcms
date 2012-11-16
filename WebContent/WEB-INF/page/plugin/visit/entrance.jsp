@@ -22,7 +22,7 @@
 					rownumbers : true,
 					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'eeUrl',title:'入口URL',width:500,
+				            {field:'eeUrl',title:'入口URL',width:300,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
@@ -46,7 +46,7 @@
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="entranceTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&url=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title:"时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title:"时间趋势"});
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>

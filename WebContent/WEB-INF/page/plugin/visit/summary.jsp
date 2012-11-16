@@ -19,12 +19,12 @@
 					striped : true,
 					url : tableUrl,
 				    columns:[[  
-				            {field:'name',title:'名称',width:200},  
-				            {field:'pv',title:'PV数量',width:150},  
-				            {field:'uv',title:'UV数量',width:150},
-				            {field:'ip',title:'IP数量',width:150},
-				            {field:'rvRate',title:'回头率',width:150},
-				            {field:'avgTime',title:'平均访问时长',width:150}
+				            {field:'name',title:'名称',width:130},  
+				            {field:'pv',title:'PV数量',width:100},  
+				            {field:'uv',title:'UV数量',width:100},
+				            {field:'ip',title:'IP数量',width:100},
+				            {field:'rvRate',title:'回头率',width:100},
+				            {field:'avgTime',title:'平均访问时长',width:100}
 				    ]]  
 				});
 			});
@@ -36,7 +36,7 @@
 				parameter['endDate'] = endDate;
 				parameter['labelCount'] = 8;
 				$.post('<s:url namespace="/plugin/visit" action="summaryReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -63,7 +63,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white;"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

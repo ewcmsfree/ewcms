@@ -24,7 +24,7 @@
 					rownumbers : true,
 					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'name',title:'名称',width:200},
+				            {field:'name',title:'名称',width:120},
 				            {field:'sumPv',title:'次数',width:100},
 				            {field:'pvRate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
@@ -46,7 +46,7 @@
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="hostTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&host=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title:"时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title:"时间趋势"});
 			}
 			function showChart(){
 				var parameter = {};
@@ -54,7 +54,7 @@
 				parameter['endDate'] = endDate;
 				parameter['rows'] = $('#rows').val();
 				$.post('<s:url namespace="/plugin/visit" action="hostReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -76,7 +76,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

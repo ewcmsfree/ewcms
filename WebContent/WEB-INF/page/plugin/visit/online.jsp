@@ -23,10 +23,10 @@
 					striped : true,
 					url : '<s:url namespace="/plugin/visit" action="onlineTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'period',title:'时段',width:200}, 
-				            {field:'fifteen',title:'15分钟在线',width:150},
-				            {field:'ten',title:'10分钟在线',width:150},  
-				            {field:'five',title:'5分钟在线',width:150}
+				            {field:'period',title:'时段',width:120}, 
+				            {field:'fifteen',title:'15分钟在线',width:100},
+				            {field:'ten',title:'10分钟在线',width:100},  
+				            {field:'five',title:'5分钟在线',width:100}
 				    ]]  
 				});
 			});
@@ -36,7 +36,7 @@
 				parameter['endDate'] = endDate;
 				parameter['labelCount'] = 24;
 				$.post('<s:url namespace="/plugin/visit" action="onlineReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -66,7 +66,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

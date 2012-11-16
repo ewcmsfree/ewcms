@@ -28,8 +28,8 @@
 									return val + "-bit";				            		
 				            	}	
 				            }, 
-				            {field:'pvRate',title:'比例',width:150},
-				            {field:'pvCount',title:'PV数量',width:150},  
+				            {field:'pvRate',title:'比例',width:100},
+				            {field:'pvCount',title:'PV数量',width:100},  
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
 				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
@@ -43,7 +43,7 @@
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
 				$.post('<s:url namespace="/plugin/visit" action="colorDepthReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -59,7 +59,7 @@
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="colorDepthTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&fieldValue=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: value + "-bit 时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title: value + "-bit 时间趋势"});
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
@@ -78,7 +78,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

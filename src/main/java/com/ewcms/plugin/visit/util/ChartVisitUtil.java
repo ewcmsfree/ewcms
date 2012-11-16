@@ -24,7 +24,7 @@ public class ChartVisitUtil {
 				"00FF00", "00FFFF", "00CCFF", "993366", "C0C0C0", "FF99CC",
 				"FFCC99", "FFFF99", "CCFFCC", "CCFFFF", "99CCFF", "CC99FF",
 				"FFFFFF" };
-		xml.append("<graph lineThickness='0' canvasBorderThickness='0' alternateHGridAlpha='5' canvasBorderColor='666666' divLineColor='ff5904' divLineAlpha='20' showAlternateHGridColor='1' AlternateHGridColor='ff5904' hovercapbg='FFECAA' hovercapborder='F47E00' formatNumberScale='0' decimalPrecision='0' showvalues='0' numdivlines='4' numVdivlines='0' rotateNames='0'>");
+		xml.append("<graph lineThickness='0' canvasBorderThickness='0' alternateHGridAlpha='5' canvasBorderColor='666666' divLineColor='ff5904' divLineAlpha='20' showAlternateHGridColor='1' AlternateHGridColor='ff5904' hovercapbg='FFECAA' hovercapborder='F47E00' formatNumberScale='0' decimalPrecision='0' showvalues='0' numdivlines='4' numVdivlines='0' rotateNames='0' labelDisplay='NONE'>");
 		xml.append("<categories>");
 
 		int space = new Double(

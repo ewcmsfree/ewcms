@@ -55,7 +55,7 @@
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
 				$.post('<s:url namespace="/plugin/visit" action="channelReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -71,7 +71,7 @@
 			function openTrend(name, value){
 				ewcmsBOBJ = new EwcmsBase();
 				var url = '<s:url namespace="/plugin/visit" action="channelTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&channelId=' + value + '&channelName=' + name;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:708,height:330,title: name + " 时间趋势"});
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title: name + " 时间趋势"});
 			}
 			function channelChildren(id, name){
 				channelId = id;
@@ -84,7 +84,7 @@
 				parameter['endDate'] = endDate;
 				parameter['channelParentId'] = id;
 				$.post('<s:url namespace="/plugin/visit" action="channelReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -129,7 +129,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>

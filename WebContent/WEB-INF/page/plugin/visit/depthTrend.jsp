@@ -24,7 +24,7 @@
 				parameter['freq'] = $('#freq').val();
 				parameter['labelCount'] = 8;
 				$.post('<s:url namespace="/plugin/visit" action="depthTrendReport"/>', parameter, function(result) {
-			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '680', '250','0','0');
+			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/MSLine.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
 		   		});
@@ -40,7 +40,7 @@
 	<body class="easyui-layout">
 		 <s:hidden id="freq" name="freq"/>
 		 <div region="north" style="height:310px">
-			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
+			<table width="100%" border="0" cellspacing="2" cellpadding="0"style="border-collapse: separate; border-spacing: 2px;">
 				<tr>
 					<td>
 						从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="view();return false;">查看</a>
@@ -52,7 +52,7 @@
 						<tr>
 							<td style="padding:0px;">
 								<div style="height: 100%;margin:0px;">
-									<div id="divChart" style="width:680px;height:250px;background-color:white"></div>
+									<div id="divChart" style="width:640px;height:250px;background-color:white"></div>
 									<script type="text/javascript">
 										showChart();
 									</script>
