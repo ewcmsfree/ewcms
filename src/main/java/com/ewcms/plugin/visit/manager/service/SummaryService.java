@@ -46,20 +46,30 @@ public class SummaryService implements SummaryServiceable {
 		List<SummaryVo> list = new ArrayList<SummaryVo>();
 		
 		Date current = new Date(Calendar.getInstance().getTime().getTime());
-		
-		SummaryVo currentVo = assign("今日", siteId, current);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(current);
+		Integer hour =  calendar.get(Calendar.HOUR_OF_DAY);
+
+		SummaryVo currentVo = assignInDay("今日", siteId, current);
 		list.add(currentVo);
 		
 		Date tomorrow = DateTimeUtil.getPreviousDay(current);
-		SummaryVo tomorrowVo = assign("昨天", siteId, tomorrow);
+		SummaryVo tomorrowHour = assignInHour("昨日此时", siteId, tomorrow, hour);
+		list.add(tomorrowHour);
+		
+		SummaryVo currentHour = assignInHour("今日预计", siteId, current, hour);
+		list.add(currentHour);
+		
+		SummaryVo tomorrowVo = assignInDay("昨日", siteId, tomorrow);
 		list.add(tomorrowVo);
 		
 		List<String> weekList = DateTimeUtil.getThisWeek();
-		SummaryVo weekVo = assign("本周", siteId, weekList);
+		SummaryVo weekVo = assignInDateInterval("本周", siteId, weekList);
 		list.add(weekVo);
 		
 		List<String> monthMap = DateTimeUtil.getThisMonth();
-		SummaryVo monthVo = assign("本月", siteId, monthMap);
+		SummaryVo monthVo = assignInDateInterval("本月", siteId, monthMap);
 		list.add(monthVo);
 		
 		SummaryVo avgVo = new SummaryVo();
@@ -68,7 +78,7 @@ public class SummaryService implements SummaryServiceable {
 		if (startDate != ""){
 			String endDate = DateTimeUtil.getDateToString(current);
 			List<String> allMap = DateTimeUtil.getDateArea(startDate, endDate);
-			SummaryVo allVo = assign("全部", siteId, allMap);
+			SummaryVo allVo = assignInDateInterval("全部", siteId, allMap);
 			list.add(allVo);
 			
 			Integer day = endDate.compareTo(startDate) + 1;
@@ -105,7 +115,7 @@ public class SummaryService implements SummaryServiceable {
 		SummaryVo vo = null;
 		for (String dateValue : dateArea){
 			Date date = DateTimeUtil.getStringToDate(dateValue);
-			vo = assign(dateValue, siteId, date);
+			vo = assignInDay(dateValue, siteId, date);
 			list.add(vo);
 		}
 		return list;
@@ -451,7 +461,7 @@ public class SummaryService implements SummaryServiceable {
 		return result;
 	}
 	
-	private SummaryVo assign(String name, Integer siteId, Date date){
+	private SummaryVo assignInDay(String name, Integer siteId, Date date){
 		SummaryVo vo = new SummaryVo();
 		vo.setName(name);
 		Long countIp = visitDAO.findIpCountInDay(date, siteId);
@@ -471,7 +481,22 @@ public class SummaryService implements SummaryServiceable {
 		return vo;
 	}
 	
-	private SummaryVo assign(String name, Integer siteId, List<String> dateArea){
+	private SummaryVo assignInHour(String name, Integer siteId, Date date, Integer hour){
+		SummaryVo vo = new SummaryVo();
+		vo.setName(name);
+		Long countIp = 0L, countUv = 0L, countPv = 0L;
+		for (int i = 0; i <= hour; i++){
+			countIp += visitDAO.findIpCountInDayByHour(date, i, siteId);
+			countUv += visitDAO.findUvCountInDayByHour(date, i, siteId);
+			countPv += visitDAO.findPvCountInDayByHour(date, i, siteId);
+		}
+		vo.setIp(countIp);
+		vo.setPv(countPv);
+		vo.setUv(countUv);
+		return vo;
+	}
+	
+	private SummaryVo assignInDateInterval(String name, Integer siteId, List<String> dateArea){
 		SummaryVo vo = new SummaryVo();
 		vo.setName(name);
 		Long countIp = 0L, countUv = 0L, countPv = 0L, avgTime = 0L, countRv = 0L, count = 0L;

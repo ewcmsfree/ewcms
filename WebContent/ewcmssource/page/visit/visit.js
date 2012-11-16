@@ -1,6 +1,6 @@
-var _zcms_d,_zcms_s,_zcms_c,_zcms_l,_zcms_t,_zcms_s;
-var _zcms_st=new Date().getTime();
-var _zcms_stat = function(param){
+var _ewcms_d,_ewcms_s,_ewcms_c,_ewcms_l,_ewcms_t,_ewcms_s;
+var _ewcms_st=new Date().getTime();
+var _ewcms_stat = function(param){
 	var p = {};
 	if(param){
 		var arr = param.split("&");
@@ -13,38 +13,38 @@ var _zcms_stat = function(param){
 			}
 		}
 	}
-	_zcms_d = p["Dest"];
-	_zcms_s = p["siteId"];
-	_zcms_c = p["articleId"];
-	_zcms_l = p["channelId"];
-	_zcms_t = p["type"];
+	_ewcms_d = p["Dest"];
+	_ewcms_s = p["siteId"];
+	_ewcms_c = p["articleId"];
+	_ewcms_l = p["channelId"];
+	_ewcms_t = p["type"];
 	p["sr"] = screen.width+"x"+screen.height;
 	p["cd"] = screen.colorDepth;
-	p["fv"] = _zcms_stat.fv();
-	p["ce"] = _zcms_stat.ce();	
-	p["je"] = _zcms_stat.je();
+	p["fv"] = _ewcms_stat.fv();
+	p["ce"] = _ewcms_stat.ce();	
+	p["je"] = _ewcms_stat.je();
 	p["la"] = navigator.language?navigator.language:navigator.browserLanguage;
 	p["la"] = p["la"]?p["la"]:navigator.systemLanguage;
 	p["cs"] = document.charset;
 	
-	p["vq"] = _zcms_stat.vq();	
-	p["Referer"] = _zcms_stat.eu(document.referrer);
-	p["Title"] = _zcms_stat.eu(document.title);
-	p["URL"] = _zcms_stat.eu(location.href);
+	p["vq"] = _ewcms_stat.vq();	
+	p["Referer"] = _ewcms_stat.eu(document.referrer);
+	p["Title"] = _ewcms_stat.eu(document.title);
+	p["URL"] = _ewcms_stat.eu(location.href);
 	p["Host"] = location.host;
-	var dest = _zcms_d;
+	var dest = _ewcms_d;
 	p["Dest"] = false;
-	dest = dest+"?"+_zcms_stat.mq(p);
+	dest = dest+"?"+_ewcms_stat.mq(p);
 	var s = document.createElement("script");
 	s.src = dest;
 	(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(s);
 };
 
-_zcms_stat.eu =  function(str){
+_ewcms_stat.eu =  function(str){
 	return encodeURI(str).replace(/=/g,"%3D").replace(/\+/g,"%2B").replace(/\?/g,"%3F").replace(/\&/g,"%26");
 }
 
-_zcms_stat.mq = function(map){
+_ewcms_stat.mq = function(map){
 	var sb = [];
 	for(var prop in map){
 		if(map[prop]){
@@ -54,19 +54,19 @@ _zcms_stat.mq = function(map){
 	return sb.join("&");
 }
 
-_zcms_stat.trim = function(str){
+_ewcms_stat.trim = function(str){
 	return str.replace(/(^\s*)|(\s*$)/g,"");
 }
 
 
-_zcms_stat.je = function(){
+_ewcms_stat.je = function(){
 	var je="";
 	var n=navigator;
 	je = n.javaEnabled()?1:0;
 	return je;
 } 
 
-_zcms_stat.fv = function(){
+_ewcms_stat.fv = function(){
 	var f="",n=navigator;	
 	if(n.plugins && n.plugins.length){
 		for(var ii=0;ii<n.plugins.length;ii++){
@@ -88,19 +88,19 @@ _zcms_stat.fv = function(){
 	return f;
 }
 
-_zcms_stat.ce = function(){
+_ewcms_stat.ce = function(){
 	var c_en = (navigator.cookieEnabled)? 1 : 0;
 	return c_en;
 }
 
-_zcms_stat.vq = function(){
+_ewcms_stat.vq = function(){
   var cs = document.cookie.split("; ");
-  var name = _zcms_s+"_vq";
+  var name = _ewcms_s+"_vq";
   var vq = 1;
   for(i=0; i<cs.length; i++){
 	  var arr = cs[i].split("=");
-	  var n = _zcms_stat.trim(arr[0]);
-	  var v = arr[1]?_zcms_stat.trim(arr[1]):"";
+	  var n = _ewcms_stat.trim(arr[0]);
+	  var v = arr[1]?_ewcms_stat.trim(arr[1]):"";
 	  if(n==name){
 	  	vq = parseInt(v)+1;
 	  	break;
@@ -112,52 +112,52 @@ _zcms_stat.vq = function(){
 	return vq;
 }
 
-function _zcms_bu(){
-	if(_zcms_d){ 
+function _ewcms_bu(){
+	if(_ewcms_d){ 
 		var p = {};
 		p["Event"] = "Unload";
-		p["channelId"] = _zcms_l;
-		p["siteId"] = _zcms_s;
-		p["articleId"] = _zcms_c;
-		if(_zcms_c&&!_zcms_l){
+		p["channelId"] = _ewcms_l;
+		p["siteId"] = _ewcms_s;
+		p["articleId"] = _ewcms_c;
+		if(_ewcms_c&&!_ewcms_l){
 	  	//p["Trace"] = pos.join(";");//will implement in 2.0
-			p["Type"] = _zcms_t;
+			p["Type"] = _ewcms_t;
 		}
 		var t = new Date().getTime();
-		if(t-_zcms_lt>30000){
-			_zcms_nt += (t-_zcms_lt+1000);
+		if(t-_ewcms_lt>30000){
+			_ewcms_nt += (t-_ewcms_lt+1000);
 		}
-		p["StickTime"] = (t-_zcms_st-_zcms_nt)/1000;
-		var dest = _zcms_d+"?"+_zcms_stat.mq(p);
+		p["StickTime"] = (t-_ewcms_st-_ewcms_nt)/1000;
+		var dest = _ewcms_d+"?"+_ewcms_stat.mq(p);
 		var s = document.createElement("script");
 		s.src = dest;
 		(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(s);
 	}
 }
 
-var _zcms_lt = new Date().getTime();
-var _zcms_lt_ka = new Date().getTime();
-var _zcms_nt = 0;
-function _zcms_ka(){
+var _ewcms_lt = new Date().getTime();
+var _ewcms_lt_ka = new Date().getTime();
+var _ewcms_nt = 0;
+function _ewcms_ka(){
 	var t = new Date().getTime();
-	if(t-_zcms_lt_ka>60000){
-		_zcms_lt_ka = t;
+	if(t-_ewcms_lt_ka>60000){
+		_ewcms_lt_ka = t;
 		var p = {};
 		p["Event"] = "KeepAlive";
-		p["siteId"] = _zcms_s;
-		var dest = _zcms_d+"?"+_zcms_stat.mq(p);
+		p["siteId"] = _ewcms_s;
+		var dest = _ewcms_d+"?"+_ewcms_stat.mq(p);
 		var s = document.createElement("script");
 		s.src = dest;
 		(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(s);
 	}
-	if(t-_zcms_lt>60000){
-		_zcms_nt += (t-_zcms_lt+1000);
+	if(t-_ewcms_lt>60000){
+		_ewcms_nt += (t-_ewcms_lt+1000);
 	}
-	_zcms_lt = t;
+	_ewcms_lt = t;
 }
 
 var pos = [];
-function _zcms_cr(evt){
+function _ewcms_cr(evt){
 	var x = evt.clientX, y=evt.clientY;
 	var src = evt.srcElement;
 	if(!src){
@@ -177,16 +177,16 @@ function _zcms_cr(evt){
 }
 
 if(window.attachEvent){
-	window.attachEvent("onbeforeunload",_zcms_bu);
-	window.attachEvent("onclick",_zcms_ka);
-	window.attachEvent("onkeydown",_zcms_ka);
-	window.attachEvent("onmousemove",_zcms_ka);
-	window.attachEvent("onscroll",_zcms_ka);
+	window.attachEvent("onbeforeunload",_ewcms_bu);
+	window.attachEvent("onclick",_ewcms_ka);
+	window.attachEvent("onkeydown",_ewcms_ka);
+	window.attachEvent("onmousemove",_ewcms_ka);
+	window.attachEvent("onscroll",_ewcms_ka);
 }else if(window.addEventListener){
-	window.addEventListener('beforeunload',_zcms_bu,false);
-	window.addEventListener("click",_zcms_ka,false);
-	window.addEventListener("click",_zcms_cr,false);
-	window.addEventListener("keydown",_zcms_ka,false);
-	window.addEventListener("mousemove",_zcms_ka,false);
-	window.addEventListener("scroll",_zcms_ka,false);
+	window.addEventListener('beforeunload',_ewcms_bu,false);
+	window.addEventListener("click",_ewcms_ka,false);
+	window.addEventListener("click",_ewcms_cr,false);
+	window.addEventListener("keydown",_ewcms_ka,false);
+	window.addEventListener("mousemove",_ewcms_ka,false);
+	window.addEventListener("scroll",_ewcms_ka,false);
 }
