@@ -7,7 +7,9 @@ package com.ewcms.plugin.visit.manager.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.TypedQuery;
 
@@ -63,8 +65,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 */
 	public Long findIpCountInDay(final Date date, final Integer siteId) {
 		String hql = "Select Count(Distinct v.ip) " + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId " 
-				   + "Group By v.addDate";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId " + "Group By v.addDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -87,8 +88,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 */
 	public Long findUvCountInDay(final Date date, final Integer siteId) {
 		String hql = "Select Count(Distinct v.uniqueId) " + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId "
-				   + "Group By v.addDate";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId " + "Group By v.addDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -110,9 +110,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 * @return Integer
 	 */
 	public Long findPvCountInDay(final Date date, final Integer siteId) {
-		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i " 
-				   + "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId "
-				   + "Group By i.visitDate";
+		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i " + "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId "
+				+ "Group By i.visitDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -136,9 +135,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 * @return Integer
 	 */
 	public Long findRvCountInDay(final Date date, final Integer siteId) {
-		String hql = "Select Count(v.rvFlag) " 
-	               + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId And v.rvFlag=true";
+		String hql = "Select Count(v.rvFlag) " + "From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId And v.rvFlag=true";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -158,9 +156,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 * @return
 	 */
 	public Long findAcCountInDay(final Date date, final Integer siteId) {
-		String hql = "Select Count(v.uniqueId) " 
-	               + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId";
+		String hql = "Select Count(v.uniqueId) " + "From Visit As v, VisitItem As i " + "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -183,8 +179,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 */
 	public Long findStSumInDay(final Date date, final Integer siteId) {
 		String hql = "Select Sum(i.stickTime) " + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId "
-				   + "Group By i.visitDate";
+				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId " + "Group By i.visitDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -209,8 +204,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 */
 	public Long findStCountInDay(final Date date, final Integer siteId) {
 		String hql = "Select Count(i.stickTime) " + "From Visit As v, VisitItem As i "
-				   + "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId "
-				   + "Group By i.visitDate";
+				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.siteId=:siteId " + "Group By i.visitDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -234,9 +228,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 * @return Visit
 	 */
 	public Visit findVisitByVisitPK(final String uniqueId, final Date date, final String ip) {
-		String hql = "Select v From Visit As v, VisitItem As i "
-	               + "Where v.uniqueId=i.uniqueId And v.uniqueId=:uniqueId And v.addDate=:date And v.ip=:ip "
-				   + "Order by v.addDate Desc";
+		String hql = "Select v From Visit As v, VisitItem As i " + "Where v.uniqueId=i.uniqueId And v.uniqueId=:uniqueId And v.addDate=:date And v.ip=:ip "
+				+ "Order by v.addDate Desc";
 		TypedQuery<Visit> query = this.getEntityManager().createQuery(hql, Visit.class);
 		query.setParameter("uniqueId", uniqueId);
 		query.setParameter("date", date);
@@ -386,8 +379,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public Long findUrlCountInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
-		String hql = "Select Count(i.url) "
-				+ "From Visit As v, VisitItem As i "
+		String hql = "Select Count(i.url) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId And i.url Is Not Null";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("startDate", startDate);
@@ -417,10 +409,9 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		}
 		return result;
 	}
-	
-	public Long findUrlCountInDayByUrl(final Date date, final String url, final Integer siteId){
-		String hql = "Select Count(i.url) "
-				+ "From Visit As v, VisitItem As i "
+
+	public Long findUrlCountInDayByUrl(final Date date, final String url, final Integer siteId) {
+		String hql = "Select Count(i.url) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.url=:url And i.siteId=:siteId";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
@@ -433,10 +424,9 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		}
 		return result;
 	}
-	
-	public Long findUrlCountInDayByUrlAndEvent(final Date date, final String url, final Integer siteId){
-		String hql = "Select Count(i.url) "
-				+ "From Visit As v, VisitItem As i "
+
+	public Long findUrlCountInDayByUrlAndEvent(final Date date, final String url, final Integer siteId) {
+		String hql = "Select Count(i.url) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.url=:url And i.event=:event And i.siteId=:siteId";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
@@ -512,8 +502,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	public List<SummaryVo> findHostInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
 		String hql = "Select new " + SUMMARY_CLASS_NAME + "(i.host, Sum(i.pageView)) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId And i.host Is Not Null "
-				+ "Group By i.host "
-				+ "Order By Sum(i.pageView) Desc";
+				+ "Group By i.host " + "Order By Sum(i.pageView) Desc";
 		TypedQuery<SummaryVo> query = this.getEntityManager().createQuery(hql, SummaryVo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
@@ -523,8 +512,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public Long findPvSumInDayByHost(final Date date, final String host, final Integer siteId) {
 		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.host=:host And i.siteId=:siteId And i.host Is Not Null "
-				+ "Group By i.visitDate";
+				+ "Where v.uniqueId=i.uniqueId And i.visitDate=:date And i.host=:host And i.siteId=:siteId And i.host Is Not Null " + "Group By i.visitDate";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("host", host);
@@ -541,8 +529,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public List<String> findCountryInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
 		String hql = "Select v.country " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate>=:startDate And v.addDate<=:endDate And v.siteId=:siteId "
-				+ "Group By v.country";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate>=:startDate And v.addDate<=:endDate And v.siteId=:siteId " + "Group By v.country";
 		TypedQuery<String> query = this.getEntityManager().createQuery(hql, String.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
@@ -552,8 +539,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public Long findPvSumInDayByCountry(final Date date, final String country, final Integer siteId) {
 		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId = i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId "
-				+ "Group By v.country";
+				+ "Where v.uniqueId = i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId " + "Group By v.country";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("country", country);
@@ -570,8 +556,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public Long findUvCountInDayByCountry(final Date date, final String country, final Integer siteId) {
 		String hql = "Select Count(Distinct v.uniqueId) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId "
-				+ "Group By v.country";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId " + "Group By v.country";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("country", country);
@@ -586,8 +571,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public Long findIpCountInDayByCountry(final Date date, final String country, final Integer siteId) {
 		String hql = "Select Count(Distinct v.ip) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId "
-				+ "Group By v.country";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.country=:country And v.siteId=:siteId " + "Group By v.country";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("country", country);
@@ -612,8 +596,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public List<String> findClientNameInDateIntervalByFieldName(final Date startDate, final Date endDate, final String fieldName, final Integer siteId) {
 		String hql = "Select v." + fieldName + " " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate>=:startDate And v.addDate<=:endDate And v.siteId=:siteId "
-				+ "Group By v." + fieldName;
+				+ "Where v.uniqueId=i.uniqueId And v.addDate>=:startDate And v.addDate<=:endDate And v.siteId=:siteId " + "Group By v." + fieldName;
 		TypedQuery<String> query = this.getEntityManager().createQuery(hql, String.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
@@ -622,8 +605,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public Long findPvSumInDayByStringField(final Date date, final String fieldName, final String fieldValue, final Integer siteId) {
-		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId = i.uniqueId And v.addDate=:date And v." + fieldName
+		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i " + "Where v.uniqueId = i.uniqueId And v.addDate=:date And v." + fieldName
 				+ "=:fieldValue And v.siteId=:siteId " + "Group By v." + fieldName;
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
@@ -640,8 +622,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public Long findPvSumInDayByBooleanField(final Date date, final String fieldName, final Boolean fieldValue, final Integer siteId) {
-		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId = i.uniqueId And v.addDate=:date And v." + fieldName
+		String hql = "Select Sum(i.pageView) " + "From Visit As v, VisitItem As i " + "Where v.uniqueId = i.uniqueId And v.addDate=:date And v." + fieldName
 				+ "=:fieldValue And v.siteId=:siteId " + "Group By v." + fieldName;
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
@@ -705,8 +686,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		List<TrafficVo> list = new ArrayList<TrafficVo>();
 
 		String hql = "Select i.url, Sum(i.pageView) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId "
-				+ "Group By url";
+				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId " + "Group By url";
 
 		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
 		query.setParameter("startDate", startDate);
@@ -844,8 +824,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	public List<LoyaltyVo> findFrequencyInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
 		String hql = "Select new " + LOYALTY_CLASS_NAME + "(i.frequency, Count(i.frequency)) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId And i.frequency Is Not Null "
-				+ "Group By i.frequency "
-				+ "Order By i.frequency Desc";
+				+ "Group By i.frequency " + "Order By i.frequency Desc";
 		TypedQuery<LoyaltyVo> query = this.getEntityManager().createQuery(hql, LoyaltyVo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
@@ -893,8 +872,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	public List<LoyaltyVo> findDepthInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
 		String hql = "Select new " + LOYALTY_CLASS_NAME + "(i.depth, Count(i.depth)) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId And i.depth Is Not Null "
-				+ "Group By i.depth "
-				+ "Order By i.depth Desc";
+				+ "Group By i.depth " + "Order By i.depth Desc";
 		TypedQuery<LoyaltyVo> query = this.getEntityManager().createQuery(hql, LoyaltyVo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
@@ -941,8 +919,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 
 	public Long findRvCountInDayByRvFlag(final Date date, final Boolean rvFlag, final Integer siteId) {
 		String hql = "Select Count(Distinct v.rvFlag) " + "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId And v.rvFlag=:rvFlag And v.rvFlag Is Not Null "
-				+ "Group By v.addDate ";
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId And v.rvFlag=:rvFlag And v.rvFlag Is Not Null " + "Group By v.addDate ";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("rvFlag", rvFlag);
@@ -956,10 +933,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public List<ClickRateVo> findSourceInDay(final Date date, final Integer siteId) {
-		String hql = "Select new " + SOURCE_CLASS_NAME + "(i.referer, Count(Distinct v.uniqueId)) "
-				+ "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId "
-				+ "Group By i.referer";
+		String hql = "Select new " + SOURCE_CLASS_NAME + "(i.referer, Count(Distinct v.uniqueId)) " + "From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And v.siteId=:siteId " + "Group By i.referer";
 		TypedQuery<ClickRateVo> query = this.getEntityManager().createQuery(hql, ClickRateVo.class);
 		query.setParameter("date", date);
 		query.setParameter("siteId", siteId);
@@ -967,8 +942,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public Long findUvCountInDayByDomain(final Date date, final String domain, final Integer siteId) {
-		String hql = "Select Count(Distinct v.uniqueId) "
-				+ "From Visit As v, VisitItem As i "
+		String hql = "Select Count(Distinct v.uniqueId) " + "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And i.referer Like :domain And v.siteId=:siteId ";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
@@ -983,10 +957,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 
 	public Long findUvCountInDayByWebSite(final Date date, final String webSite, final Integer siteId) {
-		String hql = "Select Count(Distinct v.uniqueId) "
-				+ "From Visit As v, VisitItem As i "
-				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And i.referer Like :webSite And v.siteId=:siteId "
-				;
+		String hql = "Select Count(Distinct v.uniqueId) " + "From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And v.addDate=:date And i.referer Like :webSite And v.siteId=:siteId ";
 		TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
 		query.setParameter("date", date);
 		query.setParameter("webSite", "http://" + webSite + "/%");
@@ -998,4 +970,62 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		}
 		return result;
 	}
+
+	public Map<Date, Long> findIpMaxValue(final Integer siteId) {
+		Map<Date, Long> map = new LinkedHashMap<Date, Long>();
+		String hql = "Select v.addDate, Count(Distinct v.ip) As cIp " + "From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And v.siteId=:siteId " + "Group By v.addDate " + "Order By cIp Desc";
+
+		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+		query.setParameter("siteId", siteId);
+		try {
+			List<Object[]> results = query.getResultList();
+			Object[] result = results.get(0);
+			Date date = (Date) result[0];
+			Long maxIp = (Long) result[1];
+			map.put(date, maxIp);
+		} catch (Exception e) {
+		}
+		return map;
+	}
+
+	public Map<Date, Long> findUvMaxValue(final Integer siteId) {
+		Map<Date, Long> map = new LinkedHashMap<Date, Long>();
+		String hql = "Select v.addDate, Count(Distinct v.uniqueId) As cUv " + "From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And v.siteId=:siteId " + "Group By v.addDate " + "Order By cUv Desc";
+
+		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+		query.setParameter("siteId", siteId);
+		try {
+			List<Object[]> results = query.getResultList();
+			Object[] result = results.get(0);
+			Date date = (Date) result[0];
+			Long maxIp = (Long) result[1];
+			map.put(date, maxIp);
+		} catch (Exception e) {
+		}
+		return map;
+	}
+
+	public Map<Date, Long> findPvMaxValue(final Integer siteId) {
+		Map<Date, Long> map = new LinkedHashMap<Date, Long>();
+		String hql = "Select v.addDate, Sum(i.pageView) As sPv "
+		        + "From Visit As v, VisitItem As i " 
+		        + "Where v.uniqueId=i.uniqueId And v.siteId=:siteId "
+				+ "Group By v.addDate "
+		        + "Order By sPv Desc";
+
+		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
+		query.setParameter("siteId", siteId);
+		try {
+			List<Object[]> results = query.getResultList();
+			Object[] result = results.get(0);
+			Date date = (Date) result[0];
+			Long maxIp = (Long) result[1];
+			map.put(date, maxIp);
+		} catch (Exception e) {
+		}
+		return map;
+	}
+
 }

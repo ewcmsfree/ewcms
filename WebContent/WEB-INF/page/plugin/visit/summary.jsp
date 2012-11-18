@@ -19,11 +19,29 @@
 					striped : true,
 					url : tableUrl,
 				    columns:[[  
-				            {field:'name',title:'名称',width:130},  
-				            {field:'pv',title:'PV数量',width:100},  
-				            {field:'uv',title:'UV数量',width:100},
-				            {field:'ip',title:'IP数量',width:100},
-				            {field:'rvRate',title:'回头率',width:100},
+				            {field:'name',title:'名称',width:100},  
+				            {field:'pv',title:'PV数量',width:120,
+				            	formatter : function(val, rec){
+				            		if (rec.name != '') return val;
+				            		else return rec.betideIp;
+				            		
+				            	}	
+				            },  
+				            {field:'uv',title:'UV数量',width:120,
+				            	formatter : function(val, rec){
+				            		if (rec.name != '') return val;
+				            		else return rec.betideUv;
+				            		
+				            	}	
+				           	},
+				            {field:'ip',title:'IP数量',width:120,
+				            	formatter : function(val, rec){
+				            		if (rec.name!='') return val;
+				            		else return rec.betideIp;
+				            		
+				            	}	
+				           	},
+				            {field:'rvRate',title:'回头率',width:80},
 				            {field:'avgTime',title:'平均访问时长',width:100}
 				    ]]  
 				});

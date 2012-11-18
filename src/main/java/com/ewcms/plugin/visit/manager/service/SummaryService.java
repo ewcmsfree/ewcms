@@ -38,7 +38,7 @@ public class SummaryService implements SummaryServiceable {
 		if (EmptyUtil.isStringEmpty(firstAddDate)) return 1;
 		Date first = DateTimeUtil.getStringToDate(firstAddDate);
 		Date current = DateTimeUtil.getCurrent();
-		return (int) ((current.getTime() - first.getTime())/(24*60*60*1000));  
+		return (int) ((current.getTime() - first.getTime())/(24*60*60*1000)) + 1;  
 	}
 
 	@Override
@@ -90,7 +90,41 @@ public class SummaryService implements SummaryServiceable {
 			avgVo.setRvRate("");
 		}
 		list.add(avgVo);
+		
+		SummaryVo maxVo = new SummaryVo();
+		SummaryVo betideVo = new SummaryVo();
+		
+		maxVo.setName("最高");
+		betideVo.setName("");
 	
+		Map<Date, Long> maxIpMap = visitDAO.findIpMaxValue(siteId);
+		Map<Date, Long> maxPvMap = visitDAO.findPvMaxValue(siteId);
+		Map<Date, Long> maxUvMap = visitDAO.findUvMaxValue(siteId);
+		
+		if (!maxIpMap.isEmpty()){
+			Date ipDate = (Date) maxIpMap.keySet().toArray()[0];
+			betideVo.setBetideIp("发生在:" + DateTimeUtil.getDateToString(ipDate));
+			Long maxIp = maxIpMap.get(ipDate);
+			maxVo.setIp(maxIp);
+		}
+		
+		if (!maxUvMap.isEmpty()){
+			Date uvDate = (Date) maxUvMap.keySet().toArray()[0];
+			betideVo.setBetideUv("发生在:" + DateTimeUtil.getDateToString(uvDate));
+			Long maxUv = maxUvMap.get(uvDate);
+			maxVo.setUv(maxUv);
+		}
+		
+		if (!maxPvMap.isEmpty()){
+			Date pvDate = (Date) maxPvMap.keySet().toArray()[0];
+			betideVo.setBetidePv("发生在:" + DateTimeUtil.getDateToString(pvDate));
+			Long maxPv = maxPvMap.get(pvDate);
+			maxVo.setPv(maxPv);
+		}
+		
+		list.add(maxVo);
+		list.add(betideVo);
+		
 		return list;
 	}
 

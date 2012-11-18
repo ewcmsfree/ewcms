@@ -24,6 +24,10 @@ public class SummaryVo implements Serializable {
 	private String rvRate;
 	private String pvRate;
 	private Long sumPv;
+	//综合报告中最高
+	private String betideIp;
+	private String betideUv;
+	private String betidePv;
 	
 	/**
 	 * 访问记录变量
@@ -357,4 +361,30 @@ public class SummaryVo implements Serializable {
 	public void setFifteen(Integer fifteen) {
 		this.fifteen = fifteen;
 	}
+
+	public String getBetideIp() {
+		return betideIp;
+	}
+
+	public void setBetideIp(String betideIp) {
+		this.betideIp = betideIp;
+	}
+
+	public String getBetideUv() {
+		return betideUv;
+	}
+
+	public void setBetideUv(String betideUv) {
+		this.betideUv = betideUv;
+	}
+
+	public String getBetidePv() {
+		return betidePv;
+	}
+
+	public void setBetidePv(String betidePv) {
+		this.betidePv = betidePv;
+	}
+	
+	
 }
