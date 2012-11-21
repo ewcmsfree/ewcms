@@ -39,14 +39,15 @@
 				            		}
 				            	}
 				            },
-				            {field:'pageView',title:'PV量',width:100},
-				            {field:'pvRate',title:'比例',width:100},
-				            {field:'stickTime',title:'页均停留时间',width:100},
+				            {field:'levelPv',title:'本级PV量',width:100},
+				            {field:'levelSt',title:'本级页均停留时间',width:110},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
 				            		return '<a href="javascript:void(0)" style="text-decoration: none" onclick="openTrend(\'' + rec.channelName + '\',\'' + rec.channelId + '\')">时间趋势</a>';
 				            	}
-				            }
+				            },
+				            {field:'pageView',title:'子栏目PV量',width:100},
+				            {field:'stickTime',title:'子栏页均停留时间',width:110}
 				    ]]  
 				});
 			});

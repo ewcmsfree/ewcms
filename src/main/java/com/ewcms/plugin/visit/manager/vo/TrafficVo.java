@@ -24,10 +24,21 @@ public class TrafficVo implements Serializable {
 	private String owner;
 	private Long pageView;
 	private Long stickTime;
+	private Long levelPv;
+	private Long levelSt;
 	private String pvRate;
 	private Boolean isChannelChildren;
+	
+	public TrafficVo(){
+		pageView = 0L;
+		stickTime = 0L;
+		levelPv = 0L;
+		levelSt = 0L;
+		isChannelChildren = false;
+	}
 
 	public TrafficVo(String channelName, String title, String url, String owner, Long pageView, Long stickTime) {
+		super();
 		this.channelName = channelName;
 		this.title = title;
 		this.url = url;
@@ -37,23 +48,19 @@ public class TrafficVo implements Serializable {
 	}
 	
 	public TrafficVo(String url, Long pageView){
+		super();
 		this.url = url;
 		this.pageView = pageView;
 	}
 	
-	public TrafficVo(Integer channelId, String channelName, Long pageView, Long stickTime){
-		this.channelId = channelId;
-		this.channelName = channelName;
-		this.pageView = pageView;
-		this.stickTime = stickTime;
-	}
-	
 	public TrafficVo(Long pageView, Long stickTime){
+		super();
 		this.pageView = pageView;
 		this.stickTime = stickTime;
 	}
 	
 	public TrafficVo(Integer channelId, String channelName){
+		super();
 		this.channelId = channelId;
 		this.channelName = channelName;
 	}
@@ -112,6 +119,22 @@ public class TrafficVo implements Serializable {
 
 	public void setStickTime(Long stickTime) {
 		this.stickTime = stickTime;
+	}
+
+	public Long getLevelPv() {
+		return levelPv;
+	}
+
+	public void setLevelPv(Long levelPv) {
+		this.levelPv = levelPv;
+	}
+
+	public Long getLevelSt() {
+		return levelSt;
+	}
+
+	public void setLevelSt(Long levelSt) {
+		this.levelSt = levelSt;
 	}
 
 	public String getPvRate() {

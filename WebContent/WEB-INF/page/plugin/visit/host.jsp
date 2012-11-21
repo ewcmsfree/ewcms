@@ -25,7 +25,7 @@
 					url : '<s:url namespace="/plugin/visit" action="hostTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'name',title:'名称',width:120},
-				            {field:'sumPv',title:'次数',width:100},
+				            {field:'sumPv',title:'PV',width:100},
 				            {field:'pvRate',title:'比例',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	

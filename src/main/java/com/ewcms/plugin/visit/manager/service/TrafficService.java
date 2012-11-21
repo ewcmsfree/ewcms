@@ -102,38 +102,31 @@ public class TrafficService implements TrafficServiceable {
 		Date start = DateTimeUtil.getStringToDate(startDate);
 		Date end = DateTimeUtil.getStringToDate(endDate);
 		
-		List<TrafficVo> list = visitDAO.findChannelInDateIntervalByChannelParentId(start, end, channelParentId, siteId);
-		if (list == null || list.isEmpty()) return new ArrayList<TrafficVo>();
-		
-		TrafficVo vo = null;
-		List<Integer> channelIds = null;
-		Long sumPv = 0L;
-		for (int i = 0; i < list.size(); i++){
-			vo = list.get(i);
-			if (vo == null) continue;
-			Integer channelId = list.get(i).getChannelId();
-			if (channelId == null) continue;
-			channelIds = new ArrayList<Integer>();
-			getChannelId(channelIds, channelId);
-			
-			TrafficVo sumVo = visitDAO.findChannelInDateIntervalByChannelParentIdAndChannelIds(start, end, channelId, channelIds, siteId);
-			sumPv += sumVo.getPageView();
-			vo.setPageView(sumVo.getPageView());
-			vo.setStickTime(sumVo.getStickTime());
-			if (channelIds == null || channelIds.isEmpty()){
-				vo.setIsChannelChildren(false);
+		TrafficVo childrenVo = null;
+		TrafficVo levelVo = null;
+		List<TrafficVo> list = new ArrayList<TrafficVo>();
+		List<Channel> channels = channelDAO.getChannelChildren(channelParentId);
+		for (Channel channel : channels){
+			List<Integer> channelIds = new ArrayList<Integer>();
+			getChannelId(channelIds, channel.getId());
+			childrenVo = visitDAO.findChannelInDateIntervalByChannelIds(start, end, channelIds, siteId);
+			if (childrenVo == null) {
+				childrenVo = new TrafficVo();
 			}else{
-				vo.setIsChannelChildren(true);
+				childrenVo.setIsChannelChildren(true);
 			}
-			list.set(i, vo);
-		}
-		
-		if (sumPv == 0) return list;
-		
-		for (int i = 0; i < list.size(); i++){
-			vo = list.get(i);
-			vo.setPvRate(NumberUtil.percentage(vo.getPageView(), sumPv));
-			list.set(i, vo);
+			childrenVo.setChannelId(channel.getId());
+			childrenVo.setChannelName(channel.getName());
+			
+			List<Integer> levelChannelIds = new ArrayList<Integer>();
+			levelChannelIds.add(channel.getId());
+			levelVo = visitDAO.findChannelInDateIntervalByChannelIds(start, end, levelChannelIds, siteId);
+			if (levelVo != null) {
+				childrenVo.setLevelPv(levelVo.getPageView());
+				childrenVo.setLevelSt(levelVo.getStickTime());
+			}
+			
+			list.add(childrenVo);
 		}
 		
 		return list;

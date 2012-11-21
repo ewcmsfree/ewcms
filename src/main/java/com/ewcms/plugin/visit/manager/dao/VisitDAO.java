@@ -938,36 +938,26 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		return result;
 	}
 
-	public List<TrafficVo> findChannelInDateIntervalByChannelParentId(final Date startDate, final Date endDate, final Integer channelParentId, final Integer siteId) {
-		List<TrafficVo> list = new ArrayList<TrafficVo>();
+	public TrafficVo findChannelInDateIntervalByChannelIds(final Date startDate, final Date endDate, final List<Integer> channelIds, final Integer siteId) {
+		if (channelIds == null || channelIds.isEmpty())	return null;
 
-		if (channelParentId == null)
-			return list;
-
-		String hql = "Select i.channelId, c.name, Sum(i.pageView), Avg(i.stickTime) From Visit As v, VisitItem As i, Channel As c "
-				+ "Where v.uniqueId=i.uniqueId And i.channelId=c.id And i.visitDate>=:startDate And i.visitDate<=:endDate And c.parent.id=:channelParentId And i.siteId=:siteId "
-				+ "Group By i.channelId, c.name";
+		String hql = "Select Sum(i.pageView), Avg(i.stickTime) From Visit As v, VisitItem As i "
+				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.channelId In :channelIds And i.siteId=:siteId ";
 
 		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
 		query.setParameter("siteId", siteId);
-		query.setParameter("channelParentId", channelParentId);
+		query.setParameter("channelIds", channelIds);
 
 		TrafficVo vo = null;
-		List<Object[]> results = query.getResultList();
-		for (Object[] result : results) {
-			Integer channelId = 0;
-			if (result[0] != null) channelId = (Integer) result[0];
-			String channelName = (String) result[1];
-			Long sumPv = 0L;
-			if (result[2] != null)	sumPv = (Long) result[2];
-			Long avgSt = 0L;
-			if (result[3] != null) avgSt = ((Double) result[3]).longValue();
-			vo = new TrafficVo(channelId, channelName, sumPv, avgSt);
-			list.add(vo);
-		}
-		return list;
+		Object[] result = query.getSingleResult();
+		Long sumPv = 0L;
+		if (result[0] != null)	sumPv = (Long) result[0];
+		Long avgSt = 0L;
+		if (result[1] != null) avgSt = ((Double) result[1]).longValue();
+		vo = new TrafficVo(sumPv, avgSt);
+		return vo;
 	}
 
 	public TrafficVo findChannelInDateIntervalByChannelParentIdAndChannelIds(final Date startDate, final Date endDate, final Integer channelParentId,
