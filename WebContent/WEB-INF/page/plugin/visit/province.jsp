@@ -14,23 +14,26 @@
 			var startDate = dateTimeToString(new Date(new Date() - 30*24*60*60*1000));
 			var endDate = dateTimeToString(new Date());
 			$(function() {
-				$('#startDate').val(startDate);
-				$('#endDate').val(endDate);
+				startDate = $('#startDate').val();
+				endDate = $('#endDate').val();
 				$('#tt').datagrid({
 					singleSelect : true,
 					pagination : false,
 					nowrap : true,
 					striped : true,
-					url : '<s:url namespace="/plugin/visit" action="countryTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
+					url : '<s:url namespace="/plugin/visit" action="provinceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&country=' + $('#country').val(),
 				    columns:[[  
-				            {field:'name',title:'名称',width:120}, 
+				            {field:'province',title:'名称',width:120,
+				            	formatter : function(val, rec){
+				            		return '<a style="text-decoration: none" href="javascript:void(0);" onclick="openCity(\'' + val + '\')">' + val + '</a>';
+				            	}},
 				            {field:'pvRate',title:'PV比例',width:100},
 				            {field:'pv',title:'PV数量',width:100},  
 				            {field:'uv',title:'UV数量',width:100},
 				            {field:'ip',title:'IP数量',width:100},
 				            {field:'trend',title:'时间趋势',width:70,
 				            	formatter : function(val, rec){	
-				            		return '<a href="javascript:void(0)" onclick="openTrend(\'' + rec.name + '\')">时间趋势</a>';
+				            		return '<a style="text-decoration: none" href="javascript:void(0)" onclick="openTrend(\'' + rec.province + '\')">时间趋势</a>';
 				            	}
 				            }
 				    ]]  
@@ -40,7 +43,8 @@
 				var parameter = {};
 				parameter['startDate'] = startDate;
 				parameter['endDate'] = endDate;
-				$.post('<s:url namespace="/plugin/visit" action="countryReport"/>', parameter, function(result) {
+				parameter['country'] = $('#country').val();
+				$.post('<s:url namespace="/plugin/visit" action="provinceReport"/>', parameter, function(result) {
 			  		var myChart = new FusionCharts('<s:url value="/ewcmssource/fcf/swf/Pie3D.swf"/>?ChartNoDataText=无数据显示', 'myChartId', '640', '250','0','0');
 		      		myChart.setDataXML(result);      
 		      		myChart.render("divChart");
@@ -51,23 +55,32 @@
 				endDate = $('#endDate').val();
 				showChart();
 				$('#tt').datagrid({
-					url:'<s:url namespace="/plugin/visit" action="countryTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val()
+					url:'<s:url namespace="/plugin/visit" action="provinceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&country=' + $('#country').val()
 				})
 			}
 			function openTrend(value){
 				ewcmsBOBJ = new EwcmsBase();
-				var url = '<s:url namespace="/plugin/visit" action="districtTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&country=' + value;
-				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title: value + " 时间趋势"});
+				var url = '<s:url namespace="/plugin/visit" action="provinceTrend"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '&country=' + $('#country').val() + '&province=' + value;
+				ewcmsBOBJ.openWindow("#pop-window",{url:url,width:660,height:330,title: $('#country').val() + " >> " + value + " 时间趋势"});
+			}
+			function openCity(name){
+				window.location = '<s:url namespace="/plugin/visit" action="city"/>?country=' + $('#country').val() + '&province=' + name + '&startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(); 
 			}
 		</script>
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
 	<body class="easyui-layout">
+		 <s:hidden name="country" id="country"/>
 		 <div region="north" style="height:310px">
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
-						当前报表：区域分布&nbsp;&nbsp;&nbsp;&nbsp;从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
+						当前报表：<a style="text-decoration: none" href="<s:url namespace='/plugin/visit' action='country'/>?startDate=<s:property value='%{startDate}'/>&endDate=<s:property value='%{endDate}'/>">全部</a> >> <font color="red"><s:property value='%{country}'/></font> 区域分布
+					</td>
+				</tr>
+				<tr>
+					<td>
+						从 <ewcms:datepicker id="startDate" name="startDate" option="inputsimple" format="yyyy-MM-dd"/> 至 <ewcms:datepicker id="endDate" name="endDate" option="inputsimple" format="yyyy-MM-dd"/> <a class="easyui-linkbutton" href="javascript:void(0)" onclick="refresh();return false;">查看</a>
 					</td>
 				</tr>
 				<tr valign="top">

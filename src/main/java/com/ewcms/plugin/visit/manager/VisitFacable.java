@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager;
 
 import java.util.List;
@@ -7,7 +12,6 @@ import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
 
@@ -25,8 +29,6 @@ public interface VisitFacable {
 	public void addVisitByUnloadEvent(Visit visit, VisitItem visitItem);
 	
 	public String findFirstDate(Integer siteId);
-	
-	public IpRange findIpRangeByIp(Long ipBegin, Long ipEnd);
 	
 	public Integer findDays(Integer siteId);
 	
@@ -56,11 +58,110 @@ public interface VisitFacable {
 	
 	public String findHostReport(String startDate, String endDate, Integer siteId);
 	
+	/**
+	 * 区域分布(国家)统计表格
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param siteId 站点编号
+	 * @return List SummaryVo对象集合
+	 */
 	public List<SummaryVo> findCountryTable(String startDate, String endDate, Integer siteId);
 	
+	/**
+	 * 区域分布(国家)统计图形
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
 	public String findCountryReport(String startDate, String endDate, Integer siteId);
 	
+	/**
+	 * 区域分布(省份) 统计表格
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param siteId 站点编号
+	 * @return List SummaryVo对象集合
+	 */
+	public List<SummaryVo> findProvinceTable(String startDate, String endDate, String country, Integer siteId);
+	
+	/**
+	 * 区域分布(省份)统计图形	
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
+	public String findProvinceReport(String startDate, String endDate, String country, Integer siteId);
+	
+	/**
+	 * 区域分布(城市) 统计表格
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param province 省份
+	 * @param siteId 站点编号
+	 * @return List SummaryVo对象集合
+	 */
+	public List<SummaryVo> findCityTable(String startDate, String endDate, String country, String province, Integer siteId);
+	
+	/**
+	 * 区域分布(城市) 统计图形
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param province 省份
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
+	public String findCityReport(String startDate, String endDate, String country, String province, Integer siteId);
+	
+	/**
+	 * 区域分布(国家)统计之时间趋势图形
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param labelCount 图形X轴显示标题数量
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
 	public String findCountryTrendReport(String startDate, String endDate, String country, Integer labelCount, Integer siteId);
+	
+	/**
+	 * 区域分布(省份)统计之时间趋势图形
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param province 省份名称
+	 * @param labelCount 图形X轴显示标题数量
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
+	public String findProvinceTrendReport(String startDate, String endDate, String country, String province, Integer labelCount, Integer siteId);
+	
+	/**
+	 * 区域分布(城市)统计之时间趋势图形
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param country 国家名称
+	 * @param province 省份名称
+	 * @param city 城市名称
+	 * @param labelCount 图形X轴显示标题数量
+	 * @param siteId 站点编号
+	 * @return String 图形格式字符串
+	 */
+	public String findCityTrendReport(String startDate, String endDate, String country, String province, String city, Integer labelCount, Integer siteId);
 	
 	public String findOnlineReport(String startDate, String endDate, Integer labelCount, Integer siteId);
 	

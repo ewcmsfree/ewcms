@@ -38,7 +38,8 @@ import org.hibernate.annotations.Index;
  * <li>browser:浏览器</li>
  * <li>ip:ip</li>
  * <li>country:国家</li>
- * <li>district:区域</li>
+ * <li>province:省份</li>
+ * <li>city:城市</li>
  * <li>siteId:站点编号</li>
  * <li>addDate:访问日期</li>
  * <li>rvFlag:回头标志</li>
@@ -85,8 +86,10 @@ public class Visit implements Serializable {
 	private String ip;
 	@Column(name = "country")
 	private String country;
-	@Column(name = "district")
-	private String district;
+	@Column(name = "province")
+	private String province;
+	@Column(name = "city")
+	private String city;
 	@Column(name = "site_id")
 	private Integer siteId;
 	@Temporal(TemporalType.DATE)
@@ -98,6 +101,9 @@ public class Visit implements Serializable {
 	public Visit(){
 		addDate = new Date(Calendar.getInstance().getTime().getTime());
 		rvFlag = false;
+		country = "未知";
+		province = "未知";
+		city = "未知";
 	}
 
 	public Long getId() {
@@ -212,12 +218,20 @@ public class Visit implements Serializable {
 		this.country = country;
 	}
 
-	public String getDistrict() {
-		return district;
+	public String getProvince() {
+		return province;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public Integer getSiteId() {

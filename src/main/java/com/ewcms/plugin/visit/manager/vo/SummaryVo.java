@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager.vo;
 
 import java.io.Serializable;
@@ -34,6 +39,8 @@ public class SummaryVo implements Serializable {
 	 */
 	private String ipValue;
 	private String country;
+	private String province;
+	private String city;
 	private String url;
 	private Date visitDate;
 	private Date visitTime;
@@ -98,12 +105,14 @@ public class SummaryVo implements Serializable {
 	 * @param language
 	 * @param flashVersion
 	 */
-	public SummaryVo(String ipValue, String country, String url, Date visitDate,
+	public SummaryVo(String ipValue, String country, String province, String city, String url, Date visitDate,
 			Date visitTime, String referer, String browser, String os,
 			String screen, String language, String flashVersion) {
 		super();
 		this.ipValue = ipValue;
 		this.country = country;
+		this.province = province;
+		this.city = city;
 		this.url = url;
 		this.visitDate = visitDate;
 		this.visitTime = visitTime;
@@ -232,6 +241,22 @@ public class SummaryVo implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getUrl() {

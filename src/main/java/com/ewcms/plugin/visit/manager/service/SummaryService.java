@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager.service;
 
 import java.util.ArrayList;
@@ -353,7 +358,7 @@ public class SummaryService implements SummaryServiceable {
 			Long countPv = 0L, countUv = 0L, countIp = 0L;
 			for (String category : categories){
 				Date categoryDate = DateTimeUtil.getStringToDate(category);
-				countPv += visitDAO.findPvSumInDayByCountry(categoryDate, country, siteId).intValue();
+				countPv += visitDAO.findPvSumInDayByCountry(categoryDate, country, siteId);
 				countUv += visitDAO.findUvCountInDayByCountry(categoryDate, country, siteId);
 				countIp += visitDAO.findIpCountInDayByCountry(categoryDate, country, siteId);
 			}
@@ -361,7 +366,7 @@ public class SummaryService implements SummaryServiceable {
 			vo.setUv(countUv);
 			vo.setPv(countPv);
 			vo.setPvRate(NumberUtil.percentage(countPv.longValue(), sumPv.longValue()));
-			vo.setName(country);
+			vo.setCountry(country);
 			
 			summarys.add(vo);
 		}
@@ -374,11 +379,91 @@ public class SummaryService implements SummaryServiceable {
 		List<SummaryVo> list = findCountryTable(startDate, endDate, siteId);
 		Map<String, Long> dataSet = new LinkedHashMap<String, Long>();
 		for (SummaryVo vo : list){
-			dataSet.put(vo.getName(), vo.getPv().longValue());
+			dataSet.put(vo.getCountry(), vo.getPv());
 		}
 		return ChartVisitUtil.getPie3DChart(dataSet);
 	}
-
+	
+	@Override
+	public List<SummaryVo> findProvinceTable(String startDate, String endDate, String country, Integer siteId){
+		Date start = DateTimeUtil.getStringToDate(startDate);
+		Date end = DateTimeUtil.getStringToDate(endDate);
+		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
+		List<String> provinces = visitDAO.findProvinceInDateIntervalByCountry(start, end, country, siteId);
+		List<SummaryVo> summarys = new ArrayList<SummaryVo>();
+		Long sumPv = visitDAO.findPvSumInDateIntervalByCountry(start, end, country, siteId);
+		SummaryVo vo = null;
+		for (String province : provinces){
+			vo = new SummaryVo();
+			Long countPv = 0L, countUv = 0L, countIp = 0L;
+			for (String category : categories){
+				Date date = DateTimeUtil.getStringToDate(category);
+				countPv += visitDAO.findPvSumInDayByCountryAndProvince(date, country, province, siteId);
+				countUv += visitDAO.findUvCountInDayByCountryAndProvince(date, country, province, siteId);
+				countIp += visitDAO.findIpCountInDayByCountryAndProvince(date, country, province, siteId);
+			}
+			vo.setIp(countIp);
+			vo.setUv(countUv);
+			vo.setPv(countPv);
+			vo.setPvRate(NumberUtil.percentage(countPv.longValue(), sumPv.longValue()));
+			vo.setProvince(province);
+			
+			summarys.add(vo);
+		}
+		Collections.sort(summarys, new SummaryVoPvDescComparator());
+		return summarys;
+	}
+	
+	@Override
+	public String findProvinceReport(String startDate, String endDate, String country, Integer siteId){
+		List<SummaryVo> list = findProvinceTable(startDate, endDate, country, siteId);
+		Map<String, Long> dataSet = new LinkedHashMap<String, Long>();
+		for (SummaryVo vo : list){
+			dataSet.put(vo.getProvince(), vo.getPv().longValue());
+		}
+		return ChartVisitUtil.getPie3DChart(dataSet);
+	}
+	
+	@Override
+	public List<SummaryVo> findCityTable(String startDate, String endDate, String country, String province, Integer siteId){
+		Date start = DateTimeUtil.getStringToDate(startDate);
+		Date end = DateTimeUtil.getStringToDate(endDate);
+		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
+		List<String> citys = visitDAO.findProvinceInDateIntervalByCountryAndProvince(start, end, country, province, siteId);
+		List<SummaryVo> summarys = new ArrayList<SummaryVo>();
+		Long sumPv = visitDAO.findPvSumInDateIntervalByCountryAndProvince(start, end, country, province, siteId);
+		SummaryVo vo = null;
+		for (String city : citys){
+			vo = new SummaryVo();
+			Long countPv = 0L, countUv = 0L, countIp = 0L;
+			for (String category : categories){
+				Date date = DateTimeUtil.getStringToDate(category);
+				countPv += visitDAO.findPvSumInDayByCountryAndProvinceAndCity(date, country, province, city, siteId);
+				countUv += visitDAO.findUvCountInDayByCountryAndProvinceAndCity(date, country, province, city, siteId);
+				countIp += visitDAO.findIpCountInDayByCountryAndProvinceAndCity(date, country, province, city, siteId);
+			}
+			vo.setIp(countIp);
+			vo.setUv(countUv);
+			vo.setPv(countPv);
+			vo.setPvRate(NumberUtil.percentage(countPv.longValue(), sumPv.longValue()));
+			vo.setCity(city);
+			
+			summarys.add(vo);
+		}
+		Collections.sort(summarys, new SummaryVoPvDescComparator());
+		return summarys;
+	}
+	
+	@Override
+	public String findCityReport(String startDate, String endDate, String country, String province, Integer siteId){
+		List<SummaryVo> list = findCityTable(startDate, endDate, country, province, siteId);
+		Map<String, Long> dataSet = new LinkedHashMap<String, Long>();
+		for (SummaryVo vo : list){
+			dataSet.put(vo.getCity(), vo.getPv().longValue());
+		}
+		return ChartVisitUtil.getPie3DChart(dataSet);
+	}
+	
 	@Override
 	public String findCountryTrendReport(String startDate, String endDate, String country, Integer labelCount, Integer siteId) {
 		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
@@ -393,6 +478,52 @@ public class SummaryService implements SummaryServiceable {
 			Long countUv = visitDAO.findUvCountInDayByCountry(DateTimeUtil.getStringToDate(category), country, siteId);
 			dataValueUv.put(category, countUv);
 			Long countIp = visitDAO.findIpCountInDayByCountry(DateTimeUtil.getStringToDate(category), country, siteId);
+			dataValueIp.put(category, countIp);
+		}
+		dataSet.put("PV", dataValuePv);
+		dataSet.put("UV", dataValueUv);
+		dataSet.put("IP", dataValueIp);
+		
+		return ChartVisitUtil.getLine2DChart(categories, dataSet, labelCount);
+	}
+
+	@Override
+	public String findProvinceTrendReport(String startDate, String endDate, String country, String province, Integer labelCount, Integer siteId){
+		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
+		
+		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
+		Map<String, Long> dataValuePv = new LinkedHashMap<String, Long>();
+		Map<String, Long> dataValueUv = new LinkedHashMap<String, Long>();
+		Map<String, Long> dataValueIp = new LinkedHashMap<String, Long>();
+		for (String category : categories){
+			Long countPv = visitDAO.findPvSumInDayByCountryAndProvince(DateTimeUtil.getStringToDate(category), country, province, siteId);
+			dataValuePv.put(category, countPv);
+			Long countUv = visitDAO.findUvCountInDayByCountryAndProvince(DateTimeUtil.getStringToDate(category), country, province, siteId);
+			dataValueUv.put(category, countUv);
+			Long countIp = visitDAO.findIpCountInDayByCountryAndProvince(DateTimeUtil.getStringToDate(category), country, province, siteId);
+			dataValueIp.put(category, countIp);
+		}
+		dataSet.put("PV", dataValuePv);
+		dataSet.put("UV", dataValueUv);
+		dataSet.put("IP", dataValueIp);
+		
+		return ChartVisitUtil.getLine2DChart(categories, dataSet, labelCount);
+	}
+	
+	@Override
+	public String findCityTrendReport(String startDate, String endDate, String country, String province, String city, Integer labelCount, Integer siteId){
+		List<String> categories = DateTimeUtil.getDateArea(startDate, endDate);
+		
+		Map<String, Map<String, Long>> dataSet = new LinkedHashMap<String, Map<String, Long>>();
+		Map<String, Long> dataValuePv = new LinkedHashMap<String, Long>();
+		Map<String, Long> dataValueUv = new LinkedHashMap<String, Long>();
+		Map<String, Long> dataValueIp = new LinkedHashMap<String, Long>();
+		for (String category : categories){
+			Long countPv = visitDAO.findPvSumInDayByCountryAndProvinceAndCity(DateTimeUtil.getStringToDate(category), country, province, city, siteId);
+			dataValuePv.put(category, countPv);
+			Long countUv = visitDAO.findUvCountInDayByCountryAndProvinceAndCity(DateTimeUtil.getStringToDate(category), country, province, city, siteId);
+			dataValueUv.put(category, countUv);
+			Long countIp = visitDAO.findIpCountInDayByCountryAndProvinceAndCity(DateTimeUtil.getStringToDate(category), country, province, city, siteId);
 			dataValueIp.put(category, countIp);
 		}
 		dataSet.put("PV", dataValuePv);

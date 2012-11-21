@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager;
 
 import java.util.List;
@@ -8,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.ewcms.plugin.visit.manager.service.ClickRateServiceable;
 import com.ewcms.plugin.visit.manager.service.TrafficServiceable;
 import com.ewcms.plugin.visit.manager.service.ClientServiceable;
-import com.ewcms.plugin.visit.manager.service.IpRangeServiceable;
 import com.ewcms.plugin.visit.manager.service.LoyaltyServiceable;
 import com.ewcms.plugin.visit.manager.service.SummaryServiceable;
 import com.ewcms.plugin.visit.manager.service.VisitServiceable;
@@ -17,7 +21,6 @@ import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
-import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
 
@@ -31,8 +34,6 @@ public class VisitFac implements VisitFacable {
 
 	@Autowired
 	private VisitServiceable visitService;
-	@Autowired
-	private IpRangeServiceable ipRangeService;
 	@Autowired
 	private SummaryServiceable summaryService;
 	@Autowired
@@ -59,10 +60,6 @@ public class VisitFac implements VisitFacable {
 		visitService.addVisitByUnloadEvent(visit, visitItem);
 	}
 
-	public IpRange findIpRangeByIp(Long ipBegin, Long ipEnd){
-		return ipRangeService.findIpRangeByIp(ipBegin, ipEnd);
-	}
-	
 	@Override
 	public String findFirstDate(Integer siteId) {
 		return summaryService.findFirstDate(siteId);
@@ -147,12 +144,42 @@ public class VisitFac implements VisitFacable {
 	public String findCountryReport(String startDate, String endDate, Integer siteId) {
 		return summaryService.findCountryReport(startDate, endDate, siteId);
 	}
+	
+	@Override
+	public List<SummaryVo> findProvinceTable(String startDate, String endDate, String country, Integer siteId){
+		return summaryService.findProvinceTable(startDate, endDate, country, siteId);
+	}
+	
+	@Override
+	public String findProvinceReport(String startDate, String endDate, String country, Integer siteId){
+		return summaryService.findProvinceReport(startDate, endDate, country, siteId);
+	}
+	
+	@Override
+	public List<SummaryVo> findCityTable(String startDate, String endDate, String country, String province, Integer siteId){
+		return summaryService.findCityTable(startDate, endDate, country, province, siteId);
+	}
+	
+	@Override
+	public String findCityReport(String startDate, String endDate, String country, String province, Integer siteId){
+		return summaryService.findCityReport(startDate, endDate, country, province, siteId);
+	}
 
 	@Override
 	public String findCountryTrendReport(String startDate, String endDate, String country, Integer labelCount, Integer siteId) {
 		return summaryService.findCountryTrendReport(startDate, endDate, country, labelCount, siteId);
 	}
 
+	@Override
+	public String findProvinceTrendReport(String startDate, String endDate, String country, String province, Integer labelCount, Integer siteId){
+		return summaryService.findProvinceTrendReport(startDate, endDate, country, province, labelCount, siteId);
+	}
+	
+	@Override
+	public String findCityTrendReport(String startDate, String endDate, String country, String province, String city, Integer labelCount, Integer siteId){
+		return summaryService.findCityTrendReport(startDate, endDate, country, province, city, labelCount, siteId);
+	}
+	
 	@Override
 	public String findOnlineReport(String startDate, String endDate, Integer labelCount, Integer siteId) {
 		return summaryService.findOnlineReport(startDate, endDate, labelCount, siteId);

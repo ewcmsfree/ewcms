@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager.service;
 
 import java.util.Date;
@@ -8,10 +13,8 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.model.Channel;
-import com.ewcms.plugin.visit.manager.dao.IpRangeDAO;
 import com.ewcms.plugin.visit.manager.dao.VisitDAO;
 import com.ewcms.plugin.visit.manager.dao.VisitItemDAO;
-import com.ewcms.plugin.visit.model.IpRange;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
 import com.ewcms.plugin.visit.util.VisitUtil;
@@ -27,8 +30,6 @@ public class VisitService implements VisitServiceable {
 	@Autowired
 	private VisitDAO visitDAO;
 	@Autowired
-	private IpRangeDAO ipRangeDAO;
-	@Autowired
 	private VisitItemDAO visitItemDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
@@ -37,24 +38,6 @@ public class VisitService implements VisitServiceable {
 	public void addVisitByLoadEvent(Visit visit, VisitItem visitItem) {
 		Visit dbVisit = findVisitEntity(visit);
 		if (dbVisit == null) {
-			Long ip = VisitUtil.convertIP(visit.getIp());
-			IpRange ipRange = ipRangeDAO.findIpRangeByIp(ip, ip);
-			if (ipRange == null) {
-				visit.setCountry("未知");
-				visit.setDistrict("未知");
-			}else{
-				String country = ipRange.getCountry();
-				String district = ipRange.getCity();
-				if (EmptyUtil.isStringEmpty(country)){
-					country = "未知";
-				}
-				if (EmptyUtil.isStringEmpty(district)){
-					district = "未知";
-				}
-				visit.setCountry(country);
-				visit.setDistrict(district);
-			}
-			
 			visitDAO.persist(visit);
 			visitItem.setUniqueId(visit.getUniqueId());
 			visitItem.setPageView(1L);

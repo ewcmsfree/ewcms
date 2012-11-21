@@ -23,8 +23,18 @@
 					url : '<s:url namespace="/plugin/visit" action="lastVisitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'ipValue',title:'IP地址',width:100},
-				            {field:'country',title:'地域',width:100},
-				            {field:'url',title:'访问页面',width:300,
+				            {field:'country',title:'地域',width:	150,
+				            	formatter : function(val, rec){
+				            		var country = rec.country;
+				            		var province = rec.province;
+				            		var city = rec.city
+				            		if (country == null) country = "";
+				            		if (province == null) province = "";
+				            		if (city == null) province = "";
+				            		return country + " " + province + " " + city;
+				            	}	
+				            },
+				            {field:'url',title:'访问页面',width:350,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
@@ -45,7 +55,7 @@
 				            {field:'browser',title:'浏览器',width:100},
 				            {field:'os',title:'操作系统',width:100},
 				            {field:'screen',title:'屏幕大小',width:100},
-				            {field:'language',title:'语言',width:150},
+				            {field:'language',title:'语言',width:100},
 				            {field:'flashVersion',title:'Flash版本',width:100}
 				    ]]  
 				});

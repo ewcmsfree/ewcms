@@ -1,4 +1,13 @@
-var _ewcms_d,_ewcms_s,_ewcms_c,_ewcms_l,_ewcms_t,_ewcms_s;
+/**
+ * 前台页面调用方法
+ * <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+ * <script src="/js/visit.js" type="text/javascript"></script>
+ * <script>
+ *   if(window._ewcms_stat)_ewcms_stat("siteId=1&articleId=0&channelId=1&country=" + remote_ip_info["country"] + "&province=" + remote_ip_info["province"] + "&city=" + remote_ip_info["city"] + "&Dest=/visit");
+ *  </script>
+ * 
+ */
+var _ewcms_d,_ewcms_s,_ewcms_c,_ewcms_l,_ewcms_t,_ewcms_s,_ewcms_country,_ewcms_province,_ewcms_city;
 var _ewcms_st=new Date().getTime();
 var _ewcms_stat = function(param){
 	var p = {};
@@ -18,6 +27,9 @@ var _ewcms_stat = function(param){
 	_ewcms_c = p["articleId"];
 	_ewcms_l = p["channelId"];
 	_ewcms_t = p["type"];
+	_ewcms_country = p["country"];
+	_ewcms_province = p["province"];
+	_ewcms_city = p["city"];
 	p["sr"] = screen.width+"x"+screen.height;
 	p["cd"] = screen.colorDepth;
 	p["fv"] = _ewcms_stat.fv();
@@ -26,6 +38,7 @@ var _ewcms_stat = function(param){
 	p["la"] = navigator.language?navigator.language:navigator.browserLanguage;
 	p["la"] = p["la"]?p["la"]:navigator.systemLanguage;
 	p["cs"] = document.charset;
+	p["event"] = "Load";
 	
 	p["vq"] = _ewcms_stat.vq();	
 	p["Referer"] = _ewcms_stat.eu(document.referrer);
@@ -115,19 +128,20 @@ _ewcms_stat.vq = function(){
 function _ewcms_bu(){
 	if(_ewcms_d){ 
 		var p = {};
-		p["Event"] = "Unload";
+		p["event"] = "Unload";
 		p["channelId"] = _ewcms_l;
 		p["siteId"] = _ewcms_s;
 		p["articleId"] = _ewcms_c;
+		p["URL"] = _ewcms_stat.eu(location.href);
 		if(_ewcms_c&&!_ewcms_l){
 	  	//p["Trace"] = pos.join(";");//will implement in 2.0
-			p["Type"] = _ewcms_t;
+			p["type"] = _ewcms_t;
 		}
 		var t = new Date().getTime();
 		if(t-_ewcms_lt>30000){
 			_ewcms_nt += (t-_ewcms_lt+1000);
 		}
-		p["StickTime"] = (t-_ewcms_st-_ewcms_nt)/1000;
+		p["stickTime"] = (t-_ewcms_st-_ewcms_nt)/1000;
 		var dest = _ewcms_d+"?"+_ewcms_stat.mq(p);
 		var s = document.createElement("script");
 		s.src = dest;
@@ -143,8 +157,16 @@ function _ewcms_ka(){
 	if(t-_ewcms_lt_ka>60000){
 		_ewcms_lt_ka = t;
 		var p = {};
-		p["Event"] = "KeepAlive";
+		p["event"] = "KeepAlive";
+		p["channelId"] = _ewcms_l;
 		p["siteId"] = _ewcms_s;
+		p["articleId"] = _ewcms_c;
+		p["URL"] = _ewcms_stat.eu(location.href);
+		var t1 = new Date().getTime();
+		if(t1-_ewcms_lt>30000){
+			_ewcms_nt += (t1-_ewcms_lt+1000);
+		}
+		p["stickTime"] = (t1-_ewcms_st-_ewcms_nt)/1000;
 		var dest = _ewcms_d+"?"+_ewcms_stat.mq(p);
 		var s = document.createElement("script");
 		s.src = dest;

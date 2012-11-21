@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager.web;
 
 import java.text.DateFormat;
@@ -32,6 +37,8 @@ public class SummaryAction extends VisitBaseAction {
 	private String url;
 	private String host;
 	private String country;
+	private String province;
+	private String city;
 
 	public String getFirstAddDate() {
 		return firstAddDate;
@@ -73,6 +80,22 @@ public class SummaryAction extends VisitBaseAction {
 		this.country = country;
 	}
 	
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	/*========================== 综合报告 =================================*/
 	public String summary(){
 		setFirstAddDate(visitFac.findFirstDate(getSiteId()));
@@ -182,8 +205,36 @@ public class SummaryAction extends VisitBaseAction {
 		Struts2Util.renderHtml(visitFac.findCountryReport(getStartDate(), getEndDate(), getSiteId()), "encoding:UTF-8","no-cache:false");
 	}
 	
+	public String province(){
+		return SUCCESS;
+	}
+	
+	public void provinceTable(){
+		List<SummaryVo> list = visitFac.findProvinceTable(getStartDate(), getEndDate(), getCountry(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
+		Struts2Util.renderJson(JSONUtil.toJSON(data));
+	}
+	
+	public void provinceReport(){
+		Struts2Util.renderHtml(visitFac.findProvinceReport(getStartDate(), getEndDate(),getCountry(), getSiteId()), "encoding:UTF-8","no-cache:false");
+	}
+	
+	public String city(){
+		return SUCCESS;
+	}
+	
+	public void cityTable(){
+		List<SummaryVo> list = visitFac.findCityTable(getStartDate(), getEndDate(), getCountry(), getProvince(), getSiteId());
+		DataGrid data = new DataGrid(list.size(), list);
+		Struts2Util.renderJson(JSONUtil.toJSON(data));
+	}
+	
+	public void cityReport(){
+		Struts2Util.renderHtml(visitFac.findCityReport(getStartDate(), getEndDate(),getCountry(), getProvince(), getSiteId()), "encoding:UTF-8","no-cache:false");
+	}
+	
 	/*========================== 区域分布 时间趋势=================================*/
-	public String districtTrend(){
+	public String countryTrend(){
 		return SUCCESS;
 	}
 	
@@ -191,6 +242,22 @@ public class SummaryAction extends VisitBaseAction {
 		Struts2Util.renderHtml(visitFac.findCountryTrendReport(getStartDate(), getEndDate(), getCountry(), getLabelCount(), getSiteId()));
 	}
 
+	public String provinceTrend(){
+		return SUCCESS;
+	}
+	
+	public void provinceTrendReport(){
+		Struts2Util.renderHtml(visitFac.findProvinceTrendReport(getStartDate(), getEndDate(), getCountry(), getProvince(), getLabelCount(), getSiteId()));
+	}
+	
+	public String cityTrend(){
+		return SUCCESS;
+	}
+	
+	public void cityTrendReport(){
+		Struts2Util.renderHtml(visitFac.findCityTrendReport(getStartDate(), getEndDate(), getCountry(), getProvince(), getCity(), getLabelCount(), getSiteId()));
+	}
+	
 	/*========================== 在线情况 =================================*/
 	public void onlineTable(){
 		List<SummaryVo> list = visitFac.findOnlineTable(getStartDate(), getEndDate(), getSiteId());

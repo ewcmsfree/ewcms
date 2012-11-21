@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.plugin.visit.manager.web;
 
 import java.util.ArrayList;
@@ -40,7 +45,7 @@ public class VisitTreeAction extends ActionSupport {
 		oneTreeMap.put("4入口分析", "entrance");
 		oneTreeMap.put("5出口分析", "exit");
 		oneTreeMap.put("6被访主机分析", "host");
-		oneTreeMap.put("7区域分布", "district");
+		oneTreeMap.put("7区域分布", "country");
 		oneTreeMap.put("8在线情况", "online");
 		
 		twoTreeMap.put("0栏目点击排行", "channel");

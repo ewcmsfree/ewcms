@@ -56,15 +56,33 @@
 		</action>
 		<action name="hostTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostTrendReport"/>
 		<action name="hostReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="hostReport"/>
-		<action name="district" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
-			<result>/WEB-INF/page/plugin/visit/district.jsp</result>
+		<action name="country" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
+			<result>/WEB-INF/page/plugin/visit/country.jsp</result>
 		</action>
 		<action name="countryTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryTable"/>
 		<action name="countryReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryReport"/>
-		<action name="districtTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="districtTrend">
-			<result>/WEB-INF/page/plugin/visit/districtTrend.jsp</result>
+		<action name="countryTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryTrend">
+			<result>/WEB-INF/page/plugin/visit/countryTrend.jsp</result>
 		</action>
 		<action name="countryTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="countryTrendReport"/>
+		<action name="province" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="province">
+			<result>/WEB-INF/page/plugin/visit/province.jsp</result>
+		</action>
+		<action name="provinceTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="provinceTable"/>
+		<action name="provinceReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="provinceReport"/>
+		<action name="provinceTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="provinceTrend">
+			<result>/WEB-INF/page/plugin/visit/provinceTrend.jsp</result>
+		</action>
+		<action name="provinceTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="provinceTrendReport"/>
+		<action name="city" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="city">
+			<result>/WEB-INF/page/plugin/visit/city.jsp</result>
+		</action>
+		<action name="cityTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="cityTable"/>
+		<action name="cityReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="cityReport"/>
+		<action name="cityTrend" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="cityTrend">
+			<result>/WEB-INF/page/plugin/visit/cityTrend.jsp</result>
+		</action>
+		<action name="cityTrendReport" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="cityTrendReport"/>
 		<action name="online" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/online.jsp</result>
 		</action>

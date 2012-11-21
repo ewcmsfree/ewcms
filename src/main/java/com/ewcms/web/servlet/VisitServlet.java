@@ -62,7 +62,7 @@ public class VisitServlet extends HttpServlet {
 				break;
 			}
 		}
-
+		
 		String url = request.getParameter("URL");
 		if (EmptyUtil.isStringNotEmpty(url)) {
 			url = url.replace('\'', '0').replace('\\', '0');
@@ -117,6 +117,24 @@ public class VisitServlet extends HttpServlet {
 					item.setHost(item.getHost().toLowerCase());
 				} else {
 					item.setHost("无");
+				}
+				String country = request.getParameter("country");
+				String province = request.getParameter("province");
+				String city = request.getParameter("city");
+				
+				v.setCountry(country);
+				if (EmptyUtil.isStringEmpty(country)){
+					v.setCountry("未知");
+				}
+				
+				v.setProvince(province);
+				if (EmptyUtil.isStringEmpty(province)){
+					v.setProvince("未知");
+				}
+				
+				v.setCity(city);
+				if (EmptyUtil.isStringEmpty(city)){
+					v.setCity("未知");
 				}
 				v.setCookieEnabled("1".equals(request.getParameter("ce")));
 				v.setFlashVersion(request.getParameter("fv"));
