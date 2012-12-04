@@ -20,7 +20,7 @@ import com.ewcms.content.particular.model.ProjectBasic;
 public class ProjectBasicDAO extends JpaDAO<Long, ProjectBasic> {
 	
 	public List<ProjectBasic> findProjectBasicByPageAndRows(final Integer page, final Integer rows, final String name){
-		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null And p.name Like :name Order By p.code";
+		String hql = "From ProjectBasic As p Where p.release=true And p.organ!=null And p.name Like :name Order By p.published Desc";
 		TypedQuery<ProjectBasic> query = this.getEntityManager().createQuery(hql, ProjectBasic.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(rows * (page - 1));

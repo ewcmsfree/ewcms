@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_particular.js'/>"></script>
         <script type="text/javascript">
-	        enterpriseName = '<s:property value="enterpriseArticleVo.enterpriseBasic.name"/>';
+	        enterpriseName = '<s:property value="enterpriseArticleVo.enterpriseBasic.name"  escape="false"/>';
 	    	enterpriseUrl = '<s:url namespace="/particular/ea" action="findEbAll"/>';
 	    	treeUrl = '<s:url namespace="/particular" action="tree"/>';
 	    	organId = <s:if test="((enterpriseArticleVo.organ==null) || (enterpriseArticleVo.organ.id==null))">''</s:if><s:else><s:property value="enterpriseArticleVo.organ.id"/></s:else>;

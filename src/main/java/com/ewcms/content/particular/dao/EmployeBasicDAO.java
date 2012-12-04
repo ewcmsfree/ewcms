@@ -18,7 +18,7 @@ import com.ewcms.content.particular.model.EmployeBasic;
 @Repository
 public class EmployeBasicDAO extends JpaDAO<Long, EmployeBasic> {
 	public List<EmployeBasic> findEmployeBasicByPageAndRows(final Integer page, final Integer rows, final String name){
-		String hql = "From EmployeBasic As e Where e.release=true And e.organ!=null And e.name Like :name Order By e.cardCode";
+		String hql = "From EmployeBasic As e Where e.release=true And e.organ!=null And e.name Like :name Order By e.published Desc";
 		TypedQuery<EmployeBasic> query = this.getEntityManager().createQuery(hql, EmployeBasic.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(rows * (page - 1));

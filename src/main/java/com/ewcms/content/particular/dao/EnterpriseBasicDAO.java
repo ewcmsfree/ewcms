@@ -18,7 +18,7 @@ import com.ewcms.content.particular.model.EnterpriseBasic;
 @Repository
 public class EnterpriseBasicDAO extends JpaDAO<Long, EnterpriseBasic> {
 	public List<EnterpriseBasic> findEnterpriseBasicByPageAndRows(final Integer page, final Integer rows, final String name){
-		String hql = "From EnterpriseBasic As e Where e.release=true And e.organ!=null And e.name Like :name Order By e.yyzzzch";
+		String hql = "From EnterpriseBasic As e Where e.release=true And e.organ!=null And e.name Like :name Order By e.published Desc";
 		TypedQuery<EnterpriseBasic> query = this.getEntityManager().createQuery(hql, EnterpriseBasic.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(rows * (page - 1));

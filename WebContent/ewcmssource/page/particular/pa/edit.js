@@ -19,6 +19,7 @@ $(function() {
 	$('#cc_projectBasic').combogrid(
 			{
 				panelWidth : 870,
+				panelHeight : 400,
 				idField : 'code',
 				textField : 'name',
 				pagination : true,
@@ -26,8 +27,8 @@ $(function() {
 				rownumbers : true,
 				collapsible : false,
 				fit : true,
-				pageSize : 5,
-				pageList : [ 5 ],
+				pageSize : 30,
+				pageList : [ 30 ],
 				url : projectUrl + '?name=' + projectName + '',
 				columns : [ [
 						{

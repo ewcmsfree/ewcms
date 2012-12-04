@@ -111,7 +111,7 @@
 				<tr>
 					<td>组织机构代码：</td>
 					<td>
-						<s:textfield id="zzjgdm" cssClass="inputtext" name="enterpriseBasicVo.zzjgdm" maxlength="100"/>
+						<s:textfield id="zzjgdm" cssClass="inputtext" name="enterpriseBasicVo.zzjgdm" maxlength="9"/>
 					</td>
 					<td>企业类型：</td>
 					<td>

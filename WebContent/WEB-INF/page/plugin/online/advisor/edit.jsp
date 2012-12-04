@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_simple.js'/>"></script>
         <script type="text/javascript">
 	        $(function(){
-	        	<s:include value="../../alertMessage.jsp"/>
+	        	<s:include value="../../../alertMessage.jsp"/>
 	        });
 	        <s:if test="success">
         		parent.queryAdvisorSearch('');

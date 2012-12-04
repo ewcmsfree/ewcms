@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_gzip.js'/>"></script>
 		<script type="text/javascript" src="<s:url value='/ewcmssource/tiny_mce/config_particular.js'/>"></script>
         <script type="text/javascript">
-	        projectName = '<s:property value="projectArticleVo.projectBasic.name"/>';
+	        projectName = '<s:property value="projectArticleVo.projectBasic.name" escape="false"/>';
 	    	projectUrl = '<s:url namespace="/particular/pa" action="findPbAll"/>';
 	    	treeUrl = '<s:url namespace="/particular" action="tree"/>';
 	    	organId = <s:if test="((projectArticleVo.organ==null) || (projectArticleVo.organ.id==null))">''</s:if><s:else><s:property value="projectArticleVo.organ.id"/></s:else>;

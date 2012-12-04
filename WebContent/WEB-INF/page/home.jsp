@@ -87,12 +87,14 @@
                             <span>站点管理</span>
                         </a>
                     </div>
+                    <!-- 
                     <div class="nav-item">
                 		<a href="javascript:_home.addTab('统计分析','plugin/visit/index.do')">
                 			<img src="ewcmssource/image/visit.png" style="border:0"/><br/>
                 			<span>统计分析</span>
                 		</a>
                 	</div>
+                	 -->
                     <div class="nav-item">
                         <a href="javascript:_home.addTab('任务设置','scheduling/jobinfo/index.do')"> 
                             <img src="ewcmssource/image/scheduling_job.png" style="border: 0" /><br/>
@@ -305,6 +307,7 @@
                	    </div>
                	</div>
                 </sec:authorize>
+                <!-- 
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
                 <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
@@ -327,6 +330,7 @@
                     </div>
                 </div>
                 </sec:authorize>
+                 -->
             </div>
         </div>
         <div region="center" style="overflow:hidden;">

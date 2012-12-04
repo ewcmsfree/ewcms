@@ -23,7 +23,7 @@ public class ZoningCodeQueryAction extends QueryBaseAction{
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,
 			String cacheKey, int rows, int page, Order order) {
-    	EntityQueryable query = queryFactory.createEntityQuery(ZoningCode.class).setPage(page).setRow(rows).orderAsc("id");
+    	EntityQueryable query = queryFactory.createEntityQuery(ZoningCode.class).setPage(page).setRow(rows).orderDesc("id");
     	
     	String code = getParameterValue(String.class,"code", "");
     	if (isNotNull(code)) query.eq("code", code);
@@ -37,7 +37,7 @@ public class ZoningCodeQueryAction extends QueryBaseAction{
 
 	@Override
 	protected Resultable querySelectionsResult(QueryFactory queryFactory, int rows, int page, String[] selections, Order order) {
-    	EntityQueryable query = queryFactory.createEntityQuery(ZoningCode.class).setPage(page).setRow(rows).orderAsc("id");
+    	EntityQueryable query = queryFactory.createEntityQuery(ZoningCode.class).setPage(page).setRow(rows).orderDesc("id");
     	
         List<Long> ids = getIds(Long.class);
         query.in("id", ids);

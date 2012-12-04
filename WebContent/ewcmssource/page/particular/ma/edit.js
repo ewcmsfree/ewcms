@@ -17,8 +17,8 @@ var st, employeName, employeUrl, treeUrl, organId;
 
 $(function() {
 	$('#cc_employeBasic').combogrid({
-		panelWidth : 870,
-		mode : 'remote',
+	    panelWidth : 870,
+	    panelHeight : 400,
 		idField : 'cardCode',
 		textField : 'name',
 		pagination : true,
@@ -26,8 +26,8 @@ $(function() {
 		rownumbers : true,
 		collapsible : false,
 		fit : true,
-		pageSize : 5,
-		pageList : [ 5 ],
+		pageSize : 30,
+		pageList : [ 30 ],
 		url : employeUrl + '?name=' + employeName + '',
 		columns : [ [ {
 			field : 'id',
@@ -68,12 +68,11 @@ $(function() {
 		} ] ],
 		onClickRow : function(rowIndex, rowData) {
 			$('#employeBasic_cardCode').html(rowData.cardCode);
+			$('#cardCode').val(rowData.cardCode);
 		},
 		onSelect : function(rowIndex, rowData) {
-			$("#employeBasic_cardCode").html(rowData.code);
-		},
-		onClick : function(rowIndex, rowData) {
-			alert("1");
+			$("#employeBasic_cardCode").html(rowData.cardCode);
+			$('#cardCode').val(rowData.cardCode);
 		}
 	});
 	var combo = $('#cc_employeBasic').data("combo").combo;
@@ -86,55 +85,48 @@ $(function() {
 		var options = $('#cc_employeBasic').combogrid('options');
 		st = setTimeout(function() {
 			var grid = $('#cc_employeBasic').combogrid('grid');
-			options.keyHandler.query.call($('#cc_employeBasic')[0], $(
-					combo_text).val());
+			options.keyHandler.query.call($('#cc_employeBasic')[0], $(combo_text).val());
 			$(grid).datagrid({
 				url : employeUrl + '?name=' + $(combo_text).val() + ''
 			});
 		}, options.delay);
 	});
-	$('#tt_organ').combotree({
-		url : treeUrl,
-		onBeforeSelect : function(node) {
-			if (node.id == null) {
-				$.messager.alert('提示', '根节点不能选择', 'info');
-				return;
-			}
-		}
-	});
-	$('#tt_organ').combotree($('#organShow').val());
-	$('#tt_organ').combotree('setValue', organId);
+    $('#tt_organ').combotree({
+    	url : treeUrl,
+    	onBeforeSelect: function(node){
+            if (node.id == null) {
+           		$.messager.alert('提示','根节点不能选择','info');
+           		return;
+           	}
+    	}
+    });
+    $('#tt_organ').combotree($('#organShow').val());
+    $("#tt_organ").combotree("setValue", organId);
 
-	var height = $(window).height() - $("#inputBarTable").height() - 38;
-	var width = $(window).width() - 30 * 2;
-	$("div #_DivContainer").css("height", height + "px");
-	try {
-		if (tinyMCE.getInstanceById('_Content_1') != null) {
-			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,
-					(height - 110));
-		} else {
+    var height = $(window).height() - $("#inputBarTable").height() - 38;
+	var width = $(window).width() - 30*2;
+	$("div #_DivContainer").css("height",height + "px");
+	try{
+		if (tinyMCE.getInstanceById('_Content_1') != null){
+			tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 110));
+		}else{
 			$("#_Content_1").css("width", (width + 2) + "px");
 			$("#_Content_1").css("height", (height - 42) + "px");
 		}
-	} catch (errRes) {
+	}catch(errRes){
 	}
 });
-parent.$(window)
-		.resize(
-				function() {
-					var height = $(window).height()
-							- $("#inputBarTable").height() - 38;
-					var width = $(window).width() - 30 * 2;
-					$("div #_DivContainer").css("height", height + "px");
-					try {
-						if (tinyMCE.getInstanceById('_Content_1') != null) {
-							tinyMCE.getInstanceById('_Content_1').theme
-									.resizeTo(width, (height - 135));
-						} else {
-							$("#_Content_1").css("width", (width + 2) + "px");
-							$("#_Content_1").css("height",
-									(height - 142) + "px");
-						}
-					} catch (errRes) {
-					}
-				});
+parent.$(window).resize(function(){
+	var height = $(window).height() - $("#inputBarTable").height() - 38;
+	var width = $(window).width() - 30*2;
+    $("div #_DivContainer").css("height",height + "px");
+    try{
+    	if (tinyMCE.getInstanceById('_Content_1') != null){
+    		tinyMCE.getInstanceById('_Content_1').theme.resizeTo(width,(height - 135));
+    	}else{
+    		$("#_Content_1").css("width", (width + 2) + "px");
+    		$("#_Content_1").css("height", (height - 142) + "px");
+    	}
+    }catch(errRes){
+    }
+});

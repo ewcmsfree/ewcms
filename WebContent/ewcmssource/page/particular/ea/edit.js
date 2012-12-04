@@ -18,6 +18,7 @@ var st, enterpriseName, enterpriseUrl, treeUrl, organId;
 $(function() {
 	$('#cc_enterpriseBasic').combogrid({
 		panelWidth:870,
+		panelHeight:400,
 		idField:'yyzzzch',
 		textField:'name',
 		pagination : true,
@@ -25,8 +26,8 @@ $(function() {
         rownumbers:true,
         collapsible:false,
         fit: true,
-        pageSize: 5,
-        pageList: [5],
+        pageSize: 30,
+        pageList: [30],
 		url:enterpriseUrl + '?name=' + enterpriseName + '',
 		columns:[[
 				{field:'id',title:'编号',hidden:true},
@@ -55,7 +56,7 @@ $(function() {
 			$('#enterpriseBasic_yyzzch').html(rowData.yyzzzch);
 		},
 		onSelect : function(rowIndex, rowData){
-			$("#enterpriseBasic_yyzzch").html(rowData.code);
+			$("#enterpriseBasic_yyzzch").html(rowData.yyzzzch);
 		}
 	});
 	var combo = $('#cc_enterpriseBasic').data("combo").combo;
