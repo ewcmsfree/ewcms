@@ -30,7 +30,7 @@ public abstract class TaskProcessBase implements TaskProcessable{
             event.success(uri);
             return Boolean.TRUE;
         }catch(Exception e){
-            logger.error("task execute {}",e);
+            logger.error("task execute {}", e.getMessage());
             event.error(e);
             return Boolean.FALSE;
         }

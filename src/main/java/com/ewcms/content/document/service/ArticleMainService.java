@@ -43,9 +43,12 @@ import com.ewcms.content.history.History;
 import com.ewcms.core.site.dao.ChannelDAO;
 import com.ewcms.core.site.dao.TemplateDAO;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Site;
+import com.ewcms.core.site.model.SiteServer;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.publication.PublishException;
 import com.ewcms.publication.WebPublishFacable;
+import com.ewcms.publication.deploy.DeployOperatorable;
 import com.ewcms.security.manage.service.GroupServiceable;
 import com.ewcms.security.manage.service.UserServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
@@ -101,9 +104,18 @@ public class ArticleMainService implements ArticleMainServiceable {
 			
 			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入内容回收站。", "");
 			
+			article.setStatus(Status.REEDIT);
 			article.setDelete(true);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
+			
+			Site site = EwcmsContextUtil.getCurrentSite();
+			SiteServer siteServer = site.getSiteServer();
+			DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
+			try {
+				output.delete(article.getUrl());
+			} catch (PublishException e) {
+			}
 		}
 	}
 
@@ -112,7 +124,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
 		Article article = articleMain.getArticle();
-		Assert.notNull(article);		
+		Assert.notNull(article);
 		article.setDelete(false);
 		articleMain.setArticle(article);
 		articleMainDAO.merge(articleMain);

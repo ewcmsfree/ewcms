@@ -421,7 +421,7 @@ function pubOperate(url) {
 			return;
 		} else {
 			articleReload();
-			$.messager.alert('提示', '发布成功', 'info');
+			$.messager.alert('提示', '发布正在后台运行中...', 'info');
 			return;
 		}
 	});

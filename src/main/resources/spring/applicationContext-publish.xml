@@ -6,9 +6,15 @@
     <bean id="configurationFactoryBean" class="com.ewcms.publication.freemarker.EwcmsConfigurationFactoryBean">
         <property name="freemarkerSettings">
         	<props>
+        	    <!-- 
         		<prop key="template_exception_handler">
         		com.ewcms.publication.freemarker.error.EwcmsFreemarkerExceptionHandler
         		</prop>
+        		 -->
+        		<prop key="default_encoding">UTF-8</prop>
+        		<prop key="output_encoding">UTF-8</prop>  
+                <prop key="locale">zh_CN</prop> 
+        		<prop key="template_exception_handler">rethrow</prop>
         	</props>
         </property>
         <property name="defaultEncoding" value="UTF-8"/>

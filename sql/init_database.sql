@@ -12,6 +12,7 @@ DELETE FROM auth_authority;
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_ADMIN','管理员');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_WRITER','作者用户');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_EDITOR','责任编辑');
+INSERT INTO auth_authority (name,remark) VALUES ('ROLE_PUBLISH','发布用户')
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_RESOURCE','资源管理');
 INSERT INTO auth_authority (name,remark) VALUES ('ROLE_USER','普通用户');
 

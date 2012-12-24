@@ -79,7 +79,7 @@
 			function referArticleOperate(){
 				var url = '<s:url namespace="/document/refer" action="article"/>';
 				$("#editifr_pop").attr('src',url);
-				openWindow("#pop-window",{width:1000,height:570,top:17,left:40,title:'新增引用文章'});
+				openWindow("#pop-window",{width:600,height:470,title:'新增引用文章'});
 			}
 
 			function saveArticleOperate(){

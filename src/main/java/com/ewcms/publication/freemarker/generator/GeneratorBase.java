@@ -82,7 +82,7 @@ public abstract class GeneratorBase implements Generatorable {
         try {
             return cfg.getTemplate(path);
         } catch (IOException e) {
-            logger.error("{} template is not exist.error:{}",path,e);
+            logger.error("{} template is not exist.error:{}", path, e.getMessage());
             throw new PublishException(e);
         }
     }
@@ -128,10 +128,10 @@ public abstract class GeneratorBase implements Generatorable {
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            logger.error("Writer tempfile error {}", e);
+            logger.error("Writer tempfile error {}", e.getMessage());
             throw new PublishException(e);
         } catch (TemplateException e) {
-            logger.error("Freemarker proccess error {}", e);
+            logger.error("Freemarker proccess error {}", e.getMessage());
             throw new PublishException(e);
         }
     }
@@ -168,7 +168,7 @@ public abstract class GeneratorBase implements Generatorable {
             Writer writer = new OutputStreamWriter(out,charset);
             write(t,parameters,uriRule,writer);
         } catch (IOException e) {
-            logger.error("Writer output stream is error {}", e);
+            logger.error("Writer output stream is error {}", e.getMessage());
             throw new PublishException(e);
         } 
     }
@@ -180,7 +180,7 @@ public abstract class GeneratorBase implements Generatorable {
             process(new FileOutputStream(temp),path);
             return temp;
         } catch (IOException e) {
-            logger.error("Writer temp file is error {}", e);
+            logger.error("Writer temp file is error {}", e.getMessage());
             throw new PublishException(e);
         } 
     }

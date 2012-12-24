@@ -599,7 +599,7 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 					siteFac.forceRelease(getChannelId(), true);
 				else
 					siteFac.forceRelease(getChannelId(), false);
-				Struts2Util.renderJson(JSONUtil.toJSON("强制发布成功"));
+				Struts2Util.renderJson(JSONUtil.toJSON("强制发布正在后台运行中..."));
 			}else{
 				Struts2Util.renderJson(JSONUtil.toJSON("强制发布失败"));
 			}

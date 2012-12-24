@@ -296,7 +296,11 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
 
         try {
             FileObject root = getRootFileObject();
-            FileObject target = getTargetFileObject(root, fullPath);
+            path = path.replace("\\", "/").replace("//", "/");
+            if (path.indexOf("/") == 0){
+            	path = path.substring(1);
+            }
+            FileObject target = getTargetFileObject(root, path);
             
              if(target.exists()){
                  target.delete();
@@ -304,7 +308,7 @@ public abstract class DeployOperatorBase implements DeployOperatorable {
             target.close();
             root.close();
         } catch (FileSystemException e) {
-            logger.error("Delete {} file delete is error:{}", fullPath,e);
+            logger.error("Delete {} file delete is error:{}", fullPath, e);
             throw new PublishException(e);
         }
     }
