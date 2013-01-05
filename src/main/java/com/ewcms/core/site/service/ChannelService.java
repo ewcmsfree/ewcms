@@ -458,7 +458,6 @@ public class ChannelService implements ChannelServiceable{
 				}
 			}
 		}catch(Exception e){
-			
 		}
 	}
 }

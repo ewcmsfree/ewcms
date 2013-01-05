@@ -352,3 +352,6 @@ table.cellspacing { border-collapse: separate; }
 .icon-visit-analysis{
 	background:url('icons/visit_analysis.png') no-repeat;
 }
+.icon-connect{
+	background:url('icons/connect.png') no-repeat;
+}

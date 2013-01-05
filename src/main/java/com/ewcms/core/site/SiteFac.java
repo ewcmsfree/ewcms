@@ -383,4 +383,13 @@ public class SiteFac implements SiteFacable{
 		return templateService.restoreTemplate(templateId, historyId);
 	}
 
+	@Override
+	public void connectChannel(Integer channelId) {
+		templateService.connectChannel(channelId);
+	}
+
+	@Override
+	public void disConnectChannel(Integer channelId) {
+		templateService.disConnectChannel(channelId);
+	}
 }

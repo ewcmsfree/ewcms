@@ -42,7 +42,7 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
 	public List<Template> getTemplaeTreeList(Integer parentId,Boolean channelEnable);
 
 	/**
-	 * 获取模板子模板集�?某个专栏模板
+	 * 获取模板子模板集的某个专栏模板
 	 * 
 	 */ 	
 	public List<Template> getTemplaeTreeList(Integer parentId,String channelName);
@@ -87,4 +87,26 @@ public interface TemplateServiceable extends TemplatePublishServiceable {
      * @param historyId
      */
     public Boolean restoreTemplate(Integer templateId, Long historyId);
+    
+    /**
+	 * 在当前频道使用到其他频道
+	 * 
+	 * @param channelId 频道编号
+	 * @return
+	 */
+	public StringBuffer findUseChannel(Integer channelId, Integer siteId);
+	
+	/**
+	 * 重新计算本栏目被其他模板栏目引用
+	 * 
+	 * @param channelId
+	 */
+	public void connectChannel(Integer channelId);
+	
+	/**
+	 * 清除本栏目被其他模板栏目引用
+	 * 
+	 * @param channelId
+	 */
+	public void disConnectChannel(Integer channelId);
 }

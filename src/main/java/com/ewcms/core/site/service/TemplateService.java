@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.tools.zip.ZipEntry;
@@ -28,6 +29,7 @@ import com.ewcms.core.site.model.Site;
 import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.util.ConvertUtil;
+import com.ewcms.core.site.util.TemplateUtil;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -51,6 +53,9 @@ public class TemplateService implements TemplateServiceable{
 	@History(modelObjectIndex = 0)	
 	public Integer addTemplate(Template vo){
 		templateDAO.persist(vo);
+		
+//		updAppChannel(vo.getChannelId());
+		
 		return vo.getId();
 	}
 	
@@ -58,6 +63,9 @@ public class TemplateService implements TemplateServiceable{
 	public Integer updTemplate(Template vo){
 		templateDAO.merge(vo);	
 		updPubPath(vo);
+		
+//		updAppChannel(vo.getChannelId());
+		
 		return vo.getId();
 	}
 	
@@ -350,5 +358,79 @@ public class TemplateService implements TemplateServiceable{
 		}catch (Exception e){
 			return result;
 		}
+	}
+	
+	@Override
+	public StringBuffer findUseChannel(Integer channelId, Integer siteId){
+		HashSet<Integer> appChannelIds = new HashSet<Integer>();
+		
+		Channel channel = channelDAO.get(channelId);
+		String absUrl = channel.getAbsUrl();
+		
+		List<Template> templates = templateDAO.getTemplateList(siteId);
+		for (Template template : templates){
+			String tplEntity = new String(template.getTemplateEntity().getTplEntity());
+			List<String> results = TemplateUtil.associate(tplEntity);
+			for (String result : results){
+				if (result.indexOf(TemplateUtil.CHILD_ATTRIB) != -1){
+					String[] expression = result.split(":");
+					try{
+						String channelResult = expression[0];
+						if (channelResult == null || channelResult.length() == 0) continue; 
+						if (channelResult.indexOf("[") == 0 && channelResult.indexOf("]") == channelResult.length() - 1){
+							channelResult = channelResult.substring(1, channelResult.length() - 1);
+							String[] childExpressions = channelResult.split(",");
+							for (String childExpression : childExpressions){
+								if (TemplateUtil.isNumeric(childExpression)){
+									List<Channel> childChannels = channelDAO.getChannelChildren(Integer.valueOf(childExpression));
+									for (Channel childChannel : childChannels){
+										appChannelIds.add(childChannel.getId());
+									}
+								}else{
+									Channel childChannel = channelDAO.getChannelByURL(siteId, childExpression.substring(1));
+									appChannelIds.add(childChannel.getId());
+								}
+							}
+						}else{
+							if (result.equals(absUrl) || result.equals(String.valueOf(channelId.intValue()))){
+								appChannelIds.add(template.getChannelId());
+							}
+						}
+					}catch(Exception e){
+						
+					}
+				}else{
+					if (result.equals(absUrl) || result.equals(String.valueOf(channelId.intValue()))){
+						appChannelIds.add(template.getChannelId());
+					}
+				}
+			}
+		}
+		
+		StringBuffer appChannelId = new StringBuffer();
+		for (Integer id : appChannelIds){
+			if (channelId.intValue() == id.intValue()) continue;
+			appChannelId.append(String.valueOf(id) + ",");
+		}
+		return appChannelId;
+	}
+	
+	@Override
+	public void connectChannel(Integer channelId){
+		updAppChannel(channelId);
+	}
+	
+	@Override
+	public void disConnectChannel(Integer channelId){
+		Channel channel = channelDAO.get(channelId);
+		channel.setAppChannel(null);
+		channelDAO.merge(channel);
+	}
+	
+	private void updAppChannel(Integer channelId){
+		StringBuffer channelIds = findUseChannel(channelId, getCurSite().getId());
+		Channel channel = channelDAO.get(channelId);
+		channel.setAppChannel(channelIds.toString());
+		channelDAO.merge(channel);
 	}
 }

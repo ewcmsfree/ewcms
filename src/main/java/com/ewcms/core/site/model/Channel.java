@@ -41,6 +41,7 @@ import org.hibernate.annotations.Formula;
  * <li>channelEntity:专栏引导图</li>
  * <li>channelType:专栏类型</li>
  * <li>sort:排序号</li>
+ * <li>appChannel:应用于频道</li>
  * </ul>
  * 
  * @author 周冬初
@@ -118,6 +119,8 @@ public class Channel implements Serializable {
 	private Type type;
 	@Column(name = "sort")
 	private Long sort = 0L;
+	@Column(name = "app_channel", columnDefinition="text")
+	private String appChannel;
 
 	public Channel() {
 		type = Type.NODE;
@@ -308,6 +311,14 @@ public class Channel implements Serializable {
 
 	public void setSort(Long sort) {
 		this.sort = sort;
+	}
+
+	public String getAppChannel() {
+		return appChannel;
+	}
+
+	public void setAppChannel(String appChannel) {
+		this.appChannel = appChannel;
 	}
 
 	@Override

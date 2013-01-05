@@ -609,6 +609,24 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			Struts2Util.renderJson(JSONUtil.toJSON("系统错误"));
 		}
 	}
+	
+	public void connect(){
+		if (getChannelId() != null){
+			siteFac.connectChannel(getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("重新计算本栏目被其他引用完成"));
+		}else{
+			Struts2Util.renderJson(JSONUtil.toJSON("重新计算本栏目被其他引用失败"));
+		}
+	}
+	
+	public void disConnect(){
+		if (getChannelId() != null){
+			siteFac.disConnectChannel(getChannelId());
+			Struts2Util.renderJson(JSONUtil.toJSON("清除本栏目被其他引用完成"));
+		}else{
+			Struts2Util.renderJson(JSONUtil.toJSON("清除本栏目被其他引用失败"));
+		}
+	}
 
 	private String channelName;
 	

@@ -43,6 +43,24 @@
 				//parent.parent.$('#tt2').tree('reload',parentNode.target);
 				//parent.parent.$('#tt2').tree('check', parentNode.target);
 	    	}
+	    	function connectOperate(){
+				$.post("<s:url namespace='/site/template' action='connect'/>?channelId=<s:property value='channelVo.id'/>", {}, function(data) {
+					$.messager.alert('提示', data, 'info');
+					if (data.indexOf('完成') > 0){
+						$('#span-connect').html('已建立');
+					}
+				});
+				return false;
+			}
+			function disConnectOperate(){
+				$.post("<s:url namespace='/site/template' action='disConnect'/>?channelId=<s:property value='channelVo.id'/>", {}, function(data) {
+					$.messager.alert('提示', data, 'info');
+					if (data.indexOf('完成') > 0){
+						$('#span-connect').html('已断开');
+					}
+				});
+				return false;
+			}
 	    </script>
 	</head>
 	<body>
@@ -90,34 +108,44 @@
 					</tr>																
 					<tr>
 						<td>专栏名称：</td>
-						<td  width="80%">
-							<s:textfield id="channelVo_name" name="channelVo.name" size="30" readonly="true" cssClass="inputdisabled"/><input type="button" value="名称转拼音" onclick="pinYin();"/>
+						<td width="80%">
+						    <s:property value="channelVo.name"/>
+						    <s:hidden id="channelVo_name" name="channelVo.name"/>
+							<a class="easyui-linkbutton" icon="" href="javascript:void(0);" onclick="pinYin();">名称转拼音</a>
 						</td>
 					</tr>
 					<tr>
-						<td >专栏目录：</td>
+						<td>专栏目录：</td>
 						<td class="formFieldError">
 							<s:textfield id="channelVo_dir" name="channelVo.dir" cssClass="inputtext" size="20"/>
-							<s:fielderror ><s:param value="%{'channelVo.dir'}" /></s:fielderror>
+							<s:fielderror><s:param value="%{'channelVo.dir'}" /></s:fielderror>
 						</td>				
 					</tr>	
 					<tr>
-						<td >专栏URL：</td>
+					  <td>被其他栏目引用：</td>
+					  <td>
+					    <span id="span-connect"><s:if test="channelVo.appChannel==null">已断开</s:if><s:else>已建立</s:else></span>&nbsp;
+					    <a class="easyui-linkbutton" icon="icon-connect" href="javascript:void(0);" onclick="connectOperate();">重建</a>
+					    <a class="easyui-linkbutton" icon="icon-disconnect"  href="javascript:void(0);" onclick="disConnectOperate();">断开</a>
+					  </td>
+					</tr>
+					<tr>
+						<td>专栏URL：</td>
 						<td class="formFieldError">
 							<s:textfield name="channelVo.url" cssClass="inputtext" size="30"/>
 							<s:fielderror ><s:param value="%{'channelVo.url'}" /></s:fielderror>
 						</td>				
 					</tr>		
 					<tr>
-						<td  >列表页最大文档数：</td>
-						<td  class="formFieldError">
+						<td>列表页最大文档数：</td>
+						<td class="formFieldError">
 							<s:textfield name="channelVo.listSize" cssClass="inputtext" size="10"/>
 							<s:fielderror ><s:param value="%{'channelVo.listSize'}" /></s:fielderror>
 						</td>					
 					</tr>
 					<tr>
-						<td  >最大显示文档数：</td>
-						<td  class="formFieldError">
+						<td>最大显示文档数：</td>
+						<td class="formFieldError">
 							<s:textfield name="channelVo.maxSize" cssClass="inputtext" size="10"/>
 							<s:fielderror ><s:param value="%{'channelVo.maxSize'}" /></s:fielderror>
 						</td>					
@@ -125,7 +153,7 @@
 					<tr>
 						<td>专栏介绍：</td>
 						<td>
-							<s:textarea name="channelVo.describe" style="width:300px;height:45px" cssClass="inputtext"></s:textarea>			
+							<s:textarea name="channelVo.describe" style="width:300px;height:100px" cssClass="inputtext"></s:textarea>			
 						</td>				
 					</tr>																																					
 				</s:else>	
@@ -141,10 +169,9 @@
 			        			<img id="viewImage" name="viewImage" width="120px" height="90px" src="<s:url value='/ewcmssource/image/article/nopicture.jpg'/>"/>
 			        		</s:else>
 			        		</a>
-			        		
 			        		<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearImage();return false;" style="vertical-align:bottom;">清除图片</a>				
 						</td>				
-					</tr>										
+					</tr>
 				<tr>
 					<td colspan="2" style="padding:0;">
 						<div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">

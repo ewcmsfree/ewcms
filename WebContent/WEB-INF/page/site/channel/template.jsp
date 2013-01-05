@@ -48,13 +48,13 @@
 				                 {field:'typeDescription',title:'模板类型',width:120},
 				                 {field:'describe',title:'说明',width:120,align:'left'},
 				                 {field:'parentId',title:'预览',width:70,align:'center',formatter:function(val,rec){
-										return '<input type="button" name="Submit" value="预 览" class="inputbutton" onClick="previewTPL('+rec.id+');">';
+										return '<input type="button" name="Submit" value="预  览" class="inputbutton" style="height:18px" onClick="previewTPL('+rec.id+');">';
 								 }},
 				                 {field:'size',title:'编辑',width:70,align:'center',formatter:function(val,rec){
-									return '<input type="button" name="Submit" value="编 辑" class="inputbutton" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
+									return '<input type="button" name="Submit" value="编  辑" class="inputbutton" style="height:18px" onClick="editTPL('+rec.id+',\'' + rec.path + '\',\''+ rec.typeDescription + '\');">';
 								 }},
 								 {field:'history',title:'历史',width:70,align:'center',formatter:function(val,rec){
-									 return '<input type="button" name="Submit" value="历 史" class="inputbutton" onClick="historyTPL(' + rec.id + ');">';
+									 return '<input type="button" name="Submit" value="历  史" class="inputbutton" style="height:18px" onClick="historyTPL(' + rec.id + ');">';
 								 }}
 				    ]]
 				});

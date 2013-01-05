@@ -411,6 +411,19 @@ public class ArticleMainService implements ArticleMainServiceable {
 						associateRelease(channelChildren.getId());
 				}
 			}
+			
+			Channel channel = channelDAO.get(channelId);
+			String appChannel = channel.getAppChannel();
+			if (appChannel != null && appChannel.length() > 0){
+				String[] appChannelIds = appChannel.split(",");
+				for (String id : appChannelIds){
+					try{
+						Integer tempId = Integer.valueOf(id);
+						pubArticleMainByChannel(tempId, false, false);
+					}catch(Exception e){
+					}
+				}
+			}
 		}
 	}
 	

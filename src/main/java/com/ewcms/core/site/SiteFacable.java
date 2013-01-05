@@ -208,4 +208,18 @@ public interface SiteFacable {
      * @param historyId
      */
     public Boolean restoreTemplate(Integer templateId, Long historyId);
+    
+	/**
+	 * 重新计算本栏目被其他模板栏目引用
+	 * 
+	 * @param channelId
+	 */
+	public void connectChannel(Integer channelId);
+	
+	/**
+	 * 清除本栏目被其他模板栏目引用
+	 * 
+	 * @param channelId
+	 */
+	public void disConnectChannel(Integer channelId);
 }

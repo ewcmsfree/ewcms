@@ -16,7 +16,7 @@
 				                 {field:'path',title:'资源路径',width:300,align:'left'},
 				                 {field:'describe',title:'说明',width:120,align:'left'},
 				                 {field:'parentId',title:'编辑',width:60,align:'center',formatter:function(val,rec){
-									return '<input type="button" name="Submit" value="编辑.." class="inputbutton" onClick="editTPL('+rec.id+');">';
+									return '<input type="button" name="Submit" value="编  辑" class="inputbutton" style="height:18px" onClick="editTPL('+rec.id+');">';
 								 }}
 				    ]]
 				});
