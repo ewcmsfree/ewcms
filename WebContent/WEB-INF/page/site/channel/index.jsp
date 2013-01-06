@@ -14,7 +14,7 @@
 					url: '<s:url action="treePub"/>',
 					onClick:function(node){
 						if(node.attributes.maxpermission<16){
-		    	    		$.messager.alert('提示','您不具有该操作权限');
+		    	    		$.messager.alert('提示','您不具有该操作权限','info');
 		    	    		return false;
 						}
 						selectedNode = node;
@@ -31,7 +31,7 @@
     			var node = getSelectNode();
     			if(!node) return;
 				if(node.attributes.maxpermission<8){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}    			
     	    	//添加专栏 			
@@ -39,7 +39,7 @@
 					if (r){
 			            $.post('<s:url action="add"/>',{'channelVo.id':node.id,'channelVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','专栏添加失败');
+			    	    		$.messager.alert('提示','专栏添加失败','info');
 			    	    		return;
 				            }
 							$('#tt2').tree('append',{
@@ -65,7 +65,7 @@
     			var node = getSelectNode();
     			if(!node) return;
 				if(node.attributes.maxpermission<16){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}    	    	 		
     	    	//重命名专栏 			
@@ -73,7 +73,7 @@
 					if (r){
 			            $.post('<s:url action="rename"/>',{'channelVo.id':node.id,'channelVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','专栏重命名失败');
+			    	    		$.messager.alert('提示','专栏重命名失败','info');
 			    	    		return;
 				            }
 				            node.text = r;
@@ -90,11 +90,11 @@
     			if(!node) return;
 				var rootnode = $('#tt2').tree('getRoot');
 				if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许删除该专栏');
+					$.messager.alert('提示','不允许删除该专栏','info');
 					 return;
 				}   
 				if(node.attributes.maxpermission<32){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}				  			
     			$.messager.confirm('', '确认要删除 ' + node.text + ' 专栏?', function(r){
@@ -102,7 +102,7 @@
     	    	    	//删除专栏 			
     		            $.post('<s:url action="del"/>',{'channelVo.id':node.id},function(data){
     			            if(data == 'false'){
-    		    	    		$.messager.alert('提示','专栏不能删除');
+    		    	    		$.messager.alert('提示','专栏不能删除','info');
     		    	    		return;
     			            }
     						$('#tt2').tree('remove',node.target);	
@@ -128,7 +128,7 @@
         			if(!node) return;
     				var rootnode = $('#tt2').tree('getRoot');
     				if(rootnode.id == node.id){
-    					$.messager.alert('提示','不允许剪切该专栏');
+    					$.messager.alert('提示','不允许剪切该专栏','info');
     					 return;
     				}         			
         			$.messager.confirm('', '确认要剪切 ' + node.text + '专栏吗?', function(r){
@@ -163,18 +163,18 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(typeof(cutNode) == 'undefined' || cutNode == ''){
-    	    		$.messager.alert('提示','请先剪切专栏');		    	    			    	    		
+    	    		$.messager.alert('提示','请先剪切专栏','info');		    	    			    	    		
     	    		return;
     			}
     	    	try{
 	    	    	if(cutNode.id == node.id || parentNode.id == node.id){
-	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下');	    	    		
+	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下','info');	    	    		
 	    	    		return;
 	    	    	}
 	    	    	//移动专栏 			
 		            $.post('<s:url action="moveto"/>',{'channelVo.id':cutNode.id,'channelVo.parent.id':node.id},function(data){
 			            if(data == 'false'){
-		    	    		$.messager.alert('提示','专栏移动失败');
+		    	    		$.messager.alert('提示','专栏移动失败','info');
 		    	    		return;
 			            }
 						$('#tt2').tree('append',{
@@ -191,7 +191,7 @@
 				var node = $('#tt2').tree('getSelected');
     	    	if(node == null || typeof(node) == 'undefined')
     	    	{
-    	    		$.messager.alert('提示','请选择要操作的专栏');
+    	    		$.messager.alert('提示','请选择要操作的专栏','info');
     	    		return false;
     	    	}				
 				return node;
@@ -205,7 +205,7 @@
     			var node = getSelectNode();
     			if(!node) return;	
 				if(node.attributes.maxpermission<16){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
 				var url='<s:url action="edit"/>';
@@ -217,18 +217,18 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(node.attributes.maxpermission<16){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
     			var rootnode = $('#tt2').tree('getRoot');
     			if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许移动站点');
+					$.messager.alert('提示','不允许移动站点','info');
 					 return;
 				}
     			var parentNode = $('#tt2').tree('getParent',node.target);
 			    $.post('<s:url action="up"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
 				   	if(data == 'false'){
-				    	$.messager.alert('提示','专栏上移一位失败');
+				    	$.messager.alert('提示','专栏上移一位失败','info');
 				    	return;
 				   	}else{
 			        	$.messager.alert('提示','专栏上移一位成功','info');
@@ -242,19 +242,19 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(node.attributes.maxpermission<16){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
     			var rootnode = $('#tt2').tree('getRoot');
     			if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许移动站点');
+					$.messager.alert('提示','不允许移动站点','info');
 					 return;
 				}
     			var parentNode = $('#tt2').tree('getParent',node.target);
     			  
     			$.post('<s:url action="down"/>',{'channelId':node.id,'parentId':parentNode.id},function(data){
 			    	if(data == 'false'){
-		    	    	$.messager.alert('提示','专栏下移一位失败');
+		    	    	$.messager.alert('提示','专栏下移一位失败','info');
 		    	    	return;
 			    	}else{
 			        	$.messager.alert('提示','专栏下移一位成功','info');
@@ -268,12 +268,12 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(node.attributes.maxpermission<16){
-    	    		$.messager.alert('提示','您不具有该操作权限');
+    	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
     			var rootnode = $('#tt2').tree('getRoot');
     			if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许移动站点');
+					$.messager.alert('提示','不允许移动站点','info');
 					 return;
 				}
     			var parentNode = $('#tt2').tree('getParent',node.target);
@@ -288,7 +288,7 @@
     						}else{
 				    			$.post('<s:url action="moveSort"/>',{'channelId':node.id,'parentId':parentNode.id,sort:r},function(data){
 							    	if(data == 'false'){
-						    	    	$.messager.alert('提示','专栏移动失败');
+						    	    	$.messager.alert('提示','专栏移动失败','info');
 						    	    	return;
 							        }else{
 							        	$.messager.alert('提示','专栏移动成功','info');

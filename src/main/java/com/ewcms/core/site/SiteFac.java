@@ -392,4 +392,9 @@ public class SiteFac implements SiteFacable{
 	public void disConnectChannel(Integer channelId) {
 		templateService.disConnectChannel(channelId);
 	}
+
+	@Override
+	public Boolean verify(Integer templateId) {
+		return templateService.verify(templateId);
+	}
 }

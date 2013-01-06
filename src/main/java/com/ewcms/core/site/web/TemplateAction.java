@@ -678,4 +678,12 @@ public class TemplateAction extends CrudBaseAction<Template, Integer> {
 			}
 		}
 	}
+	
+	public void verify(){
+		if (getId() != null) {
+			Struts2Util.renderJson(JSONUtil.toJSON(siteFac.verify(getId())));
+		}else{
+			Struts2Util.renderJson(JSONUtil.toJSON(false));
+		}
+	}
 }

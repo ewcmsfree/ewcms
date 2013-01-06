@@ -222,4 +222,12 @@ public interface SiteFacable {
 	 * @param channelId
 	 */
 	public void disConnectChannel(Integer channelId);
+	
+	/**
+	 * 校验模板的正确性
+	 * 
+	 * @param templateId
+	 * @return True:正确,False:错误
+	 */
+	public Boolean verify(Integer templateId);
 }

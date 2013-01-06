@@ -111,7 +111,8 @@
 	    <action name="downloadtpl" class="com.ewcms.core.site.web.TemplateAction" method="downLoadTemplate"/>
         <action name="exportzip" class="com.ewcms.core.site.web.TemplateAction" method="exportZip"/>
         <action name="connect" class="com.ewcms.core.site.web.TemplateAction" method="connect"/>
-        <action name="disConnect" class="com.ewcms.core.site.web.TemplateAction" method="disConnect"/> 
+        <action name="disConnect" class="com.ewcms.core.site.web.TemplateAction" method="disConnect"/>
+        <action name="verify" class="com.ewcms.core.site.web.TemplateAction" method="verify"/>
 	</package>
 	<package name="site.template.history"  extends="struts-default" namespace="/site/template/history">
 		<action name="index" class="com.ewcms.core.site.web.TemplateHistoryAction">

@@ -48,6 +48,7 @@ import org.hibernate.annotations.Formula;
  * <li>site:模板所属站点</li>
  * <li>uriPattern:路径模式 /${now?yyyy-MM-dd}/${id}_${page}.html</li>
  * <li>type:模板类型</li>
+ * <li>isVerify:是否校验</li>
  * </ul>
  * 
  * @author 周冬初
@@ -111,6 +112,8 @@ public class Template implements Serializable {
 	private TemplateType type;
     @Column()
     private Boolean enabledUse = false;
+    @Column(name = "is_verify")
+    private Boolean isVerify = false;
     
 	public Boolean getEnabledUse() {
 		return enabledUse;
@@ -240,6 +243,14 @@ public class Template implements Serializable {
         this.type = type;
     }
 
+	public Boolean getIsVerify() {
+		return isVerify;
+	}
+	
+	public void setIsVerify(Boolean isVerify) {
+		this.isVerify = isVerify;
+	}
+	
 	@PreUpdate
 	@PrePersist
 	public void afterPersist(){

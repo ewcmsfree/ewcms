@@ -16,7 +16,6 @@ public class TreeGridNode {
     private String iconCls;
     private List<TreeGridNode> children;
     
-    
     public Integer getId() {
         return id;
     }

@@ -48,6 +48,10 @@ public class TemplateUtil {
 
 		return result;
 	}
+	
+	public static boolean verify(String content){
+		return true;
+	}
 
 	public static boolean isNumeric(String str) {
 		Pattern pattern = Pattern.compile("[0-9]*");

@@ -7,6 +7,7 @@ package com.ewcms.core.site.service;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,8 @@ import com.ewcms.core.site.model.Template;
 import com.ewcms.core.site.model.TemplateEntity;
 import com.ewcms.core.site.util.ConvertUtil;
 import com.ewcms.core.site.util.TemplateUtil;
+import com.ewcms.publication.PublishException;
+import com.ewcms.publication.preview.PreviewServiceable;
 import com.ewcms.web.util.EwcmsContextUtil;
 
 /**
@@ -45,6 +48,8 @@ public class TemplateService implements TemplateServiceable{
 	private ChannelDAO channelDAO;
 	@Autowired
 	private HistoryModelDAO historyModelDAO;
+	@Autowired
+	private PreviewServiceable previewService;
 	
 	public Template getTemplate(Integer id){
 		return templateDAO.get(id);
@@ -55,6 +60,7 @@ public class TemplateService implements TemplateServiceable{
 		templateDAO.persist(vo);
 		
 //		updAppChannel(vo.getChannelId());
+		verify(vo.getId());
 		
 		return vo.getId();
 	}
@@ -65,6 +71,7 @@ public class TemplateService implements TemplateServiceable{
 		updPubPath(vo);
 		
 //		updAppChannel(vo.getChannelId());
+		verify(vo.getId());
 		
 		return vo.getId();
 	}
@@ -425,6 +432,23 @@ public class TemplateService implements TemplateServiceable{
 		Channel channel = channelDAO.get(channelId);
 		channel.setAppChannel(null);
 		channelDAO.merge(channel);
+	}
+	
+	public Boolean verify(Integer templateId){
+		Boolean result = false;
+		
+		Template template = templateDAO.get(templateId);
+		if (template.getType() == null) return result;
+		
+		try{
+			previewService.viewTemplate(new ByteArrayOutputStream(), templateId, true);
+			result = true;
+		}catch (PublishException e){
+		}
+		
+		template.setIsVerify(result);
+		templateDAO.merge(template);
+		return result;
 	}
 	
 	private void updAppChannel(Integer channelId){

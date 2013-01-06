@@ -18,7 +18,7 @@
     	    		$.messager.alert('提示','请选择模板文件');
     	    		return false;
     	    	}
-	            $.post('<s:url action="importtpl"/>',{'channelVo.id':<s:property value="channelVo.id"/>,'channelVo.name':node.id},function(data){
+	            $.post('<s:url namespace="/site/channel" action="importtpl"/>',{'channelVo.id':<s:property value="channelVo.id"/>,'channelVo.name':node.id},function(data){
 		            if(data == 'false'){
 	    	    		$.messager.alert('提示','模板导入失败');
 	    	    		return;
@@ -26,7 +26,6 @@
 		            defQueryCallBack();
 	    	    }); 	    	    					
 			}	
-			
 						
 			$(function(){
 				//公共模板目录树初始	
@@ -55,6 +54,13 @@
 								 }},
 								 {field:'history',title:'历史',width:70,align:'center',formatter:function(val,rec){
 									 return '<input type="button" name="Submit" value="历  史" class="inputbutton" style="height:18px" onClick="historyTPL(' + rec.id + ');">';
+								 }},
+								 {field:'isVerify',title:'校验',width:70,align:'center',formatter:function(val,rec){
+									 var result = '不通过';
+									 if (val == null) result = '未校验';
+									 else if (val) result = '通  过';
+									 return '<input type="button" name="Submit" value="' + result + '" class="inputbutton" style="height:18px" onClick="verify(' + rec.id + ',\''+ rec.typeDescription + '\');">';
+									 //return '<a href="javascript:void(0);" style="text-decoration: none" onclick="verify(' + rec.id + ')">' + result + '</a>'; 
 								 }}
 				    ]]
 				});
@@ -161,6 +167,17 @@
 				var url = '<s:url namespace="/site/template/history" action="index"/>?templateId=' + value;
 				ewcmsBOBJ.openWindow('#pop-window',{url : url, width : 550,height : 350,title : '历史记录选择'});
 			}
+			function verify(idValue, typeDescription){
+				if (typeDescription.indexOf('请选择类型') != -1){
+					$.messager.alert('提示', '请先选择模板类型，才能进行模板校验', 'info');
+				}else{
+					$.post("<s:url namespace='/site/template' action='verify'/>", {id:idValue}, function(data){
+						$.messager.alert('提示', '模板校验完成', 'info');
+						$('#tt').datagrid('clearSelections');
+						$('#tt').datagrid('reload');
+					});
+				}
+			}
 			function loadingEnable(){
 				   $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
 				   $("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
@@ -169,6 +186,7 @@
 				   $('.datagrid-mask-msg').remove();
 				   $('.datagrid-mask').remove();
 			}
+			
 		</script>		
 	</head>
 	<body class="easyui-layout">

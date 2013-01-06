@@ -137,7 +137,7 @@ public class TrafficService implements TrafficServiceable {
 		List<TrafficVo> list = findChannelTable(startDate, endDate, channelParentId, siteId);
 		Map<String, Long> dataSet = new LinkedHashMap<String, Long>();
 		for (TrafficVo vo : list){
-			dataSet.put(vo.getChannelName(), vo.getPageView().longValue());
+			dataSet.put(vo.getChannelName(), (vo.getLevelPv() + vo.getPageView()));
 		}
 		return ChartVisitUtil.getPie3DChart(dataSet);
 	}
