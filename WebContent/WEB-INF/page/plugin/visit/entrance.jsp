@@ -22,7 +22,7 @@
 					rownumbers : true,
 					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
-				            {field:'eeUrl',title:'入口URL',width:300,
+				            {field:'eeUrl',title:'入口URL',width:600,
 				            	formatter : function(val, rec){
 				            		if (val == null) return ''; 
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
