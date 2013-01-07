@@ -38,7 +38,7 @@
 	</script>
   </head>
   <body class="easyui-layout">
-	<div region="west" title='<img src="<s:url value="/ewcmssource/easyui/themes/icons/reload.png"/>" style="vertical-align: middle;cursor:pointer;" onclick="visitTreeLoad();"/> 统计分析' split="true" style="width: 180px;">
+	<div region="west" title='统计分析' split="true" style="width: 180px;">
 		<ul id="tt2"></ul>  
 	</div>
 	<div region="center" style="overflow: auto;">

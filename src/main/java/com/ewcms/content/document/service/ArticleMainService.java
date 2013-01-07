@@ -117,6 +117,10 @@ public class ArticleMainService implements ArticleMainServiceable {
 			} catch (PublishException e) {
 			}
 		}
+		try {
+			associateRelease(channelId);
+		} catch (PublishException e) {
+		}
 	}
 
 	@Override

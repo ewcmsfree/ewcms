@@ -1,3 +1,8 @@
+/**
+ * Copyright (c)2010-2011 Enterprise Website Content Management System(EWCMS), All rights reserved.
+ * EWCMS PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * http://www.ewcms.com
+ */
 package com.ewcms.core.site.util;
 
 import java.util.ArrayList;
@@ -49,10 +54,6 @@ public class TemplateUtil {
 		return result;
 	}
 	
-	public static boolean verify(String content){
-		return true;
-	}
-
 	public static boolean isNumeric(String str) {
 		Pattern pattern = Pattern.compile("[0-9]*");
 		Matcher isNum = pattern.matcher(str);
