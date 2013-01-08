@@ -397,4 +397,14 @@ public class SiteFac implements SiteFacable{
 	public Boolean verify(Integer templateId) {
 		return templateService.verify(templateId);
 	}
+
+	@Override
+	public List<Integer> findAssociatedChannel(Integer channelId) {
+		return channelService.findAppChannel(channelId);
+	}
+
+	@Override
+	public void delAppChannel(Integer channelId, Integer appChannelId) {
+		channelService.delAppChannel(channelId, appChannelId);
+	}
 }

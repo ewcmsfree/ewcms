@@ -201,5 +201,10 @@
         <action name="down" class="com.ewcms.core.site.web.ChannelAction" method="downChannel"/>
         <action name="moveSort" class="com.ewcms.core.site.web.ChannelAction" method="moveSortChannel"/>
         <action name="exportzip" class="com.ewcms.core.site.web.ChannelAction" method="exportZip"/>
+        <action name="appIndex" class="com.ewcms.core.site.web.AppChannelAction">
+        	<result>/WEB-INF/page/site/channel/appchannel.jsp</result>
+        </action>
+        <action name="appQuery" class="com.ewcms.core.site.web.AppChannelQueryAction" method="query"/>
+        <action name="appDel" class="com.ewcms.core.site.web.AppChannelAction" method="delete"/>
 	</package>
 </struts>	

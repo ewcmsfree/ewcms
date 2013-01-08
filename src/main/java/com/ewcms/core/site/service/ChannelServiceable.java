@@ -173,4 +173,20 @@ public interface ChannelServiceable extends ChannelPublishServiceable {
 	 * @param channelId
 	 */
 	public void exportChannelZip(Integer channelId, ZipOutputStream zos, String channelPath);
+	
+	/**
+	 * 查看已关联栏目
+	 * 
+	 * @param channelId 栏目编号
+	 * @return List
+	 */
+	public List<Integer> findAppChannel(Integer channelId);
+	
+	/**
+	 * 删除关联栏目
+	 * 
+	 * @param channelId 栏目编号
+	 * @param appChannelId 应用关联栏目
+	 */
+	public void delAppChannel(Integer channelId, Integer appChannelId);
 }

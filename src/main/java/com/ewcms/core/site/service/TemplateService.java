@@ -10,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -369,7 +371,8 @@ public class TemplateService implements TemplateServiceable{
 	
 	@Override
 	public StringBuffer findUseChannel(Integer channelId, Integer siteId){
-		HashSet<Integer> appChannelIds = new HashSet<Integer>();
+		HashSet<Integer> appChannelIdSets = new HashSet<Integer>();
+		List<Integer> appChannelIds = new ArrayList<Integer>();
 		
 		Channel channel = channelDAO.get(channelId);
 		String absUrl = channel.getAbsUrl();
@@ -391,16 +394,16 @@ public class TemplateService implements TemplateServiceable{
 								if (TemplateUtil.isNumeric(childExpression)){
 									List<Channel> childChannels = channelDAO.getChannelChildren(Integer.valueOf(childExpression));
 									for (Channel childChannel : childChannels){
-										appChannelIds.add(childChannel.getId());
+										if (appChannelIdSets.add(childChannel.getId())) appChannelIds.add(childChannel.getId());
 									}
 								}else{
 									Channel childChannel = channelDAO.getChannelByURL(siteId, childExpression.substring(1));
-									appChannelIds.add(childChannel.getId());
+									if (appChannelIdSets.add(childChannel.getId())) appChannelIds.add(childChannel.getId());
 								}
 							}
 						}else{
 							if (result.equals(absUrl) || result.equals(String.valueOf(channelId.intValue()))){
-								appChannelIds.add(template.getChannelId());
+								if (appChannelIdSets.add(template.getChannelId())) appChannelIds.add(template.getChannelId());
 							}
 						}
 					}catch(Exception e){
@@ -408,17 +411,24 @@ public class TemplateService implements TemplateServiceable{
 					}
 				}else{
 					if (result.equals(absUrl) || result.equals(String.valueOf(channelId.intValue()))){
-						appChannelIds.add(template.getChannelId());
+						if (appChannelIdSets.add(template.getChannelId())) appChannelIds.add(template.getChannelId());
 					}
 				}
 			}
 		}
 		
 		StringBuffer appChannelId = new StringBuffer();
-		for (Integer id : appChannelIds){
-			if (channelId.intValue() == id.intValue()) continue;
-			appChannelId.append(String.valueOf(id) + ",");
+		
+		if (appChannelIds.size() > 0){
+			Collections.sort(appChannelIds, new ChannelIdAscComparator());
+			int appChannelIdSize = appChannelIds.size();
+			for (int i = 0; i < appChannelIdSize - 1; i++){
+				if (channelId.intValue() == appChannelIds.get(i).intValue()) continue;
+				appChannelId.append(appChannelIds.get(i) + ",");
+			}
+			appChannelId.append(appChannelIds.get(appChannelIdSize - 1));
 		}
+		
 		return appChannelId;
 	}
 	
@@ -456,5 +466,19 @@ public class TemplateService implements TemplateServiceable{
 		Channel channel = channelDAO.get(channelId);
 		channel.setAppChannel(channelIds.toString());
 		channelDAO.merge(channel);
+	}
+	
+	class ChannelIdAscComparator implements Comparator<Integer>{
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			if (o1 > o2){
+				return 1;
+			}else{
+				if (o1 == o2)
+					return 0;
+				else
+					return -1;
+			}
+		}
 	}
 }

@@ -8,6 +8,7 @@
 		<script type="text/javascript"> 
 	    	$(function() {
 		        <s:include value="../../alertMessage.jsp"/>
+		        <s:if test="channelVo.appChannel==null">$('#span-viewconnect').hide();</s:if><s:else>$('#span-viewconnect').show();</s:else>;
 	    	});
 	    	function openImageWindow(){
 	    		var ewcmsBOBJ = new EwcmsBase();
@@ -48,6 +49,7 @@
 					$.messager.alert('提示', data, 'info');
 					if (data.indexOf('完成') > 0){
 						$('#span-connect').html('已建立');
+						$('#span-viewconnect').show();
 					}
 				});
 				return false;
@@ -57,9 +59,15 @@
 					$.messager.alert('提示', data, 'info');
 					if (data.indexOf('完成') > 0){
 						$('#span-connect').html('已断开');
+						$('#span-viewconnect').hide();
 					}
 				});
 				return false;
+			}
+			function viewConnect(){
+				var ewcmsBOBJ = new EwcmsBase();
+				var url = '<s:url action="appIndex" namespace="/site/channel"/>?channelId=<s:property value="channelVo.id"/>';
+				ewcmsBOBJ.openWindow("#connect-window",{width:650,height:370,url:url,title:"查看被引用栏目"});
 			}
 	    </script>
 	</head>
@@ -127,6 +135,7 @@
 					    <span id="span-connect"><s:if test="channelVo.appChannel==null">已断开</s:if><s:else>已建立</s:else></span>&nbsp;
 					    <a class="easyui-linkbutton" icon="icon-connect" href="javascript:void(0);" onclick="connectOperate();">重建</a>
 					    <a class="easyui-linkbutton" icon="icon-disconnect"  href="javascript:void(0);" onclick="disConnectOperate();">断开</a>
+					    <span id="span-viewconnect"><a class="easyui-linkbutton" icon=""  href="javascript:void(0);" onclick="viewConnect();">查看</a></span>
 					  </td>
 					</tr>
 					<tr>
@@ -191,6 +200,13 @@
                 <div region="south" border="false" style="text-align:right;height:30px;line-height:30px;padding:3px 6px;">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="indertIconUrl();">插入</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="$('#insert-window').window('close');return false;">取消</a>
+                </div>
+            </div>
+        </div>
+        <div id="connect-window" class="easyui-window" title="查看被引用栏目" icon="icon-save" closed="true" style="display:none;">
+            <div class="easyui-layout" fit="true">
+                <div region="center" border="false">
+                	<iframe id="editifr_pop"  name="editifr_pop" class="editifr" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
                 </div>
             </div>
         </div>	

@@ -230,4 +230,20 @@ public interface SiteFacable {
 	 * @return True:正确,False:错误
 	 */
 	public Boolean verify(Integer templateId);
+	
+	/**
+	 * 查看已关联栏目
+	 * 
+	 * @param channelId 栏目编号
+	 * @return List
+	 */
+	public List<Integer> findAssociatedChannel(Integer channelId);
+	
+	/**
+	 * 删除关联栏目
+	 * 
+	 * @param channelId 栏目编号
+	 * @param appChannelId 应用关联栏目
+	 */
+	public void delAppChannel(Integer channelId, Integer appChannelId);
 }

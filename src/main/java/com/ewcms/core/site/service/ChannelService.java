@@ -460,4 +460,47 @@ public class ChannelService implements ChannelServiceable{
 		}catch(Exception e){
 		}
 	}
+	
+	@Override
+	public List<Integer> findAppChannel(Integer channelId){
+		List<Integer> channelIds = new ArrayList<Integer>();
+		Channel channel = channelDAO.get(channelId);
+		String appChannel = channel.getAppChannel();
+		if (appChannel != null && appChannel.length() > 0){
+			String[] appChannelIds = appChannel.split(",");
+			for (String appChannelId : appChannelIds){
+				try{
+					Channel vo = channelDAO.get(Integer.valueOf(appChannelId));
+					if (vo != null && vo.getId() != null) {
+						channelIds.add(vo.getId());
+					}
+				}catch(Exception e){
+				}
+			}
+		}
+		
+		return channelIds;
+	}
+	
+	@Override
+	public void delAppChannel(Integer channelId, Integer appChannelId){
+		List<Integer> appChannelIds = findAppChannel(channelId);
+		if (!appChannelIds.isEmpty()){
+			appChannelIds.remove(appChannelId);
+			Channel channel = channelDAO.get(channelId);
+			if (appChannelIds.isEmpty()){
+				channel.setAppChannel(null);
+			}else{
+				StringBuffer sb = new StringBuffer();
+				int appChannelIdSize = appChannelIds.size();
+				for (int i = 0; i < appChannelIdSize - 1; i++){
+					if (channelId.intValue() == appChannelIds.get(i).intValue()) continue;
+					sb.append(appChannelIds.get(i) + ",");
+				}
+				sb.append(appChannelIds.get(appChannelIdSize - 1));
+				channel.setAppChannel(sb.toString());
+			}
+			channelDAO.merge(channel);
+		}		
+	}
 }
