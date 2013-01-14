@@ -77,4 +77,26 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
 
     	return query.getResultList();
     }
+    
+    public List<Article> findChildChannelArticleReleasePage(final List<Integer> channelIds, final Integer page, final Integer row, final Boolean top){
+    	String hql = "Select m.article From ArticleMain As m Where m.channelId In (:channelIds) And m.article.status=:status And m.top In (:tops)  Order By m.sort Asc, m.article.published Desc, m.id Desc";
+    	int startRow = page * row;
+    	List<Boolean> tops = new ArrayList<Boolean>();
+    	if (top == null) {
+    		tops.add(Boolean.FALSE);
+    		tops.add(Boolean.TRUE);
+    	} else {
+    		tops.add(top);
+    	}
+
+    	TypedQuery<Article> query = this.getEntityManager().createQuery(hql, Article.class);
+    	query.setParameter("channelIds", channelIds);
+    	query.setParameter("status", Status.RELEASE);
+    	query.setParameter("tops", tops);
+    	query.setFirstResult(startRow);
+    	query.setMaxResults(row);
+    	// .setHint("org.hibernate.cacheable", true);
+
+    	return query.getResultList();
+    }
 }

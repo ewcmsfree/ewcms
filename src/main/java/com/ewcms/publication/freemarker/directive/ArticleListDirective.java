@@ -8,6 +8,7 @@ package com.ewcms.publication.freemarker.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,13 +49,15 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     private static final String ROW_PARAM_NAME = "row";
     private static final String NAME_PARAM_NAME = "name";
     private static final String TOP_PARAM_NAME = "top";
-    private static final String ABSOLUTE_PARAM_NAME = "absolute ";
+    private static final String ABSOLUTE_PARAM_NAME = "absolute";
+    private static final String CHILD_PARAM_NAME="child";
     
     private String channelParam = CHANNEL_PARAM_NAME;
     private String rowParam = ROW_PARAM_NAME;
     private String nameParam = NAME_PARAM_NAME;
     private String topParam = TOP_PARAM_NAME;
     private String absoluteParam = ABSOLUTE_PARAM_NAME;
+    private String childParam = CHILD_PARAM_NAME;
 
     private ArticlePublishServiceable articleService;
     private ChannelPublishServiceable channelService;
@@ -67,7 +70,9 @@ public class ArticleListDirective implements TemplateDirectiveModel {
     @SuppressWarnings("rawtypes")
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-        Integer siteId = getSiteIdValue(env);
+    	boolean child = getChildValue(params);
+    	
+    	Integer siteId = getSiteIdValue(env);
 
         Channel channel = getChannel(env, params, siteId);
         Channel currentChannel = getCurrentChannel(env);
@@ -82,12 +87,15 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         }
 
         Integer row = getRowValue(params,channel,env);
-        Integer pageNumber =getPageNumberValue(env
-                    ,channel.equals(currentChannel)
-                    ,getAbsoluteValue(params));
+        Integer pageNumber = getPageNumberValue(env ,channel.equals(currentChannel) ,getAbsoluteValue(params));
         Boolean top = getTopValue(params);
 
-        List<Article> articles = articleService.findArticleReleasePage(channel.getId(), pageNumber, row,top); 
+        List<Article> articles = new ArrayList<Article>();
+        if (child){
+        	articles = articleService.findChildChannelArticleReleasePage(channel.getId(), pageNumber, row, top);
+        }else{
+        	articles = articleService.findArticleReleasePage(channel.getId(), pageNumber, row,top);
+        }
 
         if(EmptyUtil.isArrayNotEmpty(loopVars)){
             loopVars[0] = env.getObjectWrapper().wrap(articles);
@@ -273,6 +281,11 @@ public class ArticleListDirective implements TemplateDirectiveModel {
         return value == null ? DEFAULT_ABSOLUTE : value;
     }
     
+    @SuppressWarnings("rawtypes")
+    private boolean getChildValue(Map params) throws TemplateException {
+        Boolean value = FreemarkerUtil.getBoolean(params, childParam);
+        return value == null ? false : value;
+    }
     /**
      * 得到显示页面数
      *
@@ -337,5 +350,14 @@ public class ArticleListDirective implements TemplateDirectiveModel {
      */
     public void setAbsoluteParam(String absoluteParam) {
         this.absoluteParam = absoluteParam;
+    }
+    
+    /**
+     * 设置标签是否是子频道参数名
+     * 
+     * @param paramName 参数名称
+     */
+    public void setChildParam(String childParam) {
+        this.childParam = childParam;
     }
 }

@@ -62,6 +62,17 @@ public interface ArticlePublishServiceable {
      * @return
      */
     List<Article> findArticleReleasePage(Integer channelId,Integer page,Integer row,Boolean top);
+    
+    /**
+     * 得到指定子频道的页面文章
+     * 
+     * @param channelId 频道编号
+     * @param page 页数
+     * @param row 行数
+     * @param top 顶置文章
+     * @return
+     */
+    List<Article> findChildChannelArticleReleasePage(Integer channelId,Integer page,Integer row,Boolean top);
 
     /**
      * 得到频道已经发布的文章总数

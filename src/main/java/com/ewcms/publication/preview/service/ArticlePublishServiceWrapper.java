@@ -70,6 +70,15 @@ public class ArticlePublishServiceWrapper implements ArticlePublishServiceable,M
         throw new RuntimeException("it's not instance.");
     }
 
+	@Override
+	public List<Article> findChildChannelArticleReleasePage(Integer channelId, Integer page, Integer row, Boolean top) {
+		if(mock){
+			Article article = getArticleMock();
+	        return releaseArticlesMock(article,row);
+	     }
+	     return service.findArticleReleasePage(channelId, page, row, top);
+	}
+	
     private List<Article> releaseArticlesMock(Article article,int row){
         List<Article> articles = new ArrayList<Article>();
         for(int i = 0 ; i < row ; i++){

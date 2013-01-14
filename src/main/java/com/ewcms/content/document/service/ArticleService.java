@@ -5,6 +5,7 @@
  */
 package com.ewcms.content.document.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,27 @@ public class ArticleService implements ArticlePublishServiceable {
 		article.setUrl(url);
 		article.setStatus(Article.Status.RELEASE);
 		articleDAO.merge(article);
+	}
+
+	@Override
+	public List<Article> findChildChannelArticleReleasePage(Integer channelId, Integer page, Integer row, Boolean top) {
+		List<Integer> channelIds = new ArrayList<Integer>();
+		List<Channel> channels = channelDAO.getChannelChildren(channelId);
+		findChannelChild(channelIds, channels);
+		return articleDAO.findChildChannelArticleReleasePage(channelIds, page, row, top);
+	}
+	
+	private void findChannelChild(List<Integer> channelIds, List<Channel> channels){
+		if (channels != null && !channels.isEmpty()){
+			for (Channel channel : channels){
+				if (channel.getPublicenable()){
+					channelIds.add(channel.getId());
+				}
+				List<Channel> temp = channelDAO.getChannelChildren(channel.getId());
+				if (temp != null && !temp.isEmpty()){
+					findChannelChild(channelIds, temp);
+				}
+			}
+		}
 	}
 }
