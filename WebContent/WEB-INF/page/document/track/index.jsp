@@ -23,8 +23,8 @@
 							formatter : function(val, rec) {
 								var reason = '&nbsp;&nbsp;';
 								if (rec.reason != null && rec.reason.length > 0){
-									var url = parent.reasonURL + '?trackId=' + rec.id;
-									reason += '<a href="#" onclick="parent.showReason(\'' + url + '\');">原因</a>';
+									var reasonUrl = parent.reasonURL + '?trackId=' + rec.id;
+									reason += '<a href="#" onclick="parent.showReason(\'' + reasonUrl + '\');">原因</a>';
 								}
 								return val + reason; 
 							}

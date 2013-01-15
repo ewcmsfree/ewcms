@@ -15,7 +15,7 @@
 			queryURL = "<s:url namespace='/document/article' action='query'><s:param name='channelId' value='channelId'></s:param></s:url>";
 			inputURL = "<s:url namespace='/document/article' action='input'><s:param name='channelId' value='channelId'></s:param></s:url>";
 			deleteURL = "<s:url namespace='/document/article' action='delete'><s:param name='channelId' value='channelId'></s:param></s:url>";
-			reasonURL = "<s:url namespace='/document/article' action='reason'><s:param name='channelId' value='channelId'></s:param></s:url>";
+			reasonURL = "<s:url namespace='/document/article' action='reason'/>";
 			treeURL = "<s:url namespace='/site/channel' action='tree'/>";
 			trackURL = "<s:url namespace='/document/track' action='index'/>";
 			effectiveURL = "<s:url namespace='/document/article' action='reviewEffective'><s:param name='channelId' value='channelId'></s:param></s:url>";
