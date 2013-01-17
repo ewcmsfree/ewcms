@@ -503,4 +503,11 @@ public class ChannelService implements ChannelServiceable{
 			channelDAO.merge(channel);
 		}		
 	}
+
+	@Override
+	public Channel getChannelParent(Integer id) {
+		Channel channel = channelDAO.get(id);
+		if (channel != null && channel.getParent() != null) return channel.getParent();
+		return null;
+	}
 }

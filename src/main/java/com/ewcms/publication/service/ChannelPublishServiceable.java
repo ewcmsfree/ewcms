@@ -55,6 +55,14 @@ public interface ChannelPublishServiceable {
     public List<Channel> getChannelChildren(Integer id);
     
     /**
+     * 得到所属频道父频道编号 
+     * 
+     * @param id 频道编号
+     * @return
+     */
+    public Channel getChannelParent(Integer id);
+    
+    /**
      * 通过频道访问链接地址和路径的频道对象
      * 
      * @param siteId 站点编号

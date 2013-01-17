@@ -75,7 +75,7 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannel(1, 1, false,false);
+        List<Channel> list = directive.loadingChannel(1, 1, false, false, false);
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals(1, list.size());
     }
@@ -87,7 +87,7 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannel(any(Integer.class), any(Integer.class))).thenReturn(channel);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannel(1, 1, false,true);
+        List<Channel> list = directive.loadingChannel(1, 1, false, false,true);
         Assert.assertEquals(1, list.size());
     }
    
@@ -101,7 +101,7 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannel(1, 1, true,false);
+        List<Channel> list = directive.loadingChannel(1, 1, false, true,false);
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals(3, list.size());
     }
@@ -115,7 +115,7 @@ public class ChannelListDirectiveTest extends FreemarkerTest {
         when(service.getChannelChildren(any(Integer.class))).thenReturn(children);
         ChannelListDirective directive = new ChannelListDirective(service);
         
-        List<Channel> list = directive.loadingChannel(1, 1, true,true);
+        List<Channel> list = directive.loadingChannel(1, 1, false, true,true);
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals(5, list.size());
     }
