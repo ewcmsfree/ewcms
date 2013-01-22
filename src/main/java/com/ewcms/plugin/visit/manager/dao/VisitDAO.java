@@ -906,7 +906,7 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		String hql = "Select i.url, Sum(i.pageView) "
 				+ "From Visit As v, VisitItem As i "
 				+ "Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId "
-				+ "Group By url";
+				+ "Group By i.url";
 
 		TypedQuery<Object[]> query = this.getEntityManager().createQuery(hql, Object[].class);
 		query.setParameter("startDate", startDate);
@@ -1261,16 +1261,16 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	public List<PublishedVo> findStaffReleased(final Date start, final Date end, final Integer siteId, final Integer channelId) {
 		String hql = "Select new " + PUBLISHED_CLASS_NAME + "(o.name, i.username, i.name "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'DRAFT' and a.owner=i.username And m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'DRAFT' and a.owner=i.username And m.channelId=c.id "
 				+ "            And s.id=:siteId @startCreate@ @endCreate@ @channelId@) As draftSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REEDIT' and a.owner=i.username And m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REEDIT' and a.owner=i.username And m.channelId=c.id "
 				+ "            And s.id=:siteId @startModified@ @endModified@ @channelId@) As reeditSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REVIEW' and a.owner=i.username And m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REVIEW' and a.owner=i.username And m.channelId=c.id "
 				+ "            And s.id=:siteId @startModified@ @endModified@ @channelId@) As reviewSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'RELEASE' and a.owner=i.username And m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'RELEASE' and a.owner=i.username And m.channelId=c.id "
 				+ "            And s.id=:siteId @startPublished@ @endPublished@ @channelId@) As releaseSum) "
 				+ "From com.ewcms.security.manage.model.User As u Left Join u.userInfo As i Left Join u.organ As o "
 				+ "Group By o.name, i.username, i.name "
@@ -1328,16 +1328,16 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	public PublishedVo findChannelReleased(final Date start, final Date end, final Integer channelId, final Integer siteId){
 		String hql = "Select new " + PUBLISHED_CLASS_NAME + "(c.name "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'DRAFT' and m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'DRAFT' and m.channelId=c.id "
 				+ "            @startCreate@ @endCreate@) As draftSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REEDIT' and m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REEDIT' and m.channelId=c.id "
 				+ "            @startModified@ @endModified@) As reeditSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REVIEW' and m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REVIEW' and m.channelId=c.id "
 				+ "            @startModified@ @endModified@) As reviewSum "
 				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
-				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'RELEASE' and m.channelId=c.id "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'RELEASE' and m.channelId=c.id "
 				+ "            @startPublished@ @endPublished@) As releaseSum) "
 				+ "From com.ewcms.core.site.model.Channel As c Left Join c.site As s "
 				+ "Where c.id=:channelId And s.id=:siteId "

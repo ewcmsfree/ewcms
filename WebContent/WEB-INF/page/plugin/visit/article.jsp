@@ -17,10 +17,11 @@
 					pagination : false,
 					nowrap : true,
 					striped : true,
+					fitColumns : true,
 					url : tableUrl,
 				    columns:[[  
 				            {field:'channelName',title:'栏目名称',width:150}, 
-				            {field:'title',title:'标题',width:200,
+				            {field:'title',title:'标题',width:300,
 				            	formatter : function(val, rec){
 				            		return '<a href="' + rec.url + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}	

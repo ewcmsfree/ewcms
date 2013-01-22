@@ -20,6 +20,7 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
+					fitColumns : true,
 					url : '<s:url namespace="/plugin/visit" action="lastVisitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'ipValue',title:'IP地址',width:100},

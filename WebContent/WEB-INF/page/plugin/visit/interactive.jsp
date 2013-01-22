@@ -117,7 +117,7 @@
 			            		return rec.data.zxtgCount + rec.data.tstgCount + rec.data.jytgCount;
 			            	}	
 			            },
-			            {field:'wtgsumCount',title:'已通过',width:60,
+			            {field:'wtgsumCount',title:'未通过',width:60,
 			            	formatter : function(val, rec){
 			            		if (rec.data != null)
 			            		return rec.data.zxwtgCount + rec.data.tswtgCount + rec.data.jywtgCount;

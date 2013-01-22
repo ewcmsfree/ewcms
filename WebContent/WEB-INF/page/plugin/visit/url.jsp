@@ -20,6 +20,7 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
+					fitColumns : true,
 					url : '<s:url namespace="/plugin/visit" action="urlTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'url',title:'URL',width:300,

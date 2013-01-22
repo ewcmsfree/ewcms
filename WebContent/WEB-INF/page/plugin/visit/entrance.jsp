@@ -20,6 +20,7 @@
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
+					fitColumns : true,
 					url : '<s:url namespace="/plugin/visit" action="entranceTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'eeUrl',title:'入口URL',width:600,
