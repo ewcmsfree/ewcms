@@ -16,6 +16,8 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.ewcms.common.dao.JpaDAO;
+import com.ewcms.plugin.visit.manager.vo.InteractiveVo;
+import com.ewcms.plugin.visit.manager.vo.PublishedVo;
 import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
 import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
@@ -36,6 +38,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	private static final String SUMMARY_CLASS_NAME = SummaryVo.class.getPackage().getName() + "." + SummaryVo.class.getSimpleName();
 	private static final String LOYALTY_CLASS_NAME = LoyaltyVo.class.getPackage().getName() + "." + LoyaltyVo.class.getSimpleName();
 	private static final String SOURCE_CLASS_NAME = ClickRateVo.class.getPackage().getName() + "." + ClickRateVo.class.getSimpleName();
+	private static final String PUBLISHED_CLASS_NAME = PublishedVo.class.getPackage().getName() + "." + PublishedVo.class.getSimpleName();
+	private static final String Interactive_CLASS_NAME = InteractiveVo.class.getPackage().getName() + "." + InteractiveVo.class.getSimpleName();
 
 	/**
 	 * 查询开始统计分析最早的日期
@@ -1245,4 +1249,256 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 		return map;
 	}
 
+	/**
+	 * 人员发布统计
+	 * 
+	 * @param start 开始时间
+	 * @param end 结束时间
+	 * @param siteId 站点编号
+	 * @param channelId 频道编号
+	 * @return List PublishedVo对象集合
+	 */
+	public List<PublishedVo> findStaffReleased(final Date start, final Date end, final Integer siteId, final Integer channelId) {
+		String hql = "Select new " + PUBLISHED_CLASS_NAME + "(o.name, i.username, i.name "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'DRAFT' and a.owner=i.username And m.channelId=c.id "
+				+ "            And s.id=:siteId @startCreate@ @endCreate@ @channelId@) As draftSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REEDIT' and a.owner=i.username And m.channelId=c.id "
+				+ "            And s.id=:siteId @startModified@ @endModified@ @channelId@) As reeditSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REVIEW' and a.owner=i.username And m.channelId=c.id "
+				+ "            And s.id=:siteId @startModified@ @endModified@ @channelId@) As reviewSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a, com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'RELEASE' and a.owner=i.username And m.channelId=c.id "
+				+ "            And s.id=:siteId @startPublished@ @endPublished@ @channelId@) As releaseSum) "
+				+ "From com.ewcms.security.manage.model.User As u Left Join u.userInfo As i Left Join u.organ As o "
+				+ "Group By o.name, i.username, i.name "
+				+ "Order By releaseSum Desc, reviewSum Desc, reeditSum Desc, draftSum Desc";
+		
+		String startCreateTimeHql = " And a.createTime>=:start ";
+		String endCreateTimeHql = " And a.createTime<=:end ";
+		String startModifiedHql = " And a.modified>=:start ";
+		String endModifiedHql = " And a.modified<=:end ";
+		String startPublishedHql = " And a.published>=:start ";
+		String endPublishedHql = " And a.published<=:end ";
+		String channelIdHql = " And c.id=:channelId ";
+		
+		if (start != null){
+			hql = hql.replace("@startCreate@", startCreateTimeHql).replace("@startModified@", startModifiedHql).replace("@startPublished@", startPublishedHql);
+		}else{
+			hql = hql.replace("@startCreate@", "").replace("@startModified@", "").replace("@startPublished@", "");
+		}
+		
+		if (end != null){
+			hql = hql.replace("@endCreate@", endCreateTimeHql).replace("@endModified@", endModifiedHql).replace("@endPublished@", endPublishedHql);
+		}else{
+			hql = hql.replace("@endCreate@", "").replace("@endModified@", "").replace("@endPublished@", "");
+		}
+		
+		if (channelId != null){
+			hql = hql.replace("@channelId@", channelIdHql);
+		}else{
+			hql = hql.replace("@channelId@", "");
+		}
+		
+		TypedQuery<PublishedVo> query = this.getEntityManager().createQuery(hql, PublishedVo.class);
+		
+		query.setParameter("siteId", siteId);
+		if (start != null){
+			query.setParameter("start", start);
+		}
+		if (end != null){
+			query.setParameter("end", end);
+		}
+		if (channelId != null){
+			query.setParameter("channelId", channelId);
+		}
+		
+		return query.getResultList();
+	}
+	
+	/**
+	 * 栏目发布统计
+	 * 
+	 * @param start 开始日期
+	 * @param end 结束日期
+	 * @param siteId 站点编号
+	 */
+	public PublishedVo findChannelReleased(final Date start, final Date end, final Integer channelId, final Integer siteId){
+		String hql = "Select new " + PUBLISHED_CLASS_NAME + "(c.name "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'DRAFT' and m.channelId=c.id "
+				+ "            @startCreate@ @endCreate@) As draftSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REEDIT' and m.channelId=c.id "
+				+ "            @startModified@ @endModified@) As reeditSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'REVIEW' and m.channelId=c.id "
+				+ "            @startModified@ @endModified@) As reviewSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "      Where m.reference = false and m.share = false and a.delete = false and a.status = 'RELEASE' and m.channelId=c.id "
+				+ "            @startPublished@ @endPublished@) As releaseSum) "
+				+ "From com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "Where c.id=:channelId And s.id=:siteId "
+				+ "Group By c.id, c.name ";
+		
+		String startCreateTimeHql = " And a.createTime>=:start ";
+		String endCreateTimeHql = " And a.createTime<=:end ";
+		String startModifiedHql = " And a.modified>=:start ";
+		String endModifiedHql = " And a.modified<=:end ";
+		String startPublishedHql = " And a.published>=:start ";
+		String endPublishedHql = " And a.published<=:end ";
+		
+		if (start != null){
+			hql = hql.replace("@startCreate@", startCreateTimeHql).replace("@startModified@", startModifiedHql).replace("@startPublished@", startPublishedHql);
+		}else{
+			hql = hql.replace("@startCreate@", "").replace("@startModified@", "").replace("@startPublished@", "");
+		}
+		
+		if (end != null){
+			hql = hql.replace("@endCreate@", endCreateTimeHql).replace("@endModified@", endModifiedHql).replace("@endPublished@", endPublishedHql);
+		}else{
+			hql = hql.replace("@endCreate@", "").replace("@endModified@", "").replace("@endPublished@", "");
+		}
+		
+		TypedQuery<PublishedVo> query = this.getEntityManager().createQuery(hql, PublishedVo.class);
+		
+		query.setParameter("siteId", siteId);
+		query.setParameter("channelId", channelId);
+		if (start != null){
+			query.setParameter("start", start);
+		}
+		if (end != null){
+			query.setParameter("end", end);
+		}
+		
+		try{
+			return query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	/**
+	 * 政民互动统计
+	 * 
+	 * @param start 开始日期
+	 * @param end 结束日期
+	 * @param organId 组织编号
+	 */
+	public InteractiveVo findInteractive(final Date start, final Date end, final Integer organId){
+		String hql = "Select new " + Interactive_CLASS_NAME + "(o.name "
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=1 And i.state=0 and i.organId=o.id" 
+				+ "            @startDate@ @endDate@) As zxblCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=1 And i.state=1 and i.organId=o.id" 
+				+ "            @startReplayDate@ @endReplayDate@) As zxhfCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=1 And i.checked=true And i.organId=o.id"
+				+ "            @startReplayDate@ @endReplayDate@) As zxtgCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=1 And i.checked=false And i.organId=o.id"
+				+ "            @startDate@ @endDate@) As zxwtgCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=2 And i.state=0 and i.organId=o.id"
+				+ "            @startDate@ @endDate@) As tsblCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=2 And i.state=1 and i.organId=o.id"
+				+ "            @startReplayDate@ @endReplayDate@) As tshfCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=2 And i.checked=true And i.organId=o.id"
+				+ "            @startReplayDate@ @endReplayDate@) As tstgCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=2 And i.checked=false And i.organId=o.id"
+				+ "            @startDate@ @endDate@) As tswtgCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=3 And i.state=0 and i.organId=o.id"
+				+ "            @startDate@ @endDate@) As jyblCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=3 And i.state=1 and i.organId=o.id"
+				+ "            @startReplayDate@ @endReplayDate@) As jyhfCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=3 And i.checked=true And i.organId=o.id"
+				+ "            @startReplayDate@ @endReplayDate@) As jytgCount"
+				+ ",(Select Count(i.id) From Interaction As i Where i.type=3 And i.checked=false And i.organId=o.id"
+				+ "            @startDate@ @endDate@) As jytgCount) "
+				+ "From Organ As o "
+				+ "Where o.id=:organId "
+				+ "Group By o.id, o.name";
+		
+		String startDate = " And i.date>=:start ";
+		String endDate = " And i.date<=:end ";
+		String startReplayDate = " And i.replayDate>=:start ";
+		String endReplayDate = " And i.replayDate<=:end ";
+		
+		if (start != null){
+			hql = hql.replace("@startDate@", startDate).replace("@startReplayDate@", startReplayDate);
+		}else{
+			hql = hql.replace("@startDate@", "").replace("@startReplayDate@", "");
+		}
+		
+		if (end != null){
+			hql = hql.replace("@endDate@", endDate).replace("@endReplayDate@", endReplayDate);
+		}else{
+			hql = hql.replace("@endDate@", "").replace("@endReplayDate@", "");
+		}
+		
+		TypedQuery<InteractiveVo> query = this.getEntityManager().createQuery(hql, InteractiveVo.class);
+		query.setParameter("organId", organId);
+
+		if (start != null){
+			query.setParameter("start", start);
+		}
+		if (end != null){
+			query.setParameter("end", end);
+		}
+		
+		try{
+			return query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	/**
+	 * 网上咨询统计
+	 * 
+	 * @param start 开始日期
+	 * @param end 结束日期
+	 * @param organId 组织编号
+	 */
+	public InteractiveVo findAdvisory(final Date start, final Date end, final Integer organId){
+		String hql = "Select new " + Interactive_CLASS_NAME + "(o.name "
+				+ ",(Select Count(i.id) From Advisor As i Where i.state=1 and i.organ.id=o.id" 
+				+ "            @startReplayDate@ @endReplayDate@) As tgCount"
+				+ ",(Select Count(i.id) From Advisor As i Where i.state=1 and i.organ.id=o.id" 
+				+ "            @startDate@ @endDate@) As wtgCount)"
+				+ "From Organ As o "
+				+ "Where o.id=:organId "
+				+ "Group By o.id, o.name";
+		
+		String startDate = " And i.date>=:start ";
+		String endDate = " And i.date<=:end ";
+		String startReplayDate = " And i.replayDate>=:start ";
+		String endReplayDate = " And i.replayDate<=:end ";
+		
+		if (start != null){
+			hql = hql.replace("@startDate@", startDate).replace("@startReplayDate@", startReplayDate);
+		}else{
+			hql = hql.replace("@startDate@", "").replace("@startReplayDate@", "");
+		}
+		
+		if (end != null){
+			hql = hql.replace("@endDate@", endDate).replace("@endReplayDate@", endReplayDate);
+		}else{
+			hql = hql.replace("@endDate@", "").replace("@endReplayDate@", "");
+		}
+		
+		TypedQuery<InteractiveVo> query = this.getEntityManager().createQuery(hql, InteractiveVo.class);
+		query.setParameter("organId", organId);
+
+		if (start != null){
+			query.setParameter("start", start);
+		}
+		if (end != null){
+			query.setParameter("end", end);
+		}
+		
+		try{
+			return query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}
 }

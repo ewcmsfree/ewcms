@@ -305,6 +305,7 @@
                	    </div>
                	</div>
                 </sec:authorize>
+                <!-- 
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
                 <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
@@ -327,6 +328,7 @@
                     </div>
                 </div>
                 </sec:authorize>
+                 -->
             </div>
         </div>
         <div region="center" style="overflow:hidden;">

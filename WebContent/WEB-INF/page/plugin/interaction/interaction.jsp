@@ -28,7 +28,7 @@
                                 formatter:function(val,rec){
                                     if (val == 1){return '在线咨询';}
                                     if (val == 2){return '投诉监督';}
-                                    if (val == 3){return '建言献策'};
+                                    if (val == 3){return '建言献策';}
                                 }
                             },
                             {field:'state',title:'状态',width:60,

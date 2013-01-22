@@ -35,7 +35,8 @@ public class VisitTreeAction extends ActionSupport {
 	private static Map<String, String> threeTreeMap = new TreeMap<String, String>();
 	private static Map<String, String> fourTreeMap = new TreeMap<String, String>();
 	private static Map<String, String> fiveTreeMap = new TreeMap<String, String>();
-//	private static Map<String, String> sixTreeMap = new TreeMap<String, String>();
+	private static Map<String, String> sixTreeMap = new TreeMap<String, String>();
+	private static Map<String, String> sevenTreeMap = new TreeMap<String, String>();
 	
 	static{
 		oneTreeMap.put("0综合报告", "summary");
@@ -70,8 +71,12 @@ public class VisitTreeAction extends ActionSupport {
 		fiveTreeMap.put("6Flash版本", "flashVersion");
 		fiveTreeMap.put("7是否允许Cookies", "cookieEnabled");
 		
-//		sixTreeMap.put("0人员发布统计", "");
-//		sixTreeMap.put("1栏目发布统计", "");
+		sixTreeMap.put("0人员发布统计", "staffReleased");
+		sixTreeMap.put("1栏目发布统计", "channelReleased");
+		
+		sevenTreeMap.put("0政民互动统计", "interactive");
+		sevenTreeMap.put("1网上咨询统计", "advisory");
+		//sevenTreeMap.put("2留言审核统计", "audit");
 	}
 	
 	public void tree() {
@@ -140,9 +145,19 @@ public class VisitTreeAction extends ActionSupport {
 			twoNode.setState("open");
 			twoNode.setIconCls(ICON_CLS_NOTE);
 			
-//			threeNodes = getThreeNode(sixTreeMap.entrySet().iterator()); 
-//			twoNode.setChildren(threeNodes);
-//			twoNodes.add(twoNode);
+			threeNodes = getThreeNode(sixTreeMap.entrySet().iterator()); 
+			twoNode.setChildren(threeNodes);
+			twoNodes.add(twoNode);
+			
+			twoNode = new TreeNode();
+			twoNode.setId((id++).toString());
+			twoNode.setText("互动统计");
+			twoNode.setState("open");
+			twoNode.setIconCls(ICON_CLS_NOTE);
+			
+			threeNodes = getThreeNode(sevenTreeMap.entrySet().iterator()); 
+			twoNode.setChildren(threeNodes);
+			twoNodes.add(twoNode);
 			
 			rootNode.setChildren(twoNodes);
 			Struts2Util.renderJson(JSONUtil.toJSON(new TreeNode[]{rootNode}));

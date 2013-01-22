@@ -8,12 +8,14 @@ package com.ewcms.plugin.visit.manager;
 import java.util.List;
 
 import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
+import com.ewcms.plugin.visit.manager.vo.PublishedVo;
 import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
+import com.ewcms.web.vo.TreeGridNode;
 
 /**
  * 
@@ -432,4 +434,43 @@ public interface VisitFacable {
 	 * @return String 图形格式字符串
 	 */
 	public String findWebSiteTrendReport(String startDate, String endDate, String webSite, Integer labelCount, Integer siteId);
+	
+	/**
+	 * 人员发布统计
+	 * 
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 * @param siteId 站点编号
+	 * @param channelId 频道编号
+	 * @return List PublishedVo对象集合
+	 */
+	public List<PublishedVo> findStaffReleased(String startDate, String endDate, Integer siteId, Integer channelId);
+	
+	/**
+	 * 栏目发布统计
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param siteId 站点编号
+	 * @return List TreeGridNode对象集合
+	 */
+	public List<TreeGridNode> findChannelRelease(String startDate, String endDate, Integer siteId);
+	
+	/**
+	 * 政民互动统计
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @return List TreeGridNode对象集合
+	 */
+	public List<TreeGridNode> findInteractive(String startDate, String endDate);
+	
+	/**
+	 * 网上咨询统计
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @return List TreeGridNode对象集合
+	 */
+	public List<TreeGridNode> findAdvisory(String startDate, String endDate);
 }

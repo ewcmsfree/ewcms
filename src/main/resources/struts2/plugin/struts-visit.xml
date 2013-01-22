@@ -240,5 +240,21 @@
 			<result>/WEB-INF/page/plugin/visit/webSiteTrend.jsp</result>
 		</action>
 		<action name="webSiteTrendReport" class="com.ewcms.plugin.visit.manager.web.ClickRateAction" method="webSiteTrendReport"/>
+		<action name="staffReleased" class="com.ewcms.plugin.visit.manager.web.PublishedAction">
+			<result>/WEB-INF/page/plugin/visit/staffReleased.jsp</result>
+		</action>
+		<action name="staffReleasedTable" class="com.ewcms.plugin.visit.manager.web.PublishedAction" method="staffReleasedTable"/>
+		<action name="channelReleased" class="com.ewcms.plugin.visit.manager.web.PublishedAction">
+			<result>/WEB-INF/page/plugin/visit/channelReleased.jsp</result>
+		</action>
+		<action name="channelReleasedTable" class="com.ewcms.plugin.visit.manager.web.PublishedAction" method="channelReleasedTable"/>
+		<action name="interactive" class="com.ewcms.plugin.visit.manager.web.InteractiveAction">
+			<result>/WEB-INF/page/plugin/visit/interactive.jsp</result>
+		</action>
+		<action name="interactiveTable" class="com.ewcms.plugin.visit.manager.web.InteractiveAction" method="interactiveTable"/>
+		<action name="advisory" class="com.ewcms.plugin.visit.manager.web.InteractiveAction">
+			<result>/WEB-INF/page/plugin/visit/advisory.jsp</result>
+		</action>
+		<action name="advisoryTable" class="com.ewcms.plugin.visit.manager.web.InteractiveAction" method="advisoryTable"/>
 	</package>
 </struts>	

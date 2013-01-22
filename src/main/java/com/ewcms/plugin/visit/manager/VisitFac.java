@@ -11,18 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.plugin.visit.manager.service.ClickRateServiceable;
+import com.ewcms.plugin.visit.manager.service.InteractiveServiceable;
+import com.ewcms.plugin.visit.manager.service.PublishedServiceable;
 import com.ewcms.plugin.visit.manager.service.TrafficServiceable;
 import com.ewcms.plugin.visit.manager.service.ClientServiceable;
 import com.ewcms.plugin.visit.manager.service.LoyaltyServiceable;
 import com.ewcms.plugin.visit.manager.service.SummaryServiceable;
 import com.ewcms.plugin.visit.manager.service.VisitServiceable;
 import com.ewcms.plugin.visit.manager.vo.ClickRateVo;
+import com.ewcms.plugin.visit.manager.vo.PublishedVo;
 import com.ewcms.plugin.visit.manager.vo.TrafficVo;
 import com.ewcms.plugin.visit.manager.vo.ClientVo;
 import com.ewcms.plugin.visit.manager.vo.SummaryVo;
 import com.ewcms.plugin.visit.manager.vo.LoyaltyVo;
 import com.ewcms.plugin.visit.model.Visit;
 import com.ewcms.plugin.visit.model.VisitItem;
+import com.ewcms.web.vo.TreeGridNode;
 
 /**
  * 
@@ -44,6 +48,10 @@ public class VisitFac implements VisitFacable {
 	private LoyaltyServiceable loyaltyService;
 	@Autowired
 	private ClickRateServiceable clickRateService;
+	@Autowired
+	private PublishedServiceable publishedService;
+	@Autowired
+	private InteractiveServiceable interactiveService;
 
 	@Override
 	public void addVisitByLoadEvent(Visit visit, VisitItem visitItem) {
@@ -345,5 +353,25 @@ public class VisitFac implements VisitFacable {
 	public String findWebSiteTrendReport(String startDate, String endDate,
 			String webSite, Integer labelCount, Integer siteId) {
 		return clickRateService.findWebSiteTrendReport(startDate, endDate, webSite, labelCount, siteId);
+	}
+
+	@Override
+	public List<PublishedVo> findStaffReleased(String startDate, String endDate, Integer siteId, Integer channelId) {
+		return publishedService.findStaffReleased(startDate, endDate, siteId, channelId);
+	}
+
+	@Override
+	public List<TreeGridNode> findChannelRelease(String startDate, String endDate, Integer siteId) {
+		return publishedService.findChannelRelease(startDate, endDate, siteId);
+	}
+
+	@Override
+	public List<TreeGridNode> findInteractive(String startDate, String endDate) {
+		return interactiveService.findInteractive(startDate, endDate);
+	}
+
+	@Override
+	public List<TreeGridNode> findAdvisory(String startDate, String endDate) {
+		return interactiveService.findAdvisory(startDate, endDate);
 	}
 }
