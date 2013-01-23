@@ -1381,6 +1381,75 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	}
 	
 	/**
+	 * 组织机构发布统计
+	 * 
+	 * @param start 开始日期
+	 * @param end 结束日期
+	 * @param siteId 站点编号
+	 */
+	public PublishedVo findOrganReleased(final Date start, final Date end, final Integer organId, final Integer siteId){
+		String hql = "Select new " + PUBLISHED_CLASS_NAME + "(o.name "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "    ,com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'DRAFT' and a.owner=u.username"
+				+ "            and s.id=:siteId and m.channelId=c.id "
+				+ "            @startCreate@ @endCreate@) As draftSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "    ,com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REEDIT' and a.owner=u.username "
+				+ "            and s.id=:siteId and m.channelId=c.id "
+				+ "            @startModified@ @endModified@) As reeditSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "    ,com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'REVIEW' and a.owner=u.username "
+				+ "            and s.id=:siteId and m.channelId=c.id "
+				+ "            @startModified@ @endModified@) As reviewSum "
+				+ ",(Select Count(a.id) From ArticleMain As m Left Join m.article As a "
+				+ "    ,com.ewcms.core.site.model.Channel As c Left Join c.site As s "
+				+ "      Where m.reference = false and a.delete = false and a.status = 'RELEASE' and a.owner=u.username "
+				+ "            and s.id=:siteId and m.channelId=c.id "
+				+ "            @startPublished@ @endPublished@) As releaseSum) "
+				+ "From com.ewcms.security.manage.model.User As u Right Join u.organ As o "
+				+ "Where o.id=:organId "
+				+ "Group By o.id, o.name, u.username ";
+		
+		String startCreateTimeHql = " And a.createTime>=:start ";
+		String endCreateTimeHql = " And a.createTime<=:end ";
+		String startModifiedHql = " And a.modified>=:start ";
+		String endModifiedHql = " And a.modified<=:end ";
+		String startPublishedHql = " And a.published>=:start ";
+		String endPublishedHql = " And a.published<=:end ";
+		
+		if (start != null){
+			hql = hql.replace("@startCreate@", startCreateTimeHql).replace("@startModified@", startModifiedHql).replace("@startPublished@", startPublishedHql);
+		}else{
+			hql = hql.replace("@startCreate@", "").replace("@startModified@", "").replace("@startPublished@", "");
+		}
+		
+		if (end != null){
+			hql = hql.replace("@endCreate@", endCreateTimeHql).replace("@endModified@", endModifiedHql).replace("@endPublished@", endPublishedHql);
+		}else{
+			hql = hql.replace("@endCreate@", "").replace("@endModified@", "").replace("@endPublished@", "");
+		}
+		
+		TypedQuery<PublishedVo> query = this.getEntityManager().createQuery(hql, PublishedVo.class);
+		
+		query.setParameter("siteId", siteId);
+		query.setParameter("organId", organId);
+		if (start != null){
+			query.setParameter("start", start);
+		}
+		if (end != null){
+			query.setParameter("end", end);
+		}
+		
+		try{
+			return query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}	
+	/**
 	 * 政民互动统计
 	 * 
 	 * @param start 开始日期

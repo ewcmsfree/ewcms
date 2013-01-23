@@ -73,6 +73,7 @@ public class VisitTreeAction extends ActionSupport {
 		
 		sixTreeMap.put("0人员发布统计", "staffReleased");
 		sixTreeMap.put("1栏目发布统计", "channelReleased");
+		sixTreeMap.put("2机构发布统计", "organReleased");
 		
 		sevenTreeMap.put("0政民互动统计", "interactive");
 		sevenTreeMap.put("1网上咨询统计", "advisory");

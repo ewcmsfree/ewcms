@@ -48,7 +48,7 @@ public class PublishedVo implements Serializable {
 	}
 	
 	/**
-	 * 栏目发布统计构造函数
+	 * 栏目发布统计/组织机构发布统计构造函数
 	 * 
 	 * @param name
 	 * @param draftCount
@@ -65,9 +65,6 @@ public class PublishedVo implements Serializable {
 		this.releaseCount = releaseCount;
 	}
 	
-	
-	
-
 	public String getOrganName() {
 		return organName;
 	}

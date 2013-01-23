@@ -51,4 +51,11 @@ public class PublishedAction extends VisitBaseAction {
 		List<TreeGridNode> nodes = visitFac.findChannelRelease(getStartDate(), getEndDate(), getSiteId());
 		Struts2Util.renderJson(JSONUtil.toJSON(nodes));
 	}
+	
+	/*========================== 政民互动统计 =================================*/
+	public void organReleasedTable(){
+		List<TreeGridNode> nodes = visitFac.findOrganReleased(getStartDate(), getEndDate(), getSiteId());
+		Struts2Util.renderJson(JSONUtil.toJSON(nodes));
+	}
+
 }

@@ -248,6 +248,10 @@
 			<result>/WEB-INF/page/plugin/visit/channelReleased.jsp</result>
 		</action>
 		<action name="channelReleasedTable" class="com.ewcms.plugin.visit.manager.web.PublishedAction" method="channelReleasedTable"/>
+		<action name="organReleased" class="com.ewcms.plugin.visit.manager.web.PublishedAction">
+			<result>/WEB-INF/page/plugin/visit/organReleased.jsp</result>
+		</action>
+		<action name="organReleasedTable" class="com.ewcms.plugin.visit.manager.web.PublishedAction" method="organReleasedTable"/>
 		<action name="interactive" class="com.ewcms.plugin.visit.manager.web.InteractiveAction">
 			<result>/WEB-INF/page/plugin/visit/interactive.jsp</result>
 		</action>

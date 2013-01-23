@@ -61,9 +61,6 @@ public class TemplateService implements TemplateServiceable{
 	public Integer addTemplate(Template vo){
 		templateDAO.persist(vo);
 		
-//		updAppChannel(vo.getChannelId());
-		verify(vo.getId());
-		
 		return vo.getId();
 	}
 	
@@ -72,7 +69,6 @@ public class TemplateService implements TemplateServiceable{
 		templateDAO.merge(vo);	
 		updPubPath(vo);
 		
-//		updAppChannel(vo.getChannelId());
 		verify(vo.getId());
 		
 		return vo.getId();

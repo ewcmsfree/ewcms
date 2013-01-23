@@ -374,4 +374,9 @@ public class VisitFac implements VisitFacable {
 	public List<TreeGridNode> findAdvisory(String startDate, String endDate) {
 		return interactiveService.findAdvisory(startDate, endDate);
 	}
+
+	@Override
+	public List<TreeGridNode> findOrganReleased(String startDate, String endDate, Integer siteId) {
+		return publishedService.findOrganReleased(startDate, endDate, siteId);
+	}
 }

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.core.site.dao.ChannelDAO;
+import com.ewcms.core.site.dao.OrganDAO;
 import com.ewcms.core.site.model.Channel;
+import com.ewcms.core.site.model.Organ;
 import com.ewcms.plugin.visit.manager.dao.VisitDAO;
 import com.ewcms.plugin.visit.manager.vo.PublishedVo;
 import com.ewcms.plugin.visit.util.DateTimeUtil;
@@ -26,6 +28,8 @@ public class PublishedService implements PublishedServiceable {
 	private VisitDAO visitDAO;
 	@Autowired
 	private ChannelDAO channelDAO;
+	@Autowired
+	private OrganDAO organDAO;
 	
 	@Override
 	public List<PublishedVo> findStaffReleased(String startDate, String endDate, Integer siteId, Integer channelId) {
@@ -101,5 +105,55 @@ public class PublishedService implements PublishedServiceable {
 		case EMPLOYEARTICLE : node.setIconCls("icon-channel-employearticle");break;
 		default : node.setIconCls("icon-channel-note");
 		}
+	}
+
+	@Override
+	public List<TreeGridNode> findOrganReleased(String startDate, String endDate, Integer siteId) {
+		Date start = DateTimeUtil.getStringToDate(startDate);
+		Date end = DateTimeUtil.getStringToDate(endDate);
+		
+		List<Organ> rootOrgans = organDAO.getOrganChildren(null);
+		
+		List<TreeGridNode> nodes = new ArrayList<TreeGridNode>();
+		for (Organ organ : rootOrgans){
+			PublishedVo vo = visitDAO.findOrganReleased(start, end, organ.getId(), siteId);
+			if (vo == null) continue;
+			
+			TreeGridNode node = new TreeGridNode();
+			node.setId(organ.getId());
+			node.setText(organ.getName());
+			node.setState("open");
+			node.setIconCls("icon-organ");
+			node.setData(vo);
+			
+			findOrganChildNode(node, organ.getId(), siteId, start, end);
+			
+			nodes.add(node);
+		}
+		
+		return nodes;
+	}
+	
+	private void findOrganChildNode(TreeGridNode parentNode, Integer parentId, Integer siteId, Date start, Date end){
+		List<TreeGridNode> treeGridNodes = new ArrayList<TreeGridNode>();
+		
+		List<Organ> organs = organDAO.getOrganChildren(parentId);
+		for (Organ organ : organs){
+			PublishedVo vo = visitDAO.findOrganReleased(start, end, organ.getId(), siteId);
+			if (vo == null) continue;
+			
+			TreeGridNode treeGridNode = new TreeGridNode();
+
+			treeGridNode.setId(organ.getId());
+			treeGridNode.setText(organ.getName());
+			treeGridNode.setState("open");
+			treeGridNode.setIconCls("icon-organ");
+			treeGridNode.setData(vo);
+
+			findOrganChildNode(treeGridNode, organ.getId(), siteId, start, end);
+			
+			treeGridNodes.add(treeGridNode);
+		}
+		parentNode.setChildren(treeGridNodes);
 	}
 }

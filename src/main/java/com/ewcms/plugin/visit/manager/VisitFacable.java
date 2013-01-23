@@ -473,4 +473,14 @@ public interface VisitFacable {
 	 * @return List TreeGridNode对象集合
 	 */
 	public List<TreeGridNode> findAdvisory(String startDate, String endDate);
+	
+	/**
+	 * 组织机构发布统计
+	 * 
+	 * @param startDate 开始日期
+	 * @param endDate 结束日期
+	 * @param siteId 站点编号 
+	 * @return List TreeGridNode对象集合
+	 */
+	public List<TreeGridNode> findOrganReleased(String startDate, String endDate, Integer siteId);
 }
