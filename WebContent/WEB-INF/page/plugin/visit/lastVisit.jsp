@@ -53,11 +53,11 @@
 				            		return '<a href="' + val + '" style="text-decoration: none" target="_blank">' + val + '</a>';
 				            	}	
 				            },
-				            {field:'browser',title:'浏览器',width:100},
+				            {field:'browser',title:'浏览器',width:80},
 				            {field:'os',title:'操作系统',width:100},
-				            {field:'screen',title:'屏幕大小',width:100},
+				            {field:'screen',title:'屏幕大小',width:80},
 				            {field:'language',title:'语言',width:100},
-				            {field:'flashVersion',title:'Flash版本',width:100}
+				            {field:'flashVersion',title:'Flash版本',width:70}
 				    ]]  
 				});
 			});

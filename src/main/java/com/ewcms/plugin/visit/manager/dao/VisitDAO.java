@@ -482,7 +482,8 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 				+ SUMMARY_CLASS_NAME
 				+ "(i.url, Count(i.url), '100%') "
 				+ "From Visit As v, VisitItem As i Where v.uniqueId=i.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId And i.event=:event And i.url Is Not Null "
-				+ "Group By url " + "Order By Count(i.url) Desc";
+				+ "Group By i.url "
+				+ "Order By Count(i.url) Desc";
 		TypedQuery<SummaryVo> query = this.getEntityManager().createQuery(hql, SummaryVo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);

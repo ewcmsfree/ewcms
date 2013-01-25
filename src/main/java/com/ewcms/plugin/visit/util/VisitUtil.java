@@ -36,6 +36,8 @@ public class VisitUtil {
 	private static String langNameArr[];
 	private static int TRANSACTION_ID_LENGTH = 32;
 	private static char cs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
+	private static int FIRFOX_VERSION = 30;
+	private static int MSIE_VERSION = 30;
 
 	public final static String UNLOAD_EVENT = "Unload";
 	
@@ -476,7 +478,7 @@ public class VisitUtil {
 		if (useragent.indexOf("Netscape") > 0)
 			browser = "Netscape";
 		else if (useragent.indexOf("Firefox") > 0){
-			for (int i = 16; i > 0; i--){
+			for (int i = FIRFOX_VERSION; i > 0; i--){
 				if (useragent.indexOf("Firefox/" + i + ".") > 0){
 					browser = "Firefox " + i;
 					break;
@@ -490,7 +492,7 @@ public class VisitUtil {
 		else if (useragent.indexOf("Chrome") > 0)
 			return "Chrome";
 		else if (useragent.indexOf("MSIE") > 0) {
-			for (int i = 12; i > 2; i--){
+			for (int i = MSIE_VERSION; i > 2; i--){
 				if (useragent.indexOf("MSIE " + i) > 0){
 					browser = "IE" + i;
 				}
