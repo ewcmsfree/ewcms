@@ -95,13 +95,14 @@ public class ArticleMainService implements ArticleMainServiceable {
 	public void delArticleMainToRecycleBin(Long articleMainId, Integer channelId) {
 		ArticleMain articleMain = articleMainDAO.findArticleMainByArticleMainAndChannel(articleMainId, channelId);
 		Assert.notNull(articleMain);
+		Article article = articleMain.getArticle();
+		Assert.notNull(article);
+		Status oldStatus = article.getStatus();
+		
 		if (isNotNull(articleMain.getReference()) && articleMain.getReference()){
 			articleMain.setArticle(null);
 			articleMainDAO.remove(articleMain);
 		}else{
-			Article article = articleMain.getArticle();
-			Assert.notNull(article);
-			
 			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入内容回收站。", "");
 			
 			article.setStatus(Status.REEDIT);
@@ -109,17 +110,21 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
 			
-			Site site = EwcmsContextUtil.getCurrentSite();
-			SiteServer siteServer = site.getSiteServer();
-			DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
-			try {
-				output.delete(article.getUrl());
-			} catch (PublishException e) {
+			if (oldStatus == Status.RELEASE){
+				Site site = EwcmsContextUtil.getCurrentSite();
+				SiteServer siteServer = site.getSiteServer();
+				DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
+				try {
+					output.delete(article.getUrl());
+				} catch (PublishException e) {
+				}
 			}
 		}
-		try {
-			associateRelease(channelId);
-		} catch (PublishException e) {
+		if (oldStatus == Status.RELEASE){
+			try {
+				associateRelease(channelId);
+			} catch (PublishException e) {
+			}
 		}
 	}
 
