@@ -232,4 +232,14 @@ public class ArticleMainDAO extends JpaDAO<Long, ArticleMain> {
     	
     	return query.getResultList();
     }
+    
+    public List<ArticleMain> findArticleMainByArticleIdAndReference(Long articleId, Boolean reference){
+    	String hql = "Select m From ArticleMain As m Where m.article.id=:articleId And m.reference=:reference";
+    	
+    	TypedQuery<ArticleMain> query = this.getEntityManager().createQuery(hql, ArticleMain.class);
+    	query.setParameter("articleId", articleId);
+    	query.setParameter("reference", reference);
+    	
+    	return query.getResultList();
+    }
 }
