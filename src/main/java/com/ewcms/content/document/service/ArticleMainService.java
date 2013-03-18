@@ -103,24 +103,34 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMain.setArticle(null);
 			articleMainDAO.remove(articleMain);
 		}else{
-			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入内容回收站。", "");
+			if (isNotNull(articleMain.getShare()) && articleMain.getShare()){
+				List<ArticleMain> articleMains = articleMainDAO.findArticleMainByArticleIdAndReference(article.getId(), true);
+				if (articleMains != null && !articleMains.isEmpty()){
+					for (ArticleMain vo : articleMains){
+						if (isNotNull(vo.getReference()) && vo.getReference()){
+							vo.setArticle(null);
+							articleMainDAO.remove(vo);
+						}
+					}
+				}
+			}
 			
+			operateTrackService.addOperateTrack(articleMainId, article.getStatusDescription(), "放入内容回收站。", "");
+				
 			article.setStatus(Status.REEDIT);
 			article.setDelete(true);
 			articleMain.setArticle(article);
 			articleMainDAO.merge(articleMain);
-			
-			if (oldStatus == Status.RELEASE){
-				Site site = EwcmsContextUtil.getCurrentSite();
-				SiteServer siteServer = site.getSiteServer();
-				DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
-				try {
-					output.delete(article.getUrl());
-				} catch (PublishException e) {
-				}
-			}
 		}
+		
 		if (oldStatus == Status.RELEASE){
+			Site site = EwcmsContextUtil.getCurrentSite();
+			SiteServer siteServer = site.getSiteServer();
+			DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);
+			try {
+				output.delete(article.getUrl());
+			} catch (PublishException e) {
+			}
 			try {
 				associateRelease(channelId);
 			} catch (PublishException e) {
@@ -760,7 +770,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 	
 	private void titleArticleContentNull(Article article){
 		Content content = new Content();
-		content.setDetail("");
+		content.setDetail(null);
 		content.setPage(1);
 		List<Content> contents = new ArrayList<Content>();
 		contents.add(content);
@@ -858,6 +868,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 		for (Long articleMainId : articleMainIds){
 			ArticleMain articleMain = articleMainDAO.get(articleMainId);
 			if (articleMain == null) continue;
+			if (isNotNull(articleMain.getReference()) && articleMain.getReference()) continue;
 			if (articleMain.getShare() != share){
 				articleMain.setShare(share);
 				articleMainDAO.merge(articleMain);
