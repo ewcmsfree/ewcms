@@ -12,7 +12,7 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
 		<script type="text/javascript">
 			$(function() {
-				$('#startDate').val(dateTimeToString(new Date(new Date() - 30*24*60*60*1000)));
+				$('#startDate').val(dateTimeToString(new Date(new Date() - 15*24*60*60*1000)));
 				$('#endDate').val(dateTimeToString(new Date()));
 				$('#tt').datagrid({
 					singleSelect : true,
@@ -70,7 +70,7 @@
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
 	<body class="easyui-layout">
-		<div region="north" style="height:40px">
+		<div region="north" style="height:40px" border="false">
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
@@ -80,7 +80,7 @@
 			</table>
 		</div>
 		<div region="center">
-			<table id="tt" fit="true"></table>
+			<table id="tt" fit="true" border="false"></table>
 		</div>
 	</body>
 </html>

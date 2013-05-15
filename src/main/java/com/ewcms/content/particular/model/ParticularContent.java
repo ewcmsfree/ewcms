@@ -37,8 +37,8 @@ public class ParticularContent implements Serializable {
 	@GeneratedValue(generator = "seq_particular_content", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Integer id;
-	@Column(name = "detail", columnDefinition = "text")
-	private String detail;
+	@Column(name = "detail")
+	private byte[] detail;
 
 	public Integer getId() {
 		return id;
@@ -49,11 +49,23 @@ public class ParticularContent implements Serializable {
 	}
 
 	public String getDetail() {
-		return detail;
+		String detailString = "";
+		try {
+			detailString = new String(detail, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return detailString;
 	}
 
 	public void setDetail(String detail) {
-		this.detail = detail;
+		byte[] detailByte = null;
+		try {
+			detailByte = detail.getBytes("UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.detail = detailByte;
 	}
 
 	@Override

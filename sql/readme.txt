@@ -9,12 +9,15 @@ psql.exe --host localhost --username postgres --dbname ewcms_rc < E:\work\ewcms_
 修改plugin_online_advisory数据表：增加id字段 nextval('seq_plugin_online_advisory_id'::regclass)
 
 修改catalina.sh
-set JAVA_OPTS=-Xms512m -Xmx1024m -XX:PermSize=128M -XX:MaxNewSize=256m -XX:MaxPermSize=512m
-JAVA_OPTS='-server -Xms512m -Xmx768m -XX:NewSize=128m -XX:MaxNewSize=192m -XX:SurvivorRatio=8'（未测试）
+JAVA_OPTS="$JAVA_OPTS -server -Xms800m -Xmx800m -XX:PermSize=64m -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true"
 
 在%TOMCAT_HOM%/conf/server.xml其中：
 把<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>替换成
-<Connector connectionTimeout="20000" executor="tomcatThreadPool" maxKeepAliveRequests="1" maxThreads="150" port="8080" protocol="org.apache.coyote.http11.Http11NioProtocol" redirectPort="8443" URIEncoding="UTF-8"/>
+<Connector port="8082" protocol="org.apache.coyote.http11.Http11NioProtocol"
+           maxThreads="600" minSpareThreads="100" maxSpareThreads="500"
+           enableLookups="false"
+           acceptCount="700" debug="0" connectionTimeout="20000"
+           proxyPort="80" disableUploadTimeout="true" URIEncoding="UTF-8"/>
 
 Crawl
 修改/nutch/conf目录下的：crawl-urlfilter.txt，nutch-site.xml

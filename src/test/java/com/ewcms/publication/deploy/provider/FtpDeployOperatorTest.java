@@ -22,10 +22,10 @@ public class FtpDeployOperatorTest {
     
     @Test
     public void testGetTargtRoot()throws Exception{
-        String hostname = "127.0.0.1";
-        String username = "user";
-        String password = "user";
-        String path = "/tmp";
+        String hostname = "14.136.146.36";
+        String username = "itkaizen.com";
+        String password = "kaizenidc";
+        String path = "/wwwroot";
         
         DeployOperatorable operator = new FtpDeployOperator
                 .Builder(hostname, path)

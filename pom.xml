@@ -120,6 +120,15 @@
 			<name>Maven DSI Utils</name>
 			<url>http://ir.dcs.gla.ac.uk/~bpiwowar/maven/</url>
 		</repository>
+		<repository>
+        <id>commons-vfs</id>
+        <name>Apache Commons VFS Repository Group</name>
+        <url>https://repository.apache.org/content/groups/snapshots/</url>
+        <layout>default</layout>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
 	</repositories>
 
 	<pluginRepositories>

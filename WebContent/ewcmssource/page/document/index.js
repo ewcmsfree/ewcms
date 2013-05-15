@@ -212,7 +212,7 @@ function nodeArticleMenu(){
 	if (currentnode.attributes.maxpermission >= 4) {
 		$('#btnPub').linkbutton('enable');
 		$('#btnPublishOk').attr('style', 'display:block;');
-		('#btnPublishSep').attr('style','display:block;');
+		$('#btnPublishSep').attr('style','display:block;');
 		$('#btnPublishRec').attr('style','display:block;');
 	}
 	return;

@@ -38,8 +38,8 @@ public class Content implements Serializable {
 	@GeneratedValue(generator = "seq_content_content", strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Integer id;
-	@Column(name = "detail", columnDefinition = "text")
-	private String detail;
+	@Column(name = "detail")
+	private byte[] detail;
 	@Column(name = "page", nullable = false)
 	private Integer page;
 
@@ -52,11 +52,21 @@ public class Content implements Serializable {
 	}
 
 	public String getDetail() {
-		return detail;
+		String detailString = "";
+		try {
+			detailString = new String(detail, "UTF-8");
+		} catch (Exception e) {
+		}
+		return detailString;
 	}
 
 	public void setDetail(String detail) {
-		this.detail = detail;
+		byte[] detailByte = null;
+		try {
+			detailByte = detail.getBytes("UTF-8");
+		} catch (Exception e) {
+		}
+		this.detail = detailByte;
 	}
 
 	public Integer getPage() {

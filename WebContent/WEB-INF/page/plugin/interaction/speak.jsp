@@ -15,6 +15,7 @@
               	ewcmsBOBJ.delToolItem('删除'); 
               	ewcmsBOBJ.addToolItem('审核','','checked');
               	ewcmsBOBJ.addToolItem('取消审核','','unChecked');
+              	ewcmsBOBJ.addToolItem('删除','icon-remove',deleteOperate);
                 //数据表格定义
                 ewcmsBOBJ.openDataGrid('#tt',{
                     columns:[[
@@ -30,14 +31,29 @@
                             },
                             {field:'content',title:'内容',width:400,
                                 formatter:function(val,rec){
-                                    return "<textarea style='border-style:none;width:400;height:100;' readonly>"+val+"</textarea>"
-                                }
+                                    return "<textarea style='border-style:none;width:392px;height:92px;' readonly='readonly'>"+val+"</textarea>"
+                                },
+                                styler: function(value,row,index){
+                    				return ';height:100px;'
+                    			}
                             },
                             {field:'date',title:'日期',width:100}
                         ]]
                 });
 				ewcmsOOBJ = new EwcmsOperate();
 				ewcmsOOBJ.setQueryURL(ewcmsBOBJ.getQueryURL());
+				$('#tt').datagrid({
+					onLoadSuccess: function () {
+						function removeClass(){
+							var panel = $('#tt').datagrid('getPanel');
+							var content = panel.find('td[field="content"] div.datagrid-cell');
+							content.removeClass("datagrid-cell");
+						}
+			            setTimeout(function () {
+			            	removeClass();
+			            }, 10);
+			        }
+				})
             });
             
             function checked(){
@@ -96,7 +112,26 @@
                 $(windowid).window('close');
             }
 
-
+            function deleteOperate(){
+        	    var rows = $('#tt').datagrid('getSelections');
+        	    if(rows.length == 0){
+        	        $.messager.alert('提示','请选择删除记录','info');
+        	        return ;
+        	    }
+        	    var ids = '';
+        	    for(var i=0;i<rows.length;++i){
+        	        ids =ids + 'selections=' + rows[i].id +'&';
+        	    }
+        	    $.messager.confirm("提示","确定要删除所选记录吗?",function(r){
+        	        if (r){
+        	            $.post('<s:url action="speakdelete"/>',ids,function(data){          	
+        	            	$.messager.alert('成功','删除成功','info');
+        	            	$('#tt').datagrid('clearSelections');
+        	                $('#tt').datagrid('reload');              	
+        	            });
+        	        }
+        	    });
+            }
         </script>
     </head>
     <body class="easyui-layout">

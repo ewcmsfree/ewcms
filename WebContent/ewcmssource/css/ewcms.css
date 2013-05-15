@@ -355,3 +355,7 @@ table.cellspacing { border-collapse: separate; }
 .icon-connect{
 	background:url('icons/connect.png') no-repeat;
 }
+
+.icon-progress{
+	background:url('icons/progress.png') no-repeat;
+}

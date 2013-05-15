@@ -10,10 +10,15 @@
 
 package com.ewcms.plugin.online.web;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.ewcms.plugin.interaction.InteractionFacable;
 import com.ewcms.plugin.interaction.model.Interaction;
+import com.ewcms.plugin.online.OnlineFacable;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.ActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,9 +38,12 @@ public class AdvisorAction extends ActionSupport {
     private Date replayDate;
     private String content;
     private String title;
+    private List<Integer> selections = new ArrayList<Integer>();
     
     @Autowired
-    private InteractionFacable fac;
+    private InteractionFacable interactionFac;
+    @Autowired
+    private OnlineFacable onlineFac;
 
     public void setId(Integer id) {
         this.id = id;
@@ -97,17 +105,25 @@ public class AdvisorAction extends ActionSupport {
 		this.title = title;
 	}
 
+	public List<Integer> getSelections() {
+		return selections;
+	}
+
+	public void setSelections(List<Integer> selections) {
+		this.selections = selections;
+	}
+
 	@Override
     public String execute(){
         if(replay != null && checked != null){
             if(replay != null){
-                fac.interactionReplay(id, replay, date, replayDate, content, title, 0);
+                interactionFac.interactionReplay(id, replay, date, replayDate, content, title, 0);
             }
             if(checked != null){
-                fac.interactionChecked(id,checked);
+                interactionFac.interactionChecked(id,checked);
             }
         }
-        interaction = fac.getInteraction(id);
+        interaction = interactionFac.getInteraction(id);
         replay = interaction.getReplay();
         checked = interaction.isChecked();
         date = interaction.getDate();
@@ -116,4 +132,13 @@ public class AdvisorAction extends ActionSupport {
         title = interaction.getTitle();
         return SUCCESS;
     }
+	
+	public void delete(){
+		try{
+			onlineFac.deleteAdvisor(getSelections());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
+	}
 }

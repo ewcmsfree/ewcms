@@ -11,6 +11,7 @@
 package com.ewcms.plugin.interaction.web;
 
 import com.ewcms.plugin.interaction.InteractionFacable;
+import com.ewcms.web.util.JSONUtil;
 import com.ewcms.web.util.Struts2Util;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class SpeakAction {
     private boolean esc = false;
 
     @Autowired
-    private InteractionFacable fac;
+    private InteractionFacable interactionFac;
 
     public int[] getSelections() {
         return selections;
@@ -44,11 +45,20 @@ public class SpeakAction {
     public void checked(){
         for(int id : selections){
             if(esc){
-                fac.speakChecked(id,false);
+            	interactionFac.speakChecked(id,false);
             }else{
-                fac.speakChecked(id,true);
+            	interactionFac.speakChecked(id,true);
             }
         }
         Struts2Util.renderJson("{\"message\":\"success\"}");
+    }
+    
+    public void delete(){
+    	try{
+    		interactionFac.deleteSpeak(getSelections());
+    		Struts2Util.renderJson(JSONUtil.toJSON("true"));
+    	}catch(Exception e){
+    		Struts2Util.renderJson(JSONUtil.toJSON("false"));
+    	}
     }
 }

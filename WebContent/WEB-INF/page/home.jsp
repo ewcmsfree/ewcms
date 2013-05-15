@@ -111,7 +111,13 @@
                             <span>历史记录</span>
                         </a>
                     </div>
-                     <div class="nav-item">
+                    <div class="nav-item">
+                  		<a href="javascript:_home.addTab('登录日志','security/loginlogs/index.do')">
+                    		<img src="ewcmssource/image/loginlogs.png" style="border: 0" /><br />
+                    		<span>登录日志</span>
+                  		</a>
+                	</div>
+                    <div class="nav-item">
                          <a href="javascript:_home.addTab('文章分类','document/category/index.do')">
                             <img src="ewcmssource/image/articlecategory.png" style="border:0"/><br/>
                             <span>文章分类</span>
@@ -223,6 +229,18 @@
                             <span>网上咨询</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                		<a href="javascript:_home.addTab('文章评论','plugin/comment/index.do')">
+                  			<img src="ewcmssource/image/comment.png" style="border:0"/><br/>
+                  			<span>文章评论</span>
+                		</a>
+              		</div>
+              		<div class="nav-item">
+                		<a href="javascript:_home.addTab('网友投稿','plugin/contribute/index.do')">
+                  			<img src="ewcmssource/image/contribute.png" style="border:0"/><br/>
+                  			<span>网友投稿</span>
+                		</a>
+              		</div>
                 </div>
                 </sec:authorize>  
                 <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_RESOURCE">

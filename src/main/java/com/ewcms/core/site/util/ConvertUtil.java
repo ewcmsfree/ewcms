@@ -27,7 +27,7 @@ public class ConvertUtil {
 		defaultFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
 		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		
-		char[] charArray = chinese.toCharArray();
+		char[] charArray = chinese.replaceAll(" ", "").replaceAll("　", "").toCharArray();
 		try {
 			for (int i = 0; i < charArray.length; i++) {
 				if (charArray[i] > 128) {

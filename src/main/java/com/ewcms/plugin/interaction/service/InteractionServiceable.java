@@ -6,6 +6,7 @@
 package com.ewcms.plugin.interaction.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.ewcms.plugin.interaction.model.Interaction;
 
@@ -24,4 +25,8 @@ public interface InteractionServiceable {
 	public void speakChecked(Integer id, boolean checked);
 
 	public void interactionBackRatio(Integer id);
+	
+	public void deleteInteraction(List<Integer> ids);
+	
+	public void deleteSpeak(int[] ids);
 }

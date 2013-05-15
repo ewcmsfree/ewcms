@@ -39,7 +39,7 @@
 	</head>
 	<body class="easyui-layout">
 		 <s:hidden id="channelId" name="channelId"/>
-		 <div region="north" style="height:310px">
+		 <div region="north" style="height:310px" border="false">
 			<table width="100%" border="0" cellspacing="2" cellpadding="0"style="border-collapse: separate; border-spacing: 2px;">
 				<tr>
 					<td>

@@ -37,26 +37,32 @@
 									<td width="40%">
 										<s:textarea name="matterVo.name" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
+									<!-- 
 									<td width="10%">受理方式：</td>
 									<td width="40%">
 										<s:textarea name="matterVo.acceptedWay" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
 								</tr>
 								<tr>
-									<td>办理地点：</td>
-									<td>
+								 -->
+									<td width="10%">办理地点：</td>
+									<td width="40%">
 										<s:textarea name="matterVo.handleSite" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
+								</tr>
+								<tr>
 									<td>办理依据：</td>
 									<td>
 										<s:textarea name="matterVo.handleBasis" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
+								<!-- 
 								</tr>
 								<tr>
 									<td>审批、服务数量及方式：</td>
 									<td>
 										<s:textarea name="matterVo.handleWay" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
+								 -->
 									<td>受理条件：</td>
 									<td>
 										<s:textarea name="matterVo.acceptedCondition" readonly="true" cssStyle="height:50px;width:100%;"/>
@@ -93,7 +99,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td>咨询电话：</td>
+									<td>办理机构：</td>
 									<td>
 										<s:textarea name="matterVo.consultingTel" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
@@ -113,7 +119,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td>E—MAIL：</td>
+									<td>监督投诉：</td>
 									<td>
 										<s:textarea name="matterVo.email" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>

@@ -50,7 +50,7 @@
 		<ewcms:datepickerhead></ewcms:datepickerhead>
 	</head>
 	<body class="easyui-layout">
-		<div region="north" style="height:40px">
+		<div region="north" style="height:40px" border="false">
 			<table width="100%" border="0" cellspacing="6" cellpadding="0"style="border-collapse: separate; border-spacing: 6px;">
 				<tr>
 					<td>
@@ -60,7 +60,7 @@
 			</table>
 		</div>
 		<div region="center">
-			<table id="tt" fit="true"></table>
+			<table id="tt" fit="true" border="false"></table>
 		</div>
 	</body>
 </html>

@@ -9,10 +9,14 @@
  */
 package com.ewcms.plugin.interaction.web;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.ewcms.plugin.interaction.InteractionFacable;
 import com.ewcms.plugin.interaction.model.Interaction;
+import com.ewcms.web.util.JSONUtil;
+import com.ewcms.web.util.Struts2Util;
 import com.opensymphony.xwork2.ActionSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +42,7 @@ public class InteractionAction extends ActionSupport {
 	private String content;
 	private String title;
 	private Integer type;
+	private List<Integer> selections = new ArrayList<Integer>();
 	
 	@Autowired
 	private InteractionFacable interactionFac;
@@ -130,6 +135,14 @@ public class InteractionAction extends ActionSupport {
 		this.type = type;
 	}
 
+	public List<Integer> getSelections() {
+		return selections;
+	}
+
+	public void setSelections(List<Integer> selections) {
+		this.selections = selections;
+	}
+
 	@Override
 	public String execute() {
 		if (update) {
@@ -152,5 +165,14 @@ public class InteractionAction extends ActionSupport {
 		title = interaction.getTitle();
 		type = interaction.getType();
 		return SUCCESS;
+	}
+	
+	public void delete(){
+		try{
+			interactionFac.deleteInteraction(getSelections());
+			Struts2Util.renderJson(JSONUtil.toJSON("true"));
+		}catch(Exception e){
+			Struts2Util.renderJson(JSONUtil.toJSON("false"));
+		}
 	}
 }

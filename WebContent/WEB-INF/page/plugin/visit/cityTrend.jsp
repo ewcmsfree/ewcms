@@ -43,7 +43,7 @@
 		 <s:hidden id="country" name="country"/>
 		 <s:hidden id="province" name="province"/>
 		 <s:hidden id="city" name="city"/>
-		 <div region="north" style="height:310px">
+		 <div region="north" style="height:310px" border="false">
 			<table width="100%" border="0" cellspacing="2" cellpadding="0"style="border-collapse: separate; border-spacing: 2px;">
 				<tr>
 					<td>

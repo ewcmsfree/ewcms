@@ -11,6 +11,7 @@
 package com.ewcms.plugin.interaction;
 
 import java.util.Date;
+import java.util.List;
 
 import com.ewcms.plugin.interaction.model.Interaction;
 import com.ewcms.plugin.interaction.service.InteractionServiceable;
@@ -56,5 +57,15 @@ public class InteractionFac implements InteractionFacable {
     public void interactionBackRatio(Integer id) {
         interactionService.interactionBackRatio(id);
     }
+
+	@Override
+	public void deleteInteraction(List<Integer> ids) {
+		interactionService.deleteInteraction(ids);
+	}
+
+	@Override
+	public void deleteSpeak(int[] ids) {
+		interactionService.deleteSpeak(ids);
+	}
 
 }

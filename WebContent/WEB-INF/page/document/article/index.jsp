@@ -22,7 +22,7 @@
 			previewURL = "/template/preview?channelId=<s:property value='channelId'/>";
 		</script>
 	</head>
-	<body class="easyui-layout">
+	<body class="easyui-layout" fit="true">
 		<s:hidden name="channelId" id="channelId"/>
 		<s:hidden name="node" id="node"/>
 		<s:hidden name="pageNo" id="pageNo"/>

@@ -27,7 +27,6 @@ public class ProgressSender extends PubsubSender{
         super(path, context);
     }
     
-    
     private WebPublishFacable getPublishFac(ServletContext context) {
         
         ApplicationContext applicationContext = 

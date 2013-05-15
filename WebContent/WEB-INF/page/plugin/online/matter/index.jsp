@@ -32,10 +32,10 @@
 					columns:[[
 								{field:'id',title:'序号',width:40,sortable:true},
 					            {field:'name',title:'事项名称',width:200},
-					            {field:'acceptedWay',title:'受理方式',width:80},
+					            //{field:'acceptedWay',title:'受理方式',width:80},
 					            {field:'handleSite',title:'办理地点',width:300},
 					            {field:'handleBasis',title:'办理依据',width:300},
-					            {field:'handleWay',title:'审批、服务数量及方式',width:130},
+					            //{field:'handleWay',title:'审批、服务数量及方式',width:130},
 					            {field:'acceptedCondition',title:'受理条件',width:200},
 					            {field:'petitionMaterial',title:'申请材料',width:200},
 					            {field:'handleCourse',title:'办理程序',width:200},
@@ -43,11 +43,11 @@
 					            {field:'deadline',title:'承诺期限',width:200},
 					            {field:'fees',title:'收费标准',width:200},
 					            {field:'feesBasis',title:'收费依据',width:200},
-					            {field:'consultingTel',title:'咨询电话',width:200},
+					            {field:'consultingTel',title:'办理机构',width:200},
 					            {field:'contactName',title:'联系人',width:200},
 					            {field:'department',title:'所在部门',width:200},
 					            {field:'contactTel',title:'联系电话',width:200},
-					            {field:'email',title:'E-Mail',width:200}
+					            {field:'email',title:'监督投诉',width:200}
 							]]
 				});
 				//创建和设置页面的操作对象 EwcmsOperate

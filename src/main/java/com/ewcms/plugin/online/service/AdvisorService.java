@@ -13,6 +13,8 @@ import com.ewcms.plugin.online.dao.AdvisorDAO;
 import com.ewcms.plugin.online.model.Advisor;
 
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,4 +57,11 @@ public class AdvisorService implements AdvisorServiceable{
     	if (id == null) return new Advisor();
         return advisorDAO.get(id);
     }
+
+	@Override
+	public void deleteAdvisor(List<Integer> ids) {
+		for (Integer id : ids){
+			advisorDAO.removeByPK(id);
+		}
+	}
 }

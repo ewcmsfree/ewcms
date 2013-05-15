@@ -75,7 +75,7 @@ public class SpeakQueryAction extends QueryBaseAction {
         hql = hql + where.toString() + orderString + limitString;
         countHql = countHql + where.toString();
         
-        return  queryFactory.createHqlQuery(hql, countHql).queryResult();		
+        return  queryFactory.createHqlQuery(hql, countHql).setRow(rows).setPage(page).queryResult();		
 	}
 
 	@Override

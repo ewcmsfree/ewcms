@@ -278,4 +278,6 @@ public interface OnlineFacable {
 	public Advisor getAdvisor(Integer id);
 
     public void releaseAdvisor(Integer id,boolean pub);
+    
+    public void deleteAdvisor(List<Integer> ids);
 }

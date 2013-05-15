@@ -77,5 +77,6 @@
          <action name="edit" class="com.ewcms.plugin.online.web.AdvisorEditAction">
             <result>/WEB-INF/page/plugin/online/advisor/edit.jsp</result>
         </action>
+        <action name="delete" class="com.ewcms.plugin.online.web.AdvisorAction" method="delete"/>
     </package>
 </struts>	

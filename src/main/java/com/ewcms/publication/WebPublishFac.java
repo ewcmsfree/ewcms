@@ -143,6 +143,11 @@ public class WebPublishFac  implements WebPublishFacable {
         return tasks;
     }
     
+	@Override
+	public void removePublish(Integer siteId, String id, String username) throws PublishException {
+		publishService.removePublish(siteId, id, username);
+	}
+
     public void setPublishService(PublishServiceable publishService){
         this.publishService = publishService;
     }
@@ -154,5 +159,4 @@ public class WebPublishFac  implements WebPublishFacable {
     public void setTemplateService(TemplatePublishServiceable templateService){
         this.templateService = templateService;
     }
- 
 }

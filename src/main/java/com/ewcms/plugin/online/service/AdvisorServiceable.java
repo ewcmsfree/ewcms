@@ -9,6 +9,8 @@
  */
 package com.ewcms.plugin.online.service;
 
+import java.util.List;
+
 import com.ewcms.plugin.online.model.Advisor;
 
 /**
@@ -22,4 +24,6 @@ public interface AdvisorServiceable {
 	public void replay(Integer id, String replay);
 
 	public Advisor get(Integer id);
+	
+	public void deleteAdvisor(List<Integer> ids);
 }

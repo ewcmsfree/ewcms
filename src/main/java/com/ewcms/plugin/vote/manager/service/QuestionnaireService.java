@@ -107,7 +107,7 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 				view.append("  <form id='voteForm_" + questionnaireId + "' name='voteForm_" + questionnaireId + "' action='" + servletContentName + "/submit.vote' method='post' target='_self'>\n");
 				view.append("  <input type='hidden' id='questionnaireId' name='questionnaireId' value='" + questionnaireId + "'/>\n");
 				view.append("  <input type='hidden' id='voteEnd' name='voteEnd' value='" + questionnaire.getVoteEnd() + "'/>\n");
-				view.append("    <dl>\n");
+//				view.append("    <dl>\n");
 				
 				Boolean isItemEntity = false;
 				Long row = 1L;
@@ -118,7 +118,8 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 					
 					isItemEntity = true;
 					
-					view.append("      <dt id='" + subject.getId() + "'>" + row + "." + subject.getTitle() + "</dt>\n");
+//					view.append("      <dt id='" + subject.getId() + "'>" + row + "." + subject.getTitle() + "</dt>\n");
+					view.append("      <ul id='" + subject.getId() + "' style='list-style:none;'>" + row + "." + subject.getTitle() + "\n");
 					Subject.Status subjectStatus = subject.getStatus();
 					String subjectStatusValue = "";
 					switch(subjectStatus){
@@ -134,7 +135,8 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 					}
 					for (SubjectItem subjectItem : subjectItems){
 						SubjectItem.Status subjectItemStatus = subjectItem.getStatus();
-						view.append("      <dd>\n");
+//						view.append("      <dd>\n");
+						view.append("      <li>\n");
 						if (!subjectStatusValue.equals("text")){
 							view.append("      <label><input name='Subject_" + subject.getId() + "' type='" + subjectStatusValue + "' value='" + subjectItem.getId() + "' id='Subject_" + subject.getId() + "_Item_" + subjectItem.getId() + "_Button'/>" + subjectItem.getTitle() + "</label>\n");
 						}
@@ -156,21 +158,27 @@ public class QuestionnaireService implements QuestionnaireServiceable {
 								}
 								break;
 						}
-						view.append("      </dd>\n");
+//						view.append("      </dd>\n");
+						view.append("      </li>\n");
 					}
 					row++;
+					view.append("    </ul>\n");
 				}
 				
 				if (!isItemEntity) return new StringBuffer("<p>没有问卷调查</p>");
 				
-				view.append("    </dl>\n");
+//				view.append("    </dl>\n");
 				if (questionnaire.getVerifiCode()){
-					view.append("    <dl>\n");
-					view.append("      <dd>\n");
+					view.append("    <ul style='list-style:none;'>");
+					view.append("      <li>");
+//					view.append("    <dl>\n");
+//					view.append("      <dd>\n");
 					view.append("        <img id='id_checkcode' align='absmiddle' width='120px' src='" + servletContentName + "/checkcode.jpg' alt='点击刷新验证码' title='看不清，换一张' onclick='codeRefresh(this,\"" + servletContentName + "/checkcode.jpg\");' style='cursor:pointer;'/>\n");
 					view.append("        <input type='text' name='j_checkcode' class='checkcode' size='10' maxlength='4' title='验证码不区分大小写'/>");
-					view.append("      </dd>\n");
-					view.append("    </dl>\n");
+//					view.append("      </dd>\n");
+//					view.append("    </dl>\n");
+					view.append("      </li>");
+					view.append("    </ul>");
 				}
 				view.append("    <dl>\n");
 				view.append("       <dd>\n");

@@ -28,7 +28,7 @@ public class AdvisorEditAction extends ActionSupport {
     private Boolean checked;
     private Boolean success = false;
     @Autowired
-    private OnlineFacable fac;
+    private OnlineFacable onlineFac;
 
     public Boolean getChecked() {
         return checked;
@@ -65,17 +65,17 @@ public class AdvisorEditAction extends ActionSupport {
     @Override
     public String execute() {
         if(checked != null){
-            fac.releaseAdvisor(id, checked);
+            onlineFac.releaseAdvisor(id, checked);
             success = true;
         }
         if (replay != null && replay.trim().length() > 0) {
-            fac.advisorReplay(id, replay);
+            onlineFac.advisorReplay(id, replay);
             advisor = new Advisor();
             replay = "";
             id = null;
             success = true;
         }
-        advisor = fac.getAdvisor(id);
+        advisor = onlineFac.getAdvisor(id);
         replay = advisor.getReplay();
         checked = advisor.isChecked();
 

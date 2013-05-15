@@ -5,7 +5,12 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	
+	<package name="security.loginlogs" extends="struts-default" namespace="/security/loginlogs">
+		<action name="index">
+			<result>/WEB-INF/page/security/loginlogs/index.jsp</result>
+		</action>
+		<action name="query" class="com.ewcms.security.manage.web.loginlogs.QueryAction" method="query"/>
+	</package>
     <package name="security.account"  extends="struts-default" namespace="/account">
         <action name="password" class="com.ewcms.security.manage.web.account.PasswordAction" method="input">
             <result name="input">/WEB-INF/page/security/account/password.jsp</result>

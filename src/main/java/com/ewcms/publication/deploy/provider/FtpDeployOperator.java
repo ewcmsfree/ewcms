@@ -54,7 +54,7 @@ public class FtpDeployOperator extends DeployOperatorBase{
         StringBuilder connBuilder = new StringBuilder();
         connBuilder.append("ftp://");
         connBuilder.append(builder.getHostname()).append(":").append(port);
-        connBuilder.append(":").append(builder.getPath());
+        connBuilder.append(builder.getPath());
         
         String conn = connBuilder.toString();
         logger.debug("uri is  {}",conn);

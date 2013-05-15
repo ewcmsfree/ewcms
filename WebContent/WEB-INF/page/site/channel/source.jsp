@@ -16,7 +16,9 @@
 				                 {field:'path',title:'资源路径',width:300,align:'left'},
 				                 {field:'describe',title:'说明',width:120,align:'left'},
 				                 {field:'parentId',title:'编辑',width:60,align:'center',formatter:function(val,rec){
-									return '<input type="button" name="Submit" value="编  辑" class="inputbutton" style="height:18px" onClick="editTPL('+rec.id+');">';
+				                	if (rec.path.search(/.js/)>-1 || rec.path.search(/.htm*/)>-1){
+										return '<input type="button" name="Submit" value="编  辑" class="inputbutton" style="height:18px" onClick="editTPL('+rec.id+');">';
+				                	}
 								 }}
 				    ]]
 				});
@@ -30,7 +32,7 @@
 			
 			function editTPL(idValue){
 				$("#editifr_pop").attr("src",'<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
-				ewcmsBOBJ.openWindow("#pop-window",{width:800,height:370,title:"资源编辑"});
+				ewcmsBOBJ.openWindow("#pop-window",{width:800,height:455,title:"资源编辑"});
 				//top.addTab('资源编辑','<s:url action="editContent" namespace="/site/template/source"/>?sourceVo.id='+idValue);
 			}
 			
@@ -46,10 +48,10 @@
                 <div region="center" border="false">
                    <iframe id="editifr"  name="editifr" class="editifr" frameborder="0" onload="iframeFitHeight(this);" scrolling="no"></iframe>
                 </div>
-                <div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
+ 				<div region="south" border="false" style="text-align:center;height:28px;line-height:28px;background-color:#f6f6f6">
                     <a class="easyui-linkbutton" icon="icon-save" href="javascript:void(0)" onclick="saveOperator()">保存</a>
                     <a class="easyui-linkbutton" icon="icon-cancel" href="javascript:void(0)" onclick="javascript:$('#edit-window').window('close');">取消</a>
-                </div>
+                </div>           
             </div>
         </div>	
         

@@ -14,6 +14,8 @@ import com.ewcms.plugin.interaction.dao.SpeakDAO;
 import com.ewcms.plugin.interaction.model.Interaction;
 import com.ewcms.plugin.interaction.model.Speak;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -101,4 +103,18 @@ public class InteractionService implements InteractionServiceable {
     public void interactionBackRatio(Integer id) {
         interactionDAO.interactionBackRatio(id);
     }
+
+	@Override
+	public void deleteInteraction(List<Integer> ids) {
+		for (Integer id : ids){
+			interactionDAO.removeByPK(id);
+		}
+	}
+
+	@Override
+	public void deleteSpeak(int[] ids) {
+		for (int id : ids){
+			speakDAO.removeByPK(id);
+		}
+	}
 }

@@ -121,5 +121,7 @@ public interface WebPublishFacable{
      * @param siteId 站点编号
      * @return
      */
-    List<Taskable> getSitePublishTasks(Integer siteId) ;
+    List<Taskable> getSitePublishTasks(Integer siteId);
+    
+    void removePublish(Integer siteId,String id, String username)throws PublishException;
 }

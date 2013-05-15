@@ -32,16 +32,18 @@ progress.prototype.init = function(opts){
                     content = content +  '</div>';
                     return content;
                 }
-            },
-            {field:'username',title:'停止',width:60,rowspan:2,
-                formatter:function(value,row){
-                    if (opts.adminRole  || value == opts.username){
-                        return "<a href='#' onclick='removeTask(\""+ row.taskId +"\")'><img src='../../ewcmssource/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
-                    }else {
-                        return "";
-                    }
-                }
-            } ]]
+            }
+            //,
+            //{field:'username',title:'停止',width:60,rowspan:2,
+            //    formatter:function(value,row){
+            //        if (opts.adminRole  || value == opts.username){
+            //            return "<a href='#' onclick='removeTask(\""+ row.taskId +"\")'><img src='../../ewcmssource/image/scheduling/pause.png' width='13px' height='13px' title='停用操作'/></a>";
+            //        }else {
+            //            return "";
+            //        }
+            //    }
+            //}
+    		]]
         });
         var _progress = this;
         $(window).unload(function() {

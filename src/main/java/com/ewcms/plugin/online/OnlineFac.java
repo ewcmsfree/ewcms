@@ -170,4 +170,9 @@ public class OnlineFac implements OnlineFacable {
     public void releaseAdvisor(Integer id,boolean pub) {
         advisorService.release(id,pub);
     }
+
+	@Override
+	public void deleteAdvisor(List<Integer> ids) {
+		advisorService.deleteAdvisor(ids);
+	}
 }

@@ -11,25 +11,29 @@
 package com.ewcms.plugin.interaction;
 
 import java.util.Date;
+import java.util.List;
 
 import com.ewcms.plugin.interaction.model.Interaction;
 
 /**
- *
+ * 
  * @author wangwei
  */
 public interface InteractionFacable {
 
-    public Interaction getInteraction(Integer id);
-    
-    public void interactionChecked(Integer id,Boolean checked);
+	public Interaction getInteraction(Integer id);
+
+	public void interactionChecked(Integer id, Boolean checked);
 
 	public void interactionReplay(Integer id, String replay, Date date, Date replayDate, String content, String title, Integer type);
 
-    public void interactionOrgan(Integer id,Integer organId,String organName);
+	public void interactionOrgan(Integer id, Integer organId, String organName);
 
-     public void speakChecked(Integer id,boolean checked);
+	public void speakChecked(Integer id, boolean checked);
 
-      public void interactionBackRatio(Integer id) ;
+	public void interactionBackRatio(Integer id);
 
+	public void deleteInteraction(List<Integer> ids);
+	
+	public void deleteSpeak(int[] ids);
 }

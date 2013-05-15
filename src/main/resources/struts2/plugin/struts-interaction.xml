@@ -7,17 +7,19 @@
 <struts>
     <package name="plugin.interaction"  extends="struts-default" namespace="/plguin/interaction">
         <action name="index">
-            <result>/WEB-INF/page/plugin/interaction/interaction.jsp</result>
+            <result>/WEB-INF/page/plugin/interaction/index.jsp</result>
         </action>
         <action name="query" class="com.ewcms.plugin.interaction.web.InteractionQueryAction" method="query"/>
         <action name="edit" class="com.ewcms.plugin.interaction.web.InteractionAction">
-            <result name="input">/WEB-INF/page/plugin/interaction/interactionEdit.jsp</result>
-            <result name="success">/WEB-INF/page/plugin/interaction/interactionEdit.jsp</result>
+            <result name="input">/WEB-INF/page/plugin/interaction/edit.jsp</result>
+            <result name="success">/WEB-INF/page/plugin/interaction/edit.jsp</result>
         </action>
+        <action name="delete" class="com.ewcms.plugin.interaction.web.InteractionAction" method="delete"/>
         <action name="speak">
             <result>/WEB-INF/page/plugin/interaction/speak.jsp</result>
         </action>
         <action name="querySpeak" class="com.ewcms.plugin.interaction.web.SpeakQueryAction" method="query"/>
         <action name="speakChecked" class="com.ewcms.plugin.interaction.web.SpeakAction" method="checked"/>
+        <action name="speakdelete" class="com.ewcms.plugin.interaction.web.SpeakAction" method="delete"/>
     </package>
-</struts>	
+</struts>
