@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="plugin.comment"  extends="struts-default" namespace="/plugin/comment">
+        <action name="index">
+            <result>/WEB-INF/page/plugin/comment/index.jsp</result>
+        </action>
+        <action name="query" class="com.ewcms.plugin.comment.web.CommentQueryAction" method="query"/>
+        <action name="edit" class="com.ewcms.plugin.comment.web.CommentAction">
+            <result name="input">/WEB-INF/page/plugin/comment/edit.jsp</result>
+            <result name="success">/WEB-INF/page/plugin/comment/edit.jsp</result>
+        </action>
+        <action name="delete" class="com.ewcms.plugin.comment.web.CommentAction" method="delete"/>
+    </package>
+</struts>	
