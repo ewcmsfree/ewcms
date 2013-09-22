@@ -33,6 +33,8 @@ public interface PersonServiceable {
 	 */
 	public Boolean findPersonIsEntity(Long questionnaireId, String ip);
 	
+	public Boolean findPersonIsEntityToDay(final Long questionnaireId, final String ip);
+	
 	/**
 	 * 删除投票人员信息
 	 * 

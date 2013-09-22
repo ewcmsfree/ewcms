@@ -148,4 +148,10 @@ public interface ParticularFacable {
 	public void unPubEmployeArticle(Integer channelId, List<Long> employeArticleIds);
 	
 	public Organ findOrganByUserName();
+	
+	public List<ProjectArticle> findProjectArticleAll();
+	
+	public List<EmployeArticle> findEmployeArticleAll();
+	
+	public List<EnterpriseArticle> findEnterpriseArticleAll();
 }

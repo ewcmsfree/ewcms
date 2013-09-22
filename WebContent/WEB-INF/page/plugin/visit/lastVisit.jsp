@@ -12,18 +12,18 @@
 		<script type="text/javascript" src='<s:url value="/ewcmssource/fcf/js/FusionCharts.js"/>'></script>
 		<script type="text/javascript">
 			$(function() {
-				$('#startDate').val(dateTimeToString(new Date(new Date() - 15*24*60*60*1000)));
-				$('#endDate').val(dateTimeToString(new Date()));
 				$('#tt').datagrid({
 					singleSelect : true,
-					pagination : false,
+					pagination : true,
 					nowrap : true,
 					striped : true,
 					rownumbers : true,
 					fitColumns : true,
+					pageSize:30,
 					url : '<s:url namespace="/plugin/visit" action="lastVisitTable"/>?startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val(),
 				    columns:[[  
 				            {field:'ipValue',title:'IP地址',width:100},
+				            {field:'remotePort',title:'源端口',width:100},
 				            {field:'country',title:'地域',width:	150,
 				            	formatter : function(val, rec){
 				            		var country = rec.country;

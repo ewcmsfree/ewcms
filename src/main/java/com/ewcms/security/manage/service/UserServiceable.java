@@ -141,6 +141,8 @@ public interface UserServiceable extends UserDetailsService{
      */
     UserInfo getCurrentUserInfo();
     
+    
+    
     /**
      * 更新当前用户信息
      * 

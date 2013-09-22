@@ -24,7 +24,6 @@
 				            	formatter : function(val, rec){
 				            		if (rec.name != '') return val;
 				            		else return rec.betideIp;
-				            		
 				            	}	
 				            },  
 				            {field:'uv',title:'UV数量',width:120,

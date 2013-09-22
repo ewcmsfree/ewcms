@@ -21,4 +21,6 @@ public interface EnterpriseArticleServiceable {
 	public void pubEnterpriseArticle(List<Long> enterpriseArticleIds);
 	
 	public void unPubEnterpriseArticle(List<Long> enterpriseArticleIds);
+	
+	public List<EnterpriseArticle> findEnterpriseArticleAll();
 }

@@ -16,8 +16,10 @@
 					url: '<s:url action="tree"/>',
 					onDblClick:function(node){
 						currentNode = node;
-						var url='<s:url action="edit"/>';
-						url = url + "? templateVo.id=" + node.id;
+						var url= "";
+						if (node.iconCls != 'icon-channel-note'){
+							url = '<s:url action="edit"/>?templateVo.id=' + node.id;
+						}
 						$("#editifr").attr('src',url);
 					}
 				});
@@ -97,7 +99,7 @@
     	    	//重命名专栏 			
 				$.messager.prompt(node.text, '请修改名称', function(r){
 					if (r){
-						if(node.iconCls = "icon-channel-node"){
+						if(node.iconCls == "icon-channel-note"){
 							if(!folderparten.exec(r)){
 			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
 			    	    		return;
@@ -229,7 +231,7 @@
     			var node = getSelectNode();
     			if(!node) return;
     			//判断是否选择的是文件夹
-    			if(node.iconCls == "icon-channel-node"){
+    			if(node.iconCls != "icon-channel-note"){
     				$.messager.alert('提示','请选择文件夹目录');	
     				return ;
     			}
@@ -248,7 +250,7 @@
     			var node = getSelectNode();
     			if(!node) return;
     			//判断是否选择的是文件夹
-    			if(node.iconCls = "icon-channel-node"){
+    			if(node.iconCls == "icon-channel-note"){
     				$.messager.alert('提示','请选择模板文件');	
     				return ;
     			}			

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -123,7 +123,7 @@ public class ArticleMainService implements ArticleMainServiceable {
 			articleMainDAO.merge(articleMain);
 		}
 		
-		if (oldStatus == Status.RELEASE){
+		if (oldStatus == Status.RELEASE && !articleMain.getReference()){
 			Site site = EwcmsContextUtil.getCurrentSite();
 			SiteServer siteServer = site.getSiteServer();
 			DeployOperatorable output = siteServer.getOutputType().deployOperator(siteServer);

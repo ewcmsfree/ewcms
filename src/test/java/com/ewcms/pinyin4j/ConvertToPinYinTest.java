@@ -5,6 +5,9 @@
  */
 package com.ewcms.pinyin4j;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,5 +134,14 @@ public class ConvertToPinYinTest {
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void getToDay(){
+		Date nowTime=new Date();
+		System.out.println(nowTime);
+		SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		System.out.println(time.getCalendar().getTime());
+		System.out.println(time.format(nowTime)); 
 	}
 }

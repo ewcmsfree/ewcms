@@ -123,6 +123,16 @@
 									<td>
 										<s:textarea name="matterVo.email" readonly="true" cssStyle="height:50px;width:100%;"/>
 									</td>
+									<td>信息告知：</td>
+									<td>
+										<s:textarea name="matterVo.infoUrl" readonly="true" cssStyle="height:50px;width:100%;"/>
+									</td>
+								</tr>
+								<tr>
+									<td>网上缴费：</td>
+									<td>
+										<s:textarea name="matterVo.onlinePayUrl" readonly="true" cssStyle="height:50px;width:100%;"/>
+									</td>
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								</tr>

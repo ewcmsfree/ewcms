@@ -90,4 +90,9 @@ public class ProjectArticleService implements ProjectArticleServiceable {
 			projectArticleDAO.merge(projectArticle);
 		}
 	}
+
+	@Override
+	public List<ProjectArticle> findProjectArticleAll() {
+		return projectArticleDAO.findProjectArticleAll();
+	}
 }

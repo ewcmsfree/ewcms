@@ -419,4 +419,19 @@ public class ParticularFac implements ParticularFacable {
 		Organ organ = user.getOrgan();
 		return organ;
 	}
+
+	@Override
+	public List<ProjectArticle> findProjectArticleAll() {
+		return projectArticleService.findProjectArticleAll();
+	}
+
+	@Override
+	public List<EmployeArticle> findEmployeArticleAll() {
+		return employeArticleService.findEmployeArticleAll();
+	}
+
+	@Override
+	public List<EnterpriseArticle> findEnterpriseArticleAll() {
+		return enterpriseArticleService.findEnterpriseArticleAll();
+	}
 }

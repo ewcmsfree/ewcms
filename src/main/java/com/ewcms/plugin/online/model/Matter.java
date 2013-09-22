@@ -119,6 +119,12 @@ public class Matter implements Serializable {
 	@JoinTable(name = "plugin_matter_citizen", joinColumns = @JoinColumn(name = "matter_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "citizen_id", referencedColumnName = "id"))
 	@OrderBy(value = "id")
 	private List<Citizen> citizens;
+    @Column(name="infoUrl", columnDefinition = "text")
+    private String infoUrl;
+    @Column(name = "postadviseUrl", columnDefinition = "text")
+    private String postadviseUrl;
+    @Column(name = "onlinePayUrl", columnDefinition = "text")
+    private String onlinePayUrl;
 
 	public Integer getId() {
 		return id;
@@ -305,6 +311,30 @@ public class Matter implements Serializable {
 
 	public void setMatterAnnexs(List<MatterAnnex> matterAnnexs) {
 		this.matterAnnexs = matterAnnexs;
+	}
+
+	public String getInfoUrl() {
+		return infoUrl;
+	}
+
+	public void setInfoUrl(String infoUrl) {
+		this.infoUrl = infoUrl;
+	}
+
+	public String getPostadviseUrl() {
+		return postadviseUrl;
+	}
+
+	public void setPostadviseUrl(String postadviseUrl) {
+		this.postadviseUrl = postadviseUrl;
+	}
+
+	public String getOnlinePayUrl() {
+		return onlinePayUrl;
+	}
+
+	public void setOnlinePayUrl(String onlinePayUrl) {
+		this.onlinePayUrl = onlinePayUrl;
 	}
 
 	@Override

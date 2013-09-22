@@ -14,6 +14,8 @@
 				ewcmsBOBJ = new EwcmsBase();
 				ewcmsBOBJ.setQueryURL('<s:url namespace="/vote/questionnaire" action="query"/>?channelId=' + $('#channelId').val() + '');
 
+				ewcmsBOBJ.setWinWidth(680);
+				
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
 				ewcmsBOBJ.delToolItem('删除');

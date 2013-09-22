@@ -269,10 +269,10 @@ public class VisitDAO extends JpaDAO<Long, Visit> {
 	 * @return List
 	 */
 	public List<SummaryVo> findAcInDateInterval(final Date startDate, final Date endDate, final Integer siteId) {
-		String hql = "Select new " + SUMMARY_CLASS_NAME + "(v.ip, v.country, v.province, v.city, i.url, i.visitDate, i.visitTime, i.referer, v.browser, v.os, v.screen, v.language, v.flashVersion) "
-				+ "From VisitItem As i, Visit As v "
-				+ "Where i.uniqueId = v.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId "
-				+ "Order By i.visitDate Desc, i.visitTime Desc";
+		String hql = "Select new " + SUMMARY_CLASS_NAME + "(v.ip, i.remotePort, v.country, v.province, v.city, i.url, i.visitDate, i.visitTime, i.referer, v.browser, v.os, v.screen, v.language, v.flashVersion) "
+				+ " From VisitItem As i, Visit As v "
+				+ " Where i.uniqueId = v.uniqueId And i.visitDate>=:startDate And i.visitDate<=:endDate And i.siteId=:siteId "
+				+ " Order By i.visitDate Desc, i.visitTime Desc";
 		TypedQuery<SummaryVo> query = this.getEntityManager().createQuery(hql, SummaryVo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);

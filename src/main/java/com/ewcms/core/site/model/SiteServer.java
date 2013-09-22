@@ -72,7 +72,7 @@ public class SiteServer implements Serializable {
     private String port;
     @Column(length = 30)
     private String userName;
-    @Column(length = 20)
+    @Column(length = 100)
     private String password;
 	@Column(length = 15)
 	@Enumerated(EnumType.STRING)

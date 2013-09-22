@@ -90,4 +90,9 @@ public class EmployeArticleService implements EmployeArticleServiceable {
 			employeArticleDAO.merge(employeBasic);
 		}
 	}
+
+	@Override
+	public List<EmployeArticle> findEmployeArticleAll() {
+		return employeArticleDAO.findEmployeArticleAll();
+	}
 }

@@ -21,4 +21,6 @@ public interface EmployeArticleServiceable {
 	public void pubEmployeArticle(List<Long> employeArticleIds);
 	
 	public void unPubEmployeArticle(List<Long> employeArticleIds);
+	
+	public List<EmployeArticle> findEmployeArticleAll();
 }

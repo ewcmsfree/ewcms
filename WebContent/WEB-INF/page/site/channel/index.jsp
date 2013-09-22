@@ -19,7 +19,7 @@
 						}
 						selectedNode = node;
 						var url='<s:url action="edit"/>';
-						url = url + "? channelVo.id=" + node.id;
+						url = url + "?channelVo.id=" + node.id;
 						$("#editifr").attr('src',url);
 					}
 				});
@@ -209,7 +209,7 @@
     	    		return false;
 				}
 				var url='<s:url action="edit"/>';
-				url = url + "? channelVo.id=" + node.id;
+				url = url + "?channelVo.id=" + node.id;
 				$("#editifr").attr('src',url);  						
 			}
 			function upChannel(){

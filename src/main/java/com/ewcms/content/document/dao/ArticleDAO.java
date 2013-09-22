@@ -7,8 +7,10 @@
 package com.ewcms.content.document.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -30,17 +32,18 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     private final static Logger logger = LoggerFactory.getLogger(ArticleDAO.class);
     
 	public Long findArticleReleseCount(final Integer channelId){
-    	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=:channelId And m.article.status=:status";
+    	String hql = "Select Count(m.id) From ArticleMain As m Where m.channelId=:channelId And m.article.status=:status And m.article.published<:currentDate";
 
     	TypedQuery<Long> query = this.getEntityManager().createQuery(hql, Long.class);
     	query.setParameter("channelId", channelId);
     	query.setParameter("status", Status.RELEASE);
+    	query.setParameter("currentDate", new Date(), TemporalType.TIMESTAMP);
 
     	return query.getSingleResult();
     }
     
     public List<Article> findPublishArticles(final Integer channelId,final Boolean forceAgain,final Integer limit){
-    	String hql = "Select m.article From ArticleMain As m Where m.reference=false And m.channelId=:channelId And m.article.status In (:status)";
+    	String hql = "Select m.article From ArticleMain As m Where m.reference=false And m.channelId=:channelId And m.article.status In (:status) And m.article.published<:currentDate";
     	List<Status> status = new ArrayList<Status>();
     	if (forceAgain) {
     		status.add(Status.RELEASE);
@@ -50,6 +53,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     	TypedQuery<Article> query = this.getEntityManager().createQuery(hql, Article.class);
     	query.setParameter("channelId", channelId);
     	query.setParameter("status", status);
+    	query.setParameter("currentDate", new Date(), TemporalType.TIMESTAMP);
     	query.setMaxResults(limit);
 
     	return query.getResultList();
@@ -57,7 +61,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     
     public List<Article> findArticleReleasePage(final Integer channelId, final Integer page, final Integer row, final Boolean top){
     	logger.debug("query channel is {}", channelId);
-    	String hql = "Select m.article From ArticleMain As m Where m.channelId=:channelId And m.article.status=:status And m.top In (:tops) Order By m.sort Asc, m.article.published Desc, m.id Desc";
+    	String hql = "Select m.article From ArticleMain As m Where m.channelId=:channelId And m.article.status=:status And m.top In (:tops) And m.article.published<:currentDate Order By m.sort Asc, m.article.published Desc, m.id Desc";
     	int startRow = page * row;
     	List<Boolean> tops = new ArrayList<Boolean>();
     	if (top == null) {
@@ -71,6 +75,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     	query.setParameter("channelId", channelId);
     	query.setParameter("status", Status.RELEASE);
     	query.setParameter("tops", tops);
+    	query.setParameter("currentDate", new Date(), TemporalType.TIMESTAMP);
     	query.setFirstResult(startRow);
     	query.setMaxResults(row);
     	// .setHint("org.hibernate.cacheable", true);
@@ -79,7 +84,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     }
     
     public List<Article> findChildChannelArticleReleasePage(final List<Integer> channelIds, final Integer page, final Integer row, final Boolean top){
-    	String hql = "Select m.article From ArticleMain As m Where m.channelId In (:channelIds) And m.article.status=:status And m.top In (:tops)  Order By m.sort Asc, m.article.published Desc, m.id Desc";
+    	String hql = "Select m.article From ArticleMain As m Where m.channelId In (:channelIds) And m.article.status=:status And m.top In (:tops) And m.article.published<:currentDate Order By m.sort Asc, m.article.published Desc, m.id Desc";
     	int startRow = page * row;
     	List<Boolean> tops = new ArrayList<Boolean>();
     	if (top == null) {
@@ -93,6 +98,7 @@ public class ArticleDAO extends JpaDAO<Long, Article> {
     	query.setParameter("channelIds", channelIds);
     	query.setParameter("status", Status.RELEASE);
     	query.setParameter("tops", tops);
+    	query.setParameter("currentDate", new Date(), TemporalType.TIMESTAMP);
     	query.setFirstResult(startRow);
     	query.setMaxResults(row);
     	// .setHint("org.hibernate.cacheable", true);

@@ -47,7 +47,9 @@
 					            {field:'contactName',title:'联系人',width:200},
 					            {field:'department',title:'所在部门',width:200},
 					            {field:'contactTel',title:'联系电话',width:200},
-					            {field:'email',title:'监督投诉',width:200}
+					            {field:'email',title:'监督投诉',width:200},
+					            {field:'infoUrl',title:'信息告知',width:200},
+					            {field:'onlinePayUrl',title:'网上缴费',width:200}
 							]]
 				});
 				//创建和设置页面的操作对象 EwcmsOperate

@@ -5,6 +5,7 @@
  */
 package com.ewcms.plugin.comment.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ewcms.plugin.comment.model.Comment;
@@ -15,7 +16,7 @@ import com.ewcms.plugin.comment.model.Comment;
 public interface CommentServiceable {
 	public Comment getComment(Long id);
 
-	public void commentChecked(Long id, Boolean checked);
+	public void commentChecked(Long id, Boolean checked, Date date);
 	
 	public void deleteComment(List<Long> ids);
 }

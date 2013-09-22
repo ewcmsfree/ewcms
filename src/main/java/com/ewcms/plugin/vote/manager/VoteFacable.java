@@ -220,4 +220,6 @@ public interface VoteFacable {
 	 * @param subjectId 问卷调查主题编号
 	 */
 	public void downSubject(Long questionnaireId, Long subjectId);
+	
+	public Boolean findPersonIsEntityToDay(final Long questionnaireId, final String ip);
 }

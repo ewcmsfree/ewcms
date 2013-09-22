@@ -43,6 +43,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>questionnaireStatus:查看状态</li>
  * <li>verifiCode:验证码</li>
  * <li>subjects:调查与投票明细对象集合</li>
+ * <li>isIpLimit:限制IP多次投票</li>
+ * <li>isIpDay:限制IP一天内不能投票</li>
  * <li>sort:排序</li>
  * <li>voteEnd:结束标志</li>
  * </ul>
@@ -103,6 +105,10 @@ public class Questionnaire implements Serializable {
 	private Long sort;
 	@Column(name = "voteEnd")
 	private Boolean voteEnd;
+	@Column(name = "is_ip_limit")
+	private Boolean isIpLimit;
+	@Column(name = "is_ip_day")
+	private Boolean isIpDay;
 	
 	public Questionnaire(){
 		number = 0L;
@@ -206,6 +212,22 @@ public class Questionnaire implements Serializable {
 
 	public void setVoteEnd(Boolean voteEnd) {
 		this.voteEnd = voteEnd;
+	}
+
+	public Boolean getIsIpLimit() {
+		return isIpLimit;
+	}
+
+	public void setIsIpLimit(Boolean isIpLimit) {
+		this.isIpLimit = isIpLimit;
+	}
+
+	public Boolean getIsIpDay() {
+		return isIpDay;
+	}
+
+	public void setIsIpDay(Boolean isIpDay) {
+		this.isIpDay = isIpDay;
 	}
 
 	@Override

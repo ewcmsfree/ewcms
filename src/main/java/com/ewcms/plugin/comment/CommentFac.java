@@ -10,6 +10,7 @@
 
 package com.ewcms.plugin.comment;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ewcms.plugin.comment.model.Comment;
@@ -28,8 +29,8 @@ public class CommentFac implements CommentFacable {
     private CommentServiceable commentService;
 
     @Override
-    public void commentChecked(Long id,Boolean checked) {
-        commentService.commentChecked(id,checked);
+    public void commentChecked(Long id,Boolean checked, Date date) {
+        commentService.commentChecked(id,checked, date);
     }
 
     @Override

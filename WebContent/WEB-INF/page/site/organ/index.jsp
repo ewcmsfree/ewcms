@@ -18,7 +18,7 @@
 		    	    		return false;
 		    	    	}						
 							var url='<s:url action="edit"/>';
-							url = url + "? organVo.id=" + getNodeId(node);
+							url = url + "?organVo.id=" + getNodeId(node);
 							$("#editifr").attr('src',url);
 					}
 				});
@@ -203,7 +203,7 @@
     	    		return false;
     	    	}    			
 				var url='<s:url action="edit"/>';
-				url = url + "? organVo.id=" + getNodeId(node);
+				url = url + "?organVo.id=" + getNodeId(node);
 				$("#editifr").attr('src',url);    						
 			}
 			//操作菜单初始

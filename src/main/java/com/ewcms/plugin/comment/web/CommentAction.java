@@ -10,6 +10,7 @@
 package com.ewcms.plugin.comment.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -93,7 +94,10 @@ public class CommentAction extends ActionSupport {
 	public String execute() {
 		if (update) {
 			if (checked != null) {
-				commentFac.commentChecked(id, checked);
+				if (date == null){
+					date =  new Date(Calendar.getInstance().getTime().getTime());
+				}
+				commentFac.commentChecked(id, checked, date);
 			}
 			this.addActionMessage("保存成功");
 		}

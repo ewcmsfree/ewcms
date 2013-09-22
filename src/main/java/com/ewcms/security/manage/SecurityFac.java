@@ -196,4 +196,9 @@ public class SecurityFac implements SecurityFacable{
     public void setUserService(UserServiceable userService){
         this.userService = userService;
     }
+
+	@Override
+	public User getUserByUsername(String username) {
+		return userService.getUser(username);
+	}
 }

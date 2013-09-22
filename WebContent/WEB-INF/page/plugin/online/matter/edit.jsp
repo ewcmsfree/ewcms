@@ -86,8 +86,8 @@
 								<s:textarea name="matterVo.acceptedWay" cssStyle="height:40px;width:100%;"/>
 							</td>
 							 -->
-							<td>办理地点：</td>
-							<td>
+							<td width="10%">办理地点：</td>
+							<td width="40%">
 								<s:textarea name="matterVo.handleSite" cssStyle="height:40px;width:100%;"/>
 							</td>
 						</tr>
@@ -161,6 +161,16 @@
 							<td>监督投诉：</td>
 							<td>
 								<s:textarea name="matterVo.email" cssStyle="height:40px;width:100%;"/>
+							</td>
+							<td>信息告知：</td>
+							<td>
+							    <s:textarea name="matterVo.infoUrl" cssStyle="height:40px;width:100%;"/>
+							</td>
+						</tr>
+						<tr>
+							<td>网上缴费：</td>
+							<td>
+							    <s:textarea name="matterVo.onlinePayUrl" cssStyle="height:40px;width:100%;"/>
 							</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>

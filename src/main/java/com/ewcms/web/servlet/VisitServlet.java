@@ -63,6 +63,7 @@ public class VisitServlet extends HttpServlet {
 			}
 		}
 		
+		
 		String url = request.getParameter("URL");
 		if (EmptyUtil.isStringNotEmpty(url)) {
 			url = url.replace('\'', '0').replace('\\', '0');
@@ -97,6 +98,9 @@ public class VisitServlet extends HttpServlet {
 			referer = referer.replace('\'', '0').replace('\\', '0');
 		}
 		item.setReferer(referer);
+		
+		Integer remotePort = request.getRemotePort();
+		item.setRemotePort(remotePort);
 		
 		if (!"Unload".equalsIgnoreCase(request.getParameter("event"))) {
 			try {

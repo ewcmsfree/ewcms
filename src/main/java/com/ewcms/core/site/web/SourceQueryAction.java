@@ -24,6 +24,16 @@ public class SourceQueryAction extends QueryBaseAction {
 
 	private static final long serialVersionUID = -8162647623675823930L;
 
+	private Integer channelId;
+	
+    public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
 	@Override
 	protected Resultable queryResult(
 			com.ewcms.common.query.jpa.QueryFactory queryFactory,
@@ -36,8 +46,7 @@ public class SourceQueryAction extends QueryBaseAction {
 		String name = getParameterValue(String.class, "name");
 		if (isStringNotEmpty(name))
 			query.likeAnywhere("name", name);
-		Integer channelId = getParameterValue(Integer.class, "channelId");
-		query.eq("channelId", channelId);
+		query.eq("channelId", getChannelId());
 		entityOrder(query, order);
 		return query.queryCacheResult(cacheKey);
 	}

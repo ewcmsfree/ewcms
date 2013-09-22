@@ -574,8 +574,8 @@ function insertFileToTinyMCEOperator(){
 					    '<param name="movie" value="flvplayer.swf" />' +
 					    '<param name="quality" value="high" />' +
 					    '<param name="allowFullScreen" value="true" />' +
-					    '<param name="FlashVars" value="vcastr_file=' + value.uri + '&LogoText=www.dean.gov.cn&BufferTime=3" />' +
-					    '<embed src="flvplayer.swf" allowfullscreen="true" flashvars="vcastr_file=' + value.uri + '&LogoText=www.dean.gov.cn" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="400"></embed>' +
+					    '<param name="FlashVars" value="vcastr_file=' + value.uri + '&LogoText=www.xunyang.gov.cn&BufferTime=3" />' +
+					    '<embed src="flvplayer.swf" allowfullscreen="true" flashvars="vcastr_file=' + value.uri + '&LogoText=www.xunyang.gov.cn" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="400"></embed>' +
 					    '</object>';
 					}else if (type=="VIDEO"){
 						var video_uri = value.uri;
@@ -585,7 +585,7 @@ function insertFileToTinyMCEOperator(){
 						}else if(extension==".avi" || extension==".wmv"){
 							html_obj = writeWindowsMedia({src:video_uri,width:320,height:240,data:video_uri,autostart:true,controller:true});
 						}else if (extension==".flv"||extension==".swf"){
-							html_obj = writeFlash({src:video_uri,width:480,height:360,movie: "flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.dean.gov.cn&BufferTime=3"});
+							html_obj = writeFlash({src:video_uri,width:480,height:360,movie: "flvplayer.swf",quality:"high",allowFullScreen:true,flashvars:"vcastr_file=" + video_uri + "&LogoText=www.xunyang.gov.cn&BufferTime=3"});
 						}else if (extension==".wave"){
 							html_obj = writeShockWave({src:video_uri,width:320,height:240});
 						}else{
@@ -593,7 +593,7 @@ function insertFileToTinyMCEOperator(){
 						}
 					}
 					if (tinyMCE.getInstanceById('_Content_' + pages) != null){
-						tinyMCE.execInstanceCommand('_Content_' + pages, 'mceInsertContent', false, html_obj);
+						tinyMCE.execInstanceCommand('_Content_' + pages, 'mceInsertContent', true, html_obj);
 					}
 				}
 		   });

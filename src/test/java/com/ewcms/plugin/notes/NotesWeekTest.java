@@ -21,8 +21,8 @@ public class NotesWeekTest {
 	@Test
 	public void FirstDayOfMonth(){
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, 2011); 
-		calendar.set(Calendar.MONTH, 9);
+//		calendar.set(Calendar.YEAR, 2011); 
+//		calendar.set(Calendar.MONTH, 9);
 		logger.info("Year : " + calendar.get(Calendar.YEAR));
 		logger.info("Month : " + calendar.get(Calendar.MONTH));
 		logger.info("Monday : " + calendar.get(Calendar.MONDAY));

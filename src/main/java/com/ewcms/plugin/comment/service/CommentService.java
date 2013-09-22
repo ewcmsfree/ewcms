@@ -9,6 +9,7 @@
  */
 package com.ewcms.plugin.comment.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ewcms.plugin.comment.dao.CommentDAO;
@@ -33,12 +34,13 @@ public class CommentService implements CommentServiceable {
     }
 
     @Override
-    public void commentChecked(Long id, Boolean checked) {
+    public void commentChecked(Long id, Boolean checked, Date date) {
         Comment comment = commentDAO.get(id);
         if (comment == null) {
             return;
         }
         comment.setChecked(checked);
+        comment.setDate(date);
         commentDAO.persist(comment);
     }
 

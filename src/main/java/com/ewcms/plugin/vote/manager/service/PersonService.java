@@ -79,13 +79,21 @@ public class PersonService implements PersonServiceable {
 						if (subject.getStatus() == Subject.Status.INPUT){
 							SubjectItem subjectItem = subjectItemDAO.findSubjectItemBySubjectAndInputStatus(subjectId);
 							if (subjectItem == null) continue;
-							subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+							try{
+								subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+							}catch(NullPointerException e){
+								subjectItem.setVoteNumber(1L);
+							}
 							subjectItemDAO.merge(subjectItem);
 						}else{
 							if (!subjectValue.equals("") && StringUtils.isNumeric(subjectValue)){
 								Long subjectItemId = new Long(subjectValue);
 								SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
-								subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+								try{
+									subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+								}catch(NullPointerException e){
+									subjectItem.setVoteNumber(1L);
+								}
 								subjectItemDAO.merge(subjectItem);
 							}							
 						}
@@ -96,7 +104,11 @@ public class PersonService implements PersonServiceable {
 					if (!recordNames[3].equals("") && StringUtils.isNumeric(recordNames[3])){
 						Long subjectItemId = new Long(recordNames[3]);
 						SubjectItem subjectItem = subjectItemDAO.get(subjectItemId);
-						subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+						try{
+							subjectItem.setVoteNumber(subjectItem.getVoteNumber() + 1);
+						}catch(NullPointerException e){
+							subjectItem.setVoteNumber(1L);
+						}
 						subjectItemDAO.merge(subjectItem);
 					}
 				}
@@ -155,5 +167,10 @@ public class PersonService implements PersonServiceable {
 			}
 		}
 		return htmls;
+	}
+
+	@Override
+	public Boolean findPersonIsEntityToDay(Long questionnaireId, String ip) {
+		return personDAO.findPersonIsEntityToDay(questionnaireId, ip);
 	}
 }

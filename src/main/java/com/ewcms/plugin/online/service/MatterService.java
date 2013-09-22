@@ -108,6 +108,8 @@ public class MatterService implements MatterServiceable {
 		matter_old.setName(matter.getName());
 		matter_old.setPetitionMaterial(matter.getPetitionMaterial());
 		matter_old.setTimeLimit(matter.getTimeLimit());
+		matter_old.setInfoUrl(matter.getInfoUrl());
+		matter_old.setOnlinePayUrl(matter.getOnlinePayUrl());
 
 		int order = 0;
 		List<MatterAnnex> matterAnnexs = new ArrayList<MatterAnnex>();

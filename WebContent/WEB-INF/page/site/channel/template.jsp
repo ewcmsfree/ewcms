@@ -6,7 +6,7 @@
 		<title>专栏模板管理</title>
 		<s:include value="../../taglibs.jsp"/>
 		<script type="text/javascript"> 
-			var tpltreeURL = '<s:url value="/site/template/tree.do" />';
+			var tpltreeURL = '<s:url value="/site/template/tree.do"/>';
 			var datagridId="#tt";
 			function browseTPL(){
 				openWindow("#template-window");
@@ -36,7 +36,7 @@
 								
 				//创建和设置页面的基本对象 EwcmsBase`
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
+				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template"/>?channelId=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.addToolItem('导入','icon-zip-import','browseTPL');
 				ewcmsBOBJ.addToolItem('应用栏目','icon-applied-child','appChildOperate')
 				ewcmsBOBJ.addToolItem('强制发布','icon-force-operate','forceOperate');
@@ -104,7 +104,7 @@
 			}	
 
 			function previewTPL(idValue){
-				window.open('<s:url value="/template/preview"/>?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=1,location=no, status=no");			
+				window.open('<s:url value="/template/preview"/>?templateId='+idValue, "previewwin", "height=600, width=800, top=0, left=0, toolbar=no, menubar=no, scrollbars=yes, resizable=1,location=no, status=no");			
 			}					
 			
 			function downloadTPL(idValue){

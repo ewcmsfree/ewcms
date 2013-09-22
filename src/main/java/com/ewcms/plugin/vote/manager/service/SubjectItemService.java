@@ -68,6 +68,7 @@ public class SubjectItemService implements SubjectItemServiceable {
 
 	@Override
 	public Long updSubjectItem(SubjectItem subjectItem) {
+		if (subjectItem.getVoteNumber() == null) subjectItem.setVoteNumber(0L);
 		subjectItemDAO.merge(subjectItem);
 		return subjectItem.getId();
 	}

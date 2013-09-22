@@ -38,6 +38,7 @@ public class SummaryVo implements Serializable {
 	 * 访问记录变量
 	 */
 	private String ipValue;
+	private Integer remotePort;
 	private String country;
 	private String province;
 	private String city;
@@ -105,11 +106,12 @@ public class SummaryVo implements Serializable {
 	 * @param language
 	 * @param flashVersion
 	 */
-	public SummaryVo(String ipValue, String country, String province, String city, String url, Date visitDate,
+	public SummaryVo(String ipValue, Integer remotePort, String country, String province, String city, String url, Date visitDate,
 			Date visitTime, String referer, String browser, String os,
 			String screen, String language, String flashVersion) {
 		super();
 		this.ipValue = ipValue;
+		this.remotePort = remotePort;
 		this.country = country;
 		this.province = province;
 		this.city = city;
@@ -233,6 +235,14 @@ public class SummaryVo implements Serializable {
 
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
+	}
+
+	public Integer getRemotePort() {
+		return remotePort;
+	}
+
+	public void setRemotePort(Integer remotePort) {
+		this.remotePort = remotePort;
 	}
 
 	public String getCountry() {

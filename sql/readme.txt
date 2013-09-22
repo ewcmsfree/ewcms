@@ -91,3 +91,7 @@ Percentage of the requests served within a certain time (ms)
  100%   4688 (longest request)
  
 由于对于并发请求，cpu实际上并不是同时处理的，而是按照每个请求获得的时间片逐个轮转处理的，所以基本上第一个Time per request时间约等于第二个Time per request时间乘以并发请求数。
+
+13d3e49b5f3aea2572f1c767491a8e60
+
+for var in *_zip.jpg; do mv "$var" "${var%_zip.jpg}_thumb.jpg"; done

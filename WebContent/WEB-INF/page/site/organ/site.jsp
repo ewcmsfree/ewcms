@@ -234,7 +234,7 @@
     			var node = getSelectNode();
     			if(!node) return;	  			
 				var url='<s:url action="configSite"/>';
-				url = url + "? siteVo.id=" + getNodeId(node);	
+				url = url + "?siteVo.id=" + getNodeId(node);	
 				$("#editifr").attr('src',url); 
 			    openWindow('#edit-window',{width:600,height:400,top:10,left:10,title:'属性设置'});				   						
 			}
@@ -244,7 +244,7 @@
     			var node = getSelectNode();
     			if(!node) return;	  			
 				var url='<s:url action="serverSite"/>';
-				url = url + "? siteVo.id=" + getNodeId(node);
+				url = url + "?siteVo.id=" + getNodeId(node);
 				$("#serverifr").attr('src',url);
 			    openWindow('#server-window',{width:600,height:400,top:10,left:10,title:'发布设置'});	
 			}

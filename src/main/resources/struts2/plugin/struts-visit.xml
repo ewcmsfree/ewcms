@@ -25,7 +25,10 @@
 		<action name="lastVisit" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/lastVisit.jsp</result>
 		</action>
+		<!-- 
 		<action name="lastVisitTable" class="com.ewcms.plugin.visit.manager.web.SummaryAction" method="lastVisitTable"/>
+		 -->
+		 <action name="lastVisitTable" class="com.ewcms.plugin.visit.manager.web.ListVisitAction" method="query"/>
 		<action name="hour" class="com.ewcms.plugin.visit.manager.web.SummaryAction">
 			<result>/WEB-INF/page/plugin/visit/hour.jsp</result>
 		</action>

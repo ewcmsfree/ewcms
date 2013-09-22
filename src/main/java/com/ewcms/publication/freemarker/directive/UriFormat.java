@@ -6,7 +6,7 @@
 
 package com.ewcms.publication.freemarker.directive;
 
-import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 格式资源地址，使其在系统保持一直。

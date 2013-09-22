@@ -209,4 +209,12 @@ public interface SecurityFacable {
      * @return
      */
     UserInfo getCurrentUserInfo();
+    
+    /**
+     * 得到当前用户
+     * 
+     * @param username
+     * @return
+     */
+    User getUserByUsername(String username);
 }

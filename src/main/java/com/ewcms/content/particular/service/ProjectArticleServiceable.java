@@ -21,4 +21,6 @@ public interface ProjectArticleServiceable {
 	public void pubProjectArticle(List<Long> projectArticleIds);
 	
 	public void unPubProjectArticle(List<Long> projectArticleIds);
+	
+	public List<ProjectArticle> findProjectArticleAll();
 }

@@ -9,7 +9,7 @@
 			$(function(){
 				//创建和设置页面的基本对象 EwcmsBase
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template/source"/>?parameters["channelId"]=<s:property value="channelVo.id"/>');
+				ewcmsBOBJ.setQueryURL('<s:url action="query" namespace="/site/template/source"/>?channelId=<s:property value="channelVo.id"/>');
 				ewcmsBOBJ.openDataGrid('#tt',{
 					columns:[[
 								 {field:'id',title:'编号',width:50,sortable:true,align:'center'},

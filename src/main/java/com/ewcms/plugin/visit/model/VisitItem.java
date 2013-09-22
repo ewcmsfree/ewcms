@@ -61,10 +61,12 @@ public class VisitItem implements Serializable {
 	private Integer siteId;
 	@Column(name = "url")
 	private String url;
-	@Column(name = "referer")
+	@Column(name = "referer", columnDefinition = "text")
 	private String referer;
 	@Column(name = "depth")
 	private Long depth;
+	@Column(name = "remote_port")
+	private Integer remotePort;
 	
 	public VisitItem(){
 		visitDate = new Date(Calendar.getInstance().getTime().getTime());
@@ -190,6 +192,14 @@ public class VisitItem implements Serializable {
 
 	public void setDepth(Long depth) {
 		this.depth = depth;
+	}
+	
+	public Integer getRemotePort() {
+		return remotePort;
+	}
+
+	public void setRemotePort(Integer remotePort) {
+		this.remotePort = remotePort;
 	}
 
 	@Override

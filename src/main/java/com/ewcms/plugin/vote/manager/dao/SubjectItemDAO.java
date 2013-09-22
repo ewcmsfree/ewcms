@@ -41,11 +41,11 @@ public class SubjectItemDAO extends JpaDAO<Long, SubjectItem> {
 	}
 
 	public SubjectItem findSubjectItemBySubjectAndInputStatus(final Long subjectId){
-		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=:subjectId And s.subjectStatus=subjectStatus";
+		String hql = "Select i From Subject As s Right Join s.subjectItems As i Where s.id=:subjectId And s.status=:status";
 		
 		TypedQuery<SubjectItem> query = this.getEntityManager().createQuery(hql, SubjectItem.class);
 		query.setParameter("subjectId", subjectId);
-		query.setParameter("subjectStatus", Subject.Status.INPUT);
+		query.setParameter("status", Subject.Status.INPUT);
 		
 		SubjectItem subjectItem = null;
 		try{

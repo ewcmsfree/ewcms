@@ -90,4 +90,9 @@ public class EnterpriseArticleService implements EnterpriseArticleServiceable {
 			enterpriseArticleDAO.merge(enterpriseArticle);
 		}
 	}
+
+	@Override
+	public List<EnterpriseArticle> findEnterpriseArticleAll() {
+		return enterpriseArticleDAO.findEnterpriseArticleAll();
+	}
 }

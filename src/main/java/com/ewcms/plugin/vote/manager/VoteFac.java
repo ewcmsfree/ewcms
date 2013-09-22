@@ -155,4 +155,9 @@ public class VoteFac implements VoteFacable {
 	public List<String> getRecordToHtml(Long questionnaireId, Long personId) {
 		return personService.getRecordToHtml(questionnaireId, personId);
 	}
+
+	@Override
+	public Boolean findPersonIsEntityToDay(Long questionnaireId, String ip) {
+		return personService.findPersonIsEntityToDay(questionnaireId, ip);
+	}
 }

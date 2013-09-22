@@ -9,12 +9,19 @@
  */
 package com.ewcms.plugin.interaction.web;
 
+import java.util.Collection;
+
 import com.ewcms.web.QueryBaseAction;
+import com.ewcms.web.util.EwcmsContextUtil;
 import com.ewcms.common.lang.EmptyUtil;
 import com.ewcms.common.query.Resultable;
 import com.ewcms.common.query.jpa.EntityQueryable;
 import com.ewcms.common.query.jpa.QueryFactory;
 import com.ewcms.plugin.interaction.model.Interaction;
+import com.ewcms.security.manage.SecurityFacable;
+import com.ewcms.security.manage.model.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 
@@ -27,6 +34,9 @@ public class InteractionQueryAction extends QueryBaseAction {
     
 	private static final long serialVersionUID = 8941876237437479766L;
 
+	@Autowired
+	private SecurityFacable securityFac;
+	
 	private int checked;
     private int replay;
     private String title;
@@ -68,6 +78,25 @@ public class InteractionQueryAction extends QueryBaseAction {
 	@Override
 	protected Resultable queryResult(QueryFactory queryFactory,	String cacheKey, int rows, int page, Order order) {
 		EntityQueryable query = queryFactory.createEntityQuery(Interaction.class).setPage(page).setRow(rows).orderDesc("date");
+		
+		Boolean isAdmin = false;
+		Collection<String> autorityNames = EwcmsContextUtil.getAutoritynames();
+		for (String autorityName : autorityNames){
+			if (autorityName.equals("ROLE_ADMIN")){
+				isAdmin = true;
+				break;
+			}
+		}
+		
+		if (!isAdmin){
+			User user = securityFac.getUser(EwcmsContextUtil.getUserName());
+			if (user.getOrgan() != null){
+				query.eq("organId", user.getOrgan().getId());
+			}else{
+				query.eq("organId", null);
+			}
+		}
+		
         if (checked != 0) {
             if (checked == 1) {
                 query.eq("checked", true);

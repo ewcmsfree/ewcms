@@ -182,7 +182,7 @@ public class RecycleBinQueryAction extends QueryBaseAction {
 		if (getChannelId() == null) return false;
 		Set<Permission>  permissions = siteFac.getPermissionsById(getChannelId());
 		for (Permission permission : permissions){
-			if (permission.getMask() > 2){
+			if (permission.getMask() > 4){
 				return true;
 			}
 		}
