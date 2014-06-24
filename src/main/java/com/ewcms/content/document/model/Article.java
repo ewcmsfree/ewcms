@@ -65,6 +65,7 @@ import org.hibernate.annotations.Index;
  * <li>contentTotal:内容总页数<li>
  * <li>inside:使用内部标题</li>
  * <li>reviewProcess:审核流程对象</li>
+ * 
  * </ul>
  * 
  * @author 吴智俊

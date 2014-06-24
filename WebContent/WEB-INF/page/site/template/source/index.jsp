@@ -37,12 +37,12 @@
 				$.messager.prompt(node.text, '请输入文件名称', function(r){
 					if (r){
 						if(!fileparten.exec(r)){
-		    	    		$.messager.alert('提示','文件名由字母、数字、组成的文件');
+		    	    		$.messager.alert('提示','文件名由字母、数字、组成的文件','info');
 		    	    		return;
 						}
 			            $.post('<s:url action="add"/>',{'sourceVo.parent.id':getNodeId(node),'sourceVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','新建资源失败');
+			    	    		$.messager.alert('提示','新建资源失败','info');
 			    	    		return;
 				            }
 				            $('#tt2').tree('append',{
@@ -68,12 +68,12 @@
 				$.messager.prompt(node.text, '请输入文件夹名', function(r){
 					if (r){
 						if(!folderparten.exec(r)){
-		    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
+		    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成','info');
 		    	    		return;
 						}						
 			            $.post('<s:url action="addFolder"/>',{'sourceVo.parent.id':getNodeId(node),'sourceVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','新建文件夹失败');
+			    	    		$.messager.alert('提示','新建文件夹失败','info');
 			    	    		return;
 				            }
 				            $('#tt2').tree('append',{
@@ -100,18 +100,18 @@
 					if (r){
 						if(node.iconCls == "icon-channel-note"){
 							if(!folderparten.exec(r)){
-			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
+			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成','info');
 			    	    		return;
 							}
 						}else{
 							if(!fileparten.exec(r)){
-			    	    		$.messager.alert('提示','文件名由字母、数字、组成的文件');
+			    	    		$.messager.alert('提示','文件名由字母、数字、组成的文件','info');
 			    	    		return;
 							}	
 						}												
 			            $.post('<s:url action="rename"/>',{'sourceVo.id':getNodeId(node),'sourceVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','重命名失败');
+			    	    		$.messager.alert('提示','重命名失败','info');
 			    	    		return;
 				            }
 				            node.text = r;
@@ -128,7 +128,7 @@
     			if(!node) return;
 				var rootnode = $('#tt2').tree('getRoot');
 				if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许删除该资源');
+					$.messager.alert('提示','不允许删除该资源','info');
 					 return;
 				}     			
     			$.messager.confirm('提示', '确认要删除 ' + node.text + '资源吗?', function(r){
@@ -136,7 +136,7 @@
     	    	    	//删除资源			
     		            $.post('<s:url action="del"/>',{'sourceVo.id':getNodeId(node)},function(data){
     			            if(data == 'false'){
-    		    	    		$.messager.alert('提示','资源不能删除');
+    		    	    		$.messager.alert('提示','资源不能删除','info');
     		    	    		return;
     			            }
     			            $('#tt2').tree('remove',node.target);    			            
@@ -208,18 +208,18 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(typeof(cutNode) == 'undefined' || cutNode == ''){
-    	    		$.messager.alert('提示','请先剪切资源');		    	    			    	    		
+    	    		$.messager.alert('提示','请先剪切资源','info');		    	    			    	    		
     	    		return;
     			}
     	    	try{
 	    	    	if(cutNode.id == node.id || parentNode.id == node.id){
-	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下');	    	    		
+	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下','info');	    	    		
 	    	    		return;
 	    	    	}
 	    	    	//移动专栏 			
 		            $.post('<s:url action="moveto"/>',{'sourceVo.id':getNodeId(cutNode),'sourceVo.parent.id':getNodeId(node)},function(data){
 			            if(data == 'false'){
-		    	    		$.messager.alert('提示','粘贴资源失败');
+		    	    		$.messager.alert('提示','粘贴资源失败','info');
 		    	    		return;	
 			            }
 						$('#tt2').tree('append',{
@@ -238,7 +238,7 @@
     			if(!node) return;
     			//判断是否选择的是文件夹
     			if(node.iconCls != "icon-channel-note"){
-    				$.messager.alert('提示','请选择文件夹');	
+    				$.messager.alert('提示','请选择文件夹','info');	
     				return ;
     			}
 				var url='<s:url action="import"/>?sourceVo.parent.id='+ getNodeId(node);
@@ -257,7 +257,7 @@
     			if(!node) return;
     			//判断是否选择的是文件夹
     			if(node.iconCls == "icon-channel-note"){
-    				$.messager.alert('提示','请选择文件');	
+    				$.messager.alert('提示','请选择文件','info');	
     				return ;
     			}			
 				var url='<s:url action="edit"/>?sourceVo.id='+ getNodeId(node);
@@ -286,15 +286,15 @@
     			if(!node) return;
 				var rootnode = $('#tt2').tree('getRoot');
 				if(rootnode.id == node.id){
-					$.messager.alert('提示','不能发布根目录');
+					$.messager.alert('提示','不能发布根目录','info');
 					 return;
 				}   
 	            $.post('<s:url action="pubsource"/>',{'sourceVo.id':getNodeId(node)},function(data){
 		            if(data == 'false'){
-	    	    		$.messager.alert('提示','资源发布失败');
+	    	    		$.messager.alert('提示','资源发布失败','info');
 	    	    		return;
 		            }
-		            $.messager.alert('提示','资源发布成功');
+		            $.messager.alert('提示','资源发布成功','info');
 	    	    });
 			}
 		</script>		

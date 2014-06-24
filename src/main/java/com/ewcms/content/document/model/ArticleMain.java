@@ -30,6 +30,7 @@ import org.hibernate.annotations.Index;
  * <li>channelId:频道编号</li>
  * <li>article:文章信息</li>
  * <li>reference:是否引用</li>
+ * <li>copy:是否复制</li>
  * <li>share:是否共享</li>
  * <li>sort:排序</li>
  * <li>top:新闻置顶</li>

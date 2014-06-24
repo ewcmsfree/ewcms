@@ -50,7 +50,7 @@ public class EmployeBasicQueryAction extends QueryBaseAction{
     	String cardCode = getParameterValue(String.class, "cardCode", "");
     	if (isStringNotEmpty(cardCode)) query.likeAnywhere("cardCode", cardCode);
     	
-		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ == null){
 				query.eq("organ.id", null);
@@ -69,7 +69,7 @@ public class EmployeBasicQueryAction extends QueryBaseAction{
 
     	query.eq("channelId", getChannelId());
     	
-		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ == null){
 				query.eq("organ.id", null);

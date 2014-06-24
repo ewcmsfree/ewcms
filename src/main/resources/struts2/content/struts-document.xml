@@ -128,6 +128,7 @@
 			<result>/WEB-INF/page/document/refer/index.jsp</result>
 		</action>
 		<action name="delete" class="com.ewcms.content.document.web.ReferArticleAction" method="delete"/>
+		<action name="query" class="com.ewcms.content.document.web.ReferQueryAction" method="query"/>
 	</package>
 	<package name="document.share" extends="struts-default" namespace="/document/share">
 		<action name="index">

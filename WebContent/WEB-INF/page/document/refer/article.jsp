@@ -11,7 +11,7 @@
 			var channelId = 0;
 			$(function(){
 				ewcmsBOBJ = new EwcmsBase();
-				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/article" action="query"/>');
+				ewcmsBOBJ.setQueryURL('<s:url namespace="/document/refer" action="query"/>?referChannelId=' + $('#channelId').val());
 
 				ewcmsBOBJ.delToolItem('新增');
 				ewcmsBOBJ.delToolItem('修改');
@@ -78,8 +78,8 @@
 						var rootnode = $('#tt2').tree('getRoot');
 						if(rootnode.id == node.id) return;
 
-						var url='<s:url namespace="/document/article" action="query"/>';
-						url = url + "?channelId=" + node.id;
+						var url='<s:url namespace="/document/refer" action="query"/>';
+						url = url + "?channelId=" + node.id + "&referChannelId=" + $('#channelId').val();
 						$("#tt").datagrid({
 			            	pageNumber:1,
 			                url:url
@@ -99,8 +99,8 @@
 			}
 			
 			function initOperateQuery(){
-				var url='<s:url namespace="/document/article" action="query"/>';
-				url = url + "?channelId=" + channelId;
+				var url='<s:url namespace="/document/refer" action="query"/>';
+				url = url + "?channelId=" + channelId + "&referChannelId=" + $('#channelId').val();
 				$("#tt").datagrid({
 	            	pageNumber:1,
 	                url:url
@@ -113,8 +113,8 @@
                 value = value.replace(/\=/g,"']=");
                 value = value.replace(/\&/g,"&parameters['");  
 
-                var url = '<s:url namespace="/document/article" action="query"/>';
-                url += "?channelId=" + channelId + "&" + value;
+                var url = '<s:url namespace="/document/refer" action="query"/>';
+                url += "?channelId=" + channelId +  + "&referChannelId=" +  $('#channelId').val() + value;
                 $("#tt").datagrid({
                     pageNumber:1,
                     url:url
@@ -165,5 +165,6 @@
                 </div>
             </div>
         </div>
+        <s:hidden name="channelId" id="channelId"/>
 	</body>
 </html>

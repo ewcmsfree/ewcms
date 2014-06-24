@@ -13,7 +13,7 @@
 					checkbox: false,
 					url: '<s:url action="treePub"/>',
 					onClick:function(node){
-						if(node.attributes.maxpermission<16){
+						if(node.attributes.maxpermission<64){
 		    	    		$.messager.alert('提示','您不具有该操作权限','info');
 		    	    		return false;
 						}
@@ -30,7 +30,7 @@
 				//判断是否选择了专栏
     			var node = getSelectNode();
     			if(!node) return;
-				if(node.attributes.maxpermission<8){
+				if(node.attributes.maxpermission<32){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}    			
@@ -64,7 +64,7 @@
 				//判断是否选择了专栏
     			var node = getSelectNode();
     			if(!node) return;
-				if(node.attributes.maxpermission<16){
+				if(node.attributes.maxpermission<64){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}    	    	 		
@@ -93,7 +93,7 @@
 					$.messager.alert('提示','不允许删除该专栏','info');
 					 return;
 				}   
-				if(node.attributes.maxpermission<32){
+				if(node.attributes.maxpermission<128){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}				  			
@@ -130,7 +130,11 @@
     				if(rootnode.id == node.id){
     					$.messager.alert('提示','不允许剪切该专栏','info');
     					 return;
-    				}         			
+    				}  
+    				if(node.attributes.maxpermission<64){
+        	    		$.messager.alert('提示','您不具有该操作权限','info');
+        	    		return false;
+    				}
         			$.messager.confirm('', '确认要剪切 ' + node.text + '专栏吗?', function(r){
         				if (r){
         	    			parentNode = $('#tt2').tree('getParent',node.target);
@@ -167,6 +171,10 @@
     	    		return;
     			}
     	    	try{
+    	    		if(node.attributes.maxpermission<64){
+        	    		$.messager.alert('提示','您不具有该操作权限','info');
+        	    		return false;
+    				}
 	    	    	if(cutNode.id == node.id || parentNode.id == node.id){
 	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下','info');	    	    		
 	    	    		return;
@@ -204,7 +212,7 @@
 				//判断是否选择了操作专栏
     			var node = getSelectNode();
     			if(!node) return;	
-				if(node.attributes.maxpermission<16){
+				if(node.attributes.maxpermission<64){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
@@ -216,7 +224,7 @@
 				//判断是否选择了操作模板
     			var node = getSelectNode();
     			if(!node) return;
-    			if(node.attributes.maxpermission<16){
+    			if(node.attributes.maxpermission<64){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
@@ -241,7 +249,7 @@
 				//判断是否选择了操作模板
     			var node = getSelectNode();
     			if(!node) return;
-    			if(node.attributes.maxpermission<16){
+    			if(node.attributes.maxpermission<64){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}
@@ -267,7 +275,7 @@
 				//判断是否选择了操作模板
     			var node = getSelectNode();
     			if(!node) return;
-    			if(node.attributes.maxpermission<16){
+    			if(node.attributes.maxpermission<64){
     	    		$.messager.alert('提示','您不具有该操作权限','info');
     	    		return false;
 				}

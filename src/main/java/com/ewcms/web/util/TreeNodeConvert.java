@@ -29,6 +29,7 @@ public class TreeNodeConvert {
 	private final static Pattern FILTERS_CSS = Pattern.compile(".*(\\.(css))$");
 	private final static Pattern FILTERS_HTML = Pattern.compile(".*(\\.(html|htm))$");
 	private final static Pattern FILTERS_JS = Pattern.compile(".*(\\.(js))$");
+	private final static Pattern FILTERS_XML = Pattern.compile(".*(\\.(xml))$");
 	private final static Pattern FILTERS_PICTURE = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?|psd))$");
 	private final static Pattern FILTERS_VOIDE = Pattern.compile(".*(\\.(mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma))$");
 	private final static Pattern FILTERS_WORD = Pattern.compile(".*(\\.(doc|doc?|dot|rtf|olk|scd|wri|wpd|wtf|wps))$");
@@ -104,6 +105,7 @@ public class TreeNodeConvert {
 				if (FILTERS_CSS.matcher(name).matches()) tnVo.setIconCls("icon-resource-css");
 				else if (FILTERS_JS.matcher(name).matches()) tnVo.setIconCls("icon-resource-js");
 				else if (FILTERS_HTML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
+				else if (FILTERS_XML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
 				else if (FILTERS_PICTURE.matcher(name).matches()) tnVo.setIconCls("icon-resource-picture");
 				else if (FILTERS_VOIDE.matcher(name).matches()) tnVo.setIconCls("icon-resource-voide");
 				else if (FILTERS_WORD.matcher(name).matches()) tnVo.setIconCls("icon-resource-word");
@@ -143,6 +145,7 @@ public class TreeNodeConvert {
 				if (FILTERS_CSS.matcher(name).matches()) tnVo.setIconCls("icon-resource-css");
 				else if (FILTERS_JS.matcher(name).matches()) tnVo.setIconCls("icon-resource-js");
 				else if (FILTERS_HTML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
+				else if (FILTERS_XML.matcher(name).matches()) tnVo.setIconCls("icon-resource-html");
 				else if (FILTERS_PICTURE.matcher(name).matches()) tnVo.setIconCls("icon-resource-picture");
 				else if (FILTERS_VOIDE.matcher(name).matches()) tnVo.setIconCls("icon-resource-voide");
 				else if (FILTERS_WORD.matcher(name).matches()) tnVo.setIconCls("icon-resource-word");

@@ -125,6 +125,8 @@ public class Matter implements Serializable {
     private String postadviseUrl;
     @Column(name = "onlinePayUrl", columnDefinition = "text")
     private String onlinePayUrl;
+    @Column(name="service_object", columnDefinition = "text")
+    private String serviceObject;
 
 	public Integer getId() {
 		return id;
@@ -335,6 +337,14 @@ public class Matter implements Serializable {
 
 	public void setOnlinePayUrl(String onlinePayUrl) {
 		this.onlinePayUrl = onlinePayUrl;
+	}
+
+	public String getServiceObject() {
+		return serviceObject;
+	}
+
+	public void setServiceObject(String serviceObject) {
+		this.serviceObject = serviceObject;
 	}
 
 	@Override

@@ -139,7 +139,20 @@ public class ChannelService implements ChannelServiceable{
     
     private Boolean getEntriesInheriting(Channel channel, List<String> autorityNames, List<String> groupNames, UserDetails userDetail){
     	Acl acl = findAclOfChannel(channel);
-        if(acl == null || acl.getEntries() == null || acl.getEntries().isEmpty()) return false;
+    	
+    	if (acl == null) return false;
+    	
+        if(acl.getEntries() == null || acl.getEntries().isEmpty()) {
+            Boolean inherit = acl.isEntriesInheriting();
+            if (!inherit) {
+            	return false;
+            }else{
+            	Channel parent = channel.getParent();
+               	if (parent == null) return false;
+               	
+               	return getEntriesInheriting(parent, autorityNames, groupNames, userDetail);
+            }
+        }
         List<AccessControlEntry> aces = acl.getEntries();
         
         for(AccessControlEntry ace : aces){
@@ -194,8 +207,15 @@ public class ChannelService implements ChannelServiceable{
             channel.setName(getCurSite().getSiteName());
             channel.setSite(getCurSite());
             channelDAO.persist(channel);
-            initAclOfChannel(channel,false,false);
+            initAclOfChannel(channel,true,false);
         }
+//        Sid principalSid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication());
+//        aclService.addPermission(channel,principalSid,EwcmsPermission.ADMIN);
+//
+//        
+//        aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_USER"),EwcmsPermission.READ);
+//        aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_WRITER"),EwcmsPermission.WRITE);
+//        aclService.addPermission(channel,new GrantedAuthoritySid("ROLE_EDITOR"),EwcmsPermission.PUBLISH);
         return new ChannelNode(channel,getPermissionsofChannel(channel));
     }
     

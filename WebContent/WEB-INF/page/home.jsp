@@ -285,8 +285,8 @@
                 </div>
                 </sec:authorize>
                  -->
-                <sec:authorize ifAnyGranted="ROLE_ADMIN">
-               	<div title="报表管理" style="overflow:auto;">
+                <div title="报表管理" style="overflow:auto;">
+                	<sec:authorize ifAnyGranted="ROLE_ADMIN">
                	    <div class="nav-item">
                          <a href="javascript:_home.addTab('文字报表','report/text/index.do')">
                             <img src="ewcmssource/image/report_text.png" style="border:0"/><br/>
@@ -311,21 +311,25 @@
                             <span>报表存储</span>
                         </a>
                	    </div>
+               	    </sec:authorize>
+               	    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_REPORT">
                	    <div class="nav-item">
                          <a href="javascript:_home.addTab('报表集','report/show/index.do')">
                             <img src="ewcmssource/image/report_show.png" style="border:0"/><br/>
                             <span>报表集</span>
                         </a>
                	    </div>
+               	    </sec:authorize>
+               	    <sec:authorize ifAnyGranted="ROLE_ADMIN">
                	    <div class="nav-item">
                          <a href="javascript:_home.addTab('数据源','ds/index.do')">
                             <img src="ewcmssource/image/report_ds.png" style="border:0"/><br/>
                             <span>数据源</span>
                         </a>
                	    </div>
+               	    </sec:authorize>
                	</div>
-                </sec:authorize>
-                <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_PROJECT">
                 <div title="特殊信息" style="overflow:auto;">
                 	<div class="nav-item">
                          <a href="javascript:_home.addTab('审批备案','particular/ar/index.do')">

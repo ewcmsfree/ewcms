@@ -110,7 +110,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 		hql = hql.replace("@joinTable@", joinTable);
 		countHql = countHql.replace("@joinTable@", joinTable);
 		
-		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Desc";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 0 Else 1 End, r.published Desc, Case When r.modified Is Null Then 0 Else 1 End, r.modified Desc, o.id Desc";
 		hql += " Limit " + rows + " OffSet " + (rows * (page + 1));
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
@@ -179,7 +179,7 @@ public class ArticleMainQueryAction extends QueryBaseAction {
 			hql += " And r.owner=:owner ";
 			countHql += " And r.owner=:owner ";
 		}
-		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.modified Is Null Then 1 Else 0 End, r.modified Desc, Case When r.published Is Null Then 1 Else 0 End, r.published Desc, o.id Des";
+		hql += " Order By Case When o.top Is Null Then 1 Else 0 End, o.top Desc, o.sort Asc, Case When r.published Is Null Then 0 Else 1 End, r.published Desc, Case When r.modified Is Null Then 0 Else 1 End, r.modified Desc, o.id Desc";
 		
 		HqlQueryable query = queryFactory.createHqlQuery(hql, countHql);
 		

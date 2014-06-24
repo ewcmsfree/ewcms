@@ -72,7 +72,7 @@ public class EmployeBasicAction extends CrudBaseAction<EmployeBasic, Long> {
 
 	@Override
 	protected EmployeBasic getOperator(Long pk) {
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			organShow = "enable";
 		}
 		return particularFac.findEmployeBasicById(pk);
@@ -96,7 +96,7 @@ public class EmployeBasicAction extends CrudBaseAction<EmployeBasic, Long> {
 	@Override
 	protected EmployeBasic createEmptyVo() {
 		EmployeBasic employeBasic = new EmployeBasic();
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			organShow = "enable";
 		}else{
 			Organ organ = particularFac.findOrganByUserName();

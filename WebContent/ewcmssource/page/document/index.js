@@ -219,10 +219,11 @@ function nodeArticleMenu(){
 }
 //重读选择的栏目中文章
 function articleReload() {
-	$('#tt').datagrid( {
-		url : queryURL
-	});
-	channelPermission(rootnode, currentnode);
+	$('#tt').datagrid('reload');
+	//$('#tt').datagrid( {
+	//	url : queryURL
+	//});
+	//channelPermission(rootnode, currentnode);
 	if ($('#node').val()=='true'){
 		nodeArticleMenu();
 	}
@@ -292,8 +293,9 @@ function initOperateQuery() {
 	$('#tt').datagrid('clearSelections');
 	$('#tt').datagrid( {
 		pageNumber : 1,
-		url : url
+		url : ewcmsBOBJ.getQueryURL()
 	});
+	channelPermission(rootnode, currentnode);
 }
 //有条件查询
 function querySearch_Article() {

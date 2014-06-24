@@ -12,26 +12,14 @@
 		<defaultValueExpression><![CDATA[new Date(Calendar.getInstance().getTime().getTime())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Select organ_id, o.name, count(organ_id) As amount from site_organ As o Left Join
-(
-select organ_id, published from particular_project_basic where release = true
-union all
-select organ_id, published from particular_project_article where release = true
-union all
-select organ_id, published from particular_enterprise_basic where release = true
-union all
-select organ_id, published from particular_enterprise_article where release = true
-union all
-select organ_id, published from particular_employe_basic where release = true
-union all
-select organ_id, published from particular_employe_article where release = true
-)
-As particular On o.id = particular.organ_id
-where particular.published >= $P{publishedBegin} and particular.published <= $P{publishedEnd}
-Group By organ_id,o.name
-Order By organ_id]]>
+		<![CDATA[select o.name as name, count(a.id) as amount
+from content_article_main m
+left join content_article a on m.article_id=a.id
+left join auth_user u on u.username=a.owner
+left join site_organ o on o.id=u.organ_id
+where a.delete=false and status='RELEASE' and a.published>=$P{publishedBegin} and a.published<=$P{publishedEnd}
+group by o.name]]>
 	</queryString>
-	<field name="organ_id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="amount" class="java.lang.Long"/>
 	<variable name="amount" class="java.lang.Number" calculation="Sum">
@@ -50,7 +38,7 @@ Order By organ_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="14" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[各部门项目工程领域文章发布统计表]]></text>
+				<text><![CDATA[各部门文章发布统计表]]></text>
 			</staticText>
 			<textField pattern="yyyy年MM月dd日">
 				<reportElement x="401" y="28" width="85" height="16"/>
@@ -156,7 +144,7 @@ Order By organ_id]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="41" y="0" width="348" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -168,7 +156,7 @@ Order By organ_id]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="389" y="0" width="97" height="20"/>
@@ -209,6 +197,20 @@ Order By organ_id]]>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="389" y="0" width="97" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="41" y="0" width="348" height="20"/>
 				<box>
@@ -224,20 +226,6 @@ Order By organ_id]]>
 				</textElement>
 				<text><![CDATA[合计]]></text>
 			</staticText>
-			<textField pattern="###0">
-				<reportElement x="389" y="0" width="97" height="20"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>
-			</textField>
 		</band>
 	</summary>
 </jasperReport>

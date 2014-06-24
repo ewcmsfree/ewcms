@@ -75,7 +75,7 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 
 	@Override
 	protected EnterpriseArticle getOperator(Long pk) {
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			organShow = "enable";
 		}
 		return particularFac.findEnterpriseArticleById(pk);
@@ -99,7 +99,7 @@ public class EnterpriseArticleAction extends CrudBaseAction<EnterpriseArticle, L
 	@Override
 	protected EnterpriseArticle createEmptyVo() {
 		EnterpriseArticle enterpriseArticle = new EnterpriseArticle();
-		if (EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			organShow = "enable";
 		}else{
 			Organ organ = particularFac.findOrganByUserName();

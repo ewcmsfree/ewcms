@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrganReleaseCount_4.1.2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.100000000000002"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.9487171000000048"/>
+	<property name="ireport.x" value="280"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="publishedBegin" class="java.util.Date">
+	<parameter name="replayBegin" class="java.util.Date">
 		<parameterDescription><![CDATA[发布日期开始]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new Date(Calendar.getInstance().getTime().getTime())]]></defaultValueExpression>
 	</parameter>
-	<parameter name="publishedEnd" class="java.util.Date">
+	<parameter name="replayEnd" class="java.util.Date">
 		<parameterDescription><![CDATA[发布日期结束]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new Date(Calendar.getInstance().getTime().getTime())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Select organ_id, o.name, count(organ_id) As amount from site_organ As o Left Join
-(
-select organ_id, published from particular_project_basic where release = true
-union all
-select organ_id, published from particular_project_article where release = true
-union all
-select organ_id, published from particular_enterprise_basic where release = true
-union all
-select organ_id, published from particular_enterprise_article where release = true
-union all
-select organ_id, published from particular_employe_basic where release = true
-union all
-select organ_id, published from particular_employe_article where release = true
-)
-As particular On o.id = particular.organ_id
-where particular.published >= $P{publishedBegin} and particular.published <= $P{publishedEnd}
-Group By organ_id,o.name
-Order By organ_id]]>
+		<![CDATA[select organ_name, count(organ_name) as replaySum,
+(select count(organ_name) from plugin_interaction t where t.organ_name=i.organ_name and t.state=1 and t.checked=true
+and t.replay_date>=$P{replayBegin} and t.replay_date<=$P{replayEnd}) as replayCount
+from plugin_interaction i
+where i.organ_name is not null and i.organ_name!=''
+and i.replay_date>=$P{replayBegin} and i.replay_date<=$P{replayEnd}
+group by organ_name
+ order by organ_name]]>
 	</queryString>
-	<field name="organ_id" class="java.lang.Integer"/>
-	<field name="name" class="java.lang.String"/>
-	<field name="amount" class="java.lang.Long"/>
+	<field name="organ_name" class="java.lang.String"/>
+	<field name="replaysum" class="java.lang.Long"/>
+	<field name="replaycount" class="java.lang.Long"/>
 	<variable name="amount" class="java.lang.Number" calculation="Sum">
-		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+		<variableExpression><![CDATA[$F{replaycount}]]></variableExpression>
+	</variable>
+	<variable name="notamount" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{replaysum}.longValue()-$F{replaycount}.longValue()]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -50,7 +43,7 @@ Order By organ_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="14" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[各部门项目工程领域文章发布统计表]]></text>
+				<text><![CDATA[各部门政民互动回复统计表]]></text>
 			</staticText>
 			<textField pattern="yyyy年MM月dd日">
 				<reportElement x="401" y="28" width="85" height="16"/>
@@ -94,7 +87,7 @@ Order By organ_id]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{publishedBegin}==""?(new Date(Calendar.getInstance().getTime().getTime())):$P{publishedBegin}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{replayBegin}==""?(new Date(Calendar.getInstance().getTime().getTime())):$P{replayBegin}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="178" y="28" width="14" height="16"/>
@@ -116,14 +109,14 @@ Order By organ_id]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{publishedEnd}==""?(new Date(Calendar.getInstance().getTime().getTime())):$P{publishedEnd}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{replayEnd}==""?(new Date(Calendar.getInstance().getTime().getTime())):$P{replayEnd}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Transparent" x="41" y="0" width="348" height="20"/>
+				<reportElement mode="Transparent" x="0" y="0" width="361" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -138,7 +131,7 @@ Order By organ_id]]>
 				<text><![CDATA[部门名称]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="389" y="0" width="97" height="20"/>
+				<reportElement mode="Transparent" x="361" y="0" width="97" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -150,14 +143,29 @@ Order By organ_id]]>
 					<font fontName="文鼎ＰＬ简报宋" size="12" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[发布数量]]></text>
+				<text><![CDATA[已回复数]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="458" y="0" width="97" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[未回复数]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="41" y="0" width="348" height="20"/>
+				<reportElement x="0" y="0" width="361" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -168,10 +176,10 @@ Order By organ_id]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{organ_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="389" y="0" width="97" height="20"/>
+				<reportElement x="361" y="0" width="97" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -182,7 +190,21 @@ Order By organ_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{replaycount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="458" y="0" width="97" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{replaysum}.longValue()-$F{replaycount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -210,7 +232,7 @@ Order By organ_id]]>
 	<summary>
 		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Transparent" x="41" y="0" width="348" height="20"/>
+				<reportElement mode="Transparent" x="0" y="0" width="361" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -225,7 +247,7 @@ Order By organ_id]]>
 				<text><![CDATA[合计]]></text>
 			</staticText>
 			<textField pattern="###0">
-				<reportElement x="389" y="0" width="97" height="20"/>
+				<reportElement x="361" y="0" width="97" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -237,6 +259,20 @@ Order By organ_id]]>
 					<font fontName="文鼎ＰＬ简报宋" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="458" y="0" width="97" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{notamount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

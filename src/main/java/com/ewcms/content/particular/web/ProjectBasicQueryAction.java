@@ -59,7 +59,7 @@ public class ProjectBasicQueryAction extends QueryBaseAction{
     	String name = getParameterValue(String.class, "name", "");
     	if (isStringNotEmpty(name)) query.likeAnywhere("name", name);
     	
-		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ == null){
 				query.eq("organ.id", null);
@@ -78,7 +78,7 @@ public class ProjectBasicQueryAction extends QueryBaseAction{
     	
     	query.eq("channelId", getChannelId());
     	
-		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_ADMIN")){
+		if (!EwcmsContextUtil.getGroupnames().contains("GROUP_GCLY_ADMIN")){
 			Organ organ = particularFac.findOrganByUserName();
 			if (organ == null){
 				query.eq("organ.id", null);

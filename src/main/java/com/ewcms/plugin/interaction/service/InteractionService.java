@@ -107,7 +107,9 @@ public class InteractionService implements InteractionServiceable {
 	@Override
 	public void deleteInteraction(List<Integer> ids) {
 		for (Integer id : ids){
-			interactionDAO.removeByPK(id);
+			Interaction interaction = interactionDAO.get(id);
+			interactionBackRatio(interaction.getOrganId());
+			interactionDAO.remove(interaction);
 		}
 	}
 

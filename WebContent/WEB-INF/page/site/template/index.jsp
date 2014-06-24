@@ -37,12 +37,12 @@
 				$.messager.prompt(node.text, '请输入文件名称', function(r){
 					if (r){
 						if(!fileparten.exec(r)){
-		    	    		$.messager.alert('提示','文件名由字母、数字、组成的html文件');
+		    	    		$.messager.alert('提示','文件名由字母、数字、组成的html文件','info');
 		    	    		return;
 						}
 			            $.post('<s:url action="add"/>',{'templateVo.parent.id':getNodeId(node),'templateVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','新建模板失败');
+			    	    		$.messager.alert('提示','新建模板失败','info');
 			    	    		return;
 				            }
 				            $('#tt2').tree('append',{
@@ -68,12 +68,12 @@
 				$.messager.prompt(node.text, '请输入文件夹名', function(r){
 					if (r){
 						if(!folderparten.exec(r)){
-		    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
+		    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成','info');
 		    	    		return;
 						}						
 			            $.post('<s:url action="addFolder"/>',{'templateVo.parent.id':getNodeId(node),'templateVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','新建文件夹失败');
+			    	    		$.messager.alert('提示','新建文件夹失败','info');
 			    	    		return;
 				            }
 				            $('#tt2').tree('append',{
@@ -101,18 +101,18 @@
 					if (r){
 						if(node.iconCls == "icon-channel-note"){
 							if(!folderparten.exec(r)){
-			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成');
+			    	    		$.messager.alert('提示','目录只能由字母、数字、下划线组成','info');
 			    	    		return;
 							}
 						}else{
 							if(!fileparten.exec(r)){
-			    	    		$.messager.alert('提示','文件名由字母、数字、组成的html文件');
+			    	    		$.messager.alert('提示','文件名由字母、数字、组成的html文件','info');
 			    	    		return;
 							}	
 						}												
 			            $.post('<s:url action="rename"/>',{'templateVo.id':getNodeId(node),'templateVo.name':r},function(data){
 				            if(data == 'false'){
-			    	    		$.messager.alert('提示','重命名失败');
+			    	    		$.messager.alert('提示','重命名失败','info');
 			    	    		return;
 				            }
 				            node.text = r;
@@ -129,7 +129,7 @@
     			if(!node) return;
 				var rootnode = $('#tt2').tree('getRoot');
 				if(rootnode.id == node.id){
-					$.messager.alert('提示','不允许删除该模板');
+					$.messager.alert('提示','不允许删除该模板','info');
 					 return;
 				}     			
     			$.messager.confirm('提示', '确认要删除 ' + node.text + '模板吗?', function(r){
@@ -137,7 +137,7 @@
     	    	    	//删除模板			
     		            $.post('<s:url action="del"/>',{'templateVo.id':getNodeId(node)},function(data){
     			            if(data == 'false'){
-    		    	    		$.messager.alert('提示','模板不能删除');
+    		    	    		$.messager.alert('提示','模板不能删除','info');
     		    	    		return;
     			            }
     			            $('#tt2').tree('remove',node.target);
@@ -150,7 +150,7 @@
 				var node = $('#tt2').tree('getSelected');
     	    	if(node == null || typeof(node) == 'undefined')
     	    	{
-    	    		$.messager.alert('提示','请选择操作目录');
+    	    		$.messager.alert('提示','请选择操作目录','info');
     	    		return false;
     	    	}				
 				return node;
@@ -168,7 +168,7 @@
         			if(!node) return;
     				var rootnode = $('#tt2').tree('getRoot');
     				if(rootnode.id == node.id){
-    					$.messager.alert('提示','不允许剪切该模板');
+    					$.messager.alert('提示','不允许剪切该模板','info');
     					 return;
     				}         			
         			$.messager.confirm('', '确认要剪切 ' + node.text + '模板吗?', function(r){
@@ -202,18 +202,18 @@
     			var node = getSelectNode();
     			if(!node) return;
     			if(typeof(cutNode) == 'undefined' || cutNode == ''){
-    	    		$.messager.alert('提示','请先剪切模板');		    	    			    	    		
+    	    		$.messager.alert('提示','请先剪切模板','info');		    	    			    	    		
     	    		return;
     			}
     	    	try{
 	    	    	if(cutNode.id == node.id || parentNode.id == node.id){
-	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下');	    	    		
+	    	    		$.messager.alert('提示','不能粘到同一 录和父目录下','info');	    	    		
 	    	    		return;
 	    	    	}
 	    	    	//移动专栏 			
 		            $.post('<s:url action="moveto"/>',{'templateVo.id':getNodeId(cutNode),'templateVo.parent.id':getNodeId(node)},function(data){
 			            if(data == 'false'){
-		    	    		$.messager.alert('提示','粘贴模板失败');
+		    	    		$.messager.alert('提示','粘贴模板失败','info');
 		    	    		return;	
 			            }
 						$('#tt2').tree('append',{
@@ -232,7 +232,7 @@
     			if(!node) return;
     			//判断是否选择的是文件夹
     			if(node.iconCls != "icon-channel-note"){
-    				$.messager.alert('提示','请选择文件夹目录');	
+    				$.messager.alert('提示','请选择文件夹目录','info');	
     				return ;
     			}
 				var url='<s:url action="import"/>?templateVo.parent.id='+ getNodeId(node);
@@ -251,7 +251,7 @@
     			if(!node) return;
     			//判断是否选择的是文件夹
     			if(node.iconCls == "icon-channel-note"){
-    				$.messager.alert('提示','请选择模板文件');	
+    				$.messager.alert('提示','请选择模板文件','info');	
     				return ;
     			}			
 				var url='<s:url action="edit"/>?templateVo.id='+ getNodeId(node);

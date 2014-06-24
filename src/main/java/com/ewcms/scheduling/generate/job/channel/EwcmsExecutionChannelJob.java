@@ -43,6 +43,9 @@ public class EwcmsExecutionChannelJob extends BaseEwcmsExecutionJob {
 				}catch (PublishException e){
 					logger.error("定时发布 {} 频道发布异常", channelName);
 				}
+				if (channel.getParent() == null){
+					getSchedulePublishFac().publishChannel(channel.getId(), false);
+				}
 				logger.info("定时发布 {} 频道结束.", channelName);
             }
     	}

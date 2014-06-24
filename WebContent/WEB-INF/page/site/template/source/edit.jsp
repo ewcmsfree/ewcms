@@ -19,7 +19,7 @@
 							var fileName = parent.$('#tt2').tree('getSelected').text;
 							if(fileName.lastIndexOf(".") > 0){
 								 var modeName = fileName.substring(fileName.lastIndexOf(".")+1) ;
-								 if (modeName == "htm" || modeName == "html" || modeName == "css" || modeName == "js"){
+								 if (modeName == "htm" || modeName == "html" || modeName == "css" || modeName == "js" || modeName=="xml"){
 									 $("#editcontentifr").attr('src',content);
 								 }else{
 									 $.messager.alert('提示', '不能对' + fileName +'内容进行编辑', 'warn');

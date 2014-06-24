@@ -82,7 +82,7 @@
 			}
 			
 			function referArticleOperate(){
-				var url = '<s:url namespace="/document/refer" action="article"/>';
+				var url = '<s:url namespace="/document/refer" action="article"><s:param name="channelId" value="channelId"></s:param></s:url>';
 				$("#editifr_pop").attr('src',url);
 				openWindow("#pop-window",{width:600,height:470,title:'新增引用文章'});
 			}

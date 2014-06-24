@@ -1,0 +1,9 @@
+select c.id,c.name as name, o.name,count(m.id) as amount
+from content_article_main m
+left join content_article a on m.article_id=a.id
+left join site_channel c on m.channel_id=c.id
+left join auth_user u on u.username=a.owner
+left join site_organ o on o.id=u.organ_id
+where a.delete=false and m.reference!=true and status='RELEASE' and a.published>='2013-01-01' and a.published<='2013-11-11' and c.type='ARTICLE'
+group by c.id,c.name,o.name
+order by c.id,c.name,o.name

@@ -33,108 +33,70 @@
 						<div title="事项基本信息" style="padding: 5px;">	
 							<table class="formtable" >
 								<tr>
-									<td width="10%">事项名称：</td>
+									<td>事项名称：</td>
+									<td colspan="3">
+										<s:textfield name="matterVo.name" cssClass="inputtext" size="40" readonly="true" />
+									</td>
+								</tr>
+								<tr>
+									<td width="10%">办理依据：</td>
 									<td width="40%">
-										<s:textarea name="matterVo.name" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.handleBasis" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
-									<!-- 
-									<td width="10%">受理方式：</td>
+									<td width="10%">服务对象：</td>
 									<td width="40%">
-										<s:textarea name="matterVo.acceptedWay" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.serviceObject" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
 								</tr>
 								<tr>
-								 -->
-									<td width="10%">办理地点：</td>
-									<td width="40%">
-										<s:textarea name="matterVo.handleSite" readonly="true" cssStyle="height:50px;width:100%;"/>
+									<td>办理条件：</td>
+									<td>
+										<s:textarea name="matterVo.acceptedCondition" cssStyle="height:40px;width:100%;" readonly="true" />
+									</td>
+									<td>申办材料：</td>
+									<td>
+										<s:textarea name="matterVo.petitionMaterial" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
 								</tr>
 								<tr>
-									<td>办理依据：</td>
-									<td>
-										<s:textarea name="matterVo.handleBasis" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-								<!-- 
-								</tr>
-								<tr>
-									<td>审批、服务数量及方式：</td>
-									<td>
-										<s:textarea name="matterVo.handleWay" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-								 -->
-									<td>受理条件：</td>
-									<td>
-										<s:textarea name="matterVo.acceptedCondition" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-								</tr>
-								<tr>
-									<td>申请材料：</td>
-									<td>
-										<s:textarea name="matterVo.petitionMaterial" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
 									<td>办理程序：</td>
 									<td>
-										<s:textarea name="matterVo.handleCourse" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.handleCourse" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
-								</tr>
-								<tr>
-									<td>法定时限：</td>
+									<td>办理时限：</td>
 									<td>
-										<s:textarea name="matterVo.timeLimit" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-									<td>承诺期限：</td>
-									<td>
-										<s:textarea name="matterVo.deadline" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.timeLimit" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
 								</tr>
 								<tr>
 									<td>收费标准：</td>
 									<td>
-										<s:textarea name="matterVo.fees" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.fees" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
-									<td>收费依据：</td>
-									<td>
-										<s:textarea name="matterVo.feesBasis" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-								</tr>
-								<tr>
 									<td>办理机构：</td>
 									<td>
-										<s:textarea name="matterVo.consultingTel" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-									<td>联系人姓名：</td>
-									<td>
-										<s:textarea name="matterVo.contactName" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.department" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
 								</tr>
 								<tr>
-									<td>所在部门：</td>
+									<td>办理时间：</td>
 									<td>
-										<s:textarea name="matterVo.department" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.consultingTel" cssStyle="height:40px;width:100%;" readonly="true" />
 									</td>
-									<td>联系电话：</td>
+									<td>办理地址：</td>
 									<td>
-										<s:textarea name="matterVo.contactTel" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.handleSite" cssStyle="height:40px;width:100%;" readonly="true"/>
 									</td>
 								</tr>
 								<tr>
+									<td>联系方式：</td>
+									<td>
+										<s:textarea name="matterVo.contactTel" cssStyle="height:40px;width:100%;" readonly="true"/>
+									</td>
 									<td>监督投诉：</td>
 									<td>
-										<s:textarea name="matterVo.email" readonly="true" cssStyle="height:50px;width:100%;"/>
+										<s:textarea name="matterVo.email" cssStyle="height:40px;width:100%;" readonly="true"/>
 									</td>
-									<td>信息告知：</td>
-									<td>
-										<s:textarea name="matterVo.infoUrl" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-								</tr>
-								<tr>
-									<td>网上缴费：</td>
-									<td>
-										<s:textarea name="matterVo.onlinePayUrl" readonly="true" cssStyle="height:50px;width:100%;"/>
-									</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
 								</tr>
 							</table>
 						</div>
