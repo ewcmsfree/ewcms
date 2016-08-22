@@ -19,6 +19,11 @@ JAVA_OPTS="$JAVA_OPTS -server -Xms800m -Xmx800m -XX:PermSize=64m -XX:MaxNewSize=
            acceptCount="700" debug="0" connectionTimeout="20000"
            proxyPort="80" disableUploadTimeout="true" URIEncoding="UTF-8"/>
 
+应用部署到Tomcat根目录的方法
+在“conf/Catalina/localhost”目录下增加新的文件"ROOT.xml"（注意大小写哦），文件内容如下：
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="" docBase="/webserver/tomat/webapps/ewcms"></Context>
+
 Crawl
 修改/nutch/conf目录下的：crawl-urlfilter.txt，nutch-site.xml
 修改/nutch/bin目录下的:nutch，recrawl.sh,新增urls文件

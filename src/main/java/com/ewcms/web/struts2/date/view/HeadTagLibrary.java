@@ -8,9 +8,12 @@ package com.ewcms.web.struts2.date.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.struts2.views.TagLibrary;
+
+import org.apache.struts2.views.TagLibraryDirectiveProvider;
+import org.apache.struts2.views.TagLibraryModelProvider;
 
 import com.ewcms.web.struts2.date.view.freemarker.tag.HeadModel;
 import com.opensymphony.xwork2.util.ValueStack;
@@ -21,13 +24,14 @@ import com.opensymphony.xwork2.util.ValueStack;
  * @author 周冬初
  *
  */
-public class HeadTagLibrary implements TagLibrary {
-    public Object getFreemarkerModels(ValueStack stack, HttpServletRequest req, HttpServletResponse res) {
+public class HeadTagLibrary implements TagLibraryModelProvider, TagLibraryDirectiveProvider {
+	
+    public Object getModels(ValueStack stack, HttpServletRequest req, HttpServletResponse res) {
         return new HeadModel(stack,req,res);
     }
 
 	@SuppressWarnings("rawtypes")
-	public List<Class> getVelocityDirectiveClasses() {
+	public List<Class> getDirectiveClasses() {
         return new ArrayList<Class>();
     }
 }

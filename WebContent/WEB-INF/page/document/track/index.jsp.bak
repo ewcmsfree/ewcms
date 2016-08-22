@@ -16,8 +16,7 @@
 					pagination:true,
 					url : '<s:url namespace="/document/track" action="query"><s:param name="articleMainId" value="articleMainId"></s:param></s:url>',
 					columns:[[
-					  {field:'userName',title:'操作员',width:100},
-						{field:'userRealName',title:'真实名',width:100},
+						{field:'userRealName',title:'操作员',width:100},
 						{field:'statusDesc',title:'上次状态',width:60},
 						{field:'operateTime',title:'操作时间',width:145},
 						{field:'description', title:'描述', width:600,

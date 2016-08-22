@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #clean backup file script
-DIR=/home/backup
+DIR=/sanwww1/sanwww/bak
 FILE="*.tar.gz"
 DAY=15
 echo "start clean backup database file..."

@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<java.home>C:\Java\jdk1.6.0_45\lib</java.home>
+		<java.home>D:\Java\jdk1.7.0_79\lib</java.home>
 
 		<!-- Hibernate -->
 		<hibernate.entitymanager.version>3.6.10.Final</hibernate.entitymanager.version>
@@ -25,7 +25,7 @@
 		<springframework.security.version>3.0.5.RELEASE</springframework.security.version>
 
 		<!-- Struts2 -->
-		<struts2.version>2.1.8.1</struts2.version>
+		<struts2.version>2.3.16.1</struts2.version>
 		<struts2.annotations.version>1.0.5</struts2.annotations.version>
 
 		<!-- Ehcache -->
@@ -92,52 +92,6 @@
 		<objenesis.version>1.2</objenesis.version>
 		<asm.version>3.3.1</asm.version>
 	</properties>
-	<repositories>
-		<repository>
-			<id>jboss</id>
-			<name>Maven Jboss</name>
-			<url>http://repository.jboss.org/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>maven-net-cn</id>
-			<name>Maven China Mirror</name>
-			<url>http://maven.jahia.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>dsiutils</id>
-			<name>Maven DSI Utils</name>
-			<url>http://ir.dcs.gla.ac.uk/~bpiwowar/maven/</url>
-		</repository>
-		<repository>
-        <id>commons-vfs</id>
-        <name>Apache Commons VFS Repository Group</name>
-        <url>https://repository.apache.org/content/groups/snapshots/</url>
-        <layout>default</layout>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<name>oss.sonatype.org</name>
-			<id>oss.sonatype.org</id>
-			<url>http://oss.sonatype.org/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<profiles>
 		<profile>
@@ -242,7 +196,7 @@
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-spring-plugin</artifactId>
-			<version>2.3.15.1</version>
+			<version>${struts2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
@@ -255,7 +209,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		  
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
@@ -357,6 +311,10 @@
 				<exclusion>
 					<artifactId>wstx-asl</artifactId>
 					<groupId>woodstox</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-fileupload</artifactId>
+					<groupId>commons-fileupload</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -848,4 +806,18 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<name>local private nexus</name>
+			<url>http://maven.jahia.org/maven2/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>

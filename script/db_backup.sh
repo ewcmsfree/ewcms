@@ -2,8 +2,8 @@
 # 
 #database backup script
 TIME="$(date +"%Y-%m-%d")"
-FILENAME=ewcms_rc_$TIME
-TMPDIR=/home/backup
+FILENAME=ewcms_xy_$TIME
+TMPDIR=/sanwww1/sanwww/bak
 TMPFILE=${TMPDIR}/$FILENAME.dmp
 BAKFILE=${TMPDIR}/$FILENAME.tar.gz
 USER=postgres
