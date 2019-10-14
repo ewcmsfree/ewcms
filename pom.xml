@@ -19,7 +19,7 @@
 		<hibernate.jpamodelgen.version>1.2.0.Final</hibernate.jpamodelgen.version>
 
 		<!-- Springframework Core -->
-		<springframework.version>3.1.1.RELEASE</springframework.version>
+		<springframework.version>5.2.0.RELEASE</springframework.version>
 
 		<!-- Springframework Security -->
 		<springframework.security.version>3.0.5.RELEASE</springframework.security.version>
