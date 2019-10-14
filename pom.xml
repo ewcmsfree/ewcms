@@ -51,7 +51,7 @@
 		<postgresql.version>9.1-901.jdbc4</postgresql.version>
 
 		<!-- Word Analyzer -->
-		<lucene.version>3.0.2</lucene.version>
+		<lucene.version>7.1.0</lucene.version>
 		<nekohtml.version>1.9.15</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>
 
