@@ -85,7 +85,7 @@
 		<jsp.version>2.1</jsp.version>
 
 		<!-- Test -->
-		<junit.version>4.8.1</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<jmock.junit.version>2.5.1</jmock.junit.version>
 		<mockito.all.version>1.8.5</mockito.all.version>
 		<unitils.version>3.3</unitils.version>
