@@ -53,7 +53,7 @@
 		<!-- Word Analyzer -->
 		<lucene.version>3.0.2</lucene.version>
 		<nekohtml.version>1.9.15</nekohtml.version>
-		<solr.versino>1.4.1</solr.versino>
+		<solr.versino>8.8.2</solr.versino>
 
 		<!-- verification code -->
 		<jcaptcha.version>1.0</jcaptcha.version>
