@@ -38,7 +38,7 @@
 		<commons.vfs2.version>2.0</commons.vfs2.version>
 		<commons.net.version>3.0.1</commons.net.version>
 
-		<jcraft.version>0.1.44-1</jcraft.version>
+		<jcraft.version>0.1.54</jcraft.version>
 		<jcifs.version>1.2.19</jcifs.version>
 
 		<!-- Slf4j Log -->
