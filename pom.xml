@@ -66,7 +66,7 @@
 		<httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
 		<je.version>4.0.92</je.version>
 		<tika.parsers.version>1.0</tika.parsers.version>
-		<jsoup.version>1.6.1</jsoup.version>
+		<jsoup.version>1.15.3</jsoup.version>
 
 		<!-- Text reports and Chart reports -->
 		<jasperreports.version>4.1.2</jasperreports.version>
